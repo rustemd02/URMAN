@@ -63713,7 +63713,7 @@
         "cause": "Native aef2 twice rejected existing Dwelling glass9/snow1/posts0 before graft; intended four preserved meshes are Corner_*; actual Yard posts are out of scope.",
         "change": "Exact four-corner set and count4 required; glass9/snow1/exclusions14/opaque108/crowns7 and candidate115 exact semantic sets remain strict; no collider or Yard changes. Diagnostic metadata renamed to preservedCornerCount; repo callers of old key absent.",
         "verification": "Personal Fast + root literal diff/source/API review and diffcheck; four string literals only, no new compilation risk; actual changed native remains pending.",
-        "remaining": "Actual Godot import/graft/house-family scene/motion/performance/art acceptance pending; compile does not prove current runtime graft.",
+        "remaining": "Matched current house-family scene/motion/performance and author art acceptance remain open; no repeated layer-contract failure observed in fca.",
         "native_c855": "Actual counts9glass/1snow/4corners still fail exact set. Previous static rawGLB/source+compile sufficiency was too narrow: engine glTF names have decimal points replaced by underscores. No runtime graft/art acceptance.",
         "canonical_name_fix": "Expected exact four node-name literals now use Godot glTF imported underscores; count4/ordinal SetEquals/all other layer/opaque/crown/collision guards unchanged.",
         "canonical_evidence": [
@@ -63721,7 +63721,8 @@
           "Existing AuthoredWorldDirector.SafeName period→underscore pattern",
           "https://github.com/godotengine/godot/blob/4.7-stable/modules/gltf/gltf_document.cpp#L7047",
           "https://github.com/godotengine/godot/blob/4.7-stable/core/string/ustring.cpp#L4818"
-        ]
+        ],
+        "native_fca": "Current imported source4d1ab7a2 reached actual village/home/school with no VariantA InvalidDataException in game.log. Overalljob FAIL on renderer shutdown resources; no house art/performance acceptance implied."
       }
     },
     {
@@ -110725,7 +110726,7 @@
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "Deploy verified bounded play budget to idle station with exact backup/hash/PS5 parser and normal worker restart; preserve dirty Windows checkout/VPN. Then one current --timeout3600 ordinary school-copy→W01 action→return→Save/MainMenu/Continue including canonical VariantA names4d1ab7a2 and sharedHUD0be08445. Use actual visible prompts/focus and repeat confirmation for Quit/MainMenu; finish well before deadline.",
+      "next_action": "Use accepted native school-copy + Save/MainMenu/Continue evidence; fix school permission target alignment and investigate renderer shutdown owner without broad cleanup. Next bounded ordinary flow: forest-edge→W01 action→return→post-return Save/Continue, then separate crossprocess actual export acceptance.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111187,7 +111188,7 @@
         "observed_additional": "Daylit wall discover-babai-yard-entry-wall-joint displays Too dark; source deliberately requires nearby lit portable lantern, not ambient light. Misleading hint remains; no daylight behavior gate silently removed."
       },
       "ordinary_play_budget_2026_10_21": {
-        "state": "deployed_native_long_job_running",
+        "state": "deployed_and_native_long_job_completed",
         "targets": [
           "eng/remote-check.py",
           "eng/windows_station_worker.py",
@@ -111196,7 +111197,7 @@
         "cause": "Repeated ordinary native school/world/return route exceeded1200s beforeContinue; source/userdata guards already support finite timeouts. Stop repeating unchanged short sessions.",
         "result": "Explicit play/play-full/play-product/candidate-play timeout1..3600; default1200 unchanged. Candidate explicit wait1..3720, defaults unchanged; one candidate guard covers both EXE lifetimes. Studio/smoke/candidate-boot limits unchanged, no unlimited run/state injection.",
         "verification": "Personal Fast exact limit/default/guard callchain review; root diff/ownership readback; both Python AST PASS; existingCLI rejects3601/3721 before network and accepts3600/3720 until expected missing candidate directory; actual Windows PowerShell5.1.22621.963 ParseInput PASS on exact bytes through stdin, no staged file/worker mutation.",
-        "remaining": "Longjob fca8 active; full ordinary flow/current export acceptance unproven.",
+        "remaining": "Actual3600 job accepted and normalQuit at2855s; not a full loop/release PASS. Renderer shutdown errors remain.",
         "station_deployment": {
           "targets": {
             "eng/windows_station_worker.py": "35ff73341be643377f15b6a1f944f4c2dc00a888c750cdf6c34f5cddc9ff661d",
@@ -111212,7 +111213,7 @@
         }
       },
       "ordinary_long_fca8_2026_10_21": {
-        "state": "running",
+        "state": "terminal_partial_native_verified",
         "owner": "Codex",
         "job_id": "fca8a7ed58234822b2651e36b9ed9deb",
         "snapshot_id": "42b88eae24968107833f4af00a1deb202728c5c35f0c2c390f5eff5ec326e6d0",
@@ -111220,7 +111221,20 @@
         "timeout_seconds": 3600,
         "question": "Does current canonical VariantA naming and shared objective readiness work in actual village, and can ordinary tea/book→school-copy→forest W01 action→return→Save/MainMenu/Continue retain earned progress?",
         "success": "Actual current frames/input/facts/save after normal Continue and correct repeated confirmations; terminal receipt userdataRestored. Crossprocess exported EXE remains separate PW095.",
-        "deadline": "Use actual native bootstrap clock, target ordinary confirmed Quit by50min of child lifetime; do not spend final deadline on navigation."
+        "deadline": "Use actual native bootstrap clock, target ordinary confirmed Quit by50min of child lifetime; do not spend final deadline on navigation.",
+        "result": "Ordinary NewGame/EnterSkip → Niva → home/tea/physical book → actual school doors/staff-room/folder → permission dialogue → S-SCHOOL present → Pause Save → confirmed MainMenu → Continue → same school pose and book/copy/forest-edge guidance retained. No teleport, fact injection or debug menu. W01 entry/action/return not reached.",
+        "verification": {
+          "proof": "evidence/PW-020/ordinary_fca8a7ed58234822b2651e36b9ed9deb",
+          "job_status": "FAIL",
+          "game_exit": 0,
+          "elapsed_seconds": 2855.1096452,
+          "userdataRestored": true,
+          "doctor_after": "ready=true,busy=null,recovery=false,orphans=false",
+          "engine_errors": "Renderer shutdown: 1 mesh, 2 materials, 1 shader, 1 instance; 48 resources still in use. Summary duplicated in engine-errors.log. No InvalidDataException/VariantA preserved-layer error in current game.log."
+        },
+        "observed_defect": "School permission target is offset 0.5m in front of staff contact; normal live camera aiming at torso did not select it, aiming beside the person did. See permission-target.png / permission-ready preceding screenshots on station. Needs focused alignment fix; no broad interaction rewrite.",
+        "cleanup": "Hash-linked14 frames+rawJSON, receipt/build/engine-errors and lossless gzip logs retained9,813,537B. Removed92,554,890B fetchedZIP/duplicateframes/logs; fullraw retained on station.",
+        "remaining": "Ordinary forest-edge→W01 meaningful action→ReturnTicket→post-return Save/Continue; crossprocess actual export PW095; renderer exit resources and NPC target alignment; full visual/performance/external acceptance remain open."
       }
     },
     {
@@ -121007,7 +121021,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "Reuse accepted aef2 ordinary Niva→home→tea→book/checkpoint and faf1274a keyboard Skip. Verify changed album selected-P-FOREST school/resume header and strict VariantA graft, then ordinary school-copy→forest W01 action→return→save/MainMenu/Continue. Correct shared HUD/general Journal priority from real readiness while preserving alternate W01/W02 order; full visual/external gates remain open.",
+      "next_action": "Accept finite fca ordinary book→school-copy→Save/MainMenu/Continue slice without closing full prologue/loop. Next native: changed F00–F03 visual path/opening, then forest-edge→W01 action→return and post-return continuation; keep full visual/external gates.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121711,7 +121725,8 @@
         "mask": "COLOR_0 normalized uint16 VEC4; R=1 at F00/F01/F02/F03 and sampled quarters. All inner95%-5% core vertices <=1.05m from each path segment have R=1 (counts385/429/423). UV2 present; ground MaterialOverride source binds expected snow shader/textures. Missing mask/gamma core loss/wrong shader not proved.",
         "surface": "Texture/shader linear mean luminance core about73% of fresh snow before lighting. Native path is weak blue patch among stronger pine shadows; roughness-only polish is not accepted as fixing whole-scene wayfinding.",
         "preferred_scene_result": "Existing packed trail leads into a recognizable bright opening framed by current winter pines at F03. Reuse local F15 composition pattern and measured2.1m clearance; no new ground collider/service/generatedmodel required. Geometry/collision/markers unchanged.",
-        "acceptance": "Comparable native frame and motion after branch; ordinary player recognizes next path and F03 exit before E prompt without source coordinates. NOT_RUN; remains open."
+        "acceptance": "Comparable native frame and motion after branch; ordinary player recognizes next path and F03 exit before E prompt without source coordinates. NOT_RUN; remains open.",
+        "candidate": "W01Controller.cs + PrologueTrailRelief.cs implement presentation-only 3006vertex shoulders outside1.05m core, existing ground material with exact UV2(X/8,1-Z/8), clockwise/up-facing winding corrected after independent review; local30m F03 cluster composition. One affected Game compile17.32s0warnings0errors; no new tests/Mac native/assets. Actual frames/movement/F03 recognition NOT_RUN; not present in fca frozen snapshot."
       },
       "printer_log_cleanup_2026_10_21": {
         "targets": [
@@ -121742,7 +121757,8 @@
         "cause": "QuestLifecycleReducer registers all campaign quest roots as active; objectives alone reflect actual stage/startConditions. Shared HUD/general Journal used root-active W02 and sent fresh book receipt to river before school prep.",
         "change": "Use existing RuntimeBridge.ActiveObjectives for W01/W03 route readiness; W02 only activeobjective/earned P-WATER/home_water_place_told/water_photo_found and existing detailed water-prep helper without premature first-world-return-talk gate. Completed-world handoffs and selected unfinished P-FOREST prep/resume preserved; no forced W01/W02 order.",
         "verification": "Personal luna_fast implementation+source scenario readbacks, root exact helper/caller/branch review, affected Game17.78s0warnings/0errors; no newtests.",
-        "remaining": "Not in already-running c855 snapshot11716463; current shared HUD native after patch, alternate W01/W02 orders, Save/Continue require later changed-source acceptance."
+        "remaining": "Not in already-running c855 snapshot11716463; current shared HUD native after patch, alternate W01/W02 orders, Save/Continue require later changed-source acceptance.",
+        "native_fca": "Album after physical book correctly asks school copy; after S-SCHOOL and after Continue asks forest-edge. Shared gameplay HUD/general journal and alternate W01/W02 order not separately sampled."
       }
     },
     {

@@ -332,6 +332,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _groundBody = null;
         _groundVisual = null;
         _forestVisual = null;
+        _prologueTrailReliefVisual = null;
+        _prologueTrailReliefMesh = null;
         _photoTableauVisual = null;
         _photoTableauBody = null;
         _forestSplitBirchContact = null;
@@ -713,6 +715,9 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var groundMesh = Descendants<MeshInstance3D>(_groundVisual!)
             .FirstOrDefault(node => node.Mesh is not null)
             ?? throw new InvalidOperationException("W01 prologue ground mesh is missing.");
+        var groundMaterial = groundMesh.MaterialOverride ?? groundMesh.Mesh!.SurfaceGetMaterial(0)
+            ?? throw new InvalidOperationException("W01 prologue ground material is missing.");
+        BuildPrologueTrailRelief(groundMaterial);
         var groundToForest = _forestVisual.GlobalTransform.AffineInverse() * groundMesh.GlobalTransform;
         var groundBounds = groundToForest * groundMesh.Mesh!.GetAabb();
         var placedTreeRoots = new List<Vector2>();
@@ -1089,6 +1094,94 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             selectedClusterCandidates = composedCandidates;
         }
 
+        // Let the prologue exit read as an opening in the daylit canopy. Only
+        // clustered roots in this local F03 circle may move or clear; authored
+        // trees and every candidate outside it keep their original transforms.
+        var f03 = new Vector2(PrologueF03.X, PrologueF03.Z);
+        const float f03CompositionRadius = 30f;
+        const float f03CanopyOpeningRadius = 7.5f;
+        var f03LocalIndices = Enumerable.Range(0, selectedClusterCandidates.Count)
+            .Where(index => selectedClusterCandidates[index].Position.DistanceSquaredTo(f03)
+                <= f03CompositionRadius * f03CompositionRadius).ToArray();
+        var f03LocalSet = f03LocalIndices.ToHashSet();
+        var f03StandingRadius = Mathf.Max(
+            MeasurePineStandingFootprintRadius(lightPineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f),
+            MeasurePineStandingFootprintRadius(farPineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f));
+        static float HorizontalRadius(Aabb bounds) => Mathf.Max(
+            Mathf.Max(Mathf.Abs(bounds.Position.X), Mathf.Abs(bounds.End.X)),
+            Mathf.Max(Mathf.Abs(bounds.Position.Z), Mathf.Abs(bounds.End.Z)));
+        var f03CanopyRadius = Mathf.Max(HorizontalRadius(lightPineSourceBounds),
+            HorizontalRadius(farPineSourceBounds));
+        var f03Forward = (new Vector2(PrologueF03.X, PrologueF03.Z)
+            - new Vector2(PrologueF02.X, PrologueF02.Z)).Normalized();
+        var f03Side = new Vector2(-f03Forward.Y, f03Forward.X);
+        var f03Placements = new (Vector2 Position, float Height, float YawDegrees, float Girth)[]
+        {
+            (f03 + f03Forward * 8f + f03Side * 22f, 19.2f, 34f, .82f),
+            (f03 + f03Forward * 8f - f03Side * 22f, 17.8f, 221f, .78f),
+            (f03 - f03Forward * 8f - f03Side * 22f, 20.2f, 128f, .85f),
+            (f03 - f03Forward * 8f + f03Side * 22f, 18.4f, 303f, .80f)
+        };
+        var f03Replacements = new Dictionary<int,
+            (Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand)>();
+        var f03Removed = new HashSet<int>();
+        float F03RootRadius(Transform3D transform) => f03StandingRadius * transform.Basis.X.Length();
+        bool F03RootsOverlap(Vector2 point, float radius,
+            (Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand) other) =>
+            point.DistanceTo(other.Position) < Mathf.Max(minimumClusterPineSpacing,
+                radius + F03RootRadius(other.Transform));
+        foreach (var placement in f03Placements)
+        {
+            if (f03Replacements.Count == f03LocalIndices.Length) break;
+            var position = placement.Position;
+            var heightScale = placement.Height / pineSourceBounds.Size.Y;
+            var horizontalScale = heightScale * placement.Girth;
+            var radius = f03StandingRadius * horizontalScale;
+            if (position.X < groundBounds.Position.X || position.X > groundBounds.End.X
+                || position.Y < groundBounds.Position.Z || position.Y > groundBounds.End.Z
+                || position.DistanceSquaredTo(f03) > f03CompositionRadius * f03CompositionRadius
+                || position.DistanceTo(f03) < f03CanopyOpeningRadius + f03CanopyRadius * horizontalScale
+                || RouteDistance(position) < radius + standingLaneHalfWidth
+                || NearExistingTree(position, radius + minimumExistingPineSpacing)
+                || f03Replacements.Values.Any(other => F03RootsOverlap(position, radius, other))
+                || selectedClusterCandidates.Where((_, index) => !f03LocalSet.Contains(index))
+                    .Any(other => F03RootsOverlap(position, radius, other)))
+                continue;
+
+            var slot = f03LocalIndices.Where(index => !f03Replacements.ContainsKey(index))
+                .OrderBy(index => selectedClusterCandidates[index].Position.DistanceSquaredTo(position)).First();
+            var basis = new Basis(Vector3.Up, Mathf.DegToRad(placement.YawDegrees))
+                * Basis.FromScale(new Vector3(horizontalScale, heightScale, horizontalScale));
+            var groundY = ForestGroundHeight(position.X, position.Y) - pineSourceBounds.Position.Y * heightScale;
+            var cell = new Vector2I(Mathf.FloorToInt(position.X / forestCellSize),
+                Mathf.FloorToInt(position.Y / forestCellSize));
+            var heightBand = Mathf.Clamp(Mathf.FloorToInt((placement.Height - minimumClusterPineHeight)
+                / clusterHeightStep), 0, 7);
+            f03Replacements.Add(slot, (position, new Transform3D(basis,
+                new Vector3(position.X, groundY, position.Y)), cell, heightBand));
+        }
+        foreach (var index in f03LocalIndices)
+        {
+            var candidate = selectedClusterCandidates[index];
+            var radius = F03RootRadius(candidate.Transform);
+            var canopyRadius = f03CanopyRadius * candidate.Transform.Basis.X.Length();
+            if (candidate.Position.DistanceTo(f03) < f03CanopyOpeningRadius + canopyRadius
+                || RouteDistance(candidate.Position) < radius + standingLaneHalfWidth
+                || f03Replacements.Values.Any(other => F03RootsOverlap(candidate.Position, radius, other)))
+                f03Removed.Add(index);
+        }
+        if (f03Replacements.Count > 0 || f03Removed.Count > 0)
+        {
+            var composedCandidates = new List<(Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand)>(
+                selectedClusterCandidates.Count);
+            for (var index = 0; index < selectedClusterCandidates.Count; index++)
+            {
+                if (f03Replacements.TryGetValue(index, out var replacement)) composedCandidates.Add(replacement);
+                else if (!f03Removed.Contains(index)) composedCandidates.Add(selectedClusterCandidates[index]);
+            }
+            selectedClusterCandidates = composedCandidates;
+        }
+
         float ClusterRepresentativeHeight(int heightBand) => Mathf.Min(24f, minimumClusterPineHeight
             + (heightBand + 0.5f) * clusterHeightStep);
 
@@ -1334,6 +1427,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             CancelBranchMoveAnimation();
             visual.Visible = false;
             SetWorldPresentationVisible(false);
+            SetPrologueTrailReliefVisible(false);
             SetProloguePhotoSourceVisible(bridge, false);
             SetCollisionLayer(_groundBody, 0u);
             SetCollisionLayer(_movingBranchBody, 0u);
@@ -1359,6 +1453,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             CancelBranchMoveAnimation();
             visual.Visible = false;
             SetWorldPresentationVisible(false);
+            SetPrologueTrailReliefVisible(false);
             SetProloguePhotoSourceVisible(bridge, false);
             SetCollisionLayer(_groundBody, 0u);
             SetCollisionLayer(_movingBranchBody, 0u);
@@ -1380,6 +1475,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         visual.Visible = true;
         SetWorldPresentationVisible(true);
+        SetPrologueTrailReliefVisible(projection.ActiveSceneId == PrologueSceneId);
         SetProloguePhotoSourceVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
         SetCollisionLayer(_groundBody, 1u);
         SetCollisionLayer(_movingBranchBody, 1u);
