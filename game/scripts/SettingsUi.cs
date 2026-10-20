@@ -47,6 +47,7 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         ["inventory"] = "Инвентарь",
         ["map"] = "Карта",
         ["pause"] = "Меню",
+        ["skip_prologue"] = "Пропустить пролог",
         ["quick_save"] = "Быстрое сохранение",
         ["quick_load"] = "Быстрая загрузка",
         ["carry_rotate"] = "Повернуть предмет",

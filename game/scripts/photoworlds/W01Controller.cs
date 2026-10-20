@@ -45,6 +45,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private const string PrologueBranchInteractionId = "urman.fullgame:interaction/pw-prologue-branch-move";
     private const string PrologueEndInteractionId = "urman.fullgame:interaction/pw-prologue-f03-end";
     private const string PrologueSkipInteractionId = "urman.fullgame:interaction/pw-prologue-skip";
+    private const string PrologueSkipAction = "skip_prologue";
     private const string ForestBranchInteractionId = "urman.fullgame:interaction/pw-forest-branch-move";
     private const string ForestCameraBackInteractionId = "urman.fullgame:interaction/pw-forest-group";
     private const string ForestCameraBackFactId = "forest_camera_back_seen";
@@ -230,6 +231,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private object? _branchMoveSession;
     private bool _branchMoveInProgress;
     private Button? _prologueSkipButton;
+    private string _prologueSkipCaption = string.Empty;
     private Viewport? _prologueUiViewport;
     private PanelContainer? _prologueHintPanel;
     private Label? _prologueHintQuestionLabel;
@@ -1713,10 +1715,11 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     public override void _Input(InputEvent inputEvent)
     {
         // A configured Pause binding belongs to the normal pause shell, even
-        // when it shares a key with cancel. Other explicit cancel controls keep skipping.
+        // when it shares a key with skipping. The dedicated action avoids
+        // borrowing ui_accept, which also contains jump/interact controls.
         if (inputEvent is InputEventKey { Echo: true }
             || inputEvent.IsActionPressed("pause")
-            || !inputEvent.IsActionPressed("ui_cancel")
+            || !(inputEvent.IsActionPressed(PrologueSkipAction) || inputEvent.IsActionPressed("ui_cancel"))
             || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController { ModalOpen: false }
             || _prologueSkipButton is not { Visible: true, Disabled: false }
             || _prologueSkipTarget is not { } target
@@ -1832,7 +1835,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var hint = visible ? bridge.CurrentPhotoWorldHint() : null;
         _prologueHintQuestion = string.IsNullOrWhiteSpace(hint?.Question) ? null : hint.Question;
         _prologueHintAvailable = _prologueHintQuestion is not null;
-        button.Text = bridge.ResolveText(PrologueSkipLabelTextId);
+        _prologueSkipCaption = bridge.ResolveText(PrologueSkipLabelTextId);
         button.Visible = visible;
         RefreshPrologueSkipButtonState();
     }
@@ -1852,11 +1855,13 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         button.Disabled = !button.Visible
             || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController { ModalOpen: false }
             || _prologueSkipTarget?.IsAvailable() != true;
+        var gamepad = GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
+            && player.CurrentInputDevice == "gamepad";
+        var caption = $"{InputBindingService.ActionHint(PrologueSkipAction, gamepad)} {_prologueSkipCaption}";
+        if (!string.Equals(button.Text, caption, StringComparison.Ordinal)) button.Text = caption;
         if (_prologueHintPanel is { } hintPanel && GodotObject.IsInstanceValid(hintPanel))
         {
             hintPanel.Visible = !button.Disabled && _prologueHintAvailable;
-            var gamepad = GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
-                && player.CurrentInputDevice == "gamepad";
             var question = _prologueHintQuestion ?? string.Empty;
             var access = _prologueHintAvailable
                 ? $"Подробнее — {InputBindingService.ActionHint("journal", gamepad)}"

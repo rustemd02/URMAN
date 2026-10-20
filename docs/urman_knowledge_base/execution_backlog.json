@@ -2672,7 +2672,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-10-20T21:05:50+00:00",
+  "updated": "2026-10-20T21:13:36+00:00",
   "goal_key": "urman-photoworlds-finished-game",
   "goal_statement": "Довести единую очередь до готовой игры «За краем снимка»: обычная зимняя Кара-Урман, физическая книга Тукая, 13 снимков, пять полноценных фотомиров, пролог W01, реальные внешние подтверждения, домашний эпилог и свободные возвращения. Все применимые требования Visual Reset и PhotoWorlds, сохранённые бытовые системы и выпускная приёмка обязательны; готовность принимается REL-003 на конкретной поставляемой сборке, а не по числу закрытых карточек.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -110707,7 +110707,7 @@
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "Reuse accepted NewGame/walk/branch technical proof. Address proven PW043 keyboard Skip accessibility and unreadable final exit, preserving Pause/jump/interaction guards; then one focused ordinary arrival→tea/book→school copy→forestedge W01 action→return→save/MainMenu/Continue. Do not replay the same20-minute forest walk as a substitute for later-route evidence.",
+      "next_action": "Reuse accepted keyboard Skip and ordinary Niva→home→tea→book proof. Fix observed album header mismatch (river instruction while first school-copy gate active), diagnose VariantA preserved-layer native errors; then ordinary school-copy→forest W01 action→return→save/MainMenu/Continue. Keep full visual F03/path and external gates open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111130,6 +111130,19 @@
         "technical_verification_state": "passed",
         "actual_result": "The same ordinary NewGame that failed in9f85 now opens playable W01 on changed snapshot13208f. Native walking remains supported, E moves the branch with saved fact/autocheckpoint and changed hint; walking reaches F03 and ordinary E commits prologue completion/scene.entered. No engine errors. Village construction was in progress when the1200s child limit expired; no arrival frame/tea/book/return/Continue accepted. Overall job remains FAIL(timeout), not PASS.",
         "remaining": "PW020 ordinary full book/W01 return/Continue still open. NewGame fix is accepted independently of timed-out later integration."
+      },
+      "ordinary_book_aef2_2026_10_21": {
+        "job_id": "aef2e32b4578472d9fe123fdd920028b",
+        "snapshot_id": "26438c745e6a56d5da0ca49537f24ac66b0d3b6c907700a9bbb9224cc68d986a",
+        "result": "Changed-source native NewGame opens playable W01; Space does not skip; Escape opens Pause and Enter resumes same W01; intentional Enter then reaches actual village/Niva. Ordinary movement/E: Niva→home door→tea dialogue→physical book→album and saved book.received confirmed. No teleport/debug/optional fact grant.",
+        "evidence": "evidence/PW-043/keyboard_skip_aef2e32b4578472d9fe123fdd920028b",
+        "overall": "FAIL(timeout124),2VariantAerrors; userdataRestored=true; doctor idle/ready",
+        "observed_defects": [
+          "Album top guidance sends to river while selected P-FOREST entry correctly requires school copy.",
+          "Native VariantA layer error glass9/snow1/posts0.",
+          "Village loading/arrival wayfinding and full loop/Continue remain unaccepted."
+        ],
+        "cleanup": "58,360,744B temporary result ZIP/duplicate frames/logs removed after hash-linked raw proof preservation; retained8,021,596B ignored evidence. Full raw remains on station."
       }
     },
     {
@@ -120906,7 +120919,7 @@
       "assigned_owner": "narrative",
       "activity": {
         "state": "not_active",
-        "reason": "Finite D01 copy/pack/exact-save-compat stage reviewed/compiled; full prologue/forest/native/human acceptance remains open. Existing e79 station claim stays with PW020 until terminal/restoration."
+        "reason": "Root implementing finite dedicated keyboard Skip action after c2a captured-mouse Tab/Enter failure; separate read-only mask/F03 investigation delegated. Root owns all input/controller changes and serializes Windows."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -120916,7 +120929,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "First finite source slice: make existing guarded prologue Skip keyboard-accessible/discoverable while retaining configured Pause/jump and no optional-knowledge grant; verify one real Skip→Niva→tea/book route. Also retain required visible-path/F03 landmark art/readability work based on c2a frames; do not repeat unchanged forest walk or claim village readiness.",
+      "next_action": "Reuse accepted keyboard Skip and ordinary Niva→home→tea→book proof. Fix observed album header mismatch (river instruction while first school-copy gate active), diagnose VariantA preserved-layer native errors; then ordinary school-copy→forest W01 action→return→save/MainMenu/Continue. Keep full visual F03/path and external gates open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121571,6 +121584,63 @@
         "userdataRestored": true,
         "engine_errors_bytes": 0,
         "overall_job_status": "FAIL_timeout"
+      },
+      "keyboard_skip_2026_10_21": {
+        "state": "engineering_verified_native_keyboard",
+        "owner": "Codex",
+        "question": "Can a normal keyboard player intentionally skip the prologue using a visible remappable shortcut while Enter still opens menus, Space still jumps and Escape still pauses?",
+        "targets": [
+          "game/project.godot",
+          "game/scripts/InputBindingService.cs",
+          "game/scripts/SettingsUi.cs",
+          "game/scripts/photoworlds/W01Controller.cs"
+        ],
+        "inputs": [
+          "c2a native enabled Skip did not respond through Tab→Enter",
+          "Existing remappable action/settings/hint patterns and missing-new-action default preservation",
+          "Existing guarded InteractionTarget + explicit owner Skip authorization retained in PW020"
+        ],
+        "change": "Dedicated skip_prologue defaultEnter and View/Back4; existing input registration/settings label/livehint; same pause-first modal/button/target guards, same narrative interaction and existing ui_cancel behavior. No broad ui_accept handler or persistence migration.",
+        "done_when": [
+          "Native NewGame Enter opens playable prologue rather than immediately skipping.",
+          "Existing Space jump and Escape pause retain their behavior.",
+          "Visible livebinding hint fits viewport; intentional shortcut enters actual Niva/arrival route.",
+          "No optional prologue fact invented; full book loop remains its own native requirement."
+        ],
+        "verification": "Scoped diffcheck+independent source review, then one protected changed-source Windows job supplies affected compile/import and normalUI NewGame→neighbor controls→Skip→arrival→tea/book; no Mac runtime, newtests or repeated unchanged forest walk.",
+        "remaining": "Gamepad native/remapping not exercised. Actual jump animation not sampled. Hint contrast/path/F03 landmark and full ordinary school→world→return→Continue remain open. Job timeout occurred before normal Exit; no full PASS.",
+        "review": "Personal luna_fast independent four-file diff review found no concrete defect: Enter/Back defaults distinct from current Jump/Interact/Pause; old missing settings action preserves project default; settings labels register; modal/visible/available guards and pause precedence preserved. Gamepad remap conflict detection remains existing limitation; default Back has no current collision.",
+        "job_id": "aef2e32b4578472d9fe123fdd920028b",
+        "snapshot_id": "26438c745e6a56d5da0ca49537f24ac66b0d3b6c907700a9bbb9224cc68d986a",
+        "result": "Changed-source native NewGame opens playable W01; Space does not skip; Escape opens Pause and Enter resumes same W01; intentional Enter then reaches actual village/Niva. Ordinary movement/E: Niva→home door→tea dialogue→physical book→album and saved book.received confirmed. No teleport/debug/optional fact grant.",
+        "verification_result": {
+          "build": "Windows Game34.09s,0warnings/0errors",
+          "import_exit": 0,
+          "job_status": "FAIL",
+          "game_exit": 124,
+          "userdataRestored": true,
+          "station_after": "doctor ready=true,busy=null,recovery=false,orphans=false",
+          "evidence": "evidence/PW-043/keyboard_skip_aef2e32b4578472d9fe123fdd920028b",
+          "engine_errors": "2x original addressed Variant A preserved layer contract changed (glass=9,snow=1,posts=0); separate causal review pending"
+        },
+        "cleanup": "58,360,744B temporary result ZIP/duplicate frames/logs removed after hash-linked raw proof preservation; retained8,021,596B ignored evidence. Full raw remains on station."
+      },
+      "path_mask_readback_2026_10_21": {
+        "method": "Independent static GLB accessor/texture/shader binding read; no Godot/Blender/runtime/probe/test or file generation.",
+        "resource": "game/assets/photoworlds/forest_ground/prologue-ground-f00-f16-v1.glb",
+        "bytes": 20849860,
+        "vertices": 236817,
+        "mask": "COLOR_0 normalized uint16 VEC4; R=1 at F00/F01/F02/F03 and sampled quarters. All inner95%-5% core vertices <=1.05m from each path segment have R=1 (counts385/429/423). UV2 present; ground MaterialOverride source binds expected snow shader/textures. Missing mask/gamma core loss/wrong shader not proved.",
+        "surface": "Texture/shader linear mean luminance core about73% of fresh snow before lighting. Native path is weak blue patch among stronger pine shadows; roughness-only polish is not accepted as fixing whole-scene wayfinding.",
+        "preferred_scene_result": "Existing packed trail leads into a recognizable bright opening framed by current winter pines at F03. Reuse local F15 composition pattern and measured2.1m clearance; no new ground collider/service/generatedmodel required. Geometry/collision/markers unchanged.",
+        "acceptance": "Comparable native frame and motion after branch; ordinary player recognizes next path and F03 exit before E prompt without source coordinates. NOT_RUN; remains open."
+      },
+      "printer_log_cleanup_2026_10_21": {
+        "targets": [
+          "game/scripts/ArrivalPersonalProps.cs"
+        ],
+        "result": "Removed expected overlap candidate PushWarning in printer grid search; collision predicates, candidate selection and final no-space exception unchanged. Prior log614candidate warnings with stack traces.",
+        "verification": "Personal luna_fast source review + root exact diff inspection; no measured speedup or runtime proof (change not in aef2 snapshot)."
       }
     },
     {

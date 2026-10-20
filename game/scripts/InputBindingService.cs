@@ -23,6 +23,7 @@ public static class InputBindingService
         "inventory",
         "map",
         "pause",
+        "skip_prologue",
         "quick_save",
         "quick_load"
     ];

@@ -588,7 +588,7 @@ internal partial class ArrivalPersonalProps : Node3D
                 .FirstOrDefault(mesh => Overlaps(bounds, PublicBuildingShell.Bounds(house, mesh)));
             if (blocker is not null)
             {
-                GD.PushWarning($"Printer candidate ({x:0.00},{z:0.00}) overlaps {blocker.Name}.");
+                // Overlap is an expected grid-search rejection, not a warning condition.
                 continue;
             }
 
