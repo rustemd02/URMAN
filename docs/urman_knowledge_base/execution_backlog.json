@@ -109618,7 +109618,7 @@
         "Нельзя совершить две пространственные операции одновременно.",
         "Переходы книга/документ/диалог/ПК/пауза/сворачивание и отмена проверены на конкретном эпизоде: одно нажатие принадлежит одному режиму, закрытие UI не активирует предмет за ним, курсор и камера восстановлены; нет скрытой блокировки."
       ],
-      "next_action": "Использовать действие журнала, а не конфликтующую вторую клавишу.",
+      "next_action": "После authoritative e79 terminal/userdata restoration проверить текущий обычный эпизод книга/reader → закрытие → диалог/ПК/пауза/сворачивание: одно нажатие одному режиму, нет interact через закрытие, курсор/камера восстановлены. Journal ownership source_consistent по journal_owner_source_2026_10_20; не добавлять вторую клавишу или новый modal owner без доказанного дефекта.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -109791,7 +109791,20 @@
           "evidence_ref": "PW-018.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "journal_owner_source_2026_10_20": {
+        "state": "source_consistent_native_modal_pending",
+        "method": "Independent personal luna_fast bounded source read, no edits/runtime.",
+        "result": "JournalUi is sole runtime journal-action consumer; it closes visible book once and handles the event. Controller uses interact behind modal/release guard. Physical family-book target opens existing OpenPhotoBook after its interaction; closing journal hides image reader/physical inspection and restores player modal/mouse. During dialogue journal refuses open and consumes the action. No source-proven duplicate toggle or lost ownership in this default route.",
+        "source_paths": [
+          "game/scripts/JournalUi.cs",
+          "game/scripts/JournalUi.PhotoBook.cs",
+          "game/scripts/DialogueUi.cs",
+          "game/scripts/FirstPersonController.cs",
+          "game/scripts/ArrivalPersonalProps.cs"
+        ],
+        "remaining": "Actual keyboard/gamepad/modal transition, focus, ESC/cancel and no interaction-through-close scenario remains NOT_RUN. Source read is not runtime acceptance; do not rewrite same owners without a demonstrated defect."
+      }
     },
     {
       "id": "PW-019",
@@ -110441,6 +110454,29 @@
           "game/scripts/JournalUi.cs",
           "game/scripts/JournalUi.PhotoBook.cs"
         ]
+      },
+      "optional_back_read_detour_2026_10_20": {
+        "state": "source_integrated_native_route_pending",
+        "task_start_head": "04bdef92",
+        "active_owner": null,
+        "question": "Does the first-ready forest objective send the player to the physical forest edge even when the optional P-FOREST back remains unread?",
+        "finding": "After book received, P-FOREST mounted, S-SCHOOL acquired and prologue completed, pw-enter-forest is already available. W01 quest remains inactive until location pw-forest, so the preparation objective still runs. Its extra BackRead||!CanReadBack gate sent the outside player home and required optional reading before naming the actual entry point.",
+        "canonical_owner": "pw-enter-forest authored conditions remain authoritative; book preparation objective projects the same readiness, not another back-read prerequisite. Physical support/anchor/direction/held-item/modal checks remain in existing bridge/visit path.",
+        "result": "Only JournalUi.cs ready-entry condition changed from mounted+optionalbackread+canEnterForest to mounted+canEnterForest. Same existing method feeds journal, book preparation and ordinary HUD objective; school permission/acquisition/mount/prologue/actual entry checks unchanged. No new interaction/state/schema/wording or alternate entry.",
+        "source_paths": [
+          "game/scripts/JournalUi.cs",
+          "content/modules/urman-fullgame/definitions.json"
+        ],
+        "changed_source_sha256": "e93b1b8d4ef9a3aa49fc0ffeebeb8244b465eed17e427c9e61a23d06cfb8e8e1",
+        "source_evidence": [
+          "JournalUi.cs:641 ready branch precedes CurrentZoneId home-return and back-read instructions",
+          "definitions.json pw-enter-forest has exactly book.received, P-FOREST mounted, S-SCHOOL acquired, prologue.completed; no back-read",
+          "pw-w01 startConditions also require location pw-forest, so pre-entry ready case reaches this objective",
+          "JournalUi.cs:238 / JournalUi.PhotoBook.cs:511 / Act1DemoRoot.cs:1920 use the shared preparation objective"
+        ],
+        "verification": "Scoped independent Core causal read and root source read of ready/unready and unread/read branches; fresh scoped git diff --check exit0. One boolean condition only, no compilation-risk addition: no repeated build, tests, probes or Godot/native launch. Does not establish full native route.",
+        "tdd_route": "off: author prohibits new tests/probes; no existing test contract changes required for this objective predicate.",
+        "remaining": "Native after genuine school permission/book preparation with P-FOREST back unread: current goal should name real daylight forest edge; then physical entry/action/return/Save/Continue. Read-back optional and other source/cultural/art/whole PW019 gates remain open."
       }
     },
     {

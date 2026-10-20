@@ -638,7 +638,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         var canEnterForest = bridge.IsInteractionAvailable(enterForestInteractionId);
         var forestEntryAction = forestPhoto.HasResumePoint ? "Продолжить снимок" : "Войти в снимок";
         var forestEntryObjective = $"Дойти до опушки у трёх стволов со снимка, открыть в книге разворот «Люди у леса» и выбрать «{forestEntryAction}».";
-        if (forestPhoto.Mounted && (forestPhoto.BackRead || !forestPhoto.CanReadBack) && canEnterForest)
+        if (forestPhoto.Mounted && canEnterForest)
             return forestEntryObjective;
 
         if (bridge.CurrentZoneId != "house_old_pc")
