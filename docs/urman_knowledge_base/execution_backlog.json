@@ -2672,7 +2672,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-10-19",
+  "updated": "2026-10-20T20:24:34+00:00",
   "goal_key": "urman-photoworlds-finished-game",
   "goal_statement": "Довести единую очередь до готовой игры «За краем снимка»: обычная зимняя Кара-Урман, физическая книга Тукая, 13 снимков, пять полноценных фотомиров, пролог W01, реальные внешние подтверждения, домашний эпилог и свободные возвращения. Все применимые требования Visual Reset и PhotoWorlds, сохранённые бытовые системы и выпускная приёмка обязательны; готовность принимается REL-003 на конкретной поставляемой сборке, а не по числу закрытых карточек.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -110550,8 +110550,8 @@
       "id": "PW-020",
       "title": "Реализовать prepare и возвратный билет",
       "milestone": "PW-M1",
-      "status": "blocked",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "Codex",
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -110698,8 +110698,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "No live work claimed from stale job/lock; assignment retained. Finite source stages committed, native integration blocked by fresh station offline evidence; reservation/job state not released or restarted."
+        "state": "confirmed_active",
+        "reason": "Owner powered on station; root confirmed private SSH/API readiness, classified old job preparation interruption, and deployed required infrastructure. Sole station owner for one protected ordinary route."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -110707,11 +110707,8 @@
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "Recover transport for existing protected e79 job and obtain authoritative terminal/userdata restoration before any new job. Then authorized explicit prologueSkip→Niva→home/tea→album→schoolcopy→book preparation→actual daylight forestedge firstW01 entry→meaningfulaction→originaledge return→save/MainMenu/Continue. Completed home convenience is separate; do not replay obsolete first-home portal. Reuse accepted pause/first-action evidence.",
-      "blocker": {
-        "reason": "Protected ordinary Windows integration cannot proceed: same e79 job status requests time out, and fresh read-only tailnet status reports station offline while local backend is Running. Authoritative job terminal/userdataRestored remains unknown. Source review of current route/shop/remapped labels provides no additional justified patch; required next MVP evidence is actual ordinary play.",
-        "release_when": "Existing private transport reaches station without changing owner-forbidden VPN; authoritative existing e79 job terminal and userdataRestored=true confirmed before any new protected job/input. Then run the named ordinary book/entry/return/save/Continue route on current source."
-      },
+      "next_action": "After cache integrity check, submit one protected current-source play-product: authorized Skip→Niva→home/tea→album→schoolcopy→book→actual first forestedge W01 entry→meaningful action→return→save/MainMenu/Continue. Technical launch is not gameplay acceptance.",
+      "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
       "execution_mode": "production_paused_during_tracker_migration",
@@ -111006,11 +111003,14 @@
         "scope": "Remaining prologue in protected test to reach village/book. No user-save bypass or facts. Previous aff33 automatic review hold remains historical; now resolved for next test."
       },
       "ordinary_book_native_e79_2026_10_20": {
-        "state": "submitted_transport_unavailable_no_input",
+        "state": "terminal_fail_preparation_interrupted_userdata_not_touched",
         "job_id": "e79adf9f932a4d74b4aec64d7565c6a4",
         "snapshot_id": "27626713c7807ded8c64bdd12b3b446b914019c99e73c54534fb916aaaeeaba9",
         "evidence": "evidence/PW-020/native_book_e79adf9f932a4d74b4aec64d7565c6a4/",
-        "observed": "Submit succeeded; later single bounded status returned urlopen timed out; no actual menu/frame, no input. Root Tailscale health reports encrypted relay certificate rejected as self-signed; same-station bounded ping no reply. No TLS/hostkey bypass, forced kill, additional job or userdata manipulation. Terminal receipt/restoration pending until transport recovers. Human skip approval remains valid."
+        "observed": "Fresh API reports Worker restarted during job; no result available. SSH inspected actual run: empty artifacts, no override.cfg/stdout/stderr/frames, no game/guard processes. Deployed worker creates override and opens logs before starting guard. Empty pre-existing lock timestamp precedes this job by 331.717s; guard marker write/fsync precedes any userdata rename. Original URMAN userdata path absent. Therefore preparation interrupted before guard; userdataRestored=true is NOT asserted. Source snapshot-manifest is unreadable after interruption; not accepted as evidence of successful materialization.",
+        "terminal_status": "FAIL",
+        "result_unavailable": true,
+        "userdata_restoration": "not_applicable_guard_not_started"
       },
       "entry_hint_2026_10_20": {
         "state": "source_verified_native_pending",
@@ -111029,9 +111029,9 @@
         }
       },
       "transport_recheck_2026_10_20": {
-        "state": "same protected job status unavailable; authoritative terminal/restoration unknown",
+        "state": "private transport recovered; terminal old job classified before guard; fresh station ready",
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
-        "terminal_restoration": "not_confirmed",
+        "terminal_restoration": "not_applicable_before_guard",
         "new_job_submitted": false,
         "last_status_query": "Recorded 2026-10-20T13:37:59+00:00: same e79 status CLIexit1 urlopen timed out after backoff. Tool stdout only, no new raw files. Authoritative terminal/restoration unknown; no new job/input/restart/VPN changes.",
         "local_diagnosis": "Happ default VPN route and Tailscale self-signed relay certificate are observed; causal hop is unproven. Owner explicitly answered VPN не трогать on20.10. No disconnect/reconnect or route/cert/daemon changes; previous permission request is resolved as DENIED.",
@@ -111041,6 +111041,15 @@
           "backend": "Running",
           "station_online": false,
           "method": "Existing tailscale socket status --json read-only, no IP/owner/token output, no process/route/cert/VPN change. Job status/restoration still unknown; offline is not a terminal receipt."
+        },
+        "recovered_at_utc": "2026-10-20T20:24:34+00:00",
+        "latest_readback": {
+          "ready": true,
+          "busy_job": null,
+          "userdata_recovery_pending": false,
+          "orphan_game_process": false,
+          "orphan_candidate_process": false,
+          "desktop_interactive": true
         }
       },
       "player_facing_source_2026_10_20": {
@@ -111069,6 +111078,22 @@
           "game/scripts/WaterChainHomePresence.cs:170"
         ],
         "remaining": "Native school visibility/access, outdoor wayfinding, readability and actual player comprehension; source review does not prove them."
+      },
+      "station_infrastructure_2026_10_20": {
+        "state": "deployed_verified",
+        "recorded_at_utc": "2026-10-20T20:24:34+00:00",
+        "source_commit": "436bb4c6f602575ac5fea11b465fdc65fa3af190",
+        "targets": [
+          "eng/remote_common.py",
+          "eng/run-windows-check.ps1",
+          "eng/windows-game-ui.ps1",
+          "eng/windows_station_worker.py"
+        ],
+        "verification": "All four prior versions match known ancestors; exact raw backup readback; staged Python AST and actual Windows PowerShell5 parser passed; normal manager stop confirmed Ready/lock free; atomic four-file deployment SHA256 exact; normal start and fresh official doctor ready/idle/recovery false/orphan false. Windows dirty/unmerged Git index and other paths untouched; no pull/reset/stash or VPN changes.",
+        "backup": "D:/URMAN-STATION/data/infrastructure-backups/before-436bb4c6-5404c8f0b196.zip",
+        "backup_bytes": 62918,
+        "backup_sha256": "0dcde8970d83547e341b932afefa5ad4ed5ae86efe10d42b1a06fd25f574c93c",
+        "remaining": "No gameplay result yet; inspect cache integrity before source upload."
       }
     },
     {
@@ -145286,7 +145311,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Reuse accepted standalone boot c7898456/host1c502696 and new candidate-play source stage (reviewed/Game18.27s0/0). After authoritative e79 terminal/restoration: exactPS5parser→controlledworker/helperdeployment→currentexport→owned native candidate-play NewGame→Save→normalfullquit→secondlifetimeContinue→normalquit. Oneguardpreserves temporarysave acrossboth; technicalreceipt doesnot prove actions. Do not repeat oldheadlessboot or sourcecompile unchanged. Requiredplatform/performance/rights/art/human gates remain open.",
+      "next_action": "Infrastructure deployed and actual Windows PS5 parser passed. After protected ordinary current-source route, export current candidate, then owned candidate-play NewGame→Save→normal full quit→second lifetime Continue→normal quit under one guard. Preserve platform/performance/rights/art/hearing/fullcampaign gates.",
       "blocker": null,
       "external_gates": [
         {
@@ -145557,7 +145582,7 @@
         "result": "Actual exported windows/URMAN.exe hash986215d7…14932b launched on UNTERPC outside source snapshot, exact fullgame pw-prologue/W01+ready markers present, engineErrors empty, gameExitCode0/userdataRestoredtrue/native_ui not-run. Original export receipt remains unchanged; this host receipt is separate proof. Windows ACL comparison not performed by guard; no claim of ordinary UI/performance/art/complete release."
       },
       "native_candidate_play_stage_2026_10_20": {
-        "state": "source_reviewed_compiled_windows_parser_deployment_native_pending",
+        "state": "source_reviewed_compiled_windows_parser_and_deployment_passed_native_pending",
         "active_owner": null,
         "question": "Can the exact exported release EXE be operated/captured under the existing owned native transport and preserve a clean test save across two full process lifetimes under one userdata guard?",
         "targets": [
@@ -145581,7 +145606,7 @@
           "Root independentreview + PythonAST/localinvalidCLI/affected Gamecompile once; PowerShellparser/deployment/native roundtrip only after stationauthoritative terminal/restoration, VPN untouched."
         ],
         "success": "Finite source/runner slice implements real standalone native validation path; receipts prove only actual observed technical launch/process/restore, never gameplay/human/release acceptance by inference.",
-        "remaining": "After authoritative e79 terminal/userdata restoration: WindowsPowerShell5parser on exactPS, controlled helper/worker deployment preservingdirtycheckout, export currentcandidate then owned candidate-play ordinaryNewGame→Save→normalfullquit→automaticsecondlifetime→Continue→normalquit; verify same savedstate/book/world/position and exactartifact identity. Windows/macOS performance/rights/art/hearing/human/fullcampaign releasegates remain open.",
+        "remaining": "Export current candidate and operate actual standalone two-lifetime NewGame/Save/Continue with guard restoration; required platform/performance/rights/art/hearing/human/fullcampaign gates remain open.",
         "constraints": "No new tests/probes/fixtures/harnessfiles/newplans; existing productionrunner only. No newstationjob/input whilee79terminal/restoration unknown. Happ/VPN/routes/certs unchanged. Git/JSON/build/station rootonly.",
         "result": "Separate candidate-play routes the exact exported package through existing content-addressed upload/principal/ZIP+EXE provenance and two native EXE lifetimes within one protected_run clean transaction. Temporarysave persists between normalcloses; originaluserdata restoredonlyafterguard completes. UI/capture binds exact unique live candidateEXE descendant/path/SHA and pinnedhelper, same window/focus/boundedinput/releasechecks. Old candidate-boot remains headless with its accepted contract.",
         "verification": {
@@ -145597,14 +145622,14 @@
             "All candidate POST exceptions includingHTTP nowprint same-jobstatus-recovery warning; unknownoutcome neverauto-resubmitted."
           ],
           "first_compile": "Cancelled after C# input changed; emptylog/exit0 is NOT accepted build proof. One-second native sample preserved cancelled-build.sample.txt and commandlog. Finalcompile oncurrentinput alone accepted.",
-          "powershell": "Independent source review only; Windows PowerShell5 parser/execution NOT_RUN.",
-          "native": "NOT_RUN; e79terminal/restoration stillunknown, no newjob/input/export/Godot/stationupdate. NativeOldpackage lacksreceiverbranch; newexport required.",
+          "powershell": "Actual Windows PowerShell 5.1.22621.963 parsed exact staged run-windows-check.ps1 and windows-game-ui.ps1; errors empty. Both deployed with matching SHA256.",
+          "native": "NOT_RUN; infrastructure now ready. Existing old job classified interrupted before guard; no userdata restoration required for that job.",
           "references": [
             "https://docs.godotengine.org/en/stable/tutorials/io/data_paths.html",
             "https://docs.godotengine.org/en/stable/classes/class_projectsettings.html#class-projectsettings-method-globalize-path"
           ]
         },
-        "next_action": "Do not repeat source/compile without changedinput or realfailure. Recover existinge79 status/restoration with currentVPN unchanged, then perform named PS/deployment/export/native inputs. No native feature success or completedrelease inferred fromsource.",
+        "next_action": "Infrastructure deployed and actual Windows PS5 parser passed. After protected ordinary current-source route, export current candidate, then owned candidate-play NewGame→Save→normal full quit→second lifetime Continue→normal quit under one guard. Preserve platform/performance/rights/art/hearing/fullcampaign gates.",
         "source_sha256": {
           "eng/remote-check.py": "e7bbe403bbac3b1c55c0700e1db6b24f07aa21646df7edb84fa185b6c5ad1fcb",
           "eng/remote_common.py": "52e42124c4be5df6f72e2b2715d70407bb2db72b9538bef44e20715a9f9f9597",
@@ -145613,6 +145638,22 @@
           "eng/run-windows-check.ps1": "00b733204d594636ec1980e675a1316de287161ec5c7ee3e3ca7f135f4b36304",
           "game/scripts/Main.InteractiveFrameCapture.cs": "1d4f026f1a6ea44f446576316af950c5b173f04339b83dce87c6cbd937a90d8e"
         }
+      },
+      "station_infrastructure_2026_10_20": {
+        "state": "deployed_verified",
+        "recorded_at_utc": "2026-10-20T20:24:34+00:00",
+        "source_commit": "436bb4c6f602575ac5fea11b465fdc65fa3af190",
+        "targets": [
+          "eng/remote_common.py",
+          "eng/run-windows-check.ps1",
+          "eng/windows-game-ui.ps1",
+          "eng/windows_station_worker.py"
+        ],
+        "verification": "All four prior versions match known ancestors; exact raw backup readback; staged Python AST and actual Windows PowerShell5 parser passed; normal manager stop confirmed Ready/lock free; atomic four-file deployment SHA256 exact; normal start and fresh official doctor ready/idle/recovery false/orphan false. Windows dirty/unmerged Git index and other paths untouched; no pull/reset/stash or VPN changes.",
+        "backup": "D:/URMAN-STATION/data/infrastructure-backups/before-436bb4c6-5404c8f0b196.zip",
+        "backup_bytes": 62918,
+        "backup_sha256": "0dcde8970d83547e341b932afefa5ad4ed5ae86efe10d42b1a06fd25f574c93c",
+        "remaining": "No gameplay result yet; inspect cache integrity before source upload."
       }
     },
     {
