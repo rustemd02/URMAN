@@ -110569,7 +110569,7 @@
       "title": "Реализовать prepare и возвратный билет",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex",
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -110716,8 +110716,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "c855 terminal; userdata restored and fresh doctor idle. Longer bounded route budget source task assigned independently; root retains JSON/Git/Windows."
+        "state": "confirmed_active",
+        "reason": "Root serializes active protected fca8 long ordinary native route on deployed worker; no concurrent station owners."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -111187,7 +111187,7 @@
         "observed_additional": "Daylit wall discover-babai-yard-entry-wall-joint displays Too dark; source deliberately requires nearby lit portable lantern, not ambient light. Misleading hint remains; no daylight behavior gate silently removed."
       },
       "ordinary_play_budget_2026_10_21": {
-        "state": "engineering_verified_station_deployment_pending",
+        "state": "deployed_native_long_job_running",
         "targets": [
           "eng/remote-check.py",
           "eng/windows_station_worker.py",
@@ -111196,7 +111196,31 @@
         "cause": "Repeated ordinary native school/world/return route exceeded1200s beforeContinue; source/userdata guards already support finite timeouts. Stop repeating unchanged short sessions.",
         "result": "Explicit play/play-full/play-product/candidate-play timeout1..3600; default1200 unchanged. Candidate explicit wait1..3720, defaults unchanged; one candidate guard covers both EXE lifetimes. Studio/smoke/candidate-boot limits unchanged, no unlimited run/state injection.",
         "verification": "Personal Fast exact limit/default/guard callchain review; root diff/ownership readback; both Python AST PASS; existingCLI rejects3601/3721 before network and accepts3600/3720 until expected missing candidate directory; actual Windows PowerShell5.1.22621.963 ParseInput PASS on exact bytes through stdin, no staged file/worker mutation.",
-        "remaining": "Controlled exact-file deployment to idle Windows worker and first explicit longer job not run. Do not claim installed capability or native fullroute PASS."
+        "remaining": "Longjob fca8 active; full ordinary flow/current export acceptance unproven.",
+        "station_deployment": {
+          "targets": {
+            "eng/windows_station_worker.py": "35ff73341be643377f15b6a1f944f4c2dc00a888c750cdf6c34f5cddc9ff661d",
+            "eng/run-windows-check.ps1": "645df011f34fe3e88c75dc4190f2fb08a22fe2d5616d6500d2eb539719fc532a"
+          },
+          "previous": "Both exact436bb4c6 hashes confirmed before any mutation; dirty checkout untouched.",
+          "backup": "D:/URMAN-STATION/data/infrastructure-backups/before-ad84b5a2-166b0ccc2f70486d9c7ea94277599763.zip",
+          "backup_bytes": 50634,
+          "backup_sha256": "549d19aeb490bae57b60fc580f31fd554d9950a00f84b681004a4820f06fa1d4",
+          "verification": "Exact stage SHA/PS5 ParseInput/local Python AST and ZIP entry SHA before normal stop/start; actual installed SHA then fresh doctor ready/busy null/recovery false/orphans false. Existing-policy per-process Bypass only, no persistent policy/VPN/config/token/userdata changes.",
+          "transport_correction": "Large stdin attempts left owned PowerShell transport processes; exact-owned trees stopped before retry. SFTP passed; first null File.Replace stopped before source change and original worker restarted, then explicit replacement-backup path succeeded with same verified ZIP.",
+          "cleanup": "883,874B Windows temporary copies +239,823B Mac staging removed after hashes; compact50,634B recovery ZIP retained."
+        }
+      },
+      "ordinary_long_fca8_2026_10_21": {
+        "state": "running",
+        "owner": "Codex",
+        "job_id": "fca8a7ed58234822b2651e36b9ed9deb",
+        "snapshot_id": "42b88eae24968107833f4af00a1deb202728c5c35f0c2c390f5eff5ec326e6d0",
+        "baseline": "ad84b5a2 gameplay/eng; preexisting foreign non-runtime diffs preserved, snapshot ID authoritative",
+        "timeout_seconds": 3600,
+        "question": "Does current canonical VariantA naming and shared objective readiness work in actual village, and can ordinary tea/book→school-copy→forest W01 action→return→Save/MainMenu/Continue retain earned progress?",
+        "success": "Actual current frames/input/facts/save after normal Continue and correct repeated confirmations; terminal receipt userdataRestored. Crossprocess exported EXE remains separate PW095.",
+        "deadline": "Use actual native bootstrap clock, target ordinary confirmed Quit by50min of child lifetime; do not spend final deadline on navigation."
       }
     },
     {
