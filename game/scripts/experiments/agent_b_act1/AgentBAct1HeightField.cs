@@ -189,7 +189,7 @@ public static class AgentBAct1HeightField
         public float Blend(float x, float z)
         {
             var outside = Outside(x, z);
-            return outside >= Feather ? 0f : 1f - Mathf.SmoothStep(0f, Feather, outside);
+            return outside >= Feather ? 0f : 1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp(outside / Feather, 0f, 1f));
         }
     }
 
@@ -677,12 +677,12 @@ public static class AgentBAct1HeightField
         // never lifts the carriageway.
         var outside = BabaiRelocation.OutsideNewYard(x, z);
         if (outside >= 2.5f) return ground;
-        var blend = 1 - Mathf.SmoothStep(0, 2.5f, outside);
+        var blend = 1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp(outside / 2.5f, 0f, 1f));
         // The main street's carriageway and first verge metre stay the street's own.
         var toMain = double.MaxValue;
         for (var i = 0; i < MainAxis.Length - 1; i++)
             toMain = System.Math.Min(toMain, DistanceToSegment(x, z, MainAxis[i].X, MainAxis[i].Z, MainAxis[i + 1].X, MainAxis[i + 1].Z));
-        blend *= Mathf.SmoothStep(HalfWidths[0] + .4f, HalfWidths[0] + 1.6f, (float)toMain);
+        blend *= Mathf.SmoothStep(0f, 1f, Mathf.Clamp(((float)toMain - (HalfWidths[0] + .4f)) / 1.2f, 0f, 1f));
         // The generated parking support owns this small level patch. Fade the
         // relocated yard's contribution out across the same support feather.
         blend *= 1f - NivaParking.Blend(x, z);
@@ -724,7 +724,7 @@ public static class AgentBAct1HeightField
         {
             if (double.IsNaN(NivaParking.Target))
                 NivaParking.Target = FieldSurface(NivaParkingAnchorX, NivaParkingAnchorZ, withLaneRelief: false);
-            var blend = 1f - Mathf.SmoothStep(0f, NivaParking.Feather, parkingOutside);
+            var blend = 1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp(parkingOutside / NivaParking.Feather, 0f, 1f));
             height += (NivaParking.Target - height) * blend;
         }
         var cartOutside = HorseCartParking.Outside(x, z);
@@ -732,7 +732,7 @@ public static class AgentBAct1HeightField
         {
             if (double.IsNaN(HorseCartParking.Target))
                 HorseCartParking.Target = FieldSurface(HorseCartParkingAnchorX, HorseCartParkingAnchorZ, withLaneRelief: false);
-            var blend = 1f - Mathf.SmoothStep(0f, HorseCartParking.Feather, cartOutside);
+            var blend = 1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp(cartOutside / HorseCartParking.Feather, 0f, 1f));
             height += (HorseCartParking.Target - height) * blend;
         }
         return height;

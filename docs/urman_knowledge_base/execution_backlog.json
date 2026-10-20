@@ -121956,11 +121956,19 @@
         "next_action": "Ordinary native approach→turn→retreat at existingoccupiedhousewindow: realwarmlight andsilhouette fade, preservedbudget/presets; do not rewrite source withoutnewdefect."
       },
       "yard_terrain_weight_followup_2026_10_20": {
-        "state": "read_only_confirmed_coefficient_defect_no_production_change",
+        "state": "source_fix_accepted_native_pending",
         "source": "game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs:680",
-        "result": "At actualBabai door(-9.5,-1.88315), yardoutside0/toMain>=8.3/Nivablend0: currentyardtransfercoefficient3.85insteadintended1. Groundfeeds actualcollisionvertices; nearbygrid(-10,-2)andjitter staybranch. Heightdifference/nativewalkingimpactnotmeasured; this does notexplain allreportedgait/jumps.",
+        "result": "Exactly5normalizedSmoothStep0..1 expressions; yardfeather/roadgate/(1-Nivaparking) product bounded0..1. Dooroutsideparkingcore factor3.85→1; parkingoutside1m old-.2→~.074074, core1/featheredge0. GeneratedNiva/cartparking blends use sameweightcurve as existingsupporthelper. Originaltargets/Lift/rigidtransform/exclusionbounds/otherheightfieldfunctions preserved.",
         "candidate": "Only Ground yardfeather680/roadsuppression685 need normalizedSmoothStep0..1; separate finite follow-up, not part of this accepted block. No global replacement or territory rebuild proposed.",
-        "next_action": "Determine actualground/targetdelta and door/approach consumers before separatebounded2expressionfix; native approach/collision check afterstationreturns."
+        "next_action": "After authoritative e79 terminal/restoration walk actualBabai door/yardedge andNiva/cartparkingfeathers; compareground/steps/vehiclecontacts and savedcarry positions, retaining native/art/performance gates. Separate BoardCrossing source hypothesis underread-onlyreview; do not rewriteacceptedweights withoutnewdefect.",
+        "active_owner": null,
+        "scope": "AgentBAct1HeightField.cs ONLY5expressions:2Groundyardweights +FlatTerrainSupport.Blend +GeneratedGroundNiva/HorseCartparkingweights. NormalizedGodot SmoothStep0..1; preservebounds/targets/Lift/parkingexclusions/otherheightfieldfunctions.",
+        "question": "Do all three factors of actual yard transfer remain0..1, includingparkingfeather, with actual visual/collision/carry owners stillsharingGround?",
+        "remaining": "Native actualdoor/approach/parkingedge/collision/movement and oldground-targetdelta remainopen. No globalAPIreplace, HouseholdPads/RiverChannel/FieldSurface unaffected inthisunit.",
+        "verification": "Root exact5expressiondiff inspection; independent personal luna_fast source review of endpoints/callers/physicalsharedheightfield clean. ONEaffectedGamecompile16.37s0warnings0errors; no newtests/probes/Godot/native; actualheightdelta/art/movement notclaimed.",
+        "evidence_refs": [
+          "evidence/PW-044/yard-weight-source-20261020/game-build-final.log"
+        ]
       }
     },
     {
@@ -143888,8 +143896,8 @@
         ],
         "budget": {
           "author_cap": 4000,
-          "actual_consumed": 360,
-          "remaining_author_cap": 3640,
+          "actual_consumed": 390,
+          "remaining_author_cap": 3610,
           "first_family_cap": 90,
           "first_family_consumed": 40,
           "active_task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
@@ -143925,7 +143933,12 @@
           "neighbor_retexture_task_state": "SUCCEEDED100; actual10credits; maps-only attachment pending",
           "next_fence_retexture_reserved": 0,
           "next_fence_retexture_task_id": "01a157ec-cf3b-7606-800d-0cbc23c9c260",
-          "next_fence_retexture_task_state": "SUCCEEDED100; consumed_credits10 from sanitizedstatus-initial.json; maps inspection pending"
+          "next_fence_retexture_task_state": "SUCCEEDED100 consumed10; literalgeometrycandidate sourcePBRmaterialHOLD, no runtimepromote; receipts/views8aad23f2",
+          "h049_outbuilding_family_cap": 35,
+          "h049_outbuilding_family_reserved": 5,
+          "h049_outbuilding_family_consumed": 30,
+          "h049_outbuilding_task_state": "IN_PROGRESS12; consumed_credits30 confirmedstatus-01.json; no secondsubmit",
+          "h049_outbuilding_task_id": "01a15823-02c4-765e-87a6-df6e30a748d4"
         },
         "current_artifact": "Conifer static native stage retained; full art/motion/performance open. VariantA V2 PBR integrated only into active residential H001 default nested dwelling; explicit Studio modelPath wins. W02 two near-only generated willows integrated into existing roots/prewarm. Both runtime bytes match source, Game17.39s0/0 and independent source review pass. Native/UVcoverage/art/performance and full asset family acceptance remain open; no council/retired-house replacement.",
         "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
@@ -144071,6 +144084,23 @@
         "reference_sha256": "4511d043c56f36f87a2a3cfa9b49baf5bfeaeb03e33124dd947c8a3ad31335d9",
         "root_review": "Root personally viewed5sourceviews+oneImageGenreference: existing boardedgablebarn withseparateroof/base/door/sidewindow. Reference weatheredwood, quietgreyroof anddistinctiron/glass materiallycoherent withacceptedhouse; grainfinerthanacceptedscene. Doorbattenrelief/windowjoints differ fromsource, bitmapnotgeometryauthority. Source21mesh/524tri/27surfaces/noUV/4.14x2.8757482x3.10m retained. No actualnativecamera/placement/art acceptance.",
         "active_owner": null
+      },
+      "h049_outbuilding_generation_2026_10_20": {
+        "state": "IN_PROGRESS12_consumed30_confirmed",
+        "active_owner": "/root/all_world_book_content",
+        "folder": "assets/source/blender/act1/h049_outbuilding_meshy_v1/",
+        "input": "assets/source/blender/act1/h049_outbuilding_reference_v1/imagegen-reference-v1.png",
+        "input_sha256": "4511d043c56f36f87a2a3cfa9b49baf5bfeaeb03e33124dd947c8a3ad31335d9",
+        "source_contract": "ExistingH049barn4.14x2.8757482x3.10m, boardedgable/notlogs, oneactualdoor+leftsidewindow; existingdonor21mesh/524tri/noUV. Newgeneratedgeometrycandidate mustretainconstructiveproportions/materialrole separation; collision/address/access/runtimeunchanged.",
+        "paid_plan": "ONE Meshy7.1standard image→3D+4KPBR30credits, GLB, noUltra/noextraMeshyimagegen/noauto-remesh. Onlyifactualrawconstructivelyusableand>10ktri, ONEremeshsameIDtarget8000for5credits. Ceiling35, no extra texture/rig/generation/retry.",
+        "spend_actual": 30,
+        "reserved": 5,
+        "limits": "PreflightGETbalancemustsucceed beforeonePOST; sanitizedfailureclassificationneedednow. RootGO given afterrecordedreserve andsuccessfulGET; ONEsubmit30 andonlyqualifiedconditionalremesh5. Unknownsubmitoutcome mustnotblindresubmit. Actualconsumedcredits/taskIDs replacependingdata; author360/4000unchangeduntilreceipt.",
+        "verification": "ActualGLB5views/allroundroof/door/window/rear/materials, actualtriangle/PBRbindings afterremesh; noassumedPBRpreservation. HOLD ifbadconstruction/proportions, noart/runtime/perfclosurefromsource.",
+        "preflight": "ExistingCLI sandboxDNSgaierrorerrno8/noHTTP; sameGETwithnetworkescalationSUCCEEDED balance3920 monthly2770/permanent1150. Notauthfailure. NoPOSTbeforeGO.",
+        "task_id": "01a15823-02c4-765e-87a6-df6e30a748d4",
+        "status_receipt": "assets/source/blender/act1/h049_outbuilding_meshy_v1/status-01.json",
+        "next_action": "Observe same task toterminal/download andactual5viewconstruction gate; onlyifusableand>10ktri oneconditional5creditremesh. No secondgeneration or blindPOSTretry."
       }
     },
     {

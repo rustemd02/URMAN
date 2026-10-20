@@ -1,0 +1,31 @@
+{
+  "stage": "one_image_to_3d",
+  "authorization": "root budget GO actual360 reserve35, one generation30 conditional remesh5",
+  "input": {
+    "path": "assets/source/blender/act1/h049_outbuilding_reference_v1/imagegen-reference-v1.png",
+    "sha256": "4511d043c56f36f87a2a3cfa9b49baf5bfeaeb03e33124dd947c8a3ad31335d9",
+    "bytes": 2134839
+  },
+  "endpoint": "POST /openapi/v1/image-to-3d",
+  "payload_sanitized": {
+    "image_url": "[DATA_URI_FROM_EXACT_INPUT_PNG_OMITTED]",
+    "model_type": "standard",
+    "ai_model": "meshy-7.1",
+    "should_texture": true,
+    "should_remesh": false,
+    "target_formats": [
+      "glb"
+    ],
+    "texture_resolution": "4k",
+    "enable_pbr": true
+  },
+  "estimated_credits": 30,
+  "client": "eng/meshy_assets.py",
+  "client_sha256": "13a2638524cf0f2a04463fc6e34d2a7f60d4143dd8ca0878a81ba8cdf7e1ae35",
+  "balance_before": {
+    "balance": 3920,
+    "monthly_credits": 2770,
+    "permanent_credits": 1150
+  },
+  "no_resubmit_on_unknown_outcome": true
+}
