@@ -78,6 +78,10 @@ public partial class RuntimeBridge
         try
         {
             if (!Current() || !main.MountPreparedPhotoScene(session, sceneId, preserveLoadedTransform)) return (false, null);
+            // A reused world may have hidden its bodies while the new kernel
+            // was being prepared. Reproject it inside this reserved scope before
+            // validating support; mounting alone only updates its entry pose.
+            QueueRuntimeStateChanged();
             // Retire old physical owners and let the new scene attach its own
             // carry owner before projecting saved props. Do not validate against
             // authored props that the saved state is about to move.

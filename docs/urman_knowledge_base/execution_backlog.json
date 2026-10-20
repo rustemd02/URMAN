@@ -2672,7 +2672,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-10-20T20:24:34+00:00",
+  "updated": "2026-10-20T21:05:50+00:00",
   "goal_key": "urman-photoworlds-finished-game",
   "goal_statement": "Довести единую очередь до готовой игры «За краем снимка»: обычная зимняя Кара-Урман, физическая книга Тукая, 13 снимков, пять полноценных фотомиров, пролог W01, реальные внешние подтверждения, домашний эпилог и свободные возвращения. Все применимые требования Visual Reset и PhotoWorlds, сохранённые бытовые системы и выпускная приёмка обязательны; готовность принимается REL-003 на конкретной поставляемой сборке, а не по числу закрытых карточек.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -110551,7 +110551,7 @@
       "title": "Реализовать prepare и возвратный билет",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": "Codex",
+      "active_owner": null,
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -110698,8 +110698,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Owner powered on station; root confirmed private SSH/API readiness, classified old job preparation interruption, and deployed required infrastructure. Sole station owner for one protected ordinary route."
+        "state": "not_active",
+        "reason": "Finite NewGame blocker fix verified in native play; station job terminal timeout and userdata restored. Station released; next bounded prologue navigation/keyboard Skip slice named in PW043, then remaining ordinary book route."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -110707,7 +110707,7 @@
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "After cache integrity check, submit one protected current-source play-product: authorized Skip→Niva→home/tea→album→schoolcopy→book→actual first forestedge W01 entry→meaningful action→return→save/MainMenu/Continue. Technical launch is not gameplay acceptance.",
+      "next_action": "Reuse accepted NewGame/walk/branch technical proof. Address proven PW043 keyboard Skip accessibility and unreadable final exit, preserving Pause/jump/interaction guards; then one focused ordinary arrival→tea/book→school copy→forestedge W01 action→return→save/MainMenu/Continue. Do not replay the same20-minute forest walk as a substitute for later-route evidence.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111032,7 +111032,7 @@
         "state": "private transport recovered; terminal old job classified before guard; fresh station ready",
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_applicable_before_guard",
-        "new_job_submitted": false,
+        "new_job_submitted": true,
         "last_status_query": "Recorded 2026-10-20T13:37:59+00:00: same e79 status CLIexit1 urlopen timed out after backoff. Tool stdout only, no new raw files. Authoritative terminal/restoration unknown; no new job/input/restart/VPN changes.",
         "local_diagnosis": "Happ default VPN route and Tailscale self-signed relay certificate are observed; causal hop is unproven. Owner explicitly answered VPN не трогать on20.10. No disconnect/reconnect or route/cert/daemon changes; previous permission request is resolved as DENIED.",
         "owner_network_constraint": "VPN не трогать. Preserve current Happ connection/configuration; do not re-request the same disconnect experiment without a new owner instruction.",
@@ -111093,7 +111093,43 @@
         "backup": "D:/URMAN-STATION/data/infrastructure-backups/before-436bb4c6-5404c8f0b196.zip",
         "backup_bytes": 62918,
         "backup_sha256": "0dcde8970d83547e341b932afefa5ad4ed5ae86efe10d42b1a06fd25f574c93c",
-        "remaining": "No gameplay result yet; inspect cache integrity before source upload."
+        "remaining": "Infrastructure verified and used by9f85/c2a; no current infrastructure blocker. Full ordinary campaign/candidate acceptance remains."
+      },
+      "ordinary_current_native_2026_10_20": {
+        "state": "terminal_fail_newgame_support_rejected_userdata_restored",
+        "job_id": "9f85f0a2505845e48665baa26f533cd3",
+        "snapshot_id": "3de6f427e3597d1c255ac261dbd2e3478233ed0810e4e362aea32e779c56165f",
+        "base_commit": "fc189820",
+        "question": "Does the normal current campaign route support tea→book→school copy→forestedge entry→meaningful action→return→save/MainMenu/Continue with protected original userdata?",
+        "actual_result": "Real NewGame input accepted but fresh-session physical preparation rejected before gameplay. UI displayed no free player place; no Skip/tea/book/entry/return accepted. Normal Exit closed game; helper reported ui_window_process_changed because target exited. Receipt gameExitCode0/userdataRestored=true; job FAIL from New game physical preparation engine error.",
+        "remaining": "Verify changed scoped projection notification in ordinary NewGame first; then continue authorized route. No broad unchanged replay.",
+        "evidence": "evidence/PW-020/native_current_9f85f0a2505845e48665baa26f533cd3/",
+        "userdataRestored": true,
+        "gameExitCode": 0
+      },
+      "newgame_reserved_projection_2026_10_20": {
+        "state": "accepted_source_and_native_newgame_slice",
+        "target": "game/scripts/RuntimeBridge.PhotoBootstrap.cs",
+        "cause": "New kernel entrypoint queues deferred notification during _loadPreparing/preload; outside reserved scope controllers read null presentation and W01 disables ground collision. Existing mount reuses W01 and only places player; no event restores its collision before support check. Two independent source reviews exclude F00 terrain-hole/nearby-prop hypothesis.",
+        "change": "Queue existing coalesced RuntimeStateChanged immediately after successful mount inside reserved current-kernel scope; existing process/physics barriers precede strict support check. No support/geometry relaxation, new API or test.",
+        "review": "Personal luna_fast confirmed same-mounted session bookkeeping avoids re-placement in W01–W05; payload-free event reads current session, existing rollback/finally preserved.",
+        "verification": {
+          "build": "Windows affected Game build33.83s,0 errors/0 warnings",
+          "import_exit_code": 0,
+          "engine_errors_bytes": 0,
+          "game_exit_code": 124,
+          "userdataRestored": true,
+          "receipt": "evidence/PW-020/newgame_projection_c2a50887376d40d1b35a3f144450bead/receipt.json",
+          "raw_game_log": "evidence/PW-020/newgame_projection_c2a50887376d40d1b35a3f144450bead/game.log.gz",
+          "raw_game_log_sha256": "0c2b96e6fd15d6c0d16e17f3fc11bf8768d866001bd37f652a46df7feef913f2",
+          "review": "Two independent read-only cause reviews; personal luna_fast additionally reviewed W01–W05 session/reentrancy/rollback; diffcheck and tracker schema passed. No Mac game/import/probes or new tests."
+        },
+        "job_id": "c2a50887376d40d1b35a3f144450bead",
+        "snapshot_id": "13208f481639afd99a4880dd4462f943bb6d307915e6e1837e50d0880ce9c476",
+        "implementation_state": "implemented",
+        "technical_verification_state": "passed",
+        "actual_result": "The same ordinary NewGame that failed in9f85 now opens playable W01 on changed snapshot13208f. Native walking remains supported, E moves the branch with saved fact/autocheckpoint and changed hint; walking reaches F03 and ordinary E commits prologue completion/scene.entered. No engine errors. Village construction was in progress when the1200s child limit expired; no arrival frame/tea/book/return/Continue accepted. Overall job remains FAIL(timeout), not PASS.",
+        "remaining": "PW020 ordinary full book/W01 return/Continue still open. NewGame fix is accepted independently of timed-out later integration."
       }
     },
     {
@@ -120880,7 +120916,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "After existing e79 terminal/restoration and transport recovery, verify ordinary explicit prologue SkipButton→Niva arrival→home tea D01/book handoff on current candidate; retain full forest art/hints/optional skip and D00 arrival acceptance. Reuse accepted aff33 first-action/walk and2c pause/quit, no unchanged reruns.",
+      "next_action": "First finite source slice: make existing guarded prologue Skip keyboard-accessible/discoverable while retaining configured Pause/jump and no optional-knowledge grant; verify one real Skip→Niva→tea/book route. Also retain required visible-path/F03 landmark art/readability work based on c2a frames; do not repeat unchanged forest walk or claim village readiness.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121522,6 +121558,19 @@
           "retirement_boundary": "A different current campaign fingerprint automatically disables this pair; after ordinary save slot uses current fingerprint. No general wildcard or transitive compatibility.",
           "review": "Independent actual source review verified collection, expected-fingerprint guard, codec and Continue/load callers."
         }
+      },
+      "native_prologue_c2a_2026_10_21": {
+        "job_id": "c2a50887376d40d1b35a3f144450bead",
+        "snapshot_id": "13208f481639afd99a4880dd4462f943bb6d307915e6e1837e50d0880ce9c476",
+        "evidence": "evidence/PW-020/newgame_projection_c2a50887376d40d1b35a3f144450bead/",
+        "observed": "Ordinary NewGame on changed source opens W01; supported walk F00→branch, E branch-move animation/fact/checkpoint/hint, walk→F03, visible exit prompt and E prologue completion/scene.entered observed. Game times out during connected village construction; actual arrival render/tea/book unverified. Source is not accepted as release/art quality.",
+        "confirmed_followups": [
+          "Enabled visible Skip did not activate through Tab→Enter with captured mouse; default ESC belongs to Pause. Preserve Pause and jump: blanket ui_accept skip would hijack Space/gamepadA jump and is rejected. Provide an explicit discoverable keyboard-accessible way to use the existing guarded Skip target.",
+          "Exit at F03 has no recognizable visible landmark in live frame: root required source/frame coordinates, so ordinary player wayfinding is not accepted. Improve the first scene as a coherent path with a legible destination; not isolated model polish."
+        ],
+        "userdataRestored": true,
+        "engine_errors_bytes": 0,
+        "overall_job_status": "FAIL_timeout"
       }
     },
     {
