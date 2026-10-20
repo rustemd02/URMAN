@@ -15,6 +15,7 @@ usage: generate_residents.py <spot-check log> [<anchor log>]
 from __future__ import annotations
 
 import json
+import copy
 import math
 import random
 import re
@@ -85,6 +86,29 @@ def person(slug, name, x, z, yaw, motion, scale, note, y=0.0, pool=None, speaker
     else:
         # New IDs receive an appropriate existing winter family; no distorted faces.
         params["kitPrefix"]="Mansur" if speaker=="СТАРИК" else ("Gulsina" if speaker=="СОСЕДКА" else "PhoneGuy" if pool=="kid" else "Resident")
+    if any(block.get("repeatPauseSeconds", 0) > 0 for block in previous.get("schedule", [])):
+        # Authored loops survive a fresh survey, but their vectors follow the new home pose.
+        params["schedule"] = copy.deepcopy(previous["schedule"])
+        old = previous["position"]
+        new = params["position"]
+        dyaw = params["yawDegrees"] - previous["yawDegrees"]
+        angle = math.radians(dyaw)
+
+        def move(point):
+            dx, dz = point[0] - old[0], point[2] - old[2]
+            return [round(new[0] + dx * math.cos(angle) + dz * math.sin(angle), 2),
+                    new[1] + point[1] - old[1],
+                    round(new[2] - dx * math.sin(angle) + dz * math.cos(angle), 2)]
+
+        for block in params["schedule"]:
+            for key in ("place", "safePoint"):
+                if key in block: block[key] = move(block[key])
+            if "yawDegrees" in block: block["yawDegrees"] = round(block["yawDegrees"] + dyaw, 1)
+            for point in block.get("route", []):
+                if isinstance(point, list): point[:] = move(point)
+                else:
+                    for key in ("at", "look"):
+                        if isinstance(point.get(key), list): point[key] = move(point[key])
     count[motion] += 1
 
 

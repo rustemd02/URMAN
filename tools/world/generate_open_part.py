@@ -405,6 +405,12 @@ for r in residents["entities"]:
     r["params"]["yawDegrees"] = round(r["params"]["yawDegrees"] + dyaw, 1)
     for block in r["params"].get("schedule", []):
         block["place"] = move(block["place"]); block["yawDegrees"] = round(block["yawDegrees"] + dyaw, 1)
+        if "safePoint" in block: block["safePoint"] = move(block["safePoint"])
+        for point in block.get("route", []):
+            if isinstance(point, list): point[:] = move(point)
+            else:
+                for key in ("at", "look"):
+                    if isinstance(point.get(key), list): point[key] = move(point[key])
     moved += 1
 RESIDENTS.write_text(json.dumps(residents, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 

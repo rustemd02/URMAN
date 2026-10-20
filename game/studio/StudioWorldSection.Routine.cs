@@ -143,21 +143,29 @@ public sealed partial class StudioWorldSection
                 look.AddItem("по ходу");
                 look.AddItem("на игрока");
                 if ((string?)(point?["look"] as JsonValue) == "player") look.Select(1);
-                void Update(double seconds, bool atPlayer)
+                if (point?["look"] is JsonArray { Count: 3 })
+                {
+                    look.AddItem("на заданную точку");
+                    look.Select(2);
+                }
+                void Update(double seconds, int lookChoice)
                 {
                     var next = Copy();
                     var old = next[at]!["route"]![pi]!;
-                    var coordinates = old is JsonArray bare ? bare.DeepClone() : old["at"]!.DeepClone();
-                    next[at]!["route"]![pi] = seconds <= 0 && !atPlayer ? coordinates
-                        : new JsonObject { ["at"] = coordinates, ["waitSeconds"] = seconds, ["look"] = atPlayer ? "player" : null };
-                    if (next[at]!["route"]![pi] is JsonObject written && written["look"] is null) written.Remove("look");
+                    var written = old is JsonObject existing ? (JsonObject)existing.DeepClone()
+                        : new JsonObject { ["at"] = old.DeepClone() };
+                    if (seconds > 0) written["waitSeconds"] = seconds;
+                    else written.Remove("waitSeconds");
+                    if (lookChoice == 1) written["look"] = "player";
+                    else if (lookChoice == 0) written.Remove("look");
+                    next[at]!["route"]![pi] = old is JsonArray && seconds <= 0 && lookChoice == 0 ? old.DeepClone() : written;
                     Save(next, "действие в точке пути");
                 }
 
-                waitBox.ValueChanged += value => Update(value, look.Selected == 1);
-                look.ItemSelected += item => Update(waitBox.Value, item == 1);
+                waitBox.ValueChanged += value => Update(value, look.Selected);
+                look.ItemSelected += item => Update(waitBox.Value, (int)item);
                 var pointRow = new HBoxContainer();
-                pointRow.AddChild(new Label { Text = $"Точка {pi + 1}: ждать", ThemeTypeVariation = "MutedLabel" });
+                pointRow.AddChild(new Label { Text = point?["gateAddress"] is JsonValue ? "Своя калитка: ждать" : $"Точка {pi + 1}: ждать", ThemeTypeVariation = "MutedLabel" });
                 pointRow.AddChild(waitBox);
                 pointRow.AddChild(look);
                 box.AddChild(pointRow);
@@ -182,6 +190,15 @@ public sealed partial class StudioWorldSection
             }
 
             box.AddChild(routeRow);
+            var repeat = new SpinBox { MinValue = 0, MaxValue = 600, Step = 1, Value = (double?)block["repeatPauseSeconds"] ?? 0, Suffix = "с", TooltipText = "Пауза дома перед первым выходом и между кругами. 0 — не повторять путь" };
+            repeat.ValueChanged += value =>
+            {
+                var next = Copy();
+                if (value > 0) next[at]!["repeatPauseSeconds"] = value;
+                else next[at]!.AsObject().Remove("repeatPauseSeconds");
+                Save(next, "повтор пути");
+            };
+            box.AddChild(Row("Пауза между кругами:", repeat));
             var blocked = new OptionButton();
             var policy = (string?)block["onBlocked"] ?? "go-directly";
             foreach (var (value, text) in BlockedPolicies)
@@ -290,13 +307,29 @@ public sealed partial class StudioWorldSection
             if (blocks[index] is not JsonObject block || block["place"] is not JsonArray place) continue;
             var color = colors[index % colors.Length];
             var material = new StandardMaterial3D { AlbedoColor = color, ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded, NoDepthTest = true, RenderPriority = 11 };
-            var points = new List<Vector3> { start };
-            points.AddRange((block["route"] as JsonArray ?? []).Select(point => point is JsonArray bare ? bare : point?["at"] as JsonArray).OfType<JsonArray>().Select(Lift));
+            var points = new List<Vector3?> { start };
+            var gateUnavailable = false;
+            foreach (var point in block["route"] as JsonArray ?? [])
+            {
+                if (point is JsonObject symbolic && (string?)symbolic["gateAddress"] is { } address)
+                {
+                    if (Director is { } director && director.TryResolveStreetGateWorldPoint(address, out var world))
+                        points.Add(_routineOverlay.ToLocal(world));
+                    else
+                    {
+                        points.Add(null); // Break the line instead of inventing a segment past a missing gate.
+                        gateUnavailable = true;
+                    }
+                }
+                else if ((point is JsonArray bare ? bare : point?["at"] as JsonArray) is { } coordinates)
+                    points.Add(Lift(coordinates));
+            }
             points.Add(Lift(place));
             for (var segment = 1; segment < points.Count; segment++)
             {
-                var from = points[segment - 1] + Vector3.Up * .2f;
-                var to = points[segment] + Vector3.Up * .2f;
+                if (points[segment - 1] is not { } previous || points[segment] is not { } currentPoint) continue;
+                var from = previous + Vector3.Up * .2f;
+                var to = currentPoint + Vector3.Up * .2f;
                 if (from.DistanceTo(to) < .05f) continue;
                 // A flat band along the ground, readable from above and at eye level.
                 _routineOverlay.AddChild(new MeshInstance3D
@@ -309,10 +342,10 @@ public sealed partial class StudioWorldSection
 
             _routineOverlay.AddChild(new Label3D
             {
-                Text = $"{index + 1} · {(string?)block["name"]}",
+                Text = $"{index + 1} · {(string?)block["name"]}" + (gateUnavailable ? "\nСвоя калитка пока недоступна" : ""),
                 Billboard = BaseMaterial3D.BillboardModeEnum.Enabled,
                 NoDepthTest = true, FontSize = 30, OutlineSize = 8, Modulate = color, PixelSize = .006f,
-                Position = points[^1] + Vector3.Up * 1.1f
+                Position = Lift(place) + Vector3.Up * 1.1f
             });
         }
     }

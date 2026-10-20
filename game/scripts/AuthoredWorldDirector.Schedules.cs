@@ -42,6 +42,8 @@ public partial class AuthoredWorldDirector
         public readonly List<Waypoint> Route = [];
         public int Next;
         public float WaitLeft;
+        public float RepeatPauseSeconds;
+        public float RepeatPauseLeft;
         public bool Following;
         public string? Claim;
         public string Status = "";
@@ -98,6 +100,7 @@ public partial class AuthoredWorldDirector
         run.Claim = null;
         run.BlockId = null; // re-plan the current block from the new position
         ApplyRoutines();
+        run.RepeatPauseLeft = 0; // Resume from the scene's position without another initial home pause.
     }
 
     // Accepts the placed object's ID or the character ID it shows.
@@ -144,6 +147,11 @@ public partial class AuthoredWorldDirector
 
             run.Block = next;
             CacheBlockScalars(run, next);
+            if (run.RepeatPauseSeconds > 0)
+            {
+                run.Status = "на месте";
+                AnimationCatalog.Play(run.Character, run.IdleMotion);
+            }
             run.NeedsPlan = true; // routes are probed inside the physics step
         }
     }
@@ -158,6 +166,9 @@ public partial class AuthoredWorldDirector
         run.Speed = isObject && block.TryGetProperty("speed", out var speedValue) ? speedValue.GetSingle() : DefaultSpeed;
         run.WalkMotion = Text(block, "walkMotion", DefaultWalkMotion);
         run.IdleMotion = Text(block, "motion", DefaultIdleMotion);
+        run.RepeatPauseSeconds = isObject && block.TryGetProperty("repeatPauseSeconds", out var pause)
+            ? Math.Max(0, pause.GetSingle()) : 0;
+        run.RepeatPauseLeft = run.RepeatPauseSeconds;
         run.FollowDistance = DefaultFollowDistance;
         run.FollowLose = DefaultFollowLose;
         if (isObject && block.TryGetProperty("follow", out var follow) && follow.ValueKind == JsonValueKind.Object)
@@ -176,6 +187,11 @@ public partial class AuthoredWorldDirector
             if (run.Claim is not null || !run.Item.Root.Visible) continue;
             if (run.NeedsPlan)
             {
+                if (run.RepeatPauseLeft > 0)
+                {
+                    run.RepeatPauseLeft = Math.Max(0, run.RepeatPauseLeft - delta);
+                    continue;
+                }
                 run.NeedsPlan = false;
                 Plan(run);
             }
@@ -210,7 +226,7 @@ public partial class AuthoredWorldDirector
                 {
                     run.WaitLeft = waypoint.Wait;
                     run.Status = $"ждёт {waypoint.Wait:0.#} с";
-                    AnimationCatalog.Play(run.Character, "urman.anim:idle");
+                    AnimationCatalog.Play(run.Character, run.RepeatPauseSeconds > 0 ? run.IdleMotion : "urman.anim:idle");
                 }
                 else
                 {
@@ -299,10 +315,26 @@ public partial class AuthoredWorldDirector
         var points = new List<Waypoint>();
         if (block.TryGetProperty("route", out var route))
         {
-            points.AddRange(route.EnumerateArray().Select(ReadWaypoint));
+            foreach (var point in route.EnumerateArray())
+            {
+                if (!TryReadWaypoint(point, out var waypoint))
+                {
+                    run.Route.Clear();
+                    run.Next = 0;
+                    run.WaitLeft = 0;
+                    run.Status = $"ворота {Text(point, "gateAddress", "")} не найдены однозначно — остался на месте";
+                    AnimationCatalog.Play(run.Character, run.IdleMotion);
+                    return;
+                }
+                points.Add(waypoint);
+            }
         }
 
         points.Add(new Waypoint(place, 0, null, false));
+        // Resolve the entire route before replacing a live one or starting its motion.
+        run.Route.Clear();
+        run.Next = 0;
+        run.WaitLeft = 0;
         var from = run.Item.Root.Position;
         var blockedAt = (Vector3?)null;
         foreach (var point in points)
@@ -325,6 +357,7 @@ public partial class AuthoredWorldDirector
             {
                 case "stay":
                     run.Status = $"путь перекрыт у {where} — остался на месте";
+                    if (run.RepeatPauseSeconds > 0) AnimationCatalog.Play(run.Character, run.IdleMotion);
                     return;
                 case "safe-point" when block.TryGetProperty("safePoint", out _):
                     run.Item.Root.Position = Ground(ReadVector(block, "safePoint"));
@@ -353,15 +386,46 @@ public partial class AuthoredWorldDirector
         AnimationCatalog.Play(run.Character, Text(block, "walkMotion", "urman.anim:walk"));
     }
 
-    // A route point is [x, y, z] or { "at": [x, y, z], "waitSeconds": 3, "look": [x, y, z] | "player" }.
-    private static Waypoint ReadWaypoint(JsonElement point)
+    // Object points may name an actual street gate instead of an authored vector.
+    private bool TryReadWaypoint(JsonElement point, out Waypoint waypoint)
     {
-        if (point.ValueKind == JsonValueKind.Array) return new(Ground(AuthoredWorldPlot.ToVector3(point)), 0, null, false);
+        if (point.ValueKind == JsonValueKind.Array)
+        {
+            waypoint = new(Ground(AuthoredWorldPlot.ToVector3(point)), 0, null, false);
+            return true;
+        }
+        Vector3 at;
+        if (point.TryGetProperty("gateAddress", out var address))
+        {
+            if (!TryResolveStreetGateWorldPoint(address.GetString() ?? "", out var world)) { waypoint = default; return false; }
+            at = ToLocal(world);
+        }
+        else at = Ground(ReadVector(point, "at"));
         var wait = point.TryGetProperty("waitSeconds", out var seconds) ? seconds.GetSingle() : 0f;
         var hasLook = point.TryGetProperty("look", out var look);
         var atPlayer = hasLook && look.ValueKind == JsonValueKind.String && look.GetString() == "player";
         Vector3? lookAt = hasLook && look.ValueKind == JsonValueKind.Array ? Ground(AuthoredWorldPlot.ToVector3(look)) : null;
-        return new(Ground(ReadVector(point, "at")), wait, lookAt, atPlayer);
+        waypoint = new(at, wait, lookAt, atPlayer);
+        return true;
+    }
+
+    internal bool TryResolveStreetGateWorldPoint(string address, out Vector3 world)
+    {
+        world = default;
+        Node3D? gate = null;
+        var gates = GetTree().GetNodesInGroup("authored_routine_street_gate");
+        foreach (var node in gates)
+        {
+            if (node is not Node3D candidate || !candidate.IsVisibleInTree()
+                || candidate.GetParent()?.Name != "YardFences" || candidate.GetParent()?.GetParent() != GetParent()
+                || candidate.GetMeta("addressId").AsString() != address) continue;
+            if (gate is not null) return false;
+            gate = candidate;
+        }
+        if (gate is null) return false;
+        // pathTarget is already grounded in the fence parent's coordinates.
+        world = gate.GetParent<Node3D>().ToGlobal(gate.GetMeta("pathTarget").AsVector3());
+        return true;
     }
 
     private void Arrive(RoutineRun run, bool faceBlock = true)
@@ -376,6 +440,13 @@ public partial class AuthoredWorldDirector
         if (!run.Status.StartsWith("путь перекрыт", StringComparison.Ordinal)) run.Status = "на месте";
         if (!played.Played) run.Status += $"; занятие не проиграно: {played.Problem}";
         run.Item.Root.SetMeta("routineBlock", run.BlockId ?? "");
+        // Only explicit, non-empty loops repeat, with a finite idle pause at home.
+        if (run.RepeatPauseSeconds > 0 && block.TryGetProperty("route", out var route) && route.GetArrayLength() > 0
+            && !run.Status.StartsWith("путь перекрыт", StringComparison.Ordinal))
+        {
+            run.RepeatPauseLeft = run.RepeatPauseSeconds;
+            run.NeedsPlan = true;
+        }
     }
 
     /// <summary>First solid thing between two ground points at knee-to-chest height, sampled along the ground.</summary>

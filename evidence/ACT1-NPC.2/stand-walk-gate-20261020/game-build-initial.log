@@ -1,0 +1,9 @@
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/AuthoredWorldDirector.Schedules.cs(400,13): error CS1674: "Array<Node>": тип, используемый в операторе using, должен реализовывать "System.IDisposable". [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+
+Ошибка сборки.
+
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/AuthoredWorldDirector.Schedules.cs(400,13): error CS1674: "Array<Node>": тип, используемый в операторе using, должен реализовывать "System.IDisposable". [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+    Предупреждений: 0
+    Ошибок: 1
+
+Прошло времени 00:00:14.49

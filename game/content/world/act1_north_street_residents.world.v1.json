@@ -30,7 +30,17 @@
               143.9
             ],
             "yawDegrees": -60.0,
-            "motion": "urman.anim:idle-plain"
+            "motion": "urman.anim:idle-plain",
+            "walkMotion": "urman.anim:walk-plain",
+            "speed": 1.1,
+            "onBlocked": "stay",
+            "repeatPauseSeconds": 12,
+            "route": [
+              {
+                "gateAddress": "ADR-NS-E-N1",
+                "waitSeconds": 6
+              }
+            ]
           }
         ],
         "greeting": "neighbor-f",
@@ -75,7 +85,17 @@
               134.37
             ],
             "yawDegrees": 190.0,
-            "motion": "urman.anim:idle-plain"
+            "motion": "urman.anim:idle-plain",
+            "walkMotion": "urman.anim:walk-plain",
+            "speed": 1.1,
+            "onBlocked": "stay",
+            "repeatPauseSeconds": 17,
+            "route": [
+              {
+                "gateAddress": "ADR-NS-E-S1",
+                "waitSeconds": 8
+              }
+            ]
           }
         ],
         "greeting": "neighbor-m",

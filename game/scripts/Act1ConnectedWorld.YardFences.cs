@@ -890,6 +890,7 @@ public partial class Act1ConnectedWorld
         anchor.SetMeta("gateVariant", "cart-double-leaf");
         anchor.SetMeta("minPassageM", clearWidth);
         anchor.SetMeta("pathTarget", at - back * .6f);
+        anchor.AddToGroup("authored_routine_street_gate");
         root.AddChild(anchor);
         foreach (var sign in new[] { -1f, 1f })
         {
