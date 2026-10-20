@@ -4,6 +4,19 @@ namespace Urman.Godot;
 
 public static class PainterlyMaterialLibrary
 {
+    private const string PainterValueNoise = """
+        float painter_value_noise(vec2 p) {
+            vec2 i = floor(p);
+            vec2 f = fract(p);
+            vec2 u = f * f * (3.0 - 2.0 * f);
+            float a = fract(sin(dot(i, vec2(127.1, 311.7))) * 43758.5453);
+            float b = fract(sin(dot(i + vec2(1.0, 0.0), vec2(127.1, 311.7))) * 43758.5453);
+            float c = fract(sin(dot(i + vec2(0.0, 1.0), vec2(127.1, 311.7))) * 43758.5453);
+            float d = fract(sin(dot(i + vec2(1.0, 1.0), vec2(127.1, 311.7))) * 43758.5453);
+            return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+        }
+        """;
+
     private const string VertexDeformation = """
             // Ground microrelief is normal detail: its sub-centimetre height
             // cannot be represented by metre-wide base triangles. Displacing
@@ -199,16 +212,7 @@ public static class PainterlyMaterialLibrary
             return x_projection * blend.x + y_projection * blend.y + z_projection * blend.z;
         }
 
-        float painter_value_noise(vec2 p) {
-            vec2 i = floor(p);
-            vec2 f = fract(p);
-            vec2 u = f * f * (3.0 - 2.0 * f);
-            float a = fract(sin(dot(i, vec2(127.1, 311.7))) * 43758.5453);
-            float b = fract(sin(dot(i + vec2(1.0, 0.0), vec2(127.1, 311.7))) * 43758.5453);
-            float c = fract(sin(dot(i + vec2(0.0, 1.0), vec2(127.1, 311.7))) * 43758.5453);
-            float d = fract(sin(dot(i + vec2(1.0, 1.0), vec2(127.1, 311.7))) * 43758.5453);
-            return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
-        }
+        """ + "\n" + PainterValueNoise + "\n" + """
 
         vec3 cell_tint(vec3 p, float strength) {
             vec2 cell = floor(p.xz / 6.0);
@@ -662,6 +666,36 @@ public static class PainterlyMaterialLibrary
         }
         """;
 
+    private const string ImportedRoofSnowShaderSource = """
+        shader_type spatial;
+        render_mode blend_mix, cull_back, depth_draw_never;
+
+        uniform vec4 snow_color : source_color;
+        uniform float snow_coverage;
+        varying vec3 world_position;
+        varying vec3 world_normal;
+        """ + "\n" + PainterValueNoise + "\n" + """
+
+        void vertex() {
+            world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+            world_normal = normalize(MODEL_NORMAL_MATRIX * NORMAL);
+        }
+
+        void fragment() {
+            float snow_cover = smoothstep(0.62, 0.86, normalize(world_normal).y) * snow_coverage;
+            snow_cover *= 0.72 + 0.48 * painter_value_noise(
+                world_position.xz * 0.5 + world_position.y * 0.21);
+            snow_cover = clamp(snow_cover, 0.0, 1.0);
+            if (snow_cover <= 0.001) discard;
+            ALPHA = snow_cover;
+            ALBEDO = snow_color.rgb
+                * (0.95 + 0.05 * painter_value_noise(world_position.xz * 1.9));
+            ROUGHNESS = 0.92;
+            SPECULAR = 0.05;
+            METALLIC = 0.0;
+        }
+        """;
+
     private static readonly Shader PainterlyShader = new() { Code = ShaderSource };
     private static readonly Shader RigidPainterlyShader = new()
     {
@@ -995,6 +1029,10 @@ public static class PainterlyMaterialLibrary
     };
 
     private static readonly Dictionary<string, ShaderMaterial> Materials = new(StringComparer.OrdinalIgnoreCase);
+    private const float ImportedRoofSnowCoverage = .88f;
+    // This overlay has only snow uniforms and stays outside the general material sweeps.
+    private static Shader? _importedRoofSnowShader;
+    private static ShaderMaterial? _importedRoofSnowMaterial;
 
 
     private static bool _lowQualityMaterials;
@@ -1062,6 +1100,21 @@ public static class PainterlyMaterialLibrary
         _boundTrampleOrigin = origin;
         _boundTrampleExtent = extent;
         _boundTrampleMaterialCount = Materials.Count;
+    }
+
+    /// <summary>Snow-only NextPass for imported roofs; the base material keeps its PBR finish.</summary>
+    public static ShaderMaterial ForImportedRoofSnow()
+    {
+        if (_importedRoofSnowMaterial is { } existing) return existing;
+        var material = new ShaderMaterial
+        {
+            Shader = _importedRoofSnowShader ??= new Shader { Code = ImportedRoofSnowShaderSource },
+            RenderPriority = 1
+        };
+        material.SetShaderParameter("snow_color", _snowMoodColor ?? AtmosphereProfile.NeutralSnowColor);
+        material.SetShaderParameter("snow_coverage", ImportedRoofSnowCoverage * _snowMoodCoverage);
+        _importedRoofSnowMaterial = material;
+        return material;
     }
 
     /// <summary>
@@ -1151,6 +1204,8 @@ public static class PainterlyMaterialLibrary
         var coverage = (float)System.Math.Clamp(coverageScale, 0f, 1f);
         var sparkle = (float)System.Math.Clamp(sparkleScale, 0f, 2f);
         var frost = (float)System.Math.Clamp(frostScale, 0f, 2f);
+        var roofSnowChanged = !_snowMoodColor.HasValue || _snowMoodColor.Value != effective
+            || _snowMoodCoverage != coverage;
         // Skip the full cache walk only when nothing changed and no material was
         // added since the last broadcast (the same guard SetSnowTrample uses).
         if (_snowMoodMaterialCount == Materials.Count
@@ -1172,6 +1227,11 @@ public static class PainterlyMaterialLibrary
             material.SetShaderParameter("snow_coverage", base_.Coverage * coverage);
             material.SetShaderParameter("snow_sparkle", base_.Sparkle * sparkle);
             material.SetShaderParameter("frost_roughness", base_.Frost * frost);
+        }
+        if (roofSnowChanged && _importedRoofSnowMaterial is { } roofSnow)
+        {
+            roofSnow.SetShaderParameter("snow_color", effective);
+            roofSnow.SetShaderParameter("snow_coverage", ImportedRoofSnowCoverage * coverage);
         }
         _snowMoodColor = effective;
         _snowMoodCoverage = coverage;
@@ -1204,6 +1264,7 @@ public static class PainterlyMaterialLibrary
     internal static void ReleaseAfterSceneDisposal()
     {
         Materials.Clear();
+        _importedRoofSnowMaterial = null;
         _diagnosticNeutral = false;
         _boundTrampleMask = null;
         _boundTrampleMaterialCount = -1;
@@ -1239,6 +1300,9 @@ public static class PainterlyMaterialLibrary
         if (GodotObject.IsInstanceValid(TwoSidedPainterlyShader)) TwoSidedPainterlyShader.Dispose();
         if (GodotObject.IsInstanceValid(CutoutShader)) CutoutShader.Dispose();
         if (GodotObject.IsInstanceValid(WheelSnowPatchShader)) WheelSnowPatchShader.Dispose();
+        if (_importedRoofSnowShader is { } roofSnowShader && GodotObject.IsInstanceValid(roofSnowShader))
+            roofSnowShader.Dispose();
+        _importedRoofSnowShader = null;
     }
 
     /// <summary>S05: a local wheel-side snow variant. Shared trodden snow stays

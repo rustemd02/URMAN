@@ -4717,6 +4717,26 @@
       "provenance": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/near-only-structure.json",
       "sourceSha256": "0cf1b02366ff6a047a914873e7ef2723813986993a8056326c435f89069b3cfa",
       "derivedSha256": "0cf1b02366ff6a047a914873e7ef2723813986993a8056326c435f89069b3cfa"
+    },
+    {
+      "id": "village.h049.outbuilding.meshy-pbr.v1",
+      "source": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/h049-derived-source-v1.tar.xz (locked roof-body member; local retained source)",
+      "derived": "game/assets/models/act1/h049-outbuilding-pbr-v1.glb",
+      "generator": "Existing own-game H049 shed → built-in image_gen multiview reference → paid Meshy image-to-3D/remesh → bounded two-face local repair → deterministic roof/body partition → RGB8 PNG max2048 resize with byte-identical geometry and PBR bindings",
+      "license": "Owner-authorized own-game/ImageGen inputs and paid Meshy generation; applicable Meshy terms and full rights acceptance remain PW-093. Not CC0/free-planCCBY. Source receipts/provenance retained.",
+      "scale": 2.205167226,
+      "triangleBudget": 5538,
+      "textureBudget": 2048,
+      "materials": [
+        "Two OPAQUE PBR surfaces: body5415 and H049_Roof_PBR123; four shared RGB8 PNG2048 baseColor/emission/normal/metallicRoughness maps. Roof-only local NextPass uses existing snow mood; base PBR bindings unchanged."
+      ],
+      "collision": "Presentation-only replacement of exact addressed H049 Outbuilding after original surface collision/contact construction. Preserve live component placement/scale, house/root/Studio model override and original collider. No new door action. Slight footprint mismatch requires native clearance/support acceptance.",
+      "lod": "5538 triangles versus donor524; no lower LOD or performance claim. Two base surfaces plus one roof snow pass.",
+      "status": "Source and binary readback reviewed; H049-only late graft and shared roof snow pass implemented. Final affected Game compile14.24s0warnings/0errors. Actual Godot4.7.1 import, winter full-scene/movement/art/performance pending.",
+      "releaseDisposition": "compile-verified-native-art-performance-pending",
+      "provenance": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/h049-runtime-2k-receipt.json",
+      "sourceSha256": "4e7c9d6cedf4eba93beedcde2c7bb2c031c85ab4af7f2050e444de1773c8bd68",
+      "derivedSha256": "16331d91eab3fb1ad011e044007c14ebd6f160470f40b443dee090bd743de96e"
     }
   ]
 }

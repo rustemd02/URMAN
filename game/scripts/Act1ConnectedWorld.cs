@@ -539,6 +539,7 @@ public partial class Act1ConnectedWorld : Node3D
         // Keep addressed Variant A source dwellings through every authored
         // contact and collision pass, then graft their opaque PBR presentation.
         GraftPrivateVariantAPbrFamily();
+        GraftH049OutbuildingPbr();
         CallDeferred(nameof(DisableBlockersUnderHiddenPresentation));
         CallDeferred(nameof(ReapplyLogicalZonePresentationSuppressions));
         // Parcel facades are attached across several build steps, so the painted

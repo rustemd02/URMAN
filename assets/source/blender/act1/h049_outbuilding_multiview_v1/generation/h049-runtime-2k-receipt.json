@@ -1,0 +1,238 @@
+{
+  "schema": "h049-runtime-2k-pbr-candidate/v1",
+  "status": "runtime_asset_candidate_frozen_native_art_performance_pending",
+  "producer": "prepare_h049_runtime.py",
+  "producer_sha256": "60ba1798b27b52d9c6892995e1a823d0af3185769ae52841d2e3461dccbf3232",
+  "method_reference": "assets/source/blender/act1/aidar_meshy_v1/prepare_aidar_player_runtime.py",
+  "method": "Pillow thumbnail max2048 LANCZOS; same RGB8 PNG mode, optimize=True; direct GLB view repack only",
+  "pillow_version": "12.2.0",
+  "archive": {
+    "path": "h049-derived-source-v1.tar.xz",
+    "bytes": 38015120,
+    "sha256": "ecc1811b5fab0d2101637e4553b5026b4106e44ebdb0512dd0c247826b8a979f",
+    "member": "h049-roof-body-surfaces-v1.glb",
+    "member_sha256": "4e7c9d6cedf4eba93beedcde2c7bb2c031c85ab4af7f2050e444de1773c8bd68",
+    "member_bytes": 38681780,
+    "verification": "Full archive SHA, full decompressed member SHA/size, and restored file equality verified before conversion; archive retained"
+  },
+  "input": {
+    "path": "h049-roof-body-surfaces-v1.glb",
+    "sha256": "4e7c9d6cedf4eba93beedcde2c7bb2c031c85ab4af7f2050e444de1773c8bd68",
+    "bytes": 38681780
+  },
+  "output": {
+    "path": "game/assets/models/act1/h049-outbuilding-pbr-v1.glb",
+    "sha256": "16331d91eab3fb1ad011e044007c14ebd6f160470f40b443dee090bd743de96e",
+    "bytes": 12317584
+  },
+  "images": [
+    {
+      "image": 0,
+      "name": "texture_0_emit",
+      "buffer_view": 4,
+      "roles_and_color_space_semantics": [
+        "emissive_sRGB"
+      ],
+      "format_before_and_after": "PNG",
+      "mode_before_and_after": "RGB8",
+      "bands_before_and_after": [
+        "R",
+        "G",
+        "B"
+      ],
+      "size_before": [
+        4096,
+        4096
+      ],
+      "size_after": [
+        2048,
+        2048
+      ],
+      "bytes_before": 254126,
+      "bytes_after": 21084,
+      "sha256_before": "b9dcd13dd8e27ce630facc2acd325222e4fcd008914d771daa7a9663c739e23b",
+      "sha256_after": "4afec6e9e5847ecfed144b616d26200d3c811317128fff1afb4fc1f2e81eb1e8",
+      "channel_policy": "Independent existing RGB components only; no swizzle, normal reorientation/renormalization, color conversion, grade or UV rebake"
+    },
+    {
+      "image": 1,
+      "name": "normal",
+      "buffer_view": 5,
+      "roles_and_color_space_semantics": [
+        "normal_linear_data"
+      ],
+      "format_before_and_after": "PNG",
+      "mode_before_and_after": "RGB8",
+      "bands_before_and_after": [
+        "R",
+        "G",
+        "B"
+      ],
+      "size_before": [
+        4096,
+        4096
+      ],
+      "size_after": [
+        2048,
+        2048
+      ],
+      "bytes_before": 13143303,
+      "bytes_after": 4137104,
+      "sha256_before": "4e704d89891700ad5d0002c5a3ad7e6f5bf0d02dfe58d10195959e2c5cd3afb4",
+      "sha256_after": "4a221e90c41b1112ed2b5bd465c92fe39b45c92d06b783c8fe7d01c88fcf2bdb",
+      "channel_policy": "Independent existing RGB components only; no swizzle, normal reorientation/renormalization, color conversion, grade or UV rebake"
+    },
+    {
+      "image": 2,
+      "name": "texture_0",
+      "buffer_view": 6,
+      "roles_and_color_space_semantics": [
+        "baseColor_sRGB"
+      ],
+      "format_before_and_after": "PNG",
+      "mode_before_and_after": "RGB8",
+      "bands_before_and_after": [
+        "R",
+        "G",
+        "B"
+      ],
+      "size_before": [
+        4096,
+        4096
+      ],
+      "size_after": [
+        2048,
+        2048
+      ],
+      "bytes_before": 16840775,
+      "bytes_after": 5082649,
+      "sha256_before": "563049f73caaace8f3e62c7ec20032c071dd84774f2466788254429946ae098b",
+      "sha256_after": "1a93a301b5dde278fa1fc78b107fe3bbc50ba104178253374e8b5cd536a50122",
+      "channel_policy": "Independent existing RGB components only; no swizzle, normal reorientation/renormalization, color conversion, grade or UV rebake"
+    },
+    {
+      "image": 3,
+      "name": "texture_0_metallic_roughness",
+      "buffer_view": 7,
+      "roles_and_color_space_semantics": [
+        "metallicRoughness_linear_data"
+      ],
+      "format_before_and_after": "PNG",
+      "mode_before_and_after": "RGB8",
+      "bands_before_and_after": [
+        "R",
+        "G",
+        "B"
+      ],
+      "size_before": [
+        4096,
+        4096
+      ],
+      "size_after": [
+        2048,
+        2048
+      ],
+      "bytes_before": 7793750,
+      "bytes_after": 2426928,
+      "sha256_before": "dac4f7ada519c0b3d9c2503fbb228c5601a94d3872d14035c2c0c4b688ab1119",
+      "sha256_after": "553848c3516f31d713973e9c1bd7f774a8be4b3ae7ce2c45faccd6966fc6d1c2",
+      "channel_policy": "Independent existing RGB components only; no swizzle, normal reorientation/renormalization, color conversion, grade or UV rebake"
+    }
+  ],
+  "byte_identical_nonimage_buffer_views": [
+    {
+      "buffer_view": 0,
+      "bytes": 102588,
+      "sha256": "7026f90c78c19d3bbfd3256b2615e3035b5ea05263979108fba4aa017294e14e"
+    },
+    {
+      "buffer_view": 1,
+      "bytes": 102588,
+      "sha256": "d3cf29c208939740ae84069962dc5bbd128888c50e405612902c6fc75683e589"
+    },
+    {
+      "buffer_view": 2,
+      "bytes": 68392,
+      "sha256": "bd1d2cc012a4c1dfc3420d2aa9c0be7b8daccd999fdf5a809858437eb7b06ed0"
+    },
+    {
+      "buffer_view": 3,
+      "bytes": 33228,
+      "sha256": "a96686e3a1d39fdbdb9f3c4bba50fb8a1c07733ab8aa58353404dfcb883dda3f"
+    },
+    {
+      "buffer_view": 8,
+      "bytes": 102660,
+      "sha256": "951eaa93a36054d9ff173467912045d04e9174ce43261e446a17bf758b15c203"
+    },
+    {
+      "buffer_view": 9,
+      "bytes": 102660,
+      "sha256": "04a05cb89af5ec73829a4021b56ac8d0457783667920ab6b923295424fda827b"
+    },
+    {
+      "buffer_view": 10,
+      "bytes": 68440,
+      "sha256": "51f2def85233b3eceb63e206f6c7b19f09d288aa4a02b5de4c580710adf6f463"
+    },
+    {
+      "buffer_view": 11,
+      "bytes": 33228,
+      "sha256": "1699de5a14aa6e5e93e73472a3d966bf85f00b2b761d88e4b33d4d6ed97f40ee"
+    },
+    {
+      "buffer_view": 12,
+      "bytes": 32490,
+      "sha256": "586ea7719adfd93b81f3267de7f901b8a6f7bc06f20dcc5226b56ae97ad600b8"
+    },
+    {
+      "buffer_view": 13,
+      "bytes": 738,
+      "sha256": "29c1c798a87d4f61f96f39a43ddc7e44e5bd5c4236ba0c687c4b01ce4fdeca29"
+    }
+  ],
+  "unchanged_json_sections": [
+    "accessors",
+    "asset",
+    "images",
+    "materials",
+    "meshes",
+    "nodes",
+    "samplers",
+    "scene",
+    "scenes",
+    "textures"
+  ],
+  "all_ordered_geometry_indices_positions_normals_uv_byte_identical": true,
+  "materials_texture_bindings_image_roles_nodes_transforms_unchanged": true,
+  "primitive_count": 2,
+  "primitive_triangle_counts": [
+    5415,
+    123
+  ],
+  "total_triangles": 5538,
+  "vertex_attribute_count": 8555,
+  "additional_meshy_credits": 0,
+  "acceptance": "Prepared asset candidate only. Godot import, native winter/full-scene/art/performance acceptance pending; no renderer/game/build/network called",
+  "restore_command": "python3 assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/prepare_h049_runtime.py --restore-input",
+  "restore_policy": "Only the locked member; explicit --restore-input refuses any existing destination. --prepare never overwrites output/receipt.",
+  "cleanup": {
+    "deleted_bytes": 38681780,
+    "retained": "Unique original archive, recipe/receipt and only named 2K output; no external extracted map or duplicate generated GLB",
+    "deleted_path": "h049-roof-body-surfaces-v1.glb",
+    "deleted_sha256": "4e7c9d6cedf4eba93beedcde2c7bb2c031c85ab4af7f2050e444de1773c8bd68",
+    "lsof_no_handles": true,
+    "reason": "Exact restored duplicate of full-SHA-verified retained lossless archive member"
+  },
+  "guarded_current_producer_sha256": "9276dfa6e595e549d2567c6a524ef1353decafa734b4ee4cd1d31a8a08fb8964",
+  "postrun_guard_amendment": {
+    "change": "Only early explicit if not __debug__: RuntimeError before imports/PIL or file operations; refuses optimized Python that would remove assert integrity/overwrite guards. No generation or algorithm change.",
+    "executed_producer_sha256_preserved": "60ba1798b27b52d9c6892995e1a823d0af3185769ae52841d2e3461dccbf3232",
+    "verification_command": "python3 -O assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/prepare_h049_runtime.py --help",
+    "exit_code": 1,
+    "result": "Rejected before imports or argument parsing with required RuntimeError; bounded source-directory snapshot and recipe/receipt/output SHA identical across command.",
+    "asset_regenerated": false,
+    "output_changed": false,
+    "output_sha256_verified_unchanged": "16331d91eab3fb1ad011e044007c14ebd6f160470f40b443dee090bd743de96e"
+  }
+}

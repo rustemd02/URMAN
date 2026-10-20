@@ -110963,7 +110963,7 @@
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_confirmed",
         "new_job_submitted": false,
-        "last_status_query": "20.10 query launched2026-10-20T09:29:28.361489Z/12:29Moscow after23min backoff: same e79 CLIexit1 urlopen timed out; raw evidence/PW-020/player-facing-fixes-20261020/station-status-0929.log. Authoritative terminal/restoration still unknown; no new job/input/restart/VPN changes.",
+        "last_status_query": "20.10 query launched2026-10-20T10:24:25Z/13:24Moscow after21min backoff: same e79 CLIexit1 urlopen timed out; raw evidence/PW-093/h049-runtime-source-20261020/station-status-1025.log. Terminal/restoration still unknown; no new job/input/restart/VPN changes.",
         "local_diagnosis": "Happ default VPN route and Tailscale self-signed relay certificate are observed; causal hop is unproven. Owner explicitly answered VPN не трогать on20.10. No disconnect/reconnect or route/cert/daemon changes; previous permission request is resolved as DENIED.",
         "owner_network_constraint": "VPN не трогать. Preserve current Happ connection/configuration; do not re-request the same disconnect experiment without a new owner instruction."
       },
@@ -144379,7 +144379,7 @@
         }
       },
       "h049_outbuilding_multiview_generation_2026_10_20": {
-        "state": "two_surface_source_prepared_snow_adapter_runtime_HOLD",
+        "state": "source_integrated_compile_verified_native_HOLD",
         "active_owner": null,
         "folder": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/",
         "client_commit": "9e4c04fe",
@@ -144418,8 +144418,8 @@
         "remesh_bytes": 38340704,
         "remesh_actual_triangles": 5538,
         "root_remesh_review": "Root personally inspected all five actual remesh PNGs: new black triangular void in rear plinth and open vertical front-gable slit above door are absent in corresponding raw views. Candidate fails exterior construction gate despite preserved one-door/one-window layout. No runtime promotion.",
-        "remaining": "Original paid remesh remains rejected and immutable; one derived two-face local candidate now accepted only as source preparation under local_repair_stage_2026_10_20. Unique raw/remesh archives and derived source retained; no more paid calls. Need stable roof region/mask, PBR-preserving winter response, runtime texture/mesh budget and whole-scene/support/collision/LOD/performance/art/movement acceptance.",
-        "next_action": "Restore derived4e7c9d6c from roof_region_source_stage_2026_10_20.archive and use stableH049_Roof_PBR surface as input to a bounded snow-only adapter preservingPBR. Do not redo roof selection/remesh/paidgeneration. Runtime budget and actual wholewinter scene/native/performance/art remain open; ordinary book/play/save/Continue stays primary release priority when protected station returns.",
+        "remaining": "Native Godot4.7.1 import/shader and Forward+ equal-depth/transparent ordering, full winter scene/movement/art, support/clearance/collision mismatch (~2.5cm side/~3.2cm front/back after live.9), LOD/performance remain unverified.5538tri vs donor524;2base surfaces+1roof snow pass. Excluded roof edge facets/rightstrip remain body; no full snow coverage acceptance.",
+        "next_action": "After authoritative e79 terminal/userdataRestored, use existing protected native route to inspect wholewinter H049 and movement/support/clearance/shader/performance against accepted village frame; no more paid generation or roof repartition. Ordinary book/play/return/save/Continue remains primary release gate.",
         "archive_cleanup": {
           "state": "closed_unique_outputs_losslessly_archived_unpacked_duplicates_removed",
           "no_open_handles": true,
@@ -144519,6 +144519,45 @@
             "unpacked_duplicates_removed": true
           },
           "cleanup_attempt": "First archive attempt rejected filters keyword at tarfile wrapper before compression; sources preserved, owned tiny partial removed. Corrected filter owner to LZMAFile, full two-member decompression/SHA and no-open-handles checks passed before deleting unpacked duplicates. No model/render repeat."
+        },
+        "snow_runtime_source_stage_2026_10_20": {
+          "state": "source_integrated_compile_verified_native_HOLD",
+          "active_owner": null,
+          "baseline_commit": "46f966bc",
+          "question": "Can the prepared two-surface H049 visual replace only the addressed outbuilding while keeping its original contacts, collision, Studio overrides and underlying PBR, with a roof-only winter overlay and bounded texture budget?",
+          "inputs": [
+            "roof_region_source_stage_2026_10_20 archive/member hashes",
+            "Act1ConnectedWorld.VariantAPbr.cs existing late presentation graft",
+            "PainterlyMaterialLibrary.cs existing snow mood owner"
+          ],
+          "targets": [
+            "game/scripts/PainterlyMaterialLibrary.cs",
+            "game/scripts/Act1ConnectedWorld.H049Pbr.cs",
+            "game/scripts/Act1ConnectedWorld.cs",
+            "game/assets/models/act1/h049-outbuilding-pbr-v1.glb",
+            "assets/asset_registry.json",
+            "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation"
+          ],
+          "scope": "One H049 outbuilding visual; no other parcels, source collision, gameplay state, world placement, weather owner, paid generation or VPN changes. Texture max2048 preserving PBR semantics. Shared roof-only snow material remains outside generic painterly cache.",
+          "verification": "Root independently parsed archived4e7 source and actual1633 runtime GLB: all10 nonimage views literal, unchanged non-buffer JSON sections/materials/nodes/transforms,4PNG2048RGB8,5415+123tri. Independent personal luna_fast spec then quality review accepted PML/asset/graft; found guards corrected and re-reviewed. Final affected Game compile14.24s exit0/0warnings/0errors after whitelist correction; prior18.36s compile applies only before correction. No new tests, Mac Godot/game/import or new station job.",
+          "remaining": "Native Godot4.7.1 import/shader and Forward+ equal-depth/transparent ordering, full winter scene/movement/art, support/clearance/collision mismatch (~2.5cm side/~3.2cm front/back after live.9), LOD/performance remain unverified.5538tri vs donor524;2base surfaces+1roof snow pass. Excluded roof edge facets/rightstrip remain body; no full snow coverage acceptance.",
+          "next_action": "After authoritative e79 terminal/userdataRestored, use existing protected native route to inspect wholewinter H049 and movement/support/clearance/shader/performance against accepted village frame; no more paid generation or roof repartition. Ordinary book/play/return/save/Continue remains primary release gate.",
+          "result": "One H049-only late presentation graft after original contacts/collision. Source21visual meshes hidden only after fully checked candidate attach; original component/root/collider/Studio override and live growth/placement preserved. Raw-unit candidate uniformly maps to3.10m/source floor.02/footcentre, no extra yaw or .9. Only local duplicate roof PBR receives shared snow-only NextPass. Body/material maps unchanged; no new gameplay or weather owner.",
+          "asset": {
+            "path": "game/assets/models/act1/h049-outbuilding-pbr-v1.glb",
+            "bytes": 12317584,
+            "sha256": "16331d91eab3fb1ad011e044007c14ebd6f160470f40b443dee090bd743de96e",
+            "triangles": 5538,
+            "surfaces": [
+              5415,
+              123
+            ],
+            "images": "4 RGB8 PNG2048; bindings and data channels preserved",
+            "receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/h049-runtime-2k-receipt.json"
+          },
+          "compile_log": "evidence/PW-093/h049-runtime-source-20261020/affected-game-build-final.log",
+          "review_corrections": "Imported node blacklist replaced by exact plainNode3D/MeshInstance3D whitelist plus nil script/identity checks. Recipe refuses optimized Python before imports/files so assert integrity guards cannot disappear. Executed producer SHA preserved; post-run guard amendment/current SHA recorded; -O --help denied without file changes, no asset regeneration.",
+          "cleanup": "Removed only restored38,681,780B4K member after full retained archive/member/source SHA and no-open-handles check. Unique lossless archive retained; one12,317,584B runtime candidate, no extracted maps or duplicate output. No new paid calls; existing total425/4000 unchanged."
         }
       }
     },
