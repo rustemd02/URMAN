@@ -275,8 +275,7 @@ public partial class Main
         var dynamicPaths = sceneId switch
         {
             PrologueSceneId or ForestSceneId => W01Controller.DynamicResourcePaths(),
-            RiverSceneId => PainterlyMaterialLibrary.DynamicResourcePaths(new[]
-                { "grass", "wood_cut", "grass_tuft", "wood_carved", "leaf_birch", "cloth", "paper" }),
+            RiverSceneId => W02Controller.DynamicResourcePaths(),
             HousePhotoSceneId => W03Controller.DynamicResourcePaths(),
             CommonPhotoSceneId => W04Controller.DynamicResourcePaths(),
             CellarPhotoSceneId => W05Controller.DynamicResourcePaths(),

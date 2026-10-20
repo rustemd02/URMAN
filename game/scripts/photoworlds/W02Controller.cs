@@ -27,6 +27,15 @@ public partial class W02Controller : Node3D
     private const string EncounterLabelTextId = "urman.fullgame:text/pw-label-water-encounter";
     private const string DampPrintLabelTextId = "urman.fullgame:text/pw-label-water-damp-print";
     private const string ReturnLabelTextId = "urman.fullgame:text/pw-label-water-return";
+    private const string SummerWillowScenePath = "res://assets/photoworlds/W02/summer-willow-near-2k-v1.glb";
+
+    internal static IEnumerable<string> DynamicResourcePaths()
+    {
+        yield return SummerWillowScenePath;
+        foreach (var path in PainterlyMaterialLibrary.DynamicResourcePaths(new[]
+            { "grass", "wood_cut", "grass_tuft", "wood_carved", "leaf_birch", "cloth", "paper" }))
+            yield return path;
+    }
 
     // Authored placement from the W02 passport (§2). Y is the walking surface.
     private static readonly Vector3[] RouteNodes =
@@ -908,6 +917,8 @@ public partial class W02Controller : Node3D
         });
 
         // The opening between the trees: two willow groups flanking R08.
+        var willowScene = ResourceLoader.Load<PackedScene>(SummerWillowScenePath)
+            ?? throw new InvalidOperationException($"W02 is missing its summer willow: {SummerWillowScenePath}");
         for (var side = -1; side <= 1; side += 2)
         {
             var x = 78f + side * 3.6f;
@@ -917,22 +928,9 @@ public partial class W02Controller : Node3D
                 Position = new Vector3(x, TerrainHeight(x, 114f), 114f)
             };
             _world.AddChild(group);
-            group.AddChild(new MeshInstance3D
-            {
-                Name = "Trunk",
-                Mesh = new CylinderMesh { TopRadius = 0.14f, BottomRadius = 0.24f, Height = 3.2f, RadialSegments = 6 },
-                Position = new Vector3(0f, 1.6f, 0f),
-                MaterialOverride = Snowless("5b5044", "wood_cut")
-            });
-            for (var crown = 0; crown < 3; crown++)
-                group.AddChild(new MeshInstance3D
-                {
-                    Name = $"Crown{crown}",
-                    Mesh = new SphereMesh { Radius = 1.1f, Height = 2.2f, RadialSegments = 7, Rings = 4 },
-                    Position = new Vector3((crown - 1) * 0.75f, 3.1f + (crown % 2) * 0.5f, (crown - 1) * 0.4f),
-                    Scale = new Vector3(1.15f, 0.85f, 1.15f),
-                    MaterialOverride = Snowless(crown == 1 ? "5c7046" : "516440", "leaf_birch")
-                });
+            var willow = willowScene.Instantiate<Node3D>();
+            willow.Name = "SummerWillowNear";
+            group.AddChild(willow);
         }
     }
 

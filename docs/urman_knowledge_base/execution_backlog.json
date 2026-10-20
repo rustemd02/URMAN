@@ -110045,7 +110045,7 @@
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_confirmed",
         "new_job_submitted": false,
-        "last_status_query": "20.10 06:17 Moscow: same e79 status exit1 urlopen timeout; raw evidence/PW-020/native_book_e79adf9f932a4d74b4aec64d7565c6a4/status-20261020-0317.log. Terminal/userdata restoration not confirmed, no new job or input.",
+        "last_status_query": "20.10 07:04 Moscow: same e79 status exit1 urlopen timeout; raw status-20261020-0404.log retained. Authoritative terminal/userdata restoration still unknown. No new job/input/restart; author prologue-skip consent persists, not performed.",
         "local_diagnosis": "Existing local VPN carries default route; system proxy/CA overrides absent. This is a concrete network-path lead, not proof of which hop intercepts TLS. Temporary path change requires owner consent, pending; no VPN/cert/daemon settings changed."
       },
       "player_facing_source_2026_10_20": {
@@ -124495,13 +124495,14 @@
             "owner": "world_art",
             "evidence": [
               "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/near-only-structure.json",
-              "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/near-export-header.json"
+              "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/near-export-header.json",
+              "evidence/PW-093/runtime-source-integration-20261020/game-build.log"
             ],
             "assigned_owner": "world_art",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Finite near-only source stage frozen/reviewed; full family/native/LOD acceptance remains open, root integrates after transport recovery."
+              "reason": "Finite two-near-willow provider+prewarm integration compiled/reviewed, native and fullfamily pending."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -124591,7 +124592,7 @@
               "PW-010"
             ],
             "summer_willow_family_2026_10_20": {
-              "state": "near_only_source_candidate_frozen_full_lod_hold",
+              "state": "runtime_near_only_implemented_compile_verified_native_pending",
               "scope": [
                 "assets/source/blender/photoworlds/W02/summer_willow_reference_v1/",
                 "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/"
@@ -124616,7 +124617,7 @@
                 "reserved_remesh": 0
               },
               "meshy_task_id": "01a15735-7462-76a5-bdb8-081bac49c4ae",
-              "next_action": "Source candidate frozen; use only a guarded current-scene native preview once e79 terminal/userdata restoration is authoritative, then decide actual scene style/performance. Full threeLOD family remains HOLD; no repeated collapse or paid generation.",
+              "next_action": "After authoritative e79 terminal/restoration, one guarded current W02 R07↔R08 view/walk and existing ordinary action→return route checks actual imported2nearwillows/PBR/clearance/frame cost; no unchanged source LOD retry. Full threeLOD/art/performance remain open.",
               "first_status": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/meshy-status-initial.json",
               "terminal_status": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/meshy-status-fourth.json",
               "raw_model": {
@@ -124670,6 +124671,18 @@
                 "structure_receipt": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/near-only-structure.json",
                 "views_scope": "candidate-lod0.png is normalized in-memory pre-export2K view; four original normalized views were4K. Actual exported GLB separately checked for triangle counts/PNG dimensions/identity node chain; no reimported pixel/native proof.",
                 "clearance_scope": "Measured on unchanged normalized in-memory near geometry before rigid Y-up export; Fast checked source axis/root/terrain and exported bounds, no independent outputGLB route recomputation."
+              },
+              "runtime_integration": {
+                "asset": "game/assets/photoworlds/W02/summer-willow-near-2k-v1.glb",
+                "sha256": "0cf1b02366ff6a047a914873e7ef2723813986993a8056326c435f89069b3cfa",
+                "files": [
+                  "game/scripts/photoworlds/W02Controller.cs",
+                  "game/scripts/Main.PhotoSceneLoading.cs"
+                ],
+                "behavior": "Two existing roots unchanged; one shared PackedScene/2instances preserving PBR, no procedural trunk/crown duplicates/new collision/visibility ranges. Existing async W02 prewarm adds GLB and retains same7 material families. One near mesh only, reduced LODs not shipped.",
+                "verification": "Independent luna_fast bounded source review no regression; actual GLB/source SHA equal. Same affected Game compile17.39s0/0, diffcheck PASS; no Mac Godot or runtime acceptance.",
+                "build_log": "evidence/PW-093/runtime-source-integration-20261020/game-build.log",
+                "uncovered": "Current W02 frame/movement/import and sustained performance; no lowerLOD completion claim."
               }
             }
           },
@@ -142271,7 +142284,7 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Finite constructive geometry/PBR source stage frozen and independently reviewed; exact runtime consumer/native/art/coverage remains open."
+              "reason": "Finite H001 default opaque runtime integration compiled and independently reviewed; native/fullfamily remains open."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -142281,7 +142294,8 @@
               "assets/source/blender/act1/neighbor_log_house_a_meshy_v1/neighbor-log-house-a-v1.manifest.json",
               "assets/source/blender/act1/house_a_meshy_v2/house-a-v2.manifest.json",
               "assets/source/blender/act1/neighbor_house_a_retexture_v2/candidate-receipt.json",
-              "assets/source/blender/act1/neighbor_house_a_retexture_v2/pbr_candidate_v2/actual-glb-front-right.png"
+              "assets/source/blender/act1/neighbor_house_a_retexture_v2/pbr_candidate_v2/actual-glb-front-right.png",
+              "evidence/PW-093/runtime-source-integration-20261020/game-build.log"
             ],
             "remaining": [
               "99Kfreecandidate retainsrealroundedcourses onhiddenwalls but cornerinterlock/gablejoint and diagonalUVstretches fail strictproductiongate; no runtimehouseintegrated.",
@@ -142385,7 +142399,7 @@
               "next_action": "Use the identified existing parcel owner and explicit corner geometry cause to choose one bounded constructive source fix, preserving apertures/roof/placement; no blind wholehousePOST/remesh or paint over bad join."
             },
             "constructive_corner_v2_2026_10_20": {
-              "state": "source_pbr_candidate_frozen_root_reviewed",
+              "state": "runtime_h001_implemented_compile_verified_native_pending",
               "scope": [
                 "assets/source/blender/act1/neighbor_house_a_retexture_v2/"
               ],
@@ -142416,7 +142430,7 @@
                 "geometry_authority": "Frozen source c9893cbf,20772tri; returned geometry never exported",
                 "next_action": "Source PBR frozen and reviewed; prepare exact opaque consumer only for a guarded native scene preview after e79 terminal/restoration. No additional paid generation."
               },
-              "consumer_preflight": "Read-only review: exact EastStreetMidFacade placement must avoid DressParcel/LightOccupiedWindows and daylight regrade before maps are mounted; graft opaque visuals only after BuildAuthoredKitBlockers, retain hidden source mesh paths/collision and existing glass/snow/placement yaw−82°,scale.88/ground. Existing generic takeover replaces whole subtree and is not an opaque-only provider. No runtime edits yet.",
+              "consumer_preflight": "AuthoredWorld.ObjectRoot(H001) → Visual/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling. Keep entire current parcel/dressing/collision/address, then opaque-only graft identity-child under existing Dwelling after source collision and seven procedural crowns exist. Hide108 oldopaque+7oldcrowns only, preserve actual TatarCarpentry/glass/snow/posts/yard. H001 stablehash3644528855%17=5 so no added storey. Respect explicit Studio modelPath override; no civic/retired target, no source public door cuts required.",
               "source_pbr_candidate": {
                 "path": "assets/source/blender/act1/neighbor_house_a_retexture_v2/pbr_candidate_v2/variant-a-semantic-pbr-v2.glb",
                 "bytes": 21755316,
@@ -142429,7 +142443,30 @@
                 "receipt": "assets/source/blender/act1/neighbor_house_a_retexture_v2/candidate-receipt.json",
                 "review": "Independent luna_fast checked direct writer, JSON/BIN geometry identity, aligned appended images/samplers/material references and exact texture payloads; no material binding defects found, UV/art/native gates remain open."
               },
-              "next_action": "Prepare one exact EastStreetMidFacade opaque-only consumer using existing source owner/collision ordering, then current-scene native preview once authoritative e79 terminal/restoration permits; preserve glass/snow/physics and art gates."
+              "next_action": "On transport recovery inspect authoritative e79 terminal/userdata restoration first; then one protected current-scene native H001 before/after/walk/door/sign/dressing view, alongside the ordinary prologue→book route. Preserve UV/native/art/performance and canonical Studio PBR editing gates.",
+              "consumer_correction_2026_10_20": {
+                "previous_claim": "Earlier source preflight called EastStreetMidFacade an existing current consumer based on builder declaration only.",
+                "why_inaccurate": "Fresh authoritative game/content/world/act1_village_kit.world.v1.json marks exact village_day@east-street-mid-facade retired:true. It is invisible after KitPlacementTakeover and cannot deliver a visible replacement; unretiring would violate current hero plot layout.",
+                "current_target": "Current generic residential urman.world:act1/open-part/h001-house, ADR-H001/kyr4; game/content/world/act1_open_part.world.v1.json. Same VariantA source catalog parcel, default visible/no retired or states, position[-38.25,0,118.961],yaw0,scale.756; actual Dwelling additionally existing generic .9scale compensation remains untouched.",
+                "source_scope": "Frozen VariantA geometry remains valid same-family template; no source geometry/material regeneration required.",
+                "not_yet_proven": "Exact opaque consumer runtime/GUI/art; root-source/semantic transform input independently supplied by asset worker.",
+                "rejected_intermediate_target": "EastStreetHorizonFacade/councilH040 is active but ineligible: IsPublicFacadeWall intentionally keeps public buildings unlogged; PublicBuildingShell cuts two source walls and hides original door/step. Frozen residential copy would close those visual apertures and regress civic identity. Prototype not shipped."
+              },
+              "runtime_integration": {
+                "target": "AuthoredWorld.ObjectRoot(urman.world:act1/open-part/h001-house)/Visual/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling",
+                "runtime_asset": "game/assets/models/act1/neighbor-house-a-pbr-v2.glb",
+                "sha256": "af977aa137f5aacca59baa25fb2d4b2cd4a664bb7e8135e1df8cccd28525f38f",
+                "scope": [
+                  "game/scripts/Act1ConnectedWorld.cs",
+                  "game/scripts/Act1ConnectedWorld.VariantAPbr.cs",
+                  "game/scripts/AuthoredWorldDirector.cs",
+                  "assets/asset_registry.json"
+                ],
+                "behavior": "Exact default H001 opaque presentation only. One late graft after existing collision/contact preparation. Candidate identity-child under current Dwelling preserves generic scale compensation/offset; validates115 names then hides108 opaque+7 old crowns, preserving original nodes, collision body,9glass/snow/posts/TatarCarpentry/yard/address. Explicit authored Studio modelPath takes precedence, default source mismatch fails before hiding.",
+                "verification": "One affected Game compile17.39s,0warnings/0errors; scoped diffcheck PASS. Runtime/source SHA equal. Independent luna_fast final review found no source-level blocker: correct H001 callorder/default override precedence/115semantic replacement/identityparent and retained contact/dressing owners. No native import/game/tests.",
+                "build_log": "evidence/PW-093/runtime-source-integration-20261020/game-build.log",
+                "uncovered": "Actual Windows import/hierarchy/scene/art/walk/contact and performance; full UVcoverage and source/Studio authoring pipeline acceptance remain open. Explicit override precedence is not proof that editing generated PBR retains it."
+              }
             }
           }
         ]
@@ -142827,7 +142864,7 @@
           "neighbor_retexture_task_id": "01a1574a-1612-7029-ba88-092a8a002a6e",
           "neighbor_retexture_task_state": "SUCCEEDED100; actual10credits; maps-only attachment pending"
         },
-        "current_artifact": "Conifer static native stage retained; full art/motion/performance open. VariantA V2 supported round-log/PBR source frozen, geometry byte-preserved, UV coverage/art/native open. Summer willow near19031/2K source frozen, reduced LODs rejected. Neither new source family promoted to runtime.",
+        "current_artifact": "Conifer static native stage retained; full art/motion/performance open. VariantA V2 PBR integrated only into active residential H001 default nested dwelling; explicit Studio modelPath wins. W02 two near-only generated willows integrated into existing roots/prewarm. Both runtime bytes match source, Game17.39s0/0 and independent source review pass. Native/UVcoverage/art/performance and full asset family acceptance remain open; no council/retired-house replacement.",
         "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
         "pine_remesh_recovery": "Completed source revision2 fromone25Kremesh; actual5credits already in305total. Runtime16.19MB canonicalpathstable, native d61c830PASS, art/performance still open.",
         "rough_picket_source_2026_10_19": {

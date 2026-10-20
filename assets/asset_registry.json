@@ -4677,6 +4677,46 @@
       "sourceSha256": "487d80453e75619c5ec34fc450f92ef167f4fd1803a0b50729d69e055c77949a",
       "sourceProofFile": "assets/source/audio/photoworlds/ambient_cc0/639459.source-license.json",
       "sourceProofSha256": "df3b99f5b4e727399bf15cda88045c721c03901ddb95547dda36b362e27f6cb4"
+    },
+    {
+      "id": "village.neighbor.variant-a.meshy-pbr.v2",
+      "source": "assets/source/blender/act1/neighbor_house_a_retexture_v2/pbr_candidate_v2/variant-a-semantic-pbr-v2.glb",
+      "derived": "game/assets/models/act1/neighbor-house-a-pbr-v2.glb",
+      "generator": "Existing own-game VariantA geometry → constructive supported round logs and UV atlas → built-in image_gen material reference → Meshy retexture4K → geometry-byte-preserving material-only GLB writer",
+      "license": "Owner-authorized own-game/ImageGen inputs and paid Meshy generation; applicable Meshy terms and full rights acceptance remain PW-093. Not CC0/free-planCCBY. Source receipts/provenance retained.",
+      "scale": 1.0,
+      "triangleBudget": 20772,
+      "textureBudget": 4096,
+      "materials": [
+        "One OPAQUE double-sided PBR; BaseColor4096/Normal4096/MR2048 JPEG, UV0"
+      ],
+      "collision": "Opaque visual replacement only on current residentialH001 nested Dwelling. Existing generic surface-collision body, yard, address, door, TatarCarpentry, glazing/snow/posts keep their owners. Explicit Studio modelPath override takes precedence. No new collision or authored layout edit.",
+      "lod": "115 semantic opaque mesh nodes; no generated lower LOD or performance claim.",
+      "status": "Source geometry/PBR reviewed; exact current H001 residential consumer implemented; affected Game compile17.39s0/0 and bounded source review passed, native/art/UVcoverage/performance pending. Retired EastStreetMid and public council are not replaced.",
+      "releaseDisposition": "compile-verified-native-pending-art-native-coverage-pending",
+      "provenance": "assets/source/blender/act1/neighbor_house_a_retexture_v2/candidate-receipt.json",
+      "sourceSha256": "af977aa137f5aacca59baa25fb2d4b2cd4a664bb7e8135e1df8cccd28525f38f",
+      "derivedSha256": "af977aa137f5aacca59baa25fb2d4b2cd4a664bb7e8135e1df8cccd28525f38f"
+    },
+    {
+      "id": "photoworld.w02.summer-willow.meshy.v1",
+      "source": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/summer-willow-near-2k-v1.glb",
+      "derived": "game/assets/photoworlds/W02/summer-willow-near-2k-v1.glb",
+      "generator": "Existing procedural summer willow as example → built-in image_gen V3 → Meshy7.1 image-to3D30 +remesh5 → normalized4.535m unchanged near geometry/shared2K PBR",
+      "license": "Owner-authorized own-game/ImageGen inputs and paid Meshy generation; applicable Meshy terms and full rights acceptance remain PW-093. Not CC0/free-planCCBY. Source receipts/provenance retained.",
+      "scale": 1.0,
+      "triangleBudget": 19031,
+      "textureBudget": 2048,
+      "materials": [
+        "One shared double-sided OPAQUE PBR, three embedded2048² RGB8 PNG"
+      ],
+      "collision": "Visual-only two instances at existing OpeningWillows roots; original trees had no contact. No new trunk/canopy collisions or terrain/route changes.",
+      "lod": "Near only19031 triangles. Mid/far collapse rejected for trunk damage and budget failure, not included. No visibility range hiding the tree when absent lower LODs.",
+      "status": "Source route/structure reviewed; current W02 consumer+asyncprewarm implemented; affected Game compile17.39s0/0 and bounded source review passed. Native/art/performance and full threeLOD family remain open.",
+      "releaseDisposition": "near-only-compile-verified-native-pending-art-native-performance-pending",
+      "provenance": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/near-only-structure.json",
+      "sourceSha256": "0cf1b02366ff6a047a914873e7ef2723813986993a8056326c435f89069b3cfa",
+      "derivedSha256": "0cf1b02366ff6a047a914873e7ef2723813986993a8056326c435f89069b3cfa"
     }
   ]
 }
