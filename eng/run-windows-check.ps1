@@ -26,7 +26,7 @@ $candidateMode = $Mode -in @('candidate-boot', 'candidate-play')
 if ($CandidateSession -and ($Mode -ne 'candidate-play' -or $env:URMAN_PROTECTED_RUN -ne '1')) {
     throw 'CandidateSession is private to a protected candidate-play launch.'
 }
-if ($Mode -eq 'candidate-play' -and $TimeoutSeconds -gt 1200) { throw 'candidate-play timeout must be 1..1200 seconds.' }
+if ($Mode -eq 'candidate-play' -and $TimeoutSeconds -gt 3600) { throw 'candidate-play timeout must be 1..3600 seconds.' }
 if ($candidateMode) {
     if (-not $CandidateRoot -or $Scene -or $Headless -or $ViewPoints -or $AtmospherePhase -or $ViewFov -or $StudioRestarts) {
         throw 'Candidate modes require only the worker-owned extracted candidate root and timeout.'
@@ -58,6 +58,7 @@ if ($candidateMode) {
         -not (Test-Path (Join-Path "$Root/game" $Scene.Substring(6)))) { throw 'Invalid or missing scene.' }
 }
 $studioPlay = $Mode -eq 'play' -and $Scene -eq 'res://studio/studio_main.tscn'
+if ($Mode -eq 'play' -and $TimeoutSeconds -gt 3600) { throw 'play timeout must be 1..3600 seconds.' }
 if ($PSBoundParameters.ContainsKey('StudioRestarts') -and -not $studioPlay) {
     throw 'StudioRestarts is only valid for a native Studio play run.'
 }

@@ -2294,7 +2294,7 @@ class Station:
         if (type(restarts) is not int or not 0 <= restarts <= 2
                 or ('studio_restarts' in spec and mode != 'studio')):
             raise ValueError('studio_restarts requires Studio mode and an integer of 0..2')
-        timeout_max = 3600 if mode == 'studio' else 1200 if mode == 'play' else 300
+        timeout_max = 3600 if mode in ('studio', 'play') else 300
         if type(spec.get('timeout')) is not int or not 1 <= spec['timeout'] <= timeout_max:
             raise ValueError(f'timeout must be 1..{timeout_max} seconds')
         if type(spec.get('headless')) is not bool:
@@ -2384,7 +2384,7 @@ class Station:
         candidate_id = spec.get('candidate_id', '')
         if not re.fullmatch('[a-f0-9]{32}', jid) or not re.fullmatch('[a-f0-9]{64}', candidate_id):
             raise ValueError('invalid candidate job or candidate ID')
-        maximum_timeout = 1200 if spec['mode'] == 'candidate-play' else 300
+        maximum_timeout = 3600 if spec['mode'] == 'candidate-play' else 300
         if type(spec.get('timeout')) is not int or not 1 <= spec['timeout'] <= maximum_timeout:
             raise ValueError(f'candidate timeout must be 1..{maximum_timeout} seconds')
         record = self.candidate_for(candidate_id)

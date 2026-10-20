@@ -318,10 +318,10 @@ def main():
                 or args.ui_action is not None or args.keys is not None or args.key is not None
                 or args.duration_ms is not None or args.dx is not None or args.dy is not None):
             p.error(args.command+' uses a fixed package and accepts no scene, UI, or source-snapshot options')
-        maximum_timeout=1200 if candidate_play else 300
+        maximum_timeout=3600 if candidate_play else 300
         if args.timeout is not None and not 1 <= args.timeout <= maximum_timeout:
             p.error(args.command+' timeout must be 1..'+str(maximum_timeout)+' seconds')
-        maximum_wait=1320 if candidate_play else 600
+        maximum_wait=3720 if candidate_play else 600
         if args.wait is not None and not 1 <= args.wait <= maximum_wait:
             p.error(args.command+' wait must be 1..'+str(maximum_wait)+' seconds')
         if candidate_play and args.output is not None and args.wait is None:
@@ -390,8 +390,8 @@ def main():
             p.error(str(error))
     if studio and args.timeout is not None and not 1<=args.timeout<=3600:
         p.error('studio timeout must be 1..3600 seconds')
-    if play and args.timeout is not None and not 1<=args.timeout<=1200:
-        p.error('play/play-full/play-product timeout must be 1..1200 seconds')
+    if play and args.timeout is not None and not 1<=args.timeout<=3600:
+        p.error('play/play-full/play-product timeout must be 1..3600 seconds')
     if args.command!='ui' and (args.ui_action is not None or args.keys is not None
                                or args.key is not None or args.duration_ms is not None
                                or args.dx is not None or args.dy is not None):

@@ -93,6 +93,8 @@ python3.12 eng/remote-check.py status --job-id <id>
 python3.12 eng/remote-check.py fetch --job-id <id>
 ```
 
+Для полного игрового маршрута `play`, `play-full`, `play-product` и `candidate-play` допускают явный `--timeout 3600`; без параметра остаётся 1200 секунд. У `candidate-play` это один общий бюджет двух запусков EXE под защитой сохранений; явное ожидание допускает `--wait 3720`. При обрыве наблюдения продолжай по тому же ID. Лимиты smoke, candidate-boot и Studio не расширены. Выход и возврат в главное меню из паузы требуют повторного подтверждения той же кнопкой.
+
 ### Если `CERTIFICATE_VERIFY_FAILED`
 
 Клиент проверяет сертификат станции обычным образом, поэтому нужен Python с рабочим
