@@ -32,6 +32,8 @@ public partial class W02Controller : Node3D
     internal static IEnumerable<string> DynamicResourcePaths()
     {
         yield return SummerWillowScenePath;
+        yield return BoardContactAudioPath;
+        yield return WaterAnswerAudioPath;
         foreach (var path in PainterlyMaterialLibrary.DynamicResourcePaths(new[]
             { "grass", "wood_cut", "grass_tuft", "wood_carved", "leaf_birch", "cloth", "paper" }))
             yield return path;
@@ -117,6 +119,7 @@ public partial class W02Controller : Node3D
     public override void _Process(double delta)
     {
         TryBindRuntimeBridge();
+        ProcessWaterResponseAudio();
         var dt = (float)delta;
 
         ProcessEncounterPresentation(delta);

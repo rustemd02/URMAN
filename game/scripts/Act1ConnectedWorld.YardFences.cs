@@ -919,9 +919,10 @@ public partial class Act1ConnectedWorld
                 FencePart(parts, "4a4d4a|metal", new(.02f, .07f, .34f), new(leafBasis, post + Vector3.Up * y + back * .02f));
                 FencePart(parts, "4a4d4a|metal", new(.022f, .055f, .09f), new(basis, post + Vector3.Up * y + right * (-sign * .075f)));
             }
-            // The leaf's own handle, on the closing edge, at a standing hand height.
+            // Seat the handle into the 40 mm board skin; a 100 mm offset left it floating.
+            // It remains on the closing edge, at a standing hand height.
             FencePart(parts, "4a4d4a|metal", new(.045f, .19f, .045f), new(basis,
-                post + back * 1.28f + Vector3.Up * 1.06f + right * (-sign * .10f)));
+                post + back * 1.28f + Vector3.Up * 1.06f + right * (-sign * .04f)));
             body.AddChild(new CollisionShape3D { Name=$"OpenGateLeaf{body.GetChildCount()}",
                 Shape=new BoxShape3D {Size=new(1.3f,1.55f,.10f)}, Transform=new(leafBasis,leaf+Vector3.Up*.80f) });
         }

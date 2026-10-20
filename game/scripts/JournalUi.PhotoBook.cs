@@ -51,6 +51,7 @@ public partial class JournalUi
     private Label _photoBookBackHeading = null!;
     private TextureRect _photoBookBackImage = null!;
     private Label _photoBookBackText = null!;
+    private Label _photoBookCommonNote = null!;
     private Button _photoBookReadBackButton = null!;
     private Button _photoBookInspectBackButton = null!;
     private Button _photoBookMountButton = null!;
@@ -291,6 +292,10 @@ public partial class JournalUi
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         _photoBookSpread.AddChild(_photoBookBackText);
+        _photoBookCommonNote = new Label { Name = "CommonFrameAuthorNote", Visible = false,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill, FocusMode = Control.FocusModeEnum.All };
+        _photoBookSpread.AddChild(_photoBookCommonNote);
         var photoActions = new HBoxContainer { Name = "PhotoActions" };
         _photoBookSpread.AddChild(photoActions);
         _photoBookReadBackButton = new Button
@@ -451,6 +456,8 @@ public partial class JournalUi
             _photoBookPlacement.Text = string.Empty;
             _photoBookFrontBrief.Text = string.Empty;
             _photoBookBackText.Text = string.Empty;
+            _photoBookCommonNote.Text = string.Empty;
+            _photoBookCommonNote.Visible = false;
         }
 
         _photoBookRefreshing = false;
@@ -492,6 +499,8 @@ public partial class JournalUi
         _photoBookPlacement.Text = string.Empty;
         _photoBookFrontBrief.Text = string.Empty;
         _photoBookBackText.Text = string.Empty;
+        _photoBookCommonNote.Text = string.Empty;
+        _photoBookCommonNote.Visible = false;
         _photoBookActionStatus.Text = string.Empty;
         _photoBookRefreshing = false;
         RefreshPhotoBookActionButtons();
@@ -564,6 +573,9 @@ public partial class JournalUi
             : string.IsNullOrWhiteSpace(photo.BackTextRu)
                 ? "На обороте пока нет записи."
                 : photo.BackTextRu;
+        var commonNote = photo.PhotoId == "P-COMMON" ? _bridge?.CommonFrameNoteText() : null;
+        _photoBookCommonNote.Text = string.IsNullOrEmpty(commonNote) ? string.Empty : "Моя помета:\n" + commonNote;
+        _photoBookCommonNote.Visible = !string.IsNullOrEmpty(commonNote);
         if (photo.BackRead
             && PhotoBookBackImages.TryGetValue(photo.PhotoId, out var authoredBack)
             && string.Equals(photo.BackTextRu, authoredBack.Caption, StringComparison.Ordinal)
@@ -620,6 +632,7 @@ public partial class JournalUi
             _photoBookFrontBrief,
             _photoBookBackHeading,
             _photoBookBackText,
+            _photoBookCommonNote,
             _photoBookActionStatus
         })
         {

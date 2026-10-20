@@ -60,6 +60,8 @@ public partial class AudioCueUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public override void _Ready()
     {
+        _accessibility = (GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController)?.Accessibility
+            ?? AccessibilitySettingsSnapshot.Default;
         AddToGroup("audio_cue_ui");
         AddToGroup(AccessibilityPresentation.TargetGroup);
         _panel = GetNode<PanelContainer>("Panel");

@@ -31,6 +31,7 @@ public partial class W03Controller : Node3D
         TryBindRuntimeBridge();
         ProcessHouseWorldGuard();
         ProcessHouseGameplay(delta);
+        ProcessHouseShutterAudio();
         UpdateHousePhysicalShelter();
     }
 

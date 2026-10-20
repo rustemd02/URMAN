@@ -26648,21 +26648,23 @@
             "title": "Проверить caption-independent cue queue и сохранение footsteps при reduced motion",
             "result": "Проверить caption-independent cue queue и сохранение footsteps при reduced motion",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/PW-061/common-note-source-20261020/game-build-final.log"
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Finite source stage accepted/reviewed/compiled; full native/hearing/passport DoD remains open."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Проверить caption-independent cue queue и сохранение footsteps при reduced motion; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Проверить caption-independent cue queue и сохранение footsteps при reduced motion. Затем изменить только установленный остаток.",
+            "next_action": "Проверить current protected cold launch с Subtitles=false: аудиоподсказки играют без панели, pause/resume сохраняет очередь; reducedmotion сохраняет реальные footsteps. Source coldprofile/queue/contact mapping приняты, не повторять unchanged compile.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -26707,7 +26709,19 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "source_stage_2026_10_20": {
+              "state": "source_stage_accepted_native_not_run",
+              "baseline_commit": "25ca1086",
+              "targets": [
+                "game/scripts/AudioCueUi.cs"
+              ],
+              "result": "Cold AudioCueUi registered after Player settings broadcast and kept Default. Ready now takes existing player.Accessibility fallbackDefault. Caption-independent queue/pause/reset and contact-driven footsteps/reducedmotion remain unchanged.",
+              "verification": "Root exactdiff/source inspection; affected compile/native pending.",
+              "native_result": "not_run",
+              "final_compile": "evidence/PW-061/common-note-source-20261020/game-build-final.log",
+              "compile_result": "Affected Game14.15s,0warnings/0errors after C07reviewfix; no Godot/import/native. Initial16.80s0/0 before realpartial-save UI fix retained separately."
+            }
           }
         ]
       },
@@ -110912,7 +110926,7 @@
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_confirmed",
         "new_job_submitted": false,
-        "last_status_query": "20.10 query launched08:28Moscow; log closed 2026-10-20T05:28:58.222968+00:00: samee79 exit1 urlopen timeout; raw evidence/PW-020/native_book_e79adf9f932a4d74b4aec64d7565c6a4/status-20261020-0530.log retained. No newjob/input/restart; prologue-skip consent retained, not performed.",
+        "last_status_query": "20.10 query launched08:50Moscow; log closed 2026-10-20T05:50:37.812044+00:00: samee79 exit1 urlopen timeout; raw evidence/PW-020/native_book_e79adf9f932a4d74b4aec64d7565c6a4/status-20261020-0550.log. Authoritative terminal/restoration unknown; no newjob/input/restart.",
         "local_diagnosis": "Existing local VPN carries default route; system proxy/CA overrides absent. This is a concrete network-path lead, not proof of which hop intercepts TLS. Temporary path change requires owner consent, pending; no VPN/cert/daemon settings changed."
       },
       "player_facing_source_2026_10_20": {
@@ -126666,7 +126680,7 @@
       "id": "PW-053",
       "title": "W02: закончить звуковую и световую постановку",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "audio",
       "priority": "P1",
@@ -126691,7 +126705,9 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-053/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-061/common-note-source-20261020/game-build-final.log"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-053",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -126807,17 +126823,17 @@
       "assigned_owner": "audio",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Finite source stage accepted/reviewed/compiled; full native/hearing/passport DoD remains open."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Нет заметного короткого повторяющегося цикла.",
         "Не протекают чужая погода, радиосеть и обработка интерфейса.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W02_Мостки_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Создать слои A-WATER-AUDIO по паспорту и разместить настоящие пространственные источники.",
+      "next_action": "После authoritative e79 terminal/restoration в ordinary W02 R06 прослушать completedlift/replace wood и один nonlooping wateranswer после успешного framedcommit; проверить cancel/modal/load/revisit silence. Reuse accepted source/review/compile. Full A-WATER water/reeds/insects/cloth/master/5min остаётся открыт, continuous8sbed не объявлен исправленным.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -126995,7 +127011,21 @@
           "evidence_ref": "PW-053.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "source_stage_2026_10_20": {
+        "state": "source_stage_accepted_native_not_run",
+        "baseline_commit": "25ca1086",
+        "targets": [
+          "game/scripts/photoworlds/W02Controller.Encounter.cs",
+          "game/scripts/photoworlds/W02Controller.cs",
+          "game/scripts/photoworlds/W02Controller.Audio.cs"
+        ],
+        "result": "R06 completed realboard lift/replace contacts play local project-original wood_tap; successful current framed-answer dispatch plays one nonlooping proceduralwater candidate at actual ring. WAV duplicated before loopdisable, continuous ambient untouched. No projected/reload/revisit trigger; route/session/modal/transition/error/exit cancel handles/pendingtoken.",
+        "verification": "Independent personal luna_fast /root/photo_audio_review source review clean; affected compile/nativehearing pending. Full water/reeds/insects/cloth/master/registry/5minpassport open.",
+        "native_result": "not_run",
+        "final_compile": "evidence/PW-061/common-note-source-20261020/game-build-final.log",
+        "compile_result": "Affected Game14.15s,0warnings/0errors after C07reviewfix; no Godot/import/native. Initial16.80s0/0 before realpartial-save UI fix retained separately."
+      }
     },
     {
       "id": "PW-054",
@@ -128958,7 +128988,7 @@
       "id": "PW-058",
       "title": "W03: закончить звуковую и световую постановку",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "audio",
       "priority": "P1",
@@ -128983,7 +129013,9 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-058/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-061/common-note-source-20261020/game-build-final.log"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-058",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -129099,17 +129131,17 @@
       "assigned_owner": "audio",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Finite source stage accepted/reviewed/compiled; full native/hearing/passport DoD remains open."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Нет заметного короткого повторяющегося цикла.",
         "Не протекают чужая погода, радиосеть и обработка интерфейса.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W03_Дом_на_просвет_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Создать слои A-HOUSE-AUDIO по паспорту и разместить настоящие пространственные источники.",
+      "next_action": "После authoritative e79 terminal/restoration в ordinary W03 подвигать ставню и прослушать локальный скрип из настоящих петель, сравнить actualmoving/instant reducedmotion/load/revisit/cancel. Reuse accepted source/review/compile. Full cloth/dishes/spatialyard/master/5min остаётся открыт.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -129287,7 +129319,21 @@
           "evidence_ref": "PW-058.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "source_stage_2026_10_20": {
+        "state": "source_stage_accepted_native_not_run",
+        "baseline_commit": "25ca1086",
+        "targets": [
+          "game/scripts/photoworlds/W03Controller.Interactions.cs",
+          "game/scripts/photoworlds/W03Controller.cs",
+          "game/scripts/photoworlds/W03Controller.Audio.cs"
+        ],
+        "result": "Actual changing shutterTransform starts one licensed door_creak/SFX cue at mean of real HingeTop/HingeBottom; source followshinges. Reducedmotioninstant/load/projection/revisit silent; current route/session/modal/transition/exit stop presentation. Existing lighting/ambient unchanged.",
+        "verification": "Independent /root/resident_greeting_talk source review clean; affected compile/nativehearing pending. Fullcloth/dishes/spatialyard/master/5minpassport open.",
+        "native_result": "not_run",
+        "final_compile": "evidence/PW-061/common-note-source-20261020/game-build-final.log",
+        "compile_result": "Affected Game14.15s,0warnings/0errors after C07reviewfix; no Godot/import/native. Initial16.80s0/0 before realpartial-save UI fix retained separately."
+      }
     },
     {
       "id": "PW-059",
@@ -130426,7 +130472,9 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-061/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-061/common-note-source-20261020/game-build-final.log"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-061",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -130542,8 +130590,8 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "idle",
-        "reason": "W04 gameplay finite source frozen and compiled; root integrates independently found bank destination blocker via PW070/PW073, native/art remain open."
+        "state": "not_active",
+        "reason": "Finite C07 note source result accepted after independent review/fix and affected compile; native/full W04 unit acceptance open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -130553,7 +130601,7 @@
         "Завершение не требует драки или уничтожения книги.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W04_Общий_кадр_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Проверять три основные главы, два внешних подтверждения и подпись/распечатку.",
+      "next_action": "После authoritative e79 terminal/restoration пройти actual C07: priorPCcaption/default/custom1–120/cancel/confirm→bookspread/readback→Save/Continue; close/reopen checkpoint retry, stalevisit/load/modal и legacyfact-only без inventedtext. Source5files/review/finalcompile приняты; общие W04 entry/fouractions/art/отдельная внешняя приёмка сохраняются.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -130571,25 +130619,33 @@
             "task_id": "PW-060",
             "artifact": "W04: произвести и собрать всю проходимую геометрию «Общий кадр»",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "artifact_ref": "game/scenes/photoworlds/W04/W04.tscn + W04Controller.Gameplay.cs actualC07target",
+            "availability_scope": "Relevant source input for finite C07 stage only; full parent/native acceptance not claimed."
           },
           {
             "task_id": "PW-029",
             "artifact": "Сохранять предметные действия и пространственные связи",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "artifact_ref": "Existing ContextObserve/reducer CommandPlan + WorldProps.WritePlacement atomic effect owner",
+            "availability_scope": "Relevant source input for finite C07 stage only; full parent/native acceptance not claimed."
           },
           {
             "task_id": "PW-042",
             "artifact": "Сделать физическую печать из ПК",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "artifact_ref": "Existing prepared P-COMMON photoworlds.captions and print/mount path source inspected",
+            "availability_scope": "Relevant source input for finite C07 stage only; full parent/native acceptance not claimed."
           },
           {
             "task_id": "PW-008",
             "artifact": "Разделить впечатление и доказанное знание",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "artifact_ref": "Existing Impression/OutsideEvidence fields and canonical PhotoBook projection; historicalnative label proof separately retained",
+            "availability_scope": "Relevant source input for finite C07 stage only; full parent/native acceptance not claimed."
           }
         ],
         "scope_in": [
@@ -130676,25 +130732,33 @@
             "task_id": "PW-060",
             "artifact": "W04: произвести и собрать всю проходимую геометрию «Общий кадр»",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "artifact_ref": "game/scenes/photoworlds/W04/W04.tscn + W04Controller.Gameplay.cs actualC07target",
+            "availability_scope": "Relevant source input for finite C07 stage only; full parent/native acceptance not claimed."
           },
           {
             "task_id": "PW-029",
             "artifact": "Сохранять предметные действия и пространственные связи",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "artifact_ref": "Existing ContextObserve/reducer CommandPlan + WorldProps.WritePlacement atomic effect owner",
+            "availability_scope": "Relevant source input for finite C07 stage only; full parent/native acceptance not claimed."
           },
           {
             "task_id": "PW-042",
             "artifact": "Сделать физическую печать из ПК",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "artifact_ref": "Existing prepared P-COMMON photoworlds.captions and print/mount path source inspected",
+            "availability_scope": "Relevant source input for finite C07 stage only; full parent/native acceptance not claimed."
           },
           {
             "task_id": "PW-008",
             "artifact": "Разделить впечатление и доказанное знание",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "artifact_ref": "Existing Impression/OutsideEvidence fields and canonical PhotoBook projection; historicalnative label proof separately retained",
+            "availability_scope": "Relevant source input for finite C07 stage only; full parent/native acceptance not claimed."
           }
         ],
         "verification": [],
@@ -130769,6 +130833,25 @@
           },
           "known_issue": "Physical bank destination now bound via PW070/PW073 named spawn; native traversal/art still unverified. Remaining council-owned S-BANK copy and physicalepilogue target are explicit follow-ups."
         }
+      },
+      "common_note_stage_2026_10_20": {
+        "state": "source_stage_accepted_native_not_run",
+        "baseline_commit": "25ca1086",
+        "finding": "C07 previously only availabilitycheck→dispatch common_note_finished; no priorPCcaption/default/customline/readableauthornote. Direct passport§3/§10 gap.",
+        "targets": [
+          "game/scripts/photoworlds/W04Controller.Gameplay.cs",
+          "game/scripts/photoworlds/W04Controller.Note.cs",
+          "game/scripts/RuntimeBridge.cs",
+          "game/scripts/RuntimeBridge.CommonNote.cs",
+          "game/scripts/JournalUi.PhotoBook.cs"
+        ],
+        "contract": "Default Это не весь вид or trimmedplain1–120 line, showpriorPCcaption; cancelnoeffect, atomically text+existingfact through same ContextObserve/reducer+world.props photoworlds/W04/final-note; separate readable selectedP-COMMON booknote/reopen; no schema/notebook/PCcaptionoverwrite. Session/visit/location/modalownership+checkpointpartialfailure/retry, legacyfact-only no inventedtext.",
+        "verification": "Root plus independent personal luna_fast review afterfreeze, one affected Game compile; no newtests/probes/Godot/build byworker, native remainsrequired.",
+        "final_compile": "evidence/PW-061/common-note-source-20261020/game-build-final.log",
+        "compile_result": "Initial16.80s0/0; final14.15s0warnings/0errors after partial-save fix. No newtests/Godot/native.",
+        "independent_review": "Runtime-confirmed personal luna_fast /root/continue_backup_review: full source pass found retry lost after close/reopen when checkpoint failed; focused finalfix re-review clean.",
+        "review_fix": "Confirmed nonempty reopen is readonly and offers existing same-text checkpoint SaveGame with neutral status; legacyfact-onlyempty remains noauthoring. No dirtytracker/schema, duplicatefact/text or PCcaption/notebook mutations.",
+        "source_result": "Actual C07 editor shows preparedPCcaption and default/own1–120plainline; one ContextObserve/reducer CommandPlan atomically appends text+fact. Cancel no action, current session/visit/scene/modal/request guards, readback atC07 and selectedP-COMMON bookspread. Native UI/layout/file-save/safety not run."
       }
     },
     {
@@ -131441,7 +131524,12 @@
           "evidence_ref": "PW-063.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "current_audio_input_2026_10_20": {
+        "state": "finite_source_mapping_only_no_newaudio",
+        "result": "Current softpinkhorizon/coolforeground light and dedicated119s CC0 meadowbed alreadypresent; no local cloth/paper/distantforest-bank-courtyard sources. Existing originalpaper_open reusable but paperfeedback deferred until real C07 note flow accepted; new C07 source now accepted separately underPW061. No clothrecording invented/no sharedfactory/profile/light changes.",
+        "remaining": "Full A-COMMON-AUDIO including actuallocal sources/masters/provenance/5minlistening/native remains open."
+      }
     },
     {
       "id": "PW-064",
@@ -143812,6 +143900,33 @@
           "game/export_presets.cfg"
         ],
         "verification": "Independent bounded read-only source/consumer review; no generated asset replacement, export or runtime claim."
+      },
+      "fence_family_input_2026_10_20": {
+        "state": "source_and_builtin_material_reference_accepted_one_maps_task_authorized",
+        "agent": "/root/all_world_book_content",
+        "target_folder": "assets/source/blender/act1/rough_picket_family_reference_v3/",
+        "source_owner": "Act1ConnectedWorld.YardFences.cs batches FenceParts ArrayMesh/material and YardFenceBody collision, not oldGLB. Current84nonkeep lots10–19m do not enter4.4–5m BuildYardWicket branch; actual access doublecartleaves are baked open/static, not interactivewickets.",
+        "specimen": "ActualADR-H015 rough-picket: nominal2.35m bay13boards95x28mm/post120mm/tworails; activecartgate postcentres±1.72m/clear3.27m/two1.30m leaves9boards each; keepcurrentcollision/opening/no protectedBabai/Tamara scope.",
+        "reuse": "Existing rough_picket_meshy_v1 topology rejected; removedbigbinaries stayremoved, uniquesources/receipts retained. Existingv2ref layoutonly/notfinalstyle. New source-only current-C# reconstructed semantic donor, existing originalfencekit primitives with explicit parity overrides; noMacruntime capture claim.",
+        "limits": "Oneatlas/actualsourceviews/receipt, stoptechnicalfail/no microiterations; noImageGen/Meshy/API/spend/runtime/Godot/Git yet. Rootview acceptance first, then built-inImageGen ref+onekeepUVmaps-only retx proposal, no thirdwhole-topology purchase. Runtime batch/UV/performance integration remains future explicit stage.",
+        "new_meshy_spend": 0,
+        "source_receipt": "assets/source/blender/act1/rough_picket_family_reference_v3/source-receipt.json",
+        "source_glb_sha256": "b0188bdb300a644126bbf495c4d4854aa4a11c0a5cd0485510297014a1a9e195",
+        "root_review": "Root viewed all5sourceviews; visible inheritedfloatinghandle rejected. Root runtime cart-only .10→.04normaloffset seats handle2.5mm into40mmboard; one causal sourceparityrun changedonly2handlepositions. Root personallyreviewedfixedopening,79mesh/2212tri/UVselector0beforeafter/clear3.27m/boardgap85.77mm retained. Notnative/art/runtimeassetreplacement.",
+        "reference_scope": "One built-inImageGen materialreference with actualfixedfront-right/opening +acceptedhouse frame; exactprompt/inputroles in existingprovenance. NoMeshy/API/spend/runtimebinding until rootreference review.",
+        "reference_image": "assets/source/blender/act1/rough_picket_family_reference_v3/imagegen-reference-v1.png",
+        "reference_sha256": "c293359efe7c3489bd6ec049a36abe4964cbb2a5700870f01f4a50adc50bb94c",
+        "reference_provenance": "assets/source/blender/act1/rough_picket_family_reference_v3/provenance.md",
+        "reference_root_review": "Root personallyviewed quietivorywashedpine/matteiron family: coherentwithacceptedhouse, openleaves/clearpassage retained inreference; exactboards/geometry remainfrozenGLBauthority.",
+        "maps_stage": {
+          "state": "one_submission_authorized_pending_actual_receipt",
+          "folder": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v1/",
+          "credit_ceiling": 20,
+          "known_global_spent_before": 350,
+          "known_global_remaining_before": 3650,
+          "limits": "OnekeepUVPBRretexture/maps-only, no remesh/newtopology/secondpaidattempt/auto-resubmit; source79semantic/2212tri stayscanonical. ActualtaskID/chargedcredits must replacependingdata. No runtime/Git/sharedJSON byworker; sanitizedrawreceipts only, no keys/signedURLs.",
+          "rights_limit": "PaidMeshyterms/ownsource+ImageGen; no CC0 claim or fullrights/art/native acceptance."
+        }
       }
     },
     {

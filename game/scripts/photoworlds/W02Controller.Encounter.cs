@@ -227,6 +227,7 @@ public partial class W02Controller
     /// <summary>Called from W02Controller._ExitTree before the scene is freed.</summary>
     private void ExitEncounterPresentation()
     {
+        CancelWaterResponseAudio();
         CancelEncounterAction(resetUnresolvedPose: false);
         _encounterProjectionSession = null;
         _encounterRayExclusions.Clear();
@@ -318,6 +319,7 @@ public partial class W02Controller
     {
         if (_encounterPresentationPhase == EncounterPresentationPhase.LiftingBoard)
         {
+            PlayEncounterBoardContact();
             _boardLifted = true;
             _encounterPresentationPhase = EncounterPresentationPhase.Idle;
             _encounterActionSession = null;
@@ -331,6 +333,7 @@ public partial class W02Controller
         if (_encounterPresentationPhase == EncounterPresentationPhase.ReturningBoard)
         {
             SetEncounterBoardRestPose();
+            PlayEncounterBoardContact();
             SetEncounterPresenceHeight(EncounterPresenceAnswerY);
             _boardLifted = false;
             _encounterPresentationPhase = EncounterPresentationPhase.AwaitingObservation;
@@ -359,6 +362,8 @@ public partial class W02Controller
         _encounterActionSession = session;
         _encounterActionSceneId = sceneId;
         _encounterTarget?.SetPresentationEnabled(false);
+        _waterAudioSession = session;
+        _waterAnswerAudioGeneration = _encounterActionGeneration;
         CommitEncounterAsync(bridge, session, sceneId, _encounterActionGeneration);
     }
 
@@ -373,8 +378,10 @@ public partial class W02Controller
         {
             GD.PushError($"W02 encounter interaction failed: {exception.Message}");
             if (GodotObject.IsInstanceValid(this) && IsInsideTree() && !IsQueuedForDeletion()
-                && generation == _encounterActionGeneration)
-                CancelEncounterAction(resetUnresolvedPose: true);
+                && _waterAnswerAudioGeneration == generation && ReferenceEquals(_waterAudioSession, session))
+                CancelWaterResponseAudio();
+            if (GodotObject.IsInstanceValid(this) && IsInsideTree() && !IsQueuedForDeletion()
+                && generation == _encounterActionGeneration) CancelEncounterAction(resetUnresolvedPose: true);
             return;
         }
 
@@ -388,6 +395,7 @@ public partial class W02Controller
             && ReferenceEquals(projection.SessionIdentity, session))
         {
             ApplyProjection();
+            CompleteWaterAnswerAudio(dispatched, session, generation);
             return;
         }
 
@@ -424,6 +432,7 @@ public partial class W02Controller
 
     private void CancelEncounterAction(bool resetUnresolvedPose)
     {
+        if (resetUnresolvedPose) CancelWaterResponseAudio();
         _encounterActionGeneration++;
         _encounterPresentationPhase = EncounterPresentationPhase.Idle;
         _encounterActionSession = null;

@@ -2174,6 +2174,7 @@ public partial class RuntimeBridge : Node
         {
             handlers.Add(commandType, handler);
         }
+        RegisterCommonNoteHandler(handlers);
         handlers.Add("world.interact", HandleWorldInteraction);
         handlers.Add("world.custody", HandleWorldCustody);
         handlers.Add("world.props", HandleWorldPropsSet);

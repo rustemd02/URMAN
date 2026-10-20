@@ -1,0 +1,809 @@
+Info: Saved as "rough-picket-family-source.blend"
+INFO Draco mesh compression is available, use library at /Users/unterlantas/Documents/GitHub/URMAN/.tools/blender/Blender.app/Contents/Resources/4.5/scripts/addons_core/io_scene_gltf2/libextern_draco.dylib
+08:50:47 | INFO: Starting glTF 2.0 export
+08:50:47 | INFO: Extracting primitive: Bay_BearingRail_0Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_BearingRail_1Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_Picket_00Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_Picket_01Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_Picket_02Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_Picket_03Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_Picket_04Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_Picket_05Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_Picket_06Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_Picket_07Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_Picket_08Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_Picket_09Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_Picket_10Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_Picket_11Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_Picket_12Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_PointedCrown_00Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_PointedCrown_01Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_PointedCrown_02Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_PointedCrown_03Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_PointedCrown_04Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_PointedCrown_05Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_PointedCrown_06Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_PointedCrown_07Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_PointedCrown_08Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_PointedCrown_09Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_PointedCrown_10Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_PointedCrown_11Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_PointedCrown_12Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_Post_0Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_Post_1Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_PostCap_0Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Bay_PostCap_1Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_BearingRail_0Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_BearingRail_1Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_Board_00Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_Board_01Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_Board_02Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_Board_03Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_Board_04Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_Board_05Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_Board_06Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_Board_07Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_Board_08Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_BraceMesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_HandleMesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_HingeStrap_0Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_HingeStrap_1Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_HingeWrap_0Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_0_HingeWrap_1Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_BearingRail_0Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_BearingRail_1Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_Board_00Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_Board_01Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_Board_02Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_Board_03Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_Board_04Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_Board_05Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_Board_06Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_Board_07Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_Board_08Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_BraceMesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_HandleMesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_HingeStrap_0Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_HingeStrap_1Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_HingeWrap_0Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: CartLeaf_1_HingeWrap_1Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Gate_FanBar_0Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Gate_FanBar_1Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Gate_FanBar_2Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Gate_FanBar_3Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Gate_FanBar_4Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Gate_FanBar_5Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Gate_FanBar_6Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Gate_HeaderMesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Gate_HeaderCapMesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Gate_Post_0Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Gate_Post_1Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Gate_PostCap_0Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Extracting primitive: Gate_PostCap_1Mesh
+08:50:47 | INFO: Primitives created: 1
+08:50:47 | INFO: Finished glTF 2.0 export in 0.03822684288024902 s
+
+08:50:47 | INFO: Data are loaded, start creating Blender stuff
+08:50:47 | INFO: Blender create Mesh node Bay_BearingRail_0Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_BearingRail_1Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_Picket_00Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_Picket_01Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_Picket_02Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_Picket_03Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_Picket_04Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_Picket_05Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_Picket_06Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_Picket_07Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_Picket_08Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_Picket_09Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_Picket_10Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_Picket_11Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_Picket_12Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_PointedCrown_00Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_PointedCrown_01Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_PointedCrown_02Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_PointedCrown_03Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_PointedCrown_04Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_PointedCrown_05Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_PointedCrown_06Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_PointedCrown_07Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_PointedCrown_08Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_PointedCrown_09Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_PointedCrown_10Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_PointedCrown_11Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_PointedCrown_12Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_Post_0Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_Post_1Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_PostCap_0Mesh
+08:50:47 | INFO: Blender create Mesh node Bay_PostCap_1Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_BearingRail_0Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_BearingRail_1Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_Board_00Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_Board_01Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_Board_02Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_Board_03Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_Board_04Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_Board_05Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_Board_06Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_Board_07Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_Board_08Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_BraceMesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_HandleMesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_HingeStrap_0Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_HingeStrap_1Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_HingeWrap_0Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_0_HingeWrap_1Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_BearingRail_0Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_BearingRail_1Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_Board_00Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_Board_01Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_Board_02Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_Board_03Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_Board_04Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_Board_05Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_Board_06Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_Board_07Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_Board_08Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_BraceMesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_HandleMesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_HingeStrap_0Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_HingeStrap_1Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_HingeWrap_0Mesh
+08:50:47 | INFO: Blender create Mesh node CartLeaf_1_HingeWrap_1Mesh
+08:50:47 | INFO: Blender create Mesh node Gate_FanBar_0Mesh
+08:50:47 | INFO: Blender create Mesh node Gate_FanBar_1Mesh
+08:50:47 | INFO: Blender create Mesh node Gate_FanBar_2Mesh
+08:50:47 | INFO: Blender create Mesh node Gate_FanBar_3Mesh
+08:50:47 | INFO: Blender create Mesh node Gate_FanBar_4Mesh
+08:50:47 | INFO: Blender create Mesh node Gate_FanBar_5Mesh
+08:50:47 | INFO: Blender create Mesh node Gate_FanBar_6Mesh
+08:50:47 | INFO: Blender create Mesh node Gate_HeaderMesh
+08:50:47 | INFO: Blender create Mesh node Gate_HeaderCapMesh
+08:50:47 | INFO: Blender create Mesh node Gate_Post_0Mesh
+08:50:47 | INFO: Blender create Mesh node Gate_Post_1Mesh
+08:50:47 | INFO: Blender create Mesh node Gate_PostCap_0Mesh
+08:50:47 | INFO: Blender create Mesh node Gate_PostCap_1Mesh
+08:50:47 | INFO: glTF import finished in 0.02s
+Blender 4.5.12 LTS (hash 84afd5f785f7 built 2026-07-21 01:41:35)
+Fra:1 Mem:16.96M (Peak 16.96M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_BearingRail_0
+Fra:1 Mem:16.96M (Peak 16.96M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_BearingRail_1
+Fra:1 Mem:16.96M (Peak 16.96M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_00
+Fra:1 Mem:17.00M (Peak 17.00M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Rim
+Fra:1 Mem:17.00M (Peak 17.00M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Fill
+Fra:1 Mem:17.00M (Peak 17.00M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Key
+Fra:1 Mem:17.00M (Peak 17.00M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Ground
+Fra:1 Mem:17.00M (Peak 17.00M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_PostCap_1
+Fra:1 Mem:17.01M (Peak 17.01M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_01
+Fra:1 Mem:17.01M (Peak 17.01M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_PostCap_0
+Fra:1 Mem:17.05M (Peak 17.05M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_04
+Fra:1 Mem:17.04M (Peak 17.05M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_05
+Fra:1 Mem:17.05M (Peak 17.05M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_Post_1
+Fra:1 Mem:17.08M (Peak 17.08M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_07
+Fra:1 Mem:17.07M (Peak 17.08M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_08
+Fra:1 Mem:17.07M (Peak 17.08M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_Post_0
+Fra:1 Mem:17.07M (Peak 17.08M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_10
+Fra:1 Mem:17.09M (Peak 17.09M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_11
+Fra:1 Mem:17.11M (Peak 17.11M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_HeaderCap
+Fra:1 Mem:17.09M (Peak 17.11M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_12
+Fra:1 Mem:17.10M (Peak 17.11M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_00
+Fra:1 Mem:17.11M (Peak 17.11M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_01
+Fra:1 Mem:17.12M (Peak 17.12M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_Header
+Fra:1 Mem:17.10M (Peak 17.12M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_04
+Fra:1 Mem:17.16M (Peak 17.16M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_6
+Fra:1 Mem:17.16M (Peak 17.16M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_05
+Fra:1 Mem:17.14M (Peak 17.16M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_07
+Fra:1 Mem:17.15M (Peak 17.16M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_5
+Fra:1 Mem:17.17M (Peak 17.17M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_08
+Fra:1 Mem:17.16M (Peak 17.17M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_09
+Fra:1 Mem:17.17M (Peak 17.17M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_4
+Fra:1 Mem:17.19M (Peak 17.19M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_11
+Fra:1 Mem:17.18M (Peak 17.19M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_12
+Fra:1 Mem:17.20M (Peak 17.20M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_3
+Fra:1 Mem:17.20M (Peak 17.20M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Post_0
+Fra:1 Mem:17.21M (Peak 17.21M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Post_1
+Fra:1 Mem:17.22M (Peak 17.22M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PostCap_0
+Fra:1 Mem:17.22M (Peak 17.22M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_2
+Fra:1 Mem:17.22M (Peak 17.22M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PostCap_1
+Fra:1 Mem:17.23M (Peak 17.23M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_BearingRail_0
+Fra:1 Mem:17.24M (Peak 17.24M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_BearingRail_1
+Fra:1 Mem:17.23M (Peak 17.24M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_1
+Fra:1 Mem:17.24M (Peak 17.24M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_00
+Fra:1 Mem:17.25M (Peak 17.25M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_01
+Fra:1 Mem:17.25M (Peak 17.25M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_02
+Fra:1 Mem:17.25M (Peak 17.25M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_0
+Fra:1 Mem:17.26M (Peak 17.26M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_03
+Fra:1 Mem:17.28M (Peak 17.28M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_04
+Fra:1 Mem:17.27M (Peak 17.28M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_05
+Fra:1 Mem:17.28M (Peak 17.28M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeWrap_1
+Fra:1 Mem:17.28M (Peak 17.28M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_06
+Fra:1 Mem:17.29M (Peak 17.29M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_07
+Fra:1 Mem:17.31M (Peak 17.31M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_08
+Fra:1 Mem:17.28M (Peak 17.31M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeWrap_0
+Fra:1 Mem:17.30M (Peak 17.31M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Handle
+Fra:1 Mem:17.33M (Peak 17.33M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeStrap_0
+Fra:1 Mem:17.32M (Peak 17.33M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeStrap_1
+Fra:1 Mem:17.33M (Peak 17.33M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeStrap_1
+Fra:1 Mem:17.32M (Peak 17.33M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeWrap_0
+Fra:1 Mem:17.34M (Peak 17.34M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeWrap_1
+Fra:1 Mem:17.34M (Peak 17.34M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeStrap_0
+Fra:1 Mem:17.35M (Peak 17.35M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_BearingRail_0
+Fra:1 Mem:17.35M (Peak 17.35M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_BearingRail_1
+Fra:1 Mem:17.36M (Peak 17.36M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_00
+Fra:1 Mem:17.36M (Peak 17.36M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Handle
+Fra:1 Mem:17.37M (Peak 17.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_01
+Fra:1 Mem:17.37M (Peak 17.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_02
+Fra:1 Mem:17.36M (Peak 17.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_03
+Fra:1 Mem:17.39M (Peak 17.39M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Brace
+Fra:1 Mem:17.39M (Peak 17.39M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_04
+Fra:1 Mem:17.40M (Peak 17.40M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_05
+Fra:1 Mem:17.40M (Peak 17.40M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_06
+Fra:1 Mem:17.40M (Peak 17.40M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_08
+Fra:1 Mem:17.41M (Peak 17.41M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_07
+Fra:1 Mem:17.40M (Peak 17.41M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:14.43M (Peak 17.41M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:14.43M (Peak 17.41M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:14.43M (Peak 17.41M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:14.43M (Peak 17.41M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:14.52M (Peak 17.41M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:14.52M (Peak 17.41M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:14.52M (Peak 17.41M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:14.52M (Peak 17.41M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:14.52M (Peak 17.41M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:14.52M (Peak 17.41M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:14.53M (Peak 17.41M) | Time:00:00.01 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:14.53M (Peak 17.41M) | Time:00:00.01 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:14.53M (Peak 17.41M) | Time:00:00.01 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:14.53M (Peak 17.41M) | Time:00:00.01 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:14.53M (Peak 17.41M) | Time:00:00.01 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:14.63M (Peak 17.41M) | Time:00:00.01 | Mem:0.03M, Peak:0.03M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:14.62M (Peak 17.41M) | Time:00:00.01 | Mem:0.11M, Peak:0.11M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:14.62M (Peak 17.41M) | Time:00:00.01 | Mem:0.11M, Peak:0.11M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:14.62M (Peak 17.41M) | Time:00:00.01 | Mem:0.17M, Peak:0.17M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:14.62M (Peak 17.41M) | Time:00:00.01 | Mem:0.26M, Peak:0.32M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:14.62M (Peak 17.41M) | Time:00:00.01 | Mem:0.26M, Peak:0.32M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.01 | Mem:0.26M, Peak:0.32M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.01 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.01 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.01 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.01 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.01 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.01 | Mem:0.52M, Peak:0.52M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.01 | Mem:0.52M, Peak:0.52M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.01 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.01 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:14.81M (Peak 17.41M) | Time:00:00.01 | Mem:0.44M, Peak:0.53M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:14.81M (Peak 17.41M) | Time:00:00.01 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:14.81M (Peak 17.41M) | Time:00:00.01 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:14.81M (Peak 17.41M) | Time:00:00.01 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:14.81M (Peak 17.41M) | Time:00:00.01 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:115.05M (Peak 115.05M) | Time:00:00.31 | Remaining:00:06.81 | Mem:100.73M, Peak:100.73M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:157.24M (Peak 220.52M) | Time:00:08.29 | Mem:100.73M, Peak:100.73M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:157.24M (Peak 220.52M) | Time:00:08.29 | Mem:100.73M, Peak:100.73M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/rough_picket_family_reference_v3/actual-source-front.png'
+Time: 00:08.41 (Saving: 00:00.11)
+
+Fra:1 Mem:17.04M (Peak 17.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_BearingRail_0
+Fra:1 Mem:17.04M (Peak 17.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_00
+Fra:1 Mem:17.06M (Peak 17.06M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_01
+Fra:1 Mem:17.06M (Peak 17.06M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_03
+Fra:1 Mem:17.10M (Peak 17.10M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_04
+Fra:1 Mem:17.09M (Peak 17.10M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_05
+Fra:1 Mem:17.09M (Peak 17.10M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_06
+Fra:1 Mem:17.09M (Peak 17.10M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_07
+Fra:1 Mem:17.10M (Peak 17.10M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_08
+Fra:1 Mem:17.11M (Peak 17.11M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_09
+Fra:1 Mem:17.12M (Peak 17.12M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_10
+Fra:1 Mem:17.11M (Peak 17.12M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_11
+Fra:1 Mem:17.13M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_12
+Fra:1 Mem:17.14M (Peak 17.14M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_00
+Fra:1 Mem:17.13M (Peak 17.14M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_01
+Fra:1 Mem:17.13M (Peak 17.14M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_02
+Fra:1 Mem:17.16M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_03
+Fra:1 Mem:17.15M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Rim
+Fra:1 Mem:17.14M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_05
+Fra:1 Mem:17.16M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Fill
+Fra:1 Mem:17.16M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_07
+Fra:1 Mem:17.17M (Peak 17.17M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Key
+Fra:1 Mem:17.18M (Peak 17.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Ground
+Fra:1 Mem:17.18M (Peak 17.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_PostCap_1
+Fra:1 Mem:17.16M (Peak 17.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_10
+Fra:1 Mem:17.19M (Peak 17.19M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_PostCap_0
+Fra:1 Mem:17.21M (Peak 17.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_11
+Fra:1 Mem:17.20M (Peak 17.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_12
+Fra:1 Mem:17.19M (Peak 17.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Post_0
+Fra:1 Mem:17.20M (Peak 17.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Post_1
+Fra:1 Mem:17.21M (Peak 17.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PostCap_0
+Fra:1 Mem:17.21M (Peak 17.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_Post_0
+Fra:1 Mem:17.22M (Peak 17.22M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PostCap_1
+Fra:1 Mem:17.23M (Peak 17.23M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_BearingRail_0
+Fra:1 Mem:17.22M (Peak 17.23M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_HeaderCap
+Fra:1 Mem:17.24M (Peak 17.24M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_00
+Fra:1 Mem:17.24M (Peak 17.24M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_01
+Fra:1 Mem:17.25M (Peak 17.25M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_Header
+Fra:1 Mem:17.25M (Peak 17.25M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_02
+Fra:1 Mem:17.27M (Peak 17.27M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_03
+Fra:1 Mem:17.25M (Peak 17.27M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_6
+Fra:1 Mem:17.27M (Peak 17.27M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_04
+Fra:1 Mem:17.28M (Peak 17.28M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_05
+Fra:1 Mem:17.28M (Peak 17.28M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_06
+Fra:1 Mem:17.28M (Peak 17.28M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_5
+Fra:1 Mem:17.28M (Peak 17.28M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_07
+Fra:1 Mem:17.30M (Peak 17.30M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_08
+Fra:1 Mem:17.29M (Peak 17.30M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Brace
+Fra:1 Mem:17.30M (Peak 17.30M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_4
+Fra:1 Mem:17.30M (Peak 17.30M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Handle
+Fra:1 Mem:17.30M (Peak 17.30M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeStrap_0
+Fra:1 Mem:17.32M (Peak 17.32M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeStrap_1
+Fra:1 Mem:17.31M (Peak 17.32M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeWrap_0
+Fra:1 Mem:17.32M (Peak 17.32M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeWrap_1
+Fra:1 Mem:17.35M (Peak 17.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_BearingRail_0
+Fra:1 Mem:17.33M (Peak 17.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_BearingRail_1
+Fra:1 Mem:17.32M (Peak 17.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_00
+Fra:1 Mem:17.36M (Peak 17.36M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_01
+Fra:1 Mem:17.35M (Peak 17.36M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_1
+Fra:1 Mem:17.34M (Peak 17.36M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_03
+Fra:1 Mem:17.36M (Peak 17.36M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_04
+Fra:1 Mem:17.36M (Peak 17.36M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_0
+Fra:1 Mem:17.36M (Peak 17.36M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_06
+Fra:1 Mem:17.39M (Peak 17.39M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_07
+Fra:1 Mem:17.38M (Peak 17.39M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeWrap_1
+Fra:1 Mem:17.37M (Peak 17.39M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Handle
+Fra:1 Mem:17.43M (Peak 17.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeWrap_0
+Fra:1 Mem:17.40M (Peak 17.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeStrap_0
+Fra:1 Mem:17.40M (Peak 17.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeStrap_1
+Fra:1 Mem:17.40M (Peak 17.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:14.43M (Peak 17.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:14.43M (Peak 17.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:14.43M (Peak 17.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:14.43M (Peak 17.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:14.52M (Peak 17.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:14.52M (Peak 17.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:14.52M (Peak 17.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:14.52M (Peak 17.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:14.52M (Peak 17.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:14.52M (Peak 17.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:14.53M (Peak 17.43M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:14.53M (Peak 17.43M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:14.54M (Peak 17.43M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:14.54M (Peak 17.43M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:14.54M (Peak 17.43M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:14.63M (Peak 17.43M) | Time:00:00.00 | Mem:0.03M, Peak:0.03M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:14.62M (Peak 17.43M) | Time:00:00.00 | Mem:0.11M, Peak:0.11M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:14.62M (Peak 17.43M) | Time:00:00.00 | Mem:0.11M, Peak:0.11M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:14.62M (Peak 17.43M) | Time:00:00.00 | Mem:0.17M, Peak:0.17M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:14.62M (Peak 17.43M) | Time:00:00.00 | Mem:0.26M, Peak:0.32M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:14.62M (Peak 17.43M) | Time:00:00.00 | Mem:0.26M, Peak:0.32M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:14.80M (Peak 17.43M) | Time:00:00.00 | Mem:0.26M, Peak:0.32M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:14.80M (Peak 17.43M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:14.80M (Peak 17.43M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:14.80M (Peak 17.43M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:14.80M (Peak 17.43M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:14.80M (Peak 17.43M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:14.80M (Peak 17.43M) | Time:00:00.00 | Mem:0.52M, Peak:0.52M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:14.80M (Peak 17.43M) | Time:00:00.00 | Mem:0.52M, Peak:0.52M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:14.80M (Peak 17.43M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:14.80M (Peak 17.43M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:14.81M (Peak 17.43M) | Time:00:00.00 | Mem:0.44M, Peak:0.53M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:14.81M (Peak 17.43M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:14.81M (Peak 17.43M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:14.81M (Peak 17.43M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:14.81M (Peak 17.43M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:115.05M (Peak 115.05M) | Time:00:00.30 | Remaining:00:06.84 | Mem:100.73M, Peak:100.73M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:157.24M (Peak 220.52M) | Time:00:08.53 | Mem:100.73M, Peak:100.73M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:157.24M (Peak 220.52M) | Time:00:08.53 | Mem:100.73M, Peak:100.73M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/rough_picket_family_reference_v3/actual-source-front-right.png'
+Time: 00:08.59 (Saving: 00:00.06)
+
+Fra:1 Mem:17.04M (Peak 17.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_BearingRail_0
+Fra:1 Mem:17.05M (Peak 17.05M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_00
+Fra:1 Mem:17.09M (Peak 17.09M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_01
+Fra:1 Mem:17.08M (Peak 17.09M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_02
+Fra:1 Mem:17.07M (Peak 17.09M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_04
+Fra:1 Mem:17.10M (Peak 17.10M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_05
+Fra:1 Mem:17.09M (Peak 17.10M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_06
+Fra:1 Mem:17.11M (Peak 17.11M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_07
+Fra:1 Mem:17.11M (Peak 17.11M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_08
+Fra:1 Mem:17.13M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_09
+Fra:1 Mem:17.12M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Rim
+Fra:1 Mem:17.11M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Fill
+Fra:1 Mem:17.11M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Key
+Fra:1 Mem:17.11M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Ground
+Fra:1 Mem:17.12M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_PostCap_1
+Fra:1 Mem:17.16M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_00
+Fra:1 Mem:17.16M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_01
+Fra:1 Mem:17.14M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_02
+Fra:1 Mem:17.15M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_03
+Fra:1 Mem:17.16M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_04
+Fra:1 Mem:17.16M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_Post_1
+Fra:1 Mem:17.17M (Peak 17.17M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_06
+Fra:1 Mem:17.16M (Peak 17.17M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_07
+Fra:1 Mem:17.18M (Peak 17.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_08
+Fra:1 Mem:17.20M (Peak 17.20M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_09
+Fra:1 Mem:17.19M (Peak 17.20M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_10
+Fra:1 Mem:17.20M (Peak 17.20M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_Post_0
+Fra:1 Mem:17.20M (Peak 17.20M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_12
+Fra:1 Mem:17.19M (Peak 17.20M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Post_0
+Fra:1 Mem:17.21M (Peak 17.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_HeaderCap
+Fra:1 Mem:17.22M (Peak 17.22M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Post_1
+Fra:1 Mem:17.24M (Peak 17.24M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PostCap_0
+Fra:1 Mem:17.23M (Peak 17.24M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PostCap_1
+Fra:1 Mem:17.22M (Peak 17.24M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_BearingRail_1
+Fra:1 Mem:17.24M (Peak 17.24M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_00
+Fra:1 Mem:17.25M (Peak 17.25M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_01
+Fra:1 Mem:17.26M (Peak 17.26M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_02
+Fra:1 Mem:17.26M (Peak 17.26M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_6
+Fra:1 Mem:17.26M (Peak 17.26M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_04
+Fra:1 Mem:17.28M (Peak 17.28M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_05
+Fra:1 Mem:17.28M (Peak 17.28M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_5
+Fra:1 Mem:17.28M (Peak 17.28M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_06
+Fra:1 Mem:17.30M (Peak 17.30M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_07
+Fra:1 Mem:17.28M (Peak 17.30M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_08
+Fra:1 Mem:17.29M (Peak 17.30M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Brace
+Fra:1 Mem:17.30M (Peak 17.30M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Handle
+Fra:1 Mem:17.29M (Peak 17.30M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeStrap_0
+Fra:1 Mem:17.31M (Peak 17.31M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_3
+Fra:1 Mem:17.31M (Peak 17.31M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeStrap_1
+Fra:1 Mem:17.33M (Peak 17.33M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeWrap_0
+Fra:1 Mem:17.32M (Peak 17.33M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeWrap_1
+Fra:1 Mem:17.33M (Peak 17.33M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_BearingRail_1
+Fra:1 Mem:17.31M (Peak 17.33M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_00
+Fra:1 Mem:17.37M (Peak 17.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_01
+Fra:1 Mem:17.35M (Peak 17.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_02
+Fra:1 Mem:17.35M (Peak 17.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_1
+Fra:1 Mem:17.36M (Peak 17.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_04
+Fra:1 Mem:17.35M (Peak 17.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_05
+Fra:1 Mem:17.37M (Peak 17.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_06
+Fra:1 Mem:17.37M (Peak 17.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_07
+Fra:1 Mem:17.37M (Peak 17.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_08
+Fra:1 Mem:17.37M (Peak 17.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_0
+Fra:1 Mem:17.38M (Peak 17.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Brace
+Fra:1 Mem:17.40M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Handle
+Fra:1 Mem:17.39M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeWrap_1
+Fra:1 Mem:17.40M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeStrap_1
+Fra:1 Mem:17.40M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeWrap_0
+Fra:1 Mem:17.40M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:14.43M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:14.43M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:14.43M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:14.43M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:14.52M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:14.52M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:14.52M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:14.52M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:14.52M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:14.52M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:14.53M (Peak 17.40M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:14.53M (Peak 17.40M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:14.54M (Peak 17.40M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:14.54M (Peak 17.40M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:14.54M (Peak 17.40M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:14.63M (Peak 17.40M) | Time:00:00.00 | Mem:0.03M, Peak:0.03M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:14.62M (Peak 17.40M) | Time:00:00.00 | Mem:0.11M, Peak:0.11M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:14.62M (Peak 17.40M) | Time:00:00.00 | Mem:0.11M, Peak:0.11M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:14.62M (Peak 17.40M) | Time:00:00.00 | Mem:0.17M, Peak:0.17M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:14.62M (Peak 17.40M) | Time:00:00.00 | Mem:0.26M, Peak:0.32M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:14.62M (Peak 17.40M) | Time:00:00.00 | Mem:0.26M, Peak:0.32M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.26M, Peak:0.32M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.52M, Peak:0.52M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.52M, Peak:0.52M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:14.81M (Peak 17.40M) | Time:00:00.00 | Mem:0.44M, Peak:0.53M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:14.81M (Peak 17.40M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:14.81M (Peak 17.40M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:14.81M (Peak 17.40M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:14.81M (Peak 17.40M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:115.05M (Peak 115.05M) | Time:00:00.28 | Remaining:00:06.51 | Mem:100.73M, Peak:100.73M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:157.24M (Peak 220.52M) | Time:00:08.19 | Mem:100.73M, Peak:100.73M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:157.24M (Peak 220.52M) | Time:00:08.19 | Mem:100.73M, Peak:100.73M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/rough_picket_family_reference_v3/actual-source-rear.png'
+Time: 00:08.25 (Saving: 00:00.05)
+
+Fra:1 Mem:17.04M (Peak 17.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_BearingRail_0
+Fra:1 Mem:17.04M (Peak 17.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_00
+Fra:1 Mem:17.08M (Peak 17.08M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_01
+Fra:1 Mem:17.07M (Peak 17.08M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_02
+Fra:1 Mem:17.07M (Peak 17.08M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_04
+Fra:1 Mem:17.11M (Peak 17.11M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_05
+Fra:1 Mem:17.10M (Peak 17.11M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_06
+Fra:1 Mem:17.11M (Peak 17.11M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Rim
+Fra:1 Mem:17.12M (Peak 17.12M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_09
+Fra:1 Mem:17.12M (Peak 17.12M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_10
+Fra:1 Mem:17.12M (Peak 17.12M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_11
+Fra:1 Mem:17.13M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_12
+Fra:1 Mem:17.13M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Fill
+Fra:1 Mem:17.12M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_01
+Fra:1 Mem:17.12M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Key
+Fra:1 Mem:17.14M (Peak 17.14M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Ground
+Fra:1 Mem:17.13M (Peak 17.14M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_03
+Fra:1 Mem:17.15M (Peak 17.15M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_PostCap_1
+Fra:1 Mem:17.13M (Peak 17.15M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_04
+Fra:1 Mem:17.17M (Peak 17.17M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_05
+Fra:1 Mem:17.18M (Peak 17.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_06
+Fra:1 Mem:17.17M (Peak 17.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_PostCap_0
+Fra:1 Mem:17.17M (Peak 17.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_08
+Fra:1 Mem:17.19M (Peak 17.19M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_09
+Fra:1 Mem:17.18M (Peak 17.19M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_10
+Fra:1 Mem:17.18M (Peak 17.19M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_Post_1
+Fra:1 Mem:17.19M (Peak 17.19M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_11
+Fra:1 Mem:17.20M (Peak 17.20M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_12
+Fra:1 Mem:17.22M (Peak 17.22M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Post_0
+Fra:1 Mem:17.22M (Peak 17.22M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_Post_0
+Fra:1 Mem:17.22M (Peak 17.22M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Post_1
+Fra:1 Mem:17.21M (Peak 17.22M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PostCap_0
+Fra:1 Mem:17.23M (Peak 17.23M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_HeaderCap
+Fra:1 Mem:17.22M (Peak 17.23M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_BearingRail_0
+Fra:1 Mem:17.24M (Peak 17.24M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_BearingRail_1
+Fra:1 Mem:17.22M (Peak 17.24M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_Header
+Fra:1 Mem:17.25M (Peak 17.25M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_01
+Fra:1 Mem:17.26M (Peak 17.26M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_6
+Fra:1 Mem:17.26M (Peak 17.26M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_03
+Fra:1 Mem:17.27M (Peak 17.27M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_04
+Fra:1 Mem:17.26M (Peak 17.27M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_5
+Fra:1 Mem:17.26M (Peak 17.27M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_05
+Fra:1 Mem:17.28M (Peak 17.28M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_06
+Fra:1 Mem:17.26M (Peak 17.28M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_4
+Fra:1 Mem:17.30M (Peak 17.30M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_08
+Fra:1 Mem:17.30M (Peak 17.30M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_3
+Fra:1 Mem:17.30M (Peak 17.30M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Brace
+Fra:1 Mem:17.31M (Peak 17.31M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Handle
+Fra:1 Mem:17.30M (Peak 17.31M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_2
+Fra:1 Mem:17.32M (Peak 17.32M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeStrap_1
+Fra:1 Mem:17.32M (Peak 17.32M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeWrap_0
+Fra:1 Mem:17.33M (Peak 17.33M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_1
+Fra:1 Mem:17.34M (Peak 17.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeWrap_1
+Fra:1 Mem:17.33M (Peak 17.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_BearingRail_1
+Fra:1 Mem:17.33M (Peak 17.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_0
+Fra:1 Mem:17.35M (Peak 17.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_00
+Fra:1 Mem:17.34M (Peak 17.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_01
+Fra:1 Mem:17.35M (Peak 17.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeWrap_1
+Fra:1 Mem:17.35M (Peak 17.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_02
+Fra:1 Mem:17.36M (Peak 17.36M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_03
+Fra:1 Mem:17.37M (Peak 17.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_04
+Fra:1 Mem:17.38M (Peak 17.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeWrap_0
+Fra:1 Mem:17.39M (Peak 17.39M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_05
+Fra:1 Mem:17.39M (Peak 17.39M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_06
+Fra:1 Mem:17.38M (Peak 17.39M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeStrap_1
+Fra:1 Mem:17.40M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_08
+Fra:1 Mem:17.39M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Brace
+Fra:1 Mem:17.39M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Handle
+Fra:1 Mem:17.40M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeStrap_0
+Fra:1 Mem:17.40M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:14.43M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:14.43M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:14.43M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:14.43M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:14.52M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:14.52M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:14.52M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:14.52M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:14.52M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:14.52M (Peak 17.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:14.53M (Peak 17.40M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:14.53M (Peak 17.40M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:14.54M (Peak 17.40M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:14.54M (Peak 17.40M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:14.54M (Peak 17.40M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:14.63M (Peak 17.40M) | Time:00:00.00 | Mem:0.03M, Peak:0.03M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:14.62M (Peak 17.40M) | Time:00:00.00 | Mem:0.11M, Peak:0.11M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:14.62M (Peak 17.40M) | Time:00:00.00 | Mem:0.11M, Peak:0.11M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:14.62M (Peak 17.40M) | Time:00:00.00 | Mem:0.17M, Peak:0.17M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:14.62M (Peak 17.40M) | Time:00:00.00 | Mem:0.26M, Peak:0.32M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:14.62M (Peak 17.40M) | Time:00:00.00 | Mem:0.26M, Peak:0.32M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.26M, Peak:0.32M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.52M, Peak:0.52M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.52M, Peak:0.52M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:14.80M (Peak 17.40M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:14.81M (Peak 17.40M) | Time:00:00.00 | Mem:0.44M, Peak:0.53M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:14.81M (Peak 17.40M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:14.81M (Peak 17.40M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:14.81M (Peak 17.40M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:14.81M (Peak 17.40M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:115.05M (Peak 115.05M) | Time:00:00.30 | Remaining:00:06.89 | Mem:100.73M, Peak:100.73M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:157.24M (Peak 220.52M) | Time:00:08.54 | Mem:100.73M, Peak:100.73M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:157.24M (Peak 220.52M) | Time:00:08.54 | Mem:100.73M, Peak:100.73M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/rough_picket_family_reference_v3/actual-source-side.png'
+Time: 00:08.60 (Saving: 00:00.06)
+
+Fra:1 Mem:17.04M (Peak 17.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_BearingRail_0
+Fra:1 Mem:17.04M (Peak 17.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_00
+Fra:1 Mem:17.07M (Peak 17.07M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_01
+Fra:1 Mem:17.08M (Peak 17.08M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_02
+Fra:1 Mem:17.08M (Peak 17.08M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_04
+Fra:1 Mem:17.09M (Peak 17.09M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_05
+Fra:1 Mem:17.11M (Peak 17.11M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_06
+Fra:1 Mem:17.09M (Peak 17.11M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_08
+Fra:1 Mem:17.13M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Rim
+Fra:1 Mem:17.11M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Fill
+Fra:1 Mem:17.11M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Key
+Fra:1 Mem:17.11M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | PBRReview_Ground
+Fra:1 Mem:17.11M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_PostCap_1
+Fra:1 Mem:17.13M (Peak 17.13M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Picket_12
+Fra:1 Mem:17.16M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_PostCap_0
+Fra:1 Mem:17.14M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_01
+Fra:1 Mem:17.16M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_02
+Fra:1 Mem:17.15M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_Post_1
+Fra:1 Mem:17.15M (Peak 17.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_03
+Fra:1 Mem:17.17M (Peak 17.17M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_04
+Fra:1 Mem:17.16M (Peak 17.17M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_Post_0
+Fra:1 Mem:17.17M (Peak 17.17M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_06
+Fra:1 Mem:17.17M (Peak 17.17M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_HeaderCap
+Fra:1 Mem:17.19M (Peak 17.19M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_07
+Fra:1 Mem:17.17M (Peak 17.19M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_Header
+Fra:1 Mem:17.20M (Peak 17.20M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_09
+Fra:1 Mem:17.20M (Peak 17.20M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_10
+Fra:1 Mem:17.22M (Peak 17.22M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_11
+Fra:1 Mem:17.21M (Peak 17.22M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PointedCrown_12
+Fra:1 Mem:17.22M (Peak 17.22M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Post_0
+Fra:1 Mem:17.21M (Peak 17.22M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_Post_1
+Fra:1 Mem:17.23M (Peak 17.23M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PostCap_0
+Fra:1 Mem:17.24M (Peak 17.24M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Bay_PostCap_1
+Fra:1 Mem:17.25M (Peak 17.25M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_4
+Fra:1 Mem:17.24M (Peak 17.25M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_BearingRail_0
+Fra:1 Mem:17.25M (Peak 17.25M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_00
+Fra:1 Mem:17.25M (Peak 17.25M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_3
+Fra:1 Mem:17.26M (Peak 17.26M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_01
+Fra:1 Mem:17.25M (Peak 17.26M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_02
+Fra:1 Mem:17.27M (Peak 17.27M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_03
+Fra:1 Mem:17.27M (Peak 17.27M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_2
+Fra:1 Mem:17.27M (Peak 17.27M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_04
+Fra:1 Mem:17.27M (Peak 17.27M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_05
+Fra:1 Mem:17.29M (Peak 17.29M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Gate_FanBar_1
+Fra:1 Mem:17.29M (Peak 17.29M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_06
+Fra:1 Mem:17.31M (Peak 17.31M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_07
+Fra:1 Mem:17.30M (Peak 17.31M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Board_08
+Fra:1 Mem:17.31M (Peak 17.31M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Brace
+Fra:1 Mem:17.32M (Peak 17.32M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_Handle
+Fra:1 Mem:17.33M (Peak 17.33M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeStrap_0
+Fra:1 Mem:17.33M (Peak 17.33M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeStrap_1
+Fra:1 Mem:17.33M (Peak 17.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeWrap_1
+Fra:1 Mem:17.33M (Peak 17.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_0_HingeWrap_1
+Fra:1 Mem:17.34M (Peak 17.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_BearingRail_0
+Fra:1 Mem:17.34M (Peak 17.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeWrap_0
+Fra:1 Mem:17.35M (Peak 17.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_BearingRail_1
+Fra:1 Mem:17.36M (Peak 17.36M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_00
+Fra:1 Mem:17.35M (Peak 17.36M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeStrap_1
+Fra:1 Mem:17.35M (Peak 17.36M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_01
+Fra:1 Mem:17.37M (Peak 17.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_02
+Fra:1 Mem:17.36M (Peak 17.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_HingeStrap_0
+Fra:1 Mem:17.39M (Peak 17.39M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_04
+Fra:1 Mem:17.39M (Peak 17.39M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Handle
+Fra:1 Mem:17.39M (Peak 17.39M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_05
+Fra:1 Mem:17.39M (Peak 17.39M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_07
+Fra:1 Mem:17.41M (Peak 17.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Brace
+Fra:1 Mem:17.40M (Peak 17.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | CartLeaf_1_Board_08
+Fra:1 Mem:17.40M (Peak 17.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:14.43M (Peak 17.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:14.43M (Peak 17.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:14.43M (Peak 17.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:14.43M (Peak 17.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:14.52M (Peak 17.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:14.52M (Peak 17.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:14.52M (Peak 17.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:14.52M (Peak 17.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:14.52M (Peak 17.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:14.52M (Peak 17.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:14.53M (Peak 17.41M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:14.53M (Peak 17.41M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:14.54M (Peak 17.41M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:14.54M (Peak 17.41M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:14.54M (Peak 17.41M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:14.63M (Peak 17.41M) | Time:00:00.00 | Mem:0.03M, Peak:0.03M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:14.62M (Peak 17.41M) | Time:00:00.00 | Mem:0.11M, Peak:0.11M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:14.62M (Peak 17.41M) | Time:00:00.00 | Mem:0.11M, Peak:0.11M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:14.62M (Peak 17.41M) | Time:00:00.00 | Mem:0.17M, Peak:0.17M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:14.62M (Peak 17.41M) | Time:00:00.00 | Mem:0.26M, Peak:0.32M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:14.62M (Peak 17.41M) | Time:00:00.00 | Mem:0.26M, Peak:0.32M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.00 | Mem:0.26M, Peak:0.32M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.00 | Mem:0.44M, Peak:0.44M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.00 | Mem:0.52M, Peak:0.52M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.00 | Mem:0.52M, Peak:0.52M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:14.80M (Peak 17.41M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:14.81M (Peak 17.41M) | Time:00:00.00 | Mem:0.44M, Peak:0.53M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:14.81M (Peak 17.41M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:14.81M (Peak 17.41M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:14.81M (Peak 17.41M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:14.81M (Peak 17.41M) | Time:00:00.00 | Mem:0.53M, Peak:0.53M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:115.05M (Peak 115.05M) | Time:00:00.32 | Remaining:00:07.34 | Mem:100.73M, Peak:100.73M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:157.24M (Peak 220.52M) | Time:00:08.96 | Mem:100.73M, Peak:100.73M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:157.24M (Peak 220.52M) | Time:00:08.96 | Mem:100.73M, Peak:100.73M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/rough_picket_family_reference_v3/actual-source-cart-opening.png'
+Time: 00:09.02 (Saving: 00:00.06)
+
+ROUGH_PICKET_SOURCE {"status": "source_specimen_parent_review_required", "meshes": 79, "triangles": 2212, "gates": {"single_pack_overlap_zero": true, "uv_roundtrip": true, "transform_roundtrip": true}}
+
+Blender quit

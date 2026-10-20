@@ -65,7 +65,8 @@ public partial class W04Controller
 
     public bool PhotoBookReturnActionInProgress => _clothPhase != ClothPhase.Idle
         || _relationsDispatching
-        || _horizonDispatching;
+        || _horizonDispatching
+        || CommonNoteOpen;
 
     private void BuildCommonGameplay()
     {
@@ -115,7 +116,7 @@ public partial class W04Controller
         _noteTarget = EnsureCommonTarget("CommonNoteTarget", NoteInteractionId,
             "urman.fullgame:text/pw-label-common-note",
             "W04World/C07CaptionDesk/CaptionPaperInteractionWitness", 0.28f, 0.30f, bridge);
-        if (_noteTarget is { } noteTarget) noteTarget.PresentationBeforeDispatch = CanConfirmCommonNote;
+        if (_noteTarget is { } noteTarget) noteTarget.PresentationBeforeDispatch = BeginCommonNote;
 
         _returnTarget = EnsureCommonTarget("CommonReturnTarget", ReturnInteractionId,
             "urman.fullgame:text/pw-label-common-return", "Anchors/C08", 0.56f, 1.0f, bridge);
@@ -163,6 +164,7 @@ public partial class W04Controller
 
     private void ProcessCommonGameplay(double delta)
     {
+        ProcessCommonNote();
         ProcessCommonClothAction(delta);
         ProcessCommonRelationsObservation();
         ProcessCommonHorizonObservation();
@@ -171,6 +173,7 @@ public partial class W04Controller
     private void ApplyCommonGameplayProjection(
         RuntimeBridge.FullGamePhotoWorldRouteProjection? route, bool visible)
     {
+        ProjectCommonNote(visible);
         if (!visible || route is null || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge))
         {
             CancelCommonClothAction(restoreCommittedPose: true);
@@ -195,7 +198,8 @@ public partial class W04Controller
                 RelationsInteractionId => bridge.PhotoWorldFactObserved(RelationsFactId),
                 ClothInteractionId => bridge.PhotoWorldFactObserved(ClothFactId),
                 HorizonInteractionId => bridge.PhotoWorldFactObserved(HorizonFactId),
-                NoteInteractionId => bridge.PhotoWorldFactObserved(NoteFactId),
+                // C07 stays readable after its one authored confirmation.
+                NoteInteractionId => false,
                 _ => false
             };
             var locallyBusy = ReferenceEquals(target, _clothActionTarget)
@@ -226,6 +230,7 @@ public partial class W04Controller
 
     private void ExitCommonGameplay()
     {
+        ExitCommonNote();
         CancelCommonClothAction(restoreCommittedPose: false);
         ResetRelationsObservation(null);
         ResetHorizonObservation(null);
@@ -440,8 +445,6 @@ public partial class W04Controller
             && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
             && !player.VehicleControlled && !player.IsClimbingLadder && player.IsOnFloor();
     }
-
-    private bool CanConfirmCommonNote() => CanBeginCommonAction(NoteInteractionId, out _, out _);
 
     private bool CanUseCommonReturn() => CanBeginCommonAction(ReturnInteractionId, out _, out _);
 

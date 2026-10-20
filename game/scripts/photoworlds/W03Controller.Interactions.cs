@@ -331,7 +331,12 @@ public partial class W03Controller
         var progress = _housePhysicalActionDuration <= 0
             ? 1f
             : (float)(_housePhysicalActionElapsed / _housePhysicalActionDuration);
+        var shutterBefore = _housePhysicalAction == HousePhysicalAction.Shutter
+            ? _shutterPivot?.GlobalTransform : null;
         ApplyHousePhysicalActionPose(progress);
+        if (shutterBefore is { } before && _shutterPivot is { } shutter
+            && before != shutter.GlobalTransform)
+            StartHouseShutterAudio();
         if (progress < 1f) return;
 
         var interactionId = _housePhysicalAction == HousePhysicalAction.Shutter
@@ -456,6 +461,7 @@ public partial class W03Controller
 
     private void CancelHousePhysicalAction(bool restoreCommittedPose)
     {
+        CancelHouseShutterAudio();
         _housePhysicalActionGeneration++;
         if (restoreCommittedPose) ApplyCommittedHousePose();
         else if (_housePhysicalAction != HousePhysicalAction.None) RestoreHouseActionStartPose();
