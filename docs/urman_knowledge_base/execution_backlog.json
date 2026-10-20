@@ -53835,7 +53835,7 @@
       },
       "title": "HUD и диалог",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "finished-act1",
@@ -53863,7 +53863,8 @@
         "docs/production/tamara_mvp_2026-09-26/scene-blends/README.md",
         "docs/production/tamara_mvp_2026-09-26/dialogue-size/README.md",
         "docs/production/mvp_tracker_2026-09-27/interaction-hint/receipt.json",
-        "docs/production/act1_ui_family_2026-10-04.md"
+        "docs/production/act1_ui_family_2026-10-04.md",
+        "game/scripts/DialogueUi.cs"
       ],
       "mvp_priority": 17,
       "mvp_packet": "LEGACY-COMPAT",
@@ -54000,7 +54001,7 @@
       "remaining": [
         "Подсказка/субтитры/выбор ответа читаемы, не перекрывают действие; один focus; подтверждается именно выделенная реплика."
       ],
-      "next_action": "HUD и диалог по выбранной общей теме, в границах существующего экранного owner.",
+      "next_action": "After authoritative terminal/restoration of existing protected e79 job, verify the named answer/Esc/reopen/current-session scenario on current source; reuse accepted compile and preserve full HUD/readability criteria.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -54133,7 +54134,25 @@
           "evidence_ref": "ACT1-UI.3.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "answer_lifetime_2026_10_20": {
+        "state": "source_compile_verified_native_pending",
+        "active_owner": null,
+        "baseline_commit": "5c50435d",
+        "question": "Can Esc/reopen during an accepted answer checkpoint make the old UI completion dereference closed state or mutate the replacement dialogue?",
+        "cause": "Choose awaits RuntimeBridge.ChooseDialogueAsync including checkpoint, then reads mutable _dialogue and changes UI; Close clears fields and Open reuses singleton. Open/ShowNode also render after await without opening ownership. Independent causal review confirmed actual subscriber/session semantics.",
+        "scope": "Only DialogueUi owner: per-opening revision/captured runtime session; one pending answer, restore same opening on failure; accepted same-session ChoiceAccepted event uses captured IDs even after close; stale result cannot render/close replacement. No gameplay/state/schema change.",
+        "verification": "Independent final diff review and one affected Game compile shared with locked-store cue fix; no new tests/probes/Godot/game/artifact folders. Native rapid answer/Esc/reopen/load/failure remains open.",
+        "result": "Each opening/close/exit invalidates old presentation; pending answer disables duplicates, accepted event retains captured dialogue/choice IDs for current runtime session even after Esc, then opening ownership is rechecked before rendering/closing. Same-opening errors restore close and focus; old finally cannot unlock replacement.",
+        "verification_result": {
+          "source_review": "Independent final source review: no concrete defects after owned focus restoration. UI opening/session/event guards reviewed against actual RuntimeBridge checkpoint and Niva ride subscriber; no runtime inferred.",
+          "compile": "dotnet build game/Urman.Game.csproj --nologo -v:minimal --ignore-failed-sources -p:NuGetAudit=false; exit0,0warnings,0errors,18.57s.",
+          "native": "NOT_RUN: existing protected e79 job terminal/userdataRestored still unknown; no game/Godot, new station job, screenshots/tests/probes or VPN changes.",
+          "cleanup": "Regenerated game/.godot/mono removed after compile exited and open-file check. No new output/log/report directories."
+        },
+        "source_sha256": "d7537e0d36da5eac6db062f5f034df3dc2d6e82d451c7d632b21c5a36fede89f",
+        "remaining": "Native keyboard/mouse choice→Esc/reopen (including same dialogue), duplicate press, rejected answer/error/close, session load and Niva language answer; full HUD/readability/theme acceptance remains open."
+      }
     },
     {
       "id": "ACT1-UI.4",
@@ -101437,7 +101456,7 @@
       "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Ложный success и неправильный звук стука",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -101452,7 +101471,8 @@
         "docs/tasktracker/review_2026-09-28/06_ui_audio_mechanics_performance.md"
       ],
       "evidence": [
-        "docs/production/a01_ex13_yard_2026-09-28/README.md"
+        "docs/production/a01_ex13_yard_2026-09-28/README.md",
+        "game/scripts/Act1ConnectedWorld.PublicBuildings.cs"
       ],
       "deliverable": "Найти событие случайного success и исправить общий binding стука/двери без переписывания аудиосистемы.",
       "done_when": [
@@ -101569,7 +101589,7 @@
       "remaining": [
         "В повторённом сценарии стук слышен как стук, открывание как открывание; success имеет понятную причину или снят у источника. Повтор/загрузка не дублируют cue; человеческое прослушивание отделено от логической проверки."
       ],
-      "next_action": "Найти событие случайного success и исправить общий binding стука/двери без переписывания аудиосистемы.",
+      "next_action": "Native repeated locked-store check/load and human listening; separately reported random success remains unlocalized, needs actual route/action/time/audio evidence. Actual committed lamp discovery click is not proof of that complaint.",
       "blocker": null,
       "external_gates": [
         {
@@ -101722,7 +101742,26 @@
           "evidence_ref": "ACT1-AUDIO.CUES.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "unassigned_explicit_not_active"
+      "assignment_state": "unassigned_explicit_not_active",
+      "locked_store_cue_2026_10_20": {
+        "state": "source_compile_verified_native_listening_pending",
+        "active_owner": null,
+        "baseline_commit": "5c50435d",
+        "cause": "PublicLockedSeniStore repeat callback plays opening door_creak although owner creates a static closed door and only reports locked state; actual Knock targets already wood_tap.",
+        "targets": [
+          "game/scripts/Act1ConnectedWorld.PublicBuildings.cs"
+        ],
+        "scope": "Remove only false opening cue from failed locked-store repeat; retain text. Random success remains unlocalized, not claimed fixed.",
+        "remaining": "Native repeated locked-store check/load and human listening; separately reported random success remains unlocalized, needs actual route/action/time/audio evidence. Actual committed lamp discovery click is not proof of that complaint.",
+        "result": "Removed only false door_creak from static closed-store repeat; actual reason text and knock wood_tap unchanged. Independent causal source review confirmed owner and exact outcome.",
+        "verification_result": {
+          "source_review": "Independent final source review: no concrete defects after owned focus restoration. UI opening/session/event guards reviewed against actual RuntimeBridge checkpoint and Niva ride subscriber; no runtime inferred.",
+          "compile": "dotnet build game/Urman.Game.csproj --nologo -v:minimal --ignore-failed-sources -p:NuGetAudit=false; exit0,0warnings,0errors,18.57s.",
+          "native": "NOT_RUN: existing protected e79 job terminal/userdataRestored still unknown; no game/Godot, new station job, screenshots/tests/probes or VPN changes.",
+          "cleanup": "Regenerated game/.godot/mono removed after compile exited and open-file check. No new output/log/report directories."
+        },
+        "source_sha256": "2b23c2a61d8e8ba231dd7efd2a225a7e2dccea2e3cbd10226043a7e19ea03b77"
+      }
     },
     {
       "id": "ACT1-CARRY.CONTACT",
@@ -110991,7 +111030,7 @@
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_confirmed",
         "new_job_submitted": false,
-        "last_status_query": "20.10 query launched2026-10-20T10:24:25Z/13:24Moscow after21min backoff: same e79 CLIexit1 urlopen timed out; raw evidence/PW-093/h049-runtime-source-20261020/station-status-1025.log. Terminal/restoration still unknown; no new job/input/restart/VPN changes.",
+        "last_status_query": "2026-10-20 about13:14UTC/16:14Moscow: same e79 status CLIexit1 urlopen timed out. Tool stdout only; no new raw file. No authoritative terminal/restoration; no new job/input/restart/VPN changes.",
         "local_diagnosis": "Happ default VPN route and Tailscale self-signed relay certificate are observed; causal hop is unproven. Owner explicitly answered VPN не трогать on20.10. No disconnect/reconnect or route/cert/daemon changes; previous permission request is resolved as DENIED.",
         "owner_network_constraint": "VPN не трогать. Preserve current Happ connection/configuration; do not re-request the same disconnect experiment without a new owner instruction."
       },
@@ -111008,6 +111047,19 @@
         ],
         "verification": "Final affected Game compile PASS14.34s, 0 warnings/errors. Initial17.49s raw retained before real Journal question-duplication fix. Independent luna_fast reviewed all three source paths and approved final Journal follow-up. Scoped diffcheck passed; no new tests/probes added or run. Native visual/motion/hearing not run.",
         "remaining": "Current native snapshot e79 predates these changes; must first obtain authoritative terminal/userdata restoration, then use current source in one guarded route. Skip permission persists, but skip has not been performed."
+      },
+      "current_route_source_readback_2026_10_20": {
+        "result": "Independent read-only review found no source contradiction in tea→received book→school folder/staff permission→first three-trunk forestedge entry. Do not rewrite an already consistent route based on stale prose.",
+        "inputs": [
+          "game/scripts/JournalUi.cs:584",
+          "game/scripts/Act1DemoRoot.cs:1978",
+          "content/campaigns/urman.fullgame/campaign.json:94",
+          "content/modules/urman-fullgame/definitions.json:1961",
+          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs:147",
+          "game/scripts/RuntimeBridge.PhotoBook.cs:219",
+          "game/scripts/WaterChainHomePresence.cs:170"
+        ],
+        "remaining": "Native school visibility/access, outdoor wayfinding, readability and actual player comprehension; source review does not prove them."
       }
     },
     {

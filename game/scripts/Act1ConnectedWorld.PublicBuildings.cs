@@ -440,7 +440,6 @@ public partial class Act1ConnectedWorld
             if (CanUsePublicBuildingInteraction(target.InteractionId)
                 && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
             {
-                UiFoley.PlayWorld(this, target.GlobalPosition, "door_creak");
                 player.NotifyTraversal(reason);
             }
         };

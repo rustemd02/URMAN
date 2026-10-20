@@ -15,6 +15,8 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
     private CompiledDialogueContent? _dialogue;
     private CompiledDialogueNodeContent? _node;
     private object? _dialogueSessionIdentity;
+    private long _openingRevision;
+    private bool _choicePending;
     private Viewport? _refitViewport;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
@@ -39,7 +41,12 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public override void _EnterTree() => BindRefitSignals();
 
-    public override void _ExitTree() => UnbindRefitSignals();
+    public override void _ExitTree()
+    {
+        _openingRevision++;
+        _choicePending = false;
+        UnbindRefitSignals();
+    }
 
     public override void _Ready()
     {
@@ -148,51 +155,79 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public async void Open(RuntimeBridge bridge, string dialogueId)
     {
+        if (bridge.SessionIdentity is not { } session) return;
+        var dialogue = bridge.RequireDialogue(dialogueId);
+        var revision = ++_openingRevision;
+        _choicePending = false;
         _bridge = bridge;
-        _dialogueSessionIdentity = bridge.SessionIdentity;
-        _dialogue = bridge.RequireDialogue(dialogueId);
+        _dialogueSessionIdentity = session;
+        _dialogue = dialogue;
         _node = null;
+        ClearChoices();
+        _speaker.Text = string.Empty;
+        _line.Text = "…";
         _continue.Visible = false;
+        _continue.Disabled = false;
         UiFoley.Play(_foley, "ui_click");
         _screen.Visible = true;
         UrmanUiTheme.PlayOpen(_panel, _accessibility.ReducedMotion);
         SetPlayerModal(true);
-        if (!await ShowNodeAsync(bridge.ResolveDialogueStartNodeId(_dialogue), applyEffects: true))
+        try
         {
-            _speaker.Text = "...";
-            _line.Text = "Айдару пока нечем продолжить этот разговор.";
-            ClearChoices();
-            _continue.Visible = true;
-            RefitToViewport();
-            _continue.GrabFocus();
+            if (await ShowNodeAsync(bridge.ResolveDialogueStartNodeId(dialogue), applyEffects: true, revision)
+                || !OwnsOpening(revision, bridge, session)) return;
+            ShowUnavailableLine("Айдару пока нечем продолжить этот разговор.");
+        }
+        catch (Exception error)
+        {
+            GD.PushWarning($"Dialogue opening failed: {error.Message}");
+            if (OwnsOpening(revision, bridge, session))
+                ShowUnavailableLine("Не удалось открыть разговор. Закройте окно и попробуйте ещё раз.");
         }
     }
 
-    private async Task<bool> ShowNodeAsync(string nodeId, bool applyEffects)
-    {
-        if (_bridge is null || _dialogue is null || !_dialogue.Nodes.TryGetValue(nodeId, out var node))
-        {
-            return false;
-        }
+    private bool IsCurrentSession(RuntimeBridge bridge, object session) =>
+        IsInstanceValid(this) && IsInsideTree() && !IsQueuedForDeletion()
+        && IsInstanceValid(bridge) && bridge.IsInsideTree() && !bridge.IsQueuedForDeletion()
+        && ReferenceEquals(session, bridge.SessionIdentity);
 
-        if (!_bridge.EvaluateConditions(node.Conditions) || applyEffects && !await _bridge.EnterDialogueNodeAsync(_dialogue.Id, node.Id))
-        {
-            return false;
-        }
+    private bool OwnsOpening(long revision, RuntimeBridge bridge, object session) =>
+        IsCurrentSession(bridge, session) && revision == _openingRevision && _screen.Visible
+        && ReferenceEquals(bridge, _bridge) && ReferenceEquals(session, _dialogueSessionIdentity);
+
+    private void ShowUnavailableLine(string text)
+    {
+        _speaker.Text = "…";
+        _line.Text = text;
+        ClearChoices();
+        _continue.Visible = true;
+        RefitToViewport();
+        _continue.GrabFocus();
+    }
+
+    private async Task<bool> ShowNodeAsync(string nodeId, bool applyEffects, long revision)
+    {
+        if (_bridge is not { } bridge || _dialogue is not { } dialogue
+            || _dialogueSessionIdentity is not { } session || !OwnsOpening(revision, bridge, session)
+            || !dialogue.Nodes.TryGetValue(nodeId, out var node)) return false;
+
+        if (!bridge.EvaluateConditions(node.Conditions)
+            || applyEffects && !await bridge.EnterDialogueNodeAsync(dialogue.Id, node.Id)
+            || !OwnsOpening(revision, bridge, session)) return false;
 
         _node = node;
         _speaker.Text = SpeakerName(node.SpeakerRole);
-        _line.Text = _bridge.ResolveText(node.TextId);
+        _line.Text = bridge.ResolveText(node.TextId);
         // Synthetic preview voice, when a clip exists for this text id (silent otherwise).
-        PrologueVoice.PlayText(this, node.TextId, _bridge.TatarLanguageLevel);
+        PrologueVoice.PlayText(this, node.TextId, bridge.TatarLanguageLevel);
         // ACT1-LANG.2: a heard line auto-collects unknown Tatar words.
-        _ = _bridge.ObserveVocabularyTextAsync(_line.Text, node.TextId);
+        _ = bridge.ObserveVocabularyTextAsync(_line.Text, node.TextId);
         ClearChoices();
-        foreach (var choice in node.Choices.Where(choice => _bridge.EvaluateConditions(choice.Conditions)))
+        foreach (var choice in node.Choices.Where(choice => bridge.EvaluateConditions(choice.Conditions)))
         {
             var button = new Button
             {
-                Text = _bridge.ResolveText(choice.TextId),
+                Text = bridge.ResolveText(choice.TextId),
                 ThemeTypeVariation = UrmanUiTheme.ChoiceButton,
                 Alignment = HorizontalAlignment.Left,
                 AutowrapMode = TextServer.AutowrapMode.WordSmart,
@@ -219,25 +254,46 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private async void Choose(CompiledDialogueChoiceContent choice)
     {
-        if (_bridge is null || _dialogue is null || _node is null)
+        if (_choicePending || _bridge is not { } bridge || _dialogue is not { } dialogue
+            || _node is not { } sourceNode || _dialogueSessionIdentity is not { } session) return;
+        var revision = _openingRevision;
+        if (!OwnsOpening(revision, bridge, session)) return;
+        _choicePending = true;
+        SetChoicesPending(true);
+        try
         {
-            return;
+            if (!await bridge.ChooseDialogueAsync(dialogue.Id, sourceNode.Id, choice.Id)) return;
+            // The answer can commit after Esc; its event belongs to that runtime session.
+            if (!IsCurrentSession(bridge, session)) return;
+            ChoiceAccepted?.Invoke(dialogue.Id, choice.Id);
+            if (!OwnsOpening(revision, bridge, session)) return;
+            if (choice.NextNodeId is null) Close();
+            else await ShowNodeAsync(choice.NextNodeId, applyEffects: false, revision);
         }
-
-        var sourceNodeId = _node.Id;
-        if (!await _bridge.ChooseDialogueAsync(_dialogue.Id, sourceNodeId, choice.Id))
+        catch (Exception error)
         {
-            return;
+            GD.PushWarning($"Dialogue answer failed: {error.Message}");
+            if (OwnsOpening(revision, bridge, session))
+                ShowUnavailableLine("Не удалось продолжить разговор. Закройте окно и попробуйте ещё раз.");
         }
-
-        ChoiceAccepted?.Invoke(_dialogue.Id, choice.Id);
-        if (choice.NextNodeId is null)
+        finally
         {
-            Close();
-            return;
+            if (OwnsOpening(revision, bridge, session))
+            {
+                _choicePending = false;
+                SetChoicesPending(false);
+                if (_choices.Visible && _choices.GetChildCount() > 0)
+                    ((Control)_choices.GetChild(0)).GrabFocus();
+                else if (_continue.Visible) _continue.GrabFocus();
+            }
         }
+    }
 
-        await ShowNodeAsync(choice.NextNodeId, applyEffects: false);
+    private void SetChoicesPending(bool pending)
+    {
+        foreach (var child in _choices.GetChildren())
+            if (child is Button button) button.Disabled = pending;
+        _continue.Disabled = pending;
     }
 
     private void ClearChoices()
@@ -252,6 +308,8 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void Close()
     {
+        _openingRevision++;
+        _choicePending = false;
         PrologueVoice.Stop();
         UiFoley.Play(_foley, "ui_click");
         _screen.Visible = false;
