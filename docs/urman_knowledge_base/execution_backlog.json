@@ -24471,22 +24471,27 @@
             "title": "Сопоставить24finds/3loops/1barrier с actual IDs и successor PW079/PW088; неизвестные IDs назвать явно",
             "result": "Сопоставить24finds/3loops/1barrier с actual IDs и successor PW079/PW088; неизвестные IDs назвать явно",
             "owner": "main",
-            "evidence": [],
+            "evidence": [
+              "content/modules/urman-chapter1/definitions.json",
+              "game/scenes/full_game.tscn",
+              "game/scripts/Main.cs",
+              "game/scripts/Act1ConnectedWorld.cs",
+              "game/scripts/Act1ConnectedWorld.BabaiYardSideGate.cs",
+              "game/scripts/Act1ConnectedWorld.FapExploration.cs",
+              "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs"
+            ],
             "assigned_owner": "main",
             "active_owner": null,
             "activity": {
-              "state": "not_confirmed",
-              "last_recorded_owner": "main",
-              "reason": "Историческое поле не доказывает работу сейчас; назначение сохранено. Подтверждение берётся из нового ответа/живого сеанса, не из возраста записи."
+              "state": "not_active",
+              "reason": "Finite source mapping and unknown24subset delivered, corrected consumer inference accepted by root; no runtime/fullparent acceptance inferred."
             },
             "task_type": "research",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Сопоставить24finds/3loops/1barrier с actual IDs и successor PW079/PW088; неизвестные IDs назвать явно; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Ответить на конкретный вопрос: Какие exact24finds/3loops/1barrier IDs сохранились и какие PW079/PW088 producer/verification их покрывают?",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Research complete. Reuse this26/3/EX05source mapping in PW079/PW088 integration checks; do not delete two finds to force historical24 or reimplement existing Home/village producers.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -24521,7 +24526,224 @@
                 "success": "Один finite список IDs→реальная функция→successor/остаток в work_contract, без нового отчёта и безruntimePASS."
               },
               "evidence_refs": [],
-              "source_criteria_parent": "FINISH-09"
+              "source_criteria_parent": "FINISH-09",
+              "actual_result": {
+                "state": "finite_source_answer_accepted",
+                "actual_count": 26,
+                "finds": [
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-house-interior-photo-back",
+                    "interaction_id": "urman.chapter1:interaction/discover-house-interior-photo-back",
+                    "producer": "game/scripts/Act1ConnectedWorld.Exploration.cs",
+                    "function": "BuildAct1InteriorDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-house-interior-language-tin",
+                    "interaction_id": "urman.chapter1:interaction/discover-house-interior-language-tin",
+                    "producer": "game/scripts/Act1ConnectedWorld.Exploration.cs",
+                    "function": "BuildAct1InteriorDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-fap-interior-height-marks",
+                    "interaction_id": "urman.chapter1:interaction/discover-fap-interior-height-marks",
+                    "producer": "game/scripts/Act1ConnectedWorld.Exploration.cs",
+                    "function": "BuildAct1InteriorDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-fap-interior-repaired-desk-object",
+                    "interaction_id": "urman.chapter1:interaction/discover-fap-interior-repaired-desk-object",
+                    "producer": "game/scripts/Act1ConnectedWorld.Exploration.cs",
+                    "function": "BuildAct1InteriorDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-zirat-outer-rest-bench",
+                    "interaction_id": "urman.chapter1:interaction/discover-zirat-outer-rest-bench",
+                    "producer": "game/scripts/Act1ConnectedWorld.RoadsideDiscoveries.cs",
+                    "function": "BuildRoadsideDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-arrival-bench-race-notches",
+                    "interaction_id": "urman.chapter1:interaction/discover-arrival-bench-race-notches",
+                    "producer": "game/scripts/Act1ConnectedWorld.ExteriorDiscoveries.cs",
+                    "function": "BuildAct1ExteriorDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-arrival-insulated-well",
+                    "interaction_id": "urman.chapter1:interaction/discover-arrival-insulated-well",
+                    "producer": "game/scripts/Act1ConnectedWorld.ExteriorDiscoveries.cs",
+                    "function": "BuildAct1ExteriorDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-main-street-sign-reverse",
+                    "interaction_id": "urman.chapter1:interaction/discover-main-street-sign-reverse",
+                    "producer": "game/scripts/Act1ConnectedWorld.ExteriorDiscoveries.cs",
+                    "function": "BuildAct1ExteriorDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-babai-yard-childhood-spinner",
+                    "interaction_id": "urman.chapter1:interaction/discover-babai-yard-childhood-spinner",
+                    "producer": "game/scripts/Act1ConnectedWorld.YardDiscoveries.cs",
+                    "function": "BuildAct1YardDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-babai-yard-sled-repair",
+                    "interaction_id": "urman.chapter1:interaction/discover-babai-yard-sled-repair",
+                    "producer": "game/scripts/Act1ConnectedWorld.YardDiscoveries.cs",
+                    "function": "BuildAct1YardDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-house-exterior-porch-nook",
+                    "interaction_id": "urman.chapter1:interaction/discover-house-exterior-porch-nook",
+                    "producer": "game/scripts/Act1ConnectedWorld.YardDiscoveries.cs",
+                    "function": "BuildAct1YardDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-babai-yard-porch-paint-tin",
+                    "interaction_id": "urman.chapter1:interaction/discover-babai-yard-porch-paint-tin",
+                    "producer": "game/scripts/Act1ConnectedWorld.LanternDetails.cs",
+                    "function": "BuildAct1LanternDetails",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-babai-yard-entry-wall-joint",
+                    "interaction_id": "urman.chapter1:interaction/discover-babai-yard-entry-wall-joint",
+                    "producer": "game/scripts/Act1ConnectedWorld.LanternDetails.cs",
+                    "function": "BuildAct1LanternDetails",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-fap-exterior-service-path",
+                    "interaction_id": "urman.chapter1:interaction/discover-fap-exterior-service-path",
+                    "producer": "game/scripts/Act1ConnectedWorld.FapExploration.cs",
+                    "function": "BuildFapServiceExploration",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-connective-street-return-bench",
+                    "interaction_id": "urman.chapter1:interaction/discover-connective-street-return-bench",
+                    "producer": "game/scripts/Act1ConnectedWorld.QuietCareDiscoveries.cs",
+                    "function": "BuildAct1QuietCareDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-fap-exterior-care-porch",
+                    "interaction_id": "urman.chapter1:interaction/discover-fap-exterior-care-porch",
+                    "producer": "game/scripts/Act1ConnectedWorld.QuietCareDiscoveries.cs",
+                    "function": "BuildAct1QuietCareDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-main-street-side-window",
+                    "interaction_id": "urman.chapter1:interaction/discover-main-street-side-window",
+                    "producer": "game/scripts/Act1ConnectedWorld.OptionalDiscoveries.cs",
+                    "function": "BuildAct1OptionalDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-connective-street-repair-bench",
+                    "interaction_id": "urman.chapter1:interaction/discover-connective-street-repair-bench",
+                    "producer": "game/scripts/Act1ConnectedWorld.OptionalDiscoveries.cs",
+                    "function": "BuildAct1OptionalDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-zirat-outer-culvert-crossing",
+                    "interaction_id": "urman.chapter1:interaction/discover-zirat-outer-culvert-crossing",
+                    "producer": "game/scripts/Act1ConnectedWorld.CulvertVerandaDiscoveries.cs",
+                    "function": "BuildAct1CulvertVerandaDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-house-exterior-rear-minaret-view",
+                    "interaction_id": "urman.chapter1:interaction/discover-house-exterior-rear-minaret-view",
+                    "producer": "game/scripts/Act1ConnectedWorld.CulvertVerandaDiscoveries.cs",
+                    "function": "BuildAct1CulvertVerandaDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-babai-yard-loose-side-gate-board",
+                    "interaction_id": "urman.chapter1:interaction/discover-babai-yard-loose-side-gate-board",
+                    "producer": "game/scripts/Act1ConnectedWorld.BabaiYardSideGate.cs",
+                    "function": "BuildBabaiYardSideGateExploration",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-kara-old-forestry-side-track",
+                    "interaction_id": "urman.chapter1:interaction/discover-kara-old-forestry-side-track",
+                    "producer": "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs",
+                    "function": "BuildAct1KaraOptionalDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-kara-warm-window-clearing",
+                    "interaction_id": "urman.chapter1:interaction/discover-kara-warm-window-clearing",
+                    "producer": "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs",
+                    "function": "BuildAct1KaraOptionalDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-kara-branch-profile",
+                    "interaction_id": "urman.chapter1:interaction/discover-kara-branch-profile",
+                    "producer": "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs",
+                    "function": "BuildAct1KaraOptionalDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-main-street-fenced-service-lane",
+                    "interaction_id": "urman.chapter1:interaction/discover-main-street-fenced-service-lane",
+                    "producer": "game/scripts/Act1ConnectedWorld.BypassDiscoveries.cs",
+                    "function": "BuildAct1BypassDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  },
+                  {
+                    "knowledge_id": "urman.chapter1:knowledge/discovery-connective-street-shed-bypass",
+                    "interaction_id": "urman.chapter1:interaction/discover-connective-street-shed-bypass",
+                    "producer": "game/scripts/Act1ConnectedWorld.BypassDiscoveries.cs",
+                    "function": "BuildAct1BypassDiscoveries",
+                    "successor": "PW-079 compatibility/regression; PW-088 shared-world contact verification, not a new physical producer"
+                  }
+                ],
+                "count_ambiguity": "gameplay.md dated14Sep says24; current definitions/source contain26. Parent/E05 have no named24 supplier. Two exclusions are unknown: preserve all26, do not invent a canonical24 subset. Separate exploration-small-spaces supplies3more, not included in this26.",
+                "loops": [
+                  {
+                    "id": "urman.chapter1:knowledge/discovery-babai-yard-loose-side-gate-board",
+                    "producer": "Act1ConnectedWorld.BabaiYardSideGate.cs:14",
+                    "route": "BabaiYardSideGateLoopPoints/routeReconnect"
+                  },
+                  {
+                    "id": "urman.chapter1:knowledge/discovery-fap-exterior-service-path",
+                    "producer": "Act1ConnectedWorld.FapExploration.cs:13",
+                    "route": "FapServiceLoopPoints/west gate+permanent east return"
+                  },
+                  {
+                    "id": "urman.chapter1:knowledge/discovery-kara-old-forestry-side-track",
+                    "producer": "Act1ConnectedWorld.KaraOptionalDiscoveries.cs:67",
+                    "route": "short west side loop with reconnecting endpoints"
+                  }
+                ],
+                "barrier": {
+                  "node": "Ex05PassageDriftBarrier",
+                  "producer": "game/scripts/Act1ConnectedWorld.BabaiYardSideGate.cs:185",
+                  "action": "Act1ConnectedWorld.cs:1334 shovel.AddUse(fence) hides snowdrift and disables barrier",
+                  "discovery_id": null,
+                  "identity_limit": "Separate from loose-side-gate-board discovery and its own collider."
+                },
+                "actual_current_consumer": "full_game.tscn:19 EnableAct1ConnectedWorld=true; Act1DemoRoot PhotoWorlds branch does not reset it. Main.cs ReconcileFullGameScenePresentation→SwitchZone→EnsureConnectedWorld constructs shared village, Act1ConnectedWorld.Build calls all listed builders. Not duplicated inside W01–W05 controllers. These finds have actual current Home/village source consumers.",
+                "rejected_inference": "Initial readonly reviewer inferred absence from PhotoWorlds-folder slug search/Act1DemoRoot skipped assignment. Root found explicit full_game flag, reviewer re-read and withdrew that inference; no production change made for false absence.",
+                "successor_contract_limit": "PW079 covers compatible household/EX source and regressions, PW088 covers current collisions/traversal, but neither previously named this exact26/3/EX05 inventory. Use this accepted current-source mapping for bounded integration checks, not proof of runtime success.",
+                "verification": "Root independently read exact full_game/Main source binding and parsed actual26matched knowledge/interaction pairs; independent runtime-confirmed luna_fast reviewed builders/loops/obstacle/count. No runtime/build/tests/new report."
+              }
             },
             "dependencies": {
               "implementation": [],
@@ -24531,7 +24753,8 @@
             "research": {
               "question": "Какие exact24finds/3loops/1barrier IDs сохранились и какие PW079/PW088 producer/verification их покрывают?",
               "expected_answer": "Один finite список IDs→реальная функция→successor/остаток в work_contract, без нового отчёта и безruntimePASS.",
-              "stop_when": "Ответ с source pointers сохранён в этой единице; дальнейшая implementation — её named successor."
+              "stop_when": "Ответ с source pointers сохранён в этой единице; дальнейшая implementation — её named successor.",
+              "answer": "26 exact currentfind pairs,3namedloops,1EX05barrier mapped to current sharedHome/village producers; historical24subset lacks two exclusion IDs, explicitly unknown. Source consumers present, native/regression unverified."
             },
             "depends_on": []
           }
@@ -61888,7 +62111,18 @@
               "root_review": "Root лично осмотрел четыре стороны и два крупных вида. Actual VariantB_PlasterAnnex: штукатурка, деревянный фронтон, сени справа; три передних окна/два задних. Это не сруб, исторические тёмные торцы trim видимы. Template source подходит как следующая входная архитектура, не как финальный artwork.",
               "runtime_limits": "Нет runtime carved Tatar layer/paint/window light/parcel push/ground/world. H002 effective dwelling scale .9, seed2733781018 не добавляет этаж. Geometry/material/runtime не менялись.",
               "next_action": "Сохранить finite source input; текущий native H001/семейства приоритетнее новой платной модели. ImageGen/Meshy/UV/LOD/runtime ещё не выполнялись этим этапом.",
-              "new_meshy_spend": 0
+              "new_meshy_spend": 0,
+              "reference_generation_2026_10_20": {
+                "state": "one_builtin_reference_material_input_accepted_geometry_not_authoritative",
+                "agent": "/root/all_world_book_content",
+                "scope": "One H002plasterhouse coherent materialreference from acceptedactualsource4views/currentgamehouse style; noMeshy/newgeometry/runtime/APIspend.",
+                "reason": "The actual sourceinput accepted in da9fd743 unlocks independent reference preparation while ordinarynative is blocked; paidmodel generation remains held.",
+                "image": "assets/source/blender/act1/neighbor_house_b_reference_v1/imagegen-reference-v1.png",
+                "sha256": "a53bdb1407061568b786d76cef2017fc9971b49feff51a2ade7820e3c3b7d341",
+                "prompt_and_inputs": "assets/source/blender/act1/neighbor_house_b_reference_v1/provenance.md",
+                "root_review": "Root лично просмотрел: plaster/wooden gable/right seni/3frontwindows/quiet weathered materials fit source family. Snow absent intentionally for materialinput. Roof annex junction and steps differ from actualsource: do not transfer them into geometry/contact; original3D remains authoritative. No Meshy/runtime/native/art/performance claim.",
+                "new_meshy_spend": 0
+              }
             }
           },
           {
@@ -62660,19 +62894,21 @@
             "owner": "art/architecture",
             "evidence": [],
             "assigned_owner": "art/architecture",
-            "active_owner": "/root/w03_geometry",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Confirmed bounded source implementation to preserve reviewed PBR/UV on one existing Studio window-width edit."
+              "state": "not_confirmed",
+              "last_recorded_owner": "art/architecture",
+              "reason": "Historical /root/w03_geometry finite source stage completed in3a84e958 and chat; stale confirmed-active cleared after current source revalidation. NativeStudio stage not started; existing e79 terminal/restoration unknown."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID; собственного целевого receipt пока нет."
+              "Нативный Studio Preview→Apply→игра→Undo текущего default PBR/UVv3; подтверждение в кадре/движении и восстановления recipe/modelpath.",
+              "Полная художественная приёмка формы/материальности/света эталонного дома по выбранным references; принятый capUVfix не закрывает этот объём."
             ],
-            "next_action": "Сохранить принятый UV-fix; встроить PBR через канонический source/Studio pipeline так, чтобы редактирование окна не сбрасывало материал. Общая art-приёмка дома и остаток мягкой/пятнистой фактуры открыты; не повторять уже принятые cap A/B.",
+            "next_action": "После подтверждённого terminal/restoration e79 проверить native Studio Preview→Apply→игра→Undo на текущем defaultUVv3. Source PBR retention уже принят3a84e958; повторную реализацию/неизменённую сборку не запускать.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -62707,7 +62943,8 @@
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
               "evidence_refs": [],
-              "source_criteria_parent": "ACT1-DEPTH.12"
+              "source_criteria_parent": "ACT1-DEPTH.12",
+              "actual_result": "Existing source persistence implemented and accepted in3a84e958; exact currentdefault UVv3 modelPath remainsselected. Current-source/manifest revalidation20.10 confirms no new missingcode; nativeStudio/wholehouseart remains."
             },
             "dependencies": {
               "implementation": [],
@@ -62813,7 +63050,12 @@
               "cause": "Studio replaces modelPath with newly rebuilt raw geometry, losing current PBR/UV. Existing width editor supports8fixedIDs .65..1.35, fixedheight/centers/count.",
               "result_requested": "Existing generator uses explicit currentmodel source/template for one window-width edit, preserving semanticnodes/UV/materials and neighborwindows; no newloader/materialowner/fallback. Preserve SeniOuter0=.80 whennonnullmodelPath.",
               "verification": "One actual v3Front0 width edit exported/reimported in pinned Blender; actualwidth/node/UV/materialpreservation andoneframe, then affectedGamecompile. NativeStudioApply/Undo separately pending.",
-              "state": "in_progress"
+              "state": "source_stage_accepted_native_pending",
+              "accepted_source_commit": "3a84e958",
+              "evidence": "evidence/ACT1-DEPTH.12/studio-pbr-front0-2026-10-19/manifest.json",
+              "actual_result": "Existing Studio/generator source preservation delivered: captured modelPath+8widths before mutation, real Front01.06→1.20 PBR/UV/template edit with579nodes/neighborwindows/door/materials preserved; recorded Blender4.5.12 roundtrip and affectedGame18.53s0/0. Default is exact native-reviewed UVv3SHA dca96d3d…9739de4b. Not a current missing implementation.",
+              "current_revalidation_2026_10_20": "Root re-read current source/manifest/commit, independent explorer /root/hero_pbr_pipeline confirmed source paths and template preservation. No repeat build/generation/native used.",
+              "remaining": "Actual native Studio Preview→Apply→game→Undo on current revieweddefault, then fullhouse art/reference acceptance. Full canonical kit regeneration is still procedural but current explicit modelPath has priority; no demonstrated current loss bug."
             }
           },
           {
@@ -67791,21 +68033,24 @@
             "title": "Зафиксировать6–8 exact routine activity IDs с existing animation/pose consumer",
             "result": "Зафиксировать6–8 exact routine activity IDs с existing animation/pose consumer",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "game/content/animations/catalog.v1.json",
+              "game/content/world/act1_north_street_residents.world.v1.json",
+              "game/scripts/AuthoredWorldDirector.Schedules.cs",
+              "game/scripts/AuthoredWorldDirector.AmbientPresence.cs"
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Finite source mapping delivered by /root/all_world_visit_core and accepted by root; parent activities/native/art remain open."
             },
             "task_type": "research",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Зафиксировать6–8 exact routine activity IDs с existing animation/pose consumer; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Ответить на конкретный вопрос: Какие6–8 activities уже authorable и каковы actual pose/animation IDs?",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Research complete. Use exact motion mapping and missing suppliers in named engineering children; do not treat catalogue availability as native activities PASS.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -67839,7 +68084,252 @@
                 "success": "Named routine IDs+pose/animation+transitions dataset; отсутствующий supplier указан, не придуманы занятия."
               },
               "evidence_refs": [],
-              "source_criteria_parent": "ACT1-NPC.2"
+              "source_criteria_parent": "ACT1-NPC.2",
+              "actual_result": {
+                "state": "finite_source_answer_accepted",
+                "motion_mapping": [
+                  {
+                    "motion_id": "urman.anim:idle-plain",
+                    "clip": {
+                      "library": "ual",
+                      "clip": "Idle_Loop"
+                    },
+                    "authored_resident_blocks": [
+                      {
+                        "actor_id": "urman.world:act1/residents/e-n1-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/e-s1-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/m-e1-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/m-e3-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/m-e4-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/m-e4b-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/m-w1-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/m-w3-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/m-w4-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/m-w5-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/n-e1-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/n-e2-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/n-e2b-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/w-n1-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/w-n2-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/kid-1",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/kid-2",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/kid-3",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/square-sq-board",
+                        "routine_id": "day"
+                      }
+                    ],
+                    "actual_block_count": 19,
+                    "role": "actual resident activity"
+                  },
+                  {
+                    "motion_id": "urman.anim:talk-plain",
+                    "clip": {
+                      "library": "ual",
+                      "clip": "Idle_Talking_Loop"
+                    },
+                    "authored_resident_blocks": [
+                      {
+                        "actor_id": "urman.world:act1/residents/m-e3b-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/m-e3b-b",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/m-e5-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/m-e5-b",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/m-w4b-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/m-w4b-b",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/n-e1b-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/n-e1b-b",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/n-e3-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/n-e3-b",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/square-well-a",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/square-well-b",
+                        "routine_id": "day"
+                      }
+                    ],
+                    "actual_block_count": 12,
+                    "role": "actual resident activity"
+                  },
+                  {
+                    "motion_id": "urman.anim:sit",
+                    "clip": {
+                      "library": "ual",
+                      "clip": "Sitting_Idle_Loop"
+                    },
+                    "authored_resident_blocks": [
+                      {
+                        "actor_id": "urman.world:act1/residents/lookout-sitter",
+                        "routine_id": "day"
+                      },
+                      {
+                        "actor_id": "urman.world:act1/residents/sq1-sitter",
+                        "routine_id": "day"
+                      }
+                    ],
+                    "actual_block_count": 2,
+                    "role": "actual resident activity"
+                  },
+                  {
+                    "motion_id": "urman.anim:walk-plain",
+                    "clip": {
+                      "library": "ual",
+                      "clip": "Walk_Loop"
+                    },
+                    "authored_resident_blocks": [],
+                    "actual_block_count": 0,
+                    "role": "available motion/transition, not authored resident activity"
+                  },
+                  {
+                    "motion_id": "urman.anim:sit-down",
+                    "clip": {
+                      "library": "ual",
+                      "clip": "Sitting_Enter"
+                    },
+                    "authored_resident_blocks": [],
+                    "actual_block_count": 0,
+                    "role": "available motion/transition, not authored resident activity"
+                  },
+                  {
+                    "motion_id": "urman.anim:stand-up",
+                    "clip": {
+                      "library": "ual",
+                      "clip": "Sitting_Exit"
+                    },
+                    "authored_resident_blocks": [],
+                    "actual_block_count": 0,
+                    "role": "available motion/transition, not authored resident activity"
+                  },
+                  {
+                    "motion_id": "urman.anim:work-kneel",
+                    "clip": {
+                      "library": "ual",
+                      "clip": "Fixing_Kneeling"
+                    },
+                    "authored_resident_blocks": [],
+                    "actual_block_count": 0,
+                    "role": "available motion/transition, not authored resident activity"
+                  },
+                  {
+                    "motion_id": "urman.anim:torch",
+                    "clip": {
+                      "library": "ual",
+                      "clip": "Idle_Torch_Loop"
+                    },
+                    "authored_resident_blocks": [],
+                    "actual_block_count": 0,
+                    "role": "available motion/transition, not authored resident activity"
+                  }
+                ],
+                "actual_resident_count": 33,
+                "actual_activity_types": 3,
+                "actual_block_ids": [
+                  "day"
+                ],
+                "missing_supplier": "No separate activityID or authored time/route/transition phases in current33 schedule blocks. Eight motion IDs are real clips, not eight complete produced activities; work-kneel/torch lack current actor+prop binding, sit-enter/exit automatic chain absent.",
+                "consumer_refs": [
+                  "game/scripts/AuthoredWorldDirector.Schedules.cs:108",
+                  "game/scripts/AuthoredWorldDirector.Schedules.cs:117",
+                  "game/scripts/AuthoredWorldDirector.Schedules.cs:152",
+                  "game/scripts/AuthoredWorldDirector.Schedules.cs:287",
+                  "game/scripts/AnimationCatalog.cs:74",
+                  "game/scripts/Act1ConnectedWorld.NpcStaging.cs:81"
+                ],
+                "supplier": "game/assets/animations/ual1_standard.glb exists; header checked by readonly agent for the exact8clips. Per-resident rig/motion quality not verified.",
+                "ownership": "Claim/Release and hidden/modal/session guards exist. Background AmbientResidence separately cycles visibility outside close view via AuthoredWorldDirector.AmbientPresence.cs; this is not an authored6–8activity dataset or walking-to-door simulation.",
+                "known_route_risk": "Schedules.cs default onBlocked=go-directly and safe-point can immediately change Position without player visibility check. Existing proof of ambience offscreen visibility does not prove schedule no-teleport behavior.",
+                "engineering_successors": [
+                  "ACT1-NPC.2/STAND-WALK",
+                  "ACT1-NPC.2/TALK",
+                  "ACT1-NPC.2/SIT",
+                  "ACT1-NPC.2/WORK",
+                  "ACT1-NPC.2/OWNERSHIP"
+                ],
+                "verification": "Root read actualcatalog/resident firstblock/scheduler/ambientconsumer and independent readonly exact inventory; no new runtime/build/tests/probes."
+              }
             },
             "dependencies": {
               "implementation": [],
@@ -67849,7 +68339,8 @@
             "research": {
               "question": "Какие6–8 activities уже authorable и каковы actual pose/animation IDs?",
               "expected_answer": "Named routine IDs+pose/animation+transitions dataset; отсутствующий supplier указан, не придуманы занятия.",
-              "stop_when": "Ответ с source pointers сохранён в этой единице; дальнейшая implementation — её named successor."
+              "stop_when": "Ответ с source pointers сохранён в этой единице; дальнейшая implementation — её named successor.",
+              "answer": "No separate activityID or authored time/route/transition phases in current33 schedule blocks. Eight motion IDs are real clips, not eight complete produced activities; work-kneel/torch lack current actor+prop binding, sit-enter/exit automatic chain absent."
             },
             "depends_on": []
           },
@@ -137085,7 +137576,12 @@
           "evidence_ref": "PW-079.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "accepted_research_input_2026_10_20": {
+        "source_task": "FINISH-09/E05",
+        "artifact": "work_contract.actual_result actual26finds/3loops/EX05 mapping and current full_game→sharedvillage binding",
+        "use": "Bounded compatibility/interaction/contact checks when native owned route available; source existence is not native readiness. Historical24 subset unresolved; preserve26."
+      }
     },
     {
       "id": "PW-080",
@@ -140412,7 +140908,12 @@
           "evidence_ref": "PW-088.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "accepted_research_input_2026_10_20": {
+        "source_task": "FINISH-09/E05",
+        "artifact": "work_contract.actual_result actual26finds/3loops/EX05 mapping and current full_game→sharedvillage binding",
+        "use": "Bounded compatibility/interaction/contact checks when native owned route available; source existence is not native readiness. Historical24 subset unresolved; preserve26."
+      }
     },
     {
       "id": "PW-089",
