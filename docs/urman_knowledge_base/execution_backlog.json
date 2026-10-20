@@ -130799,7 +130799,7 @@
         "Завершение не требует драки или уничтожения книги.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W04_Общий_кадр_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "После authoritative e79 terminal/restoration пройти actual C07: priorPCcaption/default/custom1–120/cancel/confirm→bookspread/readback→Save/Continue; close/reopen checkpoint retry, stalevisit/load/modal и legacyfact-only без inventedtext. Source5files/review/finalcompile приняты; общие W04 entry/fouractions/art/отдельная внешняя приёмка сохраняются.",
+      "next_action": "After authoritative e79 terminal/restoration, ordinary W04 route verifies C03 three real views→earned book studies/reader/remark and C07 priorPCcaption/default/custom1–120/cancel/confirm→bookspread/readback→Save/Continue. Reuse common_relations_book_studies_2026_10_20/source C07 accepted code and compiles; close/reopen checkpoint retry, stalevisit/load/modal and legacyfact-only must not invent text/image. Full entry/fouractions/art/external acceptance remains open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -130894,7 +130894,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "C03 earned study/book/remark source stage accepted under common_relations_book_studies_2026_10_20 with affected Game16.62s0/0 and source-vector review. C07 own-note source accepted in prior named stage/14.15s compile. Ordinary physical route, actual720p/reader/Save-Continue and full W04 technical/art/external DoD NOT_RUN; no whole-task completion.",
         "evidence_refs": [
           "tasks[id=PW-061].evidence"
         ],
@@ -131051,6 +131051,31 @@
         "review_fix": "Confirmed nonempty reopen is readonly and offers existing same-text checkpoint SaveGame with neutral status; legacyfact-onlyempty remains noauthoring. No dirtytracker/schema, duplicatefact/text or PCcaption/notebook mutations.",
         "source_result": "Actual C07 editor shows preparedPCcaption and default/own1–120plainline; one ContextObserve/reducer CommandPlan atomically appends text+fact. Cancel no action, current session/visit/scene/modal/request guards, readback atC07 and selectedP-COMMON bookspread. Native UI/layout/file-save/safety not run.",
         "final_condition_review": "Independent personal luna_fast review: supported path requires chained common_three_relations_seen→common_view_uncovered→common_horizon_seen; narrow command rechecks currentW04visit/scene/authoredconditions/location and atomicallycommits fact+text. FullW04quest still checks allfourfacts/outsideevidence/caption/mountedphoto; retry same text saves without redispatch. Source-only, no supported-path bypass found."
+      },
+      "common_relations_book_studies_2026_10_20": {
+        "state": "source_integrated_compile_verified_native_pending",
+        "active_owner": null,
+        "baseline_commit": "13566d41",
+        "question": "Does the physical-book album page show the three small observed-relation studies promised by W04 passport§3 after the actual three-witness fact, without a checklist or unearned/foreign-session disclosure?",
+        "input": "Existing C03 producer commits common_three_relations_seen from urman.fullgame:interaction/pw-common-three-places after actual framed/raycast-visible forest/river/house witnesses. Existing W02 saved-source→DocumentImageContent SVG projection and PhotoBook DocumentImageReader provide the pattern.",
+        "targets": [
+          "game/scripts/RuntimeBridge.Notebook.cs",
+          "game/scripts/JournalUi.PhotoBook.cs",
+          "game/scripts/photoworlds/W04Controller.Gameplay.cs",
+          "game/assets/photoworlds/W04/common-relations-study.svg",
+          "assets/asset_registry.json"
+        ],
+        "scope": "One saved-provenance image projection, three schematic actual-landmark studies on one sheet, selected P-COMMON spread preview/caption and existing fit/zoom/pan/description reader. No new state/fact/mask/schema/tab/reader, no partial green checklist, no exterior-evidence claim or new hint/reward. One fresh post-commit remark identifies the saved drawings and existing journal binding; no retry/auto-open/motion/input lock.",
+        "acceptance": "Absent until exact earned source/fact; shows on P-COMMON, hides/clears on other/none/session/load; same existing return/keyboard/textscale/scroll lifecycle; image depicts current real forest/river/house relations without inventing map/route/external proof.",
+        "verification": "Root inspected actual three-codefile diff, saved source definition, existing reader lifecycle and SVG/resource/description consistency. Independent personal luna_fast spec then quality review clean for projection/UI/remark. One affected Game compile16.62s exit0/0warnings/0errors after all source freeze. Actual SVG rendered with bundled Sharp (CairoSVG unavailable, no install); root personally viewed all3subjects. XML59elements/45paths/no external content; source SHAace57598 and preview hash retained. Tracker structural/navigation validate and diff-check pass; no new tests/probes or Godot/game/import.",
+        "next_action": "When protected e79 terminal/userdata restoration is confirmed, include ordinary C03 earned drawings→P-COMMON preview/reader→return and Save/Continue/session checks in existing W04 route alongside C07 own note; do not repeat source implementation or unchanged compile.",
+        "remaining": "Actual native Godot SVG import, book720p/HighContrast/textscale, keyboard/gamepad/fit/zoom/description/return-focus, same-session source loss/session/load/Save-Continue and fresh/skipped remark remain NOT_RUN. Actual world traversal and full W04 passport/art/external acceptance stay open. This preview proves only the source drawing, not rendered gameplay.",
+        "art_source_review": "Root personally viewed Sharp-rendered SVG1200x420:3floating actual timber-frame studies, far irregular canopy/low water against slope/boarded-gable house front; warm paper/brown ink/slate wash. SVG XML59elements/45paths, no text/image/script/foreignObject/href. Accessible copy names observed subjects and expressly is not a route. Source illustration only, not native scene/geometry/art acceptance.",
+        "asset_sha256": "ace57598d5c505ed2e69c9bc721d006331a6b63ffbb903c54a8b148ffed2f025",
+        "asset_preview": "evidence/PW-061/common-relations-book-source-20261020/studies-preview.png",
+        "result": "Exact saved common_three_relations_seen/source now projects one earned three-study SVG into existing knowledge entry. Selected acquired P-COMMON album spread shows responsive preview/short caption and keyboard reader button; existing reader supplies fit/zoom/pan/description/return focus. Missing source/resource, other/none/changed session/loading clear/hide and close owned study reader, ordinary same-session refresh preserves reader. Fresh successful C03 callback alone shows one journal-binding remark when current visible/unblocked/session-owned; skips without pending retry. No new state/fact/mask/tab/reader or auto-open/camera/input lock/reward.",
+        "compile_log": "evidence/PW-061/common-relations-book-source-20261020/affected-game-build.log",
+        "preview_sha256": "58b3d1645276f488f04b1aefc89b7bf2833d25a3a3ea9b0d27c42f52761e26a3"
       }
     },
     {
@@ -131564,7 +131589,7 @@
         "Не протекают чужая погода, радиосеть и обработка интерфейса.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W04_Общий_кадр_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Создать слои A-COMMON-AUDIO по паспорту и разместить настоящие пространственные источники.",
+      "next_action": "With protected native listening available, build/accept one whole-scene local courtyard/river layer candidate at actual W04 geometry, preserving global meadow/Ambience owner/session/visibility/pause/exit lifecycle. Named courtyard149s CC0preview and river8s procedural input are mapped in common_spatial_audio_input_2026_10_20; do not repeat source discovery or add only a tiny paper cue. Proper cloth source, full masters/mix/hearing/5min and whole A-COMMON-AUDIO remain open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -131652,7 +131677,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "Finite source inputs mapped in current_audio_input_2026_10_20/common_spatial_audio_input_2026_10_20; existing119s meadow and light profile retained. Actual W04 spatial layer/mix/hearing acceptance NOT_RUN; input mapping is not finished audio.",
         "evidence_refs": [
           "tasks[id=PW-063].evidence"
         ],
@@ -131755,7 +131780,8 @@
         "placement": "Actual CommonDistantWater/C02FrameWitness=(117,1.55,-63), seen from C03=(0,4,54), C05=(0,7,112), ranges165.5/210.6m. C03 itself is not river source.",
         "existing_owners": "photoworld_common globalmeadow already owned AmbientAudioDirector/Main.SetW04Ambience, no duplicatebed. UiFoley/WorldFoleyPlayer are one-shot, not continuousloop. AmbienceBus honors persistedvolume/mute; no invented reducedsoundsetting.",
         "next_action": "One finite W04-owned actualriver spatialcandidate using existing source, session/visibility/teardown/pause+shortfade and correctlongrange. Implement only as whole-scene audio slice with actual native listening available; 0.22spaper cue alone is below current MVPpriority. No new audio generation or generic audio framework.",
-        "remaining": "Native spatial range/mix/hearing and full A-COMMON forest/bank/courtyard/cloth layers+5min listen remain open."
+        "remaining": "Native spatial range/mix/hearing and full A-COMMON forest/bank/courtyard/cloth layers+5min listen remain open.",
+        "courtyard_source_readback": "Separate available CC0 preview-derived149s/1sfade photoworld_house_courtyard.wav, ambient.photoworld-house-courtyard (manifest313–345, source695526/proof retained), is not currently spatially bound in W04. Actual CommonHousePlacement/C03FrameWitness frontdoor(-4.2,1,-62). Globalmeadow remains AmbientAudioDirector owner; potential birds/air overlap and far attenuation need actual listening, not blind layering. No runtime change/generation/download."
       }
     },
     {
@@ -134556,7 +134582,7 @@
         "Все семь семантических якорей уникальны.",
         "Нет портальных колец, триггеров в могилах, на молитвенном ковре или на опасном льду."
       ],
-      "next_action": "Назначить фактические места из документа 08 по текущей геометрии деревни.",
+      "next_action": "After authoritative e79 terminal/userdata restoration, record actual seven-anchor transforms/NodePaths/current frames/approaches and protected-place exclusions from existing producers. Reuse actual_anchor_source_review_2026_10_20: six village targets already bound; one-shot PW_PROLOGUE_ROAD maps to current W01/F00, not obsolete night marker. Do not assign new guessed placements or add unused alias.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -134627,7 +134653,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "Source mapping accepted under actual_anchor_source_review_2026_10_20; runtime seven-anchor map/physical non-overlap and actual guarded approaches still NOT_RUN. Current Main resolver uses six distinct village targets and one-shot prologue currentF00; no missing location producer confirmed.",
         "evidence_refs": [
           "tasks[id=PW-070].evidence"
         ],

@@ -213,6 +213,18 @@ public partial class RuntimeBridge
                 && sourceId.ValueKind == JsonValueKind.String
                 && StringComparer.Ordinal.Equals(sourceId.GetString(), reflectionSourceId));
 
+        const string commonRelationsFactId = "common_three_relations_seen";
+        const string commonRelationsSourceId = "urman.fullgame:interaction/pw-common-three-places";
+        var savedCommonRelationsObservation = facts.TryGetProperty(commonRelationsFactId, out var commonRelationsFact)
+            && commonRelationsFact.ValueKind == JsonValueKind.Object
+            && commonRelationsFact.TryGetProperty("sources", out var commonRelationsSources)
+            && commonRelationsSources.ValueKind == JsonValueKind.Array
+            && commonRelationsSources.EnumerateArray().Any(savedSource =>
+                savedSource.ValueKind == JsonValueKind.Object
+                && savedSource.TryGetProperty("sourceId", out var sourceId)
+                && sourceId.ValueKind == JsonValueKind.String
+                && StringComparer.Ordinal.Equals(sourceId.GetString(), commonRelationsSourceId));
+
         // One card per actual source. A source that contributed more than one
         // saved fact keeps its authored title and shows each saved provenance
         // category without exposing internal fact/source IDs.
@@ -266,6 +278,16 @@ public partial class RuntimeBridge
                         "urman.fullgame:asset/w02-water-reflection-relation-sketch",
                         "res://assets/photoworlds/W02/water-reflection-relation-sketch.svg",
                         sketchDescription)];
+                }
+                if (savedCommonRelationsObservation
+                    && StringComparer.Ordinal.Equals(pair.Key, commonRelationsSourceId))
+                {
+                    const string studyDescription = "Три схематические зарисовки с одной площадки: деревянный проём и неровная линия дальнего леса; деревянный проём и низкая поверхность воды у берегового склона; деревянный проём и фасад дома под двускатной крышей с дверью и окнами. Лесной край, вода и дом остаются частями одного места. Наброски показывают увиденные ориентиры, а не карту пути.";
+                    body += "\n\n" + studyDescription + " Наброски также находятся на развороте «Общий кадр» в фотоальбоме.";
+                    images = [new DocumentImageContent(
+                        "urman.fullgame:asset/w04-common-relations-study",
+                        "res://assets/photoworlds/W04/common-relations-study.svg",
+                        studyDescription)];
                 }
 
                 return new ResolvedJournalEntry(

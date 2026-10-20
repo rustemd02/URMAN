@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 namespace Urman.Godot;
@@ -727,6 +728,25 @@ public partial class W04Controller
             _relationsSeenMask = 0;
             _relationsArmed = false;
             UpdateCommonObservationTarget(_relationsTarget, RelationsInteractionId, RelationsFactId, false);
+
+            if (!stillOwned || _world is not { } world || !GodotObject.IsInstanceValid(world)
+                || world.IsQueuedForDeletion() || !world.IsVisibleInTree()
+                || bridge.IsPhotoBookProjectionDeferred
+                || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
+                || !GodotObject.IsInstanceValid(player) || player.IsQueuedForDeletion()
+                || player.SessionTransitionActive || player.ModalOpen
+                || MainMenuUi.AnyUndismissed(GetTree())
+                || GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true })
+                return;
+
+            var studyImageRecorded = bridge.PhotoWorldKnowledgeEntries().Any(entry =>
+                entry.SourceId == RelationsInteractionId
+                && entry.Images?.Any(image => image.AssetId == "urman.fullgame:asset/w04-common-relations-study") == true);
+            if (!studyImageRecorded) return;
+
+            var journalHint = InputBindingService.ActionHint("journal", player.CurrentInputDevice == "gamepad");
+            player.ShowRemark("Айдар",
+                $"Набросал три ракурса: лес, вода и дом. Рисунки — в фотоальбоме. {journalHint} — открыть записную книжку.");
         }
         else
         {

@@ -4737,6 +4737,27 @@
       "provenance": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/h049-runtime-2k-receipt.json",
       "sourceSha256": "4e7c9d6cedf4eba93beedcde2c7bb2c031c85ab4af7f2050e444de1773c8bd68",
       "derivedSha256": "16331d91eab3fb1ad011e044007c14ebd6f160470f40b443dee090bd743de96e"
+    },
+    {
+      "id": "illustration.photoworlds.w04.common-relations-study.v1",
+      "source": "game/assets/photoworlds/W04/common-relations-study.svg",
+      "derived": "game/assets/photoworlds/W04/common-relations-study.svg",
+      "derivedSha256": "ace57598d5c505ed2e69c9bc721d006331a6b63ffbb903c54a8b148ffed2f025",
+      "generator": "Project-authored SVG study of current W04 C01/C02/C03 timber frames and actual forest/water/house witnesses; existing W02 observation-sketch visual pattern",
+      "license": "Project-original vector illustration from project-authored geometry; no external image/font/recording, no paid generation",
+      "scale": 1,
+      "triangleBudget": 0,
+      "textureBudget": 1200,
+      "materials": [
+        "Warm-paper three-part ink study,1200x420; no baked labels/checklist/map, accessible description in earned image projection"
+      ],
+      "materialOwner": "RuntimeBridge.PhotoWorldKnowledgeEntries exact saved common-relations source; selected P-COMMON album preview and existing DocumentImageReader",
+      "collision": "none",
+      "lod": "One shared SVG, responsive preview plus existing fit/zoom reader",
+      "qa": "Root personally rendered actual SVG with Sharp and viewed all3 schematic subjects. XML/resource hashes checked; actual Godot import/720p/UI/Continue/art pending.",
+      "status": "Source illustration reviewed; earned notebook/album/remark integration compiled16.62s0warnings0errors and independent source review clean. Native/author acceptance pending.",
+      "releaseDisposition": "Only earned C03 common-relations feedback, not a world photograph, outside proof, full W04 or all13photo acceptance",
+      "runtimeAssetId": "urman.fullgame:asset/w04-common-relations-study"
     }
   ]
 }

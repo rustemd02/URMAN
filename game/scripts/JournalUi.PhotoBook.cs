@@ -13,6 +13,8 @@ public partial class JournalUi
     private const string SBankFrontImagePath = "res://assets/textures/photobook/s-bank-front-v1.png";
     private const string PForestFrontImagePath = "res://assets/textures/photobook/p-forest-front-v2.png";
     private const string PForestThumbnailPath = "res://assets/textures/photobook/p-forest-front-v2-thumbnail.png";
+    private const string CommonRelationsSourceId = "urman.fullgame:interaction/pw-common-three-places";
+    private const string CommonRelationsStudyAssetId = "urman.fullgame:asset/w04-common-relations-study";
     private static readonly IReadOnlyDictionary<string, (string Path, string Caption)> PhotoBookBackImages =
         new Dictionary<string, (string Path, string Caption)>(StringComparer.Ordinal)
         {
@@ -52,6 +54,9 @@ public partial class JournalUi
     private TextureRect _photoBookBackImage = null!;
     private Label _photoBookBackText = null!;
     private Label _photoBookCommonNote = null!;
+    private TextureRect _photoBookCommonRelationsStudy = null!;
+    private Label _photoBookCommonRelationsCaption = null!;
+    private Button _photoBookCommonRelationsInspectButton = null!;
     private Button _photoBookReadBackButton = null!;
     private Button _photoBookInspectBackButton = null!;
     private Button _photoBookMountButton = null!;
@@ -296,6 +301,33 @@ public partial class JournalUi
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill, FocusMode = Control.FocusModeEnum.All };
         _photoBookSpread.AddChild(_photoBookCommonNote);
+        _photoBookCommonRelationsStudy = new TextureRect
+        {
+            Name = "CommonRelationsStudy",
+            CustomMinimumSize = new Vector2(0f, 140f),
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            SizeFlagsVertical = Control.SizeFlags.ShrinkBegin,
+            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Visible = false
+        };
+        _photoBookSpread.AddChild(_photoBookCommonRelationsStudy);
+        _photoBookCommonRelationsCaption = new Label
+        {
+            Name = "CommonRelationsCaption", Visible = false,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill, FocusMode = Control.FocusModeEnum.All
+        };
+        _photoBookSpread.AddChild(_photoBookCommonRelationsCaption);
+        _photoBookCommonRelationsInspectButton = new Button
+        {
+            Name = "InspectCommonRelationsStudy", Text = "Рассмотреть наброски",
+            Visible = false, Disabled = true, FocusMode = Control.FocusModeEnum.All,
+            CustomMinimumSize = new Vector2(0f, 44f)
+        };
+        _photoBookSpread.AddChild(_photoBookCommonRelationsInspectButton);
+        _photoBookCommonRelationsInspectButton.Pressed += OpenSelectedPhotoBookCommonRelationsReader;
         var photoActions = new HBoxContainer { Name = "PhotoActions" };
         _photoBookSpread.AddChild(photoActions);
         _photoBookReadBackButton = new Button
@@ -576,6 +608,7 @@ public partial class JournalUi
         var commonNote = photo.PhotoId == "P-COMMON" ? _bridge?.CommonFrameNoteText() : null;
         _photoBookCommonNote.Text = string.IsNullOrEmpty(commonNote) ? string.Empty : "Моя помета:\n" + commonNote;
         _photoBookCommonNote.Visible = !string.IsNullOrEmpty(commonNote);
+        RefreshPhotoBookCommonRelationsStudy();
         if (photo.BackRead
             && PhotoBookBackImages.TryGetValue(photo.PhotoId, out var authoredBack)
             && string.Equals(photo.BackTextRu, authoredBack.Caption, StringComparison.Ordinal)
@@ -590,6 +623,15 @@ public partial class JournalUi
 
     private void ClearPhotoBookImages()
     {
+        if (GodotObject.IsInstanceValid(_photoBookCommonRelationsStudy))
+        {
+            _photoBookCommonRelationsStudy.Texture = null;
+            _photoBookCommonRelationsStudy.Visible = false;
+            _photoBookCommonRelationsCaption.Text = string.Empty;
+            _photoBookCommonRelationsCaption.Visible = false;
+            _photoBookCommonRelationsInspectButton.Visible = false;
+            _photoBookCommonRelationsInspectButton.Disabled = true;
+        }
         if (GodotObject.IsInstanceValid(_photoBookInspectBackButton))
         {
             _photoBookInspectBackButton.Visible = false;
@@ -605,6 +647,61 @@ public partial class JournalUi
             _photoBookBackImage.Texture = null;
             _photoBookBackImage.Visible = false;
         }
+    }
+
+    private DocumentImageContent? CurrentCommonRelationsStudy()
+    {
+        if (_notesLoadInProgress || _photoBookSelectedId != "P-COMMON"
+            || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || bridge.IsQueuedForDeletion() || !bridge.IsPhotoWorldsCampaign
+            || bridge.IsPhotoBookProjectionDeferred
+            || bridge.SessionIdentity is not { } session
+            || !ReferenceEquals(_photoBookSession, session)
+            || !bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-COMMON"))
+            return null;
+
+        return bridge.PhotoWorldKnowledgeEntries()
+            .FirstOrDefault(entry => StringComparer.Ordinal.Equals(entry.SourceId, CommonRelationsSourceId))
+            ?.Images?.FirstOrDefault(image => StringComparer.Ordinal.Equals(image.AssetId, CommonRelationsStudyAssetId));
+    }
+
+    private void RefreshPhotoBookCommonRelationsStudy()
+    {
+        var study = CurrentCommonRelationsStudy();
+        if (study is null || !ResourceLoader.Exists(study.ResourcePath)
+            || ResourceLoader.Load<Texture2D>(study.ResourcePath) is not { } texture)
+        {
+            if (ReferenceEquals(_photoBookImageReaderLaunchButton, _photoBookCommonRelationsInspectButton))
+                ClosePhotoBookImageReader();
+            return;
+        }
+        _photoBookCommonRelationsStudy.Texture = texture;
+        _photoBookCommonRelationsStudy.Visible = true;
+        _photoBookCommonRelationsCaption.Text = "Три взгляда с одной площадки.";
+        _photoBookCommonRelationsCaption.Visible = true;
+        _photoBookCommonRelationsInspectButton.Visible = true;
+        _photoBookCommonRelationsInspectButton.Disabled = false;
+    }
+
+    private void OpenSelectedPhotoBookCommonRelationsReader()
+    {
+        if (!_screen.Visible || !_photoBookPage.Visible || _tabs.CurrentTab != PhotoBookTabIndex
+            || CurrentCommonRelationsStudy() is not { } study
+            || !ResourceLoader.Exists(study.ResourcePath)
+            || ResourceLoader.Load<Texture2D>(study.ResourcePath) is null
+            || _photoBookImageReader is not { } reader
+            || _photoBookImageReaderBody is not { } body
+            || _photoBookImageReaderHeader is not { } header)
+            return;
+
+        CloseBookInspection();
+        body.Text = "Мои наброски к общему кадру\n\n" + study.Description;
+        if (_photoBookImageReaderTitle is { } titleLabel) titleLabel.Text = "Мои наброски к общему кадру";
+        reader.SetImages(new[] { study });
+        _photoBookImageReaderLaunchButton = _photoBookCommonRelationsInspectButton;
+        _photoBookSpread.Visible = false;
+        header.Visible = true;
+        reader.ShowPicture(true);
     }
 
     private void SetPhotoBookReadingZoom(float zoom)
@@ -633,6 +730,7 @@ public partial class JournalUi
             _photoBookBackHeading,
             _photoBookBackText,
             _photoBookCommonNote,
+            _photoBookCommonRelationsCaption,
             _photoBookActionStatus
         })
         {
