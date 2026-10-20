@@ -109445,7 +109445,8 @@
           "evidence/PW-021/dynamic-resources-20261020/affected-game-build-initial-failure.log",
           "evidence/PW-021/dynamic-resources-20261020/affected-game-build.log"
         ],
-        "next_action": "Protected ordinary tea/book→school→home→entry walkthrough; PW-019 full criteria and UXA-001/ROUTE integration remain pending."
+        "next_action": "Protected ordinary tea/book→school→home→entry walkthrough; PW-019 full criteria and UXA-001/ROUTE integration remain pending.",
+        "early_return_followup": "After an unfinished W01 returns home, Journal/book/HUD now point to the home table and correct Enter/Continue label instead of suppressing preparation guidance while quest stays active. Existing photo-scene exclusion, W02 priority and first-entry prerequisites retained. One-file source inspection and scoped diff check; native not run."
       },
       "first_river_place_2026_10_20": {
         "state": "source_integrated_compiled_native_pending",

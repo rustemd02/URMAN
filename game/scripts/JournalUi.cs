@@ -595,8 +595,15 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
                 : "Выйти на улицу и поговорить с Алсу, прежде чем войти в общий снимок.";
         if (waterQuestStatus == "active")
             return PhotoBookWaterHandoffObjectiveText(bridge);
-        if (forestQuestStatus == "active"
-            || houseQuestStatus is "active" or "completed")
+        if (forestQuestStatus == "active")
+        {
+            var resumePhoto = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-FOREST");
+            var entryAction = resumePhoto?.HasResumePoint == true ? "Продолжить снимок" : "Войти в снимок";
+            return bridge.CurrentZoneId == "house_old_pc"
+                ? $"У домашнего стола открыть в книге разворот «Люди у леса» и выбрать «{entryAction}»."
+                : $"Вернуться к домашнему столу с книгой, открыть разворот «Люди у леса» и выбрать «{entryAction}».";
+        }
+        if (houseQuestStatus is "active" or "completed")
             return null;
         if (waterQuestStatus == "completed")
             return PhotoBookHouseHandoffObjectiveText(bridge);
