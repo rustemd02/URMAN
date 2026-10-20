@@ -4688,11 +4688,11 @@
       "triangleBudget": 20772,
       "textureBudget": 4096,
       "materials": [
-        "One OPAQUE double-sided PBR; BaseColor4096/Normal4096/MR2048 JPEG, UV0"
+        "Shared OPAQUE double-sided PBR; BaseColor4096/Normal4096/MR2048 JPEG, UV0. Existing household paint overrides only Jamb/Rail/Verge/Mullion trim; generated PBR remains on other opaque parts/crowns."
       ],
-      "collision": "Opaque visual replacement only on current residentialH001 nested Dwelling. Existing generic surface-collision body, yard, address, door, TatarCarpentry, glazing/snow/posts keep their owners. Explicit Studio modelPath override takes precedence. No new collision or authored layout edit.",
+      "collision": "Opaque visual replacement on current addressed private generic VariantA dwellings (28 current placements). Existing generic surface collision, yard, address, door, TatarCarpentry, glazing/snow/posts retain their owners. Live opaque transforms preserve three added-storey roofs; explicit Studio modelPath wins. No new collision/layout edit.",
       "lod": "115 semantic opaque mesh nodes; no generated lower LOD or performance claim.",
-      "status": "Source geometry/PBR reviewed; exact current H001 residential consumer implemented; affected Game compile17.39s0/0 and bounded source review passed, native/art/UVcoverage/performance pending. Retired EastStreetMid and public council are not replaced.",
+      "status": "Source geometry/PBR reviewed; current private VariantA family provider implemented with shared scene/resources, live poses and household trim paint; affected Game compile17.30s0/0 passed. Native/art/UVcoverage/performance pending; retired/public council not replaced.",
       "releaseDisposition": "compile-verified-native-pending-art-native-coverage-pending",
       "provenance": "assets/source/blender/act1/neighbor_house_a_retexture_v2/candidate-receipt.json",
       "sourceSha256": "af977aa137f5aacca59baa25fb2d4b2cd4a664bb7e8135e1df8cccd28525f38f",

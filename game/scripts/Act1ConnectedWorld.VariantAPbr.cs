@@ -9,56 +9,65 @@ namespace Urman.Godot;
 public partial class Act1ConnectedWorld
 {
     private const string VariantAPbrModelPath = "res://assets/models/act1/neighbor-house-a-pbr-v2.glb";
-    private const string VariantAPbrHouseId = "urman.world:act1/open-part/h001-house";
+    private const string VariantAPbrCatalogId = "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable";
     private const string VariantAPbrComponentName = "VillageParcel_VariantA_TimberGable_Dwelling";
     private const string VariantAPbrDwellingPath = "Visual/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling";
     private const string VariantAPbrImportedRootName = "VillageParcel_VariantA_TimberGable_Dwelling";
-    private const string VariantAPbrMountedRootName = "H001VariantAPbrV2Opaque";
+    private const string VariantAPbrMountedRootName = "VariantAPbrV2Opaque";
     private const string VariantAPbrMeshPrefix = "VariantA_TimberGable_Dwelling_";
 
     /// <summary>
-    /// Replaces only the opaque presentation on H001's existing residential
-    /// dwelling. AuthoredWorld remains the placement and model-override owner;
-    /// the imported layer inherits the live dwelling transform and all existing
-    /// collision, yard, dressing, glazing, snow and address/contact owners.
+    /// Replaces the opaque presentation of current addressed generic Variant A
+    /// households after their source geometry has supplied contacts and collision.
+    /// AuthoredWorld keeps placement and explicit Studio model overrides.
     /// </summary>
-    private void GraftH001VariantAPbr()
+    private void GraftPrivateVariantAPbrFamily()
     {
         using var naming = InvariantNameScope();
         var authoredWorld = AuthoredWorld
-            ?? throw new InvalidOperationException("The authored world is missing before the H001 PBR graft.");
+            ?? throw new InvalidOperationException("The authored world is missing before the Variant A PBR graft.");
+        var houseIds = authoredWorld.ObjectIds
+            .Where(id => authoredWorld.IsAddressedCatalogProp(id, VariantAPbrCatalogId)
+                && !authoredWorld.HasHouseModelOverride(id))
+            .ToArray();
+        if (houseIds.Length == 0) return;
 
-        // A Studio-selected house model is an explicit authored owner. Keep that
-        // model intact; the default H001 dwelling below must satisfy this exact
-        // source contract or fail before any original mesh is hidden.
-        if (authoredWorld.HasHouseModelOverride(VariantAPbrHouseId)) return;
+        // One packed scene shares imported meshes/materials across all instances.
+        var packed = ResourceLoader.Load<PackedScene>(VariantAPbrModelPath)
+            ?? throw new InvalidOperationException($"The Variant A PBR candidate is missing: {VariantAPbrModelPath}.");
+        foreach (var houseId in houseIds)
+        {
+            var houseRoot = authoredWorld.ObjectRoot(houseId)
+                ?? throw new InvalidOperationException($"The addressed Variant A house is missing: {houseId}.");
+            if (!houseRoot.IsVisibleInTree())
+                throw new InvalidOperationException($"The addressed Variant A house is not visible: {houseId}.");
+            GraftVariantAPbr(houseRoot, packed);
+        }
+    }
 
-        var houseRoot = authoredWorld.ObjectRoot(VariantAPbrHouseId)
-            ?? throw new InvalidOperationException($"The default H001 authored house is missing: {VariantAPbrHouseId}.");
-        if (!houseRoot.IsVisibleInTree())
-            throw new InvalidOperationException("The default H001 authored house is not the visible residential placement.");
-
+    private static void GraftVariantAPbr(Node3D houseRoot, PackedScene packed)
+    {
         var sourceComponent = houseRoot.GetNodeOrNull<Node3D>(VariantAPbrDwellingPath)
-            ?? throw new InvalidOperationException("H001 lost its exact Variant A dwelling component.");
+            ?? throw new InvalidOperationException("The addressed house lost its exact Variant A dwelling component.");
         if (!string.Equals(sourceComponent.Name.ToString(), VariantAPbrComponentName, StringComparison.Ordinal)
             || !sourceComponent.IsVisibleInTree())
         {
-            throw new InvalidOperationException("The H001 Variant A dwelling is not the active visible source component.");
+            throw new InvalidOperationException("The addressed Variant A dwelling is not the active visible source component.");
         }
         if (sourceComponent.GetNodeOrNull<Node3D>(VariantAPbrMountedRootName) is not null)
-            throw new InvalidOperationException("The H001 Variant A PBR layer was already grafted.");
+            throw new InvalidOperationException("The addressed Variant A PBR layer was already grafted.");
 
         var sourceMeshes = VariantAMeshInstances(sourceComponent)
             .Where(mesh => mesh.Name.ToString().StartsWith(VariantAPbrMeshPrefix, StringComparison.Ordinal))
             .ToArray();
         if (sourceMeshes.Any(mesh => mesh.Mesh is null))
-            throw new InvalidDataException("The original H001 Variant A dwelling contains an empty semantic mesh node.");
-        var sourceNames = UniqueVariantAMeshNames(sourceMeshes, "original H001 Variant A dwelling");
+            throw new InvalidDataException("The original addressed Variant A dwelling contains an empty semantic mesh node.");
+        var sourceNames = UniqueVariantAMeshNames(sourceMeshes, "original addressed Variant A dwelling");
         var sourceBaseNames = sourceNames
             .Where(name => !name.EndsWith("_LogCrown", StringComparison.Ordinal))
             .ToHashSet(StringComparer.Ordinal);
         if (sourceBaseNames.Count != 122)
-            throw new InvalidDataException($"The original H001 Variant A dwelling has {sourceBaseNames.Count} base meshes; expected 122.");
+            throw new InvalidDataException($"The original addressed Variant A dwelling has {sourceBaseNames.Count} base meshes; expected 122.");
 
         var sourceGlass = sourceBaseNames.Where(name => name.Contains("Glass", StringComparison.Ordinal)).ToArray();
         var sourceSnow = sourceBaseNames.Where(name => name.Contains("Snow", StringComparison.Ordinal)).ToArray();
@@ -67,32 +76,30 @@ public partial class Act1ConnectedWorld
         foreach (var excluded in sourceGlass.Concat(sourceSnow).Concat(sourcePosts))
         {
             if (!excludedNames.Add(excluded))
-                throw new InvalidDataException("The original H001 Variant A glass, snow and post exclusions overlap.");
+                throw new InvalidDataException("The original addressed Variant A glass, snow and post exclusions overlap.");
         }
         if (sourceGlass.Length != 9 || sourceSnow.Length != 1 || sourcePosts.Length != 4
             || excludedNames.Count != 14)
         {
             throw new InvalidDataException(
-                $"The original H001 Variant A preserved layer contract changed (glass={sourceGlass.Length}, snow={sourceSnow.Length}, posts={sourcePosts.Length}).");
+                $"The original addressed Variant A preserved layer contract changed (glass={sourceGlass.Length}, snow={sourceSnow.Length}, posts={sourcePosts.Length}).");
         }
 
         var opaqueNames = sourceBaseNames.Where(name => !excludedNames.Contains(name))
             .ToHashSet(StringComparer.Ordinal);
         if (opaqueNames.Count != 108)
-            throw new InvalidDataException($"The original H001 Variant A opaque contract has {opaqueNames.Count} meshes; expected 108.");
+            throw new InvalidDataException($"The original addressed Variant A opaque contract has {opaqueNames.Count} meshes; expected 108.");
         var expectedCrowns = opaqueNames
             .Where(name => name.EndsWith("_Wall_LOD0", StringComparison.Ordinal))
             .Select(name => name.Replace("_Wall_LOD0", "_LogCrown", StringComparison.Ordinal))
             .ToHashSet(StringComparer.Ordinal);
         if (expectedCrowns.Count != 7)
-            throw new InvalidDataException($"The original H001 Variant A source exposes {expectedCrowns.Count} wall crowns; expected 7.");
+            throw new InvalidDataException($"The original addressed Variant A source exposes {expectedCrowns.Count} wall crowns; expected 7.");
         var sourceCrowns = sourceNames.Where(name => name.EndsWith("_LogCrown", StringComparison.Ordinal))
             .ToHashSet(StringComparer.Ordinal);
         if (sourceCrowns.Count != 7 || !sourceCrowns.SetEquals(expectedCrowns))
-            throw new InvalidDataException("The existing H001 dwelling does not contain exactly the seven expected generated wall crowns.");
+            throw new InvalidDataException("The existing addressed dwelling does not contain exactly the seven expected generated wall crowns.");
 
-        var packed = ResourceLoader.Load<PackedScene>(VariantAPbrModelPath)
-            ?? throw new InvalidOperationException($"The Variant A PBR candidate is missing: {VariantAPbrModelPath}.");
         Node3D? importedRoot = null;
         Node3D? candidateRoot = null;
         var candidateAttached = false;
@@ -159,12 +166,40 @@ public partial class Act1ConnectedWorld
             if (sourceReplacementMeshes.Length != 115 || !liveReplacementNames.SetEquals(expectedNames))
             {
                 throw new InvalidDataException(
-                    $"The live H001 dwelling has {sourceReplacementMeshes.Length} opaque-plus-crown meshes to replace; expected exactly 115.");
+                    $"The live addressed dwelling has {sourceReplacementMeshes.Length} opaque-plus-crown meshes to replace; expected exactly 115.");
+            }
+
+            var liveOpaque = sourceReplacementMeshes
+                .Where(mesh => opaqueNames.Contains(mesh.Name.ToString()))
+                .ToDictionary(mesh => mesh.Name.ToString(), StringComparer.Ordinal);
+            if (liveOpaque.Values.Any(mesh => !ReferenceEquals(mesh.GetParent(), sourceComponent))
+                || candidateNodes.Any(mesh => !ReferenceEquals(mesh.GetParent(), candidateRoot)))
+            {
+                throw new InvalidDataException("The Variant A live and candidate meshes must be direct dwelling children before copying local transforms.");
+            }
+            foreach (var mesh in candidateNodes)
+            {
+                var name = mesh.Name.ToString();
+                if (!liveOpaque.TryGetValue(name, out var live)) continue;
+                // DressParcel lifts selected roofs for added storeys. Copy node
+                // placement, keeping the candidate's geometry, UVs and normals.
+                mesh.Transform = live.Transform;
+                mesh.Visible = live.Visible;
+                // Regrade also overrides plain timber; only household paint
+                // belongs above the generated PBR materials. Crowns keep their
+                // constructively corrected first-floor geometry and placement.
+                if (name.Contains("_Jamb", StringComparison.Ordinal)
+                    || name.Contains("_Rail", StringComparison.Ordinal)
+                    || name.Contains("_Verge", StringComparison.Ordinal)
+                    || name.Contains("_Mullion", StringComparison.Ordinal))
+                {
+                    mesh.MaterialOverride = live.MaterialOverride;
+                }
             }
 
             // The exported root has no preview-board transform or added Yup
             // basis. Parent it under the live dwelling at identity so its exact
-            // authored geometry inherits H001's scale, offset and placement.
+            // authored geometry inherits the live household's scale, offset and placement.
             if (!ReferenceEquals(candidateRoot, importedRoot))
             {
                 var importedParent = candidateRoot.GetParent()

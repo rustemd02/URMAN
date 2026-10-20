@@ -1,0 +1,7565 @@
+{
+  "schema": "h002-variant-b-source-reference/v1",
+  "status": "source_geometry_example_not_actual_game_frame",
+  "source": {
+    "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
+    "sha256": "fdc69de9f580276f6a9c831bde60a0dad1728acdc533f00320e8a9009c233bf8",
+    "bytes": 3132148,
+    "rights": "Project-original perassets/asset_registry.json; no new public license asserted"
+  },
+  "current_plot_entity": {
+    "id": "urman.world:act1/open-part/h002-house",
+    "kind": "prop",
+    "name": "h002-house",
+    "params": {
+      "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+      "position": [
+        37.75,
+        0,
+        118.747
+      ],
+      "yawDegrees": -0.0,
+      "scale": 0.758,
+      "collision": "surfaces",
+      "address": {
+        "id": "ADR-H002",
+        "street": "kyr",
+        "number": "10",
+        "cadastral": "URM-Q01-P0101"
+      },
+      "terrainPad": {
+        "halfSize": [
+          5.452,
+          5.903
+        ],
+        "streetAnchor": [
+          37.75,
+          130.0
+        ],
+        "feather": 2.25
+      }
+    },
+    "note": "Открытая часть: хозяйство, ворота к своей улице"
+  },
+  "current_catalog_entry": {
+    "id": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+    "name": "Деревня участок вариант B оштукатуренный пристройка",
+    "category": "Дома и постройки",
+    "source": {
+      "scene": "res://assets/models/act1/urman_village_exterior_kit.glb",
+      "node": "VillageParcel_VariantB_PlasterAnnex"
+    },
+    "size": [
+      12.67,
+      4.93,
+      13.86
+    ],
+    "origin": [
+      39.49,
+      0,
+      1.42
+    ],
+    "collision": "box",
+    "kit": "деревня",
+    "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+  },
+  "plot_executor": "generic",
+  "role": "Private addressed residential household H002/ADR-H002; currententity has no public building or KitPlacement façade role. Sourcefamily is plaster VariantB, not VariantA logs.",
+  "visibility_contract": {
+    "hidden_parameter_present": false,
+    "states_parameter_present": false,
+    "model_path_override_present": false,
+    "generic_ApplyStates_default": "base visible, base collision"
+  },
+  "runtime_consumer": {
+    "owner": "AuthoredWorldDirector.BuildVisual+BuildCollision(surfaces)",
+    "visual_scale": 0.758,
+    "catalog_origin": [
+      39.49,
+      0,
+      1.42
+    ],
+    "house_scale_compensation": 1.187335092348285,
+    "effective_dwelling_scale": 0.9,
+    "placement": [
+      37.75,
+      0,
+      118.747
+    ],
+    "yaw_degrees": -0.0,
+    "grounding": "Ground addsAgentBAct1HeightField.CollisionGround; not reproduced",
+    "edge_push": "BuildCollision computesBounds ofwholeparcel afterOpenYardGateway, then Pushes scaledDwelling/Outbuilding insideparcel+0.3m margins; not reproduced"
+  },
+  "runtime_style": {
+    "stable_id": "urman.world:act1/open-part/h002-house",
+    "stable_hash_fnv1a_uint32": 2733781018,
+    "variant_mod5": 3,
+    "casing_paint_srgb": "e9e3d4",
+    "allowAddedStorey_generic_default": true,
+    "hash_mod17": 2,
+    "two_storey_condition": false
+  },
+  "component": {
+    "parcel": "VillageParcel_VariantB_PlasterAnnex",
+    "root": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
+    "original_root_local_transform_blender": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "original_root_world_transform_blender": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        41.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "preview_translation_removed": [
+      41.0,
+      0.0,
+      0.0
+    ],
+    "render_only_root_scale": 0.9,
+    "world_bounds_blender_z_up_at_render_scale": [
+      [
+        -2.9204986,
+        -1.5389999,
+        0.0
+      ],
+      [
+        4.3379989,
+        4.9590001,
+        4.4370003
+      ]
+    ],
+    "mesh_local_transforms_exactly_preserved": true,
+    "root_relative_matrix_float_roundoff_max": 4.770000003873065e-07,
+    "mesh_nodes": 123,
+    "source_triangles": 3704,
+    "mesh_inventory": {
+      "VariantB_PlasterAnnex_Dwelling_Back_BoardedGable_LOD0": {
+        "triangles": 50,
+        "vertices": 100,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            0.892698288,
+            0.0,
+            -0.450654805,
+            -1.555000305
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            5.465000153
+          ],
+          [
+            0.450654805,
+            0.0,
+            0.892698288,
+            3.565000057
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            0.892698288,
+            0.0,
+            -0.450654805,
+            -1.555000305
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            5.465000153
+          ],
+          [
+            0.450654805,
+            0.0,
+            0.892698288,
+            3.565000057
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            0.892698288,
+            0.0,
+            0.450654805,
+            1.555000305
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            5.465000153
+          ],
+          [
+            -0.450654805,
+            0.0,
+            0.892698288,
+            3.565000057
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            0.892698288,
+            0.0,
+            0.450654805,
+            1.555000305
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            5.465000153
+          ],
+          [
+            -0.450654805,
+            0.0,
+            0.892698288,
+            3.565000057
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_ChimneyCap_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.900001526
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            3.650000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            4.880000114
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.900001526
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            3.650000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            4.880000114
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Roof_WetSlate"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_ChimneyFlashing_LOD0": {
+        "triangles": 36,
+        "vertices": 72,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Metal_Dulled"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_ChimneyStack_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.900001526
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            3.650000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            4.199999809
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.900001526
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            3.650000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            4.199999809
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Plaster_Shadow"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Corner_-2.75_-1.3_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -2.75
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.299999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.600000024
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -2.75
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.299999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.600000024
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Corner_-2.75_5.1000000000000005_": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -2.75
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            5.099999905
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.600000024
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -2.75
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            5.099999905
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.600000024
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Corner_2.75_-1.3_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.75
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.299999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.600000024
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.75
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.299999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.600000024
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Corner_2.75_5.1000000000000005_L": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.75
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            5.099999905
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.600000024
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.75
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            5.099999905
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.600000024
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Downpipe_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.810001373
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.320000052
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.450000048
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.810001373
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.320000052
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.450000048
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Metal_Dulled"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_DownpipeSplash_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.900001526
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.360000014
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.079999998
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.900001526
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.360000014
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.079999998
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Stone_Mossy"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Eave_-3.1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -3.099998474
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            1.899999976
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.734999895
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -3.099998474
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            1.899999976
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.734999895
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Eave_3.1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.099998474
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            1.899999976
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.734999895
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.099998474
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            1.899999976
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.734999895
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_FootingCap_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            1.899999976
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.319999993
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            1.899999976
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.319999993
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Stone_LightFace"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Foundation_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            1.899999976
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.150000006
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            1.899999976
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.150000006
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Stone_Mossy"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Front_BoardedGable_LOD0": {
+        "triangles": 50,
+        "vertices": 100,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            0.892698288,
+            0.0,
+            -0.450654805,
+            -1.555000305
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.664999962
+          ],
+          [
+            0.450654805,
+            0.0,
+            0.892698288,
+            3.565000057
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            0.892698288,
+            0.0,
+            -0.450654805,
+            -1.555000305
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.664999962
+          ],
+          [
+            0.450654805,
+            0.0,
+            0.892698288,
+            3.565000057
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            0.892698288,
+            0.0,
+            0.450654805,
+            1.555000305
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.664999962
+          ],
+          [
+            -0.450654805,
+            0.0,
+            0.892698288,
+            3.565000057
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            0.892698288,
+            0.0,
+            0.450654805,
+            1.555000305
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.664999962
+          ],
+          [
+            -0.450654805,
+            0.0,
+            0.892698288,
+            3.565000057
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Gutter_+1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.189998627
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            1.899999976
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.609999895
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.189998627
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            1.899999976
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.609999895
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_WetShadow"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Gutter_-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -3.189998627
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            1.899999976
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.609999895
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -3.189998627
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            1.899999976
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.609999895
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_WetShadow"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Wall_LOD0": {
+        "triangles": 68,
+        "vertices": 136,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Plaster_Ochre"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window0_Glass_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.612499237
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            3.049999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.612499237
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            3.049999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Window_DimGlass"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window0_Jamb-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            3.585000038
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            3.585000038
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window0_Jamb1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            2.515000105
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            2.515000105
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window0_Mullion_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.612499237
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            3.049999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.612499237
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            3.049999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window0_Rail-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            3.049999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.904999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            3.049999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.904999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window0_Rail1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            3.049999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            3.049999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window0_Recess_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.564998627
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            3.049999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.564998627
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            3.049999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Dark"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window0_Sill_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.840000153
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            3.049999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.860000014
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.840000153
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            3.049999952
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.860000014
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window1_Glass_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.612499237
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.612499237
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Window_DimGlass"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window1_Jamb-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            1.284999967
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            1.284999967
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window1_Jamb1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            0.215000004
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            0.215000004
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window1_Mullion_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.612499237
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.612499237
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window1_Rail-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.904999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.904999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window1_Rail1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.775001526
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window1_Recess_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.564998627
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.564998627
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Dark"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Left_Window1_Sill_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.840000153
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.860000014
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            1.000000119,
+            0.0,
+            -2.840000153
+          ],
+          [
+            -1.000000119,
+            -1.34e-07,
+            0.0,
+            0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.860000014
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_RafterTail_+1_00_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            0.835417032,
+            0.0,
+            0.549616516,
+            2.919998169
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.600000024
+          ],
+          [
+            -0.549616516,
+            0.0,
+            0.835417032,
+            2.904999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            0.835417032,
+            0.0,
+            0.549616516,
+            2.919998169
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.600000024
+          ],
+          [
+            -0.549616516,
+            0.0,
+            0.835417032,
+            2.904999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_RafterTail_+1_01_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            0.835417032,
+            0.0,
+            0.549616516,
+            2.919998169
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.039999962
+          ],
+          [
+            -0.549616516,
+            0.0,
+            0.835417032,
+            2.904999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            0.835417032,
+            0.0,
+            0.549616516,
+            2.919998169
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.039999962
+          ],
+          [
+            -0.549616516,
+            0.0,
+            0.835417032,
+            2.904999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_RafterTail_-1_00_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -0.835417271,
+            0.0,
+            0.549616456,
+            -2.919998169
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.600000024
+          ],
+          [
+            -0.549616456,
+            0.0,
+            -0.835417271,
+            2.904999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -0.835417271,
+            0.0,
+            0.549616456,
+            -2.919998169
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.600000024
+          ],
+          [
+            -0.549616456,
+            0.0,
+            -0.835417271,
+            2.904999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_RafterTail_-1_01_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -0.835417271,
+            0.0,
+            0.549616456,
+            -2.919998169
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.039999962
+          ],
+          [
+            -0.549616456,
+            0.0,
+            -0.835417271,
+            2.904999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -0.835417271,
+            0.0,
+            0.549616456,
+            -2.919998169
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.039999962
+          ],
+          [
+            -0.549616456,
+            0.0,
+            -0.835417271,
+            2.904999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Wall_LOD0": {
+        "triangles": 68,
+        "vertices": 136,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Plaster_Ochre"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window0_Glass_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            4.962500095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            4.962500095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Window_DimGlass"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window0_Jamb-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            1.48500061
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            1.48500061
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window0_Jamb1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            0.455001831
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            0.455001831
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window0_Mullion_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            4.962500095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            4.962500095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window0_Rail-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.915000021
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.915000021
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window0_Rail1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window0_Recess_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            4.914999962
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            4.914999962
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Dark"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window0_Sill_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.190000057
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.870000005
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.190000057
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.870000005
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window1_Glass_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            4.962500095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            4.962500095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Window_DimGlass"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window1_Jamb-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -0.455001831
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -0.455001831
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window1_Jamb1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -1.48500061
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -1.48500061
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window1_Mullion_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            4.962500095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            4.962500095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window1_Rail-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.915000021
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.915000021
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window1_Rail1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.125
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window1_Recess_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            4.914999962
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            4.914999962
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.664999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Dark"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Rear_Window1_Sill_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.190000057
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.870000005
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.0,
+            8.7e-08,
+            0.0,
+            -0.970001221
+          ],
+          [
+            -8.7e-08,
+            -1.0,
+            0.0,
+            5.190000057
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.870000005
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_RidgeBeam_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            1.899999976
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            4.420000076
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            1.899999976
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            4.420000076
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Right_Wall_LOD0": {
+        "triangles": 40,
+        "vertices": 80,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Plaster_Ochre"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Right_Window0_Glass_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.612499237
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.612499237
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Window_DimGlass"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Right_Window0_Jamb-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.775001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            -0.535000026
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.775001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            -0.535000026
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Right_Window0_Jamb1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.775001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            0.535000026
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.775001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            0.535000026
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Right_Window0_Mullion_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.612499237
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.612499237
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Right_Window0_Rail-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.775001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.904999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.775001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.904999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Right_Window0_Rail1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.775001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.775001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Right_Window0_Recess_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.564998627
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.564998627
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.659999967
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Dark"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Right_Window0_Sill_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.840000153
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.860000014
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            2.840000153
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.860000014
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Roof_LOD0": {
+        "triangles": 20,
+        "vertices": 36,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Roof_WetSlate",
+          "URMAN_Wood_WetShadow"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_RoofSnow_LOD0": {
+        "triangles": 156,
+        "vertices": 142,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Hero_RoofSnow"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniEntry_Door0_Handle_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.782001495
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.630000114
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.309999943
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.782001495
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.630000114
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.309999943
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Metal_Dulled"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniEntry_Door0_Jamb-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.994998932
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.525000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.309999943
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.994998932
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.525000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.309999943
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniEntry_Door0_Jamb1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            4.005001068
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.525000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.309999943
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            4.005001068
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.525000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.309999943
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniEntry_Door0_Leaf_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.6875
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.309999943
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.6875
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.309999943
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_WetShadow"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniEntry_Door0_Rail-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.525000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.264999986
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.525000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.264999986
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniEntry_Door0_Rail1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.525000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.355000019
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.525000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.355000019
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniEntry_Door0_Recess_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.734999895
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.309999943
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.734999895
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.309999943
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Dark"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniEntry_Wall_LOD0": {
+        "triangles": 28,
+        "vertices": 56,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniFooting_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            3.825000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.150000006
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            3.825000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.150000006
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_WetShadow"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniFrontRoofInfill_LOD0": {
+        "triangles": 2,
+        "vertices": 4,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniOuter_Wall_LOD0": {
+        "triangles": 40,
+        "vertices": 80,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniOuter_Window0_Glass_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.112499237
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            3.775000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.570000052
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.112499237
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            3.775000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.570000052
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Window_DimGlass"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniOuter_Window0_Jamb-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.275001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            3.339999914
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.570000052
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.275001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            3.339999914
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.570000052
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniOuter_Window0_Jamb1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.275001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            4.210000038
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.570000052
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.275001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            4.210000038
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.570000052
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniOuter_Window0_Mullion_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.112499237
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            3.775000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.570000052
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.112499237
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            3.775000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.570000052
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniOuter_Window0_Rail-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.275001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            3.775000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.004999995
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.275001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            3.775000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.004999995
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniOuter_Window0_Rail1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.275001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            3.775000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.13499999
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.275001526
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            3.775000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.13499999
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniOuter_Window0_Recess_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.064998627
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            3.775000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.570000052
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.064998627
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            3.775000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.570000052
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Dark"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniOuter_Window0_Sill_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.340000153
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            3.775000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.959999979
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            -1.34e-07,
+            -1.000000119,
+            0.0,
+            4.340000153
+          ],
+          [
+            1.000000119,
+            -1.34e-07,
+            0.0,
+            3.775000095
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.959999979
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniRear_Wall_LOD0": {
+        "triangles": 4,
+        "vertices": 8,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniRearRoofInfill_LOD0": {
+        "triangles": 2,
+        "vertices": 4,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniRoof_LOD0": {
+        "triangles": 12,
+        "vertices": 24,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Roof_WetSlate"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniSplashStone_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            4.619998932
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.130000114
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.079999998
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            4.619998932
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.130000114
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.079999998
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Stone_Mossy"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniSpout_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            4.529998779
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.170000076
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.299999952
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            4.529998779
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.170000076
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.299999952
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniStep_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.210000038
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.100000001
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            3.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.210000038
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.100000001
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_WetShadow"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_SeniTrough_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            4.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            3.825000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.400000095
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            4.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            3.825000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.400000095
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_WetShadow"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_StoveFlueFlashing_LOD0": {
+        "triangles": 36,
+        "vertices": 72,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Metal_Dulled"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Wall_LOD0": {
+        "triangles": 96,
+        "vertices": 192,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Plaster_Ochre"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window0_Glass_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.162500024
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.162500024
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Window_DimGlass"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window0_Jamb-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -2.11000061
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -2.11000061
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window0_Jamb1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.080001831
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.080001831
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window0_Mullion_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.162500024
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.162500024
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window0_Rail-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.894999981
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.894999981
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window0_Rail1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window0_Recess_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.11500001
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.11500001
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Dark"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window0_Sill_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.389999986
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.850000024
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.389999986
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.850000024
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window1_Glass_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.162500024
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.162500024
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Window_DimGlass"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window1_Jamb-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.51499939
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.51499939
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window1_Jamb1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.51499939
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.51499939
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window1_Mullion_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.162500024
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.162500024
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window1_Rail-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.894999981
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.894999981
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window1_Rail1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window1_Recess_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.11500001
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.11500001
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Dark"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window1_Sill_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.389999986
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.850000024
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.389999986
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.850000024
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window2_Glass_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.162500024
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.162500024
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Window_DimGlass"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window2_Jamb-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.080001831
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.080001831
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window2_Jamb1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.11000061
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            2.11000061
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window2_Mullion_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.162500024
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.162500024
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window2_Rail-1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.894999981
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.894999981
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window2_Rail1_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.325000048
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            2.414999962
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window2_Recess_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.11500001
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.11500001
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.654999971
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Dark"
+        ]
+      },
+      "VariantB_PlasterAnnex_Dwelling_Street_Window2_Sill_LOD0": {
+        "triangles": 28,
+        "vertices": 48,
+        "root_relative_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.389999986
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.850000024
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "mesh_local_transform": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.595001221
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -1.389999986
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.850000024
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "materials": [
+          "URMAN_Wood_Weathered"
+        ]
+      }
+    }
+  },
+  "not_reproduced": [
+    "RuntimeTatarCarpentry trim/batches, painted material overrides andPiercedGableLace",
+    "RuntimeVillageWindowMaterials/occupied-windowlight/smoke/audio",
+    "Genericcatalogorigin/wholeparcelrebase, parcelEdgePush, terrainPad/ground and collision",
+    "GamePainterlyMaterialLibrary/worldlighting/fog/snowparticles and neighboringworldscene"
+  ],
+  "source_integrity": "CanonicalsourceGLB untouched. Allselectedsource meshdata/relativetransforms retained; only isolatedpreviewroot translation removed and uniformrender0.9scale applied. Noatlas/retexture/LOD/export/generatedgeometry.",
+  "input_hashes": [
+    {
+      "path": "game/content/world/act1_open_part.world.v1.json",
+      "sha256": "21ad0abf1e1c2e10b7724912b8a28428bb19bcfd79258332bfdd01b93850ca06"
+    },
+    {
+      "path": "game/content/world/catalog.v1.json",
+      "sha256": "2cbfe4efc6de8428e57150908f4b9f9b35b4da20e3fb0194d49595da60742d1d"
+    },
+    {
+      "path": "game/scripts/AuthoredWorldDirector.cs",
+      "sha256": "e550484509044d02a65ab0e6bf0033858cadcbd25fffa8cd8d4d6a8dd8565537"
+    },
+    {
+      "path": "game/scripts/TimberHomeStyle.cs",
+      "sha256": "c36639d6ef393ca2a77bf7c3609883f052ae6166dc7c52ee2a5811e184bccd0f"
+    }
+  ],
+  "views": [
+    {
+      "path": "source-template-front.png",
+      "sha256": "08a580cb8578ae461927c9e7c5cc504e8c57340944609898775e81ee7218dbe2",
+      "bytes": 1145158,
+      "target_blender_z_up": [
+        0.7087501287460327,
+        1.7100000381469727,
+        2.2185001373291016
+      ],
+      "view_direction_blender_z_up": [
+        0.0,
+        -1.0,
+        0.18000000715255737
+      ],
+      "orthographic_scale": 10.307066078186034
+    },
+    {
+      "path": "source-template-right.png",
+      "sha256": "a19e3ed1595583a923b2737808c8fc8a4c38d1849a51ac97e1efb142ac3cfc6c",
+      "bytes": 1086661,
+      "target_blender_z_up": [
+        0.7087501287460327,
+        1.7100000381469727,
+        2.2185001373291016
+      ],
+      "view_direction_blender_z_up": [
+        1.0,
+        0.0,
+        0.18000000715255737
+      ],
+      "orthographic_scale": 10.307066078186034
+    },
+    {
+      "path": "source-template-rear.png",
+      "sha256": "4a8df1a201f737c23e74cbda68ed624490d4b05adc3615e7d7c69ba1a3587ad6",
+      "bytes": 1133326,
+      "target_blender_z_up": [
+        0.7087501287460327,
+        1.7100000381469727,
+        2.2185001373291016
+      ],
+      "view_direction_blender_z_up": [
+        0.0,
+        1.0,
+        0.18000000715255737
+      ],
+      "orthographic_scale": 10.307066078186034
+    },
+    {
+      "path": "source-template-left.png",
+      "sha256": "2b1ad8844bb1cd46ca20b696f68f201311c0c67ea2d0b1cbe53f73d0b6d87612",
+      "bytes": 1071752,
+      "target_blender_z_up": [
+        0.7087501287460327,
+        1.7100000381469727,
+        2.2185001373291016
+      ],
+      "view_direction_blender_z_up": [
+        -1.0,
+        0.0,
+        0.18000000715255737
+      ],
+      "orthographic_scale": 10.307066078186034
+    },
+    {
+      "path": "source-template-window-opening-detail.png",
+      "sha256": "5a704d0ebb455da2be410051c48f0f2a816c895057ef71ab4aef9fdc48018d29",
+      "bytes": 1216680,
+      "target_blender_z_up": [
+        0.0,
+        -1.1902499198913574,
+        1.4737498760223389
+      ],
+      "view_direction_blender_z_up": [
+        0.30000001192092896,
+        -1.0,
+        0.15000000596046448
+      ],
+      "orthographic_scale": 2.450249433517456
+    },
+    {
+      "path": "source-template-corner-bearing-detail.png",
+      "sha256": "958c3ff523934a6ccfc8ef06fd4e29d067b3cedfd8ccae45a924556271620350",
+      "bytes": 1343506,
+      "target_blender_z_up": [
+        2.4749999046325684,
+        -1.1699999570846558,
+        1.3949999809265137
+      ],
+      "view_direction_blender_z_up": [
+        1.0,
+        -1.0,
+        0.3499999940395355
+      ],
+      "orthographic_scale": 3.8
+    }
+  ],
+  "blender": "4.5.12 LTS",
+  "next": "Rootacceptance ofthis exactsourceexample/currentconsumer beforeImageGen orMeshy"
+}

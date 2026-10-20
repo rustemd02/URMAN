@@ -536,10 +536,9 @@ public partial class Act1ConnectedWorld : Node3D
         FinalizePublicBuildingContacts();
         FinalizeArrivalBusStop();
         BuildZiratFamily();
-        // Keep the H001 source dwelling through every authored contact and
-        // collision pass. Its imported PBR layer replaces only the opaque
-        // presentation after those existing owners have captured the geometry.
-        GraftH001VariantAPbr();
+        // Keep addressed Variant A source dwellings through every authored
+        // contact and collision pass, then graft their opaque PBR presentation.
+        GraftPrivateVariantAPbrFamily();
         CallDeferred(nameof(DisableBlockersUnderHiddenPresentation));
         CallDeferred(nameof(ReapplyLogicalZonePresentationSuppressions));
         // Parcel facades are attached across several build steps, so the painted

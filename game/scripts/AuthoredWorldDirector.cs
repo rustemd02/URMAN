@@ -64,6 +64,12 @@ public partial class AuthoredWorldDirector : Node3D
     public IReadOnlyCollection<string> ObjectIds => _objects.Keys;
     public string? AppliedState(string id) => _objects.TryGetValue(id, out var item) ? item.AppliedState : null;
     public Node3D? ObjectRoot(string id) => _objects.TryGetValue(id, out var item) ? item.Root : null;
+    internal bool IsAddressedCatalogProp(string id, string catalogId) =>
+        _objects.TryGetValue(id, out var item) && item.Kind == "prop"
+        && item.Params.TryGetProperty("catalogId", out var catalog) && catalog.GetString() == catalogId
+        && item.Params.TryGetProperty("address", out var address) && address.ValueKind == JsonValueKind.Object
+        && address.TryGetProperty("id", out var addressId) && !string.IsNullOrWhiteSpace(addressId.GetString());
+
     internal bool HasHouseModelOverride(string id) =>
         _objects.TryGetValue(id, out var item) && item.Kind == "prop"
         && item.Params.TryGetProperty("modelPath", out _);
