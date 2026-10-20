@@ -1,0 +1,131 @@
+06:19:44 | INFO: Data are loaded, start creating Blender stuff
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Back_BoardedGable_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_ChimneyCap_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_ChimneyStack_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Downpipe_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_DownpipeSplash_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Eave_-3.35_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Eave_3.35_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_FootingCap_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Foundation_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Front_BoardedGable_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Gutter_+1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Gutter_-1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node CylinderExportTriangles
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Wall_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Jamb-1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Jamb1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Mullion_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Rail-1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Rail1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Recess_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Sill_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Jamb-1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Jamb1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Mullion_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Rail-1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Rail1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Recess_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Sill_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_RafterTail_+1_00_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_RafterTail_+1_01_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_RafterTail_-1_00_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_RafterTail_-1_01_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node Cylinder.050ExportTriangles
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Wall_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Jamb-1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Jamb1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Mullion_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Rail-1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Rail1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Recess_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Sill_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Jamb-1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Jamb1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Mullion_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Rail-1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Rail1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Recess_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Sill_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_RidgeBeam_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node Cylinder.098ExportTriangles
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Wall_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Jamb-1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Jamb1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Mullion_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Rail-1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Rail1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Recess_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Sill_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Roof_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Handle_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb-1_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb1_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail-1_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail1_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Recess_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node Cylinder.132ExportTriangles
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Wall_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniFooting_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniFrontRoofInfill_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node Cylinder.164ExportTriangles
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Wall_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb-1_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb1_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Mullion_LOD0Me
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail-1_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail1_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Recess_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Sill_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node Cylinder.190ExportTriangles
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniRearRoofInfill_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniRoof_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniSplashStone_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniSpout_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniStep_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniTrough_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_StoveFlueFlashing_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node Cylinder.206ExportTriangles
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Wall_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Jamb-1_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Jamb1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Mullion_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Rail-1_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Rail1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Recess_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Sill_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Jamb-1_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Jamb1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Mullion_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Rail-1_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Rail1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Recess_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Sill_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Jamb-1_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Jamb1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Mullion_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Rail-1_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Rail1_LOD0Mesh.001
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Recess_LOD0Mes
+06:19:44 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Sill_LOD0Mesh.001
+06:19:44 | INFO: glTF import finished in 0.05s
+06:19:45 | INFO: Data are loaded, start creating Blender stuff
+06:19:45 | INFO: Blender create Mesh node 0
+06:19:45 | INFO: glTF import finished in 0.03s
+Blender 4.5.12 LTS (hash 84afd5f785f7 built 2026-07-21 01:41:35)
+Traceback (most recent call last):
+  File "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_a_retexture_v2/attach_variant_a_retexture.py", line 168, in <module>
+    if __name__=="__main__":main()
+                            ^^^^^^
+  File "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_a_retexture_v2/attach_variant_a_retexture.py", line 95, in main
+    assert all(image["size"]==[4096,4096] for image in report["images"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+Blender quit

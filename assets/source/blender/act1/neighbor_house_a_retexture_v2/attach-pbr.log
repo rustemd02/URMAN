@@ -1,0 +1,1356 @@
+06:30:26 | INFO: Data are loaded, start creating Blender stuff
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Back_BoardedGable_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_ChimneyCap_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_ChimneyStack_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Downpipe_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_DownpipeSplash_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Eave_-3.35_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Eave_3.35_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_FootingCap_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Foundation_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Front_BoardedGable_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Gutter_+1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Gutter_-1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node CylinderExportTriangles
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Wall_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Jamb-1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Jamb1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Mullion_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Rail-1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Rail1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Recess_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Sill_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Jamb-1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Jamb1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Mullion_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Rail-1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Rail1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Recess_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Sill_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_RafterTail_+1_00_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_RafterTail_+1_01_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_RafterTail_-1_00_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_RafterTail_-1_01_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node Cylinder.050ExportTriangles
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Wall_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Jamb-1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Jamb1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Mullion_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Rail-1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Rail1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Recess_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Sill_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Jamb-1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Jamb1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Mullion_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Rail-1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Rail1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Recess_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Sill_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_RidgeBeam_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node Cylinder.098ExportTriangles
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Wall_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Jamb-1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Jamb1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Mullion_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Rail-1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Rail1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Recess_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Sill_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Roof_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Handle_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb-1_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb1_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail-1_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail1_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Recess_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node Cylinder.132ExportTriangles
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Wall_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniFooting_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniFrontRoofInfill_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node Cylinder.164ExportTriangles
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Wall_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb-1_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb1_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Mullion_LOD0Me
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail-1_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail1_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Recess_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Sill_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node Cylinder.190ExportTriangles
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniRearRoofInfill_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniRoof_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniSplashStone_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniSpout_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniStep_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniTrough_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_StoveFlueFlashing_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node Cylinder.206ExportTriangles
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Wall_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Jamb-1_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Jamb1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Mullion_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Rail-1_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Rail1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Recess_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Sill_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Jamb-1_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Jamb1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Mullion_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Rail-1_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Rail1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Recess_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Sill_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Jamb-1_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Jamb1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Mullion_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Rail-1_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Rail1_LOD0Mesh.001
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Recess_LOD0Mes
+06:30:26 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Sill_LOD0Mesh.001
+06:30:26 | INFO: glTF import finished in 0.04s
+06:30:26 | INFO: Data are loaded, start creating Blender stuff
+06:30:26 | INFO: Blender create Mesh node 0
+06:30:26 | INFO: glTF import finished in 0.02s
+06:30:27 | INFO: Data are loaded, start creating Blender stuff
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Back_BoardedGable_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Back_VergeRight_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_ChimneyCap_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_ChimneyStack_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Downpipe_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_DownpipeSplash_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Eave_-3.35_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Eave_3.35_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_FootingCap_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Foundation_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Front_BoardedGable_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Gutter_+1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Gutter_-1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node CylinderExportTriangles
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Wall_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Jamb-1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Jamb1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Mullion_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Rail-1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Rail1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Recess_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window0_Sill_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Jamb-1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Jamb1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Mullion_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Rail-1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Rail1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Recess_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Left_Window1_Sill_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_RafterTail_+1_00_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_RafterTail_+1_01_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_RafterTail_-1_00_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_RafterTail_-1_01_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node Cylinder.050ExportTriangles
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Wall_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Jamb-1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Jamb1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Mullion_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Rail-1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Rail1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Recess_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window0_Sill_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Jamb-1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Jamb1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Mullion_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Rail-1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Rail1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Recess_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Rear_Window1_Sill_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_RidgeBeam_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node Cylinder.098ExportTriangles
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Wall_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Jamb-1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Jamb1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Mullion_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Rail-1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Rail1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Recess_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Right_Window0_Sill_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Roof_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Handle_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb-1_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb1_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail-1_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail1_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Door0_Recess_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node Cylinder.132ExportTriangles
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniEntry_Wall_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniFooting_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniFrontRoofInfill_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node Cylinder.164ExportTriangles
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Wall_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb-1_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb1_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Mullion_LOD0Me
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail-1_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail1_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Recess_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniOuter_Window0_Sill_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node Cylinder.190ExportTriangles
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniRearRoofInfill_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniRoof_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniSplashStone_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniSpout_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniStep_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_SeniTrough_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_StoveFlueFlashing_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node Cylinder.206ExportTriangles
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Wall_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Jamb-1_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Jamb1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Mullion_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Rail-1_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Rail1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Recess_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window0_Sill_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Jamb-1_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Jamb1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Mullion_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Rail-1_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Rail1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Recess_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window1_Sill_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Jamb-1_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Jamb1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Mullion_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Rail-1_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Rail1_LOD0Mesh.001
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Recess_LOD0Mes
+06:30:27 | INFO: Blender create Mesh node VariantA_TimberGable_Dwelling_Street_Window2_Sill_LOD0Mesh.001
+06:30:27 | INFO: glTF import finished in 0.04s
+PBR_LITERAL_BYTES_PASS {"output": [{"path": "pbr_candidate_v2/variant-a-semantic-pbr-v2.glb", "sha256": "af977aa137f5aacca59baa25fb2d4b2cd4a664bb7e8135e1df8cccd28525f38f", "bytes": 21755316}], "missing_3d_area": 0.34952929270571026, "geometry_bytes_identical": true}
+Blender 4.5.12 LTS (hash 84afd5f785f7 built 2026-07-21 01:41:35)
+Fra:1 Mem:184.78M (Peak 184.78M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Back_BoardedGable_LOD0
+Fra:1 Mem:184.79M (Peak 184.79M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Back_VergeLeft_LOD0
+Fra:1 Mem:186.80M (Peak 186.80M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Foundation_LOD0
+Fra:1 Mem:186.83M (Peak 186.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_BoardedGable_LOD0
+Fra:1 Mem:186.86M (Peak 186.86M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0
+Fra:1 Mem:186.94M (Peak 186.94M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0
+Fra:1 Mem:186.95M (Peak 186.95M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Wall_LOD0
+Fra:1 Mem:186.98M (Peak 186.98M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Jamb1_LOD0
+Fra:1 Mem:187.01M (Peak 187.01M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Mullion_LOD0
+Fra:1 Mem:186.96M (Peak 187.01M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Rail1_LOD0
+Fra:1 Mem:186.96M (Peak 187.01M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Recess_LOD0
+Fra:1 Mem:186.98M (Peak 187.01M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Jamb-1_LOD0
+Fra:1 Mem:186.97M (Peak 187.01M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Rail-1_LOD0
+Fra:1 Mem:186.97M (Peak 187.01M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Recess_LOD0
+Fra:1 Mem:186.98M (Peak 187.01M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Sill_LOD0
+Fra:1 Mem:187.00M (Peak 187.01M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_+1_00_LOD0
+Fra:1 Mem:187.01M (Peak 187.01M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_+1_01_LOD0
+Fra:1 Mem:187.01M (Peak 187.01M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_-1_00_LOD0
+Fra:1 Mem:187.09M (Peak 187.09M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_-1_01_LOD0
+Fra:1 Mem:187.09M (Peak 187.09M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_LogCrown
+Fra:1 Mem:187.08M (Peak 187.09M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Wall_LOD0
+Fra:1 Mem:187.09M (Peak 187.09M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Jamb1_LOD0
+Fra:1 Mem:187.15M (Peak 187.15M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Mullion_LOD0
+Fra:1 Mem:187.16M (Peak 187.16M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Rail1_LOD0
+Fra:1 Mem:187.19M (Peak 187.19M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Jamb-1_LOD0
+Fra:1 Mem:187.38M (Peak 187.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area
+Fra:1 Mem:187.38M (Peak 187.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Sill_LOD0
+Fra:1 Mem:187.43M (Peak 187.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Mullion_LOD0
+Fra:1 Mem:187.54M (Peak 187.54M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Recess_LOD0
+Fra:1 Mem:187.54M (Peak 187.54M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Rail-1_LOD0
+Fra:1 Mem:187.57M (Peak 187.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Rail1_LOD0
+Fra:1 Mem:187.65M (Peak 187.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Recess_LOD0
+Fra:1 Mem:187.35M (Peak 187.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Rail-1_LOD0
+Fra:1 Mem:187.54M (Peak 187.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Mullion_LOD0
+Fra:1 Mem:187.58M (Peak 187.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RidgeBeam_LOD0
+Fra:1 Mem:187.62M (Peak 187.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Jamb1_LOD0
+Fra:1 Mem:187.69M (Peak 187.69M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_LogCrown
+Fra:1 Mem:187.71M (Peak 187.71M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb-1_LOD0
+Fra:1 Mem:187.97M (Peak 187.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb1_LOD0
+Fra:1 Mem:188.15M (Peak 188.15M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Mullion_LOD0
+Fra:1 Mem:188.19M (Peak 188.19M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Rail-1_LOD0
+Fra:1 Mem:188.77M (Peak 188.77M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Rail1_LOD0
+Fra:1 Mem:188.47M (Peak 188.77M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Roof_LOD0
+Fra:1 Mem:188.48M (Peak 188.77M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb-1_LOD0
+Fra:1 Mem:188.68M (Peak 188.77M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0
+Fra:1 Mem:188.70M (Peak 188.77M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail-1_LOD0
+Fra:1 Mem:188.71M (Peak 188.77M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail1_LOD0
+Fra:1 Mem:188.72M (Peak 188.77M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Wall_LOD0
+Fra:1 Mem:188.69M (Peak 188.77M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniFooting_LOD0
+Fra:1 Mem:188.69M (Peak 188.77M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_LogCrown
+Fra:1 Mem:188.70M (Peak 188.77M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Wall_LOD0
+Fra:1 Mem:188.72M (Peak 188.77M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Mullion_LOD0
+Fra:1 Mem:188.80M (Peak 188.80M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail-1_LOD0
+Fra:1 Mem:189.21M (Peak 189.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail1_LOD0
+Fra:1 Mem:188.95M (Peak 189.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRear_LogCrown
+Fra:1 Mem:188.96M (Peak 189.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0
+Fra:1 Mem:188.96M (Peak 189.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRearRoofInfill_LOD0
+Fra:1 Mem:188.96M (Peak 189.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniSplashStone_LOD0
+Fra:1 Mem:189.00M (Peak 189.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniSpout_LOD0
+Fra:1 Mem:189.03M (Peak 189.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniStep_LOD0
+Fra:1 Mem:189.51M (Peak 189.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniTrough_LOD0
+Fra:1 Mem:189.28M (Peak 189.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Wall_LOD0
+Fra:1 Mem:188.91M (Peak 189.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Jamb-1_LOD0
+Fra:1 Mem:188.91M (Peak 189.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Jamb1_LOD0
+Fra:1 Mem:188.92M (Peak 189.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Rail-1_LOD0
+Fra:1 Mem:188.99M (Peak 189.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Rail1_LOD0
+Fra:1 Mem:189.24M (Peak 189.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Rail-1_LOD0
+Fra:1 Mem:189.39M (Peak 189.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Recess_LOD0
+Fra:1 Mem:189.40M (Peak 189.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb-1_LOD0
+Fra:1 Mem:189.66M (Peak 189.66M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb1_LOD0
+Fra:1 Mem:189.70M (Peak 189.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Mullion_LOD0
+Fra:1 Mem:189.99M (Peak 189.99M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:189.51M (Peak 189.99M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_2
+Fra:1 Mem:189.51M (Peak 189.99M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_1
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.02 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.02 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:333.38M (Peak 333.51M) | Time:00:00.02 | Mem:144.05M, Peak:144.05M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.02 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.02 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.02 | Mem:146.56M, Peak:146.56M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.02 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.02 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.02 | Mem:148.61M, Peak:148.69M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.02 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.02 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.02 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.02 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:423.81M (Peak 423.81M) | Time:00:00.11 | Remaining:00:02.11 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:02.97 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:02.97 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_a_retexture_v2/pbr_candidate_v2/actual-glb-front.png'
+Time: 00:03.07 (Saving: 00:00.09)
+
+Fra:1 Mem:187.34M (Peak 187.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Back_BoardedGable_LOD0
+Fra:1 Mem:187.34M (Peak 187.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Eave_3.35_LOD0
+Fra:1 Mem:187.37M (Peak 187.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Eave_-3.35_LOD0
+Fra:1 Mem:187.37M (Peak 187.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0
+Fra:1 Mem:187.38M (Peak 187.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Gutter_+1_LOD0
+Fra:1 Mem:187.41M (Peak 187.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Gutter_-1_LOD0
+Fra:1 Mem:187.41M (Peak 187.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Wall_LOD0
+Fra:1 Mem:187.42M (Peak 187.42M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Jamb1_LOD0
+Fra:1 Mem:187.44M (Peak 187.44M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Mullion_LOD0
+Fra:1 Mem:187.43M (Peak 187.44M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Rail-1_LOD0
+Fra:1 Mem:187.45M (Peak 187.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Rail1_LOD0
+Fra:1 Mem:187.45M (Peak 187.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Recess_LOD0
+Fra:1 Mem:187.45M (Peak 187.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Jamb1_LOD0
+Fra:1 Mem:187.46M (Peak 187.46M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Mullion_LOD0
+Fra:1 Mem:187.47M (Peak 187.47M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Rail-1_LOD0
+Fra:1 Mem:187.49M (Peak 187.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Rail1_LOD0
+Fra:1 Mem:187.48M (Peak 187.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Sill_LOD0
+Fra:1 Mem:187.51M (Peak 187.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_+1_01_LOD0
+Fra:1 Mem:187.49M (Peak 187.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_-1_01_LOD0
+Fra:1 Mem:187.53M (Peak 187.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_LogCrown
+Fra:1 Mem:187.53M (Peak 187.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Wall_LOD0
+Fra:1 Mem:187.56M (Peak 187.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Jamb-1_LOD0
+Fra:1 Mem:187.54M (Peak 187.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Mullion_LOD0
+Fra:1 Mem:187.56M (Peak 187.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Rail-1_LOD0
+Fra:1 Mem:187.56M (Peak 187.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Rail1_LOD0
+Fra:1 Mem:187.57M (Peak 187.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Recess_LOD0
+Fra:1 Mem:187.62M (Peak 187.62M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Sill_LOD0
+Fra:1 Mem:187.71M (Peak 187.71M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Jamb-1_LOD0
+Fra:1 Mem:187.71M (Peak 187.71M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Rail1_LOD0
+Fra:1 Mem:187.73M (Peak 187.73M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Recess_LOD0
+Fra:1 Mem:187.79M (Peak 187.79M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Sill_LOD0
+Fra:1 Mem:187.80M (Peak 187.80M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RidgeBeam_LOD0
+Fra:1 Mem:187.82M (Peak 187.82M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Wall_LOD0
+Fra:1 Mem:187.83M (Peak 187.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb-1_LOD0
+Fra:1 Mem:188.00M (Peak 188.00M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb1_LOD0
+Fra:1 Mem:188.03M (Peak 188.03M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Mullion_LOD0
+Fra:1 Mem:188.03M (Peak 188.03M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Rail-1_LOD0
+Fra:1 Mem:188.04M (Peak 188.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Rail1_LOD0
+Fra:1 Mem:188.04M (Peak 188.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Roof_LOD0
+Fra:1 Mem:188.05M (Peak 188.05M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Handle_LOD0
+Fra:1 Mem:188.06M (Peak 188.06M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb1_LOD0
+Fra:1 Mem:188.05M (Peak 188.06M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0
+Fra:1 Mem:188.05M (Peak 188.06M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail-1_LOD0
+Fra:1 Mem:188.08M (Peak 188.08M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail1_LOD0
+Fra:1 Mem:188.12M (Peak 188.12M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Recess_LOD0
+Fra:1 Mem:188.34M (Peak 188.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_LogCrown
+Fra:1 Mem:188.36M (Peak 188.36M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Wall_LOD0
+Fra:1 Mem:188.42M (Peak 188.42M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniFooting_LOD0
+Fra:1 Mem:188.46M (Peak 188.46M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniFrontRoofInfill_LOD0
+Fra:1 Mem:188.47M (Peak 188.47M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Wall_LOD0
+Fra:1 Mem:188.49M (Peak 188.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb-1_LOD0
+Fra:1 Mem:188.60M (Peak 188.60M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb1_LOD0
+Fra:1 Mem:188.61M (Peak 188.61M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Mullion_LOD0
+Fra:1 Mem:188.63M (Peak 188.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail-1_LOD0
+Fra:1 Mem:188.68M (Peak 188.68M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail1_LOD0
+Fra:1 Mem:188.73M (Peak 188.73M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area
+Fra:1 Mem:188.85M (Peak 188.85M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Sill_LOD0
+Fra:1 Mem:188.86M (Peak 188.86M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRear_LogCrown
+Fra:1 Mem:188.87M (Peak 188.87M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0
+Fra:1 Mem:188.88M (Peak 188.88M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRearRoofInfill_LOD0
+Fra:1 Mem:188.89M (Peak 188.89M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRoof_LOD0
+Fra:1 Mem:188.89M (Peak 188.89M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniSplashStone_LOD0
+Fra:1 Mem:188.92M (Peak 188.92M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Recess_LOD0
+Fra:1 Mem:189.01M (Peak 189.01M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniTrough_LOD0
+Fra:1 Mem:189.02M (Peak 189.02M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_StoveFlueFlashing_LOD0
+Fra:1 Mem:189.02M (Peak 189.02M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_LogCrown
+Fra:1 Mem:189.03M (Peak 189.03M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Jamb1_LOD0
+Fra:1 Mem:189.17M (Peak 189.17M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Rail1_LOD0
+Fra:1 Mem:189.18M (Peak 189.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Mullion_LOD0
+Fra:1 Mem:189.17M (Peak 189.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Rail1_LOD0
+Fra:1 Mem:189.24M (Peak 189.24M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Rail-1_LOD0
+Fra:1 Mem:189.42M (Peak 189.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Sill_LOD0
+Fra:1 Mem:189.44M (Peak 189.44M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb-1_LOD0
+Fra:1 Mem:189.45M (Peak 189.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb1_LOD0
+Fra:1 Mem:189.72M (Peak 189.72M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Mullion_LOD0
+Fra:1 Mem:189.80M (Peak 189.80M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Rail1_LOD0
+Fra:1 Mem:189.82M (Peak 189.82M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Recess_LOD0
+Fra:1 Mem:189.83M (Peak 189.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Sill_LOD0
+Fra:1 Mem:190.00M (Peak 190.00M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Jamb-1_LOD0
+Fra:1 Mem:189.75M (Peak 190.00M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Jamb1_LOD0
+Fra:1 Mem:189.99M (Peak 190.00M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:189.51M (Peak 190.00M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_2
+Fra:1 Mem:189.51M (Peak 190.00M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_0
+Fra:1 Mem:317.51M (Peak 317.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_1
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.02 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.02 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.02 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.02 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.02 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.02 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.02 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.02 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.02 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.02 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.02 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.02 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.02 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.02 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.02 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:333.38M (Peak 333.51M) | Time:00:00.02 | Mem:144.05M, Peak:144.05M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.02 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.02 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.02 | Mem:146.56M, Peak:146.56M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.02 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.02 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.02 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.02 | Mem:148.61M, Peak:148.69M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.02 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.02 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.02 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.02 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:423.81M (Peak 423.81M) | Time:00:00.11 | Remaining:00:01.95 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:03.02 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:03.02 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_a_retexture_v2/pbr_candidate_v2/actual-glb-front-right.png'
+Time: 00:03.07 (Saving: 00:00.05)
+
+Fra:1 Mem:187.34M (Peak 187.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Back_BoardedGable_LOD0
+Fra:1 Mem:187.34M (Peak 187.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Foundation_LOD0
+Fra:1 Mem:187.35M (Peak 187.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_BoardedGable_LOD0
+Fra:1 Mem:187.38M (Peak 187.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0
+Fra:1 Mem:187.40M (Peak 187.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0
+Fra:1 Mem:187.42M (Peak 187.42M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Gutter_-1_LOD0
+Fra:1 Mem:187.40M (Peak 187.42M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Jamb-1_LOD0
+Fra:1 Mem:187.41M (Peak 187.42M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Jamb1_LOD0
+Fra:1 Mem:187.42M (Peak 187.42M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Mullion_LOD0
+Fra:1 Mem:187.42M (Peak 187.42M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Rail-1_LOD0
+Fra:1 Mem:187.45M (Peak 187.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Rail1_LOD0
+Fra:1 Mem:187.44M (Peak 187.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Recess_LOD0
+Fra:1 Mem:187.45M (Peak 187.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Jamb-1_LOD0
+Fra:1 Mem:187.46M (Peak 187.46M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Jamb1_LOD0
+Fra:1 Mem:187.49M (Peak 187.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Mullion_LOD0
+Fra:1 Mem:187.49M (Peak 187.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Rail1_LOD0
+Fra:1 Mem:187.48M (Peak 187.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Recess_LOD0
+Fra:1 Mem:187.50M (Peak 187.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Sill_LOD0
+Fra:1 Mem:187.51M (Peak 187.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_+1_00_LOD0
+Fra:1 Mem:187.51M (Peak 187.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_+1_01_LOD0
+Fra:1 Mem:187.53M (Peak 187.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_-1_01_LOD0
+Fra:1 Mem:187.52M (Peak 187.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Wall_LOD0
+Fra:1 Mem:187.53M (Peak 187.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Jamb-1_LOD0
+Fra:1 Mem:187.56M (Peak 187.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area.002
+Fra:1 Mem:187.55M (Peak 187.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area.001
+Fra:1 Mem:187.54M (Peak 187.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area
+Fra:1 Mem:187.55M (Peak 187.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Sill_LOD0
+Fra:1 Mem:187.84M (Peak 187.84M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Rail-1_LOD0
+Fra:1 Mem:187.87M (Peak 187.87M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Recess_LOD0
+Fra:1 Mem:187.90M (Peak 187.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Sill_LOD0
+Fra:1 Mem:188.10M (Peak 188.10M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Jamb-1_LOD0
+Fra:1 Mem:188.11M (Peak 188.11M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Mullion_LOD0
+Fra:1 Mem:188.35M (Peak 188.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Rail-1_LOD0
+Fra:1 Mem:188.50M (Peak 188.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Rail1_LOD0
+Fra:1 Mem:188.52M (Peak 188.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Recess_LOD0
+Fra:1 Mem:188.50M (Peak 188.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Sill_LOD0
+Fra:1 Mem:188.53M (Peak 188.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_LogCrown
+Fra:1 Mem:188.57M (Peak 188.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Wall_LOD0
+Fra:1 Mem:188.42M (Peak 188.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb-1_LOD0
+Fra:1 Mem:188.47M (Peak 188.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb1_LOD0
+Fra:1 Mem:188.65M (Peak 188.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Mullion_LOD0
+Fra:1 Mem:188.78M (Peak 188.78M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Rail-1_LOD0
+Fra:1 Mem:188.78M (Peak 188.78M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Rail1_LOD0
+Fra:1 Mem:188.81M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Recess_LOD0
+Fra:1 Mem:188.83M (Peak 188.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Sill_LOD0
+Fra:1 Mem:188.82M (Peak 188.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Handle_LOD0
+Fra:1 Mem:188.85M (Peak 188.85M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb-1_LOD0
+Fra:1 Mem:188.99M (Peak 188.99M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb1_LOD0
+Fra:1 Mem:189.00M (Peak 189.00M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail-1_LOD0
+Fra:1 Mem:189.00M (Peak 189.00M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Recess_LOD0
+Fra:1 Mem:189.14M (Peak 189.14M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_LogCrown
+Fra:1 Mem:189.07M (Peak 189.14M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Wall_LOD0
+Fra:1 Mem:188.94M (Peak 189.14M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniFooting_LOD0
+Fra:1 Mem:189.06M (Peak 189.14M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniFrontRoofInfill_LOD0
+Fra:1 Mem:189.05M (Peak 189.14M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_LogCrown
+Fra:1 Mem:189.50M (Peak 189.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Wall_LOD0
+Fra:1 Mem:189.39M (Peak 189.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb1_LOD0
+Fra:1 Mem:189.56M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail-1_LOD0
+Fra:1 Mem:189.41M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail1_LOD0
+Fra:1 Mem:189.37M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRearRoofInfill_LOD0
+Fra:1 Mem:189.38M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRoof_LOD0
+Fra:1 Mem:189.39M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniSpout_LOD0
+Fra:1 Mem:189.39M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniSplashStone_LOD0
+Fra:1 Mem:189.38M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_StoveFlueFlashing_LOD0
+Fra:1 Mem:189.42M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_LogCrown
+Fra:1 Mem:189.41M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Wall_LOD0
+Fra:1 Mem:189.75M (Peak 189.75M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Jamb-1_LOD0
+Fra:1 Mem:190.05M (Peak 190.05M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Mullion_LOD0
+Fra:1 Mem:190.47M (Peak 190.47M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Recess_LOD0
+Fra:1 Mem:190.39M (Peak 190.47M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Sill_LOD0
+Fra:1 Mem:190.49M (Peak 190.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Mullion_LOD0
+Fra:1 Mem:190.01M (Peak 190.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb1_LOD0
+Fra:1 Mem:190.03M (Peak 190.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Mullion_LOD0
+Fra:1 Mem:190.03M (Peak 190.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Jamb1_LOD0
+Fra:1 Mem:190.06M (Peak 190.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Rail1_LOD0
+Fra:1 Mem:190.25M (Peak 190.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Recess_LOD0
+Fra:1 Mem:190.39M (Peak 190.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Jamb-1_LOD0
+Fra:1 Mem:189.99M (Peak 190.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:189.51M (Peak 190.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_2
+Fra:1 Mem:253.51M (Peak 253.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_1
+Fra:1 Mem:269.51M (Peak 269.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_0
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.01 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:333.38M (Peak 333.51M) | Time:00:00.01 | Mem:144.05M, Peak:144.05M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:146.56M, Peak:146.56M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.61M, Peak:148.69M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:423.81M (Peak 423.81M) | Time:00:00.09 | Remaining:00:01.80 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:02.79 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:02.79 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_a_retexture_v2/pbr_candidate_v2/actual-glb-rear-left.png'
+Time: 00:02.84 (Saving: 00:00.05)
+
+Fra:1 Mem:187.34M (Peak 187.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Back_BoardedGable_LOD0
+Fra:1 Mem:187.35M (Peak 187.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Foundation_LOD0
+Fra:1 Mem:187.36M (Peak 187.36M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0
+Fra:1 Mem:187.37M (Peak 187.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0
+Fra:1 Mem:187.38M (Peak 187.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Gutter_+1_LOD0
+Fra:1 Mem:187.41M (Peak 187.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Gutter_-1_LOD0
+Fra:1 Mem:187.41M (Peak 187.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Wall_LOD0
+Fra:1 Mem:187.44M (Peak 187.44M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Jamb-1_LOD0
+Fra:1 Mem:187.45M (Peak 187.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Mullion_LOD0
+Fra:1 Mem:187.42M (Peak 187.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Rail1_LOD0
+Fra:1 Mem:187.46M (Peak 187.47M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Recess_LOD0
+Fra:1 Mem:187.47M (Peak 187.47M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Sill_LOD0
+Fra:1 Mem:187.47M (Peak 187.47M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Jamb1_LOD0
+Fra:1 Mem:187.48M (Peak 187.48M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Mullion_LOD0
+Fra:1 Mem:187.48M (Peak 187.48M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Rail1_LOD0
+Fra:1 Mem:187.50M (Peak 187.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Recess_LOD0
+Fra:1 Mem:187.49M (Peak 187.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Sill_LOD0
+Fra:1 Mem:187.50M (Peak 187.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_+1_00_LOD0
+Fra:1 Mem:187.51M (Peak 187.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_-1_00_LOD0
+Fra:1 Mem:187.52M (Peak 187.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area.002
+Fra:1 Mem:187.52M (Peak 187.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area.001
+Fra:1 Mem:187.51M (Peak 187.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area
+Fra:1 Mem:187.51M (Peak 187.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Sill_LOD0
+Fra:1 Mem:187.51M (Peak 187.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Wall_LOD0
+Fra:1 Mem:187.56M (Peak 187.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Recess_LOD0
+Fra:1 Mem:187.55M (Peak 187.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Jamb1_LOD0
+Fra:1 Mem:187.55M (Peak 187.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Mullion_LOD0
+Fra:1 Mem:187.57M (Peak 187.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Rail-1_LOD0
+Fra:1 Mem:187.57M (Peak 187.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Rail1_LOD0
+Fra:1 Mem:187.58M (Peak 187.58M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Sill_LOD0
+Fra:1 Mem:187.72M (Peak 187.72M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Jamb-1_LOD0
+Fra:1 Mem:187.98M (Peak 187.98M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Jamb1_LOD0
+Fra:1 Mem:187.98M (Peak 187.98M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Rail-1_LOD0
+Fra:1 Mem:188.20M (Peak 188.20M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Rail1_LOD0
+Fra:1 Mem:188.37M (Peak 188.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Sill_LOD0
+Fra:1 Mem:188.37M (Peak 188.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_LogCrown
+Fra:1 Mem:188.38M (Peak 188.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Wall_LOD0
+Fra:1 Mem:188.45M (Peak 188.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb-1_LOD0
+Fra:1 Mem:188.60M (Peak 188.60M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb1_LOD0
+Fra:1 Mem:188.61M (Peak 188.60M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Mullion_LOD0
+Fra:1 Mem:188.84M (Peak 188.84M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Rail1_LOD0
+Fra:1 Mem:188.86M (Peak 188.86M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Recess_LOD0
+Fra:1 Mem:188.93M (Peak 188.93M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb1_LOD0
+Fra:1 Mem:188.86M (Peak 188.93M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Rail1_LOD0
+Fra:1 Mem:188.86M (Peak 188.93M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0
+Fra:1 Mem:188.87M (Peak 188.93M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail1_LOD0
+Fra:1 Mem:188.87M (Peak 188.93M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Rail-1_LOD0
+Fra:1 Mem:188.86M (Peak 188.93M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Wall_LOD0
+Fra:1 Mem:188.87M (Peak 188.93M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniFooting_LOD0
+Fra:1 Mem:188.88M (Peak 188.93M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_LogCrown
+Fra:1 Mem:188.94M (Peak 188.94M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Wall_LOD0
+Fra:1 Mem:188.94M (Peak 188.94M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb-1_LOD0
+Fra:1 Mem:189.06M (Peak 189.06M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb1_LOD0
+Fra:1 Mem:189.38M (Peak 189.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail-1_LOD0
+Fra:1 Mem:189.03M (Peak 189.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail1_LOD0
+Fra:1 Mem:189.07M (Peak 189.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Recess_LOD0
+Fra:1 Mem:189.28M (Peak 189.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Sill_LOD0
+Fra:1 Mem:189.21M (Peak 189.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRearRoofInfill_LOD0
+Fra:1 Mem:189.28M (Peak 189.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRoof_LOD0
+Fra:1 Mem:189.28M (Peak 189.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniSplashStone_LOD0
+Fra:1 Mem:189.32M (Peak 189.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniStep_LOD0
+Fra:1 Mem:189.55M (Peak 189.55M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniTrough_LOD0
+Fra:1 Mem:189.56M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_StoveFlueFlashing_LOD0
+Fra:1 Mem:189.31M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_LogCrown
+Fra:1 Mem:189.28M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Jamb-1_LOD0
+Fra:1 Mem:189.27M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Jamb1_LOD0
+Fra:1 Mem:189.30M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Mullion_LOD0
+Fra:1 Mem:189.33M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Rail-1_LOD0
+Fra:1 Mem:189.57M (Peak 189.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Rail1_LOD0
+Fra:1 Mem:189.78M (Peak 189.78M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Sill_LOD0
+Fra:1 Mem:189.79M (Peak 189.79M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb-1_LOD0
+Fra:1 Mem:189.87M (Peak 189.87M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb1_LOD0
+Fra:1 Mem:190.08M (Peak 190.08M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Mullion_LOD0
+Fra:1 Mem:190.08M (Peak 190.08M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Rail-1_LOD0
+Fra:1 Mem:190.29M (Peak 190.29M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Rail1_LOD0
+Fra:1 Mem:189.91M (Peak 190.29M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Jamb-1_LOD0
+Fra:1 Mem:190.21M (Peak 190.29M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Mullion_LOD0
+Fra:1 Mem:189.99M (Peak 190.29M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:189.51M (Peak 190.29M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_2
+Fra:1 Mem:253.51M (Peak 253.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_0
+Fra:1 Mem:317.51M (Peak 317.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_1
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:333.38M (Peak 333.51M) | Time:00:00.01 | Mem:144.05M, Peak:144.05M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:146.56M, Peak:146.56M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.61M, Peak:148.69M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:423.81M (Peak 423.81M) | Time:00:00.16 | Remaining:00:03.35 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:04.40 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:04.40 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_a_retexture_v2/pbr_candidate_v2/actual-glb-corner-openings.png'
+Time: 00:04.45 (Saving: 00:00.05)
+
+Fra:1 Mem:187.34M (Peak 187.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Back_BoardedGable_LOD0
+Fra:1 Mem:187.34M (Peak 187.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Downpipe_LOD0
+Fra:1 Mem:187.37M (Peak 187.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_BoardedGable_LOD0
+Fra:1 Mem:187.41M (Peak 187.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0
+Fra:1 Mem:187.40M (Peak 187.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_LogCrown
+Fra:1 Mem:187.41M (Peak 187.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Wall_LOD0
+Fra:1 Mem:187.43M (Peak 187.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Jamb1_LOD0
+Fra:1 Mem:187.74M (Peak 187.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Mullion_LOD0
+Fra:1 Mem:187.78M (Peak 187.78M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Rail-1_LOD0
+Fra:1 Mem:187.89M (Peak 187.89M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Rail1_LOD0
+Fra:1 Mem:187.88M (Peak 187.89M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Jamb-1_LOD0
+Fra:1 Mem:187.97M (Peak 187.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Mullion_LOD0
+Fra:1 Mem:187.66M (Peak 187.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Rail-1_LOD0
+Fra:1 Mem:187.86M (Peak 187.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Rail1_LOD0
+Fra:1 Mem:187.87M (Peak 187.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Recess_LOD0
+Fra:1 Mem:187.88M (Peak 187.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Sill_LOD0
+Fra:1 Mem:187.87M (Peak 187.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_+1_00_LOD0
+Fra:1 Mem:187.89M (Peak 187.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_+1_01_LOD0
+Fra:1 Mem:187.90M (Peak 187.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_-1_00_LOD0
+Fra:1 Mem:187.91M (Peak 187.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_-1_01_LOD0
+Fra:1 Mem:187.90M (Peak 187.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_LogCrown
+Fra:1 Mem:187.91M (Peak 187.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Wall_LOD0
+Fra:1 Mem:187.92M (Peak 187.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Jamb-1_LOD0
+Fra:1 Mem:187.96M (Peak 187.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Jamb1_LOD0
+Fra:1 Mem:188.04M (Peak 188.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Mullion_LOD0
+Fra:1 Mem:188.25M (Peak 188.25M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Rail-1_LOD0
+Fra:1 Mem:188.34M (Peak 188.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Recess_LOD0
+Fra:1 Mem:188.45M (Peak 188.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Jamb-1_LOD0
+Fra:1 Mem:188.43M (Peak 188.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Mullion_LOD0
+Fra:1 Mem:188.70M (Peak 188.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Rail1_LOD0
+Fra:1 Mem:188.69M (Peak 188.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area.001
+Fra:1 Mem:188.38M (Peak 188.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Sill_LOD0
+Fra:1 Mem:188.45M (Peak 188.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RidgeBeam_LOD0
+Fra:1 Mem:188.15M (Peak 188.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_LogCrown
+Fra:1 Mem:188.30M (Peak 188.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Wall_LOD0
+Fra:1 Mem:188.35M (Peak 188.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb-1_LOD0
+Fra:1 Mem:188.41M (Peak 188.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb1_LOD0
+Fra:1 Mem:188.48M (Peak 188.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area
+Fra:1 Mem:188.48M (Peak 188.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Sill_LOD0
+Fra:1 Mem:188.48M (Peak 188.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Rail1_LOD0
+Fra:1 Mem:188.51M (Peak 188.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Recess_LOD0
+Fra:1 Mem:188.76M (Peak 188.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Recess_LOD0
+Fra:1 Mem:188.76M (Peak 188.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Sill_LOD0
+Fra:1 Mem:188.76M (Peak 188.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb-1_LOD0
+Fra:1 Mem:188.82M (Peak 188.82M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb1_LOD0
+Fra:1 Mem:188.94M (Peak 188.94M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0
+Fra:1 Mem:188.95M (Peak 188.95M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail1_LOD0
+Fra:1 Mem:188.95M (Peak 188.95M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Recess_LOD0
+Fra:1 Mem:188.95M (Peak 188.95M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_LogCrown
+Fra:1 Mem:188.96M (Peak 188.96M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Wall_LOD0
+Fra:1 Mem:188.97M (Peak 188.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniFooting_LOD0
+Fra:1 Mem:188.99M (Peak 188.99M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniFrontRoofInfill_LOD0
+Fra:1 Mem:189.03M (Peak 189.03M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_LogCrown
+Fra:1 Mem:189.38M (Peak 189.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Wall_LOD0
+Fra:1 Mem:189.18M (Peak 189.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb-1_LOD0
+Fra:1 Mem:189.25M (Peak 189.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb1_LOD0
+Fra:1 Mem:189.35M (Peak 189.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Rail-1_LOD0
+Fra:1 Mem:189.41M (Peak 189.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail-1_LOD0
+Fra:1 Mem:189.36M (Peak 189.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Mullion_LOD0
+Fra:1 Mem:189.43M (Peak 189.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRear_LogCrown
+Fra:1 Mem:189.45M (Peak 189.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Jamb1_LOD0
+Fra:1 Mem:189.50M (Peak 189.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0
+Fra:1 Mem:189.49M (Peak 189.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRoof_LOD0
+Fra:1 Mem:189.49M (Peak 189.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniSplashStone_LOD0
+Fra:1 Mem:189.50M (Peak 189.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniSpout_LOD0
+Fra:1 Mem:189.53M (Peak 189.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniStep_LOD0
+Fra:1 Mem:189.63M (Peak 189.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniTrough_LOD0
+Fra:1 Mem:189.66M (Peak 189.66M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Sill_LOD0
+Fra:1 Mem:189.69M (Peak 189.69M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_LogCrown
+Fra:1 Mem:189.76M (Peak 189.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Wall_LOD0
+Fra:1 Mem:189.75M (Peak 189.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Jamb1_LOD0
+Fra:1 Mem:190.18M (Peak 190.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Rail1_LOD0
+Fra:1 Mem:189.69M (Peak 190.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Sill_LOD0
+Fra:1 Mem:189.71M (Peak 190.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb1_LOD0
+Fra:1 Mem:189.71M (Peak 190.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Mullion_LOD0
+Fra:1 Mem:190.11M (Peak 190.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Rail-1_LOD0
+Fra:1 Mem:189.63M (Peak 190.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Rail1_LOD0
+Fra:1 Mem:189.99M (Peak 190.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:189.51M (Peak 190.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_2
+Fra:1 Mem:189.51M (Peak 190.18M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_0
+Fra:1 Mem:317.51M (Peak 317.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_1
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:333.38M (Peak 333.51M) | Time:00:00.01 | Mem:144.05M, Peak:144.05M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:146.56M, Peak:146.56M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.61M, Peak:148.69M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:423.81M (Peak 423.81M) | Time:00:00.08 | Remaining:00:01.56 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:02.58 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:02.58 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_a_retexture_v2/pbr_candidate_v2/actual-glb-right.png'
+Time: 00:02.63 (Saving: 00:00.05)
+
+Fra:1 Mem:187.34M (Peak 187.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Back_BoardedGable_LOD0
+Fra:1 Mem:187.34M (Peak 187.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Eave_-3.35_LOD0
+Fra:1 Mem:187.36M (Peak 187.36M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_BoardedGable_LOD0
+Fra:1 Mem:187.38M (Peak 187.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0
+Fra:1 Mem:187.43M (Peak 187.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0
+Fra:1 Mem:187.42M (Peak 187.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Gutter_+1_LOD0
+Fra:1 Mem:187.40M (Peak 187.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_LogCrown
+Fra:1 Mem:187.41M (Peak 187.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Wall_LOD0
+Fra:1 Mem:187.43M (Peak 187.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Jamb-1_LOD0
+Fra:1 Mem:187.44M (Peak 187.44M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Jamb1_LOD0
+Fra:1 Mem:187.44M (Peak 187.44M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Rail-1_LOD0
+Fra:1 Mem:187.45M (Peak 187.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Rail1_LOD0
+Fra:1 Mem:187.48M (Peak 187.48M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Recess_LOD0
+Fra:1 Mem:187.45M (Peak 187.48M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Sill_LOD0
+Fra:1 Mem:187.47M (Peak 187.48M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Jamb-1_LOD0
+Fra:1 Mem:187.46M (Peak 187.48M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Rail-1_LOD0
+Fra:1 Mem:187.50M (Peak 187.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Rail1_LOD0
+Fra:1 Mem:187.50M (Peak 187.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Recess_LOD0
+Fra:1 Mem:187.52M (Peak 187.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area.002
+Fra:1 Mem:187.51M (Peak 187.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Sill_LOD0
+Fra:1 Mem:187.50M (Peak 187.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_+1_01_LOD0
+Fra:1 Mem:187.52M (Peak 187.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_-1_01_LOD0
+Fra:1 Mem:187.51M (Peak 187.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_LogCrown
+Fra:1 Mem:187.53M (Peak 187.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Wall_LOD0
+Fra:1 Mem:187.54M (Peak 187.54M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Jamb-1_LOD0
+Fra:1 Mem:187.55M (Peak 187.55M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Jamb1_LOD0
+Fra:1 Mem:187.57M (Peak 187.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Mullion_LOD0
+Fra:1 Mem:187.56M (Peak 187.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Rail-1_LOD0
+Fra:1 Mem:187.56M (Peak 187.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Rail1_LOD0
+Fra:1 Mem:187.57M (Peak 187.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Recess_LOD0
+Fra:1 Mem:187.58M (Peak 187.58M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Sill_LOD0
+Fra:1 Mem:187.57M (Peak 187.58M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Jamb-1_LOD0
+Fra:1 Mem:187.58M (Peak 187.58M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Jamb1_LOD0
+Fra:1 Mem:187.68M (Peak 187.68M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Mullion_LOD0
+Fra:1 Mem:187.71M (Peak 187.71M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Rail-1_LOD0
+Fra:1 Mem:187.69M (Peak 187.71M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Recess_LOD0
+Fra:1 Mem:187.70M (Peak 187.71M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Sill_LOD0
+Fra:1 Mem:187.88M (Peak 187.88M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area
+Fra:1 Mem:187.90M (Peak 187.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_LogCrown
+Fra:1 Mem:187.91M (Peak 187.91M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb-1_LOD0
+Fra:1 Mem:187.98M (Peak 187.98M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb1_LOD0
+Fra:1 Mem:188.05M (Peak 188.05M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Mullion_LOD0
+Fra:1 Mem:188.09M (Peak 188.09M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Rail-1_LOD0
+Fra:1 Mem:188.14M (Peak 188.14M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Rail1_LOD0
+Fra:1 Mem:188.15M (Peak 188.15M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Recess_LOD0
+Fra:1 Mem:188.38M (Peak 188.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Sill_LOD0
+Fra:1 Mem:188.38M (Peak 188.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Roof_LOD0
+Fra:1 Mem:188.41M (Peak 188.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb-1_LOD0
+Fra:1 Mem:188.40M (Peak 188.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb1_LOD0
+Fra:1 Mem:188.41M (Peak 188.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail-1_LOD0
+Fra:1 Mem:188.41M (Peak 188.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail1_LOD0
+Fra:1 Mem:188.42M (Peak 188.42M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Recess_LOD0
+Fra:1 Mem:188.43M (Peak 188.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_LogCrown
+Fra:1 Mem:188.44M (Peak 188.44M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Sill_LOD0
+Fra:1 Mem:188.44M (Peak 188.44M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Wall_LOD0
+Fra:1 Mem:188.44M (Peak 188.44M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniFooting_LOD0
+Fra:1 Mem:188.64M (Peak 188.64M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Recess_LOD0
+Fra:1 Mem:188.68M (Peak 188.68M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_LogCrown
+Fra:1 Mem:188.68M (Peak 188.68M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Wall_LOD0
+Fra:1 Mem:188.68M (Peak 188.68M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb-1_LOD0
+Fra:1 Mem:188.74M (Peak 188.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Mullion_LOD0
+Fra:1 Mem:188.74M (Peak 188.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail-1_LOD0
+Fra:1 Mem:188.90M (Peak 188.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail1_LOD0
+Fra:1 Mem:188.96M (Peak 188.96M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Recess_LOD0
+Fra:1 Mem:188.95M (Peak 188.96M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRear_LogCrown
+Fra:1 Mem:188.97M (Peak 188.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0
+Fra:1 Mem:189.03M (Peak 189.03M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRoof_LOD0
+Fra:1 Mem:189.04M (Peak 189.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniSplashStone_LOD0
+Fra:1 Mem:189.21M (Peak 189.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniSpout_LOD0
+Fra:1 Mem:189.44M (Peak 189.44M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniStep_LOD0
+Fra:1 Mem:189.50M (Peak 189.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniTrough_LOD0
+Fra:1 Mem:189.64M (Peak 189.64M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Wall_LOD0
+Fra:1 Mem:189.57M (Peak 189.64M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Jamb-1_LOD0
+Fra:1 Mem:189.62M (Peak 189.64M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Jamb1_LOD0
+Fra:1 Mem:189.62M (Peak 189.64M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Rail-1_LOD0
+Fra:1 Mem:189.62M (Peak 189.64M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Rail1_LOD0
+Fra:1 Mem:189.63M (Peak 189.64M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Rail1_LOD0
+Fra:1 Mem:189.75M (Peak 189.75M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Rail-1_LOD0
+Fra:1 Mem:189.49M (Peak 189.75M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Recess_LOD0
+Fra:1 Mem:189.88M (Peak 189.88M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Sill_LOD0
+Fra:1 Mem:189.86M (Peak 189.88M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb-1_LOD0
+Fra:1 Mem:190.00M (Peak 190.00M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb1_LOD0
+Fra:1 Mem:189.67M (Peak 190.00M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Recess_LOD0
+Fra:1 Mem:189.86M (Peak 190.00M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Sill_LOD0
+Fra:1 Mem:190.03M (Peak 190.03M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Mullion_LOD0
+Fra:1 Mem:189.85M (Peak 190.03M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Jamb-1_LOD0
+Fra:1 Mem:190.09M (Peak 190.09M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Jamb1_LOD0
+Fra:1 Mem:189.99M (Peak 190.09M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:189.51M (Peak 190.09M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_2
+Fra:1 Mem:253.51M (Peak 253.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_0
+Fra:1 Mem:317.51M (Peak 317.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_1
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:333.38M (Peak 333.51M) | Time:00:00.01 | Mem:144.05M, Peak:144.05M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:146.56M, Peak:146.56M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.61M, Peak:148.69M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:423.81M (Peak 423.81M) | Time:00:00.07 | Remaining:00:01.37 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:02.37 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:02.37 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_a_retexture_v2/pbr_candidate_v2/actual-glb-left.png'
+Time: 00:02.43 (Saving: 00:00.05)
+
+Fra:1 Mem:187.34M (Peak 187.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Back_BoardedGable_LOD0
+Fra:1 Mem:187.34M (Peak 187.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Eave_-3.35_LOD0
+Fra:1 Mem:187.38M (Peak 187.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Foundation_LOD0
+Fra:1 Mem:187.39M (Peak 187.39M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0
+Fra:1 Mem:187.38M (Peak 187.39M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0
+Fra:1 Mem:187.39M (Peak 187.39M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Gutter_+1_LOD0
+Fra:1 Mem:187.39M (Peak 187.39M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Gutter_-1_LOD0
+Fra:1 Mem:187.40M (Peak 187.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_LogCrown
+Fra:1 Mem:187.41M (Peak 187.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Jamb-1_LOD0
+Fra:1 Mem:187.51M (Peak 187.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Jamb1_LOD0
+Fra:1 Mem:187.54M (Peak 187.54M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Mullion_LOD0
+Fra:1 Mem:187.73M (Peak 187.73M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Rail1_LOD0
+Fra:1 Mem:187.79M (Peak 187.79M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Recess_LOD0
+Fra:1 Mem:187.80M (Peak 187.80M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Jamb1_LOD0
+Fra:1 Mem:187.81M (Peak 187.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Mullion_LOD0
+Fra:1 Mem:187.80M (Peak 187.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Rail1_LOD0
+Fra:1 Mem:187.80M (Peak 187.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Sill_LOD0
+Fra:1 Mem:187.83M (Peak 187.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_+1_00_LOD0
+Fra:1 Mem:187.82M (Peak 187.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_+1_01_LOD0
+Fra:1 Mem:187.83M (Peak 187.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_-1_00_LOD0
+Fra:1 Mem:187.84M (Peak 187.84M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_-1_01_LOD0
+Fra:1 Mem:187.87M (Peak 187.87M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_LogCrown
+Fra:1 Mem:187.96M (Peak 187.96M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Wall_LOD0
+Fra:1 Mem:187.96M (Peak 187.96M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Jamb-1_LOD0
+Fra:1 Mem:188.04M (Peak 188.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Mullion_LOD0
+Fra:1 Mem:187.88M (Peak 188.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Rail-1_LOD0
+Fra:1 Mem:187.95M (Peak 188.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Rail1_LOD0
+Fra:1 Mem:187.97M (Peak 188.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Sill_LOD0
+Fra:1 Mem:187.97M (Peak 188.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Jamb-1_LOD0
+Fra:1 Mem:187.98M (Peak 188.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Jamb1_LOD0
+Fra:1 Mem:188.03M (Peak 188.04M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Mullion_LOD0
+Fra:1 Mem:188.06M (Peak 188.06M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Rail1_LOD0
+Fra:1 Mem:188.28M (Peak 188.28M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area.001
+Fra:1 Mem:188.27M (Peak 188.28M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area
+Fra:1 Mem:188.28M (Peak 188.28M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Sill_LOD0
+Fra:1 Mem:188.31M (Peak 188.31M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Recess_LOD0
+Fra:1 Mem:188.31M (Peak 188.31M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Recess_LOD0
+Fra:1 Mem:188.33M (Peak 188.33M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RidgeBeam_LOD0
+Fra:1 Mem:188.44M (Peak 188.44M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Rail1_LOD0
+Fra:1 Mem:188.47M (Peak 188.47M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_LogCrown
+Fra:1 Mem:188.49M (Peak 188.49M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Wall_LOD0
+Fra:1 Mem:188.58M (Peak 188.58M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Rail-1_LOD0
+Fra:1 Mem:188.81M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb1_LOD0
+Fra:1 Mem:188.68M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Mullion_LOD0
+Fra:1 Mem:188.53M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Rail-1_LOD0
+Fra:1 Mem:188.52M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Recess_LOD0
+Fra:1 Mem:188.53M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Roof_LOD0
+Fra:1 Mem:188.53M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Handle_LOD0
+Fra:1 Mem:188.54M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb-1_LOD0
+Fra:1 Mem:188.54M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb1_LOD0
+Fra:1 Mem:188.55M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail-1_LOD0
+Fra:1 Mem:188.56M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail1_LOD0
+Fra:1 Mem:188.57M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_LogCrown
+Fra:1 Mem:188.56M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniFooting_LOD0
+Fra:1 Mem:188.57M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniFrontRoofInfill_LOD0
+Fra:1 Mem:188.58M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Wall_LOD0
+Fra:1 Mem:188.57M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb-1_LOD0
+Fra:1 Mem:188.59M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb1_LOD0
+Fra:1 Mem:188.58M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail-1_LOD0
+Fra:1 Mem:188.64M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Recess_LOD0
+Fra:1 Mem:188.69M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Sill_LOD0
+Fra:1 Mem:188.68M (Peak 188.81M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Mullion_LOD0
+Fra:1 Mem:188.83M (Peak 188.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRear_LogCrown
+Fra:1 Mem:189.27M (Peak 189.27M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Jamb1_LOD0
+Fra:1 Mem:189.34M (Peak 189.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0
+Fra:1 Mem:189.27M (Peak 189.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRearRoofInfill_LOD0
+Fra:1 Mem:189.23M (Peak 189.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniSplashStone_LOD0
+Fra:1 Mem:189.23M (Peak 189.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Jamb-1_LOD0
+Fra:1 Mem:189.25M (Peak 189.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniStep_LOD0
+Fra:1 Mem:189.39M (Peak 189.39M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniTrough_LOD0
+Fra:1 Mem:189.45M (Peak 189.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_StoveFlueFlashing_LOD0
+Fra:1 Mem:189.51M (Peak 189.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_LogCrown
+Fra:1 Mem:189.56M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Jamb-1_LOD0
+Fra:1 Mem:189.56M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Mullion_LOD0
+Fra:1 Mem:189.53M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Sill_LOD0
+Fra:1 Mem:189.56M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Rail1_LOD0
+Fra:1 Mem:189.56M (Peak 189.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Recess_LOD0
+Fra:1 Mem:189.60M (Peak 189.60M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Recess_LOD0
+Fra:1 Mem:189.63M (Peak 189.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb-1_LOD0
+Fra:1 Mem:189.86M (Peak 189.86M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Rail1_LOD0
+Fra:1 Mem:189.64M (Peak 189.86M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb1_LOD0
+Fra:1 Mem:189.95M (Peak 189.95M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Mullion_LOD0
+Fra:1 Mem:190.07M (Peak 190.07M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Rail-1_LOD0
+Fra:1 Mem:189.99M (Peak 190.07M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:189.51M (Peak 190.07M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_2
+Fra:1 Mem:253.51M (Peak 253.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_0
+Fra:1 Mem:317.51M (Peak 317.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_1
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:333.38M (Peak 333.51M) | Time:00:00.01 | Mem:144.05M, Peak:144.05M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:146.56M, Peak:146.56M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.61M, Peak:148.69M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:423.81M (Peak 423.81M) | Time:00:00.08 | Remaining:00:01.68 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:02.76 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:02.76 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_a_retexture_v2/pbr_candidate_v2/actual-glb-rear.png'
+Time: 00:02.82 (Saving: 00:00.05)
+
+Fra:1 Mem:187.34M (Peak 187.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Back_BoardedGable_LOD0
+Fra:1 Mem:187.34M (Peak 187.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Eave_-3.35_LOD0
+Fra:1 Mem:187.35M (Peak 187.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_BoardedGable_LOD0
+Fra:1 Mem:187.40M (Peak 187.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0
+Fra:1 Mem:187.41M (Peak 187.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0
+Fra:1 Mem:187.41M (Peak 187.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Gutter_+1_LOD0
+Fra:1 Mem:187.41M (Peak 187.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Wall_LOD0
+Fra:1 Mem:187.40M (Peak 187.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Jamb-1_LOD0
+Fra:1 Mem:187.42M (Peak 187.42M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Jamb1_LOD0
+Fra:1 Mem:187.44M (Peak 187.44M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Mullion_LOD0
+Fra:1 Mem:187.45M (Peak 187.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Rail-1_LOD0
+Fra:1 Mem:187.46M (Peak 187.46M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Rail1_LOD0
+Fra:1 Mem:187.45M (Peak 187.46M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Jamb-1_LOD0
+Fra:1 Mem:187.46M (Peak 187.46M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Mullion_LOD0
+Fra:1 Mem:187.47M (Peak 187.47M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Rail-1_LOD0
+Fra:1 Mem:187.50M (Peak 187.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Rail1_LOD0
+Fra:1 Mem:187.49M (Peak 187.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Recess_LOD0
+Fra:1 Mem:187.51M (Peak 187.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_+1_00_LOD0
+Fra:1 Mem:187.51M (Peak 187.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_+1_01_LOD0
+Fra:1 Mem:187.52M (Peak 187.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_-1_00_LOD0
+Fra:1 Mem:187.52M (Peak 187.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_LogCrown
+Fra:1 Mem:187.52M (Peak 187.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Wall_LOD0
+Fra:1 Mem:187.53M (Peak 187.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Jamb1_LOD0
+Fra:1 Mem:187.57M (Peak 187.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Mullion_LOD0
+Fra:1 Mem:187.58M (Peak 187.58M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Rail1_LOD0
+Fra:1 Mem:187.59M (Peak 187.59M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area.001
+Fra:1 Mem:187.57M (Peak 187.59M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Jamb-1_LOD0
+Fra:1 Mem:187.57M (Peak 187.59M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Mullion_LOD0
+Fra:1 Mem:187.59M (Peak 187.59M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Rail1_LOD0
+Fra:1 Mem:187.59M (Peak 187.59M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Recess_LOD0
+Fra:1 Mem:187.59M (Peak 187.59M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RidgeBeam_LOD0
+Fra:1 Mem:187.64M (Peak 187.64M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Sill_LOD0
+Fra:1 Mem:187.62M (Peak 187.64M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb-1_LOD0
+Fra:1 Mem:187.71M (Peak 187.71M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb1_LOD0
+Fra:1 Mem:187.73M (Peak 187.73M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Recess_LOD0
+Fra:1 Mem:187.72M (Peak 187.73M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Mullion_LOD0
+Fra:1 Mem:187.92M (Peak 187.92M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Rail-1_LOD0
+Fra:1 Mem:187.95M (Peak 187.95M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Rail1_LOD0
+Fra:1 Mem:188.08M (Peak 188.08M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Rail1_LOD0
+Fra:1 Mem:188.07M (Peak 188.08M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Rail-1_LOD0
+Fra:1 Mem:188.30M (Peak 188.30M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Sill_LOD0
+Fra:1 Mem:188.57M (Peak 188.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Roof_LOD0
+Fra:1 Mem:188.54M (Peak 188.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Jamb-1_LOD0
+Fra:1 Mem:188.56M (Peak 188.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0
+Fra:1 Mem:188.58M (Peak 188.58M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail-1_LOD0
+Fra:1 Mem:188.88M (Peak 188.88M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Recess_LOD0
+Fra:1 Mem:188.90M (Peak 188.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_LogCrown
+Fra:1 Mem:188.91M (Peak 188.91M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Wall_LOD0
+Fra:1 Mem:189.15M (Peak 189.15M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniFooting_LOD0
+Fra:1 Mem:188.97M (Peak 189.15M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniFrontRoofInfill_LOD0
+Fra:1 Mem:189.04M (Peak 189.15M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_LogCrown
+Fra:1 Mem:189.11M (Peak 189.15M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Wall_LOD0
+Fra:1 Mem:189.17M (Peak 189.17M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb1_LOD0
+Fra:1 Mem:189.01M (Peak 189.17M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Mullion_LOD0
+Fra:1 Mem:189.34M (Peak 189.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Mullion_LOD0
+Fra:1 Mem:189.35M (Peak 189.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Rail-1_LOD0
+Fra:1 Mem:189.54M (Peak 189.54M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Recess_LOD0
+Fra:1 Mem:189.47M (Peak 189.54M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Sill_LOD0
+Fra:1 Mem:189.59M (Peak 189.59M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRear_LogCrown
+Fra:1 Mem:189.60M (Peak 189.60M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0
+Fra:1 Mem:189.62M (Peak 189.62M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRearRoofInfill_LOD0
+Fra:1 Mem:189.53M (Peak 189.62M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Jamb1_LOD0
+Fra:1 Mem:189.82M (Peak 189.82M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRoof_LOD0
+Fra:1 Mem:189.90M (Peak 189.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniSplashStone_LOD0
+Fra:1 Mem:189.52M (Peak 189.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniSpout_LOD0
+Fra:1 Mem:189.53M (Peak 189.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_LogCrown
+Fra:1 Mem:189.54M (Peak 189.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Jamb-1_LOD0
+Fra:1 Mem:189.55M (Peak 189.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Wall_LOD0
+Fra:1 Mem:189.75M (Peak 189.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Sill_LOD0
+Fra:1 Mem:189.53M (Peak 189.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Jamb1_LOD0
+Fra:1 Mem:189.45M (Peak 189.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Rail-1_LOD0
+Fra:1 Mem:189.46M (Peak 189.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Recess_LOD0
+Fra:1 Mem:189.48M (Peak 189.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Sill_LOD0
+Fra:1 Mem:189.63M (Peak 189.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb-1_LOD0
+Fra:1 Mem:189.48M (Peak 189.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb1_LOD0
+Fra:1 Mem:189.49M (Peak 189.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Rail-1_LOD0
+Fra:1 Mem:189.71M (Peak 189.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Recess_LOD0
+Fra:1 Mem:189.99M (Peak 189.99M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:189.51M (Peak 189.99M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_2
+Fra:1 Mem:253.51M (Peak 253.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_0
+Fra:1 Mem:317.51M (Peak 317.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_1
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:333.38M (Peak 333.51M) | Time:00:00.01 | Mem:144.05M, Peak:144.05M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:146.56M, Peak:146.56M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.61M, Peak:148.69M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:423.81M (Peak 423.81M) | Time:00:00.21 | Remaining:00:04.52 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:05.60 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:05.60 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_a_retexture_v2/pbr_candidate_v2/actual-glb-seni-entry-detail.png'
+Time: 00:05.66 (Saving: 00:00.05)
+
+Fra:1 Mem:187.34M (Peak 187.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Back_BoardedGable_LOD0
+Fra:1 Mem:187.34M (Peak 187.34M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Eave_3.35_LOD0
+Fra:1 Mem:187.38M (Peak 187.38M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeLeft_LOD0
+Fra:1 Mem:187.40M (Peak 187.40M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Front_VergeRight_LOD0
+Fra:1 Mem:187.42M (Peak 187.42M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Gutter_+1_LOD0
+Fra:1 Mem:187.41M (Peak 187.42M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Gutter_-1_LOD0
+Fra:1 Mem:187.42M (Peak 187.42M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_LogCrown
+Fra:1 Mem:187.42M (Peak 187.42M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Mullion_LOD0
+Fra:1 Mem:187.42M (Peak 187.42M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Rail-1_LOD0
+Fra:1 Mem:187.45M (Peak 187.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Rail1_LOD0
+Fra:1 Mem:187.46M (Peak 187.46M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window0_Recess_LOD0
+Fra:1 Mem:187.46M (Peak 187.46M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Jamb-1_LOD0
+Fra:1 Mem:187.47M (Peak 187.47M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Rail-1_LOD0
+Fra:1 Mem:187.78M (Peak 187.78M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area.002
+Fra:1 Mem:187.79M (Peak 187.79M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Left_Window1_Sill_LOD0
+Fra:1 Mem:187.89M (Peak 187.89M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_+1_01_LOD0
+Fra:1 Mem:187.92M (Peak 187.92M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_RafterTail_-1_00_LOD0
+Fra:1 Mem:187.95M (Peak 187.95M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_LogCrown
+Fra:1 Mem:188.02M (Peak 188.02M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Jamb-1_LOD0
+Fra:1 Mem:187.75M (Peak 188.02M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Jamb1_LOD0
+Fra:1 Mem:187.98M (Peak 188.02M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area.001
+Fra:1 Mem:187.99M (Peak 188.02M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area
+Fra:1 Mem:187.97M (Peak 188.02M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Sill_LOD0
+Fra:1 Mem:188.25M (Peak 188.25M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Rail-1_LOD0
+Fra:1 Mem:188.26M (Peak 188.26M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Recess_LOD0
+Fra:1 Mem:188.30M (Peak 188.30M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window0_Recess_LOD0
+Fra:1 Mem:188.41M (Peak 188.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Jamb-1_LOD0
+Fra:1 Mem:188.41M (Peak 188.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Jamb1_LOD0
+Fra:1 Mem:188.53M (Peak 188.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Mullion_LOD0
+Fra:1 Mem:188.24M (Peak 188.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Rail-1_LOD0
+Fra:1 Mem:188.40M (Peak 188.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Recess_LOD0
+Fra:1 Mem:188.39M (Peak 188.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Rear_Window1_Sill_LOD0
+Fra:1 Mem:188.41M (Peak 188.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_LogCrown
+Fra:1 Mem:188.42M (Peak 188.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Wall_LOD0
+Fra:1 Mem:188.49M (Peak 188.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Jamb-1_LOD0
+Fra:1 Mem:188.82M (Peak 188.82M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Mullion_LOD0
+Fra:1 Mem:188.52M (Peak 188.82M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Rail-1_LOD0
+Fra:1 Mem:188.74M (Peak 188.82M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Recess_LOD0
+Fra:1 Mem:188.75M (Peak 188.82M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Right_Window0_Sill_LOD0
+Fra:1 Mem:188.82M (Peak 188.82M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Handle_LOD0
+Fra:1 Mem:188.93M (Peak 188.93M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Leaf_LOD0
+Fra:1 Mem:188.93M (Peak 188.93M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Rail-1_LOD0
+Fra:1 Mem:188.96M (Peak 188.96M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Door0_Recess_LOD0
+Fra:1 Mem:188.96M (Peak 188.96M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniEntry_Wall_LOD0
+Fra:1 Mem:188.97M (Peak 188.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniFrontRoofInfill_LOD0
+Fra:1 Mem:189.07M (Peak 189.07M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_LogCrown
+Fra:1 Mem:188.87M (Peak 189.07M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb-1_LOD0
+Fra:1 Mem:188.93M (Peak 189.07M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Jamb1_LOD0
+Fra:1 Mem:189.04M (Peak 189.07M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Mullion_LOD0
+Fra:1 Mem:189.12M (Peak 189.12M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Recess_LOD0
+Fra:1 Mem:189.20M (Peak 189.20M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniOuter_Window0_Sill_LOD0
+Fra:1 Mem:189.25M (Peak 189.25M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRear_LogCrown
+Fra:1 Mem:189.35M (Peak 189.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRear_Wall_LOD0
+Fra:1 Mem:189.35M (Peak 189.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniRearRoofInfill_LOD0
+Fra:1 Mem:189.41M (Peak 189.41M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Rail-1_LOD0
+Fra:1 Mem:189.43M (Peak 189.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniSpout_LOD0
+Fra:1 Mem:189.57M (Peak 189.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniStep_LOD0
+Fra:1 Mem:189.67M (Peak 189.67M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_SeniTrough_LOD0
+Fra:1 Mem:189.66M (Peak 189.67M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_StoveFlueFlashing_LOD0
+Fra:1 Mem:189.67M (Peak 189.67M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_LogCrown
+Fra:1 Mem:189.73M (Peak 189.73M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Wall_LOD0
+Fra:1 Mem:189.62M (Peak 189.73M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Jamb-1_LOD0
+Fra:1 Mem:189.66M (Peak 189.73M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Jamb1_LOD0
+Fra:1 Mem:189.67M (Peak 189.73M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Mullion_LOD0
+Fra:1 Mem:189.62M (Peak 189.73M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window0_Rail1_LOD0
+Fra:1 Mem:189.63M (Peak 189.73M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb-1_LOD0
+Fra:1 Mem:189.65M (Peak 189.73M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Jamb1_LOD0
+Fra:1 Mem:189.66M (Peak 189.73M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Rail-1_LOD0
+Fra:1 Mem:189.68M (Peak 189.73M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Recess_LOD0
+Fra:1 Mem:189.91M (Peak 189.91M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window1_Sill_LOD0
+Fra:1 Mem:190.06M (Peak 190.06M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Jamb-1_LOD0
+Fra:1 Mem:189.61M (Peak 190.06M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | VariantA_TimberGable_Dwelling_Street_Window2_Jamb1_LOD0
+Fra:1 Mem:189.99M (Peak 190.06M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:189.51M (Peak 190.06M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_2
+Fra:1 Mem:253.51M (Peak 253.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_1
+Fra:1 Mem:269.51M (Peak 269.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading Image_0
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:330.16M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:330.24M (Peak 333.51M) | Time:00:00.00 | Mem:144.00M, Peak:144.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:330.27M (Peak 333.51M) | Time:00:00.00 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:331.46M (Peak 333.51M) | Time:00:00.01 | Mem:144.03M, Peak:144.03M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:333.38M (Peak 333.51M) | Time:00:00.01 | Mem:144.05M, Peak:144.05M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:145.93M, Peak:145.93M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:146.56M, Peak:146.56M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:333.36M (Peak 333.51M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:147.39M, Peak:148.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.61M, Peak:148.61M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:334.58M (Peak 334.58M) | Time:00:00.01 | Mem:148.69M, Peak:148.69M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.61M, Peak:148.69M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:334.59M (Peak 334.59M) | Time:00:00.01 | Mem:148.70M, Peak:148.70M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:423.81M (Peak 423.81M) | Time:00:00.17 | Remaining:00:03.66 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:04.76 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:461.32M (Peak 517.57M) | Time:00:04.76 | Mem:237.77M, Peak:237.77M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_a_retexture_v2/pbr_candidate_v2/actual-glb-seni-rear-detail.png'
+Time: 00:04.81 (Saving: 00:00.05)
+
+PBR_SOURCE_PREVIEW_READY {"status": "material_only_source_candidate_coverage_art_native_gates_open", "views": 9, "outputs": [{"path": "pbr_candidate_v2/variant-a-semantic-pbr-v2.glb", "sha256": "af977aa137f5aacca59baa25fb2d4b2cd4a664bb7e8135e1df8cccd28525f38f", "bytes": 21755316}]}
+
+Blender quit

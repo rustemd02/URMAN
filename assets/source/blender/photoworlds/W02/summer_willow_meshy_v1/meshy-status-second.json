@@ -1,0 +1,12 @@
+{
+  "available_formats": [],
+  "consumed_credits": 30,
+  "created_at": 1792464485014,
+  "expires_at": 0,
+  "finished_at": 0,
+  "id": "01a15735-7462-76a5-bdb8-081bac49c4ae",
+  "progress": 74,
+  "started_at": 1792464485024,
+  "status": "IN_PROGRESS",
+  "type": "image-to-3d"
+}

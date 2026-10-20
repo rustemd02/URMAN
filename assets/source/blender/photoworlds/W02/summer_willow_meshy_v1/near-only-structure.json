@@ -1,0 +1,201 @@
+{
+  "status": "near_only_source_candidate_mid_far_HOLD_not_runtime_or_art_acceptance",
+  "source": "meshy-willow-remesh25k.glb",
+  "source_sha256": "c98984a5d603e64b67a3f32d92b7918192740cb7e3aecab6f59d03ae67717344",
+  "output": "summer-willow-near-2k-v1.glb",
+  "bytes": 21105672,
+  "sha256": "0cf1b02366ff6a047a914873e7ef2723813986993a8056326c435f89069b3cfa",
+  "budget_pass": null,
+  "mid_far_status": "HOLD; candidate-structure.json and candidate-lod1/2.png preserve the failed ordinary collapse",
+  "source_topology": {
+    "method": "transient bmesh coincident weld1e-6; connected vertices through actual edges",
+    "welded_vertices": 10340,
+    "faces": 19031,
+    "components": 26,
+    "component_face_count_histogram": {
+      "259": 1,
+      "15781": 1,
+      "829": 1,
+      "127": 2,
+      "117": 1,
+      "119": 1,
+      "356": 1,
+      "63": 1,
+      "45": 1,
+      "33": 1,
+      "55": 1,
+      "214": 1,
+      "37": 1,
+      "23": 1,
+      "44": 1,
+      "38": 1,
+      "201": 1,
+      "18": 2,
+      "390": 1,
+      "29": 1,
+      "10": 1,
+      "24": 1,
+      "60": 1,
+      "14": 1
+    },
+    "boundary_edges": 4949,
+    "nonmanifold_edges": 7818,
+    "near_geometry_modified": false,
+    "limit": "observed topology is not proof of a theoretical decimator minimum"
+  },
+  "normalization": {
+    "axes": "Blender X,Y,Z = Godot/glTF X,-Z,Y",
+    "uniform_scale": 2.3927672473938824,
+    "raw_blender_min": [
+      -0.6803630590438843,
+      -0.5992050170898438,
+      -0.9516690373420715
+    ],
+    "raw_blender_max": [
+      0.6813809871673584,
+      0.5707839727401733,
+      0.9436260461807251
+    ],
+    "raw_root": [
+      0.026417002081871033,
+      0.011663928627967834,
+      -0.9516690373420715
+    ],
+    "root_method": "XZ centre of bottom 1% height vertex bounds; minimum Z ground",
+    "target_height_m": 4.535,
+    "trimming": false,
+    "original_modified": false
+  },
+  "lods": [
+    {
+      "node": "SummerWillow_LOD0",
+      "triangles": 19031,
+      "vertices": 44278,
+      "bounds_blender_xyz_m": [
+        [
+          -1.6911602020263672,
+          1.567176342010498
+        ],
+        [
+          -1.4616671800613403,
+          1.3378441333770752
+        ],
+        [
+          0.0,
+          4.534999847412109
+        ]
+      ],
+      "width_depth_height_m": [
+        3.2583365440368652,
+        2.7995113134384155,
+        4.534999847412109
+      ],
+      "root_ground_z_m": 0.0,
+      "lowest_geometry_above_root_flare_m": 2.2961928844451904,
+      "route_clearance": [
+        {
+          "standing_height_m": 1.8,
+          "route_feet_above_root_m": 0.09371394188768845,
+          "minimum_projected_geometry_distance_m": 0.44632402779734975,
+          "conservative_cylinder_radius_m": 0.35,
+          "clearance_after_radius_m": 0.09632402779734978,
+          "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"
+        },
+        {
+          "standing_height_m": 2.15,
+          "route_feet_above_root_m": 0.09371394188768845,
+          "minimum_projected_geometry_distance_m": 0.44632402779734975,
+          "conservative_cylinder_radius_m": 0.35,
+          "clearance_after_radius_m": 0.09632402779734978,
+          "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"
+        }
+      ],
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    }
+  ],
+  "welds": [],
+  "images": [
+    {
+      "name": "texture_0",
+      "role": "basecolor",
+      "colorspace": "sRGB",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "normal_vector_renormalized": false
+    },
+    {
+      "name": "texture_0_metallic_roughness",
+      "role": "metallic_roughness_data",
+      "colorspace": "Non-Color",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "normal_vector_renormalized": false
+    },
+    {
+      "name": "normal",
+      "role": "tangent_normal",
+      "colorspace": "Non-Color",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "normal_vector_renormalized": true
+    }
+  ],
+  "shared_material_count": 1,
+  "material": "URMAN_SummerWillow_Meshy_v1_PBR",
+  "new_contact": false,
+  "additional_meshy_credits": 0,
+  "geometry_clamp_or_trimming": false,
+  "method_references": [
+    "act1/winter_spruce_meshy_v2/prepare_candidate.py",
+    "act1/house_a_meshy_v2/derive_and_inspect.py"
+  ],
+  "renders": [
+    "candidate-lod0.png"
+  ],
+  "budget_scope": "near19031 only; full three-LOD budget NOT passed",
+  "render_scope": "candidate-lod0.png is an in-memory pre-export Blender view of the normalized near mesh and resized2K maps; it is NOT a reimported-GLB render or a game frame",
+  "actual_export_verification": "near-export-header.json separately records exported GLB nodes, triangles, material, position accessor bounds, embedded PNG sizes/depth; no reimported pixels or native gameplay acceptance"
+}

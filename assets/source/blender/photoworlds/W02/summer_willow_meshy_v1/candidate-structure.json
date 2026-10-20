@@ -1,0 +1,316 @@
+{
+  "status": "HOLD_collapse_did_not_reach_lod_budget_no_glb_export",
+  "source": "meshy-willow-remesh25k.glb",
+  "source_sha256": "c98984a5d603e64b67a3f32d92b7918192740cb7e3aecab6f59d03ae67717344",
+  "output": null,
+  "bytes": null,
+  "sha256": null,
+  "budget_pass": false,
+  "normalization": {
+    "axes": "Blender X,Y,Z = Godot/glTF X,-Z,Y",
+    "uniform_scale": 2.3927672473938824,
+    "raw_blender_min": [
+      -0.6803630590438843,
+      -0.5992050170898438,
+      -0.9516690373420715
+    ],
+    "raw_blender_max": [
+      0.6813809871673584,
+      0.5707839727401733,
+      0.9436260461807251
+    ],
+    "raw_root": [
+      0.026417002081871033,
+      0.011663928627967834,
+      -0.9516690373420715
+    ],
+    "root_method": "XZ centre of bottom 1% height vertex bounds; minimum Z ground",
+    "target_height_m": 4.535,
+    "trimming": false,
+    "original_modified": false
+  },
+  "lods": [
+    {
+      "node": "SummerWillow_LOD0",
+      "triangles": 19031,
+      "vertices": 44278,
+      "bounds_blender_xyz_m": [
+        [
+          -1.6911602020263672,
+          1.567176342010498
+        ],
+        [
+          -1.4616671800613403,
+          1.3378441333770752
+        ],
+        [
+          0.0,
+          4.534999847412109
+        ]
+      ],
+      "width_depth_height_m": [
+        3.2583365440368652,
+        2.7995113134384155,
+        4.534999847412109
+      ],
+      "root_ground_z_m": 0.0,
+      "lowest_geometry_above_root_flare_m": 2.2961928844451904,
+      "route_clearance": [
+        {
+          "standing_height_m": 1.8,
+          "route_feet_above_root_m": 0.09371394188768845,
+          "minimum_projected_geometry_distance_m": 0.44632402779734975,
+          "conservative_cylinder_radius_m": 0.35,
+          "clearance_after_radius_m": 0.09632402779734978,
+          "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"
+        },
+        {
+          "standing_height_m": 2.15,
+          "route_feet_above_root_m": 0.09371394188768845,
+          "minimum_projected_geometry_distance_m": 0.44632402779734975,
+          "conservative_cylinder_radius_m": 0.35,
+          "clearance_after_radius_m": 0.09632402779734978,
+          "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"
+        }
+      ],
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "node": "SummerWillow_LOD1",
+      "triangles": 13556,
+      "vertices": 7485,
+      "bounds_blender_xyz_m": [
+        [
+          -1.6911602020263672,
+          1.5200653076171875
+        ],
+        [
+          -1.4325757026672363,
+          1.3378441333770752
+        ],
+        [
+          0.24945183098316193,
+          4.534999847412109
+        ]
+      ],
+      "width_depth_height_m": [
+        3.2112255096435547,
+        2.7704198360443115,
+        4.2855480164289474
+      ],
+      "root_ground_z_m": 0.24945183098316193,
+      "lowest_geometry_above_root_flare_m": 2.3179025650024414,
+      "route_clearance": [
+        {
+          "standing_height_m": 1.8,
+          "route_feet_above_root_m": 0.09371394188768845,
+          "minimum_projected_geometry_distance_m": 0.4659795668817964,
+          "conservative_cylinder_radius_m": 0.35,
+          "clearance_after_radius_m": 0.11597956688179645,
+          "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"
+        },
+        {
+          "standing_height_m": 2.15,
+          "route_feet_above_root_m": 0.09371394188768845,
+          "minimum_projected_geometry_distance_m": 0.38417681066059434,
+          "conservative_cylinder_radius_m": 0.35,
+          "clearance_after_radius_m": 0.03417681066059436,
+          "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"
+        }
+      ],
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "node": "SummerWillow_LOD2",
+      "triangles": 13556,
+      "vertices": 7485,
+      "bounds_blender_xyz_m": [
+        [
+          -1.6911602020263672,
+          1.5200653076171875
+        ],
+        [
+          -1.4325757026672363,
+          1.3378441333770752
+        ],
+        [
+          0.24945183098316193,
+          4.534999847412109
+        ]
+      ],
+      "width_depth_height_m": [
+        3.2112255096435547,
+        2.7704198360443115,
+        4.2855480164289474
+      ],
+      "root_ground_z_m": 0.24945183098316193,
+      "lowest_geometry_above_root_flare_m": 2.3179025650024414,
+      "route_clearance": [
+        {
+          "standing_height_m": 1.8,
+          "route_feet_above_root_m": 0.09371394188768845,
+          "minimum_projected_geometry_distance_m": 0.4659795668817964,
+          "conservative_cylinder_radius_m": 0.35,
+          "clearance_after_radius_m": 0.11597956688179645,
+          "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"
+        },
+        {
+          "standing_height_m": 2.15,
+          "route_feet_above_root_m": 0.09371394188768845,
+          "minimum_projected_geometry_distance_m": 0.38417681066059434,
+          "conservative_cylinder_radius_m": 0.35,
+          "clearance_after_radius_m": 0.03417681066059436,
+          "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"
+        }
+      ],
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    }
+  ],
+  "welds": [
+    {
+      "node": "SummerWillow_LOD1",
+      "vertices_before": 44278,
+      "vertices_after": 10340,
+      "distance_m": 1e-06
+    },
+    {
+      "node": "SummerWillow_LOD2",
+      "vertices_before": 44278,
+      "vertices_after": 10340,
+      "distance_m": 1e-06
+    }
+  ],
+  "images": [
+    {
+      "name": "texture_0",
+      "role": "basecolor",
+      "colorspace": "sRGB",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "normal_vector_renormalized": false
+    },
+    {
+      "name": "texture_0_metallic_roughness",
+      "role": "metallic_roughness_data",
+      "colorspace": "Non-Color",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "normal_vector_renormalized": false
+    },
+    {
+      "name": "normal",
+      "role": "tangent_normal",
+      "colorspace": "Non-Color",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "normal_vector_renormalized": true
+    }
+  ],
+  "shared_material_count": 1,
+  "material": "URMAN_SummerWillow_Meshy_v1_PBR",
+  "new_contact": false,
+  "additional_meshy_credits": 0,
+  "geometry_clamp_or_trimming": false,
+  "method_references": [
+    "act1/winter_spruce_meshy_v2/prepare_candidate.py",
+    "act1/house_a_meshy_v2/derive_and_inspect.py"
+  ],
+  "renders": [
+    "candidate-lod0.png",
+    "candidate-lod1.png",
+    "candidate-lod2.png"
+  ]
+}

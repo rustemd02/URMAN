@@ -1,0 +1,153 @@
+06:24:42 | INFO: Data are loaded, start creating Blender stuff
+06:24:42 | INFO: Blender create Mesh node output_unwrapped
+06:24:42 | INFO: glTF import finished in 0.03s
+WILLOW_METRICS {"source": "meshy-willow-remesh25k.glb", "source_bytes": 55911756, "source_sha256": "c98984a5d603e64b67a3f32d92b7918192740cb7e3aecab6f59d03ae67717344", "blender": "4.5.12 LTS", "triangles": 19031, "vertices": 44278, "material_count": 1, "embedded_images": [{"name": "normal", "mimeType": "image/png", "png_width_height": [4096, 4096]}, {"name": "texture_0", "mimeType": "image/png", "png_width_height": [4096, 4096]}, {"name": "texture_0_metallic_roughness", "mimeType": "image/png", "png_width_height": [4096, 4096]}], "normalization": {"axes": "Blender X,Y,Z = Godot/glTF X,-Z,Y", "uniform_scale": 2.3927672473938824, "raw_blender_min": [-0.6803630590438843, -0.5992050170898438, -0.9516690373420715], "raw_blender_max": [0.6813809871673584, 0.5707839727401733, 0.9436260461807251], "raw_root": [0.026417002081871033, 0.011663928627967834, -0.9516690373420715], "root_method": "XZ centre of bottom 1% height vertex bounds; minimum Z ground", "target_height_m": 4.535, "trimming": false, "original_modified": false}, "normalized_blender_min": [-1.6911602020263672, -1.4616671800613403, 0.0], "normalized_blender_max": [1.567176342010498, 1.3378441333770752, 4.534999847412109], "normalized_width_depth_height_m": [3.2583365440368652, 2.7995113134384155, 4.534999847412109], "caps_width_depth_m": [4.03, 3.33], "original_measured_width_depth_m": [3.845845222, 3.087029815], "lowest_vertex_outside_trunk_radius_m": {"0.3": 7.65869626775384e-05, "0.4": 0.0032564434222877026, "0.5": 0.005819182842969894, "0.75": 2.2961928844451904}, "lowest_geometry_above_root_flare_m": {"exclude_below_height_m": 0.75, "exclude_trunk_radius_m": 0.25, "lowest_vertex_height_m": 2.2961928844451904, "required_crown_minimum_m": 2.165, "method": "geometry radial bound, not semantic material separation; four views show a single bare trunk inside this lower radius"}, "lower_boundary_caveat": "one baked material; radius thresholds are geometry measures, not semantic leaf/branch labels; verify rendered anatomy", "left_root_route_distance_m": 0.7809495157307362, "left_root_ground_y_m": 1.9062860581123116, "route_clearance": [{"standing_height_m": 1.8, "route_feet_above_root_m": 0.09371394188768845, "minimum_projected_geometry_distance_m": 0.44632402779734975, "conservative_cylinder_radius_m": 0.35, "clearance_after_radius_m": 0.09632402779734978, "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"}, {"standing_height_m": 2.15, "route_feet_above_root_m": 0.09371394188768845, "minimum_projected_geometry_distance_m": 0.44632402779734975, "conservative_cylinder_radius_m": 0.35, "clearance_after_radius_m": 0.09632402779734978, "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"}], "runtime_collision": "original procedural tree has no trunk/canopy contact; no new contact created", "source_candidate": "uniformly normalized in memory by this recipe; no duplicated GLB or dependent glTF before root review"}
+WILLOW_LOD_METRICS {"status": "HOLD_collapse_did_not_reach_lod_budget_no_glb_export", "source": "meshy-willow-remesh25k.glb", "source_sha256": "c98984a5d603e64b67a3f32d92b7918192740cb7e3aecab6f59d03ae67717344", "output": null, "bytes": null, "sha256": null, "budget_pass": false, "normalization": {"axes": "Blender X,Y,Z = Godot/glTF X,-Z,Y", "uniform_scale": 2.3927672473938824, "raw_blender_min": [-0.6803630590438843, -0.5992050170898438, -0.9516690373420715], "raw_blender_max": [0.6813809871673584, 0.5707839727401733, 0.9436260461807251], "raw_root": [0.026417002081871033, 0.011663928627967834, -0.9516690373420715], "root_method": "XZ centre of bottom 1% height vertex bounds; minimum Z ground", "target_height_m": 4.535, "trimming": false, "original_modified": false}, "lods": [{"node": "SummerWillow_LOD0", "triangles": 19031, "vertices": 44278, "bounds_blender_xyz_m": [[-1.6911602020263672, 1.567176342010498], [-1.4616671800613403, 1.3378441333770752], [0.0, 4.534999847412109]], "width_depth_height_m": [3.2583365440368652, 2.7995113134384155, 4.534999847412109], "root_ground_z_m": 0.0, "lowest_geometry_above_root_flare_m": 2.2961928844451904, "route_clearance": [{"standing_height_m": 1.8, "route_feet_above_root_m": 0.09371394188768845, "minimum_projected_geometry_distance_m": 0.44632402779734975, "conservative_cylinder_radius_m": 0.35, "clearance_after_radius_m": 0.09632402779734978, "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"}, {"standing_height_m": 2.15, "route_feet_above_root_m": 0.09371394188768845, "minimum_projected_geometry_distance_m": 0.44632402779734975, "conservative_cylinder_radius_m": 0.35, "clearance_after_radius_m": 0.09632402779734978, "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"}], "matrix_world": [[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]]}, {"node": "SummerWillow_LOD1", "triangles": 13556, "vertices": 7485, "bounds_blender_xyz_m": [[-1.6911602020263672, 1.5200653076171875], [-1.4325757026672363, 1.3378441333770752], [0.24945183098316193, 4.534999847412109]], "width_depth_height_m": [3.2112255096435547, 2.7704198360443115, 4.2855480164289474], "root_ground_z_m": 0.24945183098316193, "lowest_geometry_above_root_flare_m": 2.3179025650024414, "route_clearance": [{"standing_height_m": 1.8, "route_feet_above_root_m": 0.09371394188768845, "minimum_projected_geometry_distance_m": 0.4659795668817964, "conservative_cylinder_radius_m": 0.35, "clearance_after_radius_m": 0.11597956688179645, "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"}, {"standing_height_m": 2.15, "route_feet_above_root_m": 0.09371394188768845, "minimum_projected_geometry_distance_m": 0.38417681066059434, "conservative_cylinder_radius_m": 0.35, "clearance_after_radius_m": 0.03417681066059436, "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"}], "matrix_world": [[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]]}, {"node": "SummerWillow_LOD2", "triangles": 13556, "vertices": 7485, "bounds_blender_xyz_m": [[-1.6911602020263672, 1.5200653076171875], [-1.4325757026672363, 1.3378441333770752], [0.24945183098316193, 4.534999847412109]], "width_depth_height_m": [3.2112255096435547, 2.7704198360443115, 4.2855480164289474], "root_ground_z_m": 0.24945183098316193, "lowest_geometry_above_root_flare_m": 2.3179025650024414, "route_clearance": [{"standing_height_m": 1.8, "route_feet_above_root_m": 0.09371394188768845, "minimum_projected_geometry_distance_m": 0.4659795668817964, "conservative_cylinder_radius_m": 0.35, "clearance_after_radius_m": 0.11597956688179645, "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"}, {"standing_height_m": 2.15, "route_feet_above_root_m": 0.09371394188768845, "minimum_projected_geometry_distance_m": 0.38417681066059434, "conservative_cylinder_radius_m": 0.35, "clearance_after_radius_m": 0.03417681066059436, "method": "all triangles clipped below route feet + height; projected exact segment/polygon distance; conservative standing cylinder, not physics/native proof"}], "matrix_world": [[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]]}], "welds": [{"node": "SummerWillow_LOD1", "vertices_before": 44278, "vertices_after": 10340, "distance_m": 1e-06}, {"node": "SummerWillow_LOD2", "vertices_before": 44278, "vertices_after": 10340, "distance_m": 1e-06}], "images": [{"name": "texture_0", "role": "basecolor", "colorspace": "sRGB", "before": [4096, 4096], "after": [2048, 2048], "normal_vector_renormalized": false}, {"name": "texture_0_metallic_roughness", "role": "metallic_roughness_data", "colorspace": "Non-Color", "before": [4096, 4096], "after": [2048, 2048], "normal_vector_renormalized": false}, {"name": "normal", "role": "tangent_normal", "colorspace": "Non-Color", "before": [4096, 4096], "after": [2048, 2048], "normal_vector_renormalized": true}], "shared_material_count": 1, "material": "URMAN_SummerWillow_Meshy_v1_PBR", "new_contact": false, "additional_meshy_credits": 0, "geometry_clamp_or_trimming": false, "method_references": ["act1/winter_spruce_meshy_v2/prepare_candidate.py", "act1/house_a_meshy_v2/derive_and_inspect.py"], "renders": ["candidate-lod0.png", "candidate-lod1.png", "candidate-lod2.png"]}
+Blender 4.5.12 LTS (hash 84afd5f785f7 built 2026-07-21 01:41:35)
+Fra:1 Mem:88.92M (Peak 88.92M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SummerWillow_LOD0
+Fra:1 Mem:88.92M (Peak 88.92M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area
+Fra:1 Mem:94.20M (Peak 97.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:94.19M (Peak 97.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading normal
+Fra:1 Mem:94.19M (Peak 97.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading texture_0
+Fra:1 Mem:94.19M (Peak 97.45M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading texture_0_metallic_roughness
+Fra:1 Mem:141.95M (Peak 142.19M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:141.95M (Peak 142.19M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:141.95M (Peak 142.19M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:141.95M (Peak 142.19M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:142.03M (Peak 142.19M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:142.03M (Peak 142.19M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:142.03M (Peak 142.19M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:142.03M (Peak 142.19M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:142.03M (Peak 142.19M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:142.03M (Peak 142.19M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:142.03M (Peak 142.19M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:142.03M (Peak 142.19M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:142.03M (Peak 142.19M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:143.12M (Peak 143.12M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:143.12M (Peak 143.12M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:144.94M (Peak 144.94M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:144.94M (Peak 144.94M) | Time:00:00.01 | Mem:49.82M, Peak:49.82M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:144.94M (Peak 144.94M) | Time:00:00.01 | Mem:49.82M, Peak:49.82M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:144.94M (Peak 144.94M) | Time:00:00.01 | Mem:50.40M, Peak:50.40M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:144.94M (Peak 144.94M) | Time:00:00.01 | Mem:51.09M, Peak:51.67M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:144.94M (Peak 144.94M) | Time:00:00.01 | Mem:51.09M, Peak:51.67M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:146.24M (Peak 146.24M) | Time:00:00.01 | Mem:51.09M, Peak:51.67M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:146.24M (Peak 146.24M) | Time:00:00.01 | Mem:52.40M, Peak:52.40M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:146.24M (Peak 146.24M) | Time:00:00.01 | Mem:52.40M, Peak:52.40M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:146.24M (Peak 146.24M) | Time:00:00.01 | Mem:52.40M, Peak:52.40M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:146.24M (Peak 146.24M) | Time:00:00.01 | Mem:52.40M, Peak:52.40M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:146.24M (Peak 146.24M) | Time:00:00.01 | Mem:52.40M, Peak:52.40M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:146.24M (Peak 146.24M) | Time:00:00.01 | Mem:52.48M, Peak:52.48M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:146.24M (Peak 146.24M) | Time:00:00.01 | Mem:52.48M, Peak:52.48M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:146.24M (Peak 146.24M) | Time:00:00.01 | Mem:52.48M, Peak:52.48M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:146.24M (Peak 146.24M) | Time:00:00.01 | Mem:52.48M, Peak:52.48M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:146.25M (Peak 146.25M) | Time:00:00.01 | Mem:52.40M, Peak:52.48M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:146.25M (Peak 146.25M) | Time:00:00.01 | Mem:52.48M, Peak:52.48M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:146.25M (Peak 146.25M) | Time:00:00.01 | Mem:52.48M, Peak:52.48M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:146.25M (Peak 146.25M) | Time:00:00.01 | Mem:52.48M, Peak:52.48M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:146.25M (Peak 146.25M) | Time:00:00.01 | Mem:52.48M, Peak:52.48M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:222.41M (Peak 222.41M) | Time:00:00.09 | Remaining:00:01.80 | Mem:128.49M, Peak:128.49M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:254.41M (Peak 302.41M) | Time:00:02.98 | Mem:128.49M, Peak:128.49M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:254.41M (Peak 302.41M) | Time:00:02.98 | Mem:128.49M, Peak:128.49M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/candidate-lod0.png'
+Time: 00:03.06 (Saving: 00:00.07)
+
+Fra:1 Mem:91.43M (Peak 91.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SummerWillow_LOD1
+Fra:1 Mem:91.43M (Peak 91.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area
+Fra:1 Mem:91.43M (Peak 91.43M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | InspectionOnlyNeutralGround
+Fra:1 Mem:93.43M (Peak 95.29M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:93.42M (Peak 95.29M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading normal
+Fra:1 Mem:93.42M (Peak 95.29M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading texture_0_metallic_roughness
+Fra:1 Mem:141.18M (Peak 141.42M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:141.18M (Peak 141.42M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:141.18M (Peak 141.42M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:141.18M (Peak 141.42M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:141.27M (Peak 141.42M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:141.27M (Peak 141.42M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:141.27M (Peak 141.42M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:141.27M (Peak 141.42M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:141.27M (Peak 141.42M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:141.27M (Peak 141.42M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:141.27M (Peak 141.42M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:141.27M (Peak 141.42M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:141.27M (Peak 141.42M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:142.04M (Peak 142.04M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:142.04M (Peak 142.04M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:143.29M (Peak 143.29M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:143.29M (Peak 143.29M) | Time:00:00.01 | Mem:49.25M, Peak:49.25M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:143.29M (Peak 143.29M) | Time:00:00.01 | Mem:49.25M, Peak:49.25M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:143.29M (Peak 143.29M) | Time:00:00.01 | Mem:49.66M, Peak:49.66M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:143.29M (Peak 143.29M) | Time:00:00.02 | Mem:50.16M, Peak:50.57M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:143.29M (Peak 143.29M) | Time:00:00.02 | Mem:50.16M, Peak:50.57M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:144.13M (Peak 144.13M) | Time:00:00.02 | Mem:50.16M, Peak:50.57M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:144.13M (Peak 144.13M) | Time:00:00.02 | Mem:51.00M, Peak:51.00M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:144.13M (Peak 144.13M) | Time:00:00.02 | Mem:51.00M, Peak:51.00M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:144.13M (Peak 144.13M) | Time:00:00.02 | Mem:51.00M, Peak:51.00M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:144.13M (Peak 144.13M) | Time:00:00.02 | Mem:51.00M, Peak:51.00M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:144.13M (Peak 144.13M) | Time:00:00.02 | Mem:51.00M, Peak:51.00M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:144.13M (Peak 144.13M) | Time:00:00.02 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:144.13M (Peak 144.13M) | Time:00:00.02 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:144.13M (Peak 144.13M) | Time:00:00.02 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:144.13M (Peak 144.13M) | Time:00:00.02 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:144.13M (Peak 144.13M) | Time:00:00.02 | Mem:51.00M, Peak:51.08M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:144.13M (Peak 144.13M) | Time:00:00.02 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:144.13M (Peak 144.13M) | Time:00:00.02 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:144.14M (Peak 144.14M) | Time:00:00.02 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:144.14M (Peak 144.14M) | Time:00:00.02 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:220.30M (Peak 220.30M) | Time:00:00.09 | Remaining:00:01.69 | Mem:127.10M, Peak:127.10M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:252.30M (Peak 300.30M) | Time:00:02.87 | Mem:127.10M, Peak:127.10M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:252.30M (Peak 300.30M) | Time:00:02.87 | Mem:127.10M, Peak:127.10M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/candidate-lod1.png'
+Time: 00:02.92 (Saving: 00:00.05)
+
+Fra:1 Mem:91.63M (Peak 91.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | SummerWillow_LOD2
+Fra:1 Mem:91.64M (Peak 91.64M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | InspectionOnlyNeutralGround
+Fra:1 Mem:91.64M (Peak 91.64M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Area
+Fra:1 Mem:93.64M (Peak 95.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:93.63M (Peak 95.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading normal
+Fra:1 Mem:109.63M (Peak 109.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Images | Loading texture_0_metallic_roughness
+Fra:1 Mem:141.39M (Peak 141.63M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:141.39M (Peak 141.63M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:141.39M (Peak 141.63M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:141.39M (Peak 141.63M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:141.48M (Peak 141.63M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:141.48M (Peak 141.63M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:141.48M (Peak 141.63M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:141.48M (Peak 141.63M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:141.48M (Peak 141.63M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:141.48M (Peak 141.63M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:141.48M (Peak 141.63M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:141.48M (Peak 141.63M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:141.48M (Peak 141.63M) | Time:00:00.00 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:142.25M (Peak 142.25M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:142.25M (Peak 142.25M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:143.50M (Peak 143.50M) | Time:00:00.01 | Mem:48.00M, Peak:48.00M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:143.50M (Peak 143.50M) | Time:00:00.01 | Mem:49.25M, Peak:49.25M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:143.50M (Peak 143.50M) | Time:00:00.01 | Mem:49.25M, Peak:49.25M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:143.50M (Peak 143.50M) | Time:00:00.01 | Mem:49.66M, Peak:49.66M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:143.50M (Peak 143.50M) | Time:00:00.01 | Mem:50.16M, Peak:50.57M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:143.50M (Peak 143.50M) | Time:00:00.01 | Mem:50.16M, Peak:50.57M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:144.34M (Peak 144.34M) | Time:00:00.01 | Mem:50.16M, Peak:50.57M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:144.34M (Peak 144.34M) | Time:00:00.01 | Mem:51.00M, Peak:51.00M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:144.34M (Peak 144.34M) | Time:00:00.01 | Mem:51.00M, Peak:51.00M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:144.34M (Peak 144.34M) | Time:00:00.01 | Mem:51.00M, Peak:51.00M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:144.34M (Peak 144.34M) | Time:00:00.01 | Mem:51.00M, Peak:51.00M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:144.34M (Peak 144.34M) | Time:00:00.01 | Mem:51.00M, Peak:51.00M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:144.34M (Peak 144.34M) | Time:00:00.01 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:144.34M (Peak 144.34M) | Time:00:00.01 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:144.34M (Peak 144.34M) | Time:00:00.01 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:144.34M (Peak 144.34M) | Time:00:00.01 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:144.34M (Peak 144.34M) | Time:00:00.01 | Mem:51.00M, Peak:51.08M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:144.34M (Peak 144.34M) | Time:00:00.01 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:144.34M (Peak 144.34M) | Time:00:00.01 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:144.35M (Peak 144.35M) | Time:00:00.01 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:144.35M (Peak 144.35M) | Time:00:00.01 | Mem:51.08M, Peak:51.08M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:220.51M (Peak 220.51M) | Time:00:00.08 | Remaining:00:01.74 | Mem:127.10M, Peak:127.10M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:252.51M (Peak 300.51M) | Time:00:03.06 | Mem:127.10M, Peak:127.10M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:252.51M (Peak 300.51M) | Time:00:03.06 | Mem:127.10M, Peak:127.10M | Scene, ViewLayer | Finished
+Saved: '/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/candidate-lod2.png'
+Time: 00:03.10 (Saving: 00:00.04)
+
+WILLOW_INSPECTION_COMPLETE
+
+Blender quit

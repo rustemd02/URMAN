@@ -1,0 +1,88 @@
+{
+  "file": "summer-willow-near-2k-v1.glb",
+  "bytes": 21105672,
+  "sha256": "0cf1b02366ff6a047a914873e7ef2723813986993a8056326c435f89069b3cfa",
+  "nodes": [
+    {
+      "mesh": 0,
+      "name": "SummerWillow_LOD0"
+    },
+    {
+      "children": [
+        0
+      ],
+      "name": "SummerWillowMeshyRoot"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "URMAN_SummerWillow_Meshy_v1_PBR",
+      "normalTexture": {
+        "index": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 1
+        },
+        "metallicRoughnessTexture": {
+          "index": 2
+        }
+      }
+    }
+  ],
+  "images": [
+    {
+      "name": "normal",
+      "width_height": [
+        2048,
+        2048
+      ],
+      "bit_depth": 8,
+      "png_color_type": 2,
+      "bytes": 8936710
+    },
+    {
+      "name": "texture_0",
+      "width_height": [
+        2048,
+        2048
+      ],
+      "bit_depth": 8,
+      "png_color_type": 2,
+      "bytes": 5825631
+    },
+    {
+      "name": "texture_0_metallic_roughness",
+      "width_height": [
+        2048,
+        2048
+      ],
+      "bit_depth": 8,
+      "png_color_type": 2,
+      "bytes": 4091180
+    }
+  ],
+  "mesh_triangles": [
+    19031
+  ],
+  "position_accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 44500,
+      "max": [
+        1.567176342010498,
+        4.534999847412109,
+        1.4616671800613403
+      ],
+      "min": [
+        -1.6911602020263672,
+        0,
+        -1.3378441333770752
+      ],
+      "type": "VEC3"
+    }
+  ],
+  "status": "header inspection of actual exported near-only source GLB; not a three-LOD or native acceptance"
+}

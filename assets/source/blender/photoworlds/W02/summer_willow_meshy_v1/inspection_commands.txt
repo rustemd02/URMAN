@@ -1,0 +1,34 @@
+Working directory: /Users/unterlantas/Documents/GitHub/URMAN
+Blender: .tools/blender/Blender.app/Contents/MacOS/Blender
+
+1. Initial four-view source inspection, sandbox:
+.tools/blender/Blender.app/Contents/MacOS/Blender --background --factory-startup --python assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/inspect_normalize_willow.py > assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/blender-inspection.log 2>&1
+Process exit139 before Python, Metal initialization. Preserved as blender-inspection-sandbox.log and blender-inspection-sandbox-crash.txt.
+
+2. Identical command outside sandbox after that causal failure:
+.tools/blender/Blender.app/Contents/MacOS/Blender --background --factory-startup --python assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/inspect_normalize_willow.py > assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/blender-inspection.log 2>&1
+Process exit0, WILLOW_INSPECTION_COMPLETE, four actual normalized views and inspection_metrics.json.
+Root subsequently reviewed all four images and explicitly authorized ONE ordinary three-LOD source preparation.
+
+3. First LOD preparation, outside sandbox for the same known pre-Python Metal crash:
+.tools/blender/Blender.app/Contents/MacOS/Blender --background --factory-startup --python assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/inspect_normalize_willow.py -- --lod-prep > assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/blender-lod-prep.log 2>&1
+Blender returned process exit0 BUT Python raised budget AssertionError. Preserved as blender-lod-prep-budget-assert.log. No GLB exported; not a successful preparation.
+
+4. Identical geometry and ratios, receipt-only control-flow correction:
+.tools/blender/Blender.app/Contents/MacOS/Blender --background --factory-startup --python assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/inspect_normalize_willow.py -- --lod-prep > assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/blender-lod-prep.log 2>&1
+Process exit0. Instead of aborting before diagnostics, writes actual counts/HOLD and three equal-camera views; failed budget suppresses GLB export. No second geometry experiment. Root and worker saw the destroyed/floating lower trunk in candidate-lod1.png and candidate-lod2.png. Both actual counts13556 exceed4500/800; no further reduction authorized or attempted.
+
+5. Root explicitly requested a practical unchanged near19031+2K candidate, retaining mid/far HOLD:
+.tools/blender/Blender.app/Contents/MacOS/Blender --background --factory-startup --python assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/inspect_normalize_willow.py -- --near-only > assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/blender-near-only-prep.log 2>&1
+Process exit0. Source-only summer-willow-near-2k-v1.glb, actual19031triangles and three2048x2048 RGB8 PNGs. No decimation/weld applied to retained near; topology diagnosis uses disposable BMesh. Existing candidate-lod0.png is the identical2K near view, no redundant render. Original downloaded GLB/4K textures/ZIP remain unchanged. No runtime promotion, native gameplay check, additional Meshy generation or credits.
+
+Measurement scope:
+Uniform root/height normalization only, source recipe records raw root/scale. Lower crown geometry outside.25m trunk radius and above.75m root flare begins2.296193m; one baked material does not provide semantic leaf/branch separation. Four views show bare lower trunk. Actual diagonal R07(66,103)->R08(78,117) versus left root(74.4,114); root terrain1.906286m, route feet2m, radius.35m, original standing capsule1.8m, conservative safety height2.15m. Triangle-clipped projected clearance is source geometry evidence, not Godot physics/art acceptance.
+
+Source topology after transient1e-6m weld:26 connected components, main component15781faces;4949 boundary edges,7818 nonmanifold edges. This DOES NOT establish thousands of disconnected leaf patches or a theoretical decimator triangle floor. Actual observed collapse stalls at13556 and ruins the trunk. Full three-LOD candidate is HOLD.
+
+View/export provenance:
+normalized-willow-*.png are actual Blender views of the imported original mesh, normalized in memory, with its original4K PBR maps.
+candidate-lod0.png is a PRE-EXPORT Blender view of the same normalized, unchanged19031tri near mesh with resized2K PBR maps. Root viewed it and admitted the appearance as source-only on20October2026. It is NOT an actual reimported-GLB render and NOT a game/native frame.
+candidate-lod1.png and candidate-lod2.png are actual in-memory views of the FAILED ordinary collapse; both are HOLD and neither is in a deliverable GLB.
+summer-willow-near-2k-v1.glb was exported separately with --near-only from the identical near normalization and2K image recipe. near-export-header.json inspects that actual file's SHA/size/nodes/triangle counts/material/position-accessor bounds/embedded PNG dimensions and bit depth. This header inspection does not establish pixel-equivalent reimport, runtime import, movement, performance or art acceptance. Mid/far remain HOLD; no three-LOD pass.

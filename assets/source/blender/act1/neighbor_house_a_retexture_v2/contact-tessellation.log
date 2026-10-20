@@ -1,0 +1,7 @@
+LOOP_TRI_RAY (Vector((0.0, 4.402400016784668, 2.600100040435791)), Vector((0.0, -0.22252652049064636, -0.9749266505241394)), 184, 0.8776000738143921)
+TRIANGULATED_BM_RAY (Vector((0.0, 4.402400016784668, 2.589899778366089)), Vector((0.0, 0.22252313792705536, -0.9749274253845215)), 128, 0.8673998117446899)
+NGONS 32
+Blender 4.5.12 LTS (hash 84afd5f785f7 built 2026-07-21 01:41:35)
+Read blend: "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_a_retexture_v2/construction-diagnostic.blend"
+
+Blender quit

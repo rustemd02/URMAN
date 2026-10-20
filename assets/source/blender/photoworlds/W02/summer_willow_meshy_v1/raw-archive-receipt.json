@@ -1,0 +1,11 @@
+{
+  "source_name": "meshy-willow-original.glb",
+  "source_sha256": "b58059ff09323fd1b0ded2b0a1e27f7ee42f522641a746c558ada2708e53c768",
+  "source_bytes": 342891348,
+  "archive": "meshy-willow-original.glb.zip",
+  "archive_sha256": "bd1f088ad287f6657c8cd71acdea9c552b208c309288b1bc28b52b1df7bf942f",
+  "archive_bytes": 240739152,
+  "roundtrip_verified": true,
+  "closed_original_expanded_deleted_bytes": 342891348,
+  "net_saved_bytes": 102152196
+}

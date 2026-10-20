@@ -1,0 +1,8 @@
+source=game/scripts/photoworlds/W02Controller.cs
+source_sha256=deeff291de1018e9a0de68596fc917070e2d4831867bb03346fa2b8fbf6d1917
+parts_per_willow=4
+indexed_triangles_per_willow=282
+nondegenerate_triangles_per_willow=240
+blender_xyz_dimensions_m=[3.8458452224731445, 3.087029814720154, 4.534999847412109]
+blender_version=4.5.12 LTS
+status=Current C# primitive form reference; not a Godot frame or generated candidate.

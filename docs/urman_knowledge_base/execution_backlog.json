@@ -110045,7 +110045,7 @@
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_confirmed",
         "new_job_submitted": false,
-        "last_status_query": "20.10 04:43 Moscow: same e79 status exit1 urlopen timeout. Current Tailscale Running but encrypted DERP connection rejected for SSLA self-signed certificate; cached UnterPC offline/lastSeen19Oct21:46:54UTC, which is not authoritative game terminal. No new job/input or TLS weakening.",
+        "last_status_query": "20.10 06:17 Moscow: same e79 status exit1 urlopen timeout; raw evidence/PW-020/native_book_e79adf9f932a4d74b4aec64d7565c6a4/status-20261020-0317.log. Terminal/userdata restoration not confirmed, no new job or input.",
         "local_diagnosis": "Existing local VPN carries default route; system proxy/CA overrides absent. This is a concrete network-path lead, not proof of which hop intercepts TLS. Temporary path change requires owner consent, pending; no VPN/cert/daemon settings changed."
       },
       "player_facing_source_2026_10_20": {
@@ -124493,15 +124493,18 @@
             "title": "Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.",
             "result": "Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.",
             "owner": "world_art",
-            "evidence": [],
+            "evidence": [
+              "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/near-only-structure.json",
+              "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/near-export-header.json"
+            ],
             "assigned_owner": "world_art",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Finite near-only source stage frozen/reviewed; full family/native/LOD acceptance remains open, root integrates after transport recovery."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
@@ -124586,7 +124589,89 @@
             },
             "depends_on": [
               "PW-010"
-            ]
+            ],
+            "summer_willow_family_2026_10_20": {
+              "state": "near_only_source_candidate_frozen_full_lod_hold",
+              "scope": [
+                "assets/source/blender/photoworlds/W02/summer_willow_reference_v1/",
+                "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/"
+              ],
+              "result_target": "Existing runtime summer willow source reference, then built-in ImageGen→one bounded Meshy candidate for the exact current consumer; no winterpine reuse or unrelated scene reimplementation.",
+              "question": "Actual exported source geometry/reference and correct provider budget, not a concept/marker called a finished native scene. Root accepts actual views before upload or runtime integration.",
+              "native": "NOT_RUN; e79 terminal/userdata restoration still unknown.",
+              "source_reference": "assets/source/blender/photoworlds/W02/summer_willow_reference_v1/",
+              "input": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/imagegen-reference-v3.png",
+              "input_sha256": "8f97dd2ba1f1107fff083df94fed6be0d99d3eecb08fd05aefbfd200751585b2",
+              "input_review": "Root and independent luna_fast viewed V1/V2/V3. V1/V2 held for low drooping crown; actual R07→R08 diagonal passes0.781m fromleftroot, ground0.094m higher. V3hightrunk appears~2.18m minleaf, admitted for one3Dcandidate, not currentstyle/geometryPASS.",
+              "current_consumers": "Two OpeningWillows atX74.4/81.6,Z114; rootgap7.2m. 282indexed/240nondegenerate triangles and4surfaces each; source reconstruction uses explicitprimitive definitions but cannot claim enginebitidentity or liveGodot material appearance.",
+              "geometry_gate": "Final actual GLB crown≥2.165m above leftroot; original vertical headroom≥~.27m over standing1.8m body / ≥~.37m camera. These are vertical margins, not lateral gap targets. Preserve actual crown XZ envelope/root planting; test swept R07→R08 separately. No new trunk/canopy collision.",
+              "material_gate": "StudioV3 warm leaf/barkreference is more naturalistic than acceptedgameframe; it is shapeinput only. Whole-scene summerpalette/material/art/movement/LOD/performance remains open.",
+              "budget": {
+                "cap": 45,
+                "reserved_image_to_3d": 0,
+                "actual_consumed": 35,
+                "operation": "ONEmeshy-7.1standard4kPBRImage-to-3D",
+                "status": "Image-to-3D30 + remesh5 confirmed terminal receipts",
+                "pricing_source": "https://docs.meshy.ai/en/api/pricing",
+                "reserved_remesh": 0
+              },
+              "meshy_task_id": "01a15735-7462-76a5-bdb8-081bac49c4ae",
+              "next_action": "Source candidate frozen; use only a guarded current-scene native preview once e79 terminal/userdata restoration is authoritative, then decide actual scene style/performance. Full threeLOD family remains HOLD; no repeated collapse or paid generation.",
+              "first_status": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/meshy-status-initial.json",
+              "terminal_status": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/meshy-status-fourth.json",
+              "raw_model": {
+                "path": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/meshy-willow-original.glb.zip",
+                "bytes": 342891348,
+                "sha256": "b58059ff09323fd1b0ded2b0a1e27f7ee42f522641a746c558ada2708e53c768",
+                "triangles": 7984046,
+                "meshes": 1,
+                "materials": 1,
+                "images": 3,
+                "image_bytes": 21048773,
+                "state": "Lossless local-only archive; original member metadata below, expanded duplicate removed after SHA verification."
+              },
+              "remesh_task_id": "01a15744-1d96-74b0-b29e-5a4c0f3ea01e",
+              "source_archive": "Raw342891348B packedlosslessly to240739152B ZIP; roundtripSHAverified, closedexpandedoriginalremoved, net102152196B saved. MasterZIP retainedlocally, not a runtimefile or publicGitblob.",
+              "remesh_terminal_status": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/meshy-remesh-status-second.json",
+              "remesh_download": {
+                "path": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/meshy-willow-remesh25k.glb",
+                "bytes": 55911756,
+                "sha256": "c98984a5d603e64b67a3f32d92b7918192740cb7e3aecab6f59d03ae67717344",
+                "triangles": 19031
+              },
+              "actual_mesh_review": {
+                "receipt": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/inspection_metrics.json",
+                "root_viewed": [
+                  "normalized-willow-front-left.png",
+                  "normalized-willow-front-right.png",
+                  "normalized-willow-rear-left.png",
+                  "normalized-willow-rear-right.png"
+                ],
+                "normalized_m": [
+                  3.258336544,
+                  2.799511313,
+                  4.535
+                ],
+                "route_clearance_m": 0.096324028,
+                "scope": "All triangles clipped below route feet +2.15m, exact projected segment/polygon distance minus.35m conservative cylinder. Source geometric result only, no physics/native proof. Broader root flare reduces original margin; no new collision.",
+                "art_risks": "Ragged broad leaf plates and muted studio palette remain; only source candidate admitted, whole summer scene/movement still open.",
+                "lower_crown_result": "Above.75m root-flare exclusion, all geometry beyond.25m trunk radius begins2.296193m, exceeding2.165m minimum. Four rendered sides show bare lower trunk; green texel samples2.3347m are supporting classification only, not independent semantic proof.",
+                "independent_review": "Runtime-confirmed luna_fast checked actual W02 roots, MainRoute segment, BlenderXY→GodotXZ=(x,-y), world-transform bake/root pivot, terrain triangle at root and exact clip/segment algorithm. No axis/placement defect. Lateral margin.096324m is distinct from vertical standing headroom.402479m; source geometry only."
+              },
+              "lod_preparation": "First free collapse preparation after standard1e-6 seam weld failed: near19031, mid13556, far13556; lower trunk collapsed into plates, root base lifted.24945m, lateral clearance fell.09632→.03418m. HOLD, no LODGLB exported; no second algorithm/paidcall. Dedicated worker prepares only unchanged near+shared2K source candidate, rejected LOD receipts/views retained. Topology after transient weld:26components/4949boundaryedges/7818nonmanifoldedges; no proof of thousands of islands or exact algorithmic floor.",
+              "source_candidate": {
+                "path": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/summer-willow-near-2k-v1.glb",
+                "bytes": 21105672,
+                "sha256": "0cf1b02366ff6a047a914873e7ef2723813986993a8056326c435f89069b3cfa",
+                "triangles": 19031,
+                "material_count": 1,
+                "embedded_maps": "Three actual2048² RGB8PNG, one double-sided PBR",
+                "header_receipt": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/near-export-header.json",
+                "structure_receipt": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/near-only-structure.json",
+                "views_scope": "candidate-lod0.png is normalized in-memory pre-export2K view; four original normalized views were4K. Actual exported GLB separately checked for triangle counts/PNG dimensions/identity node chain; no reimported pixel/native proof.",
+                "clearance_scope": "Measured on unchanged normalized in-memory near geometry before rigid Y-up export; Fast checked source axis/root/terrain and exported bounds, no independent outputGLB route recomputation."
+              }
+            }
           },
           {
             "id": "PW-050/E03",
@@ -124608,7 +124693,7 @@
             "remaining": [
               "Авторить три linger-точки R02, R06, R07 с полноценным обратным обзором.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Авторить три linger-точки R02, R06, R07 с полноценным обратным обзором.. Затем изменить только установленный остаток.",
+            "next_action": "Use current protected native scene views/forward-reverse walk once e79 terminal/restoration is authoritative; preserve built scenes. Only then fix demonstrated composition gaps; retain source-proven bench issues for the same scene stage.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -124687,7 +124772,12 @@
             },
             "depends_on": [
               "PW-010"
-            ]
+            ],
+            "current_source_inspection_2026_10_20": {
+              "state": "source_exists_native_art_unproven",
+              "result": "R02BaySpur/platform/rails+contact, R06FarPier14.8m/rails/action, R07summerbank/bench/meadow/horizon are already built in source. No absent whole scene proven. R07 bench lacks contact; defer small fix until current scene review. Reverse views and nativeart require currentWindows, not reinvention.",
+              "new_runtime_or_test_run": false
+            }
           }
         ]
       },
@@ -126852,7 +126942,7 @@
             "remaining": [
               "Авторить три linger-точки H04, H05, H07 с полноценным обратным обзором.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Авторить три linger-точки H04, H05, H07 с полноценным обратным обзором.. Затем изменить только установленный остаток.",
+            "next_action": "Use current protected native scene views/forward-reverse walk once e79 terminal/restoration is authoritative; preserve built scenes. Only then fix demonstrated composition gaps; retain source-proven bench issues for the same scene stage.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -126931,7 +127021,12 @@
             },
             "depends_on": [
               "PW-010"
-            ]
+            ],
+            "current_source_inspection_2026_10_20": {
+              "state": "source_exists_native_art_unproven",
+              "result": "H04actualapple/table/chair, H05photographer/camera/strapshadow/actualwindow/actiongate and H07shade/bench already built with physicalground/routes. No missing whole scene proven. H07bench faces away from house despite role; source yaw45/backrest-Z confirmed. Passport H05observation also included lingerprose; no duplicate restpad. Listed worldJSON/Blenderdir absent but actual scene/controllers/heroGLB are consumers; do not infer absent scene from stale targetpaths.",
+              "new_runtime_or_test_run": false
+            }
           }
         ]
       },
@@ -142175,8 +142270,8 @@
             "assigned_owner": "/root/generated_asset_rework",
             "active_owner": null,
             "activity": {
-              "state": "idle",
-              "reason": "Unique-atlas donor prepared and reviewed; exact runtime-crown construction fails corner gate, no paid retexture or runtime integration. Claim released."
+              "state": "not_active",
+              "reason": "Finite constructive geometry/PBR source stage frozen and independently reviewed; exact runtime consumer/native/art/coverage remains open."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -142184,7 +142279,9 @@
             "technical_verification_state": "not_run",
             "evidence": [
               "assets/source/blender/act1/neighbor_log_house_a_meshy_v1/neighbor-log-house-a-v1.manifest.json",
-              "assets/source/blender/act1/house_a_meshy_v2/house-a-v2.manifest.json"
+              "assets/source/blender/act1/house_a_meshy_v2/house-a-v2.manifest.json",
+              "assets/source/blender/act1/neighbor_house_a_retexture_v2/candidate-receipt.json",
+              "assets/source/blender/act1/neighbor_house_a_retexture_v2/pbr_candidate_v2/actual-glb-front-right.png"
             ],
             "remaining": [
               "99Kfreecandidate retainsrealroundedcourses onhiddenwalls but cornerinterlock/gablejoint and diagonalUVstretches fail strictproductiongate; no runtimehouseintegrated.",
@@ -142286,6 +142383,53 @@
               "cleanup_bytes": 6585128,
               "remaining": "Actual plausible supported/interlocked corner construction and existing-consumer integration avoiding duplicate runtime crowns BEFORE paid retexture; style/construction/native whole-scene gates remain.",
               "next_action": "Use the identified existing parcel owner and explicit corner geometry cause to choose one bounded constructive source fix, preserving apertures/roof/placement; no blind wholehousePOST/remesh or paint over bad join."
+            },
+            "constructive_corner_v2_2026_10_20": {
+              "state": "source_pbr_candidate_frozen_root_reviewed",
+              "scope": [
+                "assets/source/blender/act1/neighbor_house_a_retexture_v2/"
+              ],
+              "result_target": "One source-only supported round-log/notched corner assembly on existing VariantA donor, preserving apertures/roof/semantic parts/exterior envelope before any paid retexture.",
+              "question": "Actual exported source geometry/reference and correct provider budget, not a concept/marker called a finished native scene. Root accepts actual views before upload or runtime integration.",
+              "native": "NOT_RUN; e79 terminal/userdata restoration still unknown.",
+              "result": "Roundcylinders/notchedsaddle/longitudinal bearing replace thinelliptic facades. 133logs/291actualcontacts maxgap1.07e-6m; generated17616tri/full20772,115semanticmeshes. Originalopaquegeometry/openings/roof/transforms retained. Seniendsoverhang.18 withinexistingroof/componentbounds. Root actual4side/cornerreview confirms blackdiamondvoids removed; no art/native/paidtexturePASS.",
+              "glb_sha256": "c9893cbfadb85b74d80eef8ff59d39aee67265053d5f6623a418205a8bd16ab0",
+              "blocker": "Strict UV selector0 remains NOT PASSED (60 flags); calibrated single material candidate admitted by root, visible seam/native/art review still required.",
+              "cleanup_bytes": 4414951,
+              "uv_exact_result": "60selectorfaces,5selectedfaces withpositivearea partners; maxactualpair area9.21e-5pixel² at4K. One8faceUV-only trial decreasedselector60→55, sourcegeometry/normals/contacthash unchanged, candidateGLB/Blend notoverwritten. Strictselector0 NOTPASSED; rawdiagnostics retained.",
+              "root_gate_calibration": "After two technical UV approaches, root stops microscopicUV work under ownervisibleMVPpriority. Zero selector was assistant preflight, not authoredhouseDoD. Sub-texel positiveoverlap does NOT prove visible texture failure. Admit ONE10credit PBRsourcecandidate to inspect real3Dappearance/seams while strictUV result remains disclosed/open; no runtime/art/engineeringcompletion claimed. No geometry change or wholehouse3Dgeneration.",
+              "material_input": {
+                "path": "assets/source/blender/act1/neighbor_house_a_retexture_v2/style-reference-snowless.png",
+                "sha256": "f2e6e628421eaa9a00230a2819969e6fbb31a3c31154fbc5f4c05d3fd9d20179",
+                "kind": "built-inImageGen fromactualV2clay+acceptedactualgameframe; sourcegeometryauthoritative, snowlessmaterialstyleonly",
+                "budget_reserved": 0,
+                "pricing_source": "https://docs.meshy.ai/en/api/pricing",
+                "actual_consumed": 10
+              },
+              "meshy_retexture": {
+                "task_id": "01a1574a-1612-7029-ba88-092a8a002a6e",
+                "actual_credits": 10,
+                "state": "SUCCEEDED100",
+                "returned_path": "assets/source/blender/act1/neighbor_house_a_retexture_v2/meshy-retexture-returned.glb",
+                "returned_sha256": "2ff989ef67448059d23d232e7425a875c0d74044668e80fc6329b644156211b8",
+                "returned_triangles": 20574,
+                "geometry_authority": "Frozen source c9893cbf,20772tri; returned geometry never exported",
+                "next_action": "Source PBR frozen and reviewed; prepare exact opaque consumer only for a guarded native scene preview after e79 terminal/restoration. No additional paid generation."
+              },
+              "consumer_preflight": "Read-only review: exact EastStreetMidFacade placement must avoid DressParcel/LightOccupiedWindows and daylight regrade before maps are mounted; graft opaque visuals only after BuildAuthoredKitBlockers, retain hidden source mesh paths/collision and existing glass/snow/placement yaw−82°,scale.88/ground. Existing generic takeover replaces whole subtree and is not an opaque-only provider. No runtime edits yet.",
+              "source_pbr_candidate": {
+                "path": "assets/source/blender/act1/neighbor_house_a_retexture_v2/pbr_candidate_v2/variant-a-semantic-pbr-v2.glb",
+                "bytes": 21755316,
+                "sha256": "af977aa137f5aacca59baa25fb2d4b2cd4a664bb7e8135e1df8cccd28525f38f",
+                "geometry": "20772tri/115semantic mesh nodes; source BIN prefix/accessors/nodes/indices/UV/normals byteidentical, only material/maps added by direct existing Aidar-style writer. Blender used for output views only.",
+                "pbr": "Exact returned JPEG payloads BaseColor4096², Normal4096², packedMR2048²; UV0, OPAQUE/double-sided, role colorspaces verified.",
+                "root_review": "Root viewed actual output front-right/rear-left/right/corner/openings and SeniEntry/SeniRear detail. Supported interlocking courses visible; no obvious unpainted hole in inspected Seni. Source material candidate admitted only, not full game art acceptance. Dark trim end-squares and small roof protrusions already present in frozen clay source, remain scene-review risks.",
+                "open_coverage": "60 selector flags;198 returned missing UV triangles/no extras;3706.60pixel² of4K atlas, missing source3Darea.349529m²/max.00435596m². StrictUV/coverage NOT passed; all source triangles preserved, no suppression.",
+                "cleanup_bytes": 45648700,
+                "receipt": "assets/source/blender/act1/neighbor_house_a_retexture_v2/candidate-receipt.json",
+                "review": "Independent luna_fast checked direct writer, JSON/BIN geometry identity, aligned appended images/samplers/material references and exact texture payloads; no material binding defects found, UV/art/native gates remain open."
+              },
+              "next_action": "Prepare one exact EastStreetMidFacade opaque-only consumer using existing source owner/collision ordering, then current-scene native preview once authoritative e79 terminal/restoration permits; preserve glass/snow/physics and art gates."
             }
           }
         ]
@@ -142647,18 +142791,18 @@
         ],
         "budget": {
           "author_cap": 4000,
-          "actual_consumed": 305,
-          "remaining_author_cap": 3695,
+          "actual_consumed": 350,
+          "remaining_author_cap": 3650,
           "first_family_cap": 90,
           "first_family_consumed": 40,
           "active_task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
           "active_task_state": "SUCCEEDED, actual30credits",
-          "live_balance_observed": 4050,
+          "live_balance_observed": 3975,
           "balance_is_not_author_budget": true,
           "active_remesh_task_id": "01a153a5-6669-7608-af5d-4ac72650653d",
           "active_remesh_task_state": "SUCCEEDED, actual5credits",
           "next_house_family_cap": 60,
-          "next_house_family_consumed": 35,
+          "next_house_family_consumed": 45,
           "next_house_task_id": "01a153c5-1ea8-7776-baf7-9c64b1807233",
           "next_house_task_state": "SUCCEEDED actual30credits",
           "next_house_remesh_task_id": "01a153ce-9f73-7000-9a61-310b54fbb325",
@@ -142670,9 +142814,20 @@
           "next_fence_task_id": "01a1541b-9f22-71fb-b51d-6950f6a2b28d",
           "next_fence_task_state": "SUCCEEDED actual30credits",
           "next_fence_remesh_task_id": "01a1541e-35a4-76b3-910a-0489a8cdf855",
-          "next_fence_remesh_task_state": "SUCCEEDED actual5credits,21718tri source frozen"
+          "next_fence_remesh_task_state": "SUCCEEDED actual5credits,21718tri source frozen",
+          "summer_willow_family_cap": 45,
+          "summer_willow_reserved": 0,
+          "summer_willow_family_consumed": 35,
+          "summer_willow_task_id": "01a15735-7462-76a5-bdb8-081bac49c4ae",
+          "summer_willow_task_state": "SUCCEEDED100; actual30credits",
+          "summer_willow_remesh_reserved": 0,
+          "summer_willow_remesh_task_id": "01a15744-1d96-74b0-b29e-5a4c0f3ea01e",
+          "summer_willow_remesh_task_state": "SUCCEEDED100; actual5credits; downloaded19031tri",
+          "neighbor_retexture_reserved": 0,
+          "neighbor_retexture_task_id": "01a1574a-1612-7029-ba88-092a8a002a6e",
+          "neighbor_retexture_task_state": "SUCCEEDED100; actual10credits; maps-only attachment pending"
         },
-        "current_artifact": "Conifer source/native static stage retained; full art/motion/performance open. Generated houses rejected for construction; fence rejected after two metric preparations. No house/fence runtime replacement. No additional paid calls.",
+        "current_artifact": "Conifer static native stage retained; full art/motion/performance open. VariantA V2 supported round-log/PBR source frozen, geometry byte-preserved, UV coverage/art/native open. Summer willow near19031/2K source frozen, reduced LODs rejected. Neither new source family promoted to runtime.",
         "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
         "pine_remesh_recovery": "Completed source revision2 fromone25Kremesh; actual5credits already in305total. Runtime16.19MB canonicalpathstable, native d61c830PASS, art/performance still open.",
         "rough_picket_source_2026_10_19": {
