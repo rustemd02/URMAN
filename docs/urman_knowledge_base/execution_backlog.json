@@ -62122,6 +62122,14 @@
                 "prompt_and_inputs": "assets/source/blender/act1/neighbor_house_b_reference_v1/provenance.md",
                 "root_review": "Root лично просмотрел: plaster/wooden gable/right seni/3frontwindows/quiet weathered materials fit source family. Snow absent intentionally for materialinput. Roof annex junction and steps differ from actualsource: do not transfer them into geometry/contact; original3D remains authoritative. No Meshy/runtime/native/art/performance claim.",
                 "new_meshy_spend": 0
+              },
+              "next_donor_input_research_2026_10_20": {
+                "state": "finite116source_candidate_preparation_started",
+                "agent": "/root/all_world_book_content",
+                "scope": "One source-only116semantic candidate with113originalopaque+3constructivelysupportedSeni crowns; removepreview41 only/nobake.9. No newMeshy/spend/Godot/runtime/helperA edits. Actualunsupported/UV/normals/exportfailure stops, noV1fallback.",
+                "target_folder": "assets/source/blender/act1/neighbor_house_b_retexture_v1/",
+                "source_contract": "123base→113opaque/3296tri/117primitives: exclude9Glass+RoofSnow, retain4Corner+10Recess+multimatRoof. NooriginalUV. Runtimeadds3Seniwoodcrowns, main4wallsplaster.",
+                "method_choice": "V1nonhero rejected byroot: oldcrownconstruction notaccepted fornewhouse. ReuseV2constructivecrownfunc only3equalidentityTRSwoodSeni; ignorehiddenCornerlist, module.HERE scopedB output. OneexistingV2atlas, actualexport/sourceviews/support/UVmetrics; no iterations/paidpreview."
               }
             }
           },
@@ -68505,37 +68513,46 @@
             "title": "Связать walk-plain→talk-plain→возврат к расписанию",
             "result": "Связать walk-plain→talk-plain→возврат к расписанию",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-NPC.2/talk-greeting-20261020/game-build-final.log"
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Bounded two-resident greeting source stage accepted after focused independent review and affected compile; native acceptance still open."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Связать walk-plain→talk-plain→возврат к расписанию; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Native walk→caption/talk→same-route return for the two opted residents; modal/session/Claim/hidden/preview interruptions and Save/Continue after authoritative e79 terminal and user-data restoration."
             ],
-            "next_action": "Связать walk-plain→talk-plain→возврат к расписанию",
+            "next_action": "После подтверждённого завершения/восстановления защищённого e79 проверить в native два реальных маршрута: подход, реплика/talk, возврат, пауза/смена сессии и Continue. Повторная разработка принятого source без нового дефекта не нужна.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
               "result": "Связать walk-plain→talk-plain→возврат к расписанию",
               "targets": [
-                "game/content/world/act1_north_street_residents.world.v1.json",
-                "game/content/animations/catalog.v1.json",
+                "game/scripts/AuthoredWorldDirector.Greetings.cs",
                 "game/scripts/AuthoredWorldDirector.Schedules.cs",
-                "game/scripts/Act1ConnectedWorld.NpcStaging.cs"
+                "game/content/world/act1_north_street_residents.world.v1.json",
+                "game/scripts/FirstPersonController.Remarks.cs",
+                "game/scripts/RuntimeBridge.cs"
               ],
               "required_inputs": [
                 {
                   "task_id": "ACT1-NPC.2/E01",
                   "artifact": "Named routine/actor/prop mapping и существующий catalogue contract",
-                  "availability": "not_confirmed"
+                  "availability": "available"
+                },
+                {
+                  "task_id": "ACT1-NPC.2/STAND-WALK",
+                  "artifact": "Accepted current source twoactor gateandreturn scheduler/loop +existingGreetings/Remark owner, not full nativechild completion",
+                  "availability": "available",
+                  "source": "858153fa; AuthoredWorldDirector.Greetings.cs; FirstPersonController.Remarks.cs"
                 }
               ],
               "scope_in": [
@@ -68568,7 +68585,7 @@
                 {
                   "task_id": "ACT1-NPC.2/E01",
                   "artifact": "Named routine/actor/prop mapping и существующий catalogue contract",
-                  "availability": "not_confirmed"
+                  "availability": "available"
                 }
               ],
               "verification": [],
@@ -68576,7 +68593,38 @@
             },
             "depends_on": [
               "ACT1-NPC.2/E01"
-            ]
+            ],
+            "source_stage_2026_10_20": {
+              "state": "source_stage_accepted_native_not_run",
+              "baseline_commit": "858153fa",
+              "actors": [
+                "urman.world:act1/residents/e-n1-a",
+                "urman.world:act1/residents/e-s1-a"
+              ],
+              "target_behavior": "Opted walking residents stop/turn/useactualtalk-plain on existing deliveredambientgreetingcaption, then resume same route/currentposition/wait progress. No newtext/dialogue/quest/savecurrency. Other31/turn:false/seated remain unchanged.",
+              "source_input": "Existing Greetings ShowRemark content/cooldowns and vocabulary event; existing single Scheduler+gate loops858153fa; actualUALtalk-plain fromE01 mapping.",
+              "targets": [
+                "game/scripts/AuthoredWorldDirector.Greetings.cs",
+                "game/scripts/AuthoredWorldDirector.Schedules.cs",
+                "game/content/world/act1_north_street_residents.world.v1.json",
+                "game/scripts/FirstPersonController.Remarks.cs",
+                "game/scripts/RuntimeBridge.cs"
+              ],
+              "ownership": "One scheduler greeting hold/motion/yaw owner, Greetings only trigger/caption. Claim/modal/session/hidden/leave/previewremove/cancel cannot restore obsoleteyaw/clip afternewowner. Motionfailure cannotstrandtalkhold.",
+              "caption_duration": "Share player-owned duration from existing5.2interval+.25fadein+.6fadeout(normal6.05)/reduced5.2; no playercaptionbehaviorchange.",
+              "verification_plan": "Sourceinspection/2vs31datareadback, oneaffectedGamecompile afterfreeze, rootandindependentreview; no newtests/probes/Game/Godot/generator execution. Native caption/body/route/interrupt/SaveandContinue remainsnotrun.",
+              "initial_compile": "evidence/ACT1-NPC.2/talk-greeting-20261020/game-build-before-review-fixes.log",
+              "initial_compile_result": "OneaffectedGame16.48s0/0 beforetwoactualreviewfixes; notfinalcurrentinput.",
+              "review_findings": [
+                "Modal/session/hiddencancel choseWalkwhilephysicsheld, walkinginplace; opted2 nowIdleonce/pendingresume preserved/Claimclears.",
+                "ExistingObserveVocabularyTextAsync can readreplacement_kernel afterawait andpresentoldresults; fixed by /root/vocabulary_session_guard. Capture/revalidate kernel/content/load/exit boundary everyawait; ladder/idempotency/source contract unchanged."
+              ],
+              "shared_guard_scope": "31residentdataunchanged/noforcedstandingTalk; sharedGreetings session/claimed/rootinstance/blankline guards also coverexistingcallers bydesign. HistoricalACT1LANG2completion retained; actualnew session defect is a named shared input undercurrentTALK/PW012.",
+              "final_compile": "evidence/ACT1-NPC.2/talk-greeting-20261020/game-build-final.log",
+              "final_compile_result": "Affected Urman.Game build 14.45s, 0 warnings/0 errors, final frozen five-file source; no Godot/import/native.",
+              "independent_review": "Runtime-confirmed personal luna_fast /root/photo_audio_review focused re-review clean after both fixes; source inspection only.",
+              "source_result": "Two gate-loop residents borrow talk pose/facing for actual caption duration and resume existing route/wait state. Modal/hidden/session cancel idles once; Claim/block reset pending restoration. Shared vocabulary path pins session/content across awaits; current-session ladder/source/idempotency unchanged."
+            }
           },
           {
             "id": "ACT1-NPC.2/SIT",
@@ -68598,7 +68646,7 @@
             "remaining": [
               "Связать sit-down→sit→stand-up с named seat и collider; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
             ],
-            "next_action": "Связать sit-down→sit→stand-up с named seat и collider",
+            "next_action": "Использовать source_input_research_2026_10_20: exact2actors/liveFapBenchseat suppliers доступны; доSITimplementation нужен названный standingapproach/enter-exit/heightphase dataset с учётом currentbox. Не заменять physicaltransition добавлением3clipIDs и не менять исходные seatedposes без причины.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -68655,7 +68703,53 @@
             },
             "depends_on": [
               "ACT1-NPC.2/E01"
-            ]
+            ],
+            "source_input_research_2026_10_20": {
+              "state": "finite_source_input_accepted_physical_transition_missing",
+              "agent": "/root/all_world_visit_core",
+              "scope": "Onlyactuallookout-sitter/sq1-sitter→namedseat/collider/height/yaw/sourceproducer/UALenteridleexit inputs. Notnewcode/newpositions/nativeclaim.",
+              "actors": [
+                {
+                  "actor_id": "urman.world:act1/residents/lookout-sitter",
+                  "seat_id": "urman.world:act1/open-part/lookout-bench",
+                  "position_ground_offset": [
+                    44.45,
+                    0.32,
+                    15.5
+                  ],
+                  "yaw": 90,
+                  "kit": "Mansur",
+                  "scale": 0.99
+                },
+                {
+                  "actor_id": "urman.world:act1/residents/sq1-sitter",
+                  "seat_id": "urman.world:act1/open-part/sq-bench1",
+                  "position_ground_offset": [
+                    -12.5,
+                    0.35,
+                    34.25
+                  ],
+                  "yaw": 0,
+                  "kit": "Gulsina",
+                  "scale": 0.99
+                }
+              ],
+              "seat_supplier": "catalog fapbench→urman_fap_clinic_kit.glb/FapBench. ActualFapBench_Seat_LOD0 size2.1x.16x.48; sourcecentre(0,.70,0), catalog origin produces seatTop benchGround+.77/centre-depth+.05; current actorXZ matches. Bone/pelvis actualmotion/contact unverified.",
+              "source_access": "ExistingAuthoredWorld.ObjectRoot(benchID)→Visual/FapBench/FapBench_Seat_LOD0 and Back; reuse liveAABB measurement pattern from existing Act1ResidentSpotCheck.cs:92, do notrun/addtest or seatregistry.",
+              "collision_supplier": "Currentgenericbenchprops usedefaultbox2.1x1.56x.58, notsurfaces/seatcontact. Box blocksdirectpath tocentre; namedapproach/enter/exitdataset absent.",
+              "motion_supplier": "ExistingUALsit-down/Sitting_Enter→sit/Sitting_Idle_Loop→stand-up/Sitting_Exit. AnimationCatalogretargetroottranslationremoved; livecompatibility/bodymotion notverified.",
+              "engineering_gap": "Mustauthor standingapproach/heightphase/realenter-idle-exit andavoidbenchbox; MoveTowards forcesGroundY onarrival, Arriveonlyplaysmotion. Currentinitialseatedposes notdeclaredbroken fromthispreflight, and no newclip-onlyfakephysicaltransition.",
+              "canonical_owner": "FapBench retainedfrombaseline urman_fap_clinic_kit.blend bycurrentproducer; RESIDENT_ANCHORS tiesplacement; generate_residents preservesreviewedseatedY, itsnew schedulepreservation currentlyonlyrepeatloops.",
+              "evidence": [
+                "game/content/world/act1_open_part.world.v1.json",
+                "game/content/world/act1_north_street_residents.world.v1.json",
+                "game/content/world/catalog.v1.json",
+                "game/scripts/AuthoredWorldDirector.cs",
+                "game/scripts/AnimationCatalog.cs",
+                "game/scripts/AuthoredWorldDirector.Schedules.cs",
+                "tools/world/generate_open_part.py"
+              ]
+            }
           },
           {
             "id": "ACT1-NPC.2/WORK",
@@ -107210,6 +107304,15 @@
         "result": "FAIL_UNRELATED_EXISTING_SCENARIO_ASSERTION",
         "detail": "Native build/content/import passed, game1: pre-D01-07 warm-arrival beat is legitimately absent, existing BeatState uses GetProperty and throws before W01. Full atomic route/race not proved. No unrelated test edits or retry.",
         "userdata_restored": true
+      },
+      "vocabulary_session_guard_2026_10_20": {
+        "state": "source_fixed_native_not_run",
+        "finding": "ObserveVocabularyTextAsync formerly dereferenced replacement _kernel between awaited word dispatches and could present stale results after Load/exit.",
+        "result": "Captured SessionIdentity/content/state/first-source ledger; identity/load/recovery/content checked before every dispatch and after await/presentation. Only stale ObjectDisposedException suppressed; same-session caption observation and vocabulary ladder preserved.",
+        "source": "game/scripts/RuntimeBridge.cs",
+        "verification": "evidence/ACT1-NPC.2/talk-greeting-20261020/game-build-final.log",
+        "independent_review": "/root/photo_audio_review focused source pass clean. Historical ACT1-LANG.2 completion retained.",
+        "remaining": "Native Load/exit during actual caption observation; overall session/visit/input acceptance remains open."
       }
     },
     {

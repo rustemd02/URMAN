@@ -11,11 +11,15 @@ namespace Urman.Godot;
 public partial class FirstPersonController
 {
     private const double RemarkSeconds = 5.2;
+    private const double RemarkFadeInSeconds = .25;
+    private const double RemarkFadeOutSeconds = .6;
     private Label? _remarkLabel;
     private Tween? _remarkTween;
 
     /// <summary>The remark currently on screen, or empty.</summary>
     public string CurrentRemark => _remarkLabel is { Visible: true } label && label.Modulate.A > 0 ? label.Text : string.Empty;
+
+    internal double RemarkDuration => RemarkSeconds + (_accessibility.ReducedMotion ? 0 : RemarkFadeInSeconds + RemarkFadeOutSeconds);
 
     public void ShowRemark(string speaker, string line)
     {
@@ -34,9 +38,9 @@ public partial class FirstPersonController
         }
         label.Modulate = new Color(1, 1, 1, 0);
         _remarkTween = CreateTween();
-        _remarkTween.TweenProperty(label, "modulate:a", 1f, .25f);
+        _remarkTween.TweenProperty(label, "modulate:a", 1f, RemarkFadeInSeconds);
         _remarkTween.TweenInterval(RemarkSeconds);
-        _remarkTween.TweenProperty(label, "modulate:a", 0f, .6f);
+        _remarkTween.TweenProperty(label, "modulate:a", 0f, RemarkFadeOutSeconds);
     }
 
     private Label EnsureRemarkLabel()

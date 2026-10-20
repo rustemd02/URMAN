@@ -57,6 +57,10 @@ public partial class AuthoredWorldDirector
         public float FollowLose = DefaultFollowLose;
         public string WalkMotion = DefaultWalkMotion;
         public string IdleMotion = DefaultIdleMotion;
+        public string GreetingMotion = "";
+        public float GreetingLeft;
+        public float GreetingRestYaw;
+        public bool MotionPaused;
     }
 
     /// <summary>The routine block the character is in (null = no routine), and what happened on the way.</summary>
@@ -84,6 +88,9 @@ public partial class AuthoredWorldDirector
             return false;
         }
 
+        run.MotionPaused = false;
+        EndRoutineGreeting(run, restoreYaw: false, resumeMotion: false);
+        if (_greetings.TryGetValue(run.Item.Id, out var greeting)) { greeting.Near = false; greeting.Greeted = false; }
         run.Claim = owner;
         run.Route.Clear();
         run.Next = 0;
@@ -135,7 +142,10 @@ public partial class AuthoredWorldDirector
 
             var blockId = chosen?.GetProperty("id").GetString();
             if (blockId == run.BlockId) continue;
+            run.MotionPaused = false;
+            EndRoutineGreeting(run, resumeMotion: false);
             run.BlockId = blockId;
+            run.GreetingMotion = "";
             run.Route.Clear();
             run.Next = 0;
             run.Following = false;
@@ -166,6 +176,7 @@ public partial class AuthoredWorldDirector
         run.Speed = isObject && block.TryGetProperty("speed", out var speedValue) ? speedValue.GetSingle() : DefaultSpeed;
         run.WalkMotion = Text(block, "walkMotion", DefaultWalkMotion);
         run.IdleMotion = Text(block, "motion", DefaultIdleMotion);
+        run.GreetingMotion = Text(block, "greetingMotion", "");
         run.RepeatPauseSeconds = isObject && block.TryGetProperty("repeatPauseSeconds", out var pause)
             ? Math.Max(0, pause.GetSingle()) : 0;
         run.RepeatPauseLeft = run.RepeatPauseSeconds;
@@ -181,10 +192,36 @@ public partial class AuthoredWorldDirector
     private void StepRoutines(float delta)
     {
         Node3D? player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
-        if (player is FirstPersonController { ModalOpen: true } or FirstPersonController { SessionTransitionActive: true }) return;
+        var paused = player is FirstPersonController { ModalOpen: true } or FirstPersonController { SessionTransitionActive: true };
         foreach (var run in _routines.Values)
         {
-            if (run.Claim is not null || !run.Item.Root.Visible) continue;
+            if (!IsInstanceValid(run.Item.Root) || !run.Item.Root.IsInsideTree()) { run.GreetingLeft = 0; run.MotionPaused = false; continue; }
+            if (run.Claim is not null) { run.GreetingLeft = 0; run.MotionPaused = false; continue; }
+            if (paused || !run.Item.Root.IsVisibleInTree())
+            {
+                if (run.GreetingMotion.Length > 0 && !run.MotionPaused)
+                {
+                    run.MotionPaused = true;
+                    if (run.GreetingLeft > 0) EndRoutineGreeting(run, resumeMotion: false);
+                    else ResumeRoutineMotion(run, resumeMotion: false);
+                }
+                continue;
+            }
+            if (run.MotionPaused)
+            {
+                run.MotionPaused = false;
+                if (run.GreetingLeft <= 0) ResumeRoutineMotion(run);
+            }
+            if (run.GreetingLeft > 0)
+            {
+                if (player is null || run.Item.Root.GlobalPosition.DistanceTo(player.GlobalPosition) >= GreetRelease)
+                    EndRoutineGreeting(run);
+                else
+                {
+                    if (run.GreetingLeft <= delta) EndRoutineGreeting(run);
+                    else { run.GreetingLeft -= delta; Face(run.Item.Root, player.GlobalPosition); continue; }
+                }
+            }
             if (run.NeedsPlan)
             {
                 if (run.RepeatPauseLeft > 0)
@@ -233,6 +270,42 @@ public partial class AuthoredWorldDirector
                     Advance(run);
                 }
             }
+        }
+    }
+
+    private void BeginRoutineGreeting(RoutineRun run, FirstPersonController player)
+    {
+        if (run.Claim is not null || run.BlockId is null || run.GreetingMotion.Length == 0 || run.GreetingLeft > 0) return;
+        var played = AnimationCatalog.Play(run.Character, run.GreetingMotion);
+        if (!played.Played)
+        {
+            GD.PushWarning($"authored-world: {run.Item.Id} greeting motion not played: {played.Problem}");
+            return;
+        }
+        // Borrow only pose and facing; route progress and waits stay with the routine.
+        run.GreetingRestYaw = run.Item.Root.RotationDegrees.Y;
+        run.GreetingLeft = (float)player.RemarkDuration;
+        Face(run.Item.Root, player.GlobalPosition);
+    }
+
+    private void EndRoutineGreeting(RoutineRun run, bool restoreYaw = true, bool resumeMotion = true)
+    {
+        if (run.GreetingLeft <= 0) return;
+        run.GreetingLeft = 0;
+        if (restoreYaw) run.Item.Root.RotationDegrees = new Vector3(0, run.GreetingRestYaw, 0);
+        ResumeRoutineMotion(run, resumeMotion);
+    }
+
+    private void ResumeRoutineMotion(RoutineRun run, bool resumeMotion = true)
+    {
+        var walking = resumeMotion && (run.Following ? run.Status == "идёт за игроком"
+            : !run.NeedsPlan && run.WaitLeft <= 0 && run.Next < run.Route.Count);
+        var played = AnimationCatalog.Play(run.Character, walking ? run.WalkMotion
+            : run.WaitLeft > 0 && run.RepeatPauseSeconds <= 0 ? DefaultIdleMotion : run.IdleMotion);
+        if (!played.Played)
+        {
+            GD.PushWarning($"authored-world: {run.Item.Id} greeting resume motion not played: {played.Problem}");
+            AnimationCatalog.Play(run.Character, DefaultIdleMotion);
         }
     }
 

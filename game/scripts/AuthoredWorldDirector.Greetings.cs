@@ -17,7 +17,7 @@ public partial class AuthoredWorldDirector
     private const float GreetRelease = 4.6f;
     private const ulong ResidentCooldownMsec = 60_000;
     private const ulong AnyResidentGapMsec = 7_000;
-    private sealed class GreetState { public int Next; public ulong Until; public bool Near; public bool Greeted; public float RestYaw; }
+    private sealed class GreetState { public ulong RootId; public int Next; public ulong Until; public bool Near; public bool Greeted; public float RestYaw; }
     private readonly Dictionary<string, GreetState> _greetings = new(StringComparer.Ordinal);
     private readonly HashSet<string> _greetPoolWarned = new(StringComparer.Ordinal);
     private ulong _lastGreetingAt;
@@ -28,20 +28,29 @@ public partial class AuthoredWorldDirector
         _greetClock += delta;
         if (_greetClock < .25) return;
         _greetClock = 0;
-        if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player || player.ModalOpen) return;
+        if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player || player.ModalOpen || player.SessionTransitionActive) return;
         var now = Time.GetTicksMsec();
         foreach (var item in _objects.Values)
         {
             if (item.Kind != "npc" || !item.Root.IsVisibleInTree() || !item.Params.TryGetProperty("greeting", out var poolValue)) continue;
             var pool = poolValue.GetString() ?? "";
-            if (!_greetings.TryGetValue(item.Id, out var state)) _greetings[item.Id] = state = new GreetState { RestYaw = item.Root.RotationDegrees.Y };
+            if (!_greetings.TryGetValue(item.Id, out var state) || state.RootId != item.Root.GetInstanceId())
+                _greetings[item.Id] = state = new GreetState { RootId = item.Root.GetInstanceId(), RestYaw = item.Root.RotationDegrees.Y };
+            var routine = Routine(item.Id);
+            if (routine?.Claim is not null)
+            {
+                state.Near = false;
+                state.Greeted = false;
+                continue;
+            }
             var distance = item.Root.GlobalPosition.DistanceTo(player.GlobalPosition);
             var turns = !item.Params.TryGetProperty("turn", out var turn) || turn.ValueKind != JsonValueKind.False;
+            var routineFacing = routine is { GreetingMotion.Length: > 0 };
             if (!state.Near && distance <= GreetReach)
             {
                 state.Near = true;
                 state.RestYaw = item.Root.RotationDegrees.Y;
-                if (turns) TurnTo(item.Root, player.GlobalPosition);
+                if (turns && !routineFacing) TurnTo(item.Root, player.GlobalPosition);
             }
 
             // While the player stays close, keep trying: another resident may have just spoken.
@@ -56,7 +65,9 @@ public partial class AuthoredWorldDirector
                     {
                         var textId = lines[state.Next % lines.Count];
                         var line = _bridge.ResolveText(textId);
+                        if (string.IsNullOrWhiteSpace(line)) continue;
                         player.ShowRemark(Text(item.Params, "speaker", "ЖИТЕЛЬ"), line);
+                        if (turns && routineFacing) BeginRoutineGreeting(routine!, player);
                         _ = _bridge.ObserveVocabularyTextAsync(line, textId);
                         state.Next++;
                         state.Greeted = true;
@@ -70,7 +81,7 @@ public partial class AuthoredWorldDirector
             {
                 state.Near = false;
                 state.Greeted = false;
-                if (turns) item.Root.RotationDegrees = new Vector3(0, state.RestYaw, 0);
+                if (turns && !routineFacing) item.Root.RotationDegrees = new Vector3(0, state.RestYaw, 0);
             }
         }
     }

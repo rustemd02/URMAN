@@ -1257,13 +1257,14 @@ public partial class RuntimeBridge : Node
             && opened.EnumerateArray().Any(item => item.GetString() == sourceId);
     }
 
-    private Dictionary<string, string> FirstVocabularySources()
+    private Dictionary<string, string> FirstVocabularySources(RuntimeKernel? expectedSession = null)
     {
         var first = new Dictionary<string, string>(StringComparer.Ordinal);
-        if (_kernel is null) return first;
+        var session = expectedSession ?? _kernel;
+        if (session is null) return first;
 
         var events = new List<(long Sequence, string WordId, string SourceId)>();
-        foreach (var occurrence in _kernel.CaptureSnapshot().Occurrences)
+        foreach (var occurrence in session.CaptureSnapshot().Occurrences)
         {
             if (!TryGetJsonProperty(occurrence.Result, "Events", out var resultEvents)
                 || resultEvents.ValueKind != JsonValueKind.Array) continue;
@@ -1840,17 +1841,21 @@ public partial class RuntimeBridge : Node
     /// </summary>
     public async Task ObserveVocabularyTextAsync(string text, string sourceId)
     {
-        if (_kernel is null || _content is null || string.IsNullOrEmpty(text) || string.IsNullOrEmpty(sourceId))
+        var session = SessionIdentity;
+        var content = _content;
+        if (session is null || content is null || _loadPreparing || string.IsNullOrEmpty(text) || string.IsNullOrEmpty(sourceId))
         {
             return;
         }
 
-        var state = _kernel.SelectState();
+        bool Current() => ReferenceEquals(session, SessionIdentity) && !_loadPreparing
+            && ReferenceEquals(content, _content);
+        var state = session.SelectState();
         if (!state.TryGetProperty("vocabulary", out var vocabulary)
             || vocabulary.ValueKind != JsonValueKind.Object) return;
-        var firstSources = FirstVocabularySources();
+        var firstSources = FirstVocabularySources(session);
         var lowered = text.ToLowerInvariant();
-        foreach (var entry in _content.VocabularyEntries)
+        foreach (var entry in content.VocabularyEntries)
         {
             if (!lowered.Contains(entry.Term.ToLowerInvariant(), StringComparison.Ordinal))
             {
@@ -1876,14 +1881,25 @@ public partial class RuntimeBridge : Node
                 else if (existingStatus is not null && existingStatus != "unknown") continue;
             }
 
-            var result = await _kernel.DispatchAsync(new GameCommand(
-                $"vocabulary-observe:{entry.Id}:{sourceId}:{Interlocked.Increment(ref _interactionSequence):D8}",
-                NarrativeCommandHandlers.VocabularyLearn,
-                JsonSerializer.SerializeToElement(new { wordId = entry.Id, sourceId, status })));
+            if (!Current()) return;
+            CommandDispatchResult result;
+            try
+            {
+                result = await session.DispatchAsync(new GameCommand(
+                    $"vocabulary-observe:{entry.Id}:{sourceId}:{Interlocked.Increment(ref _interactionSequence):D8}",
+                    NarrativeCommandHandlers.VocabularyLearn,
+                    JsonSerializer.SerializeToElement(new { wordId = entry.Id, sourceId, status })));
+            }
+            catch (ObjectDisposedException) when (!Current())
+            {
+                return;
+            }
+            if (!Current()) return;
             GD.Print($"vocabulary.observe: term={entry.Term} status={result.Status} error={result.Error?.Message}");
             if (result.Status == CommandStatus.Committed)
             {
                 PresentRuntimeEvents(result.Events);
+                if (!Current()) return;
                 QueueRuntimeStateChanged();
             }
         }
