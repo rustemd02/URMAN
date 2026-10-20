@@ -17,7 +17,8 @@ import urllib.request
 import uuid
 import zipfile
 from remote_common import (MAX_ARCHIVE, MAX_SOURCE, REPOSITORY, canonical, candidates,
-                           digest, git, make_candidate_upload, source_state, STUDIO_AUTHORING_FILES,
+                           digest, git, make_candidate_upload, validate_candidate_guard_project,
+                           source_state, STUDIO_AUTHORING_FILES,
                            studio_authoring_path, MAX_RESULT_BYTES, MAX_RESULT_FILES)
 
 STUDIO_SCENE = 'res://studio/studio_main.tscn'
@@ -276,10 +277,10 @@ def new_interactive_capture_destination(path):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('command',choices=['doctor','smoke','capture','studio','play','play-full','play-product','candidate-boot','ui',
+    p.add_argument('command',choices=['doctor','smoke','capture','studio','play','play-full','play-product','candidate-boot','candidate-play','ui',
                                       'capture-current','status','fetch'])
     p.add_argument('--root',type=Path,default=Path(__file__).resolve().parent.parent)
-    p.add_argument('--job-id',help='capture-current uses your own running play, play-full, or play-product job ID');p.add_argument('--scene')
+    p.add_argument('--job-id',help='capture-current uses your own running native play or candidate-play job ID');p.add_argument('--scene')
     p.add_argument('--points');p.add_argument('--timeout',type=int)
     p.add_argument('--phase',help='capture only: authored atmosphere profile id (URMAN_ATMOSPHERE_PHASE)')
     p.add_argument('--fov',help="capture only: 'player' (player camera FOV) or a number; default control views use 70")
@@ -300,6 +301,8 @@ def main():
                    help='studio only: reopen the same authored workspace 0..2 times after clean exits')
     args=p.parse_args()
     candidate_boot=args.command=='candidate-boot'
+    candidate_play=args.command=='candidate-play'
+    candidate_run=candidate_boot or candidate_play
     if not 0<=args.studio_restarts<=2 or (args.studio_restarts and args.command!='studio'):
         p.error('--studio-restarts requires studio and a count of 0..2')
     if args.studio_readiness and args.command!='doctor':
@@ -307,20 +310,24 @@ def main():
     if args.command=='studio' and (args.scene is not None or args.headless or args.points is not None
                                    or args.phase is not None or args.fov is not None):
         p.error('studio uses a fixed native scene and does not accept --scene, --headless, --points, --phase, or --fov')
-    if candidate_boot:
+    if candidate_run:
         if args.candidate_dir is None:
-            p.error('candidate-boot requires --candidate-dir')
+            p.error(args.command+' requires --candidate-dir')
         if (args.scene is not None or args.headless or args.points is not None or args.phase is not None
                 or args.fov is not None or args.studio_authoring or args.studio_restarts
                 or args.ui_action is not None or args.keys is not None or args.key is not None
                 or args.duration_ms is not None or args.dx is not None or args.dy is not None):
-            p.error('candidate-boot uses a fixed package and accepts no scene, UI, or source-snapshot options')
-        if args.timeout is not None and not 1 <= args.timeout <= 300:
-            p.error('candidate-boot timeout must be 1..300 seconds')
-        if args.wait is not None and not 1 <= args.wait <= 600:
-            p.error('candidate-boot wait must be 1..600 seconds')
+            p.error(args.command+' uses a fixed package and accepts no scene, UI, or source-snapshot options')
+        maximum_timeout=1200 if candidate_play else 300
+        if args.timeout is not None and not 1 <= args.timeout <= maximum_timeout:
+            p.error(args.command+' timeout must be 1..'+str(maximum_timeout)+' seconds')
+        maximum_wait=1320 if candidate_play else 600
+        if args.wait is not None and not 1 <= args.wait <= maximum_wait:
+            p.error(args.command+' wait must be 1..'+str(maximum_wait)+' seconds')
+        if candidate_play and args.output is not None and args.wait is None:
+            p.error('candidate-play --output requires --wait; otherwise use fetch after the job exits')
     elif args.candidate_dir is not None:
-        p.error('--candidate-dir requires candidate-boot')
+        p.error('--candidate-dir requires candidate-boot or candidate-play')
     studio=args.command=='studio'
     native_full=args.command=='play-full'
     native_product=args.command=='play-product'
@@ -369,7 +376,7 @@ def main():
             p.error('ui does not accept job submission or output options')
     if capture_current:
         if not args.job_id or not re.fullmatch('[a-f0-9]{32}',args.job_id):
-            p.error('capture-current requires a 32-character lowercase hexadecimal --job-id from your own play, play-full, or play-product job')
+            p.error('capture-current requires a 32-character lowercase hexadecimal --job-id from your own native play or candidate-play job')
         if args.output is None:
             p.error('capture-current requires --output with an absolute file path')
         if (args.scene is not None or args.points is not None or args.phase is not None
@@ -392,7 +399,7 @@ def main():
     scene=STUDIO_SCENE if studio else (PHOTO_WORLDS_GAME_SCENE if native_product else FULL_GAME_SCENE if native_full else 'res://scenes/act1_demo.tscn' if play else (args.scene if args.scene is not None
                                        else 'res://tests/player_settings_smoke_test.tscn')
     )
-    timeout=args.timeout if args.timeout is not None else (120 if candidate_boot else 1200 if studio or play else 300)
+    timeout=args.timeout if args.timeout is not None else (120 if candidate_boot else 1200 if studio or play or candidate_play else 300)
     wait=args.wait if args.wait is not None else (3600 if studio else 420 if candidate_boot else 1200)
     c=Client()
     if args.command=='doctor':
@@ -403,21 +410,27 @@ def main():
             p.error('--job-id required')
         result=c.request('/jobs/'+args.job_id) if args.command=='status' else c.fetch(args.job_id,args.output or args.root/'.codex-captures/remote'/args.job_id)
         print(json.dumps(result,indent=2));return 1 if result['status']=='FAIL' else 0
-    if candidate_boot:
+    if candidate_run:
         try:
             release_dir = args.candidate_dir if args.candidate_dir.is_absolute() else args.root / args.candidate_dir
             releases = (args.root / 'build/releases').resolve(strict=True)
             if release_dir.is_symlink() or release_dir.resolve(strict=True).parent != releases:
                 p.error('--candidate-dir must be a real direct child of build/releases')
             manifest, files = make_candidate_upload(release_dir)
+            if candidate_play:
+                validate_candidate_guard_project(
+                    json.loads(files['receipt'].read_text(encoding='utf-8-sig')),
+                    args.root / 'game/project.godot')
             candidate_id = hashlib.sha256(canonical(manifest)).hexdigest()
             jid=args.job_id or uuid.uuid4().hex
             if not re.fullmatch('[a-f0-9]{32}',jid):
-                p.error('candidate-boot job IDs must be 32 lowercase hexadecimal characters')
+                p.error(args.command+' job IDs must be 32 lowercase hexadecimal characters')
         except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as error:
-            p.error('candidate-boot input is invalid: ' + str(error))
+            p.error(args.command+' input is invalid: ' + str(error))
         health=c.request('/health/candidate')
-        if not health.get('ready') or health.get('busy_job') is not None:
+        if candidate_play and health.get('candidate_native_play_version') != 1:
+            raise ValueError('Windows station worker lacks native candidate play; update it after the active job is safely restored')
+        if not health.get('native_play_ready' if candidate_play else 'ready') or health.get('busy_job') is not None:
             raise ValueError('station not ready: '+json.dumps(health,ensure_ascii=False))
         plan=c.request('/candidates/plan',manifest)
         if plan.get('candidate_id') != candidate_id:
@@ -432,9 +445,17 @@ def main():
             if stored.get('sha256') != sha:
                 raise ValueError('candidate blob acknowledgement mismatch')
             print(f'Uploaded candidate blob {index}/{len(missing)} ({by_sha[sha].stat().st_size/1024**2:.1f} MB)',flush=True)
-        spec={'job_id':jid,'mode':'candidate-boot','candidate_id':candidate_id,'timeout':timeout}
+        spec={'job_id':jid,'mode':args.command,'candidate_id':candidate_id,'timeout':timeout}
         print('Candidate:',candidate_id,'Job:',jid,flush=True)
-        result=c.request('/jobs',spec)
+        try:
+            result=c.request('/jobs',spec)
+        except Exception:
+            print('Submission reply not confirmed; query status with this job_id before retrying.',file=sys.stderr)
+            raise
+        if candidate_play and args.wait is None:
+            print('Native candidate submitted: two process lifetimes share one guarded test save. '
+                  'Use ui/capture-current with this job_id; verify gameplay separately and fetch after both exits.')
+            return 0
         if args.submit_only:
             return 0
         deadline=time.monotonic()+wait
@@ -443,7 +464,7 @@ def main():
         if result['status']=='RUNNING':
             print('Bounded wait expired; use status/fetch with job_id.',file=sys.stderr);return 2
         result=c.fetch(jid,args.output or args.root/'.codex-captures/remote'/jid)
-        print('Candidate boot:',result['status']);return 0 if result['status']=='PASS' else 1
+        print('Candidate '+('play' if candidate_play else 'boot')+':',result['status']);return 0 if result['status']=='PASS' else 1
     if args.command=='ui':
         native_ui_readiness(c,require_idle_ready=False)
         result=c.ui_action(args.job_id,ui_request)

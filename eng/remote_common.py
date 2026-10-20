@@ -239,6 +239,60 @@ def validate_candidate_receipt(receipt, manifest):
         raise ValueError('candidate Windows artifacts do not match completed release provenance')
 
 
+def validate_candidate_guard_project(receipt, project_path):
+    """Bind native candidate userdata to the one directory protected_run protects.
+
+    Godot's default Windows user:// path is based on application/config/name;
+    feature overrides and custom directories must not escape that guard.
+    https://docs.godotengine.org/en/stable/tutorials/io/data_paths.html
+    """
+    files = receipt.get('buildProvenance', {}).get('sourceAfter', {}).get('files', {})
+    expected = files.get('game/project.godot')
+    if (not isinstance(expected, str) or not re.fullmatch('[a-f0-9]{64}', expected)
+            or 'game/override.cfg' in files):
+        raise ValueError('native candidate needs a bound project without a settings override')
+    path = Path(project_path)
+    info = path.lstat()
+    if (not stat.S_ISREG(info.st_mode) or stat.S_ISLNK(info.st_mode)
+            or getattr(info, 'st_file_attributes', 0) & 0x0400 or info.st_size > 1024**2):
+        raise ValueError('native candidate project identity must be a bounded regular file')
+    data = path.read_bytes()
+    if hashlib.sha256(data).hexdigest() != expected:
+        raise ValueError('native candidate project differs from its completed export; use the matching project')
+    section = None
+    application_sections = 0
+    settings = {}
+    guarded_keys = ('config/name', 'run/main_scene', 'config/use_custom_user_dir',
+                    'config/custom_user_dir_name', 'config/project_settings_override')
+    for line in data.decode('utf-8-sig').splitlines():
+        line = line.strip()
+        if not line or line.startswith(';'):
+            continue
+        if line.startswith('['):
+            section = line
+            if section == '[application]':
+                application_sections += 1
+            continue
+        if section != '[application]' or '=' not in line:
+            continue
+        key, value = (part.strip() for part in line.split('=', 1))
+        if any(key.startswith(name + '.') for name in guarded_keys):
+            raise ValueError('native candidate cannot override userdata settings with feature tags')
+        if key in guarded_keys:
+            if key in settings:
+                raise ValueError('native candidate userdata settings are ambiguous')
+            settings[key] = value
+    if (application_sections != 1 or settings.get('config/name') != '"URMAN"'
+            or settings.get('run/main_scene') != '"res://scenes/photoworlds_game.tscn"'
+            or settings.get('config/use_custom_user_dir', 'false') != 'false'
+            or settings.get('config/custom_user_dir_name', '""') != '""'
+            or settings.get('config/project_settings_override', '""') != '""'):
+        raise ValueError('native candidate must use the canonical PhotoWorlds bootstrap and default URMAN userdata directory')
+    return {'project_sha256': expected, 'application_name': 'URMAN',
+            'custom_userdata': False, 'relative_userdata': 'Godot/app_userdata/URMAN',
+            'main_scene': 'res://scenes/photoworlds_game.tscn'}
+
+
 def _candidate_file(root, relative):
     root = Path(root).resolve(strict=True)
     path = root

@@ -23,7 +23,8 @@ import zipfile
 from remote_common import (MAX_ARCHIVE, MAX_BLOB, MAX_CANDIDATE_RECEIPT, MAX_RESULT_BYTES,
                            MAX_RESULT_FILES, STUDIO_AUTHORING_FILES, canonical, digest,
                            unpack_candidate, unpack_snapshot, validate_candidate_manifest,
-                           validate_candidate_receipt, validate_manifest, verify_source)
+                           validate_candidate_guard_project, validate_candidate_receipt,
+                           validate_manifest, verify_source)
 
 # Incremental snapshots: the station keeps one blob per distinct file content, so a
 # new build sends only the files that actually changed instead of the whole tree.
@@ -76,6 +77,9 @@ UI_HELPER_FAILURE_CODES = {
     'The requested PID is not one live Godot process.': 'ui_process_guard_refused',
     'The owned Godot command must have exactly one --path argument.': 'ui_source_guard_refused',
     'The requested Godot PID is not running this job source.': 'ui_source_guard_refused',
+    'The candidate executable does not match this job.': 'ui_process_guard_refused',
+    'The candidate executable hash changed.': 'ui_process_guard_refused',
+    'The candidate process is not owned by the live runner.': 'ui_process_guard_refused',
     'Unsupported game UI key.': 'ui_action_refused',
     'Unsupported game UI action.': 'ui_action_refused',
     'Look deltas must be non-zero integers between -300 and 300.': 'ui_action_refused',
@@ -1876,6 +1880,8 @@ class Station:
         self.active_spec = None
         self.active_source = None
         self.active_runner = None
+        self.active_candidate = None
+        self.active_candidate_helper_sha256 = None
         self.snapshots = self.data / 'snapshots'; self.snapshots.mkdir(exist_ok=True)
         self.jobs = self.data / 'runs'; self.jobs.mkdir(exist_ok=True)
         self.blobs = self.data / 'blobs'; self.blobs.mkdir(exist_ok=True)
@@ -2018,7 +2024,7 @@ class Station:
         newest_candidates = {path.name for path in candidate_plans[:KEEP_CANDIDATES]}
         active_candidate = (self.active_spec.get('candidate_id')
                             if isinstance(self.active_spec, dict)
-                            and self.active_spec.get('mode') == 'candidate-boot' else None)
+                            and self.active_spec.get('mode') in {'candidate-boot', 'candidate-play'} else None)
         for candidate in candidate_plans:
             if (candidate.name in newest_candidates or candidate.stem == active_candidate
                     or candidate.stat().st_mtime >= cutoff):
@@ -2122,6 +2128,14 @@ class Station:
                           normal_ui_transport_version=NORMAL_UI_TRANSPORT_VERSION,
                           sdk=json.loads((self.repo/'global.json').read_text(encoding='utf-8-sig'))['sdk']['version'],
                           gpu_acceptance=self.config.get('gpu_acceptance', 'not-run'))
+        else:
+            native_desktop = desktop()
+            native_tools = (self.repo / 'eng/windows-game-ui.ps1').is_file()
+            result.update(candidate_native_play_version=1,
+                          native_play_ready=bool(ready and native_tools
+                                                 and native_desktop['interactive']
+                                                 and native_desktop['input_desktop']),
+                          native_play_desktop=native_desktop, native_play_tools=native_tools)
         return result
 
     def studio_readiness(self):
@@ -2252,7 +2266,7 @@ class Station:
             self.lock.release()
 
     def submit(self, spec, principal):
-        if isinstance(spec, dict) and spec.get('mode') == 'candidate-boot':
+        if isinstance(spec, dict) and spec.get('mode') in {'candidate-boot', 'candidate-play'}:
             return self.submit_candidate(spec, principal)
         if not isinstance(principal, str) or not principal:
             raise ValueError('authenticated job principal required')
@@ -2364,14 +2378,15 @@ class Station:
         if not isinstance(principal, str) or not principal:
             return 401, {'error': 'unambiguous candidate job principal required'}
         if (set(spec) != {'job_id', 'mode', 'candidate_id', 'timeout'}
-                or spec.get('mode') != 'candidate-boot'):
-            raise ValueError('candidate-boot accepts only job_id, mode, candidate_id, and timeout')
+                or spec.get('mode') not in {'candidate-boot', 'candidate-play'}):
+            raise ValueError('candidate jobs accept only job_id, mode, candidate_id, and timeout')
         jid = spec.get('job_id', '')
         candidate_id = spec.get('candidate_id', '')
         if not re.fullmatch('[a-f0-9]{32}', jid) or not re.fullmatch('[a-f0-9]{64}', candidate_id):
             raise ValueError('invalid candidate job or candidate ID')
-        if type(spec.get('timeout')) is not int or not 1 <= spec['timeout'] <= 300:
-            raise ValueError('candidate boot timeout must be 1..300 seconds')
+        maximum_timeout = 1200 if spec['mode'] == 'candidate-play' else 300
+        if type(spec.get('timeout')) is not int or not 1 <= spec['timeout'] <= maximum_timeout:
+            raise ValueError(f'candidate timeout must be 1..{maximum_timeout} seconds')
         record = self.candidate_for(candidate_id)
         if record is None:
             raise ValueError('unknown Windows candidate')
@@ -2396,7 +2411,7 @@ class Station:
             if self.busy:
                 return 409, {'error': 'station busy', 'job_id': self.busy}
             health = self.health(candidate_boot=True)
-            if not health['ready']:
+            if not health['native_play_ready' if spec['mode'] == 'candidate-play' else 'ready']:
                 return 503, {'error': 'station not ready', 'health': health}
             path.mkdir()
             write_json(path/'request.json', spec)
@@ -2408,6 +2423,8 @@ class Station:
             self.active_spec = dict(spec)
             self.active_source = None
             self.active_runner = None
+            self.active_candidate = None
+            self.active_candidate_helper_sha256 = None
             threading.Thread(target=self.execute, args=(path, spec, status), daemon=False).start()
             return 202, status
 
@@ -2415,10 +2432,40 @@ class Station:
         runner = self.active_runner
         source = self.active_source
         spec = self.active_spec
-        if (spec is None or spec.get('mode') != 'play' or spec.get('job_id') != jid
-                or runner is None or runner.poll() is not None or source is None):
+        if (spec is None or spec.get('mode') not in {'play', 'candidate-play'}
+                or spec.get('job_id') != jid or self.busy != jid
+                or runner is None or runner.poll() is not None):
             return None
         try:
+            if spec['mode'] == 'candidate-play':
+                candidate = self.active_candidate
+                if candidate is None:
+                    return None
+                expected_candidate = _studio_path(self.jobs, f'{jid}/candidate', kind='dir')
+                if candidate.resolve(strict=True) != expected_candidate.resolve(strict=True):
+                    return None
+                executable = _studio_path(candidate, 'windows/URMAN.exe')
+                record = self.candidate_for(spec['candidate_id'])
+                owner = self.job_owners.get(jid)
+                if (record is None or not owner or record['owner'] != owner
+                        or executable.stat().st_size != record['manifest']['windows_exe_bytes']
+                        or digest(executable) != record['manifest']['windows_exe_sha256']
+                        or not self.active_candidate_helper_sha256
+                        or digest(_studio_path(self.repo, 'eng/windows-game-ui.ps1'))
+                        != self.active_candidate_helper_sha256):
+                    return None
+                expected_image = os.path.normcase(os.path.normpath(str(executable)))
+                matches = []
+                for pid, name in _windows_descendants(runner.pid).items():
+                    if name.casefold() != 'urman.exe':
+                        continue
+                    image = _windows_process_image(pid)
+                    if image and os.path.normcase(os.path.normpath(image)) == expected_image:
+                        matches.append(pid)
+                return matches[0] if len(matches) == 1 else None
+
+            if source is None:
+                return None
             expected_source = (self.jobs / jid / 'source').resolve(strict=True)
             source_info = source.lstat()
             if (_studio_reparse(source_info) or not stat.S_ISDIR(source_info.st_mode)
@@ -2585,11 +2632,13 @@ class Station:
                 return 404, {'error': 'unknown or unavailable running play job'}
             if self.job_owners.get(jid) != principal:
                 return 403, {'error': 'job owner required'}
-            if (self.active_spec is None or self.active_spec.get('mode') != 'play'
-                    or self.active_spec.get('job_id') != jid
-                    or self.active_spec.get('scene') not in APPROVED_PLAY_SCENES):
+            if (self.active_spec is None or self.active_spec.get('job_id') != jid
+                    or not (self.active_spec.get('mode') == 'candidate-play'
+                            or (self.active_spec.get('mode') == 'play'
+                                and self.active_spec.get('scene') in APPROVED_PLAY_SCENES))):
                 return 409, {'error': 'owned native play job is unavailable'}
-            expected_scene = self.active_spec['scene']
+            expected_scene = (PHOTO_WORLDS_GAME_SCENE if self.active_spec['mode'] == 'candidate-play'
+                              else self.active_spec['scene'])
             pid = self._active_game_pid(jid)
             runner = self.active_runner
             if pid is None or runner is None:
@@ -2780,11 +2829,21 @@ class Station:
                 request = {
                     'jobId': jid,
                     'pid': pid,
-                    'sourceRoot': str(source),
                     'result': str(result_path),
                     'image': str(image_path),
                     **action,
                 }
+                if self.active_spec is not None and self.active_spec.get('mode') == 'candidate-play':
+                    record = self.candidate_for(self.active_spec['candidate_id'])
+                    if (record is None or self.active_candidate is None or self.active_runner is None
+                            or self.active_runner.poll() is not None
+                            or record['owner'] != self.job_owners.get(jid)):
+                        return 'ui_helper_launch_failed', None, None
+                    request.update(candidateRoot=str(self.active_candidate),
+                                   runnerPid=self.active_runner.pid,
+                                   executableSha256=record['manifest']['windows_exe_sha256'])
+                else:
+                    request['sourceRoot'] = str(source)
                 with request_path.open('xb') as stream:
                     stream.write(canonical(request))
 
@@ -2954,12 +3013,12 @@ class Station:
                 return 404, {'error': 'unknown or unavailable running play job'}
             if self.job_owners.get(jid) != principal:
                 return 403, {'error': 'job owner required'}
-            if (self.active_spec is None or self.active_spec.get('mode') != 'play'
+            if (self.active_spec is None or self.active_spec.get('mode') not in {'play', 'candidate-play'}
                     or self.active_spec.get('job_id') != jid):
                 return 409, {'error': 'owned native play job is unavailable'}
             pid = self._active_game_pid(jid)
             source = self.active_source
-            if pid is None or source is None:
+            if pid is None or (source is None and self.active_spec['mode'] != 'candidate-play'):
                 return 409, {'error': 'owned native game window is not ready for input'}
             kind = action['action']
             reason_code, report, exit_code = self._run_ui_helper(jid, pid, source, action)
@@ -2984,13 +3043,19 @@ class Station:
             self.active_spec = None
             self.active_source = None
             self.active_runner = None
+            self.active_candidate = None
+            self.active_candidate_helper_sha256 = None
 
     def execute_candidate(self, path, spec, status):
         output = path / 'artifacts'
         candidate_root = path / 'candidate'
+        native_play = spec['mode'] == 'candidate-play'
+        receipt_schema = ('urman.windows_candidate_play_receipt.v1' if native_play
+                          else 'urman.windows_candidate_boot_receipt.v1')
         started = time.monotonic()
         output.mkdir()
         receipt = {}
+        guard_project_binding = None
         preserve_candidate = False
         try:
             record = self.candidate_for(spec['candidate_id'])
@@ -3007,10 +3072,24 @@ class Station:
                 raise ValueError('candidate receipt exceeds its size limit')
             candidate_receipt = json.loads(receipt_path.read_text(encoding='utf-8-sig'))
             validate_candidate_receipt(candidate_receipt, manifest)
+            if native_play:
+                guard_project_binding = validate_candidate_guard_project(
+                    candidate_receipt, self.repo / 'game/project.godot')
             unpack_candidate(archive_path, candidate_root, manifest)
+            if native_play and _studio_path(candidate_root, 'windows/override.cfg', missing=True) is not None:
+                raise ValueError('native candidate must not contain an external project override')
 
             execution_names = ('eng/run-windows-check.ps1', 'eng/protected_run.py', 'eng/remote_common.py')
+            if native_play:
+                execution_names += ('eng/windows-game-ui.ps1',)
             execution_files = {name: {'station_sha256': digest(self.repo / name)} for name in execution_names}
+            runner_env = None
+            if native_play:
+                frames = output / 'frames'
+                frames.mkdir()
+                runner_env = os.environ.copy()
+                runner_env['URMAN_INTERACTIVE_FRAME_DIR'] = str(frames.resolve())
+                runner_env['URMAN_INTERACTIVE_FRAME_JOB'] = spec['job_id']
             system_root = os.environ.get('SystemRoot', '')
             powershell = Path(system_root) / 'System32/WindowsPowerShell/v1.0/powershell.exe'
             if not powershell.is_file():
@@ -3018,11 +3097,17 @@ class Station:
             command = [str(powershell), '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File',
                        str(self.repo / 'eng/run-windows-check.ps1'), '-Root', str(self.repo),
                        '-ToolsRoot', str(self.repo), '-CandidateRoot', str(candidate_root),
-                       '-Output', str(output), '-Mode', 'candidate-boot',
+                       '-Output', str(output), '-Mode', spec['mode'],
                        '-TimeoutSeconds', str(spec['timeout']), '-Python', self.config['python']]
             with (output / 'stdout.log').open('wb') as out, (output / 'stderr.log').open('wb') as err:
                 process = subprocess.Popen(command, stdout=out, stderr=err,
-                                           creationflags=subprocess.CREATE_NO_WINDOW)
+                                           creationflags=subprocess.CREATE_NO_WINDOW, env=runner_env)
+                if native_play:
+                    with self.lock:
+                        if self.busy == spec['job_id']:
+                            self.active_candidate = candidate_root
+                            self.active_candidate_helper_sha256 = execution_files['eng/windows-game-ui.ps1']['station_sha256']
+                            self.active_runner = process
                 try:
                     code = process.wait(timeout=spec['timeout'] + 120)
                 except subprocess.TimeoutExpired:
@@ -3030,12 +3115,17 @@ class Station:
                     process.wait(timeout=10)
                     raise RuntimeError('candidate job deadline exceeded; inspect the userdata recovery marker')
             receipt = json.loads((output / 'receipt.json').read_text(encoding='utf-8-sig'))
-            receipt.update(schema='urman.windows_candidate_boot_receipt.v1',
-                           evidence_scope='headless-windows-package-boot',
-                           native_ui='not-run', station=os.environ['COMPUTERNAME'], job_id=spec['job_id'],
+            receipt.update(schema=receipt_schema,
+                           evidence_scope=('native-windows-package-technical' if native_play
+                                           else 'headless-windows-package-boot'),
+                           native_ui=('available-not-acceptance' if native_play else 'not-run'),
+                           station=os.environ['COMPUTERNAME'], job_id=spec['job_id'],
                            candidate_id=spec['candidate_id'], candidate_manifest=manifest,
                            execution_files=execution_files, worker_code_sha256=self.worker_code_sha256,
                            runner_exit_code=code, worker_elapsed_seconds=round(time.monotonic() - started, 3))
+            if native_play:
+                receipt['human_playtest'] = 'pending'
+                receipt['guard_project_binding'] = guard_project_binding
             write_json(output / 'receipt.json', receipt)
             if code != 0 or receipt.get('status') != 'PASS' or self.recovery():
                 raise RuntimeError(receipt.get('error', f'candidate runner failed with exit {code}'))
@@ -3044,16 +3134,29 @@ class Station:
             status.update(status='FAIL', exit_code=1, error=str(error)[:2048])
             try:
                 current = json.loads((output / 'receipt.json').read_text(encoding='utf-8-sig')) if (output / 'receipt.json').is_file() else {}
-                current.update(schema='urman.windows_candidate_boot_receipt.v1', status='FAIL',
+                current.update(schema=receipt_schema, status='FAIL',
                                job_id=spec['job_id'], candidate_id=spec['candidate_id'],
                                candidate_manifest=(record.get('manifest') if 'record' in locals() and record else None),
                                error=str(error)[:2048], userdata_recovery_pending=self.recovery())
+                if native_play:
+                    current.update(evidence_scope='native-windows-package-technical',
+                                   native_ui='available-not-acceptance', human_playtest='pending',
+                                   guard_project_binding=guard_project_binding)
                 write_json(output / 'receipt.json', current)
             except Exception as receipt_error:
                 print('candidate receipt write failed:', receipt_error, file=sys.stderr)
             preserve_candidate = self.recovery()
 
         write_json(output / 'request.json', spec)
+        # Drain in-flight UI/capture before removing the package or archiving frames.
+        # Busy and ownership remain reserved until result cleanup has finished.
+        with self.lock:
+            if self.active_spec is not None and self.active_spec.get('job_id') == spec['job_id']:
+                self.active_spec = None
+                self.active_source = None
+                self.active_runner = None
+                self.active_candidate = None
+                self.active_candidate_helper_sha256 = None
         status['finished'] = time.time()
         if candidate_root.exists() and not preserve_candidate:
             shutil.rmtree(candidate_root, ignore_errors=True)
@@ -3076,7 +3179,7 @@ class Station:
                 self._clear_active_job(spec['job_id'])
 
     def execute(self, path, spec, status):
-        if spec.get('mode') == 'candidate-boot':
+        if spec.get('mode') in {'candidate-boot', 'candidate-play'}:
             try:
                 self.execute_candidate(path, spec, status)
             except Exception as error:
@@ -3294,7 +3397,7 @@ class Handler(BaseHTTPRequestHandler):
         request = (json.loads(request_path.read_text(encoding='utf-8-sig'))
                    if request_path.is_file() else {})
         owner_path = station.jobs / m[1] / 'owner.json'
-        if request.get('mode') == 'candidate-boot' or owner_path.exists():
+        if request.get('mode') in {'candidate-boot', 'candidate-play'} or owner_path.exists():
             principal = self.authenticated_principal()
             if principal is None:
                 return self.respond(401, {'error': 'unambiguous candidate job principal required'})

@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('build', 'prepare', 'play', 'smoke', 'capture', 'candidate-boot')][string]$Mode = 'smoke',
+    [ValidateSet('build', 'prepare', 'play', 'smoke', 'capture', 'candidate-boot', 'candidate-play')][string]$Mode = 'smoke',
     [string]$Scene,
     [ValidateRange(1, 86400)][int]$TimeoutSeconds = 300,
     [ValidateRange(0, 2)][int]$StudioRestarts = 0,
@@ -11,6 +11,7 @@ param(
     [string]$ToolsRoot,
     [string]$Provenance,
     [string]$CandidateRoot,
+    [switch]$CandidateSession,
     [string]$Output,
     [string]$Python = 'python'
 )
@@ -21,9 +22,14 @@ if ($env:OS -ne 'Windows_NT') { throw 'Game checks belong on the Windows station
 $Root = (Resolve-Path $Root).Path
 if (-not $ToolsRoot) { $ToolsRoot = $Root }
 $ToolsRoot = (Resolve-Path $ToolsRoot).Path
-if ($Mode -eq 'candidate-boot') {
+$candidateMode = $Mode -in @('candidate-boot', 'candidate-play')
+if ($CandidateSession -and ($Mode -ne 'candidate-play' -or $env:URMAN_PROTECTED_RUN -ne '1')) {
+    throw 'CandidateSession is private to a protected candidate-play launch.'
+}
+if ($Mode -eq 'candidate-play' -and $TimeoutSeconds -gt 1200) { throw 'candidate-play timeout must be 1..1200 seconds.' }
+if ($candidateMode) {
     if (-not $CandidateRoot -or $Scene -or $Headless -or $ViewPoints -or $AtmospherePhase -or $ViewFov -or $StudioRestarts) {
-        throw 'candidate-boot requires only the worker-owned extracted candidate root and timeout.'
+        throw 'Candidate modes require only the worker-owned extracted candidate root and timeout.'
     }
     $candidateItem = Get-Item -LiteralPath $CandidateRoot -Force -ErrorAction Stop
     if (-not $candidateItem.PSIsContainer -or ($candidateItem.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
@@ -32,8 +38,15 @@ if ($Mode -eq 'candidate-boot') {
     $CandidateRoot = $candidateItem.FullName
     $candidateExe = Join-Path $CandidateRoot 'windows/URMAN.exe'
     if (-not (Test-Path -LiteralPath $candidateExe -PathType Leaf)) { throw 'Candidate package has no windows/URMAN.exe.' }
+    if ($Mode -eq 'candidate-play') {
+        foreach ($path in @((Join-Path $CandidateRoot 'windows'), $candidateExe)) {
+            if ((Get-Item -LiteralPath $path -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) {
+                throw 'Candidate executable and its directory cannot be reparse points.'
+            }
+        }
+    }
 } else {
-    if ($CandidateRoot) { throw 'CandidateRoot is only valid for candidate-boot.' }
+    if ($CandidateRoot) { throw 'CandidateRoot is only valid for candidate modes.' }
     if ($Mode -eq 'smoke' -and (-not $Scene -or $Scene -notlike 'res://tests/*.tscn')) {
         throw 'Select exactly one existing res://tests/*.tscn scene.'
     }
@@ -54,7 +67,7 @@ if ($ViewFov -and $Mode -ne 'capture') { throw 'A view FOV only applies to a cap
 if ($Mode -eq 'play' -and $Headless) { throw 'Play requires a native window.' }
 $guard = "$ToolsRoot/eng/protected_run.py"
 $bounded = "$ToolsRoot/eng/remote_common.py"
-if ($Mode -eq 'candidate-boot') {
+if ($candidateMode) {
     $requiredTools = @($guard, $bounded)
 } else {
     $manifest = Get-Content "$Root/eng/toolchain.json" -Raw | ConvertFrom-Json
@@ -66,13 +79,72 @@ if ($Mode -eq 'candidate-boot') {
 foreach ($path in $requiredTools) {
     if (-not (Test-Path $path)) { throw "Missing $path; run eng/setup-windows-station.ps1 first." }
 }
-if ($Mode -ne 'candidate-boot') {
+if (-not $candidateMode) {
     $env:DOTNET_ROOT = "$ToolsRoot/.tools/dotnet"
     $env:DOTNET_ROOT_X64 = $env:DOTNET_ROOT
     $env:DOTNET_CLI_HOME = "$ToolsRoot/.tools/dotnet-home"
     $env:NUGET_PACKAGES = "$ToolsRoot/.tools/nuget"
     $env:MSBUILDUSESERVER = '0'
     $env:PATH = "$env:DOTNET_ROOT;$env:PATH"
+}
+if ($CandidateSession) {
+    if (-not $Output) { throw 'CandidateSession requires the outer job artifacts directory.' }
+    $sessionPath = Join-Path $Output 'candidate-session.json'
+    $session = [ordered]@{ status = 'RUNNING'; runs = @(); humanPlaytest = 'pending' }
+    try {
+        for ($runIndex = 1; $runIndex -le 2; $runIndex++) {
+            $engineLog = Join-Path ([IO.Path]::GetFullPath($Output)) "candidate-engine-$runIndex.log"
+            $run = [ordered]@{ run = $runIndex; startedUtc = (Get-Date).ToUniversalTime().ToString('o');
+                finishedUtc = $null; exitCode = $null; status = 'RUNNING'; engineLog = $engineLog;
+                engineErrors = @(); startupMarkers = @() }
+            $session.runs += $run
+            $session | ConvertTo-Json -Depth 7 | Set-Content $sessionPath -Encoding UTF8
+            try {
+                $start = [Diagnostics.ProcessStartInfo]::new()
+                $start.FileName = $candidateExe
+                $start.WorkingDirectory = Split-Path -Parent $candidateExe
+                $start.Arguments = '--log-file "{0}"' -f $engineLog
+                $start.UseShellExecute = $false
+                $process = [Diagnostics.Process]::Start($start)
+                try {
+                    $process.WaitForExit()
+                    $run.exitCode = $process.ExitCode
+                } finally { $process.Dispose() }
+                if ($run.exitCode -ne 0) { throw "Candidate run $runIndex exited $($run.exitCode)." }
+                if (-not (Test-Path -LiteralPath $engineLog -PathType Leaf)) { throw 'Exported game did not write its engine log.' }
+                $log = [Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes($engineLog))
+                $run.engineErrors = @($log -split '\r?\n' | Where-Object {
+                    $_ -match '(?im)(^|\s)(ERROR:|SCRIPT ERROR:)|ObjectDB instances leaked|resources still in use|Unhandled exception'
+                })
+                if ($run.engineErrors.Count -gt 0) { throw "Candidate run $runIndex contains engine errors or resource leaks." }
+                $markers = @('Godot vertical slice ready: Painterly Low-Poly / first person',
+                    'fullgame-scene-loaded: urman.fullgame:scene/pw-prologue physical=W01')
+                foreach ($marker in $markers) {
+                    if (-not $log.Contains($marker)) { throw "Exported game startup marker is missing: $marker" }
+                }
+                $run.startupMarkers = $markers
+                $run.renderer = @($log -split '\r?\n' | Where-Object { $_ -match 'Vulkan|Direct3D|D3D12|OpenGL API' })
+                if (-not $run.renderer -or ($run.renderer -join ' ') -match '(?i)llvmpipe|SwiftShader|software rasterizer|Microsoft Basic Render') {
+                    throw 'Native hardware renderer was not confirmed by the engine log.'
+                }
+                $run.status = 'PASS'
+            } catch {
+                $run.status = 'FAIL'
+                throw
+            } finally {
+                $run.finishedUtc = (Get-Date).ToUniversalTime().ToString('o')
+                $session | ConvertTo-Json -Depth 7 | Set-Content $sessionPath -Encoding UTF8
+            }
+        }
+        $session.status = 'PASS'
+    } catch {
+        $session.status = 'FAIL'
+        $session.error = $_.Exception.Message
+    } finally {
+        $session | ConvertTo-Json -Depth 7 | Set-Content $sessionPath -Encoding UTF8
+    }
+    if ($session.status -ne 'PASS') { exit 1 }
+    exit 0
 }
 # ponytail: one station run at a time; separate workers only if another PC is added.
 $runLock = [IO.File]::Open("$ToolsRoot/.tools/windows-station.lock", 'OpenOrCreate', 'ReadWrite', 'None')
@@ -103,6 +175,46 @@ function Invoke-Logged([string]$Name, [string]$Exe, [string[]]$Arguments, [int]$
     if ($Arguments -contains $guard -and $log -notmatch 'userdata guard: original files.*restored.*verified') {
         throw "$Name did not confirm userdata restoration."
     }
+}
+if ($Mode -eq 'candidate-play') {
+    $receipt.evidenceScope = 'native-windows-package-technical'
+    $receipt.nativeUi = 'available-not-acceptance'
+    $receipt.nativeWindowSizePolicy = 'project-default'
+    $receipt.humanPlaytest = 'pending'
+    $receipt.gameplayAcceptance = 'not-assessed'
+    $receipt.userdataRestored = $false
+    $receipt.candidateRuns = @()
+    $sessionPath = Join-Path $Output 'candidate-session.json'
+    try {
+        $powershell = Join-Path $PSHOME 'powershell.exe'
+        Invoke-Logged 'candidate-play' $Python @($guard, '--clean', '--timeout', "$TimeoutSeconds",
+            $powershell, '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $PSCommandPath,
+            '-Mode', 'candidate-play', '-CandidateSession', '-Root', $Root, '-ToolsRoot', $ToolsRoot,
+            '-CandidateRoot', $CandidateRoot, '-Output', ([IO.Path]::GetFullPath($Output)), '-Python', $Python,
+            '-TimeoutSeconds', "$TimeoutSeconds") ($TimeoutSeconds + 30)
+        $session = Get-Content -LiteralPath $sessionPath -Raw | ConvertFrom-Json
+        if ($session.status -ne 'PASS' -or @($session.runs).Count -ne 2 -or
+            @($session.runs | Where-Object { $_.status -ne 'PASS' -or $_.exitCode -ne 0 }).Count -ne 0) {
+            throw 'Candidate session did not confirm two normal native process exits.'
+        }
+        $receipt.status = 'PASS'
+    } catch {
+        $receipt.status = 'FAIL'
+        $receipt.error = $_.Exception.Message
+        Write-Host $receipt.error
+    } finally {
+        if (Test-Path -LiteralPath $sessionPath -PathType Leaf) {
+            try { $receipt.candidateRuns = @((Get-Content -LiteralPath $sessionPath -Raw | ConvertFrom-Json).runs) }
+            catch { $receipt.sessionReadError = $_.Exception.Message; $receipt.status = 'FAIL' }
+        }
+        $receipt.elapsedSeconds = ((Get-Date).ToUniversalTime() - [datetimeoffset]::Parse($receipt.started).UtcDateTime).TotalSeconds
+        $receipt.finished = (Get-Date).ToUniversalTime().ToString('o')
+        $receipt.exitCode = if ($receipt.status -eq 'PASS') { 0 } else { 1 }
+        $receipt | ConvertTo-Json -Depth 8 | Set-Content "$output/receipt.json" -Encoding UTF8
+        $runLock.Dispose()
+    }
+    if ($receipt.status -ne 'PASS') { exit 1 }
+    exit 0
 }
 if ($Mode -eq 'candidate-boot') {
     $receipt.mode = 'candidate-boot'

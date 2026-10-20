@@ -110926,7 +110926,7 @@
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_confirmed",
         "new_job_submitted": false,
-        "last_status_query": "20.10 10:52 Moscow: same protected e79 status exit1 urlopen timeout; raw evidence/PW-044/household-pad-source-20261020/station-status-0752.log. Authoritative terminal/restoration still unknown; no newjob/input/restart.",
+        "last_status_query": "20.10 query launched2026-10-20T08:26:23.377139Z/11:26Moscow: sameprotected e79 exit1 urlopen timeout; raw evidence/PW-095/native-candidate-source-20261020/station-status-0826.log. Terminal/restoration unknown; no newjob/input/restart. VPN untouched asownerordered.",
         "local_diagnosis": "Happ default VPN route and Tailscale self-signed relay certificate are observed; causal hop is unproven. Owner explicitly answered VPN не трогать on20.10. No disconnect/reconnect or route/cert/daemon changes; previous permission request is resolved as DENIED.",
         "owner_network_constraint": "VPN не трогать. Preserve current Happ connection/configuration; do not re-request the same disconnect experiment without a new owner instruction."
       },
@@ -144778,7 +144778,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Reuse accepted standalone exported Windows EXE boot c7898456 / host job1c502696 (exit0, userdataRestoredtrue); do not reimplement or repeat headless boot. After authoritative e79 terminal/restoration, verify exact release candidate ordinary New Game→Save→full close→Continue with book/firstentry and exact package identity. Current candidate-boot is intentionally headless, existing native play uses source snapshot; native exported-package control is a separate remaining input, not evidence already accepted. Required platform/performance/rights/art/human gates remain open.",
+      "next_action": "Reuse accepted standalone boot c7898456/host1c502696 and new candidate-play source stage (reviewed/Game18.27s0/0). After authoritative e79 terminal/restoration: exactPS5parser→controlledworker/helperdeployment→currentexport→owned native candidate-play NewGame→Save→normalfullquit→secondlifetimeContinue→normalquit. Oneguardpreserves temporarysave acrossboth; technicalreceipt doesnot prove actions. Do not repeat oldheadlessboot or sourcecompile unchanged. Requiredplatform/performance/rights/art/human gates remain open.",
       "blocker": null,
       "external_gates": [
         {
@@ -145047,6 +145047,64 @@
         "accepted_job_id": "1c502696358f433f941113c1efb415f9",
         "accepted_receipt": "evidence/PW-095/desktop_candidate_f62bf22b/windows-host-1c502696/receipt.json",
         "result": "Actual exported windows/URMAN.exe hash986215d7…14932b launched on UNTERPC outside source snapshot, exact fullgame pw-prologue/W01+ready markers present, engineErrors empty, gameExitCode0/userdataRestoredtrue/native_ui not-run. Original export receipt remains unchanged; this host receipt is separate proof. Windows ACL comparison not performed by guard; no claim of ordinary UI/performance/art/complete release."
+      },
+      "native_candidate_play_stage_2026_10_20": {
+        "state": "source_reviewed_compiled_windows_parser_deployment_native_pending",
+        "active_owner": null,
+        "question": "Can the exact exported release EXE be operated/captured under the existing owned native transport and preserve a clean test save across two full process lifetimes under one userdata guard?",
+        "targets": [
+          "eng/remote-check.py",
+          "eng/remote_common.py",
+          "eng/windows_station_worker.py",
+          "eng/windows-game-ui.ps1",
+          "eng/run-windows-check.ps1",
+          "game/scripts/Main.InteractiveFrameCapture.cs"
+        ],
+        "required_inputs": [
+          "Accepted candidate upload/receipt/ZIP/EXE provenance c7898456 + host1c502696",
+          "Existing sourceplay authenticatedowner/UI2/viewportcapture/protected_run patterns",
+          "Exactcurrent game/project.godot userdata identity config/name=URMAN, no customuserdata"
+        ],
+        "steps": [
+          "Separate candidate-play command/mode reusing upload/principal/hash/extraction; fixedexe only, no arbitraryscene/args/paths; keep headlesscandidate-boot unchanged.",
+          "Use one protected_run clean transaction around two sequential native EXE lifetimes; normalclose required before relaunch, same temporary save, restore original once.",
+          "Resolve live unique exactcandidateEXE descendant each UI/capture action; preserve owner/PID/HWND/focus/bounds/keyrelease/no-links and cleanup lock/drain.",
+          "Extend existing game viewport receiver only for exact guarded job/candidate/windows/URMAN.exe; no desktop screenshot fallback; exact same artifacts/frames protocol.",
+          "Root independentreview + PythonAST/localinvalidCLI/affected Gamecompile once; PowerShellparser/deployment/native roundtrip only after stationauthoritative terminal/restoration, VPN untouched."
+        ],
+        "success": "Finite source/runner slice implements real standalone native validation path; receipts prove only actual observed technical launch/process/restore, never gameplay/human/release acceptance by inference.",
+        "remaining": "After authoritative e79 terminal/userdata restoration: WindowsPowerShell5parser on exactPS, controlled helper/worker deployment preservingdirtycheckout, export currentcandidate then owned candidate-play ordinaryNewGame→Save→normalfullquit→automaticsecondlifetime→Continue→normalquit; verify same savedstate/book/world/position and exactartifact identity. Windows/macOS performance/rights/art/hearing/human/fullcampaign releasegates remain open.",
+        "constraints": "No new tests/probes/fixtures/harnessfiles/newplans; existing productionrunner only. No newstationjob/input whilee79terminal/restoration unknown. Happ/VPN/routes/certs unchanged. Git/JSON/build/station rootonly.",
+        "result": "Separate candidate-play routes the exact exported package through existing content-addressed upload/principal/ZIP+EXE provenance and two native EXE lifetimes within one protected_run clean transaction. Temporarysave persists between normalcloses; originaluserdata restoredonlyafterguard completes. UI/capture binds exact unique live candidateEXE descendant/path/SHA and pinnedhelper, same window/focus/boundedinput/releasechecks. Old candidate-boot remains headless with its accepted contract.",
+        "verification": {
+          "python": "AST passed remote-check.py/remote_common.py/windows_station_worker.py. Existing real release f62bf22b projectguard binding passed projectSHA4272df84…c5 + canonicalPhotoWorldsbootstrap/defaultURMANuserdata. Missingcandidate/sceneoverride/timeout1201/headless CLIargs rejected locally before network. No newtests/fixtures/probes.",
+          "game_compile": "evidence/PW-095/native-candidate-source-20261020/game-build-final.log",
+          "elapsed_seconds": 18.27,
+          "errors": 0,
+          "warnings": 0,
+          "independent_reviews": "Personal luna_fast reviewed client/common/frame receiver; independentPSreview clean; independentworker/UIreview caught wrongFULL_GAME_SCENE, corrected to actualPHOTO_WORLDS_GAME_SCENE wrapper. Finalframe delta reviewed after using OSexe before any exported resGlobalize. Conditional oldsource receiver linkcheck risk unchanged and already gated byworker _studio_path(source,game/project.godot).",
+          "causal_corrections": [
+            "Candidate scene is photoworlds_game.tscn wrapper, not full_game.tscn child; guardproject now binds exactbootstrap beforelaunch.",
+            "OfficialGodotdocs: GlobalizePath(res://) unsupportedinexports; exportedreceiver nowbranches by editorfeature to exactOSExecutablePath, sourceeditorbranch unchanged.",
+            "All candidate POST exceptions includingHTTP nowprint same-jobstatus-recovery warning; unknownoutcome neverauto-resubmitted."
+          ],
+          "first_compile": "Cancelled after C# input changed; emptylog/exit0 is NOT accepted build proof. One-second native sample preserved cancelled-build.sample.txt and commandlog. Finalcompile oncurrentinput alone accepted.",
+          "powershell": "Independent source review only; Windows PowerShell5 parser/execution NOT_RUN.",
+          "native": "NOT_RUN; e79terminal/restoration stillunknown, no newjob/input/export/Godot/stationupdate. NativeOldpackage lacksreceiverbranch; newexport required.",
+          "references": [
+            "https://docs.godotengine.org/en/stable/tutorials/io/data_paths.html",
+            "https://docs.godotengine.org/en/stable/classes/class_projectsettings.html#class-projectsettings-method-globalize-path"
+          ]
+        },
+        "next_action": "Do not repeat source/compile without changedinput or realfailure. Recover existinge79 status/restoration with currentVPN unchanged, then perform named PS/deployment/export/native inputs. No native feature success or completedrelease inferred fromsource.",
+        "source_sha256": {
+          "eng/remote-check.py": "e7bbe403bbac3b1c55c0700e1db6b24f07aa21646df7edb84fa185b6c5ad1fcb",
+          "eng/remote_common.py": "52e42124c4be5df6f72e2b2715d70407bb2db72b9538bef44e20715a9f9f9597",
+          "eng/windows_station_worker.py": "a455aa335cf71007c60b6d92732794dbd0c35800a3a14484a2f664db0a1f85a3",
+          "eng/windows-game-ui.ps1": "ab09f2e65f9ab6ab0417c98d865d86cec64ef846458d57a686442249c54e1ea9",
+          "eng/run-windows-check.ps1": "00b733204d594636ec1980e675a1316de287161ec5c7ee3e3ca7f135f4b36304",
+          "game/scripts/Main.InteractiveFrameCapture.cs": "1d4f026f1a6ea44f446576316af950c5b173f04339b83dce87c6cbd937a90d8e"
+        }
       }
     },
     {

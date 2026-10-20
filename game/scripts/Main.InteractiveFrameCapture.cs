@@ -29,11 +29,32 @@ public partial class Main
                 || directory is null || !System.IO.Path.IsPathFullyQualified(directory))
                 throw new InvalidDataException("Protected play frame context is invalid.");
 
-            var game = new DirectoryInfo(ProjectSettings.GlobalizePath("res://"));
-            var source = game.Parent;
-            var run = source?.Parent;
-            if (game.Name != "game" || source?.Name != "source" || run?.Name != job)
-                throw new InvalidDataException("The frame context is not this isolated job.");
+            DirectoryInfo? run;
+            if (!OS.HasFeature("editor"))
+            {
+                // GlobalizePath(res://) is not supported by exported projects.
+                // Bind that branch to the exact staged executable instead.
+                var executable = new FileInfo(System.IO.Path.GetFullPath(OS.GetExecutablePath()));
+                var windows = executable.Directory;
+                var candidate = windows?.Parent;
+                run = candidate?.Parent;
+                if (executable.Name != "URMAN.exe" || windows?.Name != "windows"
+                    || candidate?.Name != "candidate" || run?.Name != job
+                    || job.Length != 32 || job.Any(c => c is not (>= '0' and <= '9') and not (>= 'a' and <= 'f'))
+                    || !executable.Exists || (executable.Attributes & FileAttributes.ReparsePoint) != 0)
+                    throw new InvalidDataException("The frame context is not this isolated job.");
+                for (var parent = windows; parent is not null; parent = parent.Parent)
+                    if (!parent.Exists || (parent.Attributes & FileAttributes.ReparsePoint) != 0)
+                        throw new InvalidDataException("The candidate ancestry must not contain links.");
+            }
+            else
+            {
+                var game = new DirectoryInfo(ProjectSettings.GlobalizePath("res://"));
+                var source = game.Parent;
+                run = source?.Parent;
+                if (game.Name != "game" || source?.Name != "source" || run?.Name != job)
+                    throw new InvalidDataException("The frame context is not this isolated job.");
+            }
             var expected = System.IO.Path.GetFullPath(System.IO.Path.Combine(run.FullName, "artifacts", "frames"));
             var actual = System.IO.Path.TrimEndingDirectorySeparator(System.IO.Path.GetFullPath(directory));
             if (!string.Equals(actual, expected, StringComparison.OrdinalIgnoreCase))

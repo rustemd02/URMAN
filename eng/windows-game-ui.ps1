@@ -682,16 +682,53 @@ try {
     if (-not [int]::TryParse([string]$script:Request.pid,[ref]$targetPid) -or $targetPid -le 0) {
         throw 'Request pid must be a positive process ID.'
     }
-    if ([string]::IsNullOrWhiteSpace([string]$script:Request.sourceRoot) -or
-        -not [IO.Path]::IsPathRooted([string]$script:Request.sourceRoot)) {
-        throw 'Request sourceRoot must be an absolute runs/<jobId>/source path.'
-    }
-    $sourceRoot = [IO.Path]::GetFullPath([string]$script:Request.sourceRoot).TrimEnd([char[]]@('\','/'))
-    $expectedSuffix = '\runs\' + [string]$script:Request.jobId + '\source'
-    if (-not $sourceRoot.EndsWith($expectedSuffix,[StringComparison]::OrdinalIgnoreCase) -or
-        -not [IO.Directory]::Exists($sourceRoot) -or
-        -not [IO.File]::Exists((Join-Path $sourceRoot 'game/project.godot'))) {
-        throw 'Request sourceRoot is not the existing source directory for this job.'
+    $candidateRequest = $script:Request.PSObject.Properties.Name -contains 'candidateRoot'
+    if ($candidateRequest) {
+        if ($script:Request.PSObject.Properties.Name -contains 'sourceRoot' -or
+            [string]::IsNullOrWhiteSpace([string]$script:Request.candidateRoot) -or
+            -not [IO.Path]::IsPathRooted([string]$script:Request.candidateRoot)) {
+            throw 'The candidate executable does not match this job.'
+        }
+        $candidateRoot = [IO.Path]::GetFullPath([string]$script:Request.candidateRoot).TrimEnd([char[]]@('\','/'))
+        $expectedSuffix = '\runs\' + [string]$script:Request.jobId + '\candidate'
+        $candidateExecutable = [IO.Path]::GetFullPath((Join-Path $candidateRoot 'windows/URMAN.exe'))
+        if (-not $candidateRoot.EndsWith($expectedSuffix,[StringComparison]::OrdinalIgnoreCase) -or
+            -not [IO.Directory]::Exists($candidateRoot) -or -not [IO.File]::Exists($candidateExecutable)) {
+            throw 'The candidate executable does not match this job.'
+        }
+        if (([IO.File]::GetAttributes($candidateExecutable) -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+            throw 'The candidate executable does not match this job.'
+        }
+        for ($ancestor = [IO.DirectoryInfo]::new([IO.Path]::GetDirectoryName($candidateExecutable));
+             $null -ne $ancestor; $ancestor = $ancestor.Parent) {
+            if (-not $ancestor.Exists -or ($ancestor.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+                throw 'The candidate executable does not match this job.'
+            }
+        }
+        if ([string]$script:Request.executableSha256 -cnotmatch '\A[a-f0-9]{64}\z' -or
+            (Get-FileHash -LiteralPath $candidateExecutable -Algorithm SHA256).Hash.ToLowerInvariant() -cne
+                [string]$script:Request.executableSha256) {
+            throw 'The candidate executable hash changed.'
+        }
+        $candidateRunnerId = 0
+        if (-not [int]::TryParse([string]$script:Request.runnerPid,[ref]$candidateRunnerId) -or
+            $candidateRunnerId -le 0 -or $candidateRunnerId -eq $targetPid) {
+            throw 'The candidate process is not owned by the live runner.'
+        }
+    } else {
+        if ($script:Request.PSObject.Properties.Name -contains 'runnerPid' -or
+            $script:Request.PSObject.Properties.Name -contains 'executableSha256' -or
+            [string]::IsNullOrWhiteSpace([string]$script:Request.sourceRoot) -or
+            -not [IO.Path]::IsPathRooted([string]$script:Request.sourceRoot)) {
+            throw 'Request sourceRoot must be an absolute runs/<jobId>/source path.'
+        }
+        $sourceRoot = [IO.Path]::GetFullPath([string]$script:Request.sourceRoot).TrimEnd([char[]]@('\','/'))
+        $expectedSuffix = '\runs\' + [string]$script:Request.jobId + '\source'
+        if (-not $sourceRoot.EndsWith($expectedSuffix,[StringComparison]::OrdinalIgnoreCase) -or
+            -not [IO.Directory]::Exists($sourceRoot) -or
+            -not [IO.File]::Exists((Join-Path $sourceRoot 'game/project.godot'))) {
+            throw 'Request sourceRoot is not the existing source directory for this job.'
+        }
     }
 
     $resultPath = [IO.Path]::GetFullPath([string]$script:Request.result)
@@ -716,17 +753,39 @@ try {
     if ([IO.File]::Exists($script:ImagePath)) { throw 'The requested image path already exists.' }
 
     $processes = @(Get-CimInstance -ClassName Win32_Process -Filter "ProcessId = $targetPid")
-    if ($processes.Count -ne 1 -or $processes[0].Name -notmatch '(?i)\AGodot.*\.exe\z' -or
-        [string]::IsNullOrWhiteSpace([string]$processes[0].CommandLine)) {
-        throw 'The requested PID is not one live Godot process.'
-    }
-    $expectedGamePath = [IO.Path]::GetFullPath((Join-Path $sourceRoot 'game'))
-    $pathArgumentPattern = '(?i)(?:^|\s)--path(?:\s+|=)(?:"([^"]+)"|([^\s]+))(?=\s|$)'
-    $pathArguments = [regex]::Matches([string]$processes[0].CommandLine,$pathArgumentPattern)
-    if ($pathArguments.Count -ne 1) { throw 'The owned Godot command must have exactly one --path argument.' }
-    $actualGamePath = if ($pathArguments[0].Groups[1].Success) { $pathArguments[0].Groups[1].Value } else { $pathArguments[0].Groups[2].Value }
-    if ([IO.Path]::GetFullPath($actualGamePath).TrimEnd([char[]]@('\','/')) -ine $expectedGamePath) {
-        throw 'The requested Godot PID is not running this job source.'
+    if ($candidateRequest) {
+        if ($processes.Count -ne 1 -or $processes[0].Name -ine 'URMAN.exe' -or
+            [string]::IsNullOrWhiteSpace([string]$processes[0].ExecutablePath) -or
+            [IO.Path]::GetFullPath([string]$processes[0].ExecutablePath) -ine $candidateExecutable) {
+            throw 'The candidate executable does not match this job.'
+        }
+        $candidateRunner = @(Get-CimInstance -ClassName Win32_Process -Filter "ProcessId = $candidateRunnerId")
+        if ($candidateRunner.Count -ne 1) { throw 'The candidate process is not owned by the live runner.' }
+        $ancestorProcess = $processes[0]
+        $ancestorIds = New-Object 'System.Collections.Generic.HashSet[int]'
+        $runnerFound = $false
+        for ($depth = 0; $depth -lt 128; $depth++) {
+            $parentId = [int]$ancestorProcess.ParentProcessId
+            if ($parentId -le 0 -or -not $ancestorIds.Add($parentId)) { break }
+            if ($parentId -eq $candidateRunnerId) { $runnerFound = $true; break }
+            $parents = @(Get-CimInstance -ClassName Win32_Process -Filter "ProcessId = $parentId")
+            if ($parents.Count -ne 1) { break }
+            $ancestorProcess = $parents[0]
+        }
+        if (-not $runnerFound) { throw 'The candidate process is not owned by the live runner.' }
+    } else {
+        if ($processes.Count -ne 1 -or $processes[0].Name -notmatch '(?i)\AGodot.*\.exe\z' -or
+            [string]::IsNullOrWhiteSpace([string]$processes[0].CommandLine)) {
+            throw 'The requested PID is not one live Godot process.'
+        }
+        $expectedGamePath = [IO.Path]::GetFullPath((Join-Path $sourceRoot 'game'))
+        $pathArgumentPattern = '(?i)(?:^|\s)--path(?:\s+|=)(?:"([^"]+)"|([^\s]+))(?=\s|$)'
+        $pathArguments = [regex]::Matches([string]$processes[0].CommandLine,$pathArgumentPattern)
+        if ($pathArguments.Count -ne 1) { throw 'The owned Godot command must have exactly one --path argument.' }
+        $actualGamePath = if ($pathArguments[0].Groups[1].Success) { $pathArguments[0].Groups[1].Value } else { $pathArguments[0].Groups[2].Value }
+        if ([IO.Path]::GetFullPath($actualGamePath).TrimEnd([char[]]@('\','/')) -ine $expectedGamePath) {
+            throw 'The requested Godot PID is not running this job source.'
+        }
     }
 
     $script:TargetPid = $targetPid
