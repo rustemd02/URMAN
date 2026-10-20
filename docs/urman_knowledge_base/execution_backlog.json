@@ -112236,7 +112236,7 @@
         "После финала все открытые миры доступны.",
         "Нельзя фармить лист/квестовый предмет повторным выходом."
       ],
-      "next_action": "Protected ordinary completed-world homebook→revisit→physical/book exit→samehomepose→save/Continue verification after authoritative e79 terminal/user-data restoration. W04 first story still bank; calm C08 home, no leaf/fact/item duplication. Before then implement supported unfinished-world last-safe reentry as PW024/PW027 related source slice without resetting actions.",
+      "next_action": "Protected ordinary completed-world homebook→revisit→physical/book exit→samehomepose→save/Continue verification after authoritative e79 terminal/user-data restoration. Reuse source-complete supported unfinished-world last-safe reentry; W04 first story still bank and calm C08 home. No leaf/fact/item duplication or repeated source implementation.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -112812,7 +112812,7 @@
       "id": "PW-029",
       "title": "Сохранять предметные действия и пространственные связи",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -112960,18 +112960,18 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "idle",
+        "reason": "Finite source review and W04 cloth support/trajectory stage compiled and independently reviewed. Full PW029 native action/save/Continue/art acceptance remains open."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "Позиции предметов соответствуют сохранённым действиям.",
-        "Повторное пересечение триггера не выдаёт награду.",
-        "Обязательный производитель имеет доступное обычное действие и воспринимаемую причинную связь: исходная ситуация → изменение объекта/доступа/записи. Ошибка не выглядит успехом, результат не зависит только от звука или скрытого флага, повтор не дублирует прогресс."
+        "Native action and saved-pose/contact proof for W01 branch, W03 shutter, W04 cloth and canonical W05 box.",
+        "Ordinary repeated interaction must not duplicate rewards; failed/refused action must visibly restore committed state.",
+        "Full art/passport/human requirements remain open; source stage is not full PW029 completion."
       ],
-      "next_action": "Назначить ветке, ставне, ткани и коробке стабильные action ID и устойчивые позы.",
+      "next_action": "After authoritative e79 terminal/userdata restoration, use the existing protected ordinary route to verify committed branch/shutter/cloth/box pose+collider after save/rebuild/Continue and no duplicate rewards. Observe corrected W04 rail release→table landing. Reuse current source reviews/compile; no duplicate state owner or unchanged rebuild.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -113156,7 +113156,37 @@
           "evidence_ref": "PW-029.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "object_projection_review_2026_10_20": {
+        "state": "source_reviewed_w04_fix_compiled_native_pending",
+        "question": "Do branch/shutter/cloth/box visible poses and colliders follow the same durable action owner across rebuilt scene/Continue without duplicate rewards?",
+        "finding": "W01/W03 already reproject committed facts and their child contacts; W04 likewise restores state but its +90° fold pose rotates .085m bow into tabletop. W05 box transform stays owned by existing canonical carry/custody snapshot, not narrative-fact teleport.",
+        "verification_bound": "Fix only W04 geometry/cloth contact and affected compile; existing actual-action→save→rebuild/Continue observation remains required for full PW029. W05 real Bichura response remains unavailable, no fake creature/fact.",
+        "source_result": {
+          "W01": "Existing branch original interaction ID and canonical prologue_branch_moved fact drive the same MovingBranchRoot and child collider after rebuild; animation dispatch guards same session/scene and reprojects after refusal. Bridge fact mapping and authored branch interaction IDs inspected; ordinary Continue still required.",
+          "W03": "Original pw-house-shutter observes house_shutter_opened after +72degree endpoint; projection restores same ShutterPivot/child contacts and disables repeated target. Core fact provenance deduplicates, existing same-scene effect forces checkpoint.",
+          "W04": "Original pw-common-cloth observes common_view_uncovered and restores the same panel/contact from FoldSupport. Fixed +90degree bow-down penetration by -90degree bow-up pose at tableTop minus actual woven minZ; contact bounds include woven mesh plus transformed hem bounds. Animation now pulls .30m clear of rail before .18m lift and adds .08m zero-at-ends middle arc to clear the higher table; exact final pose, reduced-motion endpoint, timings/session/commit/save IDs preserved. Existing soft bow remains, no claim of fully flat/folded cloth artistry.",
+          "W05": "Stable carry-w05-family-box uses canonical CarryCoordinator/custody plus placement records; Restore reapplies placed XYZ/yaw or held state, BoxFact never teleports the box. BoxOnAuthoredRest requires deliberate pickup/valid placement before original pw-cellar-object dispatch; repeated fact suppresses commit. Real Bichura/response remains unavailable and is not substituted."
+        },
+        "source_paths": [
+          "game/scripts/photoworlds/W01Controller.cs",
+          "game/scripts/photoworlds/W03Controller.Interactions.cs",
+          "game/scripts/photoworlds/W03Controller.Geometry.cs",
+          "game/scripts/photoworlds/W04Controller.Geometry.cs",
+          "game/scripts/photoworlds/W04Controller.Gameplay.cs",
+          "game/scripts/photoworlds/W05Controller.Box.cs",
+          "game/scripts/CarryCoordinator.cs",
+          "game/scripts/RuntimeBridge.PhotoWorldScene.cs",
+          "game/scripts/RuntimeBridge.cs",
+          "content/modules/urman-fullgame/definitions.json"
+        ],
+        "verification": "Final affected Game compile PASS13.80s, 0 warnings/errors. Initial16.61s raw retained before source-proven rail/table trajectory repair. Independent luna_fast reviewed final support/contact and trajectory/reduced-motion/commit endpoints, no remaining code blocker. Geometry arithmetic uses current source dimensions/heightfield, not native rendering. Scoped diffcheck and tracker validate pass; no new test/probe files or engine run.",
+        "evidence": [
+          "evidence/PW-029/cloth-support-20261020/affected-game-build-before-rail-trajectory-fix.log",
+          "evidence/PW-029/cloth-support-20261020/affected-game-build.log"
+        ],
+        "remaining": "Ordinary authored action→save→rebuild/Continue physical/rendered proof for all four objects and no duplicate rewards; actual W04 release/carry/landing sightline and art review. W05 encounter/art gates remain separate. Do not reimplement accepted source owners or treat source arithmetic/build as native acceptance."
+      }
     },
     {
       "id": "PW-030",
@@ -116930,6 +116960,18 @@
           "evidence/PW-037/c2-profile-pair-20261014/soft-filter/frames/C2_house_low.json"
         ],
         "remaining": "Finite static Low filterstage accepted. Temporal noise/FPS/p95 and fullLow quality/fullPW037 separateopen work."
+      },
+      "village_batching_review_2026_10_20": {
+        "state": "review_complete_no_production_change_native_dependent",
+        "source_refs": [
+          "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs:2554",
+          "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs:58",
+          "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.FoliageBudget.cs:451",
+          "docs/urman_knowledge_base/weak_points.md:1976",
+          "docs/production/performance_handoff_2026-10-07.md:415"
+        ],
+        "result": "Two independent source reviews confirm prior Village belt cell batching was measured and reverted (historical108→95fps,p95 9.9→13.0ms; nodes30237→27591). Raw receipt and original cell size not established; these are not current V2 measurements and culling loss remains explanatory candidate. Current V2 replaces shared meshes/materials but not tree/LOD topology. Late per-tree roof/square suppression and LOD audit consume original nodes; merely retaining identity roots does not propagate visibility to sibling batches. Named KaraBranchProfileTrunk and prologue branch are separate owners. W01 grouped LOD1/2 range policy is not Village 3-tier equivalent. No production batching change, new test/probe or performance claim.",
+        "next_action": "Use current native renderer/culling view after authoritative e79 terminal/userdata restoration. Choose a changed mechanism with source-matched A/B before replacing Village tree submission topology; never treat 3N→3G node arithmetic as FPS proof."
       }
     },
     {
@@ -122083,7 +122125,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Reuse aff33 accepted firstaction+12.9m walk proof. Remaining W01 encounter/bag/F16/art gates are separate; ordinarybookroute inPW020 waits directskipapproval, do not rerununchangedF01.",
+      "next_action": "Reuse aff33 accepted firstaction+12.9m walk proof and source branch projection. Remaining W01 encounter/bag/F16/art gates need actual ordinary route after authoritative e79 terminal/userdata restoration. Direct protected prologue-skip authorization has been received and persists; it has not been performed during transport outage. No unchanged F01 replay.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -141921,7 +141963,7 @@
               "Matchedcurrentv2village native/import/compile and wholeframeacceptance.",
               "ExistingW01ordinary/motion/LODtransition/performance and parentauthorartgate open; nofactfrompauseframe."
             ],
-            "next_action": "CommitverifiedV2technicalstage, releaseactiveclaim; remaining actualW01/movement/LOD/performance and ownerart accepted separately. Currentordinary9bf callbackobservation handlesMVPUIblocker.",
+            "next_action": "Reuse accepted generated V2 source/import/compile/matched Village static evidence. After authoritative e79 terminal/userdata restoration observe current W01 movement/LOD transitions and source-matched renderer/performance views, then owner art acceptance. Do not redo source commit or repeat rejected Village batching from node-count arithmetic.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "After own source/runtime DoD and sufficient evidence, release active claim and commit accepted stage; author whole-scene art/motion gates stay with parent. No isolated detail/model polish loop.",
@@ -142534,6 +142576,18 @@
           "sha256": "8c5a9e19f9b4c379f3e30a1a33e88c5c02017224dafdcd487837917ba2cc7755",
           "verification": "Untracked exact SHA/size duplicate; lsof no open handles immediately before deletion; canonical retained. Unique inputs/recipes/atlas/manifest/receipts preserved."
         }
+      },
+      "village_batching_review_2026_10_20": {
+        "state": "review_complete_no_production_change_native_dependent",
+        "source_refs": [
+          "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs:2554",
+          "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs:58",
+          "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.FoliageBudget.cs:451",
+          "docs/urman_knowledge_base/weak_points.md:1976",
+          "docs/production/performance_handoff_2026-10-07.md:415"
+        ],
+        "result": "Two independent source reviews confirm prior Village belt cell batching was measured and reverted (historical108→95fps,p95 9.9→13.0ms; nodes30237→27591). Raw receipt and original cell size not established; these are not current V2 measurements and culling loss remains explanatory candidate. Current V2 replaces shared meshes/materials but not tree/LOD topology. Late per-tree roof/square suppression and LOD audit consume original nodes; merely retaining identity roots does not propagate visibility to sibling batches. Named KaraBranchProfileTrunk and prologue branch are separate owners. W01 grouped LOD1/2 range policy is not Village 3-tier equivalent. No production batching change, new test/probe or performance claim.",
+        "next_action": "Use current native renderer/culling view after authoritative e79 terminal/userdata restoration. Choose a changed mechanism with source-matched A/B before replacing Village tree submission topology; never treat 3N→3G node arithmetic as FPS proof."
       }
     },
     {

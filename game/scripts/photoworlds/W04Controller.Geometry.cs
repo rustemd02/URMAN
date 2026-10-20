@@ -507,14 +507,20 @@ public partial class W04Controller
         panel.SetMeta("presentationRole", "single supported cloth that interrupts the C05 horizon ray and folds onto the nearby table");
         panel.SetMeta("contactPolicy", "physical sight blocker on collision layer 1; fully off the C03-C05 walking corridor");
         _world.AddChild(panel);
-        RuralPropGeometry.Part(panel, "WovenCloth", RuralPropGeometry.BowedPanel(1.62f, 1.36f, .026f, .06f, .085f),
+        var wovenCloth = RuralPropGeometry.Part(panel, "WovenCloth", RuralPropGeometry.BowedPanel(1.62f, 1.36f, .026f, .06f, .085f),
             Vector3.Zero, RuralPropMaterials.Surface("cloth", "73838a"));
-        RuralPropGeometry.Tube(panel, "UpperClothHem", new Vector3(-.78f, .68f, .02f), new Vector3(.78f, .68f, .02f),
+        var clothHem = RuralPropGeometry.Tube(panel, "UpperClothHem", new Vector3(-.78f, .68f, .02f), new Vector3(.78f, .68f, .02f),
             .024f, RuralPropMaterials.Surface("wood", "8f775b"), 10);
+        var wovenBounds = wovenCloth.GetAabb();
+        var clothBounds = wovenBounds;
+        var hemBounds = clothHem.GetAabb();
+        for (var index = 0; index < 8; index++)
+            clothBounds = clothBounds.Expand(clothHem.Transform * hemBounds.GetEndpoint(index));
         panel.AddChild(new CollisionShape3D
         {
             Name = "ClothSightContact",
-            Shape = new BoxShape3D { Size = new Vector3(1.62f, 1.36f, .052f) }
+            Shape = new BoxShape3D { Size = clothBounds.Size },
+            Position = clothBounds.GetCenter()
         });
         var clothWitness = new Marker3D { Name = "ClothInteractionWitness" };
         clothWitness.SetMeta("presentationRole", "actual woven-cloth interaction surface");
@@ -543,10 +549,10 @@ public partial class W04Controller
         var foldSupport = new Marker3D
         {
             Name = "C04ClothFoldSupport",
-            Position = new Vector3(tableX, tableGround + .893f, tableZ),
-            RotationDegrees = new Vector3(90f, 0f, 0f)
+            Position = new Vector3(tableX, tableGround + .88f - wovenBounds.Position.Z, tableZ),
+            RotationDegrees = new Vector3(-90f, 0f, 0f)
         };
-        foldSupport.SetMeta("presentationRole", "flat folded-cloth pose resting on the physical table top");
+        foldSupport.SetMeta("presentationRole", "cloth resting on the physical table top with its existing soft bow facing upward");
         _world.AddChild(foldSupport);
     }
 

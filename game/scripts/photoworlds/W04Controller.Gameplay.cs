@@ -331,18 +331,24 @@ public partial class W04Controller
         var eased = Mathf.SmoothStep(0f, 1f, Mathf.Clamp(progress, 0f, 1f));
         var start = _clothActionStart;
         var end = _clothFoldTransform;
+        var release = start.Basis.Z * .30f;
         Transform3D pose;
         if (eased < 0.22f)
         {
-            var phase = Mathf.SmoothStep(0f, 1f, eased / 0.22f);
-            pose = new Transform3D(start.Basis, start.Origin + Vector3.Up * CommonObservationLift * phase);
+            var phase = eased / 0.22f;
+            var released = Mathf.SmoothStep(0f, 1f, Mathf.Clamp(phase * 2f, 0f, 1f));
+            var lifted = Mathf.SmoothStep(0f, 1f, Mathf.Clamp(phase * 2f - 1f, 0f, 1f));
+            pose = new Transform3D(start.Basis,
+                start.Origin + release * released + Vector3.Up * CommonObservationLift * lifted);
         }
         else if (eased < 0.78f)
         {
             var phase = Mathf.SmoothStep(0f, 1f, (eased - 0.22f) / 0.56f);
-            var liftedStart = new Transform3D(start.Basis, start.Origin + Vector3.Up * CommonObservationLift);
+            var liftedStart = new Transform3D(start.Basis,
+                start.Origin + release + Vector3.Up * CommonObservationLift);
             var liftedEnd = new Transform3D(end.Basis, end.Origin + Vector3.Up * CommonObservationLift);
             pose = liftedStart.InterpolateWith(liftedEnd, phase);
+            pose.Origin += Vector3.Up * (.08f * Mathf.Sin(Mathf.Pi * phase));
         }
         else
         {
