@@ -104334,6 +104334,17 @@
         "verification": "Personal Fast source pattern/canon read; root exact diff+generatedpack read; existing ContentCli fullgame compile exit0; diffcheck. No newtests, native later.",
         "remaining": "Actual changed earned-fact dialogue in game, text/cultural/author acceptance. Existing effect persists home conversation, exact sentence is not claimed as notebook clue.",
         "independent_review": "Independent Fast checked parser/dialogue/ContentRuleEngine/fact-provenance+compiledsource; no concrete mismatch. Entryroute only factualroot-exit observation, fallback/effect/role preserved. Native exactreply stillpending."
+      },
+      "forest_return_discovery_2026_10_21": {
+        "state": "engineering_content_compiled_reviewed_native_pending",
+        "targets": [
+          "content/modules/urman-fullgame/definitions.json",
+          "content/modules/urman-fullgame/module.json",
+          "game/content/urman.fullgame.compiled.v1.json"
+        ],
+        "result": "Repeatable Gulsina conversation first routes on both existing beyond-frame and resolved-encounter facts; player retells canonical D07 exchange, confirms knowledge pw-forest-inside and records idempotent journal entry Жизнь за краем снимка, preserving first_world_home_talk. Earlier beyond-only route/default/W02-first ordering retained.",
+        "verification": "Existing ContentCLI exit0; generated pack has exact route order/text/knowledge; module fingerprint ec90684199609a7bd78ec5f46bad4473a3f6d8a09b3cd241ad66dde5ec00d975. Independent Fast checked kernel idempotency, canon D05/D07/E-FOREST-INSIDE and unchanged fallback/gates; root inspected source diff.",
+        "remaining": "Native earned discovery/home dialogue/journal visibility unverified; dd785 snapshot predates new content. Full story/cultural/author acceptance remains open."
       }
     },
     {
@@ -110739,7 +110750,7 @@
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "Short changed-source Pause/village shutdown is accepted in9e28. Do not repeat unchanged hour-long acquisition while doing source review: next finite ordinary school-target/table check, then forest-edge→W01 meaningful action→ReturnTicket→post-return Save/Continue. Actual current-source export/crossprocess remains PW095; existing Windows exporter gap must be resolved without Mac Godot or weakening provenance.",
+      "next_action": "Fix the native-proven wrong forest-entry witness using a recognisable existing photo tableau while preserving road stance/return/support/40-degree/range guards; inspect current Windows frame and book readiness. Then actual current-source candidate ordinary W01 action→ReturnTicket→post-return Save/Continue. Do not repeat unchanged acquisition while reviewing source. School path/torso target accepted in dd785; full loop remains open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111250,7 +111261,7 @@
         "remaining": "Ordinary forest-edge→W01 meaningful action→ReturnTicket→post-return Save/Continue; crossprocess actual export PW095; renderer exit resources and NPC target alignment; full visual/performance/external acceptance remain open."
       },
       "shutdown_resource_fix_2026_10_21": {
-        "state": "engineering_compile_and_short_pause_quit_native_verified",
+        "state": "engineering_compile_short_and_long_pause_quit_native_verified",
         "input": "fca normalQuitgameExit0 but renderer mesh1/material2/shader1/instance1 and48 resources at exit; uncalled finalcachecleanup in ordinary Act1DemoRoot path.",
         "targets": [
           "game/scripts/Act1DemoRoot.cs",
@@ -111271,6 +111282,16 @@
           "engine_errors_bytes": 0,
           "renderer_exit_resource_errors": "none in retained game/stdout logs",
           "proof": "evidence/PW-020/ordinary_9e28e02ca2fa480ca10f1694fbc2c7fd"
+        },
+        "long_native_verification": {
+          "job_id": "dd785e29f6df42fe95534623a75695b6",
+          "snapshot_id": "9eddf9b584d75cd26b6ff5a68996bc5b5beee598983f5ebbe0f7e9647219b40f",
+          "route": "ordinary book/school/forest-approach lifetime then separately confirmed Pause Quit",
+          "status": "PASS",
+          "gameExitCode": 0,
+          "userdataRestored": true,
+          "engine_errors_bytes": 0,
+          "proof": "evidence/PW-020/ordinary_dd785e29f6df42fe95534623a75695b6"
         }
       },
       "ordinary_f244_2026_10_21": {
@@ -111315,6 +111336,56 @@
           "station_freed_bytes": 1457013343,
           "full_raw": "retained on Windows station"
         }
+      },
+      "ordinary_dd785_2026_10_21": {
+        "state": "terminal_partial_native_pass",
+        "job_id": "dd785e29f6df42fe95534623a75695b6",
+        "snapshot_id": "9eddf9b584d75cd26b6ff5a68996bc5b5beee598983f5ebbe0f7e9647219b40f",
+        "question": "Does ordinary NewGame/Skip→Niva→home/physicalbook→schoolcopy→forestedge entry→new W01 action→physical ReturnTicket→post-return Save/MainMenu/Continue retain progress and origin?",
+        "success": "Native scene/input and new committed W01 result; actual supported origin after return; post-return saved Continue retains result; normal confirmed Quit and userdataRestored. Copy ownership/prologue branch alone insufficient.",
+        "deadline_utc": "2026-10-21T01:40:00Z",
+        "execution": "Root exclusively follows ordinary UI/navigation; no teleport/fact injection/debug. Separate read-only deadline watcher. Export implementation independent eng files, liveclient/common frozen.",
+        "result": "PASS/gameExitCode0/userdataRestoredtrue/engine-errors0B. Ordinary NewGame/authorizedSkip→Niva→home/tea/book→school sourcefolder→NPC permission→S-SCHOOL→real road/bridge→forest book stance. Did not enter W01 or perform W01 action/return/post-return Continue in this run. Normal confirmed Quit requested before01:40UTC; terminal01:40:09Z.",
+        "elapsed_seconds": 2586.1425402,
+        "doctor_after": "ready=true,busy=null,recovery=false,orphans=false",
+        "native_accepted": [
+          "New TeaTable/Kettle placement allows direct staffdoor→desk route without former dogleg.",
+          "After actual sourcefolder, aiming at NPC torso selects available pw-school-copy-permission; dialogue grants S-SCHOOL and album objective changes to forest edge.",
+          "Changed orderly shutdown also ends this longer book/school/road lifetime without renderer resource errors."
+        ],
+        "entry_blocker": {
+          "state": "causal_native_confirmed",
+          "observation": "At actual road book stance, facing road tangent yaw−6.16 left entry disabled with request to face three trunks. Same stance after turn toward actual witness yaw≈−115.12 enabled Enter Photo. Readiness 40-degree gate works; wrong physical witness/direction causes ambiguous approach.",
+          "source": "PhotoForestEntry binds KaraBranchProfileTrunk, authored as optional two-stem optical profile at approx(6.35,-117.36), sideways/behind road stance near(.34,-120.11). It does not match the three photographed supports.",
+          "next": "Reuse existing pforest-tableau-v1 central trio/supports as one recognisable road entry landmark; retain stance/origin/support/session/range/facing guards and old optional profile. Engineering candidate and native view still pending."
+        },
+        "proof": "evidence/PW-020/ordinary_dd785e29f6df42fe95534623a75695b6",
+        "cleanup": {
+          "hash_linked_selected_frames": 9,
+          "compact_raw_files": 24,
+          "compact_raw_bytes_kept": 6464555,
+          "temporary_duplicate_bytes_removed": 50539668,
+          "completed_compile_mono_bytes_removed": 48169368,
+          "station_freed_bytes": 1456974005,
+          "full_raw": "retained on Windows station"
+        }
+      },
+      "forest_entry_map_2026_10_21": {
+        "state": "engineering_source_compile_reviewed_native_pending",
+        "targets": [
+          "game/scripts/JournalUi.Notebook.cs",
+          "game/scripts/SettlementMapControl.cs"
+        ],
+        "result": "Existing M map gains one actual-global PW_FOREST_ENTRY pin and fit/empty handling after received book+acquired S-SCHOOL+mounted incomplete P-FOREST in matching home-session projection. No CurrentZoneId restriction; school/home/street remain eligible. Existing explored roads and known-address filters unchanged.",
+        "verification": {
+          "review": "Independent Fast found no actionable API/session/lifetime/coordinate/filter defect; root inspected exact diff.",
+          "compile": "One affectedGame build after terminating only identified sandbox-stalled PID54411; same command escalated with localNuGet cache, exit0/17.08s/0warnings/0errors. No Godot/Mac game/newtests.",
+          "source_sha256": {
+            "game/scripts/JournalUi.Notebook.cs": "914f15d4e1a3d21add1e7fa1752397f53b1802a63d2733b53f1615116bd0a1c6",
+            "game/scripts/SettlementMapControl.cs": "f4e24c6c57c21b1d15d2c58dfca1ee7ca4ab6f68b3569ae4930aa66cd7bee373"
+          }
+        },
+        "remaining": "Actual Windows map label/visibility/readability and entry landmark acceptance pending; dd785 snapshot predates this source."
       }
     },
     {
@@ -145974,10 +146045,11 @@
         "remaining": "No gameplay result yet; inspect cache integrity before source upload."
       },
       "windows_export_route_2026_10_21": {
-        "state": "read_only_gap_confirmed",
-        "result": "Existing canonical export-desktop-release.sh requires Mac Godot and both platform artifacts. Windows station build compiles but does not export; candidate-play consumes an existing package. Only populated local candidate is old f62bf22b, not current-source acceptance.",
+        "state": "implementation_and_review_in_progress_not_deployed",
+        "result": "Explicit release-windows backend/provenance/shared PCK-ZIP-.NET checks implemented within existing station flow; legacy desktop profile unchanged. Backend independent review fixed ZIP bounds, duplicate staging retention, aggregate result preflight and cumulative guard-safe export deadline. Client/common implementation now awaits fresh review.",
         "next_finite_result": "Add an explicit Windows-only export profile within the existing station runner/provenance validators, preserving the current two-platform contract and candidate guard; or use a separately authorized canonical export host. No fabricated Mac artifact and no relaxed override/project-hash guard.",
-        "scope_limit": "Read-only investigation only; no exporter change or native exported EXE run in this step."
+        "scope_limit": "Read-only investigation only; no exporter change or native exported EXE run in this step.",
+        "remaining": "PS5 parser/exact deployment, pinned Windows export templates installation, actual export/provenance/package result, two-lifetime exported EXE Continue. No Windows export/native candidate PASS yet. Mac/platform/art/performance/rights gates retained."
       }
     },
     {

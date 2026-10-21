@@ -4380,11 +4380,33 @@
   },
   {
     "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-first-world-home-forest-resolved",
+    "value": {
+      "default": "«Ты дошёл до старого корня и встретил Шурале? Он продолжал своё дело. Что ты сказал ему о снимке?»",
+      "translations": {
+        "ru": "«Ты дошёл до старого корня и встретил Шурале? Он продолжал своё дело. Что ты сказал ему о снимке?»"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-first-world-home-home",
     "value": {
       "default": "«Ты так давно не был дома. В саду уже другой стол, а калитка всё та же. Садись, чай ещё горячий. Какое место на снимке ты узнал первым?»",
       "translations": {
         "ru": "«Ты так давно не был дома. В саду уже другой стол, а калитка всё та же. Садись, чай ещё горячий. Какое место на снимке ты узнал первым?»"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-first-world-home-forest-discovery",
+    "value": {
+      "default": "«На фотографии тебя нет». Он ответил: «Так снимали не меня».",
+      "translations": {
+        "ru": "«На фотографии тебя нет». Он ответил: «Так снимали не меня»."
       }
     },
     "purpose": "dialogue"
@@ -4409,6 +4431,19 @@
     ],
     "startNodeId": "home",
     "entryRoutes": [
+      {
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "forest_beyond_frame_seen"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "forest_encounter_resolved"
+          }
+        ],
+        "nodeId": "forest-return-resolved"
+      },
       {
         "conditions": [
           {
@@ -4458,6 +4493,38 @@
                 "op": "photoworlds.fact.observe",
                 "factId": "first_world_home_talk",
                 "sourceId": "urman.fullgame:interaction/pw-first-world-home-talk"
+              }
+            ],
+            "nextNodeId": null
+          }
+        ]
+      },
+      {
+        "id": "forest-return-resolved",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-first-world-home-forest-resolved",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "record-forest-discovery",
+            "textId": "urman.fullgame:text/pw-choice-first-world-home-forest-discovery",
+            "conditions": [],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "first_world_home_talk",
+                "sourceId": "urman.fullgame:interaction/pw-first-world-home-talk"
+              },
+              {
+                "op": "knowledge.set-status",
+                "knowledgeId": "urman.fullgame:knowledge/pw-forest-inside",
+                "status": "confirmed"
+              },
+              {
+                "op": "journal.record",
+                "entryId": "urman.fullgame:knowledge/pw-forest-inside",
+                "sourceId": "urman.fullgame:knowledge/pw-forest-inside"
               }
             ],
             "nextNodeId": null
@@ -5502,6 +5569,30 @@
     "initialStatus": "hidden",
     "sourceIds": [
       "urman.fullgame:dialogue/pw-home-epilogue"
+    ],
+    "reveals": [],
+    "contradicts": [],
+    "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/pw-forest-inside",
+    "kind": "fact",
+    "title": {
+      "default": "Жизнь за краем снимка",
+      "translations": {
+        "ru": "Жизнь за краем снимка"
+      }
+    },
+    "summary": {
+      "default": "На снимке люди смотрят не на объектив. За корневым поворотом Шурале продолжал своё дело и сказал: «Так снимали не меня». Снимок не удерживает жизнь за спиной фотографа; Шурале не является неподвижной частью картинки.",
+      "translations": {
+        "ru": "На снимке люди смотрят не на объектив. За корневым поворотом Шурале продолжал своё дело и сказал: «Так снимали не меня». Снимок не удерживает жизнь за спиной фотографа; Шурале не является неподвижной частью картинки."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:dialogue/pw-first-world-home"
     ],
     "reveals": [],
     "contradicts": [],

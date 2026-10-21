@@ -13,6 +13,7 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
     private string[] _located = [];
     private readonly HashSet<Vector2I> _exploredCells = [];
     private readonly HashSet<Vector2I> _pendingExplorationCells = [];
+    private Vector2? _photoForestEntryMapPosition;
     private ulong _explorationRetryAfterMsec;
     private float _textScale = 1;
     private float _screenScale = 1;
@@ -31,7 +32,8 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
     private readonly HashSet<string> _drawnStreetLabels = new(StringComparer.Ordinal);
     private readonly Dictionary<string, Vector2> _drawnStreetAnchors = new(StringComparer.Ordinal);
     public int DisplayedAddressCount { get; private set; }
-    public bool EmptyPageVisible => DisplayedAddressCount == 0 && _exploredCells.Count == 0;
+    public bool EmptyPageVisible => DisplayedAddressCount == 0 && _exploredCells.Count == 0
+        && _photoForestEntryMapPosition is null;
     internal float ViewZoom => _zoom;
     internal Vector2 ViewCenter => _center;
     internal IReadOnlyList<(string AddressId, Rect2 Bounds)> DrawnAddressLabels => _drawnLabels;
@@ -86,7 +88,8 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
     }
 
     public void Bind(SettlementRegistry registry, IEnumerable<string> locatedAddressIds,
-        IEnumerable<Vector2I>? exploredCells = null, object? sessionIdentity = null)
+        IEnumerable<Vector2I>? exploredCells = null, object? sessionIdentity = null,
+        Vector2? photoForestEntryMapPosition = null)
     {
         var located = locatedAddressIds.Select(registry.CanonicalAddressId).Where(id => id is not null)
             .Cast<string>().Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
@@ -96,10 +99,12 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
                 && registry.Buildings.TryGetValue(address.BuildingId, out var building))
                 explored.Add(RuntimeBridge.MapExplorationCell(new Vector3((float)building.Position.X, 0, (float)building.Position.Z)));
         var changed = !ReferenceEquals(_registry, registry) || !ReferenceEquals(_sessionIdentity, sessionIdentity)
-            || !_located.SequenceEqual(located) || !_exploredCells.SetEquals(explored);
+            || !_located.SequenceEqual(located) || !_exploredCells.SetEquals(explored)
+            || _photoForestEntryMapPosition != photoForestEntryMapPosition;
         _registry = registry;
         _sessionIdentity = sessionIdentity;
         _located = located;
+        _photoForestEntryMapPosition = photoForestEntryMapPosition;
         _exploredCells.Clear();
         _exploredCells.UnionWith(explored);
         _map = registry.MapForKnownAddresses(located);
@@ -259,6 +264,7 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         points.AddRange(_registry.Buildings.Values.Where(IsExplored).SelectMany(building =>
             building.Footprint.Count > 0 ? building.Footprint.Select(Xz) : new[] { Xz(building.Position) }));
         points.AddRange(_registry.AccessPoints.Values.Where(access => IsExplored(access.Position)).Select(access => Xz(access.Position)));
+        if (_photoForestEntryMapPosition is { } forestEntry) points.Add(forestEntry);
         if (points.Count == 0) return new(-10, -10, 20, 20);
         var min = new Vector2(points.Min(p => p.X), points.Min(p => p.Y));
         var max = new Vector2(points.Max(p => p.X), points.Max(p => p.Y));
@@ -405,6 +411,18 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
             if (box is null) continue;
             DrawLabel(lines, box.Value, text, ink, paper); occupied.Add(box.Value.Grow(3)); _drawnStreetLabels.Add(street.Id);
             _drawnStreetAnchors[street.Id] = anchor.Value;
+        }
+        if (_photoForestEntryMapPosition is { } forestEntry)
+        {
+            var point = (forestEntry - _center) * PixelsPerMetre + _canvas.Size * .5f;
+            if (viewport.Grow(-2).HasPoint(point))
+            {
+                _canvas.DrawCircle(point, 6 * _textScale, paper);
+                _canvas.DrawArc(point, 6 * _textScale, 0, Mathf.Tau, 24, ink, 2, true);
+                var lines = new[] { "Три ствола у опушки" };
+                if (PlaceLabel(point, lines, occupied, text) is { } box)
+                    DrawLabel(lines, box, text, ink, paper);
+            }
         }
         var north = new Vector2(_canvas.Size.X - 22 * _textScale, 25 * _textScale);
         _canvas.DrawLine(north + Vector2.Down * 15 * _textScale, north, ink, 2, true);

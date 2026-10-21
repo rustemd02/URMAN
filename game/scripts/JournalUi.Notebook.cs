@@ -167,7 +167,24 @@ public partial class JournalUi
         // Neither it nor a failed projection owns the player's open draft.
         if (_notesLoadInProgress || bridge.SessionIdentity is null) return;
         if (bridge.NotebookSettlement is { } registry)
-            _map.Bind(registry, bridge.LocatedAddressIds(), bridge.ExploredMapCells(), bridge.SessionIdentity);
+        {
+            Vector2? forestEntryMapPosition = null;
+            if (bridge.CanInspectReceivedPhotoBook
+                && bridge.SessionIdentity is { } session
+                && bridge.CurrentFullGamePhotoWorldRouteProjection() is
+                    { ActiveSceneId: "urman.fullgame:scene/pw-home" } route
+                && ReferenceEquals(route.SessionIdentity, session))
+            {
+                var photos = bridge.PhotoBookPhotos();
+                if (photos.Any(photo => photo.PhotoId == "S-SCHOOL")
+                    && photos.Any(photo => photo.PhotoId == "P-FOREST" && photo.Mounted && !photo.WorldCompleted)
+                    && GetTree().GetFirstNodeInGroup("act1_connected_world") is Act1ConnectedWorld world
+                    && world.TryGetForestPhotoEntryAnchor(out var forestEntry))
+                    forestEntryMapPosition = new Vector2(forestEntry.GlobalPosition.X, forestEntry.GlobalPosition.Z);
+            }
+            _map.Bind(registry, bridge.LocatedAddressIds(), bridge.ExploredMapCells(), bridge.SessionIdentity,
+                forestEntryMapPosition);
+        }
         RefreshInventoryPage();
         var sessionChanged = !ReferenceEquals(_notesSession, bridge.SessionIdentity);
         if (sessionChanged)
