@@ -104332,7 +104332,8 @@
         ],
         "result": "Existing gulsina pw-first-world-home routes on earned forest_beyond_frame_seen into recognized old-root-place reaction and question beyond photo. Original home fallback, first_world_home_talk effect and completed-W01-or-W02 availability preserved; no new fact/early partial unlock/creature identification/Tatar invention. Authoring role reconciled to narrative bibleR4+existing live gulsina owner.",
         "verification": "Personal Fast source pattern/canon read; root exact diff+generatedpack read; existing ContentCli fullgame compile exit0; diffcheck. No newtests, native later.",
-        "remaining": "Actual changed earned-fact dialogue in game, text/cultural/author acceptance. Existing effect persists home conversation, exact sentence is not claimed as notebook clue."
+        "remaining": "Actual changed earned-fact dialogue in game, text/cultural/author acceptance. Existing effect persists home conversation, exact sentence is not claimed as notebook clue.",
+        "independent_review": "Independent Fast checked parser/dialogue/ContentRuleEngine/fact-provenance+compiledsource; no concrete mismatch. Entryroute only factualroot-exit observation, fallback/effect/role preserved. Native exactreply stillpending."
       }
     },
     {
@@ -110738,7 +110739,7 @@
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "Use accepted native school-copy + Save/MainMenu/Continue evidence; fix school permission target alignment and investigate renderer shutdown owner without broad cleanup. Next bounded ordinary flow: forest-edge→W01 action→return→post-return Save/Continue, then separate crossprocess actual export acceptance.",
+      "next_action": "Do not repeat the same hour-long acquisition walk while reviewing source. Accept compact f244 proof, then changed-source finite school usability + normal shutdown acceptance with a firm earlier quit boundary; actual export/crossprocess Continue through existing candidate lifecycle. Full forest-edge→W01 action→ReturnTicket→post-return Save/Continue remains mandatory and open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111259,6 +111260,30 @@
         "result": "Normalmainmenu/confirmedPause/OSwindow close share idempotent root shutdown: gate input, drain tracked startup/menu/pause/loading/save operations, freeMain, physics+process barriers, existingStudiofinalcacheorder, boundednative renderflush, Quit. StableNeedsPhysicalRecovery is terminal not activework; rootProcess/inputstopwhileclosing; cleanup exceptionslog andexit1.",
         "verification": "Independent Fast review found recoverywaitP1 and freedplayerProcessP2; both fixed, follow-up source review clean with boundedresidual. AffectedGamecompile18.03s0warnings0errors. No newtests/Macnative.",
         "remaining": "Changed normalmenu/Pause/nativewindow exit, userdata and renderererrors check. No globalproof all autonomous storydispatch drained; existing scopedmarkers/inputgates retained. Not in runningf244snapshot."
+      },
+      "ordinary_f244_2026_10_21": {
+        "state": "terminal_partial_evidence",
+        "job_id": "f24449257d8048fca3c7096f9a64d318",
+        "snapshot_id": "349b5a84191c221ea429eb0ebfcd5a02958391e3e9fce6d9d8921cc93e82e2aa",
+        "baseline": "bd9b8aa3 + school permission target center aligned; excludes09273dce shutdown/dialogue/removal",
+        "result": "Ordinary whole prologue F00→branchE→F02→F03 exit→actual village/Niva→home/tea/physical book→school staff room→real sourcefolder action reached. No school copy/first-photo entry/action/return in this run.",
+        "overall": "FAIL124. Root did not honor plannedExit00:23/00:30; investigation continued too near harddeadline, firstQuit confirmation was not followed by second before runner timeout. Not a keyboard/station defect.",
+        "doctor_after": "ready=true,busy=null,recovery=false,orphan_game=false,orphan_candidate=false",
+        "native_findings": [
+          "Shoulder mesh artificialstraightpanels; root rejected and source removed in09273dce. Opening atF03 visible but emptydestinationunreadable, art remainsopen.",
+          "Natural staffdoor→person route intersects TeaTable corner envelope; observed backstep/detour works, no permanentdeadend proved.",
+          "After actual sourcefolderE, torso frame interactionRayCollider=OldSchool/SchoolStaffContact, interactionId=null. Center-only targetfix failed: mask7 sees physicalcontact, targethalfdepth.195 smallerthan contactradius.24."
+        ],
+        "changed_source_followup": "Permissionbox depth.62 atalignedcenter giveshalf.31>capsule.24; TeaTable/Kettle together x−6.75 leaves.12mwallgap and.09mclearance to reportednaturalcapsulepath. Source math+diffcheck only; native not verified.",
+        "proof": "evidence/PW-020/ordinary_f24449257d8048fca3c7096f9a64d318",
+        "userdataRestored": true,
+        "cleanup": {
+          "temporary_duplicate_bytes_removed": 95559686,
+          "compact_raw_proof_bytes_kept": 11632670,
+          "full_raw": "retained on Windows station"
+        },
+        "engine_errors": "Two actual Handle is not initialized exceptions (collector repeats to4lines), GCHandle.FromIntPtr→ScriptManagerBridge.SwapGCHandleForType→Mesh.SurfaceGetMaterial→AgentBKitMaterials.RebindMaterials151/InstantiateKit129. Distinct from fca renderer exit leaks; source-owner investigation pending. No runtime PASS.",
+        "scope_limit": "Torso lookup after actual school_copy_identified failed on SchoolStaffContact; larger target is next-source fix only. Full W01 entry/action/return remains unverified."
       }
     },
     {

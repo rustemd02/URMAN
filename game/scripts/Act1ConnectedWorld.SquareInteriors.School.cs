@@ -110,8 +110,8 @@ public partial class Act1ConnectedWorld
         // ---- Staff room: x -9.65 .. -6.28 -------------------------------------------------------------
         SDesk(school, body, "StaffDesk", new(-8.0f, 0, -3.9f), 0, 1.4f, .7f);
         SChair(school, "StaffChair", new(-8.0f, 0, -3.15f), 180);
-        SDesk(school, body, "TeaTable", new(-7.1f, 0, .4f), 90, 1.0f, .7f);
-        RuralPropModels.Teapot(school, "Kettle", new(-7.1f, .75f, .4f));
+        SDesk(school, body, "TeaTable", new(-6.75f, 0, .4f), 90, 1.0f, .7f);
+        RuralPropModels.Teapot(school, "Kettle", new(-6.75f, .75f, .4f));
         RuralPropGeometry.Block(school,"Register",new(.32f,.04f,.23f),new(-8.0f,.77f,-3.9f),RuralPropMaterials.Surface("cloth"),.004f);
         RuralPropGeometry.Block(school,"JournalCover",new(.32f,.006f,.23f),new(-8.0f,.790f,-3.9f),RuralPropMaterials.Surface("upholstery","315442"),.002f);
         var journal=CivicSurfaceLibrary.Paper(school,"HandmadeJournalTitle",new(.28f,.07f),new(-8.0f,.795f,-3.9f),CivicSurfaceLibrary.Face("craft_details_v1_atlas.png",2,4,2),.001f);
@@ -187,7 +187,7 @@ public partial class Act1ConnectedWorld
         _facilityBodies.Add(staffContact);
         var permissionTarget = FacilityTarget("SchoolPhotoCopyPermission", SchoolPhotoCopyPermissionInteraction,
             "Попросить копию школьного снимка", school,
-            new(-7.0f, 1.32f, -2.65f), new(.62f, .62f, .39f));
+            new(-7.0f, 1.32f, -2.65f), new(.62f, .62f, .62f));
         permissionTarget.DialogueId = "urman.fullgame:dialogue/pw-school-copy";
         SetSchoolPhotoCopyMetadata(permissionTarget, SchoolPhotoCopyPermissionInteraction);
         RegisterPublicUse("school", permissionTarget, staffContact);
