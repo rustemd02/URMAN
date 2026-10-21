@@ -118,7 +118,7 @@ public partial class Act1ConnectedWorld
         journal.RotationDegrees=new(-90,0,0);
         PublicDocument(school, "school-staff-note", new(-7.6f, .775f, -3.9f),
             Vector3.Zero, new(.39f, .28f), flat: true);
-        SquareLook(school, "SchoolRegister", "Открыть журнал", new(-8.0f, .8f, -3.9f), new(.6f, .3f, .5f),
+        SquareLook(school, "SchoolRegister", "Осмотреть журнал", new(-8.0f, .8f, -3.9f), new(.6f, .3f, .5f),
             "Классный журнал. На последней странице подряд одиннадцать фамилий. Раньше страницы кончались раньше, чем классы.");
         BuildSchoolPhotoCopyRequest(school);
         SShelf(school, body, "StaffBooks", new(-9.45f, 0, -1.3f), 90, 2.2f, 2.0f);

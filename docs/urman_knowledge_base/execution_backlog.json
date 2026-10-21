@@ -53837,7 +53837,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "Codex",
       "owner": "finished-act1",
       "depends_on": [
         "ACT1-UI.1"
@@ -53992,8 +53992,8 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "One-file HUD source delivered/reviewed; root coordinates affected Windows compile after current5fb6 restores. Separate honest SchoolRegister inspection label source accepted. Full UI/author acceptance open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -54001,7 +54001,7 @@
       "remaining": [
         "Подсказка/субтитры/выбор ответа читаемы, не перекрывают действие; один focus; подтверждается именно выделенная реплика."
       ],
-      "next_action": "After authoritative terminal/restoration of existing protected e79 job, verify the named answer/Esc/reopen/current-session scenario on current source; reuse accepted compile and preserve full HUD/readability criteria.",
+      "next_action": "Finish bounded PhotoWorlds persistent readable current route cue in Act1DemoRoot with existing theme; legacy timed toast remains. Root then affected Windows compile and one changed-HUD check after owned5fb6 restores; retain full dialogue/focus/HUD acceptance.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -54009,7 +54009,9 @@
       "work_contract": {
         "result": "HUD и диалог по выбранной общей теме, в границах существующего экранного owner.",
         "targets": [
-          "game/scripts/DialogueUi.cs"
+          "game/scripts/DialogueUi.cs",
+          "game/scripts/Act1DemoRoot.cs",
+          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs"
         ],
         "required_inputs": [
           {
@@ -54152,6 +54154,27 @@
         },
         "source_sha256": "d7537e0d36da5eac6db062f5f034df3dc2d6e82d451c7d632b21c5a36fede89f",
         "remaining": "Native keyboard/mouse choice→Esc/reopen (including same dialogue), duplicate press, rejected answer/error/close, session load and Niva language answer; full HUD/readability/theme acceptance remains open."
+      },
+      "route_hint_readability_2026_10_21": {
+        "state": "source_reviewed_windows_compile_pending",
+        "owner": "Codex / act1_loop_discovery",
+        "targets": [
+          "game/scripts/Act1DemoRoot.cs"
+        ],
+        "input": "Actual5fb6 live arrival frame viewed; canonical member binding after terminal fetch. Source BuildRouteCue/PhotoWorldRouteCue; existing shipped UrmanUiTheme.SubtitlePanel/Subtitle/Hint and high-contrast theme.",
+        "cause": "Current next-action Label has no backplate and expires after3.2s, never repeats same text; bottom-left hint weakly readable on bright snow.",
+        "result_contract": "Only PhotoWorlds current route cue uses existing calm dark subtitle plate and remains until existing goal changes or clears. Menu/journal/dialogue/modal hides it and closing restores actual current hint. Preserve existing authored messages/facts, legacy timed toast behavior, input focus, font scaling/high-contrast/reduced motion and interaction prompt visibility.",
+        "scope_out": "No new story/dialogue, theme or HUD owner, no broad UI redesign, no new tests/probes/docs, no local game/build/restore; no station changes while native5fb6 live.",
+        "verification": "Source implemented in one file, root+independent caller/modal/accessibility review clean; direct RoutePrompt path and legacy toast preserved. Final plate bottom=-152,20px above InteractionPrompt=-132; text padding16px and height grows upward. Scoped diff check passed. No affected Windows compile or changed-source native yet; current5fb6 remains old accepted packet.",
+        "remaining": "Implement/review one file, Windows affected compile, actual native white-snow contrast/persistent cue/modal reopening/goal advance. All parent UI and external art acceptance open."
+      },
+      "school_register_label_2026_10_21": {
+        "state": "source_accepted",
+        "target": "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "cause": "Actual5fb6 SchoolRegister shows Открыть журнал but existing local inspection callback only NotifyTraversal; no journal UI action. Separate compiled school-staff-note remains independent.",
+        "result": "Only SchoolRegister prompt changed to Осмотреть журнал; existing SquareLook pattern and callback untouched.",
+        "verification": "Source/callback/analogous inspect-label review and scoped git diff --check passed. One literal UI wording change, no tests/build needed for finite source acceptance; current native still uses previous literal.",
+        "remaining": "Actual new literal appears in next changed-HUD packet; full ACT1-UI.3/modal/theme acceptance remains open."
       }
     },
     {
@@ -123185,8 +123208,8 @@
               "native_result": "Actual4f6 F00/approach/F01/F02/F03 viewed, distant action→near question timely, E and physical capsule pass/F03 gate work. Root rejects remaining visual: trail/exit weak, F01 symmetrical two-post beam lifts vertically like car-park boom. No full art acceptance."
             },
             "f01_visible_correction_2026_10_21": {
-              "state": "in_progress",
-              "owner": "Codex / act1_opening_hook",
+              "state": "art_rejected_recipe_archived_runtime_restored",
+              "owner": "Codex / root",
               "targets": [
                 "assets/source/blender/photoworlds/W01/urman_prologue_branch.py",
                 "game/scripts/photoworlds/W01Controller.cs",
@@ -123197,7 +123220,17 @@
               ],
               "result_contract": "Same A-BRANCH becomes recognizable broken spruce limb diagonally blocking from one natural side support; ordinary E moves it aside/down, full1.5m physical opening, same grip/interaction/fact/F03gate and moved-pose restore. No newassetfamily/Meshy spend.",
               "input_evidence": "Actual4f6 branch before/after capture, canonical raw frame paths to bind after fetch.",
-              "remaining": "Existing Blender producer/consumer correction source candidate, then affected compile and new native visual/motion/physical/restoredpose check; current immutable4f6 session unaffected."
+              "remaining": "F01 artistic/readability/action rework remains open; no pending candidate C# changes to compile or ship.",
+              "result": "Root rejected final previews: repeated green clumps on sparse stem and assembled snag. One16KB source recipe archive preserves generator+consumer patch and rawmanifest; all7 owned source/generated paths restored exactly to c7ab3504, scoped diff empty. No rejected model in runtime or current immutable packet. No further local foliage iterations.",
+              "verification": "Independent static node/clip/pivot/grip/collider/restored-pose contract review clean; Blender guards/export passed. No affected C# compile/import/native/save-Continue validation of candidate; no art acceptance.",
+              "next_action": "Finish ordinary book/world/return/Continue first; future whole F01 action needs a convincing reference and scene acceptance, not another isolated foliage pass.",
+              "source_archive": {
+                "path": "evidence/PW-045/f01_rejected_source_20261021.zip",
+                "bytes": 16287,
+                "sha256": "1eec8607f2d4ac95d8d37aaeeee3d4a2c92dffed3f6afdc356c6d4ccb58a122d",
+                "base_commit": "c7ab3504ab2f32c65e74d1dada19b493ba3faffe",
+                "members": "source.patch for generator+W01, rawmanifest; exact member readback verified"
+              }
             }
           },
           {
@@ -145751,7 +145784,7 @@
       "assigned_owner": "release",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Changed startup-gate finite source stage accepted after independent review, actual WindowsPS5 parse, installedSHA/fullACL/backup and freshdoctor. Next is same-packet ordinary core loop and actual cold Continue; release remains unaccepted."
+        "reason": "Single protected native5fb836 running; changed startup runner reuses accepted same Game packet, two lifetimes share deadline05:44UTC."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -146387,29 +146420,18 @@
           }
         },
         "current_native_attempt": {
-          "job_id": "4f6f197b070044a7aa1ce18053021c44",
+          "job_id": "5fb8365a12aad725b6e775a463d41a8c",
           "candidate_id": "7510635943e1ad8779ebe0aa46464574358d4666e5f6d02564fe4eb4216ccea5",
           "source_export_job": "10de5f78dbe34858b4f5a3de9bfb061a",
-          "started_at_utc": "2026-10-21T04:02:19.470086+00:00",
-          "status": "FAIL",
-          "mode": "candidate-play",
+          "status": "RUNNING",
+          "started_at_utc": "2026-10-21T04:44:19.737794+00:00",
+          "deadline_at_utc": "2026-10-21T05:44:19.737794+00:00",
           "shared_guard_timeout_seconds": 3600,
-          "deadline_at_utc": "2026-10-21T05:02:19.470086+00:00",
-          "question": "Ordinary prologue branch→village/home→earned photo/physicalbook→world action→return→save→normalQuit1→actual secondEXE Continue retains action/pose→normalQuit2.",
-          "observed": "Actual prologue/F01/F03/village/Niva commit/manualSave/normalQuit1 and inherited-handle UI verified. Startup gate blocked EXE2; no full photo/action/return/Continue proof.",
-          "not_proven": "Full photo/book/action/return, actual cold Continue and normalQuit2; unresolved7TextureRID warning, current art/performance/macOS/full campaign/external gates remain open.",
-          "finished_at_utc": "2026-10-21T04:30:34.285811+00:00",
-          "exit_code": 1,
-          "first_exe_exit_code": 0,
-          "second_exe_started": false,
-          "engine_error_count": 0,
-          "userdata_restored": true,
-          "result_sha256": "b915f7c23bbb7403026ce63246867da61247c4c45ca42bbdf38923006a9a75d4",
-          "evidence": "evidence/PW-095/native_4f6f197b070044a7aa1ce18053021c44",
-          "doctor": "fresh ready/idle/interactive/recoveryfalse/orphansfalse",
-          "actual_result": "Ordinary full prologue on foot: timely F01 prompt, E moves branch, capsule passes F02, F03 E reaches fully built village with engineErrors0. Niva interaction committed pw-niva-stop and entered pw-home; old autosave checkpoint is not a live scene observer. Manual pause Save showed confirmation; normal Quit1 exited0. Authoritative candidate-session error requires obsolete legacy demo startup banner, so EXE2 never launched. Separate WARNING7TextureRID exists but is NOT the named failure cause; owner remains unknown.",
-          "duplicate_transport_removed_bytes": 12747393,
-          "duplicate_temporary_png_removed_bytes": 12703305
+          "mode": "candidate-play",
+          "changed_input": "run-windows-check.ps1 ebc433bf81119ad4daaa792ffb3757ea60c4205367252b3f0923e82be1dbfc67; same unchanged accepted Game export10de packet",
+          "question": "Authorized Skip of already proven ordinary prologue; ordinary village/home/tea/book/photo/world action/return/Save/Quit1 then actualEXE2 Continue retained state/pose/Quit2.",
+          "observed": "Actual menu/NewGame/authorizedSkip, village engineErrors0/Niva commit, ordinary home/tea/book, school entrance and staff room. Separate SchoolPhotoCopySource E identified source; authored permission dialogue completed, S-SCHOOL visible in actual album alongside P-FOREST. Book objective now directs to three trunks/forestedge, entry disabled only until stance. Ordinary school exit completed; walking to supported forest stance. Full W01 action/return/coldContinue/secondQuit not yet proven.",
+          "not_proven": "Full ordinary gameplay/actual Continue/second exit/art/performance/macOS/fullcampaign/external gates remain open."
         },
         "village_export_loader_fix": {
           "targets": [
@@ -146467,6 +146489,31 @@
             "doctor": "fresh ready/idle/recoveryfalse/orphansfalse",
             "actual_result": "Menu/NewGame/authorized Skip reached fully built village; ordinary movement and Pause/Quit confirmed. First EXE normal exit0; runner then rejected122 engine errors, so second EXE never started. First exception VillageHouseholdDirector.GetClip282 FileAccess.Open raw WAV then GetLength null in packaged scene. Own source correction assigned to windows_export_spec_review. Normal first exit accepted; error-free village/full loop/Continue not accepted.",
             "duplicate_transport_removed_bytes": 4428558
+          },
+          {
+            "job_id": "4f6f197b070044a7aa1ce18053021c44",
+            "candidate_id": "7510635943e1ad8779ebe0aa46464574358d4666e5f6d02564fe4eb4216ccea5",
+            "source_export_job": "10de5f78dbe34858b4f5a3de9bfb061a",
+            "started_at_utc": "2026-10-21T04:02:19.470086+00:00",
+            "status": "FAIL",
+            "mode": "candidate-play",
+            "shared_guard_timeout_seconds": 3600,
+            "deadline_at_utc": "2026-10-21T05:02:19.470086+00:00",
+            "question": "Ordinary prologue branch→village/home→earned photo/physicalbook→world action→return→save→normalQuit1→actual secondEXE Continue retains action/pose→normalQuit2.",
+            "observed": "Actual prologue/F01/F03/village/Niva commit/manualSave/normalQuit1 and inherited-handle UI verified. Startup gate blocked EXE2; no full photo/action/return/Continue proof.",
+            "not_proven": "Full photo/book/action/return, actual cold Continue and normalQuit2; unresolved7TextureRID warning, current art/performance/macOS/full campaign/external gates remain open.",
+            "finished_at_utc": "2026-10-21T04:30:34.285811+00:00",
+            "exit_code": 1,
+            "first_exe_exit_code": 0,
+            "second_exe_started": false,
+            "engine_error_count": 0,
+            "userdata_restored": true,
+            "result_sha256": "b915f7c23bbb7403026ce63246867da61247c4c45ca42bbdf38923006a9a75d4",
+            "evidence": "evidence/PW-095/native_4f6f197b070044a7aa1ce18053021c44",
+            "doctor": "fresh ready/idle/interactive/recoveryfalse/orphansfalse",
+            "actual_result": "Ordinary full prologue on foot: timely F01 prompt, E moves branch, capsule passes F02, F03 E reaches fully built village with engineErrors0. Niva interaction committed pw-niva-stop and entered pw-home; old autosave checkpoint is not a live scene observer. Manual pause Save showed confirmation; normal Quit1 exited0. Authoritative candidate-session error requires obsolete legacy demo startup banner, so EXE2 never launched. Separate WARNING7TextureRID exists but is NOT the named failure cause; owner remains unknown.",
+            "duplicate_transport_removed_bytes": 12747393,
+            "duplicate_temporary_png_removed_bytes": 12703305
           }
         ],
         "household_audio_loader_fix": {
