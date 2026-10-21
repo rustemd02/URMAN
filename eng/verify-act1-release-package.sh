@@ -33,14 +33,14 @@ fail() {
 [ -x "$GODOT" ] || fail "pinned Godot executable not found: $GODOT"
 command -v python3 >/dev/null 2>&1 || fail "the 'python3' command is required"
 
-# Python owns the timeout so a hung export cannot leave a detached Godot
+# Python owns the timeout so a hung child command cannot leave a detached
 # process behind on the developer machine. The process group is terminated on
 # timeout or cancellation; package output stays in the existing temporary tree.
-run_godot() {
+run_command() {
   timeout_seconds=$1
   log_file=$2
   shift 2
-  python3 - "$GODOT" "$timeout_seconds" "$log_file" "$@" <<'PY'
+  python3 - "$timeout_seconds" "$log_file" "$@" <<'PY'
 import os
 import signal
 import subprocess
@@ -48,7 +48,7 @@ import sys
 import time
 from pathlib import Path
 
-godot, timeout_text, log_path, *arguments = sys.argv[1:]
+timeout_text, log_path, *command = sys.argv[1:]
 timeout_seconds = int(timeout_text)
 process = None
 interrupted = 0
@@ -90,9 +90,9 @@ def await_group_exit(seconds):
             return False
         time.sleep(.025)
 
-# The outer userdata guard signals the shell/helper group. Godot has its own
-# group, so this helper must forward cancellation and finish cleanup before the
-# shell can remove staging files or the guard can restore the player's data.
+# Commands run in their own groups. For a guarded bootstrap, forwarding a
+# signal lets protected_run.py stop Godot and restore userdata before this
+# supervisor returns; direct exports still get whole-group cleanup here.
 previous = {sig: signal.signal(sig, interrupt)
             for sig in (signal.SIGINT, signal.SIGTERM, signal.SIGHUP)}
 status = 1
@@ -101,7 +101,7 @@ with Path(log_path).open("w", encoding="utf-8") as log:
     try:
         if not interrupted:
             process = subprocess.Popen(
-                [godot, *arguments], stdout=log, stderr=subprocess.STDOUT,
+                command, stdout=log, stderr=subprocess.STDOUT,
                 start_new_session=True,
             )
             deadline = time.monotonic() + timeout_seconds
@@ -109,7 +109,7 @@ with Path(log_path).open("w", encoding="utf-8") as log:
                 remaining = deadline - time.monotonic()
                 if remaining <= 0:
                     status = 124
-                    log.write(f"act1-release: Godot timed out after {timeout_seconds}s\n")
+                    log.write(f"act1-release: child command timed out after {timeout_seconds}s\n")
                     break
                 try:
                     status = process.wait(timeout=min(.1, remaining))
@@ -119,13 +119,13 @@ with Path(log_path).open("w", encoding="utf-8") as log:
                 status = process.returncode
     finally:
         if process is not None:
-            # Stay below the outer guard's five-second TERM deadline. Even a
-            # successfully exited child can have descendants left in its group.
+            # protected_run.py may need up to ten seconds to stop its Godot
+            # child before restoring userdata. Allow that cleanup before force.
             signal_group(signal.SIGTERM)
-            stopped = await_group_exit(2)
+            stopped = await_group_exit(12)
             if not stopped:
                 signal_group(signal.SIGKILL)
-                stopped = await_group_exit(1)
+                stopped = await_group_exit(2)
             cleanup_failed = not stopped
             log.write(f"act1-release: child_group={process.pid} stopped={str(stopped).lower()}\n")
         for sig, handler in previous.items():
@@ -140,7 +140,7 @@ export_pack() {
   preset=$1
   output=$2
   log_file=$3
-  if ! run_godot 120 "$log_file" \
+  if ! run_command 120 "$log_file" "$GODOT" \
     --headless --audio-driver Dummy --path "$URMAN_ROOT/game" \
     --export-pack "$preset" "$output"; then
     cat "$log_file"
@@ -173,9 +173,10 @@ run_headless() {
   label=$1
   pck=$2
   log_file=$3
-  if ! run_godot 30 "$log_file" \
+  if ! run_command 60 "$log_file" \
+    python3 "$URMAN_ROOT/eng/protected_run.py" --clean --timeout 30 "$GODOT" \
     --headless --display-driver headless --audio-driver Dummy \
-    --path "$URMAN_ROOT/game" --main-pack "$pck" --quit-after 2; then
+    --path "$URMAN_ROOT/game" --main-pack "$pck" --max-fps 30 --quit-after 120; then
     cat "$log_file"
     fail "headless package bootstrap failed: $label"
   fi
@@ -183,8 +184,12 @@ run_headless() {
     cat "$log_file"
     fail "headless package bootstrap reported an error: $label"
   fi
+  grep -Eq 'userdata guard: original files.*restored.*verified' "$log_file" \
+    || fail "headless package bootstrap did not confirm userdata restoration: $label"
   grep -Fq "fullgame-scene-loaded: urman.fullgame:scene/pw-prologue physical=W01" "$log_file" \
     || fail "headless package bootstrap missed the PhotoWorlds prologue launch marker: $label"
+  grep -Fq "urman-photoworld-bootstrap-ready: scene=urman.fullgame:scene/pw-prologue supported=true" "$log_file" \
+    || fail "headless package bootstrap did not complete physical preparation: $label"
   echo "act1-release: $label headless/Dummy bootstrap PASS"
 }
 

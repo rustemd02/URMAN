@@ -146085,7 +146085,7 @@
         "result": "Strict release-windows source-only export backend, client, provenance and shared PCK/ZIP/.NET checks implemented; independent backend and client/common reviews clean after bounded ZIP/result/deadline fixes. Legacy two-platform receipt remains strict. Actual Windows PS5.1.22621.963 and Python AST passed on exact staged bytes; six files atomically deployed and SHA-verified, normal worker start and doctor ready/idle/recovery false/orphans false.",
         "next_finite_result": "Install pinned Windows release template after full TPZ byte/SHA verification; export the current source snapshot, validate actual package, then ordinary exported EXE NewGame→Save→full Quit→second-lifetime Continue under the existing guard.",
         "scope_limit": "Windows export engineering only; no fabricated Mac artifact or relaxed project/userdata guard. Windows dirty/unmerged Git checkout and unrelated paths preserved.",
-        "remaining": "Retry actual Windows export after these changed inputs, then native exported EXE NewGame/action/return/Save/full Quit/second-lifetime Continue. Legacy/Mac guarded bootstrap/platform, art/performance/rights/full-campaign/external gates remain open.",
+        "remaining": "Actual exported EXE two-lifetime gameplay/Continue, Mac/legacy host execution, art/performance/rights/full-campaign/external acceptance remain open.",
         "station_backup": {
           "path": "D:/URMAN-STATION/data/infrastructure-backups/before-export-d37bc756-20261021.zip",
           "bytes": 63846,
@@ -146119,22 +146119,20 @@
           "temporary_archive_removed_bytes": 1201759011
         },
         "current_attempt": {
-          "job_id": "0b8a2b7dc4ed43cbb359898826d821f9",
-          "snapshot_id": "fe8ac4ec2a8d0f76ebf1bed151545a6761cde01b11bab1aadc36603a563efc9e",
-          "source_commit": "48126815",
+          "job_id": "67d6b4cb7384479c9ebec51d79aebbad",
+          "snapshot_id": "4763451ec4ca2cf3553730b50af4228740c6b2940a862eda1305f4d03c19a671",
+          "source_commit": "644ebdf6",
           "production_commit": "9fb8f80e",
           "mode": "export-release",
           "timeout_seconds": 1800,
-          "started_at_utc": "2026-10-21T02:13:55.943486+00:00",
-          "latest_status": "FAIL",
-          "question": "Does the actual frozen current snapshot produce the strict Windows-only package with original project identity, complete required fullgame scope, valid PCK/.NET closure and unchanged source provenance?",
-          "not_proven": "Export success, native EXE launch/two lifetimes/Continue, full gameplay/art/platform/external acceptance.",
-          "finished_at_utc": "2026-10-21T02:26:36.467410+00:00",
-          "result_sha256": "8b223af5dbf719a348fa71066853d6d7bbc6ce34314166dfba066b0b3d57a072",
-          "userdata_restored": true,
-          "station_freed_bytes": 1613481745,
-          "evidence": "evidence/PW-095/export_0b8a2b7dc4ed43cbb359898826d821f9",
-          "actual_result": "Build/import/export/Windows ZIP/.NET closure completed; physical bootstrap was terminated after two frames before mount, so final verification correctly failed. No accepted candidate or native EXE gameplay. Godot main had exited while console wrapper retained reused MSBuild nodes; existing build-server shutdown --msbuild released them, then guarded export exit0/restoration confirmed."
+          "started_at_utc": "2026-10-21T02:40:48.667961+00:00",
+          "latest_status": "PASS",
+          "question": "Do export-only MSBuild node reuse suppression and a bounded 120-frame bootstrap produce the strict current Windows package with actual physical W01 and supported-ready markers, PCK/.NET/provenance and userdata restoration?",
+          "not_proven": "Ordinary Windows EXE/two lifetimes/action/return/Continue, art/performance/Mac/full-campaign/external acceptance.",
+          "finished_at_utc": "2026-10-21T02:46:09.191150+00:00",
+          "result_sha256": "2045cff6eed5ab7f52fec297ed5a8f51278ff059cd5664d00f4c26795dfeadc2",
+          "station_freed_bytes": 1613527536,
+          "actual_result": "Actual Windows export completed in 320.52 seconds, exit0. Guard restoration confirmed, strict release-windows structural checks PASS; embedded PCK1405 entries, registered required dependencies and .NET10/win-x64 closure197 dependencies accepted. No manual build-server intervention; physical W01 and supported-ready bootstrap markers required. Windows EXE native host execution remains OPEN."
         },
         "attempt_history": [
           {
@@ -146154,6 +146152,22 @@
             "station_freed_bytes": 1613481745,
             "evidence": "evidence/PW-095/export_0b8a2b7dc4ed43cbb359898826d821f9",
             "actual_result": "Build/import/export/Windows ZIP/.NET closure completed; physical bootstrap was terminated after two frames before mount, so final verification correctly failed. No accepted candidate or native EXE gameplay. Godot main had exited while console wrapper retained reused MSBuild nodes; existing build-server shutdown --msbuild released them, then guarded export exit0/restoration confirmed."
+          },
+          {
+            "job_id": "67d6b4cb7384479c9ebec51d79aebbad",
+            "snapshot_id": "4763451ec4ca2cf3553730b50af4228740c6b2940a862eda1305f4d03c19a671",
+            "source_commit": "644ebdf6",
+            "production_commit": "9fb8f80e",
+            "mode": "export-release",
+            "timeout_seconds": 1800,
+            "started_at_utc": "2026-10-21T02:40:48.667961+00:00",
+            "latest_status": "PASS",
+            "question": "Do export-only MSBuild node reuse suppression and a bounded 120-frame bootstrap produce the strict current Windows package with actual physical W01 and supported-ready markers, PCK/.NET/provenance and userdata restoration?",
+            "not_proven": "Ordinary Windows EXE/two lifetimes/action/return/Continue, art/performance/Mac/full-campaign/external acceptance.",
+            "finished_at_utc": "2026-10-21T02:46:09.191150+00:00",
+            "result_sha256": "2045cff6eed5ab7f52fec297ed5a8f51278ff059cd5664d00f4c26795dfeadc2",
+            "station_freed_bytes": 1613527536,
+            "actual_result": "Actual Windows export completed in 320.52 seconds, exit0. Guard restoration confirmed, strict release-windows structural checks PASS; embedded PCK1405 entries, registered required dependencies and .NET10/win-x64 closure197 dependencies accepted. No manual build-server intervention; physical W01 and supported-ready bootstrap markers required. Windows EXE native host execution remains OPEN."
           }
         ],
         "post_export_fixes": {
@@ -146163,7 +146177,7 @@
           ],
           "result": "Export-only MSBUILDDISABLENODEREUSE=1 with prior environment restored in finally. Existing Windows headless bootstrap now 120 frames at max30fps under unchanged clean/30s guard and60s outer bound; mandatory supported-ready marker added to prior physicalW01/error/userdata checks. No gameplay/legacy platform changes or new harness/tests.",
           "cause": "Pinned console wrapper waits for all JobObject descendants; observed two MSBuild.dll /nodemode:1 /nodeReuse:true processes outliving Godot main. Separately source startup requires threaded preload + process/physics barriers, making two-frame autoquit premature.",
-          "verification": "Independent reviews of environment inheritance/restore, startup route and stricter verification; staged actual PS5.1.22621.963/Python AST passed; exact two-file atomic deployment under existing free runner lock and backup readback. No actual execution of this new delta yet.",
+          "verification": "Independent reviews of environment inheritance/restore, startup route and stricter verification; staged actual PS5.1.22621.963/Python AST passed; exact two-file atomic deployment under existing free runner lock and backup readback. No actual execution of this new delta yet. Actual changed-input Windows job67d6b4cb7384479c9ebec51d79aebbad now PASS, export exit0 and strict bootstrap/closure/provenance gates passed without manual node shutdown.",
           "source_sha256": {
             "eng/run-windows-check.ps1": "1dab3fec16ac0db2004f5594e3cc2c978d438a601d5a018e8ceb2b001804dc67",
             "eng/desktop_release_checks.py": "d8aa74d2d6da81e86156b43e45ee4096e839366356a7b521059459a87d320d72"
@@ -146177,7 +146191,17 @@
             "https://github.com/godotengine/godot/blob/a13da4feb/platform/windows/console_wrapper_windows.cpp#L96-L169",
             "https://github.com/dotnet/msbuild/blob/main/documentation/wiki/MSBuild-Environment-Variables.md"
           ],
-          "legacy_remaining": "Legacy shell bootstrap still has a two-frame budget and lacks the existing userdata guard. Its tentative uncommitted change was withdrawn; no legacy/Mac launch or acceptance. Resolve that guarded canonical host path before platform completion."
+          "legacy_remaining": "Legacy shell source now uses the existing clean userdata guard, bounded120-frame startup and mandatory supported-ready/restoration markers; sh -n, embedded Python AST and root review of explicit command argv/cleanup passed. No Mac/legacy engine execution or platform acceptance.",
+          "execution_job_id": "67d6b4cb7384479c9ebec51d79aebbad"
+        },
+        "next_action": "Finish verified result fetch, then run the actual exported Windows EXE through ordinary NewGame→W01 action→return→Save→full Quit→second-lifetime Continue under the existing guard.",
+        "legacy_bootstrap_source": {
+          "targets": [
+            "eng/verify-act1-release-package.sh"
+          ],
+          "result": "Existing supervisor accepts an explicit command argv; export still invokes pinned Godot directly, while both PCK bootstraps invoke existing protected_run.py --clean --timeout30 under outer60. Maxfps30/quit-after120 and mandatory physicalW01/supported-ready/restoration markers; unchanged package/error gates. TERM window12s permits the guard child cleanup before force, failure remains closed.",
+          "verification": "sh -n and existing embedded Python AST PASS; root callsite and guard/project identity readback, no Godot/Mac execution.",
+          "remaining": "Actual protected legacy/Mac host execution and full platform acceptance."
         }
       }
     },
