@@ -123181,7 +123181,23 @@
               "input_frame": "evidence/PW-095/native_30cac955f79b48ee85f6c42b0d738d23/frames/interactive-734d5465916e4eb3bb19dc2619fbf284.png",
               "observed": "Fuller conifers/day readability improved, but broad pale empty center and invisible trail/first obstacle make initial HUD question ungrounded. Existing family/full-art gates remain open.",
               "result": "Existing ground COLOR.r shoulders/core strengthened without mesh/collision/placement change; use existing hint.Action approach until branch grip within18m andFOV, then existing question. No new ray pipeline, assets or text.",
-              "verification": "Root source/pattern review+diffcheck; changedWindows exportdbfa covers affectedcompile. Actual route readability/nearbranch/action/occlusion/art/performance not yet accepted. Actual Windows Game compile33.49s exit0/0warnings/0errors after root fixed duplicate player local to hintPlayer (CS0136). Shader visual/first interaction not yet accepted."
+              "verification": "Root source/pattern review+diffcheck; changedWindows exportdbfa covers affectedcompile. Actual route readability/nearbranch/action/occlusion/art/performance not yet accepted. Actual Windows Game compile33.49s exit0/0warnings/0errors after root fixed duplicate player local to hintPlayer (CS0136). Shader visual/first interaction not yet accepted.",
+              "native_result": "Actual4f6 F00/approach/F01/F02/F03 viewed, distant action→near question timely, E and physical capsule pass/F03 gate work. Root rejects remaining visual: trail/exit weak, F01 symmetrical two-post beam lifts vertically like car-park boom. No full art acceptance."
+            },
+            "f01_visible_correction_2026_10_21": {
+              "state": "in_progress",
+              "owner": "Codex / act1_opening_hook",
+              "targets": [
+                "assets/source/blender/photoworlds/W01/urman_prologue_branch.py",
+                "game/scripts/photoworlds/W01Controller.cs",
+                "game/assets/photoworlds/branch/prologue-branch-v1.glb",
+                "assets/source/blender/photoworlds/W01/prologue-branch-v1/manifest.json",
+                "assets/source/blender/photoworlds/W01/prologue-branch-v1/branch_blocking.png",
+                "assets/source/blender/photoworlds/W01/prologue-branch-v1/branch_moved.png"
+              ],
+              "result_contract": "Same A-BRANCH becomes recognizable broken spruce limb diagonally blocking from one natural side support; ordinary E moves it aside/down, full1.5m physical opening, same grip/interaction/fact/F03gate and moved-pose restore. No newassetfamily/Meshy spend.",
+              "input_evidence": "Actual4f6 branch before/after capture, canonical raw frame paths to bind after fetch.",
+              "remaining": "Existing Blender producer/consumer correction source candidate, then affected compile and new native visual/motion/physical/restoredpose check; current immutable4f6 session unaffected."
             }
           },
           {
@@ -145735,7 +145751,7 @@
       "assigned_owner": "release",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Actual canonical standalone export process is live, protected_run handle9695; preparation only, full host/performance/rights/ordinary acceptance remain open."
+        "reason": "Changed startup-gate finite source stage accepted after independent review, actual WindowsPS5 parse, installedSHA/fullACL/backup and freshdoctor. Next is same-packet ordinary core loop and actual cold Continue; release remains unaccepted."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -145745,7 +145761,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Fix proven packaged-household-WAV loader failure; integrate bounded readable-trail slice and independently reviewed lifetime EXE pin, verify changed Windows sources, then one new package/native check. Do not replay unchanged30cac packet.",
+      "next_action": "Reuse accepted same cached export10de/candidate751 with corrected startup gate; authorized Skip of already verified prologue, ordinary Niva/home/tea/book/photo/action/return/manualSave/normalQuit1, then actual EXE2 Continue retained state/pose and normalQuit2. No new Game export. All unproved gates retained.",
       "blocker": null,
       "external_gates": [
         {
@@ -146090,7 +146106,7 @@
         "remaining": "No gameplay result yet; inspect cache integrity before source upload."
       },
       "windows_export_route_2026_10_21": {
-        "state": "corrected_house_visible_native_household_audio_failure",
+        "state": "corrected_export_pass_ordinary_native_in_progress",
         "result": "Strict release-windows source-only export backend, client, provenance and shared PCK/ZIP/.NET checks implemented; independent backend and client/common reviews clean after bounded ZIP/result/deadline fixes. Legacy two-platform receipt remains strict. Actual Windows PS5.1.22621.963 and Python AST passed on exact staged bytes; six files atomically deployed and SHA-verified, normal worker start and doctor ready/idle/recovery false/orphans false.",
         "next_finite_result": "Install pinned Windows release template after full TPZ byte/SHA verification; export the current source snapshot, validate actual package, then ordinary exported EXE NewGame→Save→full Quit→second-lifetime Continue under the existing guard.",
         "scope_limit": "Windows export engineering only; no fabricated Mac artifact or relaxed project/userdata guard. Windows dirty/unmerged Git checkout and unrelated paths preserved.",
@@ -146139,7 +146155,7 @@
           ],
           "mode": "export-release",
           "timeout_seconds": 1800,
-          "latest_status": "RUNNING",
+          "latest_status": "PASS",
           "started_at_utc": "2026-10-21T03:53:53.901008+00:00",
           "question": "Does corrected nonshadowing W01 HUD and imported household WAV compile/export pass strict scope/bootstrap before one ordinary native full route?",
           "source_sha256": {
@@ -146148,7 +146164,7 @@
             "eng/windows_station_worker.py": "7cc4f927717b639ab01769caf16bd76e74a8a6d7a547dd44a7d8f1d30af0d20f",
             "eng/windows-game-ui.ps1": "20d10a6a5ee138a26e7665e8374d0ec9a5f768daeeae832e58a1c01168e0fe1c"
           },
-          "not_proven": "Affected Windows build/export in progress; no changed-source native/UIpin/visual/full loop acceptance yet.",
+          "not_proven": "Full native gameplay/Continue, final shutdown/restoration, actual visual quality/performance/Mac/full campaign/external gates remain open.",
           "affected_build": {
             "host": "Windows UnterPC",
             "seconds": 33.49,
@@ -146156,7 +146172,14 @@
             "warnings": 0,
             "errors": 0,
             "evidence": "evidence/PW-095/export_10de5f78dbe34858b4f5a3de9bfb061a/build.log"
-          }
+          },
+          "finished_at_utc": "2026-10-21T03:59:10.403100+00:00",
+          "exit_code": 0,
+          "result_sha256": "42440d4e206cfb57cc03b976438791753de2302d4d59c4024058026225c67066",
+          "source_cleanup_bytes": 1615939167,
+          "evidence": "evidence/PW-095/export_10de5f78dbe34858b4f5a3de9bfb061a",
+          "userdata_restored": true,
+          "package_checks": "PCK1405/.NET197/registeredresources/bootstrap/strict authoredrecipe/remap PASS; current4 source hashes and downloaded artifact receipt SHA verified."
         },
         "attempt_history": [
           {
@@ -146250,7 +146273,7 @@
             "question": "Compile/export bounded imported-WAV correction and readable approach HUD/trail; strict package/bootstrap acceptance before one new native ordinary gameplay/Continue attempt.",
             "source_sha256": {
               "game/scripts/VillageHouseholdDirector.cs": "ecf1a54a8055aa49eeddece26ced0ac93a84e6a98a76b9f79009341e256adbb2",
-              "game/scripts/photoworlds/W01Controller.cs": "8168ffbf81ee02f7b1d6e5cfc3793519dcd07da28de0464991ccb14fd5d9166e",
+              "game/scripts/photoworlds/W01Controller.cs": "14dd1a54eebc5292ef4162baae99b99cd359ae59dec54f1a914ae3d6e75c1eb9",
               "eng/windows_station_worker.py": "7cc4f927717b639ab01769caf16bd76e74a8a6d7a547dd44a7d8f1d30af0d20f",
               "eng/windows-game-ui.ps1": "20d10a6a5ee138a26e7665e8374d0ec9a5f768daeeae832e58a1c01168e0fe1c"
             },
@@ -146288,7 +146311,7 @@
           "legacy_remaining": "Legacy shell source now uses the existing clean userdata guard, bounded120-frame startup and mandatory supported-ready/restoration markers; sh -n, embedded Python AST and root review of explicit command argv/cleanup passed. No Mac/legacy engine execution or platform acceptance.",
           "execution_job_id": "67d6b4cb7384479c9ebec51d79aebbad"
         },
-        "next_action": "Fix proven packaged-household-WAV loader failure; integrate bounded readable-trail slice and independently reviewed lifetime EXE pin, verify changed Windows sources, then one new package/native check. Do not replay unchanged30cac packet.",
+        "next_action": "Reuse accepted same cached export10de/candidate751 with corrected startup gate; authorized Skip of already verified prologue, ordinary Niva/home/tea/book/photo/action/return/manualSave/normalQuit1, then actual EXE2 Continue retained state/pose and normalQuit2. No new Game export. All unproved gates retained.",
         "legacy_bootstrap_source": {
           "targets": [
             "eng/verify-act1-release-package.sh"
@@ -146364,25 +146387,29 @@
           }
         },
         "current_native_attempt": {
-          "job_id": "30cac955f79b48ee85f6c42b0d738d23",
-          "candidate_id": "b3addb6f2035a68f1f380d93399163d66598bc55c2dffc027937e37333989b24",
-          "source_export_job": "91d01bc58c6f414396eb0f2b9b39986a",
-          "started_at_utc": "2026-10-21T03:36:44.753641+00:00",
+          "job_id": "4f6f197b070044a7aa1ce18053021c44",
+          "candidate_id": "7510635943e1ad8779ebe0aa46464574358d4666e5f6d02564fe4eb4216ccea5",
+          "source_export_job": "10de5f78dbe34858b4f5a3de9bfb061a",
+          "started_at_utc": "2026-10-21T04:02:19.470086+00:00",
           "status": "FAIL",
           "mode": "candidate-play",
           "shared_guard_timeout_seconds": 3600,
-          "question": "Finite changed-source check: actual exported NewGame/authorized Skip reaches fully constructed village; movement and normal Quit1, second-lifetime Continue and normal Quit2. Full photo/action/return route follows with same accepted packet.",
-          "observed": "Actual menu, NewGame, prologue and constructed village observed in current EXE. Houses/terrain/NPCs visible; prior raw-GLB scene construction failure no longer blocks village. Movement/normal exits/Continue not yet accepted.",
-          "not_proven": "Full photo/action/return/cold saved continuation, normal shutdown, performance, art, Mac, full campaign and all external gates remain open.",
-          "finished_at_utc": "2026-10-21T03:44:15.819547+00:00",
+          "deadline_at_utc": "2026-10-21T05:02:19.470086+00:00",
+          "question": "Ordinary prologue branch→village/home→earned photo/physicalbook→world action→return→save→normalQuit1→actual secondEXE Continue retains action/pose→normalQuit2.",
+          "observed": "Actual prologue/F01/F03/village/Niva commit/manualSave/normalQuit1 and inherited-handle UI verified. Startup gate blocked EXE2; no full photo/action/return/Continue proof.",
+          "not_proven": "Full photo/book/action/return, actual cold Continue and normalQuit2; unresolved7TextureRID warning, current art/performance/macOS/full campaign/external gates remain open.",
+          "finished_at_utc": "2026-10-21T04:30:34.285811+00:00",
           "exit_code": 1,
           "first_exe_exit_code": 0,
-          "result_sha256": "ba1a63a3b04a953d7f576ae446202902f4ec22686f235d0f2b4bbe39183eae60",
+          "second_exe_started": false,
+          "engine_error_count": 0,
           "userdata_restored": true,
-          "evidence": "evidence/PW-095/native_30cac955f79b48ee85f6c42b0d738d23",
-          "doctor": "fresh ready/idle/recoveryfalse/orphansfalse",
-          "actual_result": "Menu/NewGame/authorized Skip reached fully built village; ordinary movement and Pause/Quit confirmed. First EXE normal exit0; runner then rejected122 engine errors, so second EXE never started. First exception VillageHouseholdDirector.GetClip282 FileAccess.Open raw WAV then GetLength null in packaged scene. Own source correction assigned to windows_export_spec_review. Normal first exit accepted; error-free village/full loop/Continue not accepted.",
-          "duplicate_transport_removed_bytes": 4428558
+          "result_sha256": "b915f7c23bbb7403026ce63246867da61247c4c45ca42bbdf38923006a9a75d4",
+          "evidence": "evidence/PW-095/native_4f6f197b070044a7aa1ce18053021c44",
+          "doctor": "fresh ready/idle/interactive/recoveryfalse/orphansfalse",
+          "actual_result": "Ordinary full prologue on foot: timely F01 prompt, E moves branch, capsule passes F02, F03 E reaches fully built village with engineErrors0. Niva interaction committed pw-niva-stop and entered pw-home; old autosave checkpoint is not a live scene observer. Manual pause Save showed confirmation; normal Quit1 exited0. Authoritative candidate-session error requires obsolete legacy demo startup banner, so EXE2 never launched. Separate WARNING7TextureRID exists but is NOT the named failure cause; owner remains unknown.",
+          "duplicate_transport_removed_bytes": 12747393,
+          "duplicate_temporary_png_removed_bytes": 12703305
         },
         "village_export_loader_fix": {
           "targets": [
@@ -146419,17 +146446,38 @@
             "userdata_restored": true,
             "doctor": "fresh ready/idle/recoveryfalse/orphansfalse",
             "actual_result": "Exported main menu and NewGame prologue observed. Skip reached village but construction threw opening raw hero GLB via GlobalizePath/GltfDocument.AppendFromFile; imported PCK has .glb.import/.scn/3ctex but no rawGLB. Player continuously fell through incomplete world. Normal Pause/Quit confirmation used; first process exited abnormally -1073740940, second process not launched. Full gameplay/Continue and normal shutdown NOT accepted."
+          },
+          {
+            "job_id": "30cac955f79b48ee85f6c42b0d738d23",
+            "candidate_id": "b3addb6f2035a68f1f380d93399163d66598bc55c2dffc027937e37333989b24",
+            "source_export_job": "91d01bc58c6f414396eb0f2b9b39986a",
+            "started_at_utc": "2026-10-21T03:36:44.753641+00:00",
+            "status": "FAIL",
+            "mode": "candidate-play",
+            "shared_guard_timeout_seconds": 3600,
+            "question": "Finite changed-source check: actual exported NewGame/authorized Skip reaches fully constructed village; movement and normal Quit1, second-lifetime Continue and normal Quit2. Full photo/action/return route follows with same accepted packet.",
+            "observed": "Actual menu, NewGame, prologue and constructed village observed in current EXE. Houses/terrain/NPCs visible; prior raw-GLB scene construction failure no longer blocks village. Movement/normal exits/Continue not yet accepted.",
+            "not_proven": "Full photo/action/return/cold saved continuation, normal shutdown, performance, art, Mac, full campaign and all external gates remain open.",
+            "finished_at_utc": "2026-10-21T03:44:15.819547+00:00",
+            "exit_code": 1,
+            "first_exe_exit_code": 0,
+            "result_sha256": "ba1a63a3b04a953d7f576ae446202902f4ec22686f235d0f2b4bbe39183eae60",
+            "userdata_restored": true,
+            "evidence": "evidence/PW-095/native_30cac955f79b48ee85f6c42b0d738d23",
+            "doctor": "fresh ready/idle/recoveryfalse/orphansfalse",
+            "actual_result": "Menu/NewGame/authorized Skip reached fully built village; ordinary movement and Pause/Quit confirmed. First EXE normal exit0; runner then rejected122 engine errors, so second EXE never started. First exception VillageHouseholdDirector.GetClip282 FileAccess.Open raw WAV then GetLength null in packaged scene. Own source correction assigned to windows_export_spec_review. Normal first exit accepted; error-free village/full loop/Continue not accepted.",
+            "duplicate_transport_removed_bytes": 4428558
           }
         ],
         "household_audio_loader_fix": {
           "target": "game/scripts/VillageHouseholdDirector.cs",
           "cause": "Native30cac firstNRE GetClip282 opens raw WAV via FileAccess; imported QOA sample/remap is shipped. Initialize already uses ResourceLoader.Exists.",
           "result": "ResourceLoader AudioStreamWav resolves imported sample; missing resource explicitly fails. Decoded16bit frame/length/rate/channels plus44B budget prevents QOA compression understating existing600k/2MB LRU bounds; rejected resources disposed, active voices protected.",
-          "verification": "Root/caller/import remap source review passed; changedWindows build/exportdbfa in progress; runtime error elimination unproven. Actual corrected-source Windows Game compile33.49s exit0/0warnings/0errors. Source stage accepted; imported sample runtime still pending.",
-          "state": "compiled_source_accepted_runtime_pending"
+          "verification": "Windows Game compile33.49s0warnings0errors, export10dePASS; actual native4f6 reached fully constructed village and exited0 with engineErrors0. Previous GetClip rawWAV null failure absent. Full gameplay/Continue remain open.",
+          "state": "compiled_and_native_village_verified"
         },
         "native_ui_executable_pin": {
-          "state": "deployed_source_windows_syntax_verified_native_pending",
+          "state": "deployed_native_first_lifetime_verified_second_pending",
           "targets": [
             "eng/windows_station_worker.py",
             "eng/windows-game-ui.ps1"
@@ -146439,7 +146487,7 @@
             "eng/windows-game-ui.ps1": "20d10a6a5ee138a26e7665e8374d0ec9a5f768daeeae832e58a1c01168e0fe1c"
           },
           "result": "Full EXE SHA once under live readonly FILE_SHARE_READ-only handle. Per-action fileID/size/path/metadata checks and explicit private inheritable duplicate validated/owned by PS helper. Original pin retained through both lifetimes, guard restore and inflightUI. Timeout reserves recovery/busy/pin before emergency kill; no falseidle on unconfirmed tree termination. Public UI ownership/PID/window/ancestry/helperSHA/action bounds unchanged.",
-          "verification": "Root+independent final rereview clean. Actual Windows AST, PowerShell5.1.22621.963 ParseFile/Add-Type/52BABI passed. Exact installedSHA/fullACL/backupreadback/normalstopstart/freshdoctor readyidle recoveryfalse orphanfalse. Actual inheritedhandle/UI latency still pending.",
+          "verification": "Root+independent final rereview clean. Actual Windows AST, PowerShell5.1.22621.963 ParseFile/Add-Type/52BABI passed. Exact installedSHA/fullACL/backupreadback/normalstopstart/freshdoctor readyidle recoveryfalse orphanfalse. Actual inheritedhandle/UI latency still pending. First actual candidate inherited-handle UI Enter passed in4.15s on4f6f; remaining lifetime/cleanup and route inputs still under observation. Actual4f6 repeated ordinary UI, full walk/branch/village/manualSave/normalQuit0, userdata restored and freshdoctor idle verified. SecondEXE never started because obsolete startup banner; lifetime2 remains pending. Actual timings not a controlled before/after benchmark.",
           "backup": {
             "path": "D:/URMAN-STATION/data/infrastructure-backups/before-exe-pin-30cac.zip",
             "bytes": 51710,
@@ -146450,6 +146498,22 @@
             "windows": 53791
           },
           "residual": "Abrupt worker crash closes OS handles; durable protected-run marker and existing orphan/recovery health/operator lifecycle remain required."
+        },
+        "candidate_startup_marker_fix": {
+          "target": "eng/run-windows-check.ps1",
+          "state": "reviewed_windows_parsed_deployed",
+          "cause": "Actual4f6 engineErrors0 normalExit0 incorrectly rejected because PhotoWorlds wrapper never prints old vertical-slice ready banner.",
+          "result": "Exactly one canonical supported PhotoWorlds physical bootstrap marker per EXE; first/candidate-boot also require exact pw-prologue and physicalW01. Actual supported initial marker recorded for secondEXE. Existing error/resource/hardware renderer/exit/userdata/provenance gates unchanged.",
+          "semantics": "Bootstrap runs before menu from fresh entrypoint; it does NOT prove loaded Continue scene. Actual Continue requires later UI/domain events/retained state and pose.",
+          "verification": "Root and independent source review; actual Windows PowerShell5.1.22621.963 ParseFile PASS; precise old/newSHA, backupreadback, fullACL preserved under existingstationlock, freshdoctor ready/idle/interactive/no recovery/orphans.",
+          "installed_sha256": "ebc433bf81119ad4daaa792ffb3757ea60c4205367252b3f0923e82be1dbfc67",
+          "backup": {
+            "path": "D:/URMAN-STATION/data/infrastructure-backups/before-bootstrap-gate-4f6.zip",
+            "bytes": 9195,
+            "sha256": "1aa37db11ea270bbb3af98ca2efe1525e9f48d2e41327e8a670691d9216559da"
+          },
+          "staging_removed": true,
+          "remaining": "Reuse accepted export10de Game/candidate751 under changed runner; actual EXE1 full loop and EXE2 Continue/normalQuit2."
         }
       }
     },

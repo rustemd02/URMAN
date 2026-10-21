@@ -85,6 +85,18 @@ if ($candidateMode) {
 foreach ($path in $requiredTools) {
     if (-not (Test-Path $path)) { throw "Missing $path; run eng/setup-windows-station.ps1 first." }
 }
+function Get-RequiredPhotoWorldBootstrapMarker([string]$EngineLog, [string]$ExpectedScene = $null) {
+    $markers = @($EngineLog -split '\r?\n' | Where-Object {
+        $_ -cmatch '^urman-photoworld-bootstrap-ready: scene=urman\.fullgame:scene/pw-[a-z0-9-]+ supported=true$'
+    })
+    if ($markers.Count -ne 1) {
+        throw 'Exported game did not report exactly one canonical supported PhotoWorld bootstrap marker.'
+    }
+    if ($ExpectedScene -and $markers[0] -cne "urman-photoworld-bootstrap-ready: scene=$ExpectedScene supported=true") {
+        throw "Exported game PhotoWorld bootstrap scene did not match $ExpectedScene."
+    }
+    return $markers[0]
+}
 if (-not $candidateMode) {
     $env:DOTNET_ROOT = "$ToolsRoot/.tools/dotnet"
     $env:DOTNET_ROOT_X64 = $env:DOTNET_ROOT
@@ -123,12 +135,17 @@ if ($CandidateSession) {
                     $_ -match '(?im)(^|\s)(ERROR:|SCRIPT ERROR:)|ObjectDB instances leaked|resources still in use|Unhandled exception'
                 })
                 if ($run.engineErrors.Count -gt 0) { throw "Candidate run $runIndex contains engine errors or resource leaks." }
-                $markers = @('Godot vertical slice ready: Painterly Low-Poly / first person',
-                    'fullgame-scene-loaded: urman.fullgame:scene/pw-prologue physical=W01')
-                foreach ($marker in $markers) {
+                $expectedScene = if ($runIndex -eq 1) { 'urman.fullgame:scene/pw-prologue' } else { $null }
+                $bootstrapMarker = Get-RequiredPhotoWorldBootstrapMarker $log $expectedScene
+                $requiredMarkers = if ($runIndex -eq 1) {
+                    @($bootstrapMarker, 'fullgame-scene-loaded: urman.fullgame:scene/pw-prologue physical=W01')
+                } else {
+                    @($bootstrapMarker)
+                }
+                foreach ($marker in $requiredMarkers) {
                     if (-not $log.Contains($marker)) { throw "Exported game startup marker is missing: $marker" }
                 }
-                $run.startupMarkers = $markers
+                $run.startupMarkers = $requiredMarkers
                 $run.renderer = @($log -split '\r?\n' | Where-Object { $_ -match 'Vulkan|Direct3D|D3D12|OpenGL API' })
                 if (-not $run.renderer -or ($run.renderer -join ' ') -match '(?i)llvmpipe|SwiftShader|software rasterizer|Microsoft Basic Render') {
                     throw 'Native hardware renderer was not confirmed by the engine log.'
@@ -242,7 +259,8 @@ if ($Mode -eq 'candidate-boot') {
                 $_ -match '(?im)(^|\s)(ERROR:|SCRIPT ERROR:)|ObjectDB instances leaked|resources still in use|Unhandled exception'
             })
             if ($errors.Count -gt 0) { throw 'Exported game log contains engine errors or resource leaks.' }
-            $requiredMarkers = @('Godot vertical slice ready: Painterly Low-Poly / first person',
+            $bootstrapMarker = Get-RequiredPhotoWorldBootstrapMarker $engineLog 'urman.fullgame:scene/pw-prologue'
+            $requiredMarkers = @($bootstrapMarker,
                 'fullgame-scene-loaded: urman.fullgame:scene/pw-prologue physical=W01')
             foreach ($marker in $requiredMarkers) {
                 if (-not $engineLog.Contains($marker)) { throw "Exported game startup marker is missing: $marker" }
