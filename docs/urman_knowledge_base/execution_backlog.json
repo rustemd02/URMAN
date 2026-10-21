@@ -145736,7 +145736,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Run one current-snapshot export with deployed node-reuse/startup-budget fixes. Require strict supported-W01 bootstrap/provenance/PCK/.NET checks, then actual two-lifetime exported EXE gameplay/Continue under one guard.",
+      "next_action": "Fix proven packaged-household-WAV loader failure; integrate bounded readable-trail slice and independently reviewed lifetime EXE pin, verify changed Windows sources, then one new package/native check. Do not replay unchanged30cac packet.",
       "blocker": null,
       "external_gates": [
         {
@@ -146081,7 +146081,7 @@
         "remaining": "No gameplay result yet; inspect cache integrity before source upload."
       },
       "windows_export_route_2026_10_21": {
-        "state": "causal_export_fixes_ps5_reviewed_deployed_retry_pending",
+        "state": "corrected_house_visible_native_household_audio_failure",
         "result": "Strict release-windows source-only export backend, client, provenance and shared PCK/ZIP/.NET checks implemented; independent backend and client/common reviews clean after bounded ZIP/result/deadline fixes. Legacy two-platform receipt remains strict. Actual Windows PS5.1.22621.963 and Python AST passed on exact staged bytes; six files atomically deployed and SHA-verified, normal worker start and doctor ready/idle/recovery false/orphans false.",
         "next_finite_result": "Install pinned Windows release template after full TPZ byte/SHA verification; export the current source snapshot, validate actual package, then ordinary exported EXE NewGame→Save→full Quit→second-lifetime Continue under the existing guard.",
         "scope_limit": "Windows export engineering only; no fabricated Mac artifact or relaxed project/userdata guard. Windows dirty/unmerged Git checkout and unrelated paths preserved.",
@@ -146129,9 +146129,9 @@
           ],
           "mode": "export-release",
           "timeout_seconds": 1800,
-          "latest_status": "RUNNING",
+          "latest_status": "PASS",
           "question": "Does changed-source Windows affected compile/export accept the imported PackedScene loader and stricter authored recipe/remap scope? Native NewGame/Skip must then prove supported village/graphics and shutdown/full photo loop separately.",
-          "not_proven": "Export/strict package result pending; fixed native village/gameplay/two lifetimes/Continue/art/performance/Mac/full-campaign/external acceptance remain open.",
+          "not_proven": "Fixed exported village visible in current native30cac; full action/return/cold Continue, normal shutdown, art/performance/Mac/full-campaign/external acceptance remain open.",
           "started_at_utc": "2026-10-21T03:21:20.475327+00:00",
           "affected_build": {
             "host": "Windows UnterPC",
@@ -146144,7 +146144,14 @@
           "source_sha256": {
             "game/scripts/KitPlacementTakeover.cs": "a696f11a4bc5552d3306b8a4baf671b9e9d6d6ee08c08a65c2c125226f20f834",
             "eng/desktop_release_checks.py": "96114c4f1de7f100a56174f40c41c2afafc738dcedc53f59efb48c5892f5428b"
-          }
+          },
+          "finished_at_utc": "2026-10-21T03:28:08.093090+00:00",
+          "exit_code": 0,
+          "result_sha256": "167cb7d9c740306f8a2926cddbdb56845ac42bb3683250877f733e322f37862d",
+          "userdata_restored": true,
+          "evidence": "evidence/PW-095/export_91d01bc58c6f414396eb0f2b9b39986a",
+          "package_checks": "Actual PCK1405 entries, .NET10 win-x64 197dependencies, shipped hero recipe/imported PackedScene remap, physical W01 and supported-ready bootstrap passed.",
+          "source_cleanup_bytes": 1613948617
         },
         "attempt_history": [
           {
@@ -146211,7 +146218,7 @@
           "legacy_remaining": "Legacy shell source now uses the existing clean userdata guard, bounded120-frame startup and mandatory supported-ready/restoration markers; sh -n, embedded Python AST and root review of explicit command argv/cleanup passed. No Mac/legacy engine execution or platform acceptance.",
           "execution_job_id": "67d6b4cb7384479c9ebec51d79aebbad"
         },
-        "next_action": "Observe current export91d01bc5 after accepted affected build; exact new package, native target and full loop remain next. Commit finite source fix and retain all release/art/external gates.",
+        "next_action": "Fix proven packaged-household-WAV loader failure; integrate bounded readable-trail slice and independently reviewed lifetime EXE pin, verify changed Windows sources, then one new package/native check. Do not replay unchanged30cac packet.",
         "legacy_bootstrap_source": {
           "targets": [
             "eng/verify-act1-release-package.sh"
@@ -146263,7 +146270,15 @@
             "internet_reupload_avoided_bytes": 582381347
           },
           "local_bad_zip_removed_bytes": 582381347,
-          "current_policy": "Keep exact receipts/logs and full station raw results; do not download a new large Windows ZIP to Mac before actual native candidate acceptance. Canonical station package validation and authenticated same-host candidate upload avoid a duplicate Internet round trip."
+          "current_policy": "Keep exact receipts/logs and full station raw results; do not download a new large Windows ZIP to Mac before actual native candidate acceptance. Canonical station package validation and authenticated same-host candidate upload avoid a duplicate Internet round trip.",
+          "current_candidate_id": "b3addb6f2035a68f1f380d93399163d66598bc55c2dffc027937e37333989b24",
+          "current_same_host_upload_verified": {
+            "receipt_bytes": 645197,
+            "windows_zip_bytes": 582381367,
+            "actual_api_stored": true,
+            "cached_bytes_rehashed": true,
+            "large_zip_downloaded_to_mac": false
+          }
         },
         "guard_project_identity": {
           "state": "implemented_deployed_source_verified",
@@ -146279,22 +146294,25 @@
           }
         },
         "current_native_attempt": {
-          "job_id": "f2911a10bfa148cda52b00fe671e951a",
-          "candidate_id": "2107dbfca41cb291f5d974b8b1e75bcbbea4932260f5caf892145215557fb01d",
-          "started_at_utc": "2026-10-21T03:05:35.064008+00:00",
+          "job_id": "30cac955f79b48ee85f6c42b0d738d23",
+          "candidate_id": "b3addb6f2035a68f1f380d93399163d66598bc55c2dffc027937e37333989b24",
+          "source_export_job": "91d01bc58c6f414396eb0f2b9b39986a",
+          "started_at_utc": "2026-10-21T03:36:44.753641+00:00",
           "status": "FAIL",
-          "shared_guard_timeout_seconds": 3600,
           "mode": "candidate-play",
-          "question": "Actual exported EXE ordinary NewGame→W01 action→physical return→Save→normal Quit1→second-lifetime Continue retains committed action/pose→normal Quit2; native/error/restore evidence.",
-          "evidence": "evidence/PW-095/native_f2911a10bfa148cda52b00fe671e951a",
-          "not_proven": "Fixed-source native village/gameplay/full return/cold Continue and orderly shutdown; all full release/art/performance/platform/external gates remain open.",
-          "finished_at_utc": "2026-10-21T03:13:45.592089+00:00",
+          "shared_guard_timeout_seconds": 3600,
+          "question": "Finite changed-source check: actual exported NewGame/authorized Skip reaches fully constructed village; movement and normal Quit1, second-lifetime Continue and normal Quit2. Full photo/action/return route follows with same accepted packet.",
+          "observed": "Actual menu, NewGame, prologue and constructed village observed in current EXE. Houses/terrain/NPCs visible; prior raw-GLB scene construction failure no longer blocks village. Movement/normal exits/Continue not yet accepted.",
+          "not_proven": "Full photo/action/return/cold saved continuation, normal shutdown, performance, art, Mac, full campaign and all external gates remain open.",
+          "finished_at_utc": "2026-10-21T03:44:15.819547+00:00",
           "exit_code": 1,
-          "first_exe_exit_code": -1073740940,
-          "result_sha256": "c188341f4f4bd540407f0df9e6d8635216383ae6507661310ddc196592741f0e",
+          "first_exe_exit_code": 0,
+          "result_sha256": "ba1a63a3b04a953d7f576ae446202902f4ec22686f235d0f2b4bbe39183eae60",
           "userdata_restored": true,
+          "evidence": "evidence/PW-095/native_30cac955f79b48ee85f6c42b0d738d23",
           "doctor": "fresh ready/idle/recoveryfalse/orphansfalse",
-          "actual_result": "Exported main menu and NewGame prologue observed. Skip reached village but construction threw opening raw hero GLB via GlobalizePath/GltfDocument.AppendFromFile; imported PCK has .glb.import/.scn/3ctex but no rawGLB. Player continuously fell through incomplete world. Normal Pause/Quit confirmation used; first process exited abnormally -1073740940, second process not launched. Full gameplay/Continue and normal shutdown NOT accepted."
+          "actual_result": "Menu/NewGame/authorized Skip reached fully built village; ordinary movement and Pause/Quit confirmed. First EXE normal exit0; runner then rejected122 engine errors, so second EXE never started. First exception VillageHouseholdDirector.GetClip282 FileAccess.Open raw WAV then GetLength null in packaged scene. Own source correction assigned to windows_export_spec_review. Normal first exit accepted; error-free village/full loop/Continue not accepted.",
+          "duplicate_transport_removed_bytes": 4428558
         },
         "village_export_loader_fix": {
           "targets": [
@@ -146304,7 +146322,7 @@
           "cause": "Actual EXE matching ZIP receipt; hero recipe exact sourceSHA points to raw GLB absent from normal PCK, while its imported PackedScene/remap/textures are present. Both hero/variant branches assumed absolute loose GLB paths.",
           "result": "Existing ResourceLoader-first/PackedScene pattern shared by both loaders; direct glTF retained for unimported immutable Studio hotload. Recursive extracted Node.Owner cleanup precedes detach/free. Existing scope gate additionally checks shipped hero recipe freshness/schema/bounds and safe PackedScene remap dependency; no raw GLB inclusion workaround.",
           "verification": "Root+Fast loader/ownership/Studio immutable-path review passed. New existing scope function checked against actual old EXE PCK: PASS1405entries after supporting its real single terminal NUL. Python AST Mac/Windows passed; exact helper96114c4f deployed under existing runner lock with backup/SHA/fullACL readback. Local Game compilation did not complete because deleted NuGet metadata restore stalled; both owned restores stopped, no local compile PASS. Required changed-source Windows export will provide affected compile before packaging/native. Actual changed-source Windows Game build completed34.51s exit0/0warnings/0errors in job91d01bc5. Finite source stage technically accepted, export/native remain pending.",
-          "remaining": "Observe same export91d01bc5 to strict terminal result; then actual EXE NewGame/Skip supported village, normal exit and full photo/action/return/Continue. Do not rerun known broken f291 package.",
+          "remaining": "Current corrected export PASS and actual village visible. Finish same short native normal exits/Continue; full ordinary photo/action/return route remains open.",
           "checker_backup": {
             "path": "D:/URMAN-STATION/data/infrastructure-backups/before-package-scope-f291.zip",
             "bytes": 9768,
@@ -146312,7 +146330,27 @@
           },
           "local_bad_package_removed_bytes": 582381347,
           "duplicate_transport_removed_bytes": 2653915
-        }
+        },
+        "native_attempt_history": [
+          {
+            "job_id": "f2911a10bfa148cda52b00fe671e951a",
+            "candidate_id": "2107dbfca41cb291f5d974b8b1e75bcbbea4932260f5caf892145215557fb01d",
+            "started_at_utc": "2026-10-21T03:05:35.064008+00:00",
+            "status": "FAIL",
+            "shared_guard_timeout_seconds": 3600,
+            "mode": "candidate-play",
+            "question": "Actual exported EXE ordinary NewGame→W01 action→physical return→Save→normal Quit1→second-lifetime Continue retains committed action/pose→normal Quit2; native/error/restore evidence.",
+            "evidence": "evidence/PW-095/native_f2911a10bfa148cda52b00fe671e951a",
+            "not_proven": "Fixed-source native village/gameplay/full return/cold Continue and orderly shutdown; all full release/art/performance/platform/external gates remain open.",
+            "finished_at_utc": "2026-10-21T03:13:45.592089+00:00",
+            "exit_code": 1,
+            "first_exe_exit_code": -1073740940,
+            "result_sha256": "c188341f4f4bd540407f0df9e6d8635216383ae6507661310ddc196592741f0e",
+            "userdata_restored": true,
+            "doctor": "fresh ready/idle/recoveryfalse/orphansfalse",
+            "actual_result": "Exported main menu and NewGame prologue observed. Skip reached village but construction threw opening raw hero GLB via GlobalizePath/GltfDocument.AppendFromFile; imported PCK has .glb.import/.scn/3ctex but no rawGLB. Player continuously fell through incomplete world. Normal Pause/Quit confirmation used; first process exited abnormally -1073740940, second process not launched. Full gameplay/Continue and normal shutdown NOT accepted."
+          }
+        ]
       }
     },
     {
