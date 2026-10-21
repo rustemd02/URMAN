@@ -146081,11 +146081,11 @@
         "remaining": "No gameplay result yet; inspect cache integrity before source upload."
       },
       "windows_export_route_2026_10_21": {
-        "state": "engineering_reviewed_ps5_parsed_deployed_templates_pending",
+        "state": "engineering_deployed_pinned_templates_installed_export_pending",
         "result": "Strict release-windows source-only export backend, client, provenance and shared PCK/ZIP/.NET checks implemented; independent backend and client/common reviews clean after bounded ZIP/result/deadline fixes. Legacy two-platform receipt remains strict. Actual Windows PS5.1.22621.963 and Python AST passed on exact staged bytes; six files atomically deployed and SHA-verified, normal worker start and doctor ready/idle/recovery false/orphans false.",
         "next_finite_result": "Install pinned Windows release template after full TPZ byte/SHA verification; export the current source snapshot, validate actual package, then ordinary exported EXE NewGame→Save→full Quit→second-lifetime Continue under the existing guard.",
         "scope_limit": "Windows export engineering only; no fabricated Mac artifact or relaxed project/userdata guard. Windows dirty/unmerged Git checkout and unrelated paths preserved.",
-        "remaining": "Pinned template download in progress; no actual release export or native exported EXE result yet. Mac/platform/art/performance/rights and full campaign acceptance remain open.",
+        "remaining": "Actual current-source export/provenance/package result, then two-lifetime exported EXE gameplay/Continue. No native release candidate PASS yet. Mac/platform/art/performance/rights/full-campaign gates retained.",
         "station_backup": {
           "path": "D:/URMAN-STATION/data/infrastructure-backups/before-export-d37bc756-20261021.zip",
           "bytes": 63846,
@@ -146099,6 +146099,24 @@
           "eng/act1_candidate_identity.py": "bf65abf6f6d659e6b522d2efda3a26e90e6cc1fa5ffc1dcdb5c5dfcc01fd23d2",
           "eng/desktop_build_provenance.py": "f770d5966d9a43ec7569ad2a7bb290b272d456c59a7c01d55eb03fdc18fb1844",
           "eng/desktop_release_checks.py": "9e2ddc5b02e8f343f08b12a8bde226987245c8a10dc635c8e9afc224de8767ca"
+        },
+        "templates": {
+          "version": "4.7.1.stable.mono",
+          "archive_bytes_verified": 1201759011,
+          "archive_sha256": "ef9a708be51ecd974cd7dccdcafd7a1870da3d3e1c24c072bdbb9818c7a7db63",
+          "retained_files": {
+            "version.txt": {
+              "bytes": 18,
+              "sha256": "ba3c770186d95a2dafd7296613d44d58f88e4a06abadc7aa16330a76d74109a5"
+            },
+            "windows_release_x86_64.exe": {
+              "bytes": 109456896,
+              "sha256": "ced72399c0c035da2bd1e0c97e3ead18f69d9de39458bcd1091796872db142f8"
+            }
+          },
+          "verification": "Exact pinned full TPZ size/SHA and version verified; only required release EXE/version copied with per-entry SHA and installed readback. Root-owned TPZ and empty download directory deleted after success. Debug/unrelated platform templates not installed.",
+          "requirement_source": "https://raw.githubusercontent.com/godotengine/godot/a13da4feb/editor/export/editor_export_platform_pc.cpp#L89-L154",
+          "temporary_archive_removed_bytes": 1201759011
         }
       }
     },
