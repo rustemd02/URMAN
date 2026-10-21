@@ -1869,6 +1869,89 @@ def _windows_descendants(root_pid):
             pending.append(pid)
     return descendants
 
+
+class _CandidateExecutablePin:
+    """Bind one verified EXE to a live handle that denies write/delete sharing."""
+    def __init__(self, path, manifest):
+        import msvcrt
+        from ctypes import wintypes
+        class FileInfo(ctypes.Structure):
+            _fields_ = [(name, wintypes.DWORD) for name in (
+                'attributes', 'creation_low', 'creation_high', 'access_low', 'access_high',
+                'write_low', 'write_high', 'volume', 'size_high', 'size_low',
+                'links', 'index_high', 'index_low')]
+        if ctypes.sizeof(FileInfo) != 52:
+            raise ValueError('unsupported candidate pin file identity ABI')
+        self.kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+        self.kernel32.CreateFileW.argtypes = [wintypes.LPCWSTR, wintypes.DWORD, wintypes.DWORD,
+                                            ctypes.c_void_p, wintypes.DWORD, wintypes.DWORD, wintypes.HANDLE]
+        self.kernel32.CreateFileW.restype = wintypes.HANDLE
+        self.kernel32.GetFileInformationByHandle.argtypes = [wintypes.HANDLE, ctypes.POINTER(FileInfo)]
+        self.kernel32.GetFileInformationByHandle.restype = wintypes.BOOL
+        self.kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+        self.kernel32.CloseHandle.restype = wintypes.BOOL
+        self.info_type = FileInfo
+        self.os_handle = msvcrt.get_osfhandle
+        self.path = os.path.normcase(os.path.abspath(path))
+        self.sha256 = manifest['windows_exe_sha256']
+        self.size = manifest['windows_exe_bytes']
+        self.stream = None
+        handle = self._open(path)
+        try:
+            descriptor = msvcrt.open_osfhandle(handle, os.O_RDONLY | os.O_BINARY)
+        except Exception:
+            self.kernel32.CloseHandle(handle)
+            raise
+        try:
+            self.stream = os.fdopen(descriptor, 'rb')
+            self.identity = self._identity(handle)
+            actual = hashlib.sha256()
+            for chunk in iter(lambda: self.stream.read(1024**2), b''):
+                actual.update(chunk)
+            if actual.hexdigest() != self.sha256:
+                raise ValueError('candidate executable pin SHA256 mismatch')
+            self.verify(path, manifest)
+        except Exception:
+            if self.stream is None:
+                os.close(descriptor)
+            else:
+                self.close()
+            raise
+
+    def _open(self, path):
+        # OPEN_EXISTING + OPEN_REPARSE_POINT; never allow write/delete sharing.
+        handle = self.kernel32.CreateFileW(str(path), 0x80000000, 1, None, 3, 0x00200000, None)
+        if handle == ctypes.c_void_p(-1).value:
+            raise OSError(ctypes.get_last_error(), 'candidate executable pin open failed')
+        return handle
+
+    def _identity(self, handle):
+        info = self.info_type()
+        if (not self.kernel32.GetFileInformationByHandle(handle, ctypes.byref(info))
+                or info.attributes & 0x0410
+                or not (info.index_high or info.index_low)
+                or (info.size_high << 32 | info.size_low) != self.size):
+            raise ValueError('candidate executable pin identity unavailable')
+        return (f'{info.volume:08x}:{info.index_high:08x}{info.index_low:08x}:'
+                f'{info.size_high:08x}{info.size_low:08x}:{info.write_high:08x}{info.write_low:08x}')
+
+    def verify(self, path, manifest):
+        if (self.stream is None or self.stream.closed
+                or os.path.normcase(os.path.abspath(path)) != self.path
+                or manifest['windows_exe_sha256'] != self.sha256 or manifest['windows_exe_bytes'] != self.size
+                or self._identity(self.os_handle(self.stream.fileno())) != self.identity):
+            raise ValueError('candidate executable pin changed')
+        other = self._open(path)
+        try:
+            if self._identity(other) != self.identity:
+                raise ValueError('candidate executable path no longer names its pinned file')
+        finally:
+            self.kernel32.CloseHandle(other)
+
+    def close(self):
+        if self.stream is not None:
+            self.stream.close()
+
 class Station:
     def __init__(self, config):
         self.config = config
@@ -1882,6 +1965,8 @@ class Station:
         self.active_source = None
         self.active_runner = None
         self.active_candidate = None
+        self.active_candidate_pin = None
+        self.active_candidate_recovery = False
         self.active_candidate_helper_sha256 = None
         self.snapshots = self.data / 'snapshots'; self.snapshots.mkdir(exist_ok=True)
         self.jobs = self.data / 'runs'; self.jobs.mkdir(exist_ok=True)
@@ -2059,6 +2144,8 @@ class Station:
                 'total_gb': round(use.total / 1024**3, 1)}
 
     def recovery(self):
+        if self.active_candidate_recovery:
+            return True
         marker = Path(os.environ['APPDATA']) / 'Godot/app_userdata/.URMAN.protected-run.lock'
         if not marker.exists():
             return False
@@ -2452,12 +2539,12 @@ class Station:
                 record = self.candidate_for(spec['candidate_id'])
                 owner = self.job_owners.get(jid)
                 if (record is None or not owner or record['owner'] != owner
-                        or executable.stat().st_size != record['manifest']['windows_exe_bytes']
-                        or digest(executable) != record['manifest']['windows_exe_sha256']
+                        or self.active_candidate_pin is None
                         or not self.active_candidate_helper_sha256
                         or digest(_studio_path(self.repo, 'eng/windows-game-ui.ps1'))
                         != self.active_candidate_helper_sha256):
                     return None
+                self.active_candidate_pin.verify(executable, record['manifest'])
                 expected_image = os.path.normcase(os.path.normpath(str(executable)))
                 matches = []
                 for pid, name in _windows_descendants(runner.pid).items():
@@ -2815,6 +2902,7 @@ class Station:
         if not powershell.is_file() or not helper.is_file():
             return 'ui_helper_launch_failed', None, None
 
+        duplicate_descriptor = None
         try:
             with tempfile.TemporaryDirectory(prefix='urman-game-ui-') as private_temp:
                 private_root = Path(private_temp).resolve(strict=True)
@@ -2841,11 +2929,17 @@ class Station:
                     record = self.candidate_for(self.active_spec['candidate_id'])
                     if (record is None or self.active_candidate is None or self.active_runner is None
                             or self.active_runner.poll() is not None
+                            or self.active_candidate_pin is None
                             or record['owner'] != self.job_owners.get(jid)):
                         return 'ui_helper_launch_failed', None, None
+                    pin = self.active_candidate_pin
+                    pin.verify(_studio_path(self.active_candidate, 'windows/URMAN.exe'), record['manifest'])
+                    duplicate_descriptor = os.dup(pin.stream.fileno())
+                    duplicate_handle = pin.os_handle(duplicate_descriptor)
                     request.update(candidateRoot=str(self.active_candidate),
                                    runnerPid=self.active_runner.pid,
-                                   executableSha256=record['manifest']['windows_exe_sha256'])
+                                   executableSha256=record['manifest']['windows_exe_sha256'],
+                                   executablePinHandle=str(duplicate_handle), executablePinIdentity=pin.identity)
                 else:
                     request['sourceRoot'] = str(source)
                 with request_path.open('xb') as stream:
@@ -2865,10 +2959,20 @@ class Station:
                 command = [str(powershell), '-NoLogo', '-NoProfile', '-NonInteractive',
                            '-ExecutionPolicy', 'Bypass', '-File', str(helper),
                            '-RequestPath', str(request_path)]
-                process = subprocess.Popen(
-                    command, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
-                    stderr=subprocess.DEVNULL, cwd=str(private_root), env=helper_env,
-                    creationflags=subprocess.CREATE_NO_WINDOW)
+                startup = None
+                try:
+                    if duplicate_descriptor is not None:
+                        startup = subprocess.STARTUPINFO()
+                        startup.lpAttributeList = {'handle_list': [duplicate_handle]}
+                        os.set_handle_inheritable(duplicate_handle, True)
+                    process = subprocess.Popen(
+                        command, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL, cwd=str(private_root), env=helper_env,
+                        startupinfo=startup, close_fds=True, creationflags=subprocess.CREATE_NO_WINDOW)
+                finally:
+                    if duplicate_descriptor is not None:
+                        os.close(duplicate_descriptor)
+                        duplicate_descriptor = None
                 try:
                     exit_code = process.wait(timeout=UI_HELPER_TIMEOUT_SECONDS)
                 except subprocess.TimeoutExpired:
@@ -2895,6 +2999,9 @@ class Station:
                 return 'ui_helper_invalid_result', report if isinstance(report, dict) else None, exit_code
         except (OSError, ValueError, subprocess.SubprocessError):
             return 'ui_helper_launch_failed', None, None
+        finally:
+            if duplicate_descriptor is not None:
+                os.close(duplicate_descriptor)
 
     def _record_first_ui_refusal(self, jid, expected_pid, reason_code, report, exit_code):
         if jid in self.ui_refusal_attempted:
@@ -3039,6 +3146,13 @@ class Station:
             return 200, {'job_id': jid, 'action': kind, 'ok': True}
 
     def _clear_active_job(self, jid):
+        if (self.busy == jid and self.active_candidate_pin is not None
+                and (self.active_candidate_recovery
+                     or (self.active_runner is not None and self.active_runner.poll() is None))):
+            # Keep the pin and reservation until operator recovery confirms termination.
+            self.active_candidate_recovery = True
+            self.active_candidate_helper_sha256 = None
+            return
         if self.busy == jid:
             self.busy = None
         self.job_owners.pop(jid, None)
@@ -3049,6 +3163,9 @@ class Station:
             self.active_runner = None
             self.active_candidate = None
             self.active_candidate_helper_sha256 = None
+            if self.active_candidate_pin is not None:
+                self.active_candidate_pin.close()
+                self.active_candidate_pin = None
 
     def execute_candidate(self, path, spec, status):
         output = path / 'artifacts'
@@ -3092,6 +3209,13 @@ class Station:
             unpack_candidate(archive_path, candidate_root, manifest)
             if native_play and _studio_path(candidate_root, 'windows/override.cfg', missing=True) is not None:
                 raise ValueError('native candidate must not contain an external project override')
+            if native_play:
+                pin = _CandidateExecutablePin(_studio_path(candidate_root, 'windows/URMAN.exe'), manifest)
+                with self.lock:
+                    if self.busy != spec['job_id'] or self.active_spec is None or self.active_spec.get('job_id') != spec['job_id']:
+                        pin.close()
+                        raise ValueError('candidate ownership changed before pin publication')
+                    self.active_candidate_pin = pin
 
             execution_names = ('eng/run-windows-check.ps1', 'eng/protected_run.py', 'eng/remote_common.py')
             if native_play:
@@ -3125,6 +3249,10 @@ class Station:
                 try:
                     code = process.wait(timeout=spec['timeout'] + 120)
                 except subprocess.TimeoutExpired:
+                    if native_play:
+                        with self.lock:
+                            self.active_candidate_recovery = True
+                            self.active_candidate_helper_sha256 = None
                     subprocess.run(['taskkill', '/PID', str(process.pid), '/T', '/F'], capture_output=True)
                     process.wait(timeout=10)
                     raise RuntimeError('candidate job deadline exceeded; inspect the userdata recovery marker')
@@ -3165,12 +3293,22 @@ class Station:
         # Drain in-flight UI/capture before removing the package or archiving frames.
         # Busy and ownership remain reserved until result cleanup has finished.
         with self.lock:
+            if native_play and (self.active_candidate_recovery
+                                or ('process' in locals() and process.poll() is None)):
+                self.active_candidate_recovery = True
+                self.active_candidate_helper_sha256 = None
+                _write_result_unavailable(path, status,
+                                          'candidate process tree termination unconfirmed; station reserved for recovery')
+                return
             if self.active_spec is not None and self.active_spec.get('job_id') == spec['job_id']:
                 self.active_spec = None
                 self.active_source = None
                 self.active_runner = None
                 self.active_candidate = None
                 self.active_candidate_helper_sha256 = None
+            if self.active_candidate_pin is not None:
+                self.active_candidate_pin.close()
+                self.active_candidate_pin = None
         status['finished'] = time.time()
         if candidate_root.exists() and not preserve_candidate:
             shutil.rmtree(candidate_root, ignore_errors=True)

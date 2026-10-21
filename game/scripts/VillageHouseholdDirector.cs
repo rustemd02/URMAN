@@ -277,18 +277,29 @@ public partial class VillageHouseholdDirector : Node3D
     private AudioStream? GetClip(string path)
     {
         if(_clips.TryGetValue(path,out var hit)) {hit.Access=++_access;return hit.Stream;}
-        // WAV file size bounds PCM without loading an unbounded stream first.
-        using var file=FileAccess.Open(path,FileAccess.ModeFlags.Read);
-        var bytes=checked((int)file.GetLength());
-        if(bytes>PcmBudget || bytes>600_000) throw new InvalidOperationException("Household clip exceeded budget: "+path);
+        // Exported PCKs retain the imported sample, not necessarily its source
+        // WAV. ResourceLoader resolves that remap; count its decoded PCM size
+        // rather than the smaller QOA payload so imported compression cannot
+        // bypass the existing source-sized cache budgets.
+        var stream=ResourceLoader.Load<AudioStreamWav>(path,cacheMode:ResourceLoader.CacheMode.Ignore)
+            ??throw new InvalidDataException("Household WAV resource could not be loaded: "+path);
+        var sampleFrames=Math.Ceiling((double)stream.GetLength()*stream.MixRate);
+        var bytesPerFrame=(stream.Stereo?2L:1L)*(stream.Format==AudioStreamWav.FormatEnum.Format8Bits?1L:2L);
+        var budgetLimit=Math.Min(PcmBudget,600_000);
+        if(!double.IsFinite(sampleFrames) || sampleFrames<=0
+            || sampleFrames>(budgetLimit-44L)/bytesPerFrame)
+        {
+            stream.Dispose();
+            throw new InvalidOperationException("Household clip exceeded budget: "+path);
+        }
+        var bytes=checked((int)(sampleFrames*bytesPerFrame+44L));
         while(_clips.Count>=ClipBudget || _clipBytes+bytes>PcmBudget)
         {
             var oldest=_clips.Where(c=>!_voices.Any(v=>ReferenceEquals(v.Stream,c.Value.Stream)))
                 .OrderBy(c=>c.Value.Access).FirstOrDefault();
-            if(oldest.Value is null) return null;
+            if(oldest.Value is null) {stream.Dispose();return null;}
             _clipBytes-=oldest.Value.Bytes;_clips.Remove(oldest.Key);oldest.Value.Stream.Dispose();
         }
-        var stream=ResourceLoader.Load<AudioStreamWav>(path,cacheMode:ResourceLoader.CacheMode.Ignore);
         stream.LoopMode=AudioStreamWav.LoopModeEnum.Disabled;
         _clips.Add(path,new Clip(stream,bytes,++_access));_clipBytes+=bytes;return stream;
     }

@@ -42,6 +42,22 @@ public static class UrmanGameUiNative {
  [DllImport("user32.dll",SetLastError=true)] public static extern uint SendInput(uint count,Input[] inputs,int inputSize);
  [DllImport("user32.dll")] public static extern short GetAsyncKeyState(int virtualKey);
  [DllImport("user32.dll")] public static extern void mouse_event(uint flags,int x,int y,uint data,UIntPtr extra);
+ [StructLayout(LayoutKind.Sequential)] public struct FileInfo {
+  public uint Attributes,CreationLow,CreationHigh,AccessLow,AccessHigh,WriteLow,WriteHigh;
+  public uint Volume,SizeHigh,SizeLow,Links,IndexHigh,IndexLow;
+ }
+ [DllImport("kernel32.dll",SetLastError=true)] public static extern bool GetFileInformationByHandle(IntPtr h,out FileInfo info);
+ [DllImport("kernel32.dll",SetLastError=true)] public static extern bool GetHandleInformation(IntPtr h,out uint flags);
+ [DllImport("kernel32.dll",SetLastError=true)] public static extern bool SetHandleInformation(IntPtr h,uint mask,uint flags);
+ [DllImport("kernel32.dll")] public static extern uint GetFileType(IntPtr h);
+ public static string ExecutableIdentity(IntPtr h) {
+  FileInfo info;
+  if (Marshal.SizeOf(typeof(FileInfo))!=52 || GetFileType(h)!=1 || !GetFileInformationByHandle(h,out info) ||
+   (info.Attributes & 0x0410)!=0 || (info.IndexHigh==0 && info.IndexLow==0))
+   throw new InvalidOperationException("The candidate executable hash changed.");
+  return string.Format("{0:x8}:{1:x8}{2:x8}:{3:x8}{4:x8}:{5:x8}{6:x8}",
+   info.Volume,info.IndexHigh,info.IndexLow,info.SizeHigh,info.SizeLow,info.WriteHigh,info.WriteLow);
+ }
  public static int InputSize() { return Marshal.SizeOf(typeof(Input)); }
  public static IntPtr PackScreenPoint(int x,int y) {
   return new IntPtr(unchecked(((y & 0xffff) << 16) | (x & 0xffff)));
@@ -60,6 +76,7 @@ public static class UrmanGameUiNative {
 [void][UrmanGameUiNative]::SetProcessDPIAware()
 
 $script:AllowedTitles = @('URMAN','URMAN(DEBUG)','URMAN (DEBUG)','URMAN Studio','URMAN Studio(DEBUG)','URMAN Studio (DEBUG)')
+$script:CandidatePin = $null
 $script:TargetHandle = [IntPtr]::Zero
 $script:TargetPid = 0
 $script:TargetVerified = $false
@@ -705,11 +722,29 @@ try {
                 throw 'The candidate executable does not match this job.'
             }
         }
+        $pinValue = [long]0
         if ([string]$script:Request.executableSha256 -cnotmatch '\A[a-f0-9]{64}\z' -or
-            (Get-FileHash -LiteralPath $candidateExecutable -Algorithm SHA256).Hash.ToLowerInvariant() -cne
-                [string]$script:Request.executableSha256) {
+            [string]$script:Request.executablePinIdentity -cnotmatch '\A[0-9a-f]{8}(?::[0-9a-f]{16}){3}\z' -or
+            -not [long]::TryParse([string]$script:Request.executablePinHandle,[ref]$pinValue) -or $pinValue -le 0) {
             throw 'The candidate executable hash changed.'
         }
+        $pinHandle = [IntPtr]::new($pinValue)
+        [uint32]$pinFlags = 0
+        if (-not [UrmanGameUiNative]::GetHandleInformation($pinHandle,[ref]$pinFlags) -or ($pinFlags -band 1) -eq 0) {
+            throw 'The candidate executable hash changed.'
+        }
+        $script:CandidatePin = [Microsoft.Win32.SafeHandles.SafeFileHandle]::new($pinHandle,$true)
+        if (-not [UrmanGameUiNative]::SetHandleInformation($pinHandle,1,0) -or
+            [UrmanGameUiNative]::ExecutableIdentity($pinHandle) -cne [string]$script:Request.executablePinIdentity) {
+            throw 'The candidate executable hash changed.'
+        }
+        $pathStream = [IO.File]::Open($candidateExecutable,[IO.FileMode]::Open,[IO.FileAccess]::Read,[IO.FileShare]::Read)
+        try {
+            if ([UrmanGameUiNative]::ExecutableIdentity($pathStream.SafeFileHandle.DangerousGetHandle()) -cne
+                    [string]$script:Request.executablePinIdentity) {
+                throw 'The candidate executable hash changed.'
+            }
+        } finally { $pathStream.Dispose() }
         $candidateRunnerId = 0
         if (-not [int]::TryParse([string]$script:Request.runnerPid,[ref]$candidateRunnerId) -or
             $candidateRunnerId -le 0 -or $candidateRunnerId -eq $targetPid) {
@@ -718,6 +753,8 @@ try {
     } else {
         if ($script:Request.PSObject.Properties.Name -contains 'runnerPid' -or
             $script:Request.PSObject.Properties.Name -contains 'executableSha256' -or
+            $script:Request.PSObject.Properties.Name -contains 'executablePinHandle' -or
+            $script:Request.PSObject.Properties.Name -contains 'executablePinIdentity' -or
             [string]::IsNullOrWhiteSpace([string]$script:Request.sourceRoot) -or
             -not [IO.Path]::IsPathRooted([string]$script:Request.sourceRoot)) {
             throw 'Request sourceRoot must be an absolute runs/<jobId>/source path.'
@@ -876,4 +913,6 @@ try {
     }
     try { Write-Result $false $_.Exception.Message } catch { }
     exit 1
+} finally {
+    if ($null -ne $script:CandidatePin) { $script:CandidatePin.Dispose() }
 }

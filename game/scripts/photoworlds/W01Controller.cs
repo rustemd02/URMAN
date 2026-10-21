@@ -60,6 +60,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private const float RootPassagePlaneHalfDepth = 1.15f;
     private const float RootPassageExitSweepDistance = 0.36f;
     private const float RootPassagePlaneSideEpsilon = 0.05f;
+    private const float PrologueBranchHintQuestionDistance = 18f;
     private const string FreshSnowTexturePath = "res://assets/textures/painterly/snow_fresh_v1_albedo.png";
     private const string TrampledSnowTexturePath = "res://assets/textures/painterly/snow_trampled_v2_albedo.png";
     private const string ForestRootsTexturePath = "res://assets/photoworlds/forest_ground/w01_forest_roots_1k.png";
@@ -78,11 +79,15 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             // Keep the authored 2.1 m packed core; lower mask coverage belongs
             // to soft snowy shoulders, not another full-strength lane.
             float track = smoothstep(0.72, 1.0, COLOR.r);
+            float track_shoulder = smoothstep(0.04, 0.60, COLOR.r);
             // Packed snow records the narrow walked route; the surrounding snow
             // stays pale. This is authored vertex coverage, not a new path mesh.
             vec3 fresh = texture(fresh_snow, UV2).rgb * vec3(0.94, 0.97, 0.91);
-            vec3 packed = texture(trampled_snow, UV2).rgb * vec3(0.68, 0.75, 0.72);
-            vec3 snow = mix(fresh, packed, track * 0.94);
+            vec3 packed = texture(trampled_snow, UV2).rgb * vec3(0.56, 0.65, 0.68);
+            // Keep the authored 2.1 m core distinct and let its existing mask
+            // fade into soft shoulders, so the lane reads without a second mesh.
+            vec3 snow = mix(fresh, packed, track_shoulder * 0.22);
+            snow = mix(snow, packed, track * 0.94);
             float root_cover = clamp(COLOR.b * 0.48, 0.0, 0.38) * (1.0 - track);
             float leaf_cover = clamp(COLOR.g * 0.30, 0.0, 0.24) * (1.0 - track);
             vec3 roots = texture(forest_roots, UV2).rgb * vec3(0.84, 0.83, 0.76);
@@ -237,6 +242,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private Label? _prologueHintQuestionLabel;
     private Label? _prologueHintAccessLabel;
     private string? _prologueHintQuestion;
+    private string? _prologueHintApproach;
+    private string? _prologueHintKey;
     private bool _prologueHintAvailable;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
@@ -320,6 +327,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _prologueHintQuestionLabel = null;
         _prologueHintAccessLabel = null;
         _prologueHintQuestion = null;
+        _prologueHintApproach = null;
+        _prologueHintKey = null;
         _prologueHintAvailable = false;
         _branchAnimation = null;
         _branchMoveInteractionId = null;
@@ -1922,6 +1931,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _prologueSkipTarget?.SetPresentationEnabled(visible);
         var hint = visible ? bridge.CurrentPhotoWorldHint() : null;
         _prologueHintQuestion = string.IsNullOrWhiteSpace(hint?.Question) ? null : hint.Question;
+        _prologueHintApproach = string.IsNullOrWhiteSpace(hint?.Action) ? null : hint.Action;
+        _prologueHintKey = hint?.Key;
         _prologueHintAvailable = _prologueHintQuestion is not null;
         _prologueSkipCaption = bridge.ResolveText(PrologueSkipLabelTextId);
         button.Visible = visible;
@@ -1950,7 +1961,10 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         if (_prologueHintPanel is { } hintPanel && GodotObject.IsInstanceValid(hintPanel))
         {
             hintPanel.Visible = !button.Disabled && _prologueHintAvailable;
-            var question = _prologueHintQuestion ?? string.Empty;
+            var showBranchQuestion = _prologueHintKey != "prologue-branch"
+                || GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController hintPlayer
+                    && IsPrologueBranchFramedForQuestion(hintPlayer);
+            var question = (showBranchQuestion ? _prologueHintQuestion : _prologueHintApproach) ?? string.Empty;
             var access = _prologueHintAvailable
                 ? $"Подробнее — {InputBindingService.ActionHint("journal", gamepad)}"
                 : string.Empty;
@@ -1961,6 +1975,33 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                 && !string.Equals(hintLabel.Text, access, StringComparison.Ordinal))
                 hintLabel.Text = access;
         }
+    }
+
+    private bool IsPrologueBranchFramedForQuestion(FirstPersonController player)
+    {
+        if (_branchVisual is not { Visible: true } branch || !GodotObject.IsInstanceValid(branch)
+            || _gripCenter is not { } grip || !GodotObject.IsInstanceValid(grip)
+            || player.ModalOpen
+            || player.GetNodeOrNull<Camera3D>("Head/Camera3D") is not { Current: true } camera)
+            return false;
+
+        var eye = camera.GlobalPosition;
+        var point = grip.GlobalPosition;
+        var distance = eye.DistanceTo(point);
+        if (distance > PrologueBranchHintQuestionDistance) return false;
+
+        // _Process already refreshes this panel; delay the question until its
+        // authored grip point falls inside the current camera frame.
+        var local = camera.ToLocal(point);
+        if (local.Z >= -0.05f) return false;
+        var viewport = camera.GetViewport().GetVisibleRect().Size;
+        if (viewport.X <= 0f || viewport.Y <= 0f) return false;
+        var aspect = viewport.X / viewport.Y;
+        var tangent = Mathf.Tan(Mathf.DegToRad(camera.Fov) * 0.5f);
+        var halfWidth = camera.KeepAspect == Camera3D.KeepAspectEnum.Width ? tangent : tangent * aspect;
+        var halfHeight = camera.KeepAspect == Camera3D.KeepAspectEnum.Width ? tangent / aspect : tangent;
+        return Math.Abs(local.X / -local.Z) <= halfWidth
+            && Math.Abs(local.Y / -local.Z) <= halfHeight;
     }
 
     private void RefitPrologueSkipButton()

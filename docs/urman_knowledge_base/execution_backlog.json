@@ -122900,7 +122900,7 @@
               "F01/F03 authored graph gap исправлен в 5f1d9e98; существующий semantic route обновлён, ещё NOT_RUN. Нужен physical binding обоих endpoints и основного forest move, не ранний выход вместо полного пролога.",
               "W01 source consumer ground/F01 принят24.38s compile; real scene runtime/material/contacts/capsule/save/мovedbranchinspect NOT_RUN. Forestkit stage2 и isolatedbirch stage8 root rejected; untracked source/tmp сохранены, assetsнепубликовались."
             ],
-            "next_action": "Rootaccept actualca9F00+movement againstroot-rejected747eparkframe; source/unit not fullfamily completion. Keepothernamedfamilies/UV/support/art/performancecriteria open.",
+            "next_action": "Accept changed-source dbfa F00 frame and ordinary approach/movement/F01 action; verify path is legible and question timely. Existing full prologue/forest geometry, contacts, save, art/performance gates remain open.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -123173,6 +123173,15 @@
               "terminal_receipt": "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/receipt.json",
               "terminal_result": "FAIL/gameExit124 bounded1200s guard; worker1460.141s; sourcehashesverified, userdataRestoredtrue/recoveryPendingfalse, engine-errors empty. OrdinaryNewGame/forward/look/skip→village_day@arrival and pw-niva-arrival checkpoint observed; no pauseopened inrawlog. Do not infer fullbook/Continue/perf/art from renderedframes.",
               "archive_cleanup": "FetchedZIP SHA3e8e6dcbbeacd1cb345a78b43c7ef3b9fe2903c447f2df64724ccf5cbc38e69d matchedterminal,34entriesverified, onlyduplicatearchive removed. Rawreceipt/logs/frameJSON preserved."
+            },
+            "opening_readability_2026_10_21": {
+              "state": "compiled_source_accepted_native_pending",
+              "owner": "Codex / act1_opening_hook",
+              "target": "game/scripts/photoworlds/W01Controller.cs",
+              "input_frame": "evidence/PW-095/native_30cac955f79b48ee85f6c42b0d738d23/frames/interactive-734d5465916e4eb3bb19dc2619fbf284.png",
+              "observed": "Fuller conifers/day readability improved, but broad pale empty center and invisible trail/first obstacle make initial HUD question ungrounded. Existing family/full-art gates remain open.",
+              "result": "Existing ground COLOR.r shoulders/core strengthened without mesh/collision/placement change; use existing hint.Action approach until branch grip within18m andFOV, then existing question. No new ray pipeline, assets or text.",
+              "verification": "Root source/pattern review+diffcheck; changedWindows exportdbfa covers affectedcompile. Actual route readability/nearbranch/action/occlusion/art/performance not yet accepted. Actual Windows Game compile33.49s exit0/0warnings/0errors after root fixed duplicate player local to hintPlayer (CS0136). Shader visual/first interaction not yet accepted."
             }
           },
           {
@@ -146119,39 +146128,35 @@
           "temporary_archive_removed_bytes": 1201759011
         },
         "current_attempt": {
-          "job_id": "91d01bc58c6f414396eb0f2b9b39986a",
-          "snapshot_id": "a99463779489feba426279d716fdbfe95be61883f0274b86c1f5027cc9fe151e",
-          "source_commit": "3a3e3b2a",
-          "production_base_commit": "9fb8f80e",
+          "job_id": "10de5f78dbe34858b4f5a3de9bfb061a",
+          "snapshot_id": "f59dafea6f293344dd14901ea7013924127b815e9eaef33706ede8710efd7c86",
+          "source_commit": "7d060d40",
           "uncommitted_verified_scope": [
-            "game/scripts/KitPlacementTakeover.cs",
-            "eng/desktop_release_checks.py"
+            "game/scripts/VillageHouseholdDirector.cs",
+            "game/scripts/photoworlds/W01Controller.cs",
+            "eng/windows_station_worker.py",
+            "eng/windows-game-ui.ps1"
           ],
           "mode": "export-release",
           "timeout_seconds": 1800,
-          "latest_status": "PASS",
-          "question": "Does changed-source Windows affected compile/export accept the imported PackedScene loader and stricter authored recipe/remap scope? Native NewGame/Skip must then prove supported village/graphics and shutdown/full photo loop separately.",
-          "not_proven": "Fixed exported village visible in current native30cac; full action/return/cold Continue, normal shutdown, art/performance/Mac/full-campaign/external acceptance remain open.",
-          "started_at_utc": "2026-10-21T03:21:20.475327+00:00",
+          "latest_status": "RUNNING",
+          "started_at_utc": "2026-10-21T03:53:53.901008+00:00",
+          "question": "Does corrected nonshadowing W01 HUD and imported household WAV compile/export pass strict scope/bootstrap before one ordinary native full route?",
+          "source_sha256": {
+            "game/scripts/VillageHouseholdDirector.cs": "ecf1a54a8055aa49eeddece26ced0ac93a84e6a98a76b9f79009341e256adbb2",
+            "game/scripts/photoworlds/W01Controller.cs": "8168ffbf81ee02f7b1d6e5cfc3793519dcd07da28de0464991ccb14fd5d9166e",
+            "eng/windows_station_worker.py": "7cc4f927717b639ab01769caf16bd76e74a8a6d7a547dd44a7d8f1d30af0d20f",
+            "eng/windows-game-ui.ps1": "20d10a6a5ee138a26e7665e8374d0ec9a5f768daeeae832e58a1c01168e0fe1c"
+          },
+          "not_proven": "Affected Windows build/export in progress; no changed-source native/UIpin/visual/full loop acceptance yet.",
           "affected_build": {
             "host": "Windows UnterPC",
-            "seconds": 34.51,
+            "seconds": 33.49,
             "exit_code": 0,
             "warnings": 0,
             "errors": 0,
-            "evidence": "station runs/91d01bc58c6f414396eb0f2b9b39986a/artifacts/build.log"
-          },
-          "source_sha256": {
-            "game/scripts/KitPlacementTakeover.cs": "a696f11a4bc5552d3306b8a4baf671b9e9d6d6ee08c08a65c2c125226f20f834",
-            "eng/desktop_release_checks.py": "96114c4f1de7f100a56174f40c41c2afafc738dcedc53f59efb48c5892f5428b"
-          },
-          "finished_at_utc": "2026-10-21T03:28:08.093090+00:00",
-          "exit_code": 0,
-          "result_sha256": "167cb7d9c740306f8a2926cddbdb56845ac42bb3683250877f733e322f37862d",
-          "userdata_restored": true,
-          "evidence": "evidence/PW-095/export_91d01bc58c6f414396eb0f2b9b39986a",
-          "package_checks": "Actual PCK1405 entries, .NET10 win-x64 197dependencies, shipped hero recipe/imported PackedScene remap, physical W01 and supported-ready bootstrap passed.",
-          "source_cleanup_bytes": 1613948617
+            "evidence": "evidence/PW-095/export_10de5f78dbe34858b4f5a3de9bfb061a/build.log"
+          }
         },
         "attempt_history": [
           {
@@ -146192,6 +146197,71 @@
             "windows_zip_sha256": "7fb32f843c52233c95838b6c8ae724d3b2c6e07c4f5b5e508d72ea87837b5366",
             "windows_exe_bytes": 619340816,
             "windows_exe_sha256": "28fe1b387a27f9a912dc03e0bc1af9054930aadc5091c5dfade24f091cf6b98e"
+          },
+          {
+            "job_id": "91d01bc58c6f414396eb0f2b9b39986a",
+            "snapshot_id": "a99463779489feba426279d716fdbfe95be61883f0274b86c1f5027cc9fe151e",
+            "source_commit": "3a3e3b2a",
+            "production_base_commit": "9fb8f80e",
+            "uncommitted_verified_scope": [
+              "game/scripts/KitPlacementTakeover.cs",
+              "eng/desktop_release_checks.py"
+            ],
+            "mode": "export-release",
+            "timeout_seconds": 1800,
+            "latest_status": "PASS",
+            "question": "Does changed-source Windows affected compile/export accept the imported PackedScene loader and stricter authored recipe/remap scope? Native NewGame/Skip must then prove supported village/graphics and shutdown/full photo loop separately.",
+            "not_proven": "Fixed exported village visible in current native30cac; full action/return/cold Continue, normal shutdown, art/performance/Mac/full-campaign/external acceptance remain open.",
+            "started_at_utc": "2026-10-21T03:21:20.475327+00:00",
+            "affected_build": {
+              "host": "Windows UnterPC",
+              "seconds": 34.51,
+              "exit_code": 0,
+              "warnings": 0,
+              "errors": 0,
+              "evidence": "station runs/91d01bc58c6f414396eb0f2b9b39986a/artifacts/build.log"
+            },
+            "source_sha256": {
+              "game/scripts/KitPlacementTakeover.cs": "a696f11a4bc5552d3306b8a4baf671b9e9d6d6ee08c08a65c2c125226f20f834",
+              "eng/desktop_release_checks.py": "96114c4f1de7f100a56174f40c41c2afafc738dcedc53f59efb48c5892f5428b"
+            },
+            "finished_at_utc": "2026-10-21T03:28:08.093090+00:00",
+            "exit_code": 0,
+            "result_sha256": "167cb7d9c740306f8a2926cddbdb56845ac42bb3683250877f733e322f37862d",
+            "userdata_restored": true,
+            "evidence": "evidence/PW-095/export_91d01bc58c6f414396eb0f2b9b39986a",
+            "package_checks": "Actual PCK1405 entries, .NET10 win-x64 197dependencies, shipped hero recipe/imported PackedScene remap, physical W01 and supported-ready bootstrap passed.",
+            "source_cleanup_bytes": 1613948617
+          },
+          {
+            "job_id": "dbfa01dfcad746e1852eacaf79fdd2e6",
+            "snapshot_id": "cfe3885f6a582afa18fb1ec488c8d43b3dc01e96ec44ef08b3b5b06a67c79e32",
+            "source_commit": "7d060d40",
+            "uncommitted_verified_scope": [
+              "game/scripts/VillageHouseholdDirector.cs",
+              "game/scripts/photoworlds/W01Controller.cs",
+              "eng/windows_station_worker.py",
+              "eng/windows-game-ui.ps1"
+            ],
+            "mode": "export-release",
+            "timeout_seconds": 1800,
+            "latest_status": "FAIL",
+            "started_at_utc": "2026-10-21T03:51:29.811692+00:00",
+            "question": "Compile/export bounded imported-WAV correction and readable approach HUD/trail; strict package/bootstrap acceptance before one new native ordinary gameplay/Continue attempt.",
+            "source_sha256": {
+              "game/scripts/VillageHouseholdDirector.cs": "ecf1a54a8055aa49eeddece26ced0ac93a84e6a98a76b9f79009341e256adbb2",
+              "game/scripts/photoworlds/W01Controller.cs": "8168ffbf81ee02f7b1d6e5cfc3793519dcd07da28de0464991ccb14fd5d9166e",
+              "eng/windows_station_worker.py": "7cc4f927717b639ab01769caf16bd76e74a8a6d7a547dd44a7d8f1d30af0d20f",
+              "eng/windows-game-ui.ps1": "20d10a6a5ee138a26e7665e8374d0ec9a5f768daeeae832e58a1c01168e0fe1c"
+            },
+            "not_proven": "Affected Windows build/export in progress; no changed-source native/UIpin/visual/full loop acceptance yet.",
+            "finished_at_utc": "2026-10-21T03:52:31.122821+00:00",
+            "exit_code": 1,
+            "result_sha256": "1d8654b48225709bc56924c68f7075d74913a2595b66e3be6f4e60009af12df8",
+            "source_cleanup_bytes": 800645596,
+            "evidence": "evidence/PW-095/export_dbfa01dfcad746e1852eacaf79fdd2e6",
+            "actual_result": "Affected compile failed once with CS0136 W01Controller1965 duplicate pattern variable player in existing method. Root renamed only new local to hintPlayer; new named snapshot required before any runtime claim.",
+            "duplicate_transport_removed_bytes": 243297
           }
         ],
         "post_export_fixes": {
@@ -146350,7 +146420,37 @@
             "doctor": "fresh ready/idle/recoveryfalse/orphansfalse",
             "actual_result": "Exported main menu and NewGame prologue observed. Skip reached village but construction threw opening raw hero GLB via GlobalizePath/GltfDocument.AppendFromFile; imported PCK has .glb.import/.scn/3ctex but no rawGLB. Player continuously fell through incomplete world. Normal Pause/Quit confirmation used; first process exited abnormally -1073740940, second process not launched. Full gameplay/Continue and normal shutdown NOT accepted."
           }
-        ]
+        ],
+        "household_audio_loader_fix": {
+          "target": "game/scripts/VillageHouseholdDirector.cs",
+          "cause": "Native30cac firstNRE GetClip282 opens raw WAV via FileAccess; imported QOA sample/remap is shipped. Initialize already uses ResourceLoader.Exists.",
+          "result": "ResourceLoader AudioStreamWav resolves imported sample; missing resource explicitly fails. Decoded16bit frame/length/rate/channels plus44B budget prevents QOA compression understating existing600k/2MB LRU bounds; rejected resources disposed, active voices protected.",
+          "verification": "Root/caller/import remap source review passed; changedWindows build/exportdbfa in progress; runtime error elimination unproven. Actual corrected-source Windows Game compile33.49s exit0/0warnings/0errors. Source stage accepted; imported sample runtime still pending.",
+          "state": "compiled_source_accepted_runtime_pending"
+        },
+        "native_ui_executable_pin": {
+          "state": "deployed_source_windows_syntax_verified_native_pending",
+          "targets": [
+            "eng/windows_station_worker.py",
+            "eng/windows-game-ui.ps1"
+          ],
+          "deployed_source_sha256": {
+            "eng/windows_station_worker.py": "7cc4f927717b639ab01769caf16bd76e74a8a6d7a547dd44a7d8f1d30af0d20f",
+            "eng/windows-game-ui.ps1": "20d10a6a5ee138a26e7665e8374d0ec9a5f768daeeae832e58a1c01168e0fe1c"
+          },
+          "result": "Full EXE SHA once under live readonly FILE_SHARE_READ-only handle. Per-action fileID/size/path/metadata checks and explicit private inheritable duplicate validated/owned by PS helper. Original pin retained through both lifetimes, guard restore and inflightUI. Timeout reserves recovery/busy/pin before emergency kill; no falseidle on unconfirmed tree termination. Public UI ownership/PID/window/ancestry/helperSHA/action bounds unchanged.",
+          "verification": "Root+independent final rereview clean. Actual Windows AST, PowerShell5.1.22621.963 ParseFile/Add-Type/52BABI passed. Exact installedSHA/fullACL/backupreadback/normalstopstart/freshdoctor readyidle recoveryfalse orphanfalse. Actual inheritedhandle/UI latency still pending.",
+          "backup": {
+            "path": "D:/URMAN-STATION/data/infrastructure-backups/before-exe-pin-30cac.zip",
+            "bytes": 51710,
+            "sha256": "1a132ad132751936166fae050f09eea34440f549d500297f8be4ec3a70e3c41f"
+          },
+          "staging_zip_removed_bytes": {
+            "mac": 53791,
+            "windows": 53791
+          },
+          "residual": "Abrupt worker crash closes OS handles; durable protected-run marker and existing orphan/recovery health/operator lifecycle remain required."
+        }
       }
     },
     {
