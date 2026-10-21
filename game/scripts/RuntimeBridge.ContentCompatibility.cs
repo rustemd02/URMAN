@@ -21,6 +21,8 @@ public partial class RuntimeBridge
         "e7eb22741ae47532667aaabbb439879a9efb5ff95919716c90b4d89d93290dc5";
     private const string FullGameTamaraQuestFingerprint =
         "d172b0d0c7b25d88bce45b978e2b3352e230baee912491305c044e20b08418f2";
+    private const string FullGamePhotoReturnTextFingerprint =
+        "1249c9ed78a7ba4e08c8f7202f526e96c5f29e8d0b0ef56cb559ac82ef5cdce3";
 
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
@@ -45,7 +47,10 @@ public partial class RuntimeBridge
         // Only optional Tamara activation changed; prepareForLoad seeds its missing run.
         new(FullGamePhysicalPrintMountFingerprint, FullGameTamaraQuestFingerprint),
         // 447f1735 -> 04bdef92 only split print/mount; mounted legacy state stays valid (PW-079).
-        new(FullGameAllWorldBookReturnFingerprint, FullGameTamaraQuestFingerprint)
+        new(FullGameAllWorldBookReturnFingerprint, FullGameTamaraQuestFingerprint),
+        // Only the book-return label changed; the compiled state contract is identical.
+        new("d10e86231a472351cbbcf5ffaa46f18820269037acecaf17678e6472c0b8e710",
+            FullGamePhotoReturnTextFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -55,7 +60,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTeaTextRevisionFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameCellarReturnFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAllWorldBookReturnFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTamaraQuestFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTamaraQuestFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGamePhotoReturnTextFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }

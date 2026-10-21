@@ -111397,6 +111397,23 @@
           "source_sha256": "9e0ab0f2fc4b6c78b025e7ef36d519f802c4922aaf56fbfa782476c3e56f3283"
         },
         "remaining": "Current Windows comparable frame and movement, visible trio/readiness at actual road stance, root contacts/terrain/art acceptance, then actual W01 action→ReturnTicket→post-return Save/Continue. No native landmark or full-loop PASS yet."
+      },
+      "photo_book_return_wording_2026_10_21": {
+        "state": "engineering_compiled_reviewed_native_pending",
+        "result": "Book return button and confirmation say Выйти из снимка instead of promising literal home. ReturnTicket continues to return to actual photographed entry/support fallback. No return state or world action changed.",
+        "targets": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/content/urman.fullgame.compiled.v1.json",
+          "game/scripts/JournalUi.PhotoBook.cs",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs",
+          "game/scripts/RuntimeBridge.cs"
+        ],
+        "verification": "Existing fullgame ContentCLI compile exit0; exact recursive pack comparison changed only default+ru values of one text ID plus fingerprints. Affected Game compile exit0/16.53s/0warnings/0errors. Independent Fast verified exact one-way codec matching, compiled source fingerprints and unchanged state contract; unknown fingerprints remain strict. Same-path progress/save-failure/retry/catch and legacy-warning literals then made neutral; inspected literal-only diff plus git diff --check, no repeated build.",
+        "save_compatibility": {
+          "previous": "d10e86231a472351cbbcf5ffaa46f18820269037acecaf17678e6472c0b8e710",
+          "current": "1249c9ed78a7ba4e08c8f7202f526e96c5f29e8d0b0ef56cb559ac82ef5cdce3"
+        },
+        "remaining": "Actual book presentation/confirmation and real W01 action→return→postreturn Save/Continue on current candidate; old-save native migration not exercised."
       }
     },
     {
@@ -145174,6 +145191,14 @@
           "review_corrections": "Imported node blacklist replaced by exact plainNode3D/MeshInstance3D whitelist plus nil script/identity checks. Recipe refuses optimized Python before imports/files so assert integrity guards cannot disappear. Executed producer SHA preserved; post-run guard amendment/current SHA recorded; -O --help denied without file changes, no asset regeneration.",
           "cleanup": "Removed only restored38,681,780B4K member after full retained archive/member/source SHA and no-open-handles check. Unique lossless archive retained; one12,317,584B runtime candidate, no extracted maps or duplicate output. No new paid calls; existing total425/4000 unchanged."
         }
+      },
+      "embedded_image_cleanup_2026_10_21": {
+        "state": "derived_duplicates_removed",
+        "result": "17 untracked extracted PNG/JPG exactly match canonical sibling GLB embedded bufferView bytes. No external URI or scene/code/data/UID references found; each own ignored texture .import has generator_parameters. Removed duplicates, their own generated .import and .ctex caches; preserved canonical GLBs, GLB import configuration, unique source assets and unrelated files.",
+        "image_bytes": 67367637,
+        "removed_files": 34,
+        "removed_bytes": 67386879,
+        "verification": "Independent read-only inventory plus root exact embedded byte comparison, ignored/generated import classification, tracked/symlink guards, absence and canonical-GLB-presence checks. No Godot/import/game launched."
       }
     },
     {

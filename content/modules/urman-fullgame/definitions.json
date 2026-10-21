@@ -4834,9 +4834,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-label-forest-book-return",
     "value": {
-      "default": "Вернуться домой",
+      "default": "Выйти из снимка",
       "translations": {
-        "ru": "Вернуться домой"
+        "ru": "Выйти из снимка"
       }
     },
     "purpose": "ui"

@@ -198,7 +198,7 @@ public partial class JournalUi
         _photoBookReturnConfirmation = new Label
         {
             Name = "ReturnConfirmation",
-            Text = "Найденное сохранится. Вернуться домой?",
+            Text = "Найденное сохранится. Выйти из снимка?",
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             Visible = false
         };
@@ -841,7 +841,7 @@ public partial class JournalUi
         bool CurrentUi() => visibilityGeneration == _photoBookVisibilityGeneration
             && IsCurrentPhotoBookOperation(bridge, session);
         _photoBookActionBusy = true;
-        _photoBookActionStatus.Text = returning ? "Возвращаюсь домой…" : "Вхожу в снимок…";
+        _photoBookActionStatus.Text = returning ? "Выхожу из снимка…" : "Вхожу в снимок…";
         RefreshPhotoBookActionButtons();
         try
         {
@@ -858,7 +858,7 @@ public partial class JournalUi
                 var gamepad = FindPlayer()?.CurrentInputDevice == "gamepad";
                 var closeHint = InputBindingService.ActionHint("ui_cancel", gamepad);
                 var pauseHint = InputBindingService.ActionHint("pause", gamepad);
-                _photoBookActionStatus.Text = $"Вы вернулись домой, но автосохранение не удалось. Закройте альбом {closeHint}, откройте меню {pauseHint} и выберите «Сохранить».";
+                _photoBookActionStatus.Text = $"Вы вышли из снимка, но автосохранение не удалось. Закройте альбом {closeHint}, откройте меню {pauseHint} и выберите «Сохранить».";
                 return;
             }
             if (entered)
@@ -881,7 +881,7 @@ public partial class JournalUi
                 ? bridge.CanReturnFromPhotoBook(out reason)
                 : bridge.CanEnterPhotoBookPhoto(entryPhotoId!, out reason);
             _photoBookActionStatus.Text = canAct
-                ? returning ? "Не удалось вернуться домой. Попробуйте ещё раз."
+                ? returning ? "Не удалось выйти из снимка. Попробуйте ещё раз."
                     : "Не удалось войти в снимок. Попробуйте ещё раз."
                 : reason;
         }
@@ -891,7 +891,7 @@ public partial class JournalUi
             if (!CurrentUi()) return;
             RefreshPhotoBookPage();
             _photoBookActionStatus.Text = returning
-                ? "Не удалось вернуться домой. Попробуйте ещё раз."
+                ? "Не удалось выйти из снимка. Попробуйте ещё раз."
                 : "Не удалось войти в снимок. Попробуйте ещё раз.";
         }
         finally

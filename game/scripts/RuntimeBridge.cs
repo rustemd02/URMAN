@@ -841,7 +841,7 @@ public partial class RuntimeBridge : Node
             // The early book caller saves after the same supported home check.
             var outcome = await CompletePhotoBookHomeReturnAsync(session);
             if (outcome == PhotoBookReturnOutcome.ReturnedSaveFailed)
-                FindPlayer()?.NotifyTraversal("Вы вернулись домой, но автосохранение не удалось. Сохранитесь через меню.");
+                FindPlayer()?.NotifyTraversal("Вы вышли из снимка, но автосохранение не удалось. Сохранитесь через меню.");
             return outcome != PhotoBookReturnOutcome.Failed;
         }
         if (!entering && ActivePhotoVisit() is { } activeVisit
