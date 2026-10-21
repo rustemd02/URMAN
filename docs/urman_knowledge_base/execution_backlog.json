@@ -110750,7 +110750,7 @@
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "Fix the native-proven wrong forest-entry witness using a recognisable existing photo tableau while preserving road stance/return/support/40-degree/range guards; inspect current Windows frame and book readiness. Then actual current-source candidate ordinary W01 action→ReturnTicket→post-return Save/Continue. Do not repeat unchanged acquisition while reviewing source. School path/torso target accepted in dd785; full loop remains open.",
+      "next_action": "Native-check new photographed landmark/map at the supported road stance and enter W01 through the ordinary book. Then real forest action→ReturnTicket→post-return Save/Continue on current exported candidate; preserve required external gates.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111386,6 +111386,17 @@
           }
         },
         "remaining": "Actual Windows map label/visibility/readability and entry landmark acceptance pending; dd785 snapshot predates this source."
+      },
+      "forest_entry_landmark_2026_10_21": {
+        "state": "engineering_source_compile_reviewed_native_pending",
+        "target": "game/scripts/Act1ConnectedWorld.PhotoForestEntry.cs",
+        "result": "Replaced wrong optional side-profile witness with existing pforest-tableau-v1.glb photographed central trio. Middle trunk placed 5.45m along real road tangent from unchanged supported stance; marker/return pose, ownership/session gates, range and 40-degree facing preserved. Snowbank/distant-trunk filters follow W01; central/split trunks ground to CollisionGround and visible imported triangle contacts preserve physical obstacles. No asset generation or Meshy spending.",
+        "verification": {
+          "compile": "Affected Game build exit0/17.05s/0warnings/0errors, no Godot or Mac game. git diff --check PASS.",
+          "review": "Independent Fast reviewed transforms, physics and nearby entry/readiness flow. Initial ray-occlusion concern retracted after actual GLB dimensions: .58m sphere outside ~.25m trunk shell. Root inspected source and unchanged book-facing contract. No actionable defect remains by source; native root-arch ground conformity is still unproven.",
+          "source_sha256": "9e0ab0f2fc4b6c78b025e7ef36d519f802c4922aaf56fbfa782476c3e56f3283"
+        },
+        "remaining": "Current Windows comparable frame and movement, visible trio/readiness at actual road stance, root contacts/terrain/art acceptance, then actual W01 action→ReturnTicket→post-return Save/Continue. No native landmark or full-loop PASS yet."
       }
     },
     {
