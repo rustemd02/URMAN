@@ -106,17 +106,12 @@ public static class KitPlacementTakeover
         if (entity.GetProperty("id").GetString() == HeroHouseRecipe.EntityId
             && HeroHouseRecipe.Load().ModelPath is { } modelPath)
         {
-            using var document = new GltfDocument();
-            using var state = new GltfState();
-            if (document.AppendFromFile(ProjectSettings.GlobalizePath(modelPath), state) != Error.Ok)
-                throw new InvalidOperationException($"Не импортирован вариант дома: {modelPath}");
-            var root = document.GenerateScene(state) as Node3D
-                ?? throw new InvalidDataException("Вариант дома не имеет 3D-корня.");
+            var root = LoadAuthoredGltfScene(modelPath);
             var component = root.Name == StyleBenchmarkInteriorFactory.ExteriorComponent ? root
                 : root.FindChildren(StyleBenchmarkInteriorFactory.ExteriorComponent, nameof(Node3D), true, false).OfType<Node3D>().Single();
+            Act1ConnectedWorld.ClearExtractedSceneOwnership(component);
             if (component != root) { component.GetParent().RemoveChild(component); root.Free(); }
             foreach (var old in placement.GetChildren()) { placement.RemoveChild(old); old.Free(); }
-            component.Owner = null;
             component.Position = Vector3.Zero;
             placement.AddChild(component);
             placement.SetMeta("assetSource", modelPath);
@@ -146,6 +141,40 @@ public static class KitPlacementTakeover
         placement.SetMeta("placementOwner", "authored plot " + (PlotOverrideForTest ?? PlotPath));
     }
 
+    private static Node3D LoadAuthoredGltfScene(string modelPath)
+    {
+        if (ResourceLoader.Exists(modelPath))
+        {
+            // Exported GLBs are remapped to imported PackedScenes inside the PCK;
+            // the raw source file is not necessarily present beside the executable.
+            var packed = ResourceLoader.Load<PackedScene>(modelPath)
+                ?? throw new InvalidOperationException($"Не импортирован вариант дома: {modelPath}");
+            var instance = packed.Instantiate();
+            if (instance is not Node3D root)
+            {
+                instance?.Free();
+                throw new InvalidDataException("Вариант дома не имеет 3D-корня.");
+            }
+
+            return root;
+        }
+
+        // Studio may have just staged an immutable model path before Godot's
+        // importer has created its PackedScene; retain the source-tree hotload.
+        using var document = new GltfDocument();
+        using var state = new GltfState();
+        if (document.AppendFromFile(ProjectSettings.GlobalizePath(modelPath), state) != Error.Ok)
+            throw new InvalidOperationException($"Не импортирован вариант дома: {modelPath}");
+        var generated = document.GenerateScene(state);
+        if (generated is not Node3D generatedRoot)
+        {
+            generated?.Free();
+            throw new InvalidDataException("Вариант дома не имеет 3D-корня.");
+        }
+
+        return generatedRoot;
+    }
+
     private static void ApplyNonHeroDwellingVariant(
         Node3D placement, string componentName, string logicalAnchor, JsonElement entity, JsonElement parameters)
     {
@@ -167,22 +196,11 @@ public static class KitPlacementTakeover
             || modelPath is null)
             throw new InvalidDataException($"House-variant model path is invalid for {entityId}.");
 
-        using var document = new GltfDocument();
-        using var state = new GltfState();
-        if (document.AppendFromFile(ProjectSettings.GlobalizePath(modelPath), state) != Error.Ok)
-            throw new InvalidOperationException($"Не импортирован вариант дома: {modelPath}");
-
         Node3D? importedRoot = null;
         Node3D? replacement = null;
         try
         {
-            var generated = document.GenerateScene(state);
-            if (generated is not Node3D root)
-            {
-                generated?.Free();
-                throw new InvalidDataException("Вариант дома не имеет 3D-корня.");
-            }
-
+            var root = LoadAuthoredGltfScene(modelPath);
             importedRoot = root;
             var matches = root.Name.ToString() == componentName
                 ? new[] { root }

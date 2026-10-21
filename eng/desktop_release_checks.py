@@ -6,6 +6,7 @@ from __future__ import annotations
 from collections import Counter
 from datetime import datetime, timezone
 import argparse
+import configparser
 import hashlib
 import json
 import stat
@@ -42,16 +43,37 @@ def payload(raw: bytes, entries: dict[str, tuple[int, int]], name: str) -> bytes
 
 
 def require_imported_resource(raw: bytes, entries: dict[str, tuple[int, int]],
-                              source: str, suffix: str) -> None:
+                              source: str, suffix: str, expected_type: str | None = None) -> None:
     if not isinstance(source, str) or not source:
         fail(f"invalid registered resource path: {source!r}")
     path = PurePosixPath(source)
     if path.is_absolute() or ".." in path.parts or ":" in source or "\\" in source:
         fail(f"invalid registered resource path: {source}")
+    if expected_type is not None:
+        require(entries, source + ".import")
+        if entries[source + ".import"][1] > 64 * 1024:
+            fail(f"import remap metadata exceeds its size limit: {source}")
+    import_payload = payload(raw, entries, source + ".import")
     try:
-        remap = payload(raw, entries, source + ".import").decode("utf-8")
+        remap = import_payload.decode("utf-8")
     except UnicodeDecodeError:
         fail(f"import remap is not UTF-8: {source}")
+    if expected_type is not None:
+        if remap.endswith("\0"):
+            remap = remap[:-1]
+        if "\0" in remap:
+            fail(f"imported scene remap contains an interior NUL: {source}")
+        config = configparser.ConfigParser(interpolation=None)
+        config.optionxform = str
+        try:
+            config.read_string(remap)
+        except configparser.Error as error:
+            fail(f"invalid imported scene remap: {source}: {error}")
+        if (config.defaults() or not config.has_section("remap")
+                or config.get("remap", "importer", fallback=None) != '"scene"'
+                or config.get("remap", "type", fallback=None) != f'"{expected_type}"'):
+            fail(f"import remap must identify a scene of type {expected_type}: {source}")
+        remap = "\n".join(f"{key}={value}" for key, value in config.items("remap", raw=True))
     targets = re.findall(r'^path(?:\.[A-Za-z0-9_]+)?="res://([^"]+)"$', remap, re.MULTILINE)
     if not targets:
         fail(f"required imported resource has no export remap: {source}")
@@ -246,6 +268,32 @@ def assert_scope(raw: bytes, entries: dict[str, tuple[int, int]], label: str) ->
         radio_paths.add(resource)
     for resource in sorted(radio_paths):
         require_imported_resource(raw, entries, resource.removeprefix("res://"), ".sample")
+
+    # Runtime resolves the authored house through Godot's imported PackedScene;
+    # the source GLB itself is intentionally absent from normal native exports.
+    recipe_name = "content/studio/hero_house.recipe.json"
+    require(entries, recipe_name)
+    recipe_source = Path("game", recipe_name)
+    recipe_info = recipe_source.lstat()
+    if (not stat.S_ISREG(recipe_info.st_mode) or stat.S_ISLNK(recipe_info.st_mode)
+            or getattr(recipe_info, "st_file_attributes", 0) & 0x0400
+            or not 0 < recipe_info.st_size <= 1024 * 1024
+            or entries[recipe_name][1] > 1024 * 1024):
+        fail(f"{label} house recipe must be bounded regular metadata")
+    recipe_payload = payload(raw, entries, recipe_name)
+    if recipe_payload != recipe_source.read_bytes():
+        fail(f"{label} contains a stale authored house recipe")
+    recipe = json.loads(recipe_payload)
+    if not isinstance(recipe, dict) or recipe.get("schema") != "house-recipe/v1":
+        fail(f"{label} contains an unsupported authored house recipe")
+    model_path = recipe.get("modelPath")
+    if (not isinstance(model_path, str) or len(model_path) > 1024
+            or not model_path.startswith("res://assets/models/studio/") or not model_path.endswith(".glb")):
+        fail(f"{label} house recipe has an invalid modelPath")
+    model_source = model_path.removeprefix("res://")
+    if model_source != PurePosixPath(model_source).as_posix():
+        fail(f"{label} house recipe has a noncanonical modelPath")
+    require_imported_resource(raw, entries, model_source, ".scn", expected_type="PackedScene")
 
     compiled = json.loads(content_payload)
     packed_assets = {asset["id"]: asset for asset in compiled["registries"]["assets"]}
