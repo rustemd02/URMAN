@@ -104321,6 +104321,18 @@
       "presentation_revision_2026_10_20": {
         "ref": "tasks[PW-043].tea_scene_hook_2026_10_20",
         "scope": "Three D01 text values only; no graph/status/owner reassignment. New compiled non-text payload equals preceding main; pack SHA a5c56e75546b85064c6478be7e9113ca108b8e410189c4ce3079303b2b9860dd, fingerprint6f47e78bc728d70ea36362c046d9f6c71bf76577c1db49a84f141e1cef3c451c. Native and all physical producer gates remain open."
+      },
+      "forest_return_reaction_2026_10_21": {
+        "state": "engineering_source_and_content_compile_verified_native_pending",
+        "targets": [
+          "content/modules/urman-fullgame/definitions.json",
+          "content/modules/urman-fullgame/module.json",
+          "content/campaigns/urman.fullgame/photoworlds-sources/worlds.spec.json",
+          "game/content/urman.fullgame.compiled.v1.json"
+        ],
+        "result": "Existing gulsina pw-first-world-home routes on earned forest_beyond_frame_seen into recognized old-root-place reaction and question beyond photo. Original home fallback, first_world_home_talk effect and completed-W01-or-W02 availability preserved; no new fact/early partial unlock/creature identification/Tatar invention. Authoring role reconciled to narrative bibleR4+existing live gulsina owner.",
+        "verification": "Personal Fast source pattern/canon read; root exact diff+generatedpack read; existing ContentCli fullgame compile exit0; diffcheck. No newtests, native later.",
+        "remaining": "Actual changed earned-fact dialogue in game, text/cultural/author acceptance. Existing effect persists home conversation, exact sentence is not claimed as notebook clue."
       }
     },
     {
@@ -111235,6 +111247,18 @@
         "observed_defect": "School permission target is offset 0.5m in front of staff contact; normal live camera aiming at torso did not select it, aiming beside the person did. See permission-target.png / permission-ready preceding screenshots on station. Needs focused alignment fix; no broad interaction rewrite.",
         "cleanup": "Hash-linked14 frames+rawJSON, receipt/build/engine-errors and lossless gzip logs retained9,813,537B. Removed92,554,890B fetchedZIP/duplicateframes/logs; fullraw retained on station.",
         "remaining": "Ordinary forest-edge→W01 meaningful action→ReturnTicket→post-return Save/Continue; crossprocess actual export PW095; renderer exit resources and NPC target alignment; full visual/performance/external acceptance remain open."
+      },
+      "shutdown_resource_fix_2026_10_21": {
+        "state": "engineering_source_compile_verified_native_pending",
+        "input": "fca normalQuitgameExit0 but renderer mesh1/material2/shader1/instance1 and48 resources at exit; uncalled finalcachecleanup in ordinary Act1DemoRoot path.",
+        "targets": [
+          "game/scripts/Act1DemoRoot.cs",
+          "game/scripts/Act1DemoRoot.Shutdown.cs",
+          "game/scripts/PauseMenuUi.cs"
+        ],
+        "result": "Normalmainmenu/confirmedPause/OSwindow close share idempotent root shutdown: gate input, drain tracked startup/menu/pause/loading/save operations, freeMain, physics+process barriers, existingStudiofinalcacheorder, boundednative renderflush, Quit. StableNeedsPhysicalRecovery is terminal not activework; rootProcess/inputstopwhileclosing; cleanup exceptionslog andexit1.",
+        "verification": "Independent Fast review found recoverywaitP1 and freedplayerProcessP2; both fixed, follow-up source review clean with boundedresidual. AffectedGamecompile18.03s0warnings0errors. No newtests/Macnative.",
+        "remaining": "Changed normalmenu/Pause/nativewindow exit, userdata and renderererrors check. No globalproof all autonomous storydispatch drained; existing scopedmarkers/inputgates retained. Not in runningf244snapshot."
       }
     },
     {
@@ -121726,7 +121750,8 @@
         "surface": "Texture/shader linear mean luminance core about73% of fresh snow before lighting. Native path is weak blue patch among stronger pine shadows; roughness-only polish is not accepted as fixing whole-scene wayfinding.",
         "preferred_scene_result": "Existing packed trail leads into a recognizable bright opening framed by current winter pines at F03. Reuse local F15 composition pattern and measured2.1m clearance; no new ground collider/service/generatedmodel required. Geometry/collision/markers unchanged.",
         "acceptance": "Comparable native frame and motion after branch; ordinary player recognizes next path and F03 exit before E prompt without source coordinates. NOT_RUN; remains open.",
-        "candidate": "W01Controller.cs + PrologueTrailRelief.cs implement presentation-only 3006vertex shoulders outside1.05m core, existing ground material with exact UV2(X/8,1-Z/8), clockwise/up-facing winding corrected after independent review; local30m F03 cluster composition. One affected Game compile17.32s0warnings0errors; no new tests/Mac native/assets. Actual frames/movement/F03 recognition NOT_RUN; not present in fca frozen snapshot."
+        "candidate": "W01Controller.cs + PrologueTrailRelief.cs implement presentation-only 3006vertex shoulders outside1.05m core, existing ground material with exact UV2(X/8,1-Z/8), clockwise/up-facing winding corrected after independent review; local30m F03 cluster composition. One affected Game compile17.32s0warnings0errors; no new tests/Mac native/assets. Actual frames/movement/F03 recognition NOT_RUN; not present in fca frozen snapshot.",
+        "native_f244": "Actual full F00→branchE→F02→F03 ordinary traversal. New shoulder overlay is visibly artificial straight panels in first/mid/after-branch frames and rejected by root. Removed only task-created PrologueTrailRelief.cs/calls in next source; baseground/collision/seed/F15 unchanged. F03 localcomposition opening visible9m beforetarget, but destination remains empty/unrecognizable; artgate open. No claim author accepted candidate."
       },
       "printer_log_cleanup_2026_10_21": {
         "targets": [

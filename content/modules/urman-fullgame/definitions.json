@@ -4369,6 +4369,17 @@
   },
   {
     "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-first-world-home-forest-return",
+    "value": {
+      "default": "«У старого корня тропа поворачивает — я помню это место. Что оказалось дальше, за краем снимка?»",
+      "translations": {
+        "ru": "«У старого корня тропа поворачивает — я помню это место. Что оказалось дальше, за краем снимка?»"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-first-world-home-home",
     "value": {
       "default": "«Ты так давно не был дома. В саду уже другой стол, а калитка всё та же. Садись, чай ещё горячий. Какое место на снимке ты узнал первым?»",
@@ -4397,6 +4408,17 @@
       "gulsina"
     ],
     "startNodeId": "home",
+    "entryRoutes": [
+      {
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "forest_beyond_frame_seen"
+          }
+        ],
+        "nodeId": "forest-return"
+      }
+    ],
     "nodes": [
       {
         "id": "home",
@@ -4407,6 +4429,28 @@
         "choices": [
           {
             "id": "answer-place",
+            "textId": "urman.fullgame:text/pw-choice-first-world-home-answer-place",
+            "conditions": [],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "first_world_home_talk",
+                "sourceId": "urman.fullgame:interaction/pw-first-world-home-talk"
+              }
+            ],
+            "nextNodeId": null
+          }
+        ]
+      },
+      {
+        "id": "forest-return",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-first-world-home-forest-return",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "answer-forest-place",
             "textId": "urman.fullgame:text/pw-choice-first-world-home-answer-place",
             "conditions": [],
             "effects": [

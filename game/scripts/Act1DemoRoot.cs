@@ -51,6 +51,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private MainMenuUi? _menuLookupMenu;
     private RuntimeBridge? _bridge;
     private bool _performanceProbe;
+    private Task? _startupTask;
     private bool _performanceTimingStarted;
     private const string PerformanceProbeModeMenu = "menu";
     private const string PerformanceProbeModeGameplay = "gameplay";
@@ -205,6 +206,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _Ready()
     {
+        InstallOrderlyShutdownHooks();
         if (!StudioPreviewMode && !UsesPhotoWorldsCampaign)
         {
             DevRideCaptureBoot();
@@ -212,7 +214,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             DevWalkProbeBoot();
             DevQuickStartBoot();
         }
-        _ = InitializeDemoWithLoadingScreenAsync();
+        _startupTask = InitializeDemoWithLoadingScreenAsync();
     }
 
     private async Task InitializeDemoWithLoadingScreenAsync()
@@ -222,13 +224,14 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         {
             if (DisplayServer.GetName() == "headless")
             {
+                if (_orderlyShutdownRequested) return;
                 await InitializeDemoAsync();
                 return;
             }
 
             loading = LoadingScreenUi.Show(this, "УРМАН", "Подготавливаем игровой мир");
             await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
-            if (!IsInsideTree()) return;
+            if (!IsInsideTree() || _orderlyShutdownRequested) return;
             await InitializeDemoAsync();
         }
         catch (Exception exception)
@@ -240,14 +243,15 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                     && argument.EndsWith(".tscn", StringComparison.Ordinal));
             // Native smoke failures must reach their exit code and userdata
             // guard without waiting for acknowledgement of a blocking OS alert.
-            if (DisplayServer.GetName() != "headless" && !unattendedSmoke)
+            if (!_orderlyShutdownRequested && DisplayServer.GetName() != "headless" && !unattendedSmoke)
             {
                 OS.Alert(
                     "Не удалось запустить игру.\nПроверьте файлы игры и повторите запуск.",
                     "УРМАН — ошибка запуска");
             }
 
-            GetTree().Quit(1);
+            if (_orderlyShutdownRequested) _orderlyShutdownExitCode = 1;
+            else GetTree().Quit(1);
         }
         finally
         {
@@ -299,6 +303,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         {
             var bootstrapReady = await bridge.PhotoWorldBootstrapCompletion;
             if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()
+                || _orderlyShutdownRequested
                 || _main is null || !GodotObject.IsInstanceValid(_main)
                 || !_main.IsInsideTree() || _main.IsQueuedForDeletion()) return;
             if (!bootstrapReady)
@@ -366,6 +371,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _Process(double delta)
     {
+        if (_orderlyShutdownRequested) return;
         if (StudioPreviewMode) return;
         RefreshMenuResumeAvailability();
 
@@ -420,6 +426,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _ExitTree()
     {
+        RestoreOrderlyShutdownHooks();
         StopIntroFlyover();
         StopRendererDiagnostics();
         _vehiclePerformanceRoute?.ReleaseInput();
@@ -428,6 +435,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         {
             _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
             _bridge.PlayTimeBoundary -= OnPlayTimeBoundary;
+            _bridge.SaveFeedback -= OnSaveFeedback;
         }
 
         _bridge = null;
@@ -451,6 +459,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             _bridge = bridge;
             _bridge.RuntimeStateChanged += OnRuntimeStateChanged;
             _bridge.PlayTimeBoundary += OnPlayTimeBoundary;
+            _bridge.SaveFeedback += OnSaveFeedback;
+            if (_orderlyShutdownRequested) return;
             RecordM10Timing("runtime-ready", force: true);
             RefreshMenuContinueAvailability();
             EvaluateEndingState();
@@ -463,6 +473,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private void OnRuntimeStateChanged()
     {
+        if (_orderlyShutdownRequested) return;
         if (UsesPhotoWorldsCampaign)
         {
             if (_photoWorldReplay
@@ -498,7 +509,10 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 ? "technical-test" : "ordinary-observation";
     }
 
-    private void OnPlayTimeBoundary(string boundary) => RecordM10Timing(boundary, force: true);
+    private void OnPlayTimeBoundary(string boundary)
+    {
+        if (!_orderlyShutdownRequested) RecordM10Timing(boundary, force: true);
+    }
 
     private void RecordM10Timing(string? boundary = null, bool force = false)
     {
@@ -1278,6 +1292,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _UnhandledInput(InputEvent inputEvent)
     {
+        if (_orderlyShutdownRequested) return;
         if (_endingScreen is not null && inputEvent.IsActionPressed("ui_cancel"))
         {
             ReturnFromEnding();
@@ -1307,8 +1322,10 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private void BuildPauseMenu()
     {
         _pauseMenu = new PauseMenuUi { Name = "Act1PauseMenu" };
+        _pauseMenu.QuitRequested += RequestOrderlyShutdown;
         _pauseMenu.CanOpenPause = () =>
-            !MainMenuVisible
+            !_orderlyShutdownRequested
+            && !MainMenuVisible
             && !IntroVisible
             && !DemoEnded;
         _pauseMenu.ShowMainMenuRequested += () =>
@@ -1325,6 +1342,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     internal void ShowLoadPlacementFailure()
     {
+        if (_orderlyShutdownRequested) return;
         if (_pauseMenu?.IsOpen == true) _pauseMenu.Resume();
         if (!MainMenuVisible) BuildMainMenu();
         if (GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true } settings)
@@ -1342,7 +1360,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         (GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi)?.SetPaused(paused);
     }
 
-    private bool CanResumeMenuSession() => MainMenuVisible && _playerSessionSelected && !_menuBusy
+    private bool CanResumeMenuSession() => !_orderlyShutdownRequested && MainMenuVisible && _playerSessionSelected && !_menuBusy
         && !IntroVisible && !DemoEnded && !_introReplay && !_photoWorldReplay
         && _menuReturnSession is not null && _menuReturnBridge is { } bridge
         && IsInstanceValid(bridge) && bridge.IsInsideTree() && ReferenceEquals(bridge, _bridge)
@@ -1364,6 +1382,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private void OnMenuResume()
     {
+        if (_orderlyShutdownRequested) return;
         if (!CanResumeMenuSession()) { RefreshMenuResumeAvailability(); return; }
         _mainMenu!.Dismiss();
         _mainMenu = null;
@@ -1395,12 +1414,13 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _mainMenu.DebugZoneRequested += (zoneId, spawnPointId) => _ = OnMenuStartDebugZoneAsync(zoneId, spawnPointId);
         _mainMenu.SettingsRequested += () =>
         {
-            if (!_menuBusy && _main.GetNodeOrNull<SettingsUi>("SettingsUi") is { } settings && player is not null)
+            if (!_orderlyShutdownRequested && !_menuBusy
+                && _main.GetNodeOrNull<SettingsUi>("SettingsUi") is { } settings && player is not null)
             {
                 settings.Open(player);
             }
         };
-        _mainMenu.QuitRequested += () => GetTree().Quit();
+        _mainMenu.QuitRequested += RequestOrderlyShutdown;
         AddChild(_mainMenu);
         RefreshMenuResumeAvailability();
         if (_mainMenu.ResumeButton is { Visible: true, Disabled: false } resume) resume.GrabFocus();
@@ -1414,7 +1434,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     }
 
     private bool OwnsMenuOperation(MainMenuUi menu, RuntimeBridge bridge) =>
-        IsInstanceValid(this) && IsInsideTree() && !IsQueuedForDeletion()
+        !_orderlyShutdownRequested && IsInstanceValid(this) && IsInsideTree() && !IsQueuedForDeletion()
         && ReferenceEquals(_mainMenu, menu) && IsInstanceValid(menu)
         && menu.IsInsideTree() && !menu.IsQueuedForDeletion() && !menu.IsDismissed
         && ReferenceEquals(_bridge, bridge) && IsInstanceValid(bridge)
@@ -1422,7 +1442,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private async void RefreshMenuContinueAvailability()
     {
-        if (_mainMenu is not { IsDismissed: false } menu || _bridge is not { } bridge
+        if (_orderlyShutdownRequested || _mainMenu is not { IsDismissed: false } menu || _bridge is not { } bridge
             || ReferenceEquals(_menuLookupMenu, menu)) return;
         _menuLookupMenu = menu;
         menu.SetSaveLookupPending(true);
@@ -1466,7 +1486,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private async Task OnMenuStartSessionAsync(bool startNewGame)
     {
-        if (_menuBusy || _mainMenu is not { } menu || !MainMenuVisible || menu.IsSaveLookupPending
+        if (_orderlyShutdownRequested || _menuBusy || _mainMenu is not { } menu || !MainMenuVisible || menu.IsSaveLookupPending
             || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true }) return;
         var bridge = _bridge;
         if (bridge is null || !OwnsMenuOperation(menu, bridge)) return;
@@ -1525,7 +1545,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private async Task OnMenuReplayIntroAsync()
     {
-        if (_menuBusy || _playerSessionSelected || !MainMenuVisible || _bridge is not { } bridge) return;
+        if (_orderlyShutdownRequested || _menuBusy || _playerSessionSelected || !MainMenuVisible
+            || _bridge is not { } bridge) return;
         var menu = _mainMenu!;
         _menuBusy = true;
         menu.SetSessionBusy(true, "Открываем пролог…");
@@ -1583,7 +1604,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     /// </summary>
     private async Task OnMenuStartDebugZoneAsync(string zoneId, string spawnPointId)
     {
-        if (_menuBusy || _mainMenu is null || !MainMenuVisible)
+        if (_orderlyShutdownRequested || _menuBusy || _mainMenu is null || !MainMenuVisible)
         {
             return;
         }
@@ -1689,7 +1710,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     /// </summary>
     public async Task<bool> StartDebugZoneAsync(string zoneId, string spawnPointId, Vector3? position = null, float yawDegrees = 0f)
     {
-        if (UsesPhotoWorldsCampaign) return false;
+        if (_orderlyShutdownRequested || UsesPhotoWorldsCampaign) return false;
 
         var bridge = _bridge ?? GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
         if (bridge is null || _menuBusy)

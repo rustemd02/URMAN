@@ -28,12 +28,18 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     private bool _open;
     private bool _backgroundInputReplay;
     private bool _reducedMotion;
+    private bool _shutdownRequested;
+    private int _activeAsyncActions;
+    private TaskCompletionSource<bool>? _asyncActionsDrained;
 
     /// <summary>The demo root decides when the pause shell may open.</summary>
     public Func<bool>? CanOpenPause { get; set; }
 
     /// <summary>Raised when the player confirms returning to the main menu.</summary>
     public event Action? ShowMainMenuRequested;
+
+    /// <summary>Raised after the player confirms the two-step quit action.</summary>
+    public event Action? QuitRequested;
 
     /// <summary>Publishes this shell's actual pause state in the same call that changes it.</summary>
     public event Action<bool>? PauseChanged;
@@ -48,6 +54,12 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     public Button? SettingsButton => _settingsButton;
     public Button? RestartButton => _restartButton;
     public Button? MainMenuButton => _mainMenuButton;
+
+    internal void BeginShutdown() => _shutdownRequested = true;
+
+    internal Task WaitForActiveActionsAsync() => _activeAsyncActions == 0
+        ? Task.CompletedTask
+        : _asyncActionsDrained?.Task ?? Task.CompletedTask;
 
     public override void _Ready()
     {
@@ -72,7 +84,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public override void _Notification(int what)
     {
-        if (what == NotificationWMWindowFocusOut
+        if (!_shutdownRequested && what == NotificationWMWindowFocusOut
             && !_backgroundInputReplay
             && !_open
             && CanOpenPause?.Invoke() == true
@@ -103,7 +115,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public override void _UnhandledInput(InputEvent inputEvent)
     {
-        if (!inputEvent.IsActionPressed("pause"))
+        if (_shutdownRequested || !inputEvent.IsActionPressed("pause"))
         {
             return;
         }
@@ -167,6 +179,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public void Resume()
     {
+        if (_shutdownRequested) return;
         _open = false;
         LastTransitionReason = "resume";
         LastTransitionFrame = Engine.GetProcessFrames();
@@ -257,7 +270,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         layout.AddChild(_mainMenuButton);
 
         _quitButton = ShellButton("QuitButton", "Выход");
-        _quitButton.Pressed += () => RunConfirmed(_quitButton, "Выход", () => GetTree().Quit());
+        _quitButton.Pressed += () => RunConfirmed(_quitButton, "Выход", () => QuitRequested?.Invoke());
         layout.AddChild(_quitButton);
 
         _status = new Label
@@ -287,38 +300,57 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private async Task SaveAsync()
     {
-        var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
-        if (bridge is null)
+        if (_shutdownRequested) return;
+        BeginAsyncAction();
+        try
         {
-            SetStatus("Сохранение недоступно.");
-            return;
-        }
+            var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+            if (bridge is null)
+            {
+                SetStatus("Сохранение недоступно.");
+                return;
+            }
 
-        SetStatus(await bridge.SaveSlotAsync(ContinueSlot) ? "Сохранено."
-            : FindPlayer()?.SaveBlockReason ?? "Не удалось сохранить.");
+            SetStatus(await bridge.SaveSlotAsync(ContinueSlot) ? "Сохранено."
+                : FindPlayer()?.SaveBlockReason ?? "Не удалось сохранить.");
+        }
+        finally
+        {
+            EndAsyncAction();
+        }
     }
 
     private async Task LoadAsync()
     {
-        var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
-        if (bridge is null || !bridge.HasLoadableSlot(ContinueSlot))
+        if (_shutdownRequested) return;
+        BeginAsyncAction();
+        try
         {
-            SetStatus("Загрузка недоступна.");
-            return;
-        }
+            var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+            if (bridge is null || !bridge.HasLoadableSlot(ContinueSlot))
+            {
+                SetStatus("Загрузка недоступна.");
+                return;
+            }
 
-        if (await bridge.LoadSlotAsync(ContinueSlot))
-        {
-            Resume();
+            if (await bridge.LoadSlotAsync(ContinueSlot))
+            {
+                Resume();
+            }
+            else
+            {
+                SetStatus("Не удалось загрузить.");
+            }
         }
-        else
+        finally
         {
-            SetStatus("Не удалось загрузить.");
+            EndAsyncAction();
         }
     }
 
     private void OpenSettings()
     {
+        if (_shutdownRequested) return;
         if (GetTree().GetFirstNodeInGroup("settings_ui") as SettingsUi is { } settings
             && FindPlayer() is { } player)
         {
@@ -328,24 +360,34 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private async Task RestartAsync()
     {
-        var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
-        if (bridge is null)
+        if (_shutdownRequested) return;
+        BeginAsyncAction();
+        try
         {
-            return;
-        }
+            var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+            if (bridge is null)
+            {
+                return;
+            }
 
-        if (await bridge.StartNewGameAsync())
-        {
-            Resume();
+            if (await bridge.StartNewGameAsync())
+            {
+                Resume();
+            }
+            else
+            {
+                SetStatus("Перезапуск недоступен.");
+            }
         }
-        else
+        finally
         {
-            SetStatus("Перезапуск недоступен.");
+            EndAsyncAction();
         }
     }
 
     private void ShowMainMenu()
     {
+        if (_shutdownRequested) return;
         (GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi)?.ResetPresentation();
         UiFoley.StopWorld(GetTree());
         Resume();
@@ -354,6 +396,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void RunConfirmed(Button button, string baseText, Action action)
     {
+        if (_shutdownRequested) return;
         if (ReferenceEquals(_armedButton, button))
         {
             DisarmAll();
@@ -365,6 +408,21 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         DisarmAll();
         _armedButton = button;
         button.Text = $"{baseText} — точно?";
+    }
+
+    private void BeginAsyncAction()
+    {
+        if (_activeAsyncActions++ == 0)
+            _asyncActionsDrained = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+    }
+
+    private void EndAsyncAction()
+    {
+        if (--_activeAsyncActions == 0)
+        {
+            _asyncActionsDrained?.TrySetResult(true);
+            _asyncActionsDrained = null;
+        }
     }
 
     private void DisarmAll()

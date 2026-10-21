@@ -187,7 +187,7 @@ public partial class Act1ConnectedWorld
         _facilityBodies.Add(staffContact);
         var permissionTarget = FacilityTarget("SchoolPhotoCopyPermission", SchoolPhotoCopyPermissionInteraction,
             "Попросить копию школьного снимка", school,
-            new(-7.0f, 1.32f, -2.15f), new(.62f, .62f, .39f));
+            new(-7.0f, 1.32f, -2.65f), new(.62f, .62f, .39f));
         permissionTarget.DialogueId = "urman.fullgame:dialogue/pw-school-copy";
         SetSchoolPhotoCopyMetadata(permissionTarget, SchoolPhotoCopyPermissionInteraction);
         RegisterPublicUse("school", permissionTarget, staffContact);

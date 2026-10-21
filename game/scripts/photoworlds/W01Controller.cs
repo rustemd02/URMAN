@@ -332,8 +332,6 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _groundBody = null;
         _groundVisual = null;
         _forestVisual = null;
-        _prologueTrailReliefVisual = null;
-        _prologueTrailReliefMesh = null;
         _photoTableauVisual = null;
         _photoTableauBody = null;
         _forestSplitBirchContact = null;
@@ -715,9 +713,6 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var groundMesh = Descendants<MeshInstance3D>(_groundVisual!)
             .FirstOrDefault(node => node.Mesh is not null)
             ?? throw new InvalidOperationException("W01 prologue ground mesh is missing.");
-        var groundMaterial = groundMesh.MaterialOverride ?? groundMesh.Mesh!.SurfaceGetMaterial(0)
-            ?? throw new InvalidOperationException("W01 prologue ground material is missing.");
-        BuildPrologueTrailRelief(groundMaterial);
         var groundToForest = _forestVisual.GlobalTransform.AffineInverse() * groundMesh.GlobalTransform;
         var groundBounds = groundToForest * groundMesh.Mesh!.GetAabb();
         var placedTreeRoots = new List<Vector2>();
@@ -1427,7 +1422,6 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             CancelBranchMoveAnimation();
             visual.Visible = false;
             SetWorldPresentationVisible(false);
-            SetPrologueTrailReliefVisible(false);
             SetProloguePhotoSourceVisible(bridge, false);
             SetCollisionLayer(_groundBody, 0u);
             SetCollisionLayer(_movingBranchBody, 0u);
@@ -1453,7 +1447,6 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             CancelBranchMoveAnimation();
             visual.Visible = false;
             SetWorldPresentationVisible(false);
-            SetPrologueTrailReliefVisible(false);
             SetProloguePhotoSourceVisible(bridge, false);
             SetCollisionLayer(_groundBody, 0u);
             SetCollisionLayer(_movingBranchBody, 0u);
@@ -1475,7 +1468,6 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         visual.Visible = true;
         SetWorldPresentationVisible(true);
-        SetPrologueTrailReliefVisible(projection.ActiveSceneId == PrologueSceneId);
         SetProloguePhotoSourceVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
         SetCollisionLayer(_groundBody, 1u);
         SetCollisionLayer(_movingBranchBody, 1u);
