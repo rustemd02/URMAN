@@ -2288,19 +2288,22 @@ class Station:
             if missing:
                 raise ValueError(f'snapshot blobs incomplete ({len(missing)} missing); re-run the client')
         mode = spec.get('mode')
-        if mode not in ('smoke', 'capture', 'play', 'studio'):
+        if mode not in ('smoke', 'capture', 'play', 'studio', 'export-release'):
             raise ValueError('unsupported mode')
+        release = mode == 'export-release'
+        if release and set(spec) != {'job_id', 'snapshot_id', 'mode', 'timeout'}:
+            raise ValueError('export-release accepts only job_id, snapshot_id, mode, and timeout')
         restarts = spec.get('studio_restarts', 0)
         if (type(restarts) is not int or not 0 <= restarts <= 2
                 or ('studio_restarts' in spec and mode != 'studio')):
             raise ValueError('studio_restarts requires Studio mode and an integer of 0..2')
-        timeout_max = 3600 if mode in ('studio', 'play') else 300
+        timeout_max = 1800 if release else 3600 if mode in ('studio', 'play') else 300
         if type(spec.get('timeout')) is not int or not 1 <= spec['timeout'] <= timeout_max:
             raise ValueError(f'timeout must be 1..{timeout_max} seconds')
-        if type(spec.get('headless')) is not bool:
+        if not release and type(spec.get('headless')) is not bool:
             raise ValueError('headless must be boolean')
         scene = spec.get('scene', '')
-        if not re.fullmatch(r'res://[\w/.-]+\.tscn', scene) or '..' in scene:
+        if not release and (not re.fullmatch(r'res://[\w/.-]+\.tscn', scene) or '..' in scene):
             raise ValueError('invalid scene')
         if scene == STUDIO_SCENE and mode != 'studio':
             raise ValueError('Studio scene is only available in fixed Studio mode')
@@ -3205,13 +3208,16 @@ class Station:
                 else:
                     manifest = materialize_from_blobs(source, self.manifest_for(spec['snapshot_id']), self.blobs)
                 verify_source(source, manifest)
-                if not (source/'game'/spec['scene'][6:]).is_file():
+                if spec['mode'] != 'export-release' and not (source/'game'/spec['scene'][6:]).is_file():
                     raise ValueError('scene does not exist in snapshot')
                 for pin in ('global.json','eng/toolchain.json'):
                     if json.loads((source/pin).read_text(encoding='utf-8-sig')) != json.loads((self.repo/pin).read_text(encoding='utf-8-sig')):
                         raise ValueError('snapshot toolchain differs from station: '+pin)
                 execution_files = {}
                 execution_names = ('eng/run-windows-check.ps1','eng/protected_run.py','eng/remote_common.py')
+                if spec['mode'] == 'export-release':
+                    execution_names += ('eng/desktop_release_checks.py', 'eng/desktop_build_provenance.py',
+                                        'eng/act1_candidate_identity.py', 'eng/godot_pck.py')
                 if spec['mode'] == 'play':
                     execution_names += ('eng/windows-game-ui.ps1',)
                 for name in execution_names:
@@ -3221,7 +3227,8 @@ class Station:
                         raise ValueError('station execution infrastructure differs from snapshot: '+name+'; update station before retrying')
                     execution_files[name] = {'station_sha256':digest(self.repo/name),'snapshot_sha256':manifest['files'][name]['sha256'],'source_text_equal':True}
                 # Station-local override is recorded separately; never overwrite a developer file.
-                (source/'game/override.cfg').write_text('[filesystem]\nimport/blender/enabled=false\n')
+                if spec['mode'] != 'export-release':
+                    (source/'game/override.cfg').write_text('[filesystem]\nimport/blender/enabled=false\n')
                 runner_env = None
                 if spec['mode'] == 'play':
                     frames = output/'frames'
@@ -3232,9 +3239,11 @@ class Station:
                 command = ['powershell.exe','-NoProfile','-ExecutionPolicy','Bypass','-File',
                            str(self.repo/'eng/run-windows-check.ps1'), '-Root',str(source),
                            '-ToolsRoot',str(self.repo), '-Provenance',str(source/'snapshot-manifest.json'),
-                           '-Output',str(output), '-Mode',('play' if spec['mode'] == 'studio' else spec['mode']), '-Scene',spec['scene'],
+                           '-Output',str(output), '-Mode',('play' if spec['mode'] == 'studio' else spec['mode']),
                            '-TimeoutSeconds',str(spec['timeout']), '-Python',self.config['python']]
-                if spec['headless']:
+                if spec['mode'] != 'export-release':
+                    command += ['-Scene', spec['scene']]
+                if spec.get('headless'):
                     command += ['-Headless']
                 if spec.get('points'):
                     command += ['-ViewPoints', spec['points']]
@@ -3254,8 +3263,15 @@ class Station:
                                 self.active_source = source
                     # Runner bounds build/content/import/game separately. This outer emergency
                     # deadline preserves the guard's recovery marker instead of claiming restore.
+                    outer_deadline = spec['timeout'] * 2 + 1050
+                    if spec['mode'] == 'export-release':
+                        # Five content/build steps; import; provenance start;
+                        # export; package prepare; guarded bootstrap; verify.
+                        step_budgets = (5 * 180, spec['timeout'] + 30, 180,
+                                        spec['timeout'] + 30, 180, 60, 180)
+                        outer_deadline = sum(step_budgets) + 120  # runner/guard cleanup and receipt margin
                     try:
-                        code = p.wait(timeout=spec['timeout']*2+1050)
+                        code = p.wait(timeout=outer_deadline)
                     except subprocess.TimeoutExpired:
                         subprocess.run(['taskkill','/PID',str(p.pid),'/T','/F'],capture_output=True)
                         p.wait(timeout=10); raise RuntimeError('job deadline exceeded; inspect userdata recovery before next run')

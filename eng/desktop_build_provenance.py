@@ -8,7 +8,7 @@ from pathlib import Path
 import sys
 import uuid
 
-from act1_candidate_identity import (ARTIFACT_PATHS, EXPORT_PRESETS, PROVENANCE_SCHEMA, sha256_file,
+from act1_candidate_identity import (EXPORT_PRESETS, PROVENANCE_SCHEMA, artifact_paths, exporter_script, sha256_file,
                                     source_manifest, validate_build_provenance,
                                     validate_source_manifest)
 
@@ -18,11 +18,16 @@ def utc_now():
 
 
 def capture_start(root, mode):
+    before = source_manifest(root)
+    if mode == "release-windows":
+        from remote_common import validate_candidate_guard_project
+        validate_candidate_guard_project({"buildProvenance": {"sourceAfter": before}},
+                                         Path(root) / "game/project.godot")
     return {"schema": "urman.desktop_export_start.v1", "runId": str(uuid.uuid4()),
             "startedAtUtc": utc_now(),
-            "producer": {"script": f"eng/export-desktop-{mode}.sh", "mode": mode,
+            "producer": {"script": exporter_script(mode), "mode": mode,
                          "presets": EXPORT_PRESETS[mode]},
-            "sourceBefore": source_manifest(root)}
+            "sourceBefore": before}
 
 
 def complete_export(root, start, artifacts):
@@ -49,11 +54,11 @@ def main():
     parser.add_argument("--root", type=Path, required=True)
     subcommands = parser.add_subparsers(dest="action", required=True)
     start_parser = subcommands.add_parser("start")
-    start_parser.add_argument("--mode", choices=("debug", "release"), required=True)
+    start_parser.add_argument("--mode", choices=tuple(EXPORT_PRESETS), required=True)
     start_parser.add_argument("--output", type=Path, required=True)
     finish_parser = subcommands.add_parser("complete")
     finish_parser.add_argument("--start", type=Path, required=True)
-    finish_parser.add_argument("--mac-zip", type=Path, required=True)
+    finish_parser.add_argument("--mac-zip", type=Path)
     finish_parser.add_argument("--windows-zip", type=Path, required=True)
     finish_parser.add_argument("--windows-exe", type=Path, required=True)
     finish_parser.add_argument("--output", type=Path, required=True)
@@ -63,10 +68,13 @@ def main():
             result = capture_start(args.root, args.mode)
         else:
             start = json.loads(args.start.read_text(encoding="utf-8"))
+            mode = start["producer"]["mode"]
+            if (mode == "release-windows") != (args.mac_zip is None):
+                raise ValueError("Mac ZIP must be supplied exactly for the two-platform profiles")
             paths = {("macOS", "zip"): args.mac_zip, ("Windows", "zip"): args.windows_zip,
                      ("Windows", "executable"): args.windows_exe}
             artifacts = [{"platform": platform, "kind": kind, "sizeBytes": paths[(platform, kind)].stat().st_size,
-                          "sha256": sha256_file(paths[(platform, kind)])} for platform, kind in ARTIFACT_PATHS]
+                          "sha256": sha256_file(paths[(platform, kind)])} for platform, kind in artifact_paths(mode)]
             result = complete_export(args.root, start, artifacts)
         # Every invocation uses a fresh task-owned path. A failed or repeated
         # exporter cannot replace evidence from an earlier successful run.

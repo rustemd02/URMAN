@@ -231,12 +231,26 @@ def validate_candidate_receipt(receipt, manifest):
     from act1_candidate_identity import artifact_bindings, validate_build_provenance
     provenance = receipt.get('buildProvenance')
     validate_build_provenance(provenance, receipt.get('artifacts'))
-    if (provenance.get('producer', {}).get('mode') != 'release'
-            or artifact_bindings(receipt['artifacts'])[('Windows', 'zip')] !=
+    mode = provenance['producer']['mode']
+    if mode not in {'release', 'release-windows'}:
+        raise ValueError('candidate must use a completed release export profile')
+    bindings = artifact_bindings(receipt['artifacts'], mode)
+    if (bindings[('Windows', 'zip')] !=
                 (manifest['windows_zip_bytes'], manifest['windows_zip_sha256'])
-            or artifact_bindings(receipt['artifacts'])[('Windows', 'executable')] !=
+            or bindings[('Windows', 'executable')] !=
                 (manifest['windows_exe_bytes'], manifest['windows_exe_sha256'])):
         raise ValueError('candidate Windows artifacts do not match completed release provenance')
+    if mode == 'release-windows':
+        checks = receipt.get('checks')
+        required = {'zipIntegrity', 'safeUniqueEntries', 'windowsArchiveMetadataClean',
+                    'exactWindowsArchitecture', 'windowsArchiveMatchesStagingExecutable',
+                    'windowsArchiveMatchesStagingTree', 'dotnetDependencyClosure',
+                    'ambientContentMarkers', 'embeddedPckScope', 'photoWorldsPackageBootstrap'}
+        if (receipt.get('scope') != 'structural-package-verification' or not isinstance(checks, dict)
+                or not required.issubset(checks) or any(value is not True for value in checks.values())
+                or receipt.get('architectures') != {'Windows': ['x86_64']}
+                or receipt.get('dotnetRuntimeTargets') != ['.NETCoreApp,Version=v10.0/win-x64']):
+            raise ValueError('Windows release receipt is missing the strict package verification contract')
 
 
 def validate_candidate_guard_project(receipt, project_path):

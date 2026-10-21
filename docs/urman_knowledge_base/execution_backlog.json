@@ -2672,7 +2672,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-10-20T21:13:36+00:00",
+  "updated": "2026-10-21",
   "goal_key": "urman-photoworlds-finished-game",
   "goal_statement": "Довести единую очередь до готовой игры «За краем снимка»: обычная зимняя Кара-Урман, физическая книга Тукая, 13 снимков, пять полноценных фотомиров, пролог W01, реальные внешние подтверждения, домашний эпилог и свободные возвращения. Все применимые требования Visual Reset и PhotoWorlds, сохранённые бытовые системы и выпускная приёмка обязательны; готовность принимается REL-003 на конкретной поставляемой сборке, а не по числу закрытых карточек.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -145700,7 +145700,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Infrastructure deployed and actual Windows PS5 parser passed. After protected ordinary current-source route, export current candidate, then owned candidate-play NewGame→Save→normal full quit→second lifetime Continue→normal quit under one guard. Preserve platform/performance/rights/art/hearing/fullcampaign gates.",
+      "next_action": "Install pinned Windows release template after full TPZ byte/SHA verification; export the current source snapshot, validate actual package, then ordinary exported EXE NewGame→Save→full Quit→second-lifetime Continue under the existing guard.",
       "blocker": null,
       "external_gates": [
         {
@@ -146045,11 +146045,25 @@
         "remaining": "No gameplay result yet; inspect cache integrity before source upload."
       },
       "windows_export_route_2026_10_21": {
-        "state": "implementation_and_review_in_progress_not_deployed",
-        "result": "Explicit release-windows backend/provenance/shared PCK-ZIP-.NET checks implemented within existing station flow; legacy desktop profile unchanged. Backend independent review fixed ZIP bounds, duplicate staging retention, aggregate result preflight and cumulative guard-safe export deadline. Client/common implementation now awaits fresh review.",
-        "next_finite_result": "Add an explicit Windows-only export profile within the existing station runner/provenance validators, preserving the current two-platform contract and candidate guard; or use a separately authorized canonical export host. No fabricated Mac artifact and no relaxed override/project-hash guard.",
-        "scope_limit": "Read-only investigation only; no exporter change or native exported EXE run in this step.",
-        "remaining": "PS5 parser/exact deployment, pinned Windows export templates installation, actual export/provenance/package result, two-lifetime exported EXE Continue. No Windows export/native candidate PASS yet. Mac/platform/art/performance/rights gates retained."
+        "state": "engineering_reviewed_ps5_parsed_deployed_templates_pending",
+        "result": "Strict release-windows source-only export backend, client, provenance and shared PCK/ZIP/.NET checks implemented; independent backend and client/common reviews clean after bounded ZIP/result/deadline fixes. Legacy two-platform receipt remains strict. Actual Windows PS5.1.22621.963 and Python AST passed on exact staged bytes; six files atomically deployed and SHA-verified, normal worker start and doctor ready/idle/recovery false/orphans false.",
+        "next_finite_result": "Install pinned Windows release template after full TPZ byte/SHA verification; export the current source snapshot, validate actual package, then ordinary exported EXE NewGame→Save→full Quit→second-lifetime Continue under the existing guard.",
+        "scope_limit": "Windows export engineering only; no fabricated Mac artifact or relaxed project/userdata guard. Windows dirty/unmerged Git checkout and unrelated paths preserved.",
+        "remaining": "Pinned template download in progress; no actual release export or native exported EXE result yet. Mac/platform/art/performance/rights and full campaign acceptance remain open.",
+        "station_backup": {
+          "path": "D:/URMAN-STATION/data/infrastructure-backups/before-export-d37bc756-20261021.zip",
+          "bytes": 63846,
+          "sha256": "fed95063401a03c289626fe3454fa95f82fc04aa5427b3c6f5e89db6eae92863",
+          "verification": "Exact prior file bytes and missing marker for new helper read back and SHA-compared before mutation. First cross-volume File.Replace failed without changing any file; normal old worker restart/doctor proved safe. Second attempt used same-volume C staging and explicit backups; all six deployed SHA values matched."
+        },
+        "deployed_source_sha256": {
+          "eng/windows_station_worker.py": "822e31b1b7ff47540c985a70c96449dd99ca4529d3ee6d70945784d89db9e6ab",
+          "eng/run-windows-check.ps1": "f652bcb98491ca376287d95bfd4cd6ed8f854479028ab440971f04b9f67d10fc",
+          "eng/remote_common.py": "4145fa2a1def4877f2f0ea783a58fbecb2db4b88fd325801fbae3e12cdcf38c3",
+          "eng/act1_candidate_identity.py": "bf65abf6f6d659e6b522d2efda3a26e90e6cc1fa5ffc1dcdb5c5dfcc01fd23d2",
+          "eng/desktop_build_provenance.py": "f770d5966d9a43ec7569ad2a7bb290b272d456c59a7c01d55eb03fdc18fb1844",
+          "eng/desktop_release_checks.py": "9e2ddc5b02e8f343f08b12a8bde226987245c8a10dc635c8e9afc224de8767ca"
+        }
       }
     },
     {

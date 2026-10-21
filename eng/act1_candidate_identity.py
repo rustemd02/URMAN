@@ -22,7 +22,19 @@ ARTIFACT_PATHS = {("macOS", "zip"): "macos/URMAN.zip",
                   ("Windows", "zip"): "URMAN-windows-x86_64.zip",
                   ("Windows", "executable"): "windows/URMAN.exe"}
 EXPORT_PRESETS = {"debug": ["macOS", "Windows Desktop"],
-                  "release": ["Act I Release macOS", "Act I Release Windows"]}
+                  "release": ["Act I Release macOS", "Act I Release Windows"],
+                  "release-windows": ["Act I Release Windows"]}
+
+
+def exporter_script(mode):
+    return "eng/run-windows-check.ps1" if mode == "release-windows" else f"eng/export-desktop-{mode}.sh"
+
+
+def artifact_paths(mode):
+    if mode not in EXPORT_PRESETS:
+        raise ValueError("unsupported desktop export profile")
+    return {key: value for key, value in ARTIFACT_PATHS.items()
+            if mode != "release-windows" or key[0] == "Windows"}
 
 
 def sha256_file(path):
@@ -94,7 +106,7 @@ def validate_source_manifest(manifest):
     return manifest
 
 
-def artifact_bindings(artifacts):
+def artifact_bindings(artifacts, mode="release"):
     if not isinstance(artifacts, list):
         raise ValueError("build provenance has no artifact list")
     bindings = {}
@@ -107,8 +119,8 @@ def artifact_bindings(artifacts):
                 or not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest)):
             raise ValueError("build provenance has duplicate, incomplete or malformed artifact bindings")
         bindings[key] = (size, digest)
-    if set(bindings) != set(ARTIFACT_PATHS):
-        raise ValueError("build provenance must bind all three desktop artifacts")
+    if set(bindings) != set(artifact_paths(mode)):
+        raise ValueError("build provenance must bind the exact desktop export profile artifact set")
     return bindings
 
 
@@ -118,7 +130,7 @@ def validate_build_provenance(provenance, artifacts):
         raise ValueError("build provenance is not a completed exporter run")
     producer = provenance.get("producer") or {}
     mode = producer.get("mode")
-    if (mode not in EXPORT_PRESETS or producer.get("script") != f"eng/export-desktop-{mode}.sh"
+    if (mode not in EXPORT_PRESETS or producer.get("script") != exporter_script(mode)
             or producer.get("presets") != EXPORT_PRESETS[mode]):
         raise ValueError("build provenance has an unsupported exporter")
     uuid.UUID(provenance["runId"])
@@ -126,7 +138,7 @@ def validate_build_provenance(provenance, artifacts):
     after = validate_source_manifest(provenance.get("sourceAfter"))
     if before["files"] != after["files"] or before["manifestSha256"] != after["manifestSha256"]:
         raise ValueError("build inputs changed between the export snapshots")
-    if artifact_bindings(provenance.get("artifacts")) != artifact_bindings(artifacts):
+    if artifact_bindings(provenance.get("artifacts"), mode) != artifact_bindings(artifacts, mode):
         raise ValueError("build provenance does not bind the verified artifact set")
     return before
 

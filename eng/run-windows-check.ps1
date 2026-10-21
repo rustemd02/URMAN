@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('build', 'prepare', 'play', 'smoke', 'capture', 'candidate-boot', 'candidate-play')][string]$Mode = 'smoke',
+    [ValidateSet('build', 'prepare', 'play', 'smoke', 'capture', 'export-release', 'candidate-boot', 'candidate-play')][string]$Mode = 'smoke',
     [string]$Scene,
     [ValidateRange(1, 86400)][int]$TimeoutSeconds = 300,
     [ValidateRange(0, 2)][int]$StudioRestarts = 0,
@@ -23,6 +23,11 @@ $Root = (Resolve-Path $Root).Path
 if (-not $ToolsRoot) { $ToolsRoot = $Root }
 $ToolsRoot = (Resolve-Path $ToolsRoot).Path
 $candidateMode = $Mode -in @('candidate-boot', 'candidate-play')
+$releaseMode = $Mode -eq 'export-release'
+if ($releaseMode -and (-not $Provenance -or $Root -eq $ToolsRoot -or $Scene -or $Headless -or
+        $ViewPoints -or $AtmospherePhase -or $ViewFov -or $StudioRestarts -or $TimeoutSeconds -gt 1800)) {
+    throw 'export-release requires an isolated verified snapshot, timeout 1..1800, and no runtime/capture options.'
+}
 if ($CandidateSession -and ($Mode -ne 'candidate-play' -or $env:URMAN_PROTECTED_RUN -ne '1')) {
     throw 'CandidateSession is private to a protected candidate-play launch.'
 }
@@ -53,9 +58,9 @@ if ($candidateMode) {
     if ($Mode -eq 'smoke' -and $Scene -eq 'res://tests/gait_capture_probe.tscn' -and $Headless) {
         throw 'The existing gait capture requires the native renderer.'
     }
-    if (-not $Scene) { $Scene = 'res://scenes/act1_demo.tscn' }
-    if ($Scene -notmatch '^res://[\w/.-]+\.tscn$' -or $Scene.Contains('..') -or
-        -not (Test-Path (Join-Path "$Root/game" $Scene.Substring(6)))) { throw 'Invalid or missing scene.' }
+    if (-not $Scene -and -not $releaseMode) { $Scene = 'res://scenes/act1_demo.tscn' }
+    if (-not $releaseMode -and ($Scene -notmatch '^res://[\w/.-]+\.tscn$' -or $Scene.Contains('..') -or
+        -not (Test-Path (Join-Path "$Root/game" $Scene.Substring(6))))) { throw 'Invalid or missing scene.' }
 }
 $studioPlay = $Mode -eq 'play' -and $Scene -eq 'res://studio/studio_main.tscn'
 if ($Mode -eq 'play' -and $TimeoutSeconds -gt 3600) { throw 'play timeout must be 1..3600 seconds.' }
@@ -337,6 +342,7 @@ try {
             $projectBytes = [IO.File]::ReadAllBytes($importProject)
             $importText = [Text.Encoding]::UTF8.GetString($projectBytes) -replace '(?m)^theme/custom_font=.*$', 'theme/custom_font=""'
             $importText += "`n[editor]`nimport/use_multiple_threads=false`n"
+            if ($releaseMode) { $importText += "`n[filesystem]`nimport/blender/enabled=false`n" }
             [IO.File]::WriteAllText($importProject, $importText, [Text.UTF8Encoding]::new($false))
             $receipt.importFontBootstrap = 'custom_font omitted in isolated project during import only; original project restored before game'
             $receipt.importThreading = 'serial import in isolated project only, to avoid the observed Windows font-import crash'
@@ -349,6 +355,34 @@ try {
                 $receipt.projectRestoredSha256 = (Get-FileHash $importProject -Algorithm SHA256).Hash
                 if ($receipt.projectRestoredSha256 -ne $receipt.source.files.'game/project.godot'.sha256) { throw 'Project settings were not restored before game.' }
             }
+        }
+    }
+    if ($releaseMode) {
+        # The export identity must contain the original project and no station
+        # override. The import-only Blender/font workaround has already ended.
+        if (Test-Path 'game/override.cfg') { throw 'Release export cannot include a station settings override.' }
+        $releaseChecks = "$Root/eng/desktop_release_checks.py"
+        $exportStart = "$output/export-start.json"
+        $releasePck = "$output/.windows-release.pck"
+        New-Item -ItemType Directory "$output/windows" -ErrorAction Stop | Out-Null
+        Invoke-Logged 'export-start' $Python @('eng/desktop_build_provenance.py', '--root', $Root,
+            'start', '--mode', 'release-windows', '--output', $exportStart)
+        try {
+            Invoke-Logged 'export-release' $Python @($guard, '--clean', '--timeout', "$TimeoutSeconds",
+                $godot, '--headless', '--audio-driver', 'Dummy', '--path', "$Root/game",
+                '--export-release', 'Act I Release Windows', "$output/windows/URMAN.exe") ($TimeoutSeconds + 30)
+            Invoke-Logged 'release-package-prepare' $Python @($releaseChecks, 'windows-prepare', $output, $releasePck)
+            # Same bounded main-pack bootstrap as verify-act1-release-package.sh;
+            # it does not establish native Windows EXE host acceptance.
+            Invoke-Logged 'release-package-bootstrap' $Python @($guard, '--clean', '--timeout', '30',
+                $godot, '--headless', '--display-driver', 'headless', '--audio-driver', 'Dummy',
+                '--path', "$Root/game", '--main-pack', $releasePck, '--quit-after', '2') 60
+            Invoke-Logged 'release-package-verify' $Python @($releaseChecks, 'windows-complete',
+                $Root, $output, $exportStart, $releasePck, "$output/release-package-bootstrap.log")
+            $receipt.releasePackage = @{ profile = 'release-windows';
+                receipt = 'desktop-artifact-receipt.json'; windowsHostExecution = 'OPEN' }
+        } finally {
+            if (Test-Path -LiteralPath $releasePck) { Remove-Item -LiteralPath $releasePck -Force }
         }
     }
     if ($Mode -in @('play', 'smoke', 'capture')) {

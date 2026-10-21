@@ -278,7 +278,7 @@ def new_interactive_capture_destination(path):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('command',choices=['doctor','smoke','capture','studio','play','play-full','play-product','candidate-boot','candidate-play','ui',
-                                      'capture-current','status','fetch'])
+                                      'export-release','capture-current','status','fetch'])
     p.add_argument('--root',type=Path,default=Path(__file__).resolve().parent.parent)
     p.add_argument('--job-id',help='capture-current uses your own running native play or candidate-play job ID');p.add_argument('--scene')
     p.add_argument('--points');p.add_argument('--timeout',type=int)
@@ -303,6 +303,18 @@ def main():
     candidate_boot=args.command=='candidate-boot'
     candidate_play=args.command=='candidate-play'
     candidate_run=candidate_boot or candidate_play
+    export_release=args.command=='export-release'
+    if export_release:
+        if (args.scene is not None or args.headless or args.points is not None
+                or args.phase is not None or args.fov is not None or args.studio_authoring
+                or args.studio_restarts):
+            p.error('export-release uses only a source snapshot and accepts no scene, capture, or Studio options')
+        if args.timeout is not None and not 1 <= args.timeout <= 1800:
+            p.error('export-release timeout must be 1..1800 seconds')
+        if args.wait is not None and not 1 <= args.wait <= 5400:
+            p.error('export-release wait must be 1..5400 seconds')
+        if args.job_id is not None and not re.fullmatch('[a-zA-Z0-9_-]{8,64}', args.job_id):
+            p.error('export-release job ID must be 8..64 letters, digits, underscores, or hyphens')
     if not 0<=args.studio_restarts<=2 or (args.studio_restarts and args.command!='studio'):
         p.error('--studio-restarts requires studio and a count of 0..2')
     if args.studio_readiness and args.command!='doctor':
@@ -399,8 +411,8 @@ def main():
     scene=STUDIO_SCENE if studio else (PHOTO_WORLDS_GAME_SCENE if native_product else FULL_GAME_SCENE if native_full else 'res://scenes/act1_demo.tscn' if play else (args.scene if args.scene is not None
                                        else 'res://tests/player_settings_smoke_test.tscn')
     )
-    timeout=args.timeout if args.timeout is not None else (120 if candidate_boot else 1200 if studio or play or candidate_play else 300)
-    wait=args.wait if args.wait is not None else (3600 if studio else 420 if candidate_boot else 1200)
+    timeout=args.timeout if args.timeout is not None else (1800 if export_release else 120 if candidate_boot else 1200 if studio or play or candidate_play else 300)
+    wait=args.wait if args.wait is not None else (2*timeout+1800 if export_release else 3600 if studio else 420 if candidate_boot else 1200)
     c=Client()
     if args.command=='doctor':
         result=studio_readiness(c) if args.studio_readiness else c.request('/health')
@@ -516,9 +528,12 @@ def main():
     manifest=build_manifest(args.root, studio_authoring=studio or args.studio_authoring)
     publish_snapshot(c,args.root,manifest)
     jid=args.job_id or uuid.uuid4().hex
-    spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':'play' if play else args.command,
-          'scene':'res://scenes/act1_demo.tscn' if args.command=='capture' else scene,
-          'timeout':timeout,'headless':args.headless,'points':args.points or ''}
+    if export_release:
+        spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':'export-release','timeout':timeout}
+    else:
+        spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':'play' if play else args.command,
+              'scene':'res://scenes/act1_demo.tscn' if args.command=='capture' else scene,
+              'timeout':timeout,'headless':args.headless,'points':args.points or ''}
     if args.studio_restarts:
         spec['studio_restarts']=args.studio_restarts
     if args.phase:
