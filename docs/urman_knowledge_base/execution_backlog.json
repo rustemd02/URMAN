@@ -110739,7 +110739,7 @@
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "Do not repeat the same hour-long acquisition walk while reviewing source. Accept compact f244 proof, then changed-source finite school usability + normal shutdown acceptance with a firm earlier quit boundary; actual export/crossprocess Continue through existing candidate lifecycle. Full forest-edge→W01 action→ReturnTicket→post-return Save/Continue remains mandatory and open.",
+      "next_action": "Short changed-source Pause/village shutdown is accepted in9e28. Do not repeat unchanged hour-long acquisition while doing source review: next finite ordinary school-target/table check, then forest-edge→W01 meaningful action→ReturnTicket→post-return Save/Continue. Actual current-source export/crossprocess remains PW095; existing Windows exporter gap must be resolved without Mac Godot or weakening provenance.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111250,7 +111250,7 @@
         "remaining": "Ordinary forest-edge→W01 meaningful action→ReturnTicket→post-return Save/Continue; crossprocess actual export PW095; renderer exit resources and NPC target alignment; full visual/performance/external acceptance remain open."
       },
       "shutdown_resource_fix_2026_10_21": {
-        "state": "engineering_source_compile_verified_native_pending",
+        "state": "engineering_compile_and_short_pause_quit_native_verified",
         "input": "fca normalQuitgameExit0 but renderer mesh1/material2/shader1/instance1 and48 resources at exit; uncalled finalcachecleanup in ordinary Act1DemoRoot path.",
         "targets": [
           "game/scripts/Act1DemoRoot.cs",
@@ -111259,7 +111259,19 @@
         ],
         "result": "Normalmainmenu/confirmedPause/OSwindow close share idempotent root shutdown: gate input, drain tracked startup/menu/pause/loading/save operations, freeMain, physics+process barriers, existingStudiofinalcacheorder, boundednative renderflush, Quit. StableNeedsPhysicalRecovery is terminal not activework; rootProcess/inputstopwhileclosing; cleanup exceptionslog andexit1.",
         "verification": "Independent Fast review found recoverywaitP1 and freedplayerProcessP2; both fixed, follow-up source review clean with boundedresidual. AffectedGamecompile18.03s0warnings0errors. No newtests/Macnative.",
-        "remaining": "Changed normalmenu/Pause/nativewindow exit, userdata and renderererrors check. No globalproof all autonomous storydispatch drained; existing scopedmarkers/inputgates retained. Not in runningf244snapshot."
+        "remaining": "Main-menu Quit and OS-window close native checks, long-session/all autonomous dispatch lifetime coverage remain unproved. This short Pause exit does not close the full ordinary W01 loop or exported crossprocess acceptance.",
+        "native_verification": {
+          "job_id": "9e28e02ca2fa480ca10f1694fbc2c7fd",
+          "snapshot_id": "459bb9913f000e3d1ad660d7ac2a8a154435890cd4709f3082cfb28e43d19706",
+          "baseline": "109221d1 current source; includes orderly shutdown09273dce",
+          "route": "Ordinary NewGame → author-authorized EnterSkip → actual village → Pause → Quit armed and separately confirmed",
+          "status": "PASS",
+          "gameExitCode": 0,
+          "userdataRestored": true,
+          "engine_errors_bytes": 0,
+          "renderer_exit_resource_errors": "none in retained game/stdout logs",
+          "proof": "evidence/PW-020/ordinary_9e28e02ca2fa480ca10f1694fbc2c7fd"
+        }
       },
       "ordinary_f244_2026_10_21": {
         "state": "terminal_partial_evidence",
@@ -111284,6 +111296,25 @@
         },
         "engine_errors": "Two actual Handle is not initialized exceptions (collector repeats to4lines), GCHandle.FromIntPtr→ScriptManagerBridge.SwapGCHandleForType→Mesh.SurfaceGetMaterial→AgentBKitMaterials.RebindMaterials151/InstantiateKit129. Distinct from fca renderer exit leaks; source-owner investigation pending. No runtime PASS.",
         "scope_limit": "Torso lookup after actual school_copy_identified failed on SchoolStaffContact; larger target is next-source fix only. Full W01 entry/action/return remains unverified."
+      },
+      "ordinary_9e28_2026_10_21": {
+        "state": "terminal_short_native_pass",
+        "job_id": "9e28e02ca2fa480ca10f1694fbc2c7fd",
+        "snapshot_id": "459bb9913f000e3d1ad660d7ac2a8a154435890cd4709f3082cfb28e43d19706",
+        "question": "Does the changed normal shutdown end an actual NewGame/Skip/village lifetime without renderer exit errors and restore userdata?",
+        "result": "PASS; gameExitCode=0, engine-errors.log empty, userdataRestored=true. Actual village frame and separately viewed Quit confirmation, second Enter before deadline. No school, book or W01 return claim.",
+        "elapsed_seconds": 461.29735,
+        "doctor_after": "ready=true,busy=null,recovery=false,orphans=false",
+        "material_readback": "Pre-NewGame snow_ground/rowan_berries stacks are existing surface-mode warnings, not ERROR/Handle exceptions. No Handle reproduction in this run; intermittent f244 defect remains unresolved, no speculative fix.",
+        "proof": "evidence/PW-020/ordinary_9e28e02ca2fa480ca10f1694fbc2c7fd",
+        "cleanup": {
+          "hash_linked_frames": 5,
+          "compact_raw_files": 16,
+          "compact_raw_bytes_kept": 4375299,
+          "temporary_bytes_removed": 12202164,
+          "station_freed_bytes": 1457013343,
+          "full_raw": "retained on Windows station"
+        }
       }
     },
     {
@@ -145941,6 +145972,12 @@
         "backup_bytes": 62918,
         "backup_sha256": "0dcde8970d83547e341b932afefa5ad4ed5ae86efe10d42b1a06fd25f574c93c",
         "remaining": "No gameplay result yet; inspect cache integrity before source upload."
+      },
+      "windows_export_route_2026_10_21": {
+        "state": "read_only_gap_confirmed",
+        "result": "Existing canonical export-desktop-release.sh requires Mac Godot and both platform artifacts. Windows station build compiles but does not export; candidate-play consumes an existing package. Only populated local candidate is old f62bf22b, not current-source acceptance.",
+        "next_finite_result": "Add an explicit Windows-only export profile within the existing station runner/provenance validators, preserving the current two-platform contract and candidate guard; or use a separately authorized canonical export host. No fabricated Mac artifact and no relaxed override/project-hash guard.",
+        "scope_limit": "Read-only investigation only; no exporter change or native exported EXE run in this step."
       }
     },
     {
