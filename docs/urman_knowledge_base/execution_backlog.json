@@ -138568,7 +138568,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Source lifecycle/compatibility stage accepted; station available, Tamara native custody/repair/savecycle and predecessor-save reconciliation pending; no active execution."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -138577,7 +138577,7 @@
         "Бытовые механики проходят актуальные регрессионные тесты.",
         "Изменённые EX имеют новые проверяемые сценарии."
       ],
-      "next_action": "After existing protected e79 authoritative terminal/restoration, validate actual Tamara crash→partial/six-boarddelivery→physicalrepair→save/Continue and a predecessor six-delivered save; retain rest of PW079 criteria.",
+      "next_action": "Use the next serialized protected current-campaign native route to validate Tamara crash→pickup/carried custody→partial delivery→sixth-board delivery→physical repair/thanks/journal→post-repair Save/Continue, plus load/reconcile a predecessor six-delivered save. Historical e79/transport recovery no longer blocks this input; retain no-crash/partial/old-completed/malformed-primary→backup and the remaining PW079 criteria.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -138857,7 +138857,7 @@
           "proof": "Direct exact baseline→current pair: sole optionalquest activation. Direct0819→current pair: committed447f1735→04bdef92 only split print/mount; savedfields/catalog/quests unchanged and current projection supports mountedlegacy. Unknown fingerprints strict; no implicit/transitive pairs."
         },
         "remaining": "Protected native Tamara completion/partial/oldsave/load/backup checks plus remaining household-mechanic breadth; not full PW079 completion.",
-        "next_action": "After existing protected e79 authoritative terminal/restoration, validate actual Tamara crash→partial/six-boarddelivery→physicalrepair→save/Continue and a predecessor six-delivered save; retain rest of PW079 criteria.",
+        "next_action": "Use the next serialized protected current-campaign native route to validate Tamara crash→pickup/carried custody→partial delivery→sixth-board delivery→physical repair/thanks/journal→post-repair Save/Continue, plus load/reconcile a predecessor six-delivered save. Historical e79/transport recovery no longer blocks this input; retain no-crash/partial/old-completed/malformed-primary→backup and the remaining PW079 criteria.",
         "source_sha256": {
           "content/campaigns/urman.fullgame/campaign.json": "16aecbb555e47f20f5386e0274561e9d47223bf1b2395ceda6dafee0cf96f0c1",
           "game/content/urman.fullgame.compiled.v1.json": "fdfb94848fda61ea6123266902b9b6097d32066e79d9a1f5139e6bc13e767f15",
@@ -144097,7 +144097,7 @@
             "active_owner": null,
             "activity": {
               "state": "not_confirmed",
-              "reason": "RootcompletedboundedV2source/import/compile/matchedframeintegration stage and releasesclaim; fullunitperformance/motion/artverification remains open, not completed."
+              "reason": "Accepted bounded V2 source/static stage retained; station available, current W01 motion/LOD/performance and owner art verification pending; no active claim confirmed."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -144116,7 +144116,7 @@
               "Matchedcurrentv2village native/import/compile and wholeframeacceptance.",
               "ExistingW01ordinary/motion/LODtransition/performance and parentauthorartgate open; nofactfrompauseframe."
             ],
-            "next_action": "Reuse accepted generated V2 source/import/compile/matched Village static evidence. After authoritative e79 terminal/userdata restoration observe current W01 movement/LOD transitions and source-matched renderer/performance views, then owner art acceptance. Do not redo source commit or repeat rejected Village batching from node-count arithmetic.",
+            "next_action": "Reuse accepted generated V2 source/import/compile/matched Village static evidence. Station admission is available after recorded dd785 terminal PASS/userdataRestored and ready/idle doctor; in the next serialized protected current-snapshot W01 pass observe actual movement/LOD transitions and source-matched renderer/sustained performance views, then obtain owner art acceptance. Do not redo source commit or repeat rejected Village batching from node-count arithmetic.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "After own source/runtime DoD and sufficient evidence, release active claim and commit accepted stage; author whole-scene art/motion gates stay with parent. No isolated detail/model polish loop.",
@@ -144214,7 +144214,7 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Finite H001 default opaque runtime integration compiled and independently reviewed; native/fullfamily remains open."
+              "reason": "Finite H001 default opaque runtime/source stage compiled and reviewed; station available, candidate-specific native/fullfamily/UV/art/performance acceptance pending."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -144232,7 +144232,7 @@
               "Strict UV/texture coverage remains open (60 selectorflags,198 missing MeshyUVtriangles/.349529m²). Preserve all source triangles; no identical micro-UV or rejected remesh retry.",
               "Existing one-house scope remains; other families and public council are separate. Broader canonical source/Studio PBR editing acceptance stays with parent/PW-033 and does not expand this unit DoD; explicit custom model precedence is already implemented."
             ],
-            "next_action": "On transport recovery inspect authoritative e79 terminal/userdata restoration first; then one protected current-scene native H001 before/after/walk/door/sign/dressing view, alongside the ordinary prologue→book route. Preserve UV/native/art/performance and canonical Studio PBR editing gates.",
+            "next_action": "Use the next serialized protected current-snapshot native H001 before/after plus walk/door/address/sign/dressing/contact view for the implemented default opaque PBR candidate. Historical e79/transport recovery is no longer an admission blocker. Preserve strict UV/texture coverage, native whole-scene/art/sustained performance and canonical source/Studio PBR editing gates; do not infer H001 acceptance from the general dd785 village route.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "After own source/runtime DoD and sufficient evidence, release active claim and commit accepted stage; author whole-scene art/motion gates stay with parent. No isolated detail/model polish loop.",
@@ -144343,7 +144343,7 @@
               ],
               "result_target": "One source-only supported round-log/notched corner assembly on existing VariantA donor, preserving apertures/roof/semantic parts/exterior envelope before any paid retexture.",
               "question": "Actual exported source geometry/reference and correct provider budget, not a concept/marker called a finished native scene. Root accepts actual views before upload or runtime integration.",
-              "native": "NOT_RUN; e79 terminal/userdata restoration still unknown.",
+              "native": "NOT_RUN for this targeted H001 candidate scenario. Historical e79 preparation failure is resolved as an admission question; later dd785 PASS/userdataRestored and ready/idle doctor are available. Current protected H001 import/frame/walk/door/address/contact acceptance remains pending.",
               "result": "Roundcylinders/notchedsaddle/longitudinal bearing replace thinelliptic facades. 133logs/291actualcontacts maxgap1.07e-6m; generated17616tri/full20772,115semanticmeshes. Originalopaquegeometry/openings/roof/transforms retained. Seniendsoverhang.18 withinexistingroof/componentbounds. Root actual4side/cornerreview confirms blackdiamondvoids removed; no art/native/paidtexturePASS.",
               "glb_sha256": "c9893cbfadb85b74d80eef8ff59d39aee67265053d5f6623a418205a8bd16ab0",
               "blocker": "Strict UV selector0 remains NOT PASSED (60 flags); calibrated single material candidate admitted by root, visible seam/native/art review still required.",
@@ -144366,7 +144366,7 @@
                 "returned_sha256": "2ff989ef67448059d23d232e7425a875c0d74044668e80fc6329b644156211b8",
                 "returned_triangles": 20574,
                 "geometry_authority": "Frozen source c9893cbf,20772tri; returned geometry never exported",
-                "next_action": "Source PBR frozen and reviewed; prepare exact opaque consumer only for a guarded native scene preview after e79 terminal/restoration. No additional paid generation."
+                "next_action": "Source PBR and exact default opaque H001 consumer are implemented/frozen and source-reviewed; observe the candidate in one serialized protected native current-scene preview. No further paid generation; UV/native/art/performance gates remain open."
               },
               "consumer_preflight": "AuthoredWorld.ObjectRoot(H001) → Visual/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling. Keep entire current parcel/dressing/collision/address, then opaque-only graft identity-child under existing Dwelling after source collision and seven procedural crowns exist. Hide108 oldopaque+7oldcrowns only, preserve actual TatarCarpentry/glass/snow/posts/yard. H001 stablehash3644528855%17=5 so no added storey. Respect explicit Studio modelPath override; no civic/retired target, no source public door cuts required.",
               "source_pbr_candidate": {
@@ -144381,7 +144381,7 @@
                 "receipt": "assets/source/blender/act1/neighbor_house_a_retexture_v2/candidate-receipt.json",
                 "review": "Independent luna_fast checked direct writer, JSON/BIN geometry identity, aligned appended images/samplers/material references and exact texture payloads; no material binding defects found, UV/art/native gates remain open."
               },
-              "next_action": "On transport recovery inspect authoritative e79 terminal/userdata restoration first; then one protected current-scene native H001 before/after/walk/door/sign/dressing view, alongside the ordinary prologue→book route. Preserve UV/native/art/performance and canonical Studio PBR editing gates.",
+              "next_action": "Use the next serialized protected current-snapshot native H001 before/after plus walk/door/address/sign/dressing/contact view for the implemented default opaque PBR candidate. Historical e79/transport recovery is no longer an admission blocker. Preserve strict UV/texture coverage, native whole-scene/art/sustained performance and canonical source/Studio PBR editing gates; do not infer H001 acceptance from the general dd785 village route.",
               "consumer_correction_2026_10_20": {
                 "previous_claim": "Earlier source preflight called EastStreetMidFacade an existing current consumer based on builder declaration only.",
                 "why_inaccurate": "Fresh authoritative game/content/world/act1_village_kit.world.v1.json marks exact village_day@east-street-mid-facade retired:true. It is invisible after KitPlacementTakeover and cannot deliver a visible replacement; unretiring would violate current hero plot layout.",
