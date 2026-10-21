@@ -578,6 +578,7 @@ def complete_windows(root, output, start_path, pck, bootstrap_log):
         fail("Windows package requires the release-windows export profile")
     log = Path(bootstrap_log).read_text(encoding="utf-8-sig")
     if ("fullgame-scene-loaded: urman.fullgame:scene/pw-prologue physical=W01" not in log
+            or "urman-photoworld-bootstrap-ready: scene=urman.fullgame:scene/pw-prologue supported=true" not in log
             or re.search(r"(^|\s)(ERROR:|SCRIPT ERROR:)|\bFAIL\b|Unhandled exception", log, re.MULTILINE)
             or not re.search(r"userdata guard: original files.*restored.*verified", log)):
         fail("Windows PCK bootstrap did not confirm clean PhotoWorlds launch and userdata restoration")

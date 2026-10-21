@@ -368,15 +368,25 @@ try {
         Invoke-Logged 'export-start' $Python @('eng/desktop_build_provenance.py', '--root', $Root,
             'start', '--mode', 'release-windows', '--output', $exportStart)
         try {
-            Invoke-Logged 'export-release' $Python @($guard, '--clean', '--timeout', "$TimeoutSeconds",
-                $godot, '--headless', '--audio-driver', 'Dummy', '--path', "$Root/game",
-                '--export-release', 'Act I Release Windows', "$output/windows/URMAN.exe") ($TimeoutSeconds + 30)
+            # The Windows console wrapper waits for every descendant. Godot's
+            # own publish must not leave reusable MSBuild nodes in that job.
+            $savedNodeReuse = $env:MSBUILDDISABLENODEREUSE
+            try {
+                $env:MSBUILDDISABLENODEREUSE = '1'
+                $receipt.exportBuildNodeReuse = 'disabled for export; prior process environment restored afterward'
+                Invoke-Logged 'export-release' $Python @($guard, '--clean', '--timeout', "$TimeoutSeconds",
+                    $godot, '--headless', '--audio-driver', 'Dummy', '--path', "$Root/game",
+                    '--export-release', 'Act I Release Windows', "$output/windows/URMAN.exe") ($TimeoutSeconds + 30)
+            } finally {
+                $env:MSBUILDDISABLENODEREUSE = $savedNodeReuse
+            }
             Invoke-Logged 'release-package-prepare' $Python @($releaseChecks, 'windows-prepare', $output, $releasePck)
             # Same bounded main-pack bootstrap as verify-act1-release-package.sh;
             # it does not establish native Windows EXE host acceptance.
             Invoke-Logged 'release-package-bootstrap' $Python @($guard, '--clean', '--timeout', '30',
                 $godot, '--headless', '--display-driver', 'headless', '--audio-driver', 'Dummy',
-                '--path', "$Root/game", '--main-pack', $releasePck, '--quit-after', '2') 60
+                '--path', "$Root/game", '--main-pack', $releasePck,
+                '--max-fps', '30', '--quit-after', '120') 60
             Invoke-Logged 'release-package-verify' $Python @($releaseChecks, 'windows-complete',
                 $Root, $output, $exportStart, $releasePck, "$output/release-package-bootstrap.log")
             $receipt.releasePackage = @{ profile = 'release-windows';
