@@ -146132,7 +146132,12 @@
           "finished_at_utc": "2026-10-21T02:46:09.191150+00:00",
           "result_sha256": "2045cff6eed5ab7f52fec297ed5a8f51278ff059cd5664d00f4c26795dfeadc2",
           "station_freed_bytes": 1613527536,
-          "actual_result": "Actual Windows export completed in 320.52 seconds, exit0. Guard restoration confirmed, strict release-windows structural checks PASS; embedded PCK1405 entries, registered required dependencies and .NET10/win-x64 closure197 dependencies accepted. No manual build-server intervention; physical W01 and supported-ready bootstrap markers required. Windows EXE native host execution remains OPEN."
+          "actual_result": "Actual Windows export completed in 320.52 seconds, exit0. Guard restoration confirmed, strict release-windows structural checks PASS; embedded PCK1405 entries, registered required dependencies and .NET10/win-x64 closure197 dependencies accepted. No manual build-server intervention; physical W01 and supported-ready bootstrap markers required. Windows EXE native host execution remains OPEN.",
+          "userdata_restored": true,
+          "windows_zip_bytes": 582381347,
+          "windows_zip_sha256": "7fb32f843c52233c95838b6c8ae724d3b2c6e07c4f5b5e508d72ea87837b5366",
+          "windows_exe_bytes": 619340816,
+          "windows_exe_sha256": "28fe1b387a27f9a912dc03e0bc1af9054930aadc5091c5dfade24f091cf6b98e"
         },
         "attempt_history": [
           {
@@ -146167,7 +146172,12 @@
             "finished_at_utc": "2026-10-21T02:46:09.191150+00:00",
             "result_sha256": "2045cff6eed5ab7f52fec297ed5a8f51278ff059cd5664d00f4c26795dfeadc2",
             "station_freed_bytes": 1613527536,
-            "actual_result": "Actual Windows export completed in 320.52 seconds, exit0. Guard restoration confirmed, strict release-windows structural checks PASS; embedded PCK1405 entries, registered required dependencies and .NET10/win-x64 closure197 dependencies accepted. No manual build-server intervention; physical W01 and supported-ready bootstrap markers required. Windows EXE native host execution remains OPEN."
+            "actual_result": "Actual Windows export completed in 320.52 seconds, exit0. Guard restoration confirmed, strict release-windows structural checks PASS; embedded PCK1405 entries, registered required dependencies and .NET10/win-x64 closure197 dependencies accepted. No manual build-server intervention; physical W01 and supported-ready bootstrap markers required. Windows EXE native host execution remains OPEN.",
+            "userdata_restored": true,
+            "windows_zip_bytes": 582381347,
+            "windows_zip_sha256": "7fb32f843c52233c95838b6c8ae724d3b2c6e07c4f5b5e508d72ea87837b5366",
+            "windows_exe_bytes": 619340816,
+            "windows_exe_sha256": "28fe1b387a27f9a912dc03e0bc1af9054930aadc5091c5dfade24f091cf6b98e"
           }
         ],
         "post_export_fixes": {
@@ -146194,7 +146204,7 @@
           "legacy_remaining": "Legacy shell source now uses the existing clean userdata guard, bounded120-frame startup and mandatory supported-ready/restoration markers; sh -n, embedded Python AST and root review of explicit command argv/cleanup passed. No Mac/legacy engine execution or platform acceptance.",
           "execution_job_id": "67d6b4cb7384479c9ebec51d79aebbad"
         },
-        "next_action": "Finish verified result fetch, then run the actual exported Windows EXE through ordinary NewGame→W01 action→return→Save→full Quit→second-lifetime Continue under the existing guard.",
+        "next_action": "Submit exactly one candidate-play for accepted owned candidate2107dbfc under shared3600s guard; ordinary NewGame/action/return/Save/full Quit→second-lifetime Continue. Local SFTP delivery may finish independently.",
         "legacy_bootstrap_source": {
           "targets": [
             "eng/verify-act1-release-package.sh"
@@ -146202,6 +146212,62 @@
           "result": "Existing supervisor accepts an explicit command argv; export still invokes pinned Godot directly, while both PCK bootstraps invoke existing protected_run.py --clean --timeout30 under outer60. Maxfps30/quit-after120 and mandatory physicalW01/supported-ready/restoration markers; unchanged package/error gates. TERM window12s permits the guard child cleanup before force, failure remains closed.",
           "verification": "sh -n and existing embedded Python AST PASS; root callsite and guard/project identity readback, no Godot/Mac execution.",
           "remaining": "Actual protected legacy/Mac host execution and full platform acceptance."
+        },
+        "candidate_transfer_blocker": {
+          "cause": "Actual passing aggregate Windows ZIP582381347B is rejected by candidate manifest/source MAX_BLOB512MiB, despite fitting existing aggregate2GiB transport/expanded bounds. Canonical make_candidate_upload failed before cache writes or native job.",
+          "next_action": "Permit only candidate ZIP aggregate up to existing2GiB; retain default source/blob512MiB and require exact persisted owner-bound plan for oversized blob upload. Review/deploy while station idle, then validate/reuse own existing package without re-export.",
+          "state": "verified_actual_owned_upload",
+          "result": "Candidate ZIP bounded by existing2GiB; default blob and each source entry remain512MiB. Oversized POST requires exact SHA+size from a validated persisted candidate plan of the authenticated owner under station.lock. Disk reserve rechecked inside that lock. Receipt/expanded/count/EXE/provenance/guard checks unchanged.",
+          "verification": "Python AST on Mac and actual Windows; root+Fast source review. Actual582381347-byte receipt/provenance/project binding now passes. Windows normal restart/doctor ready idle recoveryfalse orphanfalse and owner-bound candidate plan accepted; same-host authenticated blob upload pending completion. Actual own receipt645197B and Windows ZIP582381347B uploaded through authenticated loopback /blobs; response SHA and stored bytes rehashed exactly. No reverse Internet upload or direct raw-cache writes.",
+          "targets": [
+            "eng/remote_common.py",
+            "eng/windows_station_worker.py"
+          ],
+          "deployed_sha256": {
+            "eng/remote_common.py": "fdf91900705f861c34a1e3b106cf6ee3e939eaccba67f52c2773cd2f46d8c62a",
+            "eng/windows_station_worker.py": "753f3c3f33fdc6d73e9bfdd2f1d12ade20ef5f41683da5b55642b3f7eda748a8"
+          },
+          "backup": {
+            "path": "D:/URMAN-STATION/data/infrastructure-backups/before-candidate-bound-67d6.zip",
+            "bytes": 49164,
+            "sha256": "cdf9d0feb0ad5bae493553f9d9f5d0e5c10f1e847ae75c3b7c8bf2899c473041"
+          },
+          "installation_recovery": "os.replace initially inherited restrictive TEMP ACL, causing Limited task exit2 before main. Exact two source files received the existing inherited repository ACL with unchanged SHA; normal start and fresh doctor proved recovery. Future replacements must preserve destination ACL using File.Replace. Later File.Replace full ACL readback also differed and safely rolled back. Final worker update changed only contents of existing file while worker stopped, with rollback bytes, preserved full ACL, SHA readback and normal restart/fresh doctor. Do not assume File.Replace alone preserves full ACL here.",
+          "staging_removed_bytes": 98856
+        },
+        "failed_export_duplicate_cleanup": {
+          "job_id": "0b8a2b7dc4ed43cbb359898826d821f9",
+          "files": 205,
+          "freed_bytes": 1307166599,
+          "retained_result_sha256": "8b223af5dbf719a348fa71066853d6d7bbc6ce34314166dfba066b0b3d57a072",
+          "verification": "TerminalFAIL, exact resultSHA against status, no reparse/symlink, each target size/SHA matched retained ZIP member before any deletion; all logs/receipt/status/frames/result.zip preserved."
+        },
+        "transport": {
+          "mode": "authenticated SFTP of existing exact Windows ZIP/receipts/shortlogs; native remains canonical candidate API",
+          "stopped_http_partial_removed_bytes": 221249536,
+          "reason": "Outer1.12GB result duplicates Windows payload; avoid full doubled transfer/storage. No package/provenance guard weakened.",
+          "candidate_id": "2107dbfca41cb291f5d974b8b1e75bcbbea4932260f5caf892145215557fb01d",
+          "same_host_reuse": "Canonical make_candidate_upload validates actual station package; owned plan created through API. Existing authenticated loopback /blobs receives exact receipt/ZIP, enforcing same owner/SHA/size/disk/stream gates; no direct raw-cache mutation. Mac SFTP copy remains independent.",
+          "same_host_upload_verified": {
+            "receipt_bytes": 645197,
+            "windows_zip_bytes": 582381347,
+            "actual_api_stored": true,
+            "cached_bytes_rehashed": true,
+            "internet_reupload_avoided_bytes": 582381347
+          }
+        },
+        "guard_project_identity": {
+          "state": "implemented_deployed_source_verified",
+          "cause": "Native guard assumed station authoring project matched isolated exported source; actual SHA931a6d8b…563c differs from exported source1f82826f…37948. No authoring file overwritten.",
+          "result": "After existing strict candidate receipt/provenance validation, use exact named cached source project when present; unchanged guard validator repeats regular/bounded/hash/canonical userdata/nooverride checks. Missing blob preserves prior exact station-project validation; invalid existing blob fails closed.",
+          "cached_project_sha256": "1f82826fd75f8061d0e683d1c2c00b5d1e5e1a33f2d7c5fc0edfc9fcbbd37948",
+          "cached_project_bytes": 12135,
+          "verification": "Actual named cached blob exists and matches SHA; Python AST Mac/Windows, root+Fast whole-chain review. Final installed worker SHA/full ACL/normal restart/fresh doctor ready idle no recovery/orphans. Native guard/game execution still pending. Canonical actual package preflight and unchanged guard validator accepted exact cached source project before same-host upload.",
+          "backup": {
+            "path": "D:/URMAN-STATION/data/infrastructure-backups/before-candidate-project-67d6.zip",
+            "bytes": 42754,
+            "sha256": "9975eede1a162444c88b94efbd1a4aeaa790526a4c424fefc5b8744c8eaa0bbf"
+          }
         }
       }
     },

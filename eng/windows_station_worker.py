@@ -1681,9 +1681,10 @@ def tree_bytes(root):
 def blob_path(blobs, sha):
     return blobs / sha[:2] / sha
 
-def store_blob(blobs, sha, stream, size):
+def store_blob(blobs, sha, stream, size, *, maximum=MAX_BLOB):
     """Store one content-addressed file. The path is its hash, so no name can escape."""
-    if not re.fullmatch('[a-f0-9]{64}', sha) or not 0 < size <= MAX_BLOB:
+    if (type(maximum) is not int or not 0 < maximum <= MAX_ARCHIVE
+            or not re.fullmatch('[a-f0-9]{64}', sha) or not 0 < size <= maximum):
         raise ValueError('invalid blob')
     target = blob_path(blobs, sha)
     if target.is_file() and target.stat().st_size == size:
@@ -3076,8 +3077,18 @@ class Station:
             candidate_receipt = json.loads(receipt_path.read_text(encoding='utf-8-sig'))
             validate_candidate_receipt(candidate_receipt, manifest)
             if native_play:
+                project_path = self.repo / 'game/project.godot'
+                project_sha = candidate_receipt['buildProvenance']['sourceAfter']['files'].get('game/project.godot')
+                if isinstance(project_sha, str) and re.fullmatch('[a-f0-9]{64}', project_sha):
+                    cached_project = blob_path(self.blobs, project_sha)
+                    try:
+                        cached_project.lstat()
+                    except FileNotFoundError:
+                        pass
+                    else:
+                        project_path = cached_project
                 guard_project_binding = validate_candidate_guard_project(
-                    candidate_receipt, self.repo / 'game/project.godot')
+                    candidate_receipt, project_path)
             unpack_candidate(archive_path, candidate_root, manifest)
             if native_play and _studio_path(candidate_root, 'windows/override.cfg', missing=True) is not None:
                 raise ValueError('native candidate must not contain an external project override')
@@ -3485,10 +3496,25 @@ class Handler(BaseHTTPRequestHandler):
                     return self.respond(200,{'snapshot_id':sid,'hashes_verified':True,'files':len(manifest['files'])})
             blob = re.fullmatch(r'/blobs/([a-f0-9]{64})', self.path)
             if blob:
-                if shutil.disk_usage(station.data).free < size + 10*1024**3:
-                    raise ValueError('insufficient free station disk')
                 with station.lock:
-                    stored = store_blob(station.blobs, blob[1], self.rfile, size)
+                    if shutil.disk_usage(station.data).free < size + 10*1024**3:
+                        raise ValueError('insufficient free station disk')
+                    maximum = MAX_BLOB
+                    if size > MAX_BLOB:
+                        if principal is None:
+                            return self.respond(401, {'error': 'unambiguous candidate owner required'})
+                        for candidate_path in station.candidates.glob('*.json'):
+                            record = station.candidate_for(candidate_path.stem)
+                            if record is None or record['owner'] != principal:
+                                continue
+                            manifest = record['manifest']
+                            if (manifest['windows_zip_sha256'] == blob[1]
+                                    and manifest['windows_zip_bytes'] == size):
+                                maximum = MAX_ARCHIVE
+                                break
+                        if maximum == MAX_BLOB:
+                            return self.respond(413, {'error': 'oversized blob requires an exact owned Windows candidate ZIP plan'})
+                    stored = store_blob(station.blobs, blob[1], self.rfile, size, maximum=maximum)
                 return self.respond(200,{'sha256':blob[1],'stored':stored})
             if self.path == '/snapshots/plan':
                 manifest = json.loads(self.rfile.read(size))

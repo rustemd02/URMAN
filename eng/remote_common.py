@@ -163,6 +163,9 @@ def validate_manifest(manifest):
     files = value.get('files', {})
     if not files or len(files) > 30000 or any(not allowed(name) for name in files):
         raise ValueError('invalid source file list')
+    if any(not isinstance(meta, dict) or type(meta.get('bytes')) is not int
+           or not 0 <= meta['bytes'] <= MAX_BLOB for meta in files.values()):
+        raise ValueError('source file exceeds blob size limit or has invalid size')
     if sum(meta['bytes'] for meta in files.values()) > MAX_SOURCE:
         raise ValueError('source size limit')
     for required in ('global.json', 'eng/toolchain.json', 'game/project.godot', 'game/Urman.Game.csproj'):
@@ -214,7 +217,7 @@ def validate_candidate_manifest(manifest):
               'windows_zip_bytes', 'windows_exe_sha256', 'windows_exe_bytes'}
     if not isinstance(manifest, dict) or set(manifest) != fields or manifest.get('schema') != CANDIDATE_SCHEMA:
         raise ValueError('unsupported Windows candidate manifest')
-    for name, maximum in (('receipt', MAX_CANDIDATE_RECEIPT), ('windows_zip', MAX_BLOB),
+    for name, maximum in (('receipt', MAX_CANDIDATE_RECEIPT), ('windows_zip', MAX_ARCHIVE),
                           ('windows_exe', MAX_ARCHIVE)):
         sha, size = manifest.get(name + '_sha256'), manifest.get(name + '_bytes')
         if (not isinstance(sha, str) or not re.fullmatch('[a-f0-9]{64}', sha)
