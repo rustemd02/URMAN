@@ -26,8 +26,12 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
     private SourceExcerptSelection _excerpts = null!;
     private RuntimeBridge? _bridge;
     private CompiledDocumentContent? _document;
-    private RuntimeBridge? _prologuePhotoInspectionBridge;
-    private object? _prologuePhotoInspectionSession;
+    private RuntimeBridge? _sourcePhotoInspectionBridge;
+    private object? _sourcePhotoInspectionSession;
+    private Func<bool>? _sourcePhotoInspectionCurrent;
+    private Func<Task<bool>>? _sourcePhotoInspectionConfirm;
+    private int _sourcePhotoInspectionRevision;
+    private string _saveLabel = string.Empty;
     private Viewport? _refitViewport;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
@@ -43,7 +47,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public override void _ExitTree()
     {
-        StopProloguePhotoInspectionMonitoring();
+        StopSourcePhotoInspectionMonitoring();
         UnbindRefitSignal();
     }
 
@@ -60,6 +64,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _status = GetNode<Label>("Screen/Document/Layout/Footer/Status");
         _close = GetNode<Button>("Screen/Document/Layout/Header/Close");
         _save = GetNode<Button>("Screen/Document/Layout/Footer/Save");
+        _saveLabel = _save.Text;
         _excerpts = SourceExcerptSelection.Attach(_body, _save);
         var closeLabel = _close.Text;
         _excerpts.SelectionModeChanged += selecting => _close.Text = selecting ? "Закрыть" : closeLabel;
@@ -126,7 +131,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public void Open(RuntimeBridge bridge, CompiledDocumentContent document)
     {
-        StopProloguePhotoInspectionMonitoring();
+        StopSourcePhotoInspectionMonitoring();
         _bridge = bridge;
         _document = document;
         _title.Text = document.Title;
@@ -135,6 +140,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _excerpts.Bind(bridge, document.Id);
         _status.Text = "Документ найден в зоне · можно добавить в журнал";
         _save.Visible = true;
+        _save.Text = _saveLabel;
         _save.Disabled = false;
         UiFoley.Play(_foley, "paper_open");
         _screen.Visible = true;
@@ -148,29 +154,42 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
     public bool OpenProloguePhotoInspection(RuntimeBridge bridge)
     {
         if (!IsInsideTree() || !GodotObject.IsInstanceValid(bridge) || bridge.IsQueuedForDeletion()
-            || !bridge.IsPhotoWorldsCampaign || bridge.SessionIdentity is not { } session
-            || bridge.ActiveSceneId != PrologueSceneId)
+            || !bridge.IsPhotoWorldsCampaign || bridge.SessionIdentity is null || bridge.ActiveSceneId != PrologueSceneId)
             return false;
-
         var photo = bridge.PhotoBookPhotos().FirstOrDefault(candidate => candidate.PhotoId == ProloguePhotoId);
-        if (photo is null || !ResourceLoader.Exists(ProloguePhotoImagePath)
-            || !ReferenceEquals(session, bridge.SessionIdentity) || bridge.ActiveSceneId != PrologueSceneId)
+        if (photo is null) return false;
+        var description = string.IsNullOrWhiteSpace(photo.FrontBrief) ? photo.Title : photo.FrontBrief;
+        return OpenSourcePhotoInspection(bridge, ProloguePhotoId, ProloguePhotoImagePath, photo.Title, description,
+            () => bridge.ActiveSceneId == PrologueSceneId);
+    }
+
+    /// <summary>Inspects an original in place; only an explicit optional confirmation may publish its existing source action.</summary>
+    internal bool OpenSourcePhotoInspection(RuntimeBridge bridge, string photoId, string imagePath,
+        string title, string description, Func<bool> current, Func<Task<bool>>? confirm = null)
+    {
+        if (!IsInsideTree() || !GodotObject.IsInstanceValid(bridge) || bridge.IsQueuedForDeletion()
+            || !bridge.IsPhotoWorldsCampaign || bridge.SessionIdentity is not { } session || !current())
+            return false;
+        if (!ResourceLoader.Exists(imagePath)
+            || !ReferenceEquals(session, bridge.SessionIdentity) || !current())
             return false;
 
-        var description = string.IsNullOrWhiteSpace(photo.FrontBrief) ? photo.Title : photo.FrontBrief;
-        StopProloguePhotoInspectionMonitoring();
-        _prologuePhotoInspectionBridge = bridge;
-        _prologuePhotoInspectionSession = session;
-        bridge.RuntimeStateChanged += OnProloguePhotoInspectionRuntimeStateChanged;
+        StopSourcePhotoInspectionMonitoring();
+        _sourcePhotoInspectionBridge = bridge;
+        _sourcePhotoInspectionSession = session;
+        _sourcePhotoInspectionCurrent = current;
+        _sourcePhotoInspectionConfirm = confirm;
+        bridge.RuntimeStateChanged += OnSourcePhotoInspectionRuntimeStateChanged;
         _bridge = bridge;
         _document = null;
         _excerpts.Clear();
-        _title.Text = photo.Title;
-        _body.Text = photo.Title + "\n\n" + description;
-        _images.SetImages([new DocumentImageContent(ProloguePhotoId, ProloguePhotoImagePath, description)]);
+        _title.Text = title;
+        _body.Text = title == description ? title : title + "\n\n" + description;
+        _images.SetImages([new DocumentImageContent(photoId, imagePath, description)]);
         _status.Text = "Рассмотрите снимок · Esc или «Закрыть» — вернуться к месту";
-        _save.Visible = false;
-        _save.Disabled = true;
+        _save.Visible = confirm is not null;
+        _save.Disabled = confirm is null;
+        _save.Text = confirm is null ? _saveLabel : "Рассмотреть снимок";
         UiFoley.Play(_foley, "paper_open");
         _screen.Visible = true;
         SetPlayerModal(true);
@@ -178,31 +197,61 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         return true;
     }
 
-    private void OnProloguePhotoInspectionRuntimeStateChanged()
+    private void OnSourcePhotoInspectionRuntimeStateChanged()
     {
         if (!IsInsideTree() || !_screen.Visible)
         {
-            StopProloguePhotoInspectionMonitoring();
+            StopSourcePhotoInspectionMonitoring();
             return;
         }
 
-        var bridge = _prologuePhotoInspectionBridge;
+        var bridge = _sourcePhotoInspectionBridge;
         if (bridge is null || !GodotObject.IsInstanceValid(bridge) || bridge.IsQueuedForDeletion()
-            || !ReferenceEquals(_prologuePhotoInspectionSession, bridge.SessionIdentity)
-            || bridge.ActiveSceneId != PrologueSceneId)
+            || !ReferenceEquals(_sourcePhotoInspectionSession, bridge.SessionIdentity)
+            || _sourcePhotoInspectionCurrent?.Invoke() != true)
             Close();
     }
 
-    private void StopProloguePhotoInspectionMonitoring()
+    internal void CloseSourcePhotoInspection(Func<bool> current)
     {
-        if (_prologuePhotoInspectionBridge is { } bridge && GodotObject.IsInstanceValid(bridge))
-            bridge.RuntimeStateChanged -= OnProloguePhotoInspectionRuntimeStateChanged;
-        _prologuePhotoInspectionBridge = null;
-        _prologuePhotoInspectionSession = null;
+        if (ReferenceEquals(_sourcePhotoInspectionCurrent, current)) Close();
+    }
+
+    private void StopSourcePhotoInspectionMonitoring()
+    {
+        if (_sourcePhotoInspectionBridge is { } bridge && GodotObject.IsInstanceValid(bridge))
+            bridge.RuntimeStateChanged -= OnSourcePhotoInspectionRuntimeStateChanged;
+        _sourcePhotoInspectionBridge = null;
+        _sourcePhotoInspectionSession = null;
+        _sourcePhotoInspectionCurrent = null;
+        _sourcePhotoInspectionConfirm = null;
+        _sourcePhotoInspectionRevision++;
     }
 
     private async void SaveToJournal()
     {
+        if (_sourcePhotoInspectionConfirm is { } confirm)
+        {
+            var revision = _sourcePhotoInspectionRevision;
+            _save.Disabled = true;
+            try
+            {
+                // Confirmation, rather than opening or cancelling the reader,
+                // is the player's source action. The owner rechecks its session.
+                await confirm();
+            }
+            catch (Exception error)
+            {
+                GD.PushWarning("Source photograph inspection failed: " + error.Message);
+            }
+            finally
+            {
+                // A pending write must never close a newly opened document,
+                // another source, or the reader of a different loaded session.
+                if (revision == _sourcePhotoInspectionRevision && IsInsideTree()) Close();
+            }
+            return;
+        }
         if (_bridge is null || _document is null)
         {
             return;
@@ -228,7 +277,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         UiFoley.Play(_foley, "ui_click");
         _screen.Visible = false;
-        StopProloguePhotoInspectionMonitoring();
+        StopSourcePhotoInspectionMonitoring();
         _excerpts.Clear();
         _images.SetImages(null);
         _bridge = null;

@@ -94680,7 +94680,7 @@
       "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Проходимая раскладка принятой деревни и пассажирский въезд",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -94881,7 +94881,7 @@
       "assigned_owner": "unassigned",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "24.10 finite read-only+ordinary approach review completed; exact reported stuck location requested. No speculative collision patch."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -94891,7 +94891,7 @@
         "Планировка и доступ согласованы с PW-003/PW-044/PW-070: все обязательные якоря и действия достижимы; ночное разрушение моста/закрытие дальней половины не являются обязательными условиями новой истории.",
         "Применимые прежние жалобы/адреса и ограничения сохранены с явной картой PW-004; реальные координаты, scale, save/load и обе стороны переходов подтверждены на текущей сборке."
       ],
-      "next_action": "Сверить прежние физические/адресные дефекты и callers с новой картой кампании и семью якорями.",
+      "next_action": "Установить конкретное место застревания автора и соответствующий collider/ввод; исправить причину у существующего owner. Street→gate→yard→porch пройден 24.10 без застревания; дверной порог/остальная карта не проверены, не повторять этот короткий путь как общую приёмку.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -95009,7 +95009,21 @@
           "evidence_ref": "ACT1-VILLAGE-BLOCKOUT.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "unassigned_explicit_not_active"
+      "assignment_state": "unassigned_explicit_not_active",
+      "ordinary_approach_2026_10_24": {
+        "baseline": "compiled 0cbe63fb; one clean protected ordinary full_game, permitted prologue skip; uncompiled W03 apple unrelated",
+        "result": "Street→gate→yard→porch ordinary W/A passed, no blockage observed. Door threshold not crossed because CUA relative-look unavailable; not a game input defect. Root viewed actual porch frame. No whole-world traversal/gamefeel acceptance.",
+        "source_review": "FPC step/crouch, world bounds, retired legacy geometry/fences, school openings and bridge state: no proven local blocker. Specific hypotheses of hidden legacy walls/orphan fence contacts disproved.",
+        "runtime": "Process0, normalQuit, original userdata files and permissions restored verified. Native exit resource/RID leaks present in raw log; no claim clean engine exit. About49s CUA observation unavailable during village load, not measured frame time.",
+        "performance": "Snow log92 calls: first50meshes reworked, remaining91 no-op;86yardlogs cumulative83newheaps+3old. Not proof of repeated full rebuild/hitches. Existing synchronous top-level build stages30.525s; no invented snow timing.",
+        "evidence": {
+          "path": "evidence/ACT1-VILLAGE-BLOCKOUT/ordinary_approach_20261024.zip",
+          "sha256": "a105bf6ba0b7f7e2a1705d2510fb2db5721c82ad9d237ec1d2539ae56466003f",
+          "bytes": 210825,
+          "members": 2,
+          "removed_loose_bytes": 301924
+        }
+      }
     },
     {
       "id": "ACT1-PLACEMENT-RULES",
@@ -107827,7 +107841,7 @@
         "Готово: 13 фото привязаны к sourceId/permissionId (compiled catalog); AcquirePhoto проверяет соответствие каталогу и provenance; повторное приобретение из другого источника отвергается. Редьюсер уже обрабатывает pw1.photo.acquire.",
         "Осталось: runtime-проверка различения 13 типов источников и что оригинал остаётся на месте там, где обещана копия (школьный/сельский альбом) — нужна обычная сессия/станция (PW-054 или targeted scenario)."
       ],
-      "next_action": "На ближайшем обычном маршруте (PW-054) пройти приобретение нескольких P/S и убедиться, что оригинал остаётся на месте, а копия появляется в книге; заодно PW-008/PW-014 (front/back reader).",
+      "next_action": "Accept this whole school-source→permission/copy→W01 action→home reply→P-FOREST earned record→Save/Continue episode once an ordinary verification can answer its remaining UI/physical questions. Do not replace user walking blocker with repeated album-only checks.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -107986,7 +108000,28 @@
           "evidence_ref": "PW-013.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "first_investigation_2026_10_24": {
+        "state": "source_implemented_compiled_reviewed_ordinary_acceptance_pending",
+        "authority": "24.10 user ranks blockages first, empty exploration second, movement feel third. First ordinary stuck location remains requested after negative bounded walk; this independent slice completes a meaningful first investigation using existing story/assets.",
+        "result": "School first E opens physical album and actual S-SCHOOL in existing zoom/pan reader before acquisition. Only explicit confirmation records school_copy_identified; cancel does not. Original remains, permission/copy D04 unchanged; known state reopens, NewGame resets. Resolved forest return now receives Gulsina reply and explicit record choice; the same3existing reward effects occur only there. P-FOREST spread displays existing confirmed journal knowledge with separate inside-photo provenance, not a fabricated reverse caption.",
+        "targets": [
+          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+          "game/scripts/DocumentUi.cs",
+          "game/scripts/JournalUi.PhotoBook.cs",
+          "content/modules/urman-fullgame/definitions.json",
+          "game/content/urman.fullgame.compiled.v1.json"
+        ],
+        "verification": "Independent Astra actualdiff/callers review no P1/P2; root inspected callback lifecycle and state. One affected Game compile17.43s exit0/0warnings/0errors; existing ContentCli fullgame-only compile exit0. No new tests/probes, no repeated game launch after these source changes. School reader readability/open-cover pose, ordinary complete loop and Save/Continue still unverified.",
+        "evidence": {
+          "path": "evidence/PW-013/first_story_20261024.zip",
+          "sha256": "89caf403f1a86ae9f404f11f1a27ec90e52174f7043518e67f4777085bb16beb",
+          "bytes": 594,
+          "members": 2,
+          "removed_loose_bytes": 620
+        },
+        "next_action": "Accept this whole school-source→permission/copy→W01 action→home reply→P-FOREST earned record→Save/Continue episode once an ordinary verification can answer its remaining UI/physical questions. Do not replace user walking blocker with repeated album-only checks."
+      }
     },
     {
       "id": "PW-014",
@@ -119655,7 +119690,7 @@
               "13backSVG produced1800×1200 and Godot rendered; protected album view/authorart+language acceptance open.",
               "Other required fronts, S-GARDEN1800×1200final, all thumbnails и scene/identity alignment; full E02 остаётся открытым."
             ],
-            "next_action": "Reuse acceptedW02camera/support/P-WATERfront+thumbnail8c9e4028; do notrepeatunchangedrender. P-HOUSE requirescurrent W03orientation/approach/shutter/H05 ownerrepair (PW055E01) beforeexactH00frontcomposition/source→ImageGen. H03visibility/appleframing artgap explicit, no inventedlikeness. All13/fullnative/authorart gates remainopen.",
+            "next_action": "Reuse accepted P-WATER front/thumbnail 8c9e4028. P-HOUSE: existing house orientation repaired 0cbe63fb; apple staging now fits source 3:2, H03 visibility is not a proven violation (H02 hidden by real house). Next obtain faithful H00 scene input when a visual check is needed, then source→ImageGen front; no altered aspect/fake wall. All 13 images and author art/native gates remain open.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -120471,7 +120506,7 @@
         "Критические строки редактируются отдельно от изображения.",
         "Отсутствующая запись голоса не блокирует прохождение."
       ],
-      "next_action": "Проверить D04 у физической сотрудницы в обычном маршруте; затем оставшиеся D00/D05 с корректным переходом сцен. Back-read только в reader.",
+      "next_action": "Первое исследование source принято в PW-013.first_investigation_2026_10_24: реальный школьный источник, ответ Гульсины и запись у снимка. Следующая приёмка — цельный эпизод и сохранение результата; не отдельная реплика. Остальные D00/D05 и внешняя литературная/языковая приёмка открыты.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -123185,7 +123220,7 @@
               "F01/F03 authored graph gap исправлен в 5f1d9e98; существующий semantic route обновлён, ещё NOT_RUN. Нужен physical binding обоих endpoints и основного forest move, не ранний выход вместо полного пролога.",
               "W01 source consumer ground/F01 принят24.38s compile; real scene runtime/material/contacts/capsule/save/мovedbranchinspect NOT_RUN. Forestkit stage2 и isolatedbirch stage8 root rejected; untracked source/tmp сохранены, assetsнепубликовались."
             ],
-            "next_action": "Reuse e534f9f4 acceptedfunctional source/compile/import. MeshyPBRsource reviewedHOLD and compacted (PW093), canonicalbark unchanged. Next distinctordinaryF01approach/E→side-rest→Save/coldContinue requiresmanualMacunlock; then verify actualshoulders/lighting. No lockedstartup/rejectedbark/oldmicroshape repeats.",
+            "next_action": "Mac разблокирован по ответу автора 23.10; новый запуск не выполнялся. Повторно не компилировать/импортировать принятый e534f9f4 source. При необходимой игровой приёмке проверить обычный F01 подход/E→низкая боковая опора→проход→Save/coldContinue и реальное окружение; source review не доказывает удобство. Meshy PBR HOLD, canonical bark сохранён.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -123495,7 +123530,7 @@
               }
             },
             "f01_side_rest_episode_2026_10_23": {
-              "state": "functional_geometry_rest_static_contacts_and_local_forest_source_verified_ordinary_pending_unlock",
+              "state": "functional_source_verified_ordinary_acceptance_pending",
               "baseline": "8c9e4028",
               "authority": "W01passport§3forest_branch: lifttrappedboughandplaceonsideroots; userprioritizevisibleMVP/gamefeel overisolatedmodelpolish. No newmechanic/state/schema/interactionID.",
               "causal_facts": [
@@ -123519,7 +123554,7 @@
               },
               "verification_question": "DoesordinaryapproachpresentanaturalvisibleobstacleandattractingF02opening; do standing/crouchedcapsules hitvisiblewood beforeaction andpassafter; doesboughrestonsideroots andrestoreexactposition+yawinreducedmotion/Continue withoutchangingF11?",
               "success": "Wholeepisodeapproach+afteraction, actualcontact/support/clearance anddurablestate; isolatedbranchbeauty/buildnotfullacceptance. No newtests/probes/harnesscases. Existingsemanticbroadsmoke doesnotprovephysicalDoD.",
-              "next_action": "Reuse acceptedsource/compile/import. FinishindependentMeshyPBRmaterialcandidate withoutgeometrychanges; nextordinaryF01approach/E→side-rest→Save/coldContinue requiresownerMacunlock. ThenverifyactualF01relocations/lighting; do notrepeatlockedstartup/unsupportedLook oroldmicroshapeattempts.",
+              "next_action": "Mac разблокирован по ответу автора 23.10; новый запуск не выполнялся. Повторно не компилировать/импортировать принятый e534f9f4 source. При необходимой игровой приёмке проверить обычный F01 подход/E→низкая боковая опора→проход→Save/coldContinue и реальное окружение; source review не доказывает удобство. Meshy PBR HOLD, canonical bark сохранён.",
               "limits": "CapturedFPSlookunsupportedCUA; desktopconnectorread-onlydiscoverytunnelunavailable. No productioninputbugproven orcamera/controllerworkaroundauthorizedbythatlimit. Currentpose/F03fact/actorstatepreserved; authorart/culture/externalgatesopen.",
               "asset_sha256": "060b8af9939754ba3f6de866b703430f6f22a6498733104c253b5ff451b1e742",
               "asset_bytes": 1832120,
@@ -125566,7 +125601,7 @@
         "Не протекают чужая погода, радиосеть и обработка интерфейса.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Accept actualca9 F00+walk+look frame against rejected747e/232b; ifsceneimproves, continue ordinary meaningfulprologue/bookloop without moreisolatedassetwork. Keep nativecollision/performance/authorart gatesopen.",
+      "next_action": "Статическое ревью 23.10: в W01 отсутствует локальный звук обычной работы Шурале; общий 2D ambience его не заменяет. Проверить соответствие существующего forest_branch.wav (происхождение записано), затем подключить один пространственный cue у настоящей рабочей ветки с корректным lifecycle по существующему Foley owner pattern. Не повторять F00 screenshot как проверку звуковой карточки; слуховая/полная приёмка остаётся отдельной.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -128726,7 +128761,7 @@
             "remaining": [
               "Actual ordinary traversal and safe landings across H00–H08 are not observed; scene/import/art alignment remains unaccepted."
             ],
-            "next_action": "AftermanualMacunlock one ordinarycurrent-source H00→veranda→bothsideapproaches, realshutteraction, H05actualaim, roominside/outside and retainedSave/Continue. Resolvepassportturn/safespace and P-HOUSEapple/H03frontcomposition before fullchild/art acceptance. Reuse thissource/compile/constructionproof withoutunchangedrerun.",
+            "next_action": "Принятый source 0cbe63fb не перепроверять неизменным прогоном. Яблоня переставлена внутрь P-HOUSE 3:2 с сохранением H04; статическая проверка коллизий/линий выполнена, художественный кадр открыт. H03 не назначен вторым проёмом в паспорте, не скрывать его ради ошибочного blocker. При необходимой игровой приёмке проверить проход/разворот H01, оба выхода, ставню, H05 и Continue.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -128873,10 +128908,10 @@
                 "verification": "All4memberbytes compared before deletingloosebuild/scene logs; canonicaltracker only, rawarchive ignored/notGit."
               },
               "preserve": "H00(0,0,0) +Z, H01(0,.3,10), H02..H08/links, actual roomfloor/shelter/contact, shutter/grip/camera studies, oldpose safety and returnsemantics. No hidingwall/camera-only workaround.",
-              "next_action": "AftermanualMacunlock one ordinarycurrent-source H00→veranda→bothsideapproaches, realshutteraction, H05actualaim, roominside/outside and retainedSave/Continue. Resolvepassportturn/safespace and P-HOUSEapple/H03frontcomposition before fullchild/art acceptance. Reuse thissource/compile/constructionproof withoutunchangedrerun.",
+              "next_action": "Принятый source 0cbe63fb не перепроверять неизменным прогоном. Яблоня переставлена внутрь P-HOUSE 3:2 с сохранением H04; статическая проверка коллизий/линий выполнена, художественный кадр открыт. H03 не назначен вторым проёмом в паспорте, не скрывать его ради ошибочного blocker. При необходимой игровой приёмке проверить проход/разворот H01, оба выхода, ставню, H05 и Continue.",
               "approved_fix": "W03Geometry+W03.tscn only: actualporchcenter→H01 via yaw180 andposition(-1.1644,.085,11.546); firsttwoapproachbranches viaporchgapz8.6 then aroundseni/body(leftx-9.5,rightx3.5). Sortedactualoppositewallinnerbounds ownroomfloor/shelter, housebuiltbeforeground. Shutterpane-localbasis/hinge/target. ExistingH05witness rebindsvisibleRear0glass with+.22localin-paneoffmullion, selectedpanefacesownership instead ofStreet1. AddnoncurrentH00photoCameraheight1.5/vFOV50; anchors/IDs/state unchanged.",
               "loaded_pose_boundary": "Existing RuntimeBridge.PhotoBootstrap137–164 and Main.PhotoSceneLoading74 conditional safenoderecovery alreadychecks actualsupportedcapsule+floor. Unsupportedloadedpose mayfallback to verifiedownedanchor; validpose/blockeditemalone notmoved. No newsavefield/fallback/slotwrite. Nativecompatibility stillopen.",
-              "front_art_gap": "At1800x1200/vFOV50 hFOV~69.94deg: H03inside andunobscured; appletrunk(-29,38.5)outside. No crop/hidewall workaround, ImageGenfrontnotproduced oraccepted. Sourceorientation/playableapproachrepair first; exactphotoart remains PW040E02.",
+              "front_art_gap": "23.10 static correction: паспорт позволяет H02/H03 в любом порядке и не назначает H03 вторым. Canonical opaque triangles закрывают H02 из H00, H03 виден: отдельный H03 blocker снят. Исходно вся яблоня вне кадра. Одна существующая H04AppleTreeWitness перенесена (+2.5,0,+2), её крона входит в 3:2 (минимальный запас плоскости .269м), trunk/table не пересекаются (≈.013м), основной подход свободен; fruit witness ≤12м от обоих выходов. Камера/GLB/H04/IDs неизменны. P-HOUSE image не произведён, визуальная приёмка открыта.",
               "review": "Astra actualdiff found one directlycoupled P2: old+72deg openedshutterintoactualglass. Root verifiedmatrix and changedoneconstant to-72deg in existingInteractionsowner; rest of geometry/room/route/contact source review clean. Existingloadedposefallback correction accepted; no newrecovery.",
               "technical_runtime_question": "After finalaffectedGamecompile, can existing W03.tscn construct changed room/ground/contact/shutter/H05 geometry in actualGodot _Ready without runtimeexception? One protectedheadless2frame directscene load (90sbound), no newharness/probe/test, noGUI/visual/walk/art/performance claim.",
               "technical_runtime_success": "Process0, no ERROR/SCRIPTERROR, original userdata files/permissions restored and verified; anywarnings retainedraw. Does not closeordinaryroute/Continue/turnwidth/frontART.",
@@ -134205,7 +134240,8 @@
           "verification": "ASTparse + fourCLIhelpcommands exit0; independentsecurity/code review. action_id0 admitted becauseofficialintegercontracthasnominimum; actualIDmustexistinproviderlibrary.",
           "provider_calls": 0,
           "paid_post_authorization": "Still awaiting human exactv2PNGconsent afterautomaticapprovalreviewrejection; no upload/model/rig/animation tasks created."
-        }
+        },
+        "input_readback": "23.10 read-only: reuse exact v2 PNG SHA ed0c13d6ff1a742a06bf48582116a510d35e7abacb8ed2239e9faed65a8850d4; no third reference. Actual imported Bichura/rig absent. Mount(3.6,.2,42.5), cup(2.30,.86,40.10)→(2.79,.86,40.40), cup .17×.178×.17m; tabletop .66m above ground makes hand reach a real rig gate. Two prior upload review rejections/pending consent preserved; no new POST or spend, current ledger475/4000."
       }
     },
     {
@@ -135076,7 +135112,7 @@
       "remaining": [
         "W05: принять обычный маршрут, изображения и повторное посещение; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
       ],
-      "next_action": "W05: принять обычный маршрут, изображения и повторное посещение",
+      "next_action": "До получения настоящего A-BICHURA и реализации ответа PW-066/PW-067 полный W05-прогон не запускать: CellarResponseReady=false блокирует response→niche→B07. Досрочный возврат доступен; это не полная приёмка. После входа rig/hand/clips проверить реализованный эпизод и затем обычный маршрут.",
       "blocker": null,
       "external_gates": [
         {
@@ -135265,9 +135301,9 @@
           },
           {
             "task_id": "PW-066",
-            "artifact": "W05: произвести и оживить Бичуру",
+            "artifact": "Original imported A-BICHURA with real hand attachment and path/carry/place clips; absent in current source, Response.cs gate closed.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "missing"
           },
           {
             "task_id": "PW-067",
@@ -135357,7 +135393,7 @@
           "game/scenes/photoworlds/W05/W05.tscn": "c0ced2feb1edb0ecc1bcf6a4abd3cfdd051d1c494c528646e707ba69f1f6cd14",
           "game/scripts/photoworlds/W05Controller.cs": "e74f514055faaeb2206707f35f9a24ce6ffd9ba63f075dcea797ee42deb812e0"
         },
-        "remaining": "Ordinary W05 walk/actions/return/Continue/revisit, Bichura source/art/rig and whole world gates remain open. Other old missing paths were not inferred present."
+        "remaining": "Readback 23.10: W05Controller.Response.cs CellarResponseReady=false, InspectCellarResponse returns false; quest requires response+niche, so B07 completion cannot currently occur. Early book return remains available. Source geometry/box reviews found no additional proven blocker. Ordinary full acceptance waits for real Bichura response implementation, not another unchanged run."
       }
     },
     {
@@ -160532,7 +160568,7 @@
       "sequence_semantics": "mvp_delivery_order — главный порядок выбора среди dependency-ready единиц; children наследуют место указанного ID. visual_sequence/campaign_sequence — вторичные ориентиры внутри соответствующего законченного этапа. Это не новые зависимости, не освобождение от полного объёма и не изменение статуса/владельца.",
       "technical_selection": "Имплементация, проверка и окончательная приёмка имеют разные графы. Нужен конкретный artifact, не full соседний блок/Claude.",
       "delivery_unit": "Один конечный non-aggregate work_contract, дающий целую сцену, игровой переход или законченное действие. Декомпозиция по файлам/ассетам служит этому результату и не превращает каждую ветку/текстуру в самостоятельный приоритет. Технический этап выбирается первым только с названным блокируемым игровым результатом.",
-      "verification_budget": "Перед каждой проверкой указать в текущей карточке одним предложением вопрос и условие успеха. Выбирать самую узкую достаточную проверку изменённого пути. Полный smoke/полный build/все тесты не запускать по умолчанию или ради отчёта: только при затронутом общем пути, признаках регрессии либо прямом требовании текущей приёмки. Для моделей/материалов — нужный импорт и целевой Windows-просмотр; компиляция только при затронутом коде или технической необходимости. Повтор без изменённого входа, неполной проверки или нового причинного вопроса запрещён. Обязательные guards и защита данных сохраняются.",
+      "verification_budget": "Уточнение автора 23.10: сначала статическое ревью выполнения критериев по текущему коду/ассетам и уже полученным доказательствам. Перед необходимым прогоном указать в карточке вопрос, который этим способом не решён, и условие успеха. Разблокировка Mac не является поводом запускать игру. Не повторять сборки, импорт, smoke или тесты без изменённого входа/доказанного пробела. Для простой постановочной константы достаточно чтения геометрии/потребителей и diff-check; движение, визуал и удобство этим не объявлять принятыми. Guards, защита данных и отдельные внешние gates обязательны.",
       "documentation_budget": "Не создавать новые планы, аудиты, отчёты, матрицы, статусные Markdown или дубли доказательств ради процесса. По умолчанию достаточно короткого обновления существующей JSON-карточки: результат, ссылка на source/receipt/кадр, остаток и следующий шаг. Новый документ допустим только по прямому запросу автора, конкретному обязательному контракту либо когда он нужен для решения подтверждённого препятствия и существующее место не подходит. Обязательные машинные receipt/логи сохранять без ручного переписывания. Исторические документы не удалять в рамках этого правила.",
       "test_budget": "Не создавать и не расширять тесты без прямого запроса автора; исключение — минимальное изменение существующего теста при намеренном изменении принадлежащего ему контракта. Для логики запускать узкую существующую проверку затронутого пути, расширять только по фактическому сбою или риску. Не добавлять проверочные слои после достаточного результата.",
       "visible_reporting": "Отчёт начинается с доступного игроку результата и сопоставимого до/после либо короткого движения для визуального этапа. Если показать нечего, видимый этап не доставлен: назвать конкретный blocker и следующий предметный шаг. Подготовительные документы, commits и PASS не выдавать за готовую игровую функцию. completed только по полному done_when и обязательной внешней приёмке.",
@@ -160544,6 +160580,7 @@
       "integration": "Регулярный отдельный commit/push каждого проверенного этапа, не копить большой незакоммиченный пакет. Source/compile этап не выдавать за native acceptance; включать только свои проверенные файлы/хунки, сохранять чужие изменения.",
       "mvp_selection_rule": "Сначала законченные, сразу заметные игроку этапы: обычный запуск и Continue; цельный пролог и первая прогулка; фото → физическая книга → вход → содержательное действие → возврат → сохранённое продолжение; убедительная сцена деревни; самостоятельный релизный кандидат. Мелкие веточки, кусты, фактуры и локальная полировка идут после этих результатов, кроме доказанного блокера проходимости, читаемости, стабильности или производительности выбранного этапа.",
       "mvp_delivery_order": [
+        "ACT1-VILLAGE-BLOCKOUT",
         "PW-097",
         "PW-043",
         "PW-028",
@@ -160620,7 +160657,8 @@
           "rejected_regenerable_body_outputs": 3
         },
         "preserved": "Unique original inputs/producer/rejected consumer patch, raw extracted receipt/logs/frames, pinned tools, userdata and latest f62 desktop package. One differing/unique archive retained."
-      }
+      },
+      "player_experience_priority": "24.10 author ranking 1-3-2: first ordinary walking blockages, then meaningful exploration/action/result, then movement/camera feel. Prefer a complete playable episode over isolated hints, model polish or placement. A disproved hypothesis does not authorize speculative physics changes."
     }
   },
   "requirements_integration_2026_10_10": {

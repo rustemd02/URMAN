@@ -4413,6 +4413,28 @@
   },
   {
     "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-first-world-home-caption",
+    "value": {
+      "default": "«Столько раз держала эту фотографию — а этого не знала. Хорошо, что ты рассказал. Оставим твои слова рядом со снимком, отдельно от старой подписи. Теперь и я буду смотреть на него по-другому.»",
+      "translations": {
+        "ru": "«Столько раз держала эту фотографию — а этого не знала. Хорошо, что ты рассказал. Оставим твои слова рядом со снимком, отдельно от старой подписи. Теперь и я буду смотреть на него по-другому.»"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-first-world-home-record-caption",
+    "value": {
+      "default": "Записать свой рассказ рядом со снимком",
+      "translations": {
+        "ru": "Записать свой рассказ рядом со снимком"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-choice-first-world-home-answer-place",
     "value": {
       "default": "Рассказать, что узнал и что осталось незнакомым",
@@ -4509,6 +4531,22 @@
           {
             "id": "record-forest-discovery",
             "textId": "urman.fullgame:text/pw-choice-first-world-home-forest-discovery",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "forest-return-caption"
+          }
+        ]
+      },
+      {
+        "id": "forest-return-caption",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-first-world-home-caption",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "record-forest-caption",
+            "textId": "urman.fullgame:text/pw-choice-first-world-home-record-caption",
             "conditions": [],
             "effects": [
               {

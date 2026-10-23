@@ -347,7 +347,7 @@ public partial class W03Controller
     private void BuildH04AppleTree()
     {
         var anchor = RequireAnchor("H04");
-        var position = anchor.GlobalPosition + new Vector3(-4.5f, 2.34f, 1.12f);
+        var position = anchor.GlobalPosition + new Vector3(-2f, 2.34f, 3.12f);
         var tree = new StaticBody3D
         {
             Name = "H04AppleTreeWitness",

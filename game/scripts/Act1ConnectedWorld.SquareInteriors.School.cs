@@ -6,6 +6,7 @@ public partial class Act1ConnectedWorld
 {
     private const string SchoolPhotoCopySourceInteraction = "urman.fullgame:interaction/pw-school-copy-source";
     private const string SchoolPhotoCopyPermissionInteraction = "urman.fullgame:interaction/pw-school-copy-permission";
+    private const string SchoolPhotoCopyFront = "res://assets/textures/photobook/s-school-front-v2.png";
 
     // Compact village school: one storey, 20 x 11 m. A clear front corridor serves
     // the staff room, two small combined classes and the relocated school museum.
@@ -149,21 +150,116 @@ public partial class Act1ConnectedWorld
     {
         var sourceFolder = new Node3D { Name = "SchoolPhotoCopySourceFolder", Position = new(-8.48f, .74f, -3.98f) };
         school.AddChild(sourceFolder);
-        sourceFolder.SetMeta("presentationRole", "closed permitted school-album copy folder; no photo or invented label");
+        sourceFolder.SetMeta("presentationRole", "school album opens on the table before its photograph can be identified");
         sourceFolder.SetMeta("originalPolicy", "copy/request presentation; existing school originals remain in place");
         SetSchoolPhotoCopyMetadata(sourceFolder, SchoolPhotoCopySourceInteraction);
         RuralPropGeometry.Block(sourceFolder, "FolderPageStack", new(.202f, .012f, .145f), new(0, .012f, 0),
             Mat("e8dfc8", "paper"), .002f);
-        RuralPropGeometry.Block(sourceFolder, "ClosedFolderCover", new(.222f, .012f, .156f), new(0, .026f, 0),
+        var coverHinge = new Node3D { Name = "FolderCoverHinge", Position = new(0, .026f, -.078f) };
+        sourceFolder.AddChild(coverHinge);
+        RuralPropGeometry.Block(coverHinge, "FolderCover", new(.222f, .012f, .156f), new(0, 0, .078f),
             RuralPropMaterials.Surface("cloth", "495449"), .004f);
-        RuralPropGeometry.Block(sourceFolder, "FolderSpine", new(.012f, .021f, .158f), new(-.103f, .015f, 0),
+        RuralPropGeometry.Block(sourceFolder, "FolderSpine", new(.222f, .021f, .012f), new(0, .015f, -.078f),
             RuralPropMaterials.Surface("upholstery", "5b6254"), .002f);
+        var texture = ResourceLoader.Load<Texture2D>(SchoolPhotoCopyFront)
+            ?? throw new InvalidOperationException("The school album photograph is missing: " + SchoolPhotoCopyFront);
+        var front = new MeshInstance3D
+        {
+            Name = "SchoolOriginalPhotoFront",
+            Position = new(0, .0185f, 0),
+            RotationDegrees = new(-90, 0, 0),
+            Mesh = new QuadMesh { Size = new(.18f, .12f) },
+            MaterialOverride = new StandardMaterial3D
+            {
+                AlbedoTexture = texture, AlbedoColor = Colors.White, Roughness = 1, MetallicSpecular = 0,
+                TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmapsAnisotropic,
+            },
+            Visible = false,
+        };
+        sourceFolder.AddChild(front);
+        front.SetMeta("assetSource", SchoolPhotoCopyFront);
+        front.SetMeta("photoId", "S-SCHOOL");
         AddSchoolCopyContact(sourceFolder, "FolderContact", new(.222f, .04f, .156f));
         var sourceTarget = FacilityTarget("SchoolPhotoCopySource", SchoolPhotoCopySourceInteraction,
-            "Осмотреть школьный альбом", school,
+            "Открыть школьный альбом", school,
             new(-8.48f, .76f, -3.98f), new(.20f, .09f, .14f));
         SetSchoolPhotoCopyMetadata(sourceTarget, SchoolPhotoCopySourceInteraction);
         RegisterPublicUse("school", sourceTarget, sourceFolder);
+
+        // Opening the actual source grants no knowledge. The existing image
+        // reader makes it legible and owns an explicit inspection confirmation;
+        // the committed source fact also owns the restored open pose.
+        RuntimeBridge? sourceBridge = null;
+        object? sourceSession = null;
+        var folderOpen = false;
+        Func<bool>? sourceInspection = null;
+        void ApplySourcePose()
+        {
+            coverHinge.Rotation = new(folderOpen ? -Mathf.Pi : 0, 0, 0);
+            front.Visible = folderOpen;
+            sourceTarget.Prompt = folderOpen ? "Рассмотреть снимок" : "Открыть школьный альбом";
+        }
+        void RefreshSourcePose()
+        {
+            if (sourceBridge is null || !IsInstanceValid(sourceBridge)) return;
+            var session = sourceBridge.ProjectionSessionIdentity;
+            if (!ReferenceEquals(sourceSession, session))
+            {
+                sourceSession = session;
+                folderOpen = false;
+            }
+            if (sourceBridge.PhotoWorldFactObserved("school_copy_identified")) folderOpen = true;
+            ApplySourcePose();
+        }
+        sourceTarget.PresentationBeforeDispatch = () =>
+        {
+            RefreshSourcePose();
+            if (sourceBridge?.SessionIdentity is not { } session || !ReferenceEquals(sourceSession, session)
+                || MainMenuUi.AnyUndismissed(GetTree())
+                || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController { ModalOpen: false })
+                return false;
+            var inspectionBridge = sourceBridge;
+            var scene = inspectionBridge.ActiveSceneId;
+            bool InspectionCurrent() => sourceTarget.IsPresentationCurrent(inspectionBridge, session)
+                && inspectionBridge.ActiveSceneId == scene
+                && inspectionBridge.IsInteractionAvailable(SchoolPhotoCopySourceInteraction)
+                && inspectionBridge.CanPhysicallyUseInteraction(SchoolPhotoCopySourceInteraction);
+            if (!InspectionCurrent()
+                || GetTree().GetFirstNodeInGroup("document_ui") is not DocumentUi reader) return false;
+            folderOpen = true;
+            ApplySourcePose();
+            async Task<bool> ConfirmInspection()
+            {
+                if (!InspectionCurrent()
+                    || inspectionBridge.CapturePlayTimeBlocks() != RuntimeBridge.PlayTimeBlock.None) return false;
+                return await inspectionBridge.DispatchInteractionAsync(SchoolPhotoCopySourceInteraction);
+            }
+            var sourceTitle = inspectionBridge.ResolveText("urman.fullgame:text/pw-label-school-copy-source");
+            sourceInspection = InspectionCurrent;
+            reader.OpenSourcePhotoInspection(inspectionBridge, "S-SCHOOL", SchoolPhotoCopyFront, sourceTitle, sourceTitle,
+                sourceInspection, inspectionBridge.PhotoWorldFactObserved("school_copy_identified") ? null : ConfirmInspection);
+            return false;
+        };
+        sourceFolder.AddChild(new Act1FacilityPresentation
+        {
+            Name = "SchoolAlbumPresentation",
+            Tick = _ =>
+            {
+                if (sourceBridge is not null && IsInstanceValid(sourceBridge)) return;
+                sourceBridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+                if (sourceBridge is null) return;
+                sourceBridge.RuntimeStateChanged += RefreshSourcePose;
+                RefreshSourcePose();
+            },
+            Detached = () =>
+            {
+                if (sourceInspection is not null)
+                    (GetTree().GetFirstNodeInGroup("document_ui") as DocumentUi)?.CloseSourcePhotoInspection(sourceInspection);
+                if (sourceBridge is not null && IsInstanceValid(sourceBridge))
+                    sourceBridge.RuntimeStateChanged -= RefreshSourcePose;
+                sourceBridge = null;
+            },
+        });
 
         // The approved school role is a real person in the staff room. Reuse the
         // existing female human-kit appearance; role text remains anonymous.

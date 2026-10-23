@@ -17,6 +17,7 @@ public partial class JournalUi
     private const string PWaterThumbnailPath = "res://assets/textures/photobook/p-water-front-v1-thumbnail.png";
     private const string SSchoolFrontImagePath = "res://assets/textures/photobook/s-school-front-v2.png";
     private const string SSchoolThumbnailPath = "res://assets/textures/photobook/s-school-front-v2-thumbnail.png";
+    private const string ForestDiscoveryKnowledgeId = "urman.fullgame:knowledge/pw-forest-inside";
     private const string CommonRelationsSourceId = "urman.fullgame:interaction/pw-common-three-places";
     private const string CommonRelationsStudyAssetId = "urman.fullgame:asset/w04-common-relations-study";
     private static readonly IReadOnlyDictionary<string, (string Path, string Caption)> PhotoBookBackImages =
@@ -57,6 +58,7 @@ public partial class JournalUi
     private Label _photoBookBackHeading = null!;
     private TextureRect _photoBookBackImage = null!;
     private Label _photoBookBackText = null!;
+    private Label _photoBookForestDiscovery = null!;
     private Label _photoBookCommonNote = null!;
     private TextureRect _photoBookCommonRelationsStudy = null!;
     private Label _photoBookCommonRelationsCaption = null!;
@@ -280,6 +282,13 @@ public partial class JournalUi
         };
         frontCardContent.AddChild(_photoBookInspectFrontButton);
         _photoBookInspectFrontButton.Pressed += OpenSelectedPhotoBookFrontReader;
+        _photoBookForestDiscovery = new Label
+        {
+            Name = "ForestInsideDiscovery", Visible = false,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill, FocusMode = Control.FocusModeEnum.All
+        };
+        _photoBookSpread.AddChild(_photoBookForestDiscovery);
         _photoBookSeparator = new HSeparator();
         _photoBookSpread.AddChild(_photoBookSeparator);
         _photoBookBackHeading = new Label { Text = "Оборот",
@@ -611,6 +620,11 @@ public partial class JournalUi
             : string.IsNullOrWhiteSpace(photo.BackTextRu)
                 ? "На обороте пока нет записи."
                 : photo.BackTextRu;
+        if (CurrentForestDiscovery() is { } discovery)
+        {
+            _photoBookForestDiscovery.Text = $"Наблюдение внутри снимка\n{discovery.Title}\n\n{discovery.Body}";
+            _photoBookForestDiscovery.Visible = true;
+        }
         var commonNote = photo.PhotoId == "P-COMMON" ? _bridge?.CommonFrameNoteText() : null;
         _photoBookCommonNote.Text = string.IsNullOrEmpty(commonNote) ? string.Empty : "Моя помета:\n" + commonNote;
         _photoBookCommonNote.Visible = !string.IsNullOrEmpty(commonNote);
@@ -629,6 +643,11 @@ public partial class JournalUi
 
     private void ClearPhotoBookImages()
     {
+        if (GodotObject.IsInstanceValid(_photoBookForestDiscovery))
+        {
+            _photoBookForestDiscovery.Text = string.Empty;
+            _photoBookForestDiscovery.Visible = false;
+        }
         if (GodotObject.IsInstanceValid(_photoBookCommonRelationsStudy))
         {
             _photoBookCommonRelationsStudy.Texture = null;
@@ -653,6 +672,20 @@ public partial class JournalUi
             _photoBookBackImage.Texture = null;
             _photoBookBackImage.Visible = false;
         }
+    }
+
+    private ResolvedJournalEntry? CurrentForestDiscovery()
+    {
+        if (_notesLoadInProgress || _photoBookSelectedId != "P-FOREST"
+            || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || bridge.IsQueuedForDeletion() || !bridge.CanInspectReceivedPhotoBook
+            || bridge.SessionIdentity is not { } session
+            || !ReferenceEquals(_photoBookSession, session))
+            return null;
+
+        return bridge.JournalEntries().FirstOrDefault(entry =>
+            StringComparer.Ordinal.Equals(entry.EntryId, ForestDiscoveryKnowledgeId)
+            && entry.Status == "confirmed");
     }
 
     private DocumentImageContent? CurrentCommonRelationsStudy()
@@ -735,6 +768,7 @@ public partial class JournalUi
             _photoBookFrontBrief,
             _photoBookBackHeading,
             _photoBookBackText,
+            _photoBookForestDiscovery,
             _photoBookCommonNote,
             _photoBookCommonRelationsCaption,
             _photoBookActionStatus
