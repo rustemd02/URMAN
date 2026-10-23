@@ -362,15 +362,18 @@ internal sealed class AddressWalkProbe : IDisposable
     {
         feet = from;
         var edge = obstacle.GetCollisionPoint(riser);
-        var direction = forward.Normalized();
-        var side = new Vector3(-direction.Z, 0, direction.X) * Math.Min(.10f, _capsule.Radius * .3f);
+        // Match the controller: sample inside the riser face so diagonal
+        // movement cannot put a side ray back in front of the tread.
+        var riserNormal = obstacle.GetCollisionNormal(riser);
+        var treadDirection = new Vector3(-riserNormal.X, 0, -riserNormal.Z).Normalized();
+        var side = new Vector3(-treadDirection.Z, 0, treadDirection.X) * Math.Min(.10f, _capsule.Radius * .3f);
         var highest = float.NegativeInfinity;
         var lowest = float.PositiveInfinity;
         LastRejection = Contact("no walkable tread within controller step height", obstacle);
         foreach (var depth in new[] { .04f, .18f })
         foreach (var offset in new[] { -side, Vector3.Zero, side })
         {
-            var at = edge + direction * depth + offset;
+            var at = edge + treadDirection * depth + offset;
             if (!Floor(new(at.X, from.Y + FirstPersonController.MaximumStepHeight + Clearance, at.Z),
                 new(at.X, from.Y + .015f, at.Z), out var tread)) return false;
             var height = tread.Y - from.Y;

@@ -55,7 +55,11 @@ public partial class FirstPersonController
         if (riser < 0) return false;
         LastStepRejection = "no walkable tread within step height";
         var edge = _stepObstacle.GetPosition(riser);
-        var side = new Vector3(-direction.Z, 0, direction.X) * Math.Min(.10f, _stanceCapsule.Radius * .3f);
+        // Sample inside the riser face: an input-aligned side ray can fall in
+        // front of an ordinary tread when the player approaches diagonally.
+        var riserNormal = _stepObstacle.GetNormal(riser);
+        var treadDirection = new Vector3(-riserNormal.X, 0, -riserNormal.Z).Normalized();
+        var side = new Vector3(-treadDirection.Z, 0, treadDirection.X) * Math.Min(.10f, _stanceCapsule.Radius * .3f);
         var highest = float.NegativeInfinity;
         var lowest = float.PositiveInfinity;
         // The surface itself must be walkable under both feet. A steep slope,
@@ -63,7 +67,7 @@ public partial class FirstPersonController
         foreach (var depth in new[] { .04f, .18f })
         foreach (var offset in new[] { -side, Vector3.Zero, side })
         {
-            var at = edge + direction * depth + offset;
+            var at = edge + treadDirection * depth + offset;
             using var ray = PhysicsRayQueryParameters3D.Create(
                 new(at.X, from.Origin.Y + MaximumStepHeight + StepClearance, at.Z),
                 new(at.X, from.Origin.Y + .015f, at.Z), CollisionMask, _stepRayExclude);

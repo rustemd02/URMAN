@@ -9,6 +9,8 @@ public partial class VehicleController
         bool Leans = false, float WheelRadius = 0, float WheelWidth = 0, Vector2[]? CartProfile = null);
     private sealed record SupportGroup(string Name, Vector3 Point, CollisionShape3D? Wheel = null);
     private readonly List<FixedVehicleVolume> _fixedVolumes = new();
+    private ConvexPolygonShape3D? _motorcycleChassisEnvelope;
+    private Plane[] _motorcycleChassisPlanes = Array.Empty<Plane>();
     private readonly List<SupportGroup> _supportGroups = new();
     private sealed record HoofQueryVolume(string Name, ConvexPolygonShape3D Shape, Vector3[] Vertices, Plane[] Planes);
     private readonly List<HoofQueryVolume> _hoofQueries = new();
@@ -101,11 +103,39 @@ public partial class VehicleController
             // The small analytic arc bound covers values between the sampled angles.
             var radius = source.Max(point => (point - Vector3.Up * .8f).Length());
             var padding = radius * (1 - Mathf.Cos(.002f)) + .00002f;
-            var banked = Enumerable.Range(0, 21).SelectMany(index =>
-                source.Select(point => LeanTransform(-.04f + index * .004f) * point));
-            var upper = Bounds(banked, padding);
-            if (upper.Position.Y <= .20f) throw new InvalidOperationException("Motorcycle upper geometry unexpectedly reaches the ground.");
-            AddBoxVolume("ChassisCollision", upper);
+            // A whole-bike AABB applies handlebar width at the low exhaust and
+            // at both fenders. Supporting planes retain every source vertex but
+            // cut those empty corners. Only 26 planes are needed; do not expand
+            // the raw mesh into 21 banks times eight padding-box corners.
+            var normals = new List<Vector3>();
+            for (var x = -1; x <= 1; x++)
+            for (var y = -1; y <= 1; y++)
+            for (var z = -1; z <= 1; z++)
+                if (x != 0 || y != 0 || z != 0) normals.Add(new Vector3(x, y, z).Normalized());
+            var supports = Enumerable.Repeat(float.NegativeInfinity, normals.Count).ToArray();
+            var minimumY = float.PositiveInfinity;
+            for (var bank = 0; bank <= 20; bank++)
+            {
+                var transform = LeanTransform(-.04f + bank * .004f);
+                foreach (var vertex in source)
+                {
+                    var point = transform * vertex;
+                    minimumY = Math.Min(minimumY, point.Y);
+                    for (var plane = 0; plane < normals.Count; plane++)
+                        supports[plane] = Math.Max(supports[plane], normals[plane].Dot(point));
+                }
+            }
+            if (minimumY - padding <= .20f) throw new InvalidOperationException("Motorcycle upper geometry unexpectedly reaches the ground.");
+            // Any intermediate bank lies within this sagitta of its sampled
+            // chord. Outward padding of every unit-normal plane contains that
+            // entire ball, including the unsampled silhouette between banks.
+            _motorcycleChassisPlanes = normals.Select((normal, index) => new Plane(normal, supports[index] + padding)).ToArray();
+            var planes = new global::Godot.Collections.Array<Plane>(_motorcycleChassisPlanes);
+            using var planesOwner = (global::Godot.Collections.Array)planes;
+            var points = Geometry3D.ComputeConvexMeshPoints(planes).Distinct().ToArray();
+            if (points.Length < 4) throw new InvalidOperationException("Motorcycle chassis envelope has no closed convex volume.");
+            _motorcycleChassisEnvelope = new ConvexPolygonShape3D { Points = points };
+            AddFixedVolume("ChassisCollision", _motorcycleChassisEnvelope, Transform3D.Identity);
             foreach (var wheel in _visual.Wheels.Where(wheel => !_visual.FrontWheels.Contains(wheel)))
                 AddFixedRoadWheel(wheel, "RearWheelCollision", true);
             return;
@@ -323,7 +353,7 @@ public partial class VehicleController
         Definition = Definition with { Spawn = new(spawn.X, originY, spawn.Z) };
     }
 
-    private static bool ContainsSimpleShape(Shape3D shape, Vector3 point, float tolerance)
+    private bool ContainsSimpleShape(Shape3D shape, Vector3 point, float tolerance)
     {
         if (shape is BoxShape3D box)
         {
@@ -336,6 +366,8 @@ public partial class VehicleController
             var centre = new Vector3(0, Mathf.Clamp(point.Y, -half, half), 0);
             return point.DistanceTo(centre) <= capsule.Radius + tolerance;
         }
+        if (ReferenceEquals(shape, _motorcycleChassisEnvelope))
+            return _motorcycleChassisPlanes.All(plane => plane.DistanceTo(point) <= tolerance);
         throw new InvalidOperationException("Unknown compound shape " + shape.GetClass());
     }
 

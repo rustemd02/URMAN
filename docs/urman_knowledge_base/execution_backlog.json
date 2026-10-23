@@ -22100,16 +22100,16 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "24.10 source repair integrated and compiled; implementation partial, native driving/entry/exit/save acceptance remains open. No live worker owns this unit after handoff."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Согласовать вход/выход и управление мотоциклом с SaveGameV3; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Согласовать вход/выход и управление мотоциклом с SaveGameV3. Затем изменить только установленный остаток.",
+            "next_action": "Verify repaired motorcycle approach/turn near low obstacles and original entry/exit/save continuation through the configured ordinary route; do not repeat broad unchanged fleet audits.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -22152,7 +22152,13 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "motorcycle_collision_repair_2026_10_24": {
+              "source": "game/scripts/VehicleController.CompoundCollision.cs",
+              "result": "Conservative convex chassis replaces full-width AABB; wheel contacts/support, controls and SaveGameV3 unchanged. See ACT1-VILLAGE-BLOCKOUT.approach_repair_2026_10_24.",
+              "verification": "Affected Game compile exit0,0warnings/0errors,16.60s; no native driving acceptance.",
+              "remaining": "Original entry/exit/control/SaveGameV3 acceptance remains required; this source repair is not the whole child DoD."
+            }
           },
           {
             "id": "ACT1-TRANSPORT/E03",
@@ -94891,7 +94897,7 @@
         "Планировка и доступ согласованы с PW-003/PW-044/PW-070: все обязательные якоря и действия достижимы; ночное разрушение моста/закрытие дальней половины не являются обязательными условиями новой истории.",
         "Применимые прежние жалобы/адреса и ограничения сохранены с явной картой PW-004; реальные координаты, scale, save/load и обе стороны переходов подтверждены на текущей сборке."
       ],
-      "next_action": "Установить конкретное место застревания автора и соответствующий collider/ввод; исправить причину у существующего owner. Street→gate→yard→porch пройден 24.10 без застревания; дверной порог/остальная карта не проверены, не повторять этот короткий путь как общую приёмку.",
+      "next_action": "Accept the repaired diagonal step approach and conservative motorcycle chassis on the configured normal route when a supported targeted check is available; resolve legacy H019 terrain/visible-step support only from measured ground. Keep whole-world traversal and author acceptance open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -95011,7 +95017,7 @@
       ],
       "assignment_state": "unassigned_explicit_not_active",
       "ordinary_approach_2026_10_24": {
-        "baseline": "compiled 0cbe63fb; one clean protected ordinary full_game, permitted prologue skip; uncompiled W03 apple unrelated",
+        "baseline": "compiled 0cbe63fb; one clean protected direct full_game.tscn launch with permitted prologue skip. This bypassed configured photoworlds_game.tscn / Act1DemoRoot; NOT ordinary launch evidence. Uncompiled W03 apple unrelated.",
         "result": "Street→gate→yard→porch ordinary W/A passed, no blockage observed. Door threshold not crossed because CUA relative-look unavailable; not a game input defect. Root viewed actual porch frame. No whole-world traversal/gamefeel acceptance.",
         "source_review": "FPC step/crouch, world bounds, retired legacy geometry/fences, school openings and bridge state: no proven local blocker. Specific hypotheses of hidden legacy walls/orphan fence contacts disproved.",
         "runtime": "Process0, normalQuit, original userdata files and permissions restored verified. Native exit resource/RID leaks present in raw log; no claim clean engine exit. About49s CUA observation unavailable during village load, not measured frame time.",
@@ -95022,7 +95028,17 @@
           "bytes": 210825,
           "members": 2,
           "removed_loose_bytes": 301924
-        }
+        },
+        "entry_scope_correction": "24.10 source: project.godot main_scene=photoworlds_game.tscn owns Act1DemoRoot, which loads full_game.tscn. Direct launch omits menu, session-selected Niva arrival, D00 exit dispatch and root cues. Observed street→porch movement remains evidence only for that internal-scene run. Door gate must not be weakened to accommodate this test route."
+      },
+      "author_blockage_2026_10_24": "Author identifies approaches to houses and motorcycle riding as recurring stuck contexts. Inspect world contacts, player step negotiation, vehicle control/contact and normal-root movement owners; specific house not named. Symptom unresolved pending causally relevant fix and sufficient acceptance.",
+      "approach_repair_2026_10_24": {
+        "scope": "Author reports getting stuck on approaches to houses and while riding motorcycle. Repairs address proven mechanisms, not a claimed reproduction of every reported location.",
+        "steps": "FirstPersonController.Steps.cs and AddressWalkProbe.cs: sample six tread support rays in the inward riser-normal frame. Former input-oriented side rays at a 45-degree approach could land 0.0424m in front of a valid tread and reject the step. Forward/up/down sweeps, 0.22m rise limit, ceiling, landing and carried-object checks unchanged.",
+        "motorcycle": "VehicleController.CompoundCollision.cs: replace whole-model AABB with one 26-plane conservative convex envelope of the same 21 bank samples plus existing inter-sample padding. Removes empty box corners at low exhaust/fenders while retaining full source silhouette and actual wheel volumes. Real obstacles, masks, save schema and controls preserved. Concavities are still conservatively filled.",
+        "verification": "Affected Urman.Game compile exit0,0warnings/0errors,16.60s; independent Astra source review of both step and motorcycle diffs found no P1/P2. Godot plane convention/managed instance binding and unchanged collision consumers checked. Tracker validate passed. No new tests/probes/runtime or recordings.",
+        "remaining": "Native acceptance of diagonal approach and motorcycle travel past low obstacles remains open. A direct full_game.tscn launch cannot prove configured photoworlds_game.tscn normal flow. No assertion of complete village traversal, pleasant gamefeel or release readiness.",
+        "house_contacts": "Generated housing already owns visible Step/Porch surfaces via AuthoredWorldDirector; do not add duplicate contacts. Legacy H019 StreetStep exclusion remains: top=Ground(27.75,74)+0.23, approach(26.33,76.33..76.38). Need actual CollisionGround across leading edge/capsule before adding contact that could exceed the 0.22m step limit."
       }
     },
     {
