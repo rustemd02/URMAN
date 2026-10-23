@@ -54156,7 +54156,7 @@
         "remaining": "Native keyboard/mouse choice→Esc/reopen (including same dialogue), duplicate press, rejected answer/error/close, session load and Niva language answer; full HUD/readability/theme acceptance remains open."
       },
       "route_hint_readability_2026_10_21": {
-        "state": "source_reviewed_windows_compile_pending",
+        "state": "affected_compile_pass_native_pending",
         "owner": "Codex / act1_loop_discovery",
         "targets": [
           "game/scripts/Act1DemoRoot.cs"
@@ -54165,8 +54165,9 @@
         "cause": "Current next-action Label has no backplate and expires after3.2s, never repeats same text; bottom-left hint weakly readable on bright snow.",
         "result_contract": "Only PhotoWorlds current route cue uses existing calm dark subtitle plate and remains until existing goal changes or clears. Menu/journal/dialogue/modal hides it and closing restores actual current hint. Preserve existing authored messages/facts, legacy timed toast behavior, input focus, font scaling/high-contrast/reduced motion and interaction prompt visibility.",
         "scope_out": "No new story/dialogue, theme or HUD owner, no broad UI redesign, no new tests/probes/docs, no local game/build/restore; no station changes while native5fb6 live.",
-        "verification": "Source implemented in one file, root+independent caller/modal/accessibility review clean; direct RoutePrompt path and legacy toast preserved. Final plate bottom=-152,20px above InteractionPrompt=-132; text padding16px and height grows upward. Scoped diff check passed. No affected Windows compile or changed-source native yet; current5fb6 remains old accepted packet.",
-        "remaining": "Implement/review one file, Windows affected compile, actual native white-snow contrast/persistent cue/modal reopening/goal advance. All parent UI and external art acceptance open."
+        "verification": "23.10 root+two independent source reviews clean: modal/tween resumes, original RoutePrompt path, legacy timing and accessibility preserved. Actual Mac affected Game compile20.20s exit0/0warnings/0errors, authorized by author23.10. Scoped diff check passed. Native PhotoWorld persistence/white-snow contrast/fontscale1.6 not yet observed; no runtime acceptance from compilation.",
+        "remaining": "One necessary protected native check of persistent PhotoWorld cue on snow, modal close/reopen and goal advance, combined with confirmed forest correction when available. Full UI/art/external acceptance remains open.",
+        "compile_evidence": "evidence/PW-095/affected_game_20261023.log.gz"
       },
       "school_register_label_2026_10_21": {
         "state": "source_accepted",
@@ -143327,13 +143328,14 @@
       ],
       "assignment_state": "preserved_person_or_existing_role; activity separate",
       "startup_phase_timing_2026_10_21": {
-        "state": "source_prepared_affected_compile_pending",
+        "state": "affected_compile_pass_runtime_timing_pending",
         "owner": "Codex / arrival_load_analysis",
         "target": "game/scripts/Act1ConnectedWorld.cs:ProfileWorldBuildStep",
         "input": "Observed long normal village preparation in current exported candidate; existing 16 finite major-stage timing callers, no supported per-job environment opt-in.",
         "result": "Remove one early-return guard; existing Stopwatch/build()/same-format GD.Print now publishes bounded named startup durations during normal play. No new profiler/probe/API/OS setting, one build call preserved.",
-        "verification": "All16 caller sites inspected: finite startup/build phases, no per-frame/per-object calls. Scoped diff check passed. Actual Windows compile and timing readback pending; current5fb6 Game unchanged.",
-        "remaining": "Compile in already required changed-HUD export after current protected native restores; read real startup durations during the same narrow HUD check. This is measurement preparation, NOT optimization or CPU/GPU/frame-time/profile/release acceptance."
+        "verification": "Actual Mac affected Game compile23.10 exit0/0warnings/0errors20.20s; all16 finite callers reviewed, one build call preserved, scoped diff check passed. No runtime durations read yet; no performance improvement claimed.",
+        "remaining": "Compile in already required changed-HUD export after current protected native restores; read real startup durations during the same narrow HUD check. This is measurement preparation, NOT optimization or CPU/GPU/frame-time/profile/release acceptance.",
+        "compile_evidence": "evidence/PW-095/affected_game_20261023.log.gz"
       }
     },
     {
