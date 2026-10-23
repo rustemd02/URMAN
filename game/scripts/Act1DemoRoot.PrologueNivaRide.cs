@@ -19,13 +19,16 @@ public partial class Act1DemoRoot
     private Vector2 _rideLook;
     private static readonly Vector3 RideCameraRest = new(.42f, 1.44f, .30f);
 
-    private const string PrologueRideDialogue = "urman.chapter1:dialogue/prologue-niva-language";
+    private const string PrologueRideDialogue = RuntimeBridge.NivaLanguageDialogueId;
     private const string PhotoNivaArrivalScene = "urman.fullgame:scene/pw-niva-arrival";
     private const string PhotoNivaArrivalDialogue = "urman.fullgame:dialogue/pw-niva-arrival-d00";
     private Node3D? _photoNivaPresentation;
     private FirstPersonController? _photoNivaPlayer;
     private object? _photoNivaSession;
     private object? _photoNivaFailedSession;
+    private object? _photoNivaPrologueSession;
+    private bool _photoNivaLanguageActive;
+    private Task<bool> _photoNivaLanguageWrite = Task.FromResult(true);
     private bool _photoNivaPhysicsEnabled, _photoNivaInputEnabled, _photoNivaExitPending;
     private ulong _photoNivaReleasedFrame;
 
@@ -49,6 +52,16 @@ public partial class Act1DemoRoot
 
     private void UpdatePhotoNivaArrival(double delta)
     {
+        // Only a live passage through the prologue offers this conversation.
+        // Continue directly into arrival retains its existing D00 presentation.
+        if (UsesPhotoWorldsCampaign && !StudioPreviewMode && _playerSessionSelected
+            && !MainMenuVisible && !_menuBusy && !_photoWorldReplay
+            && _bridge is { IsDebugSession: false } openingBridge && IsInstanceValid(openingBridge)
+            && !openingBridge.IsPhotoBookProjectionDeferred
+            && openingBridge.ActiveSceneId == PhotoWorldPrologueSceneId
+            && openingBridge.SessionIdentity is { } prologueSession)
+            _photoNivaPrologueSession = prologueSession;
+
         if (_photoNivaPresentation is not null
             && (_photoNivaSession is not { } activeSession || !IsCurrentPhotoNivaArrival(activeSession)))
             ReleasePhotoNivaArrival();
@@ -76,11 +89,16 @@ public partial class Act1DemoRoot
             try
             {
                 _ = bridge.RequireDialogue(PhotoNivaArrivalDialogue);
+                var offerLanguage = ReferenceEquals(session, _photoNivaPrologueSession) && !bridge.HasNivaLanguageResponse;
+                if (offerLanguage) _ = bridge.RequireDialogue(PrologueRideDialogue);
                 if (GetTree().GetFirstNodeInGroup("dialogue_ui") is not DialogueUi dialogue || dialogue.IsOpen)
                     return;
                 var visual = VehicleVisualFactory.Build(niva.Definition);
                 _photoNivaPresentation = _rideNiva = visual.Root;
                 _photoNivaSession = session;
+                _photoNivaPrologueSession = null;
+                _photoNivaLanguageActive = offerLanguage;
+                _photoNivaLanguageWrite = Task.FromResult(true);
                 _photoNivaPlayer = player;
                 _photoNivaPhysicsEnabled = player.IsPhysicsProcessing();
                 _photoNivaInputEnabled = player.IsProcessingUnhandledInput();
@@ -112,7 +130,7 @@ public partial class Act1DemoRoot
                 player.SetProcessUnhandledInput(false);
                 _rideCamera.MakeCurrent();
                 DialogueUi.ChoiceAccepted += OnPhotoNivaArrivalChoice;
-                bridge.OpenDialogueUi(PhotoNivaArrivalDialogue);
+                bridge.OpenDialogueUi(offerLanguage ? PrologueRideDialogue : PhotoNivaArrivalDialogue);
                 UpdateRouteCue();
             }
             catch (Exception error)
@@ -122,6 +140,24 @@ public partial class Act1DemoRoot
                 GD.PushWarning($"PhotoWorld Niva arrival presentation failed: {error.Message}");
                 player.NotifyTraversal("Не удалось открыть разговор в Ниве. Подойдите к машине, чтобы продолжить.");
             }
+        }
+
+        if (_photoNivaLanguageActive && IsCurrentPhotoNivaArrival(session)
+            && !player.ModalOpen && _pauseMenu?.IsOpen != true
+            && GetTree().GetFirstNodeInGroup("dialogue_ui") is DialogueUi { IsOpen: false }
+            && _photoNivaLanguageWrite.IsCompleted && _shutdownSavesInFlight == 0)
+        {
+            // ChoiceAccepted follows the language node's existing checkpoint.
+            // Esc only ends this live offer; it never manufactures a response.
+            _photoNivaLanguageActive = false;
+            if (!_photoNivaLanguageWrite.GetAwaiter().GetResult())
+            {
+                _photoNivaFailedSession = session;
+                ReleasePhotoNivaArrival();
+                player.NotifyTraversal("Не удалось сохранить настройку разговора. Подойдите к Ниве, чтобы продолжить.");
+                return;
+            }
+            bridge.OpenDialogueUi(PhotoNivaArrivalDialogue);
         }
 
         if (IsCurrentPhotoNivaArrival(session) && !player.ModalOpen && _pauseMenu?.IsOpen != true)
@@ -134,17 +170,43 @@ public partial class Act1DemoRoot
             || _photoNivaExitPending || _photoNivaPlayer?.ModalOpen != false
             || _pauseMenu?.IsOpen == true || inputEvent is InputEventKey { Echo: true }
             || !inputEvent.IsActionPressed("interact")) return false;
-        _bridge!.OpenDialogueUi(PhotoNivaArrivalDialogue);
+        if (!_photoNivaLanguageActive) _bridge!.OpenDialogueUi(PhotoNivaArrivalDialogue);
         GetViewport().SetInputAsHandled();
         return true;
     }
 
     private void OnPhotoNivaArrivalChoice(string dialogueId, string choiceId)
     {
-        if (dialogueId != PhotoNivaArrivalDialogue || choiceId != "exit-niva" || _photoNivaExitPending
-            || _photoNivaSession is not { } session || !IsCurrentPhotoNivaArrival(session)) return;
+        if (_photoNivaSession is not { } session || !IsCurrentPhotoNivaArrival(session)) return;
+        if (dialogueId == PrologueRideDialogue)
+        {
+            _photoNivaLanguageWrite = ApplyPhotoNivaLanguageChoiceAsync(_bridge!, session, choiceId, _photoNivaLanguageWrite);
+            // The real skip is already recorded. Closing here invalidates the
+            // pending reply so its legacy road-ahead line cannot precede arrival.
+            if (_photoNivaLanguageActive && choiceId == "answer-skip")
+                (GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi)?.CloseIfDialogue(PrologueRideDialogue);
+            return;
+        }
+        if (dialogueId != PhotoNivaArrivalDialogue || choiceId != "exit-niva" || _photoNivaExitPending) return;
         _photoNivaExitPending = true;
         _ = ExitPhotoNivaArrivalAsync(session);
+    }
+
+    private async Task<bool> ApplyPhotoNivaLanguageChoiceAsync(RuntimeBridge bridge, object session,
+        string choiceId, Task<bool> previousWrite)
+    {
+        try
+        {
+            if (!await previousWrite || !IsCurrentPhotoNivaArrival(session)) return false;
+            var level = PrologueRideLanguageLevelForChoice(choiceId);
+            return level is null || await bridge.SetTatarLanguageLevelAsync(level, session);
+        }
+        catch (Exception error)
+        {
+            if (IsCurrentPhotoNivaArrival(session))
+                GD.PushWarning($"PhotoWorld Niva language choice failed: {error.Message}");
+            return false;
+        }
     }
 
     private async Task ExitPhotoNivaArrivalAsync(object session)
@@ -154,7 +216,10 @@ public partial class Act1DemoRoot
             // The accepted terminal choice closes DialogueUi before normal
             // interaction dispatch/checkpoint capture can resume the player.
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            var languageWrite = _photoNivaLanguageWrite;
+            var languageSaved = await languageWrite;
             if (!IsCurrentPhotoNivaArrival(session)) return;
+            if (!languageSaved) throw new InvalidOperationException("The language setting could not be saved.");
             var bridge = _bridge!;
             if (!await bridge.DispatchInteractionAsync("urman.fullgame:interaction/pw-niva-stop")
                 && IsCurrentPhotoNivaArrival(session))
@@ -183,6 +248,8 @@ public partial class Act1DemoRoot
         _photoNivaSession = null;
         _photoNivaPlayer = null;
         _photoNivaExitPending = false;
+        _photoNivaLanguageActive = false;
+        _photoNivaLanguageWrite = Task.FromResult(true);
         _photoNivaReleasedFrame = Engine.GetProcessFrames();
         DialogueUi.ChoiceAccepted -= OnPhotoNivaArrivalChoice;
         if (IsInsideTree())
@@ -652,16 +719,21 @@ public partial class Act1DemoRoot
     private void OnPrologueRideChoice(string dialogueId, string choiceId)
     {
         if (dialogueId != PrologueRideDialogue) return;
+        var level = PrologueRideLanguageLevelForChoice(choiceId);
+        if (level is null || GetTree().GetFirstNodeInGroup("runtime_bridge") is not RuntimeBridge bridge) return;
+        _ = bridge.SetTatarLanguageLevelAsync(level);
+    }
+
+    private string? PrologueRideLanguageLevelForChoice(string choiceId)
+    {
         var current = _player?.TatarLanguageLevel ?? "none";
-        var level = choiceId switch
+        return choiceId switch
         {
             "answer-none" => "none", "answer-some" => "some", "answer-fluent" => "fluent",
             "level-lower" => current == "fluent" ? "some" : "none",
             "level-raise" => current == "none" ? "some" : "fluent",
             _ => null
         };
-        if (level is null || GetTree().GetFirstNodeInGroup("runtime_bridge") is not RuntimeBridge bridge) return;
-        _ = bridge.SetTatarLanguageLevelAsync(level);
     }
 
     private void ReleasePrologueRide(bool restoreSessionTransition = true)

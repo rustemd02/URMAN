@@ -50751,9 +50751,9 @@
       },
       "title": "Определить уровень татарского в живом разговоре с бабаем в Ниве",
       "milestone": "M5",
-      "status": "todo",
+      "status": "completed",
       "complexity": "medium",
-      "active_owner": "Sol6.1High language integration; root integration/review",
+      "active_owner": null,
       "owner": "finished-act1",
       "depends_on": [
         "ACT1-LANG.1"
@@ -50796,7 +50796,15 @@
           "result": "Разметка озвучки пролога tools/voice/gemini_tts/speech_markup.json (79 реплик: тон, темп, паузы, приоритет P0–P2, голос Айдара); генератор пересинтезирует изменившиеся тексты и вшивает паузы; найдена и исправлена ошибка: подстрочник в скобках озвучивался",
           "not_verified": "синтез — превью, не финальная запись; акцент не слушался"
         },
-        "docs/production/act1_language_layer_2026-10-04.md"
+        "docs/production/act1_language_layer_2026-10-04.md",
+        {
+          "date": "2026-10-23",
+          "kind": "source_compile_independent_review_ordinary_native",
+          "path": "evidence/ACT1-LANG.4/ordinary_calibration_20261023.zip",
+          "result": "Ordinary NewGame→forestSkip→actualNiva4choices visible→answerSome→confirmRaise→unchangedD00 explicitexit→pedestrianhomegoal→PauseSave confirmed. Actual protected-engine settings fluent, runtime/state world.props act1/opening.languageLevel fluent, persisted dialogueChoices answer-some+level-raise. FirstnormalQuit0→secondcoldprocess matchingContinue→samepedestrianstreet/homegoal, no calibration/D00replay. Root personally viewed4frames, checkedrawsave/profile/loadmarker. Bothnormalprocesses0, guard0 restored originalfiles/permissions verified; nativeERROR0. ExistingPainterly warnings and first7TextureRID warning retained.",
+          "sha256": "aaef44dcbeda377fe25f8ef6ac40e74a404761d084fe6a95b18f035b7fb292e7",
+          "uncovered": "Own engineering DoD accepted using current code/compiled exact comparison, independent Astra+Sol review and one changed-source ordinary native selection/correction/save/coldContinue scenario. Other answer/keep/lower/authoredskip/Esc failure cases checked by source, not additionally replayed natively; no claim exhaustive branch/diskerror/human/cultural/playtest acceptance. FullActI/allotherexistingexternal gates remain open."
+        }
       ],
       "mvp_priority": 16,
       "mvp_packet": "LEGACY-COMPAT",
@@ -50898,18 +50906,14 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "23.10 confirmed current PhotoWorlds missing legacy conversational calibration. Finite integration approved in two actual owner files, no content/service/new state fields."
+        "state": "not_active",
+        "reason": "23.10 ownfiniteLANG.4 engineering DoD accepted; independentreview, affectedcompile and ordinarynative selection/correction/Save/coldContinue complete. Bothprocessesnormal0/guardrestored; stopped thisunit."
       },
       "task_type": "engineering",
-      "implementation_state": "partial",
-      "technical_verification_state": "not_run",
-      "remaining": [
-        "Три уровня: нулевой/продолжающий/хороший; бабай шутит о практике языка, вопросы встроены в разговор переднего пассажира.",
-        "Игрок понимает результат, может подтвердить/поменять/пропустить без провала или сюжетной награды; калибровка не экзамен и не официальный A1/B1/C1.",
-        "Skip и загрузка не назначают прогресс расследования и не теряют выбранный уровень."
-      ],
-      "next_action": "Integrate existing compiled Niva language dialogue before unchanged D00 only for live new-session prologue→arrival. Preserve skip/profile/Continue/session teardown; root review then affected compile and necessary ordinary GUI acceptance.",
+      "implementation_state": "implemented",
+      "technical_verification_state": "passed",
+      "remaining": [],
+      "next_action": "Own finite engineering task accepted; stop. Reuse current source/native receipt. FullActI and existing language/cultural/author external gates remain with their existing owners; no unchanged rerun or extra branch matrix without new defect.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -50918,7 +50922,10 @@
         "result": "Определить уровень татарского в живом разговоре с бабаем в Ниве",
         "targets": [
           "game/scripts/Act1DemoRoot.PrologueNivaRide.cs",
-          "game/scripts/RuntimeBridge.Opening.cs"
+          "game/scripts/RuntimeBridge.Opening.cs",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs",
+          "content/modules/urman-fullgame/definitions.json",
+          "game/content/urman.fullgame.compiled.v1.json"
         ],
         "required_inputs": [
           {
@@ -50930,7 +50937,10 @@
         ],
         "scope_in": [
           "game/scripts/Act1DemoRoot.PrologueNivaRide.cs",
-          "game/scripts/RuntimeBridge.Opening.cs"
+          "game/scripts/RuntimeBridge.Opening.cs",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs",
+          "content/modules/urman-fullgame/definitions.json",
+          "game/content/urman.fullgame.compiled.v1.json"
         ],
         "scope_out": [
           "Контент соседнего блока, кроме указанного артефакта-входа.",
@@ -50954,7 +50964,7 @@
           "success": "Наблюдаемый результат этой единицы и обратное действие/восстановление там, где меняются данные. Для ассета — импорт выбранного файла и целевой вид/движение; для кода — узкая компиляция только затронутого модуля, затем указанный пользовательский сценарий. Компиляция не доказывает изображение или GUI.",
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "2026-09-26: confirmed no existing calibration questions/state. In-world recollection proposal recorded in language_learning.md, author asked to choose recollections vs mother correspondence vs retain manual only. No implementation or acceptance claimed; other authorized MVP work continues.",
+        "actual_result": "23.10 current PhotoWorlds reachability completed: same-session liveprologue→Niva existingthreelevels/skip/confirmation→unchangedD00, profile+existingSave persistence. ActualSome→raise→exit→Save→coldContinue verified, sources independently reviewed. Otherbranches source-reviewed; broader human/cultural acceptance notclaimed.",
         "evidence_refs": [
           "tasks[id=ACT1-LANG.4].evidence"
         ],
@@ -51040,7 +51050,28 @@
         "finding": "Three levels/settings and legacy dialogue exist; current PhotoWorlds D00 has no reachable conversational choice. Retained required contract is not superseded.",
         "scope": "Act1DemoRoot.PrologueNivaRide.cs + RuntimeBridge.Opening.cs only; existing dialogueChoices history, profile and language dialogue; no new dialogue, persistence field, service or fingerprint. Esc dismiss does not fabricate choice.",
         "verification_question": "Does ordinary prologue→arrival offer three choices/confirm/change/skip once before unchanged D00, while coldContinue/Skip retain profile and no old-session write changes loaded session?",
-        "status": "implementation_started_not_accepted"
+        "status": "completed_engineering_and_targeted_ordinary_native_acceptance",
+        "result": "Existing conversational choice before unchanged D00 only for observed live prologue in same session; coldarrivalContinuebypasses. Existing history/profile, sessionguarded serialized writes. Esc no fabricatedchoice; actualskip persisted then closesonlyownedUI before obsolete longroadreply. Legacy source/pack unchanged.",
+        "verification": "Astra finaldiff: no concreteP1/P2, requiredcallers/lifecycle/save ordering/skip checked. Sol independent exactcompiledpackcomparison: sole changed textID pw-label-prologue-skip default+ru; all registries/IDs/schemas/campaign/dependencyGraph unchanged;4direct exactpairsadded,15preserved; unknown/reverse/transitive remainstrict. ContentCLIcompile0; affectedGame18.27s0warnings0errors. No newtests.",
+        "source_hashes": {
+          "game/scripts/Act1DemoRoot.PrologueNivaRide.cs": "1d820c878511eb36587655ce4074c294b218ba0b99892cd2fd553559207967d2",
+          "game/scripts/RuntimeBridge.Opening.cs": "d33624a547e7850fd6810591938c9c7f27e916485539277e28cd90799d9c2230",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs": "e75defa399e9be0500ed8be4694b8e1c7ed9e62fc7cd7e06c11b68e3889aea8a",
+          "game/content/urman.fullgame.compiled.v1.json": "991bca66792bbb71cc1bd03bcdc3dda828ce8ff9577789e5286aba39f5492f3d"
+        },
+        "current_campaign_fingerprint": "616285e8447ea98c3ac0cdc06c6b79bc2234342952f4327f9f7b33c4e97f37c9",
+        "native_verification_question": "One ordinary protected Mac run: NewGame→Skip→actual3choices→Some→raise→D00exit→PauseSave→normalQuit→secondcoldContinue no calibration/D00replay. Inspect real engine profile/worldstate; no modifiedsave/teleport/debuginput. Userdata restored before claiming result.",
+        "native_result": "Ordinary NewGame→forestSkip→actualNiva4choices visible→answerSome→confirmRaise→unchangedD00 explicitexit→pedestrianhomegoal→PauseSave confirmed. Actual protected-engine settings fluent, runtime/state world.props act1/opening.languageLevel fluent, persisted dialogueChoices answer-some+level-raise. FirstnormalQuit0→secondcoldprocess matchingContinue→samepedestrianstreet/homegoal, no calibration/D00replay. Root personally viewed4frames, checkedrawsave/profile/loadmarker. Bothnormalprocesses0, guard0 restored originalfiles/permissions verified; nativeERROR0. ExistingPainterly warnings and first7TextureRID warning retained.",
+        "native_archive": {
+          "path": "evidence/ACT1-LANG.4/ordinary_calibration_20261023.zip",
+          "sha256": "aaef44dcbeda377fe25f8ef6ac40e74a404761d084fe6a95b18f035b7fb292e7",
+          "bytes": 646318,
+          "members": 13,
+          "contents": "3affectedbuild/compiler logs, controlledimportlog, guardlog,2ordinarynative logs,4selectedframes, original unmodified protected-engine quicksave/settings; allmemberbytes verified before removing919843B loose outputs. No screens/rawsave/archive inGit."
+        },
+        "acceptance_boundary": "Own engineering DoD accepted using current code/compiled exact comparison, independent Astra+Sol review and one changed-source ordinary native selection/correction/save/coldContinue scenario. Other answer/keep/lower/authoredskip/Esc failure cases checked by source, not additionally replayed natively; no claim exhaustive branch/diskerror/human/cultural/playtest acceptance. FullActI/allotherexistingexternal gates remain open.",
+        "source_inspection": "Three levels mapped sameprofile; keep/raise/lower authoredchoices; no exam/grade/storyaward. Actualskip effects empty and close guarded after existing choicepersist; Esc does not synthesizehistory. Sessionguarded serialized writes and legacy route retained. No sharedchapter1copy/pack change, no newTatartranslation.",
+        "cleanup": "Temporaryone-stage files removed only after verifiedcompactarchive; no activegame/temporaryoverride. One canonical working import/DLL cache retained for ensuing approved development, no duplicate repos/exports/Downloads."
       }
     },
     {
@@ -145093,6 +145124,11 @@
             "verification": "Worker verified every member against original before removal; root independently verified final SHA/membercount and raw terminal30credit receipt/balance3825. All unique source/reference images, recipes, rawGLB/four actual views and sanitized receipts retained locally; no failed PNG/GLB/archive entersGit. Archived old receipt archive pointer is historical and superseded by this final path.",
             "loose_duplicate_bytes_removed": 83868860,
             "net_bytes_reclaimed": 19697704
+          },
+          "additional_verified_duplicate_cleanup": {
+            "scope": "Only3 own rejected ImageGen builtin original duplicates; every bytehash matched retained archive input member before deletion. Other generated_images/assets untouched.",
+            "bytes_removed": 5464426,
+            "total_net_bytes_reclaimed_including_archive_consolidation": 25162130
           }
         }
       },

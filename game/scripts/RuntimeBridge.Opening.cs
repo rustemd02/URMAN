@@ -6,6 +6,13 @@ namespace Urman.Godot;
 public partial class RuntimeBridge
 {
     internal const string OpeningStateId = "act1/opening";
+    internal const string NivaLanguageDialogueId = "urman.chapter1:dialogue/prologue-niva-language";
+
+    internal bool HasNivaLanguageResponse => _kernel is { } session
+        && session.SelectState().TryGetProperty("dialogueChoices", out var choices)
+        && choices.ValueKind == JsonValueKind.Array
+        && choices.EnumerateArray().Any(choice => choice.TryGetProperty("dialogueId", out var dialogue)
+            && dialogue.GetString() == NivaLanguageDialogueId);
 
     // Shipped saves predate the first-night sequence and already show a broken
     // bridge. Only new sessions opt into day one; loading never rewrites them.
@@ -36,13 +43,17 @@ public partial class RuntimeBridge
     /// same profile field the settings screen edits, so a later manual change
     /// wins; the world prop only records how the session started.
     /// </summary>
-    internal async Task SetTatarLanguageLevelAsync(string level)
+    internal async Task<bool> SetTatarLanguageLevelAsync(string level, object? expectedSession = null)
     {
-        if (FindPlayer() is not { } player) return;
+        var session = SessionIdentity;
+        if (session is null || _loadPreparing
+            || expectedSession is not null && !ReferenceEquals(expectedSession, session)
+            || FindPlayer() is not { } player) return false;
         player.ApplySettings(player.CaptureSettings() with { TatarLanguageLevel = level });
-        await DispatchWorldPropsAsync(new JsonArray
+        var committed = await DispatchWorldPropsAsync(new JsonArray
         {
             new JsonObject { ["propId"] = OpeningStateId, ["languageLevel"] = player.TatarLanguageLevel }
         });
+        return committed && ReferenceEquals(session, SessionIdentity);
     }
 }
