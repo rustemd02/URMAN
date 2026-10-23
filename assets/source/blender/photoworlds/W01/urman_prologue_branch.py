@@ -21,27 +21,34 @@ import sys
 from pathlib import Path
 
 import bpy
-from mathutils import Vector
+from mathutils import Matrix, Vector
+from mathutils.bvhtree import BVHTree
 
 
 BRANCH_LENGTH = 2.900
 PATH_WIDTH = 1.500
 SIDE_CENTER_X = 1.300
 LOWER_SEAT_Z = 1.350
-UPPER_SEAT_Z = 2.200
-SUPPORT_LIFT_DELTA_Z = 0.850
-SUPPORT_TRUNK_TOP_Z = 2.320
+MOVED_ROOT = (-2.350, 0.0, -0.780)
+MOVED_YAW = -math.pi / 2
+SUPPORT_TRUNK_TOP_Z = 1.550
 SUPPORT_ARM_HALF_SPAN_X = 0.050
 BRANCH_CENTER_Z = 1.402
 SUPPORT_INNER_EDGE_MIN_X = PATH_WIDTH * 0.5 + 0.350
 FPS = 24
 TEXTURE_REPEAT_METRES = 1.0
+F01_WORLD_BLENDER = Vector((12.0, -50.0, 1.0))
+F01_YAW = math.atan2(12.0, 50.0)
+OUTGOING_TURN = math.atan2(33.0, 45.0) - F01_YAW
+METRIC_UV = "UVMap_metric_1m_repeat"
+GLOBAL_UV = "UVMap_Global_Atlas"
 
 
 def parse_args():
     tail = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", required=True, type=Path)
+    parser.add_argument("--preview-only", action="store_true")
     return parser.parse_args(tail)
 
 
@@ -71,9 +78,11 @@ def reset_scene():
     scene.frame_start = 0
     scene.frame_end = 26
     scene.frame_set(0)
-    scene.render.engine = "BLENDER_EEVEE_NEXT"
-    scene.render.resolution_x = 1100
-    scene.render.resolution_y = 600
+    scene.render.engine = "CYCLES"
+    scene.cycles.device = "CPU"
+    scene.cycles.samples = 24
+    scene.render.resolution_x = 1400
+    scene.render.resolution_y = 800
     scene.render.resolution_percentage = 100
     scene.render.image_settings.file_format = "PNG"
     scene.render.image_settings.color_mode = "RGBA"
@@ -119,7 +128,8 @@ def bark_material(texture_path: Path):
     image.name = "bark_spruce_v1_albedo_source_map"
     image.colorspace_settings.name = "sRGB"
     image.pack()
-    uv = nodes.new("ShaderNodeTexCoord")
+    uv = nodes.new("ShaderNodeUVMap")
+    uv.uv_map = METRIC_UV
     uv.location = (-620, 0)
     tex = nodes.new("ShaderNodeTexImage")
     tex.image = image
@@ -158,6 +168,14 @@ def branch_profile(x: float):
     y = 0.010 * math.sin(5.1 * x + 0.3) + 0.004 * math.sin(13.0 * x)
     y += 0.0025 * math.sin(27.0 * x + 0.2)
     z = BRANCH_CENTER_Z + 0.0005 * math.sin(8.0 * x + 0.6)
+    # Freeze the grip and contact rings AND their tangent neighbours. Between
+    # those seats the bough has two unequal bends rather than a straight bar.
+    if 0.05 < abs(x) < 1.20:
+        bend = math.sin(math.pi * (abs(x) - 0.05) / 1.15) ** 2
+        radius_delta = bend * (0.025 if x < 0.0 else -0.012)
+        radius += radius_delta
+        y -= bend * (0.180 if x < 0.0 else 0.100)
+        z += max(0.0, radius_delta) + bend * 0.045
     return y, z, radius
 
 
@@ -249,29 +267,46 @@ def make_branch_mesh(material):
                 "branch_contact_xyz_m": list(contact),
             })
 
-    # One natural fork grows from the upper surface; it belongs to this same mesh/object.
-    fork_x = 0.055
+    # Unequal broken offshoot; the grip's original central ring stays intact.
+    fork_x = -0.450
     fork_y, fork_z, fork_r = branch_profile(fork_x)
     fork_points = [
         (fork_x, fork_y, fork_z + fork_r * 0.78),
         (fork_x + 0.016, fork_y + 0.035, fork_z + fork_r * 1.35),
-        (fork_x + 0.025, fork_y + 0.081, fork_z + 0.200),
-        (fork_x + 0.011, fork_y + 0.121, fork_z + 0.245),
+        (fork_x + 0.085, fork_y - 0.081, fork_z + 0.150),
+        (fork_x + 0.140, fork_y - 0.121, fork_z + 0.175),
     ]
     fork_radii = (0.0240, 0.0190, 0.0120, 0.0060)
     sweep_component(vertices, faces, uv_data, fork_points, fork_radii, sides=10)
+
+    # A single descending fork grows from the left stem and crosses the central
+    # walking lane with actual wood below the 1.08 m crouched capsule crown.
+    junction_y, junction_z, _ = branch_profile(-0.920)
+    fork_points, fork_radii = catmull_rom_samples([
+        (-0.920, junction_y, junction_z), (-1.030, -0.200, 1.180),
+        (-1.100, -0.330, 1.040), (-0.680, -0.380, 1.000),
+        (-0.200, -0.410, 1.010), (0.280, -0.390, 1.035),
+        (0.720, -0.360, 1.045), (1.080, -0.330, 1.040),
+    ], (0.059, 0.057, 0.048, 0.050, 0.044, 0.041, 0.035, 0.025), subdivisions=4)
+    first_lower_vertex = len(vertices)
+    sweep_component(vertices, faces, uv_data, fork_points, fork_radii, sides=12)
+    floor_delta = 0.950 - min(point[2] for point in vertices[first_lower_vertex:])
+    for index in range(first_lower_vertex, len(vertices)):
+        x, y, z = vertices[index]
+        vertices[index] = (x, y, z + floor_delta)
 
     mesh = bpy.data.meshes.new("PrologueBranch_BodyMesh")
     mesh.from_pydata(vertices, [], faces)
     mesh.update()
     for polygon in mesh.polygons:
         polygon.use_smooth = True
-    layer = mesh.uv_layers.new(name="UVMap_metric_1m_repeat")
+    layer = mesh.uv_layers.new(name=METRIC_UV)
     for polygon in mesh.polygons:
         for loop_index in polygon.loop_indices:
             vertex_index = mesh.loops[loop_index].vertex_index
             layer.data[loop_index].uv = uv_data[vertex_index]
     mesh["uv_units"] = "metres; project bark receipt repeats every 1.0 m"
+    mesh["descending_fork_first_vertex"] = first_lower_vertex
     mesh.materials.append(material)
     return mesh, grip_location, support_contacts
 
@@ -282,7 +317,7 @@ def make_swept_object(name, vertices, faces, uv_data, material, location=(0.0, 0
     mesh.update()
     for polygon in mesh.polygons:
         polygon.use_smooth = True
-    layer = mesh.uv_layers.new(name="UVMap_metric_1m_repeat")
+    layer = mesh.uv_layers.new(name=METRIC_UV)
     for polygon in mesh.polygons:
         for loop_index in polygon.loop_indices:
             layer.data[loop_index].uv = uv_data[mesh.loops[loop_index].vertex_index]
@@ -325,89 +360,68 @@ def catmull_rom_samples(points, radii, subdivisions=6):
     return smooth_points, smooth_radii
 
 
-def make_support(material, name, location, side, lower_contacts):
+def make_support(material, name, location, side, lower_contacts, ground_height, all_contacts):
     vertices, faces, uv_data = [], [], []
-    side_sign = -1.0 if side == "Left" else 1.0
-
-    # Rooted crooked sapling just beyond the lane. Its open forks reach toward
-    # the bough at both the blocking and overhead resting heights.
-    depth_bias = -0.030 if side == "Left" else 0.040
-    trunk_points = [
-        (0.000, 0.340 + depth_bias, 0.000),
-        (0.018 * side_sign, 0.300 + depth_bias, 0.260),
-        (0.055 * side_sign, 0.230 + depth_bias, 0.690),
-        (0.015 * side_sign, 0.150 + depth_bias, 1.120),
-        (-0.045 * side_sign, 0.120 + depth_bias, 1.560),
-        (-0.020 * side_sign, 0.200 + depth_bias, 1.980),
-        (0.035 * side_sign, 0.280 + depth_bias, 2.200),
-        (0.060 * side_sign, 0.300 + depth_bias, SUPPORT_TRUNK_TOP_Z),
-    ]
-    trunk_radii = (0.112, 0.096, 0.077, 0.064, 0.052, 0.042, 0.034, 0.024)
-    control_points, control_radii = trunk_points, trunk_radii
-    root_x, root_y, root_z = control_points[0]
-    # Keep the authored curved root while tilting its end cap only enough for
-    # the lowest vertex of the first ring to touch local ground at z=0.
-    for _ in range(24):
-        adjusted_points = list(control_points)
-        adjusted_points[0] = (root_x, root_y, root_z)
-        sampled_points, sampled_radii = catmull_rom_samples(
-            adjusted_points, control_radii, subdivisions=5)
-        tangent = (Vector(sampled_points[1]) - Vector(sampled_points[0])).normalized()
-        reference = Vector((0.0, 1.0, 0.0)) if abs(tangent.z) > 0.95 else Vector((0.0, 0.0, 1.0))
-        normal = tangent.cross(reference).normalized()
-        binormal = tangent.cross(normal).normalized()
-        ground_contact_z = -min(
-            control_radii[0] * (math.cos(math.tau * side / 16) * normal.z
-                                + math.sin(math.tau * side / 16) * binormal.z)
-            for side in range(17))
-        if abs(ground_contact_z - root_z) <= 1e-12:
-            trunk_points, trunk_radii = sampled_points, sampled_radii
-            break
-        root_z = ground_contact_z
-    else:
-        raise RuntimeError(f"{name} root-endcap ground contact did not converge")
-    sweep_component(vertices, faces, uv_data, trunk_points, trunk_radii, sides=16)
-
+    offset = Vector(location)
     expected_contacts = []
 
-    def add_seat_fork(contact, lift_delta):
-        seat_z = contact["z"] + lift_delta
-        origin_z = seat_z - 0.245
-        start_point = None
-        for first, second in zip(trunk_points, trunk_points[1:]):
-            if first[2] <= origin_z <= second[2]:
-                ratio = (origin_z - first[2]) / (second[2] - first[2])
-                start_point = Vector(first).lerp(Vector(second), ratio)
-                break
-        if start_point is None:
-            raise RuntimeError(f"No trunk section supports the {seat_z} m fork seat")
-        start_x, start_y, _ = start_point
-        arm_sign = float(contact["arm_sign"])
-        tip_x, tip_y = contact["x"], contact["y"]
-        points = [
-            (start_x, start_y, origin_z),
-            (start_x + arm_sign * 0.025, start_y * 0.65 + tip_y * 0.35, seat_z - 0.140),
-            (tip_x, tip_y, seat_z - 0.060),
-            (tip_x, tip_y, seat_z),
-        ]
-        radii = (0.044, 0.032, 0.020, 0.014)
-        points, radii = catmull_rom_samples(points, radii, subdivisions=5)
-        sweep_component(vertices, faces, uv_data, points, radii, sides=12)
-        expected_contacts.append((tip_x, tip_y, seat_z))
+    def limb(points, radii, sides=12, subdivisions=3):
+        points, radii = catmull_rom_samples(points, radii, subdivisions)
+        sweep_component(vertices, faces, uv_data, points, radii, sides=sides)
 
-    for contact in lower_contacts:
-        add_seat_fork(contact, 0.0)
-        add_seat_fork(contact, SUPPORT_LIFT_DELTA_Z)
+    def foot(x, y, radius):
+        return (x, y, ground_height(x, y) + radius - 0.020)
 
-    obj = make_swept_object(name, vertices, faces, uv_data, material, location)
-    base_min_z = min(vertex.co.z for vertex in obj.data.vertices)
-    if abs(base_min_z) > 1e-6:
-        raise RuntimeError(f"{name} swept root base does not touch local ground at z=0: {base_min_z} m")
-    # Each fork has a flat-ended terminal vertex at an actual underside vertex
-    # from the branch mesh; the moved copy is exactly the authored .85 m higher.
+    def saddle(start, contact):
+        tip = Vector(contact)
+        start = Vector(start)
+        limb([start, start.lerp(tip, 0.55),
+              (tip.x, tip.y, tip.z - 0.045), tip],
+             (0.070, 0.042, 0.022, 0.014), sides=10)
+        expected_contacts.append(tuple(tip))
+
+    # Static roots use their actual triangles: one convex hull between the high
+    # and low seats would fill the empty space below the moved bough. All source
+    # vertices remain outside both incoming/outgoing standing-lane half-planes.
+    if side == "Left":
+        limb([(-1.85, -0.55, ground_height(-1.85, -0.55) - 0.020),
+              (-1.75, -0.45, 0.28), (-1.58, -0.25, 0.72),
+              (-1.36, -0.10, 1.12), (-1.45, 0.00, 1.46)],
+             (0.24, 0.22, 0.17, 0.13, 0.075))
+        for end_y in (-1.70, 1.70):
+            limb([foot(-1.85, -0.55, 0.19), foot(-2.05, -0.35, 0.16),
+                  foot(-2.15, end_y * 0.55, 0.13), foot(-2.20, end_y, 0.045)],
+                 (0.19, 0.16, 0.13, 0.045))
+        limb([foot(-1.85, -0.55, 0.18), foot(-2.35, -0.85, 0.13),
+              foot(-2.38, -1.05, 0.035)], (0.18, 0.13, 0.035), sides=10)
+        for contact in lower_contacts:
+            saddle((-1.42, -0.10, 1.10), contact["branch_contact_xyz_m"])
+        moved_transform = Matrix.Translation(Vector(MOVED_ROOT)) @ Matrix.Rotation(MOVED_YAW, 4, "Z")
+        # All four final contacts belong to this low, outboard root mass.
+        for contacts in all_contacts.values():
+            for contact in contacts:
+                tip = moved_transform @ Vector(contact["branch_contact_xyz_m"])
+                saddle((-2.05, tip.y, ground_height(-2.05, tip.y) + 0.22), tip)
+    else:
+        limb([(1.95, -0.70, ground_height(1.95, -0.70) - 0.020),
+              (1.80, -0.60, 0.35), (1.62, -0.40, 0.85),
+              (1.45, -0.22, 1.23), (1.58, -0.30, 1.43)],
+             (0.22, 0.19, 0.14, 0.09, 0.055))
+        for x, y in ((2.35, -0.80), (2.20, -1.05), (1.55, -0.60)):
+            limb([foot(1.95, -0.70, 0.16), foot((1.95 + x) / 2, (-0.70 + y) / 2, 0.10),
+                  foot(x, y, 0.025)], (0.16, 0.10, 0.025), sides=10)
+        for contact in lower_contacts:
+            saddle((1.47, -0.22, 1.16), contact["branch_contact_xyz_m"])
+
+    # Build in asset coordinates so the grounded root profile follows the actual
+    # terrain triangles. Preserve the original two static object origins.
+    local_vertices = [tuple(Vector(point) - offset) for point in vertices]
+    obj = make_swept_object(name, local_vertices, faces, uv_data, material, location)
+    bpy.context.view_layer.update()
     for expected in expected_contacts:
-        if min((vertex.co - Vector(expected)).length for vertex in obj.data.vertices) > 1e-6:
-            raise RuntimeError(f"{name} fork does not touch its measured branch contact {expected}")
+        if min((obj.matrix_world @ vertex.co - Vector(expected)).length
+               for vertex in obj.data.vertices) > 1e-6:
+            raise RuntimeError(f"{name} misses its measured bough contact {expected}")
     return obj
 
 
@@ -428,11 +442,14 @@ def add_clip(root, name, keys, contract):
     action = bpy.data.actions.new(name=name)
     anim = root.animation_data_create()
     anim.action = action
-    for frame, location in keys:
+    for frame, location, yaw in keys:
         root.location = Vector(location)
-        root.rotation_euler = (0.0, 0.0, 0.0)
+        root.rotation_euler = (0.0, 0.0, yaw)
         root.keyframe_insert(data_path="location", frame=frame, group=name)
         root.keyframe_insert(data_path="rotation_euler", frame=frame, group=name)
+    for curve in action.fcurves:
+        for key in curve.keyframe_points:
+            key.interpolation = "LINEAR"
     anim.action = None
     track = anim.nla_tracks.new()
     track.name = name
@@ -454,80 +471,146 @@ def add_clip(root, name, keys, contract):
     }
 
 
-def add_render_fixture():
-    """Temporary, offline-only ground and lighting used for the two review images."""
+def add_render_fixture(root_path):
+    """Use the existing ground triangles, transformed into this asset's frame."""
+    before = set(bpy.context.scene.objects)
+    ground_path = root_path / "game/assets/photoworlds/forest_ground/prologue-ground-f00-f16-v1.glb"
+    bpy.ops.import_scene.gltf(filepath=str(ground_path))
+    imported = list(set(bpy.context.scene.objects) - before)
+    world_to_asset = Matrix.Rotation(-F01_YAW, 4, "Z") @ Matrix.Translation(-F01_WORLD_BLENDER)
+    old_world = {obj: obj.matrix_world.copy() for obj in imported}
+    for obj in imported:
+        obj.parent = None
+        obj.matrix_world = world_to_asset @ old_world[obj]
+        obj.name = "RenderOnly_" + obj.name
+    bpy.context.view_layer.update()
+    vertices, triangles = [], []
+    ground_material = bpy.data.materials.new("RenderOnly_ExistingTerrain_Neutral")
+    ground_material.use_nodes = True
+    ground_shader = ground_material.node_tree.nodes.get("Principled BSDF")
+    ground_shader.inputs["Roughness"].default_value = 1.0
+    for obj in imported:
+        if obj.type != "MESH":
+            continue
+        # The source GLB stores route masks as vertex colors; Godot applies its
+        # painterly shader later. Display those same triangles quietly offline.
+        if obj.data.color_attributes:
+            colors = ground_material.node_tree.nodes.new("ShaderNodeVertexColor")
+            colors.layer_name = obj.data.color_attributes[0].name
+            channels = ground_material.node_tree.nodes.new("ShaderNodeSeparateColor")
+            mix = ground_material.node_tree.nodes.new("ShaderNodeMixRGB")
+            mix.inputs[1].default_value = (0.26, 0.29, 0.27, 1.0)
+            mix.inputs[2].default_value = (0.34, 0.30, 0.25, 1.0)
+            links = ground_material.node_tree.links
+            links.new(colors.outputs["Color"], channels.inputs["Color"])
+            links.new(channels.outputs["Red"], mix.inputs[0])
+            links.new(mix.outputs["Color"], ground_shader.inputs["Base Color"])
+        obj.data.materials.clear()
+        obj.data.materials.append(ground_material)
+        offset = len(vertices)
+        vertices.extend(tuple(obj.matrix_world @ vertex.co) for vertex in obj.data.vertices)
+        obj.data.calc_loop_triangles()
+        triangles.extend(tuple(offset + index for index in triangle.vertices)
+                         for triangle in obj.data.loop_triangles)
+    ground = BVHTree.FromPolygons(vertices, triangles, all_triangles=True)
+
+    def ground_height(x, y):
+        hit, _, _, _ = ground.ray_cast(Vector((x, y, 10.0)), Vector((0, 0, -1)), 30.0)
+        if hit is None:
+            raise RuntimeError(f"Existing ground has no triangle at asset XY={x,y}")
+        return hit.z
+
     scene = bpy.context.scene
-    plane_mesh = bpy.data.meshes.new("RenderOnly_Ground_Mesh")
-    plane_mesh.from_pydata([(-2.4, -1.5, -0.002), (2.4, -1.5, -0.002),
-                            (2.4, 1.5, -0.002), (-2.4, 1.5, -0.002)], [], [(0, 1, 2, 3)])
-    ground = bpy.data.objects.new("RenderOnly_Ground", plane_mesh)
-    scene.collection.objects.link(ground)
-    ground.location.x = 0.65
-    snow = bpy.data.materials.new("RenderOnly_NeutralSnow")
-    snow.diffuse_color = (0.58, 0.62, 0.62, 1.0)
-    snow.use_nodes = True
-    snow.node_tree.nodes.get("Principled BSDF").inputs["Base Color"].default_value = (0.58, 0.62, 0.62, 1.0)
-    snow.node_tree.nodes.get("Principled BSDF").inputs["Roughness"].default_value = 0.94
-    ground.data.materials.append(snow)
-    ground["render_only"] = True
-
-    # A muted 1.5 m route swatch makes the before/after clearance legible.
-    route_mesh = bpy.data.meshes.new("RenderOnly_Path_Mesh")
-    route_mesh.from_pydata([(-PATH_WIDTH / 2, -1.5, 0.0), (PATH_WIDTH / 2, -1.5, 0.0),
-                            (PATH_WIDTH / 2, 1.5, 0.0), (-PATH_WIDTH / 2, 1.5, 0.0)], [], [(0, 1, 2, 3)])
-    route = bpy.data.objects.new("RenderOnly_1p5m_Path", route_mesh)
-    scene.collection.objects.link(route)
-    route_mat = bpy.data.materials.new("RenderOnly_PathSurface")
-    route_mat.diffuse_color = (0.33, 0.36, 0.36, 1.0)
-    route_mat.use_nodes = True
-    route_mat.node_tree.nodes.get("Principled BSDF").inputs["Base Color"].default_value = (0.33, 0.36, 0.36, 1.0)
-    route_mat.node_tree.nodes.get("Principled BSDF").inputs["Roughness"].default_value = 1.0
-    route.data.materials.append(route_mat)
-    route["render_only"] = True
-
-    camera_data = bpy.data.cameras.new("RenderOnly_Camera")
-    camera = bpy.data.objects.new("RenderOnly_Camera", camera_data)
+    camera_data = bpy.data.cameras.new("RenderOnly_Approach_F02_Camera")
+    camera = bpy.data.objects.new("RenderOnly_Approach_F02_Camera", camera_data)
     scene.collection.objects.link(camera)
-    camera_data.type = "ORTHO"
-    # Frame the complete bough, both rooted supports, and ground with margin.
-    camera_data.ortho_scale = 4.80
-    camera_data.lens = 45.0
+    camera_data.sensor_fit = "VERTICAL"
+    camera_data.sensor_height = 24.0
+    camera_data.lens = 24.0 / (2 * math.tan(math.radians(75.0) / 2))
+    camera.location = (0.0, 6.50, ground_height(0.0, 6.50) + 1.70)
+    # Fixed approach camera: horizontal direction follows the actual F02 bend,
+    # with a small downward pitch to keep the low left root-rest in both frames.
+    f02_local = world_to_asset @ Vector((45.0, -95.0, 3.0))
+    forward = Vector((f02_local.x - camera.location.x,
+                      f02_local.y - camera.location.y, 0.0)).normalized()
+    forward.z = -math.tan(math.radians(8.0))
+    camera.rotation_euler = forward.to_track_quat("-Z", "Y").to_euler()
     scene.camera = camera
-    camera.location = (0.9, -3.2, 1.48)
-    target = Vector((0.7, 0.0, 0.10))
-    camera.rotation_euler = (target - camera.location).to_track_quat("-Z", "Y").to_euler()
-
-    light_specs = (
-        ("RenderOnly_Key", (0.0, -1.8, 2.5), 500.0, 2.0, (1.0, 0.86, 0.72)),
-        ("RenderOnly_Fill", (1.8, 0.8, 1.6), 320.0, 1.5, (0.72, 0.84, 1.0)),
-    )
-    for name, location, power, size, color in light_specs:
-        data = bpy.data.lights.new(name, type="AREA")
-        data.energy = power
-        data.shape = "DISK"
-        data.size = size
-        data.color = color
-        obj = bpy.data.objects.new(name, data)
-        scene.collection.objects.link(obj)
-        obj.location = location
-        obj.rotation_euler = (Vector((0.65, 0.0, 0.0)) - obj.location).to_track_quat("-Z", "Y").to_euler()
-        obj["render_only"] = True
-    scene.render.film_transparent = False
-    return [obj for obj in scene.objects if obj.name.startswith("RenderOnly_")]
+    for name, location, power, size in (
+        ("Key", (-2.0, 3.0, 6.0), 1000.0, 5.0),
+        ("Fill", (3.5, -1.0, 4.0), 550.0, 4.0),
+    ):
+        data = bpy.data.lights.new("RenderOnly_" + name, "AREA")
+        data.energy, data.size = power, size
+        light = bpy.data.objects.new(data.name, data)
+        scene.collection.objects.link(light)
+        light.location = location
+        light.rotation_euler = (Vector((-0.5, 0.0, 0.7)) - light.location).to_track_quat("-Z", "Y").to_euler()
+    return ground_height, ground_path
 
 
-def render_pose(root, output_dir, pose_name, location):
+def pack_global_atlas(objects):
+    # Keep the proven metric bark preview on UV1; a new global UV0 is reserved
+    # for one maps-only retexture of all three meshes after macro acceptance.
+    bpy.ops.object.select_all(action="DESELECT")
+    for obj in objects:
+        metric = obj.data.uv_layers[METRIC_UV]
+        metric.name = GLOBAL_UV
+        duplicate = obj.data.uv_layers.new(name=METRIC_UV)
+        for source, target in zip(metric.data, duplicate.data):
+            target.uv = source.uv
+        obj.data.uv_layers.active = metric
+        metric.active_render = True
+        obj.select_set(True)
+    bpy.context.view_layer.objects.active = objects[0]
+    bpy.ops.object.mode_set(mode="EDIT")
+    bpy.ops.mesh.select_all(action="SELECT")
+    bpy.ops.uv.select_all(action="SELECT")
+    bpy.ops.uv.pack_islands(rotate=False, scale=True, margin=0.006, shape_method="AABB")
+    bpy.ops.object.mode_set(mode="OBJECT")
+
+    rectangles = []
+    for obj in objects:
+        mesh = obj.data
+        neighbours = {}
+        for polygon in mesh.polygons:
+            for vertex in polygon.vertices:
+                neighbours.setdefault(vertex, []).append(polygon.index)
+        remaining = set(range(len(mesh.polygons)))
+        while remaining:
+            pending = [remaining.pop()]
+            island = []
+            while pending:
+                face = pending.pop()
+                island.append(face)
+                for vertex in mesh.polygons[face].vertices:
+                    for adjacent in neighbours[vertex]:
+                        if adjacent in remaining:
+                            remaining.remove(adjacent)
+                            pending.append(adjacent)
+            points = [mesh.uv_layers[GLOBAL_UV].data[index].uv.copy()
+                      for face in island for index in mesh.polygons[face].loop_indices]
+            rectangle = (min(p.x for p in points), min(p.y for p in points),
+                         max(p.x for p in points), max(p.y for p in points))
+            if min(rectangle) < -1e-6 or max(rectangle) > 1.000001:
+                raise RuntimeError("Global atlas escaped its unique0–1 tile")
+            for other in rectangles:
+                if min(rectangle[2], other[2]) - max(rectangle[0], other[0]) > 1e-6 and min(rectangle[3], other[3]) - max(rectangle[1], other[1]) > 1e-6:
+                    raise RuntimeError("Global atlas component/cap island rectangles overlap")
+            rectangles.append(rectangle)
+    return {"primary": GLOBAL_UV, "preview_metric_secondary": METRIC_UV,
+            "global_islands": len(rectangles), "overlap": False,
+            "grain_axis": "V follows each swept limb length; packing rotation disabled",
+            "endcaps": "separate radial islands", "new_texture_generated": False}
+
+
+def render_pose(root, output_dir, pose_name, location, yaw):
     for track in root.animation_data.nla_tracks:
         track.mute = True
-    root.location = location
-    root.rotation_euler = (0.0, 0.0, 0.0)
     bpy.context.scene.frame_set(0)
+    root.location = location
+    root.rotation_euler = (0.0, 0.0, yaw)
     bpy.context.view_layer.update()
-    camera = bpy.context.scene.camera
-    highest_part = max(SUPPORT_TRUNK_TOP_Z, BRANCH_CENTER_Z + 0.250 + location[2])
-    target = Vector((location[0], 0.0, highest_part * 0.5))
-    camera.location = (location[0] + 0.78, -3.2, 1.48)
-    camera.rotation_euler = (target - camera.location).to_track_quat("-Z", "Y").to_euler()
     bpy.context.scene.render.filepath = str(output_dir / f"{pose_name}.png")
     bpy.ops.render.render(write_still=True)
     return output_dir / f"{pose_name}.png"
@@ -561,253 +644,193 @@ def glb_json(glb_path: Path):
     return json.loads(data[20:20 + json_length])
 
 
-def build(output_dir: Path):
+def build(output_dir: Path, preview_only=False):
     root_path = project_root()
     texture_path, texture_provenance = verify_texture_receipt(root_path)
+    manifest_path = root_path / "assets/source/blender/photoworlds/W01/prologue-branch-v1/manifest.json"
+    existing_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     output_dir = output_dir.expanduser().resolve()
     if output_dir.exists():
         raise FileExistsError(f"Refusing to overwrite stage: {output_dir}")
     output_dir.mkdir(parents=True, exist_ok=False)
-
     reset_scene()
+    ground_height, ground_path = add_render_fixture(root_path)
     material = bark_material(texture_path)
     branch_mesh, grip_location, support_contacts = make_branch_mesh(material)
-    # Preserve the authored rest height; normalizing this mesh to its floor
-    # would erase the head-height blocking pose and move the grip to ground.
-    branch_mesh.update()
-    blocking_root = (0.0, 0.0, 0.0)
-    moved_root = (0.0, 0.0, SUPPORT_LIFT_DELTA_Z)
-    moving_root = new_empty("PrologueBranch_MovingRoot", blocking_root)
-    moving_root["part_role"] = "single moving branch owner; object transforms only"
+    moving_root = new_empty("PrologueBranch_MovingRoot")
     body = bpy.data.objects.new("PrologueBranch_Body", branch_mesh)
     bpy.context.scene.collection.objects.link(body)
     body.parent = moving_root
-    body.matrix_parent_inverse.identity()
-    body.location = (0.0, 0.0, 0.0)
-    body["part_role"] = "one tapered 2.9 m irregular bough, including one natural fork"
     grip = new_empty("Branch_GripCenter", grip_location, moving_root)
-    grip["part_role"] = "visible upper-surface grip point near the bough centerline"
-
+    supports = []
     for label, x in (("Left", -SIDE_CENTER_X), ("Right", SIDE_CENTER_X)):
-        contacts = support_contacts[label]
-        support = make_support(material, f"SIDE_RootSupport_{label}", (x, 0.0, 0.0), label, contacts)
-        support["lower_seat_z_m"] = [round(contact["z"], 6) for contact in contacts]
-        support["upper_seat_z_m"] = [round(contact["z"] + SUPPORT_LIFT_DELTA_Z, 6) for contact in contacts]
-        support["branch_contact_points_local_m"] = [contact["branch_contact_xyz_m"] for contact in contacts]
-        support["part_role"] = "rooted forked sapling with lower blocking and upper moved-branch seats"
+        supports.append(make_support(material, f"SIDE_RootSupport_{label}", (x, 0, 0),
+                                     label, support_contacts[label], ground_height, support_contacts))
+    bpy.context.view_layer.update()
+    objects = [body, *supports]
+    atlas_contract = pack_global_atlas(objects)
+    triangle_count = sum(sum(len(face.vertices) - 2 for face in obj.data.polygons) for obj in objects)
+    if triangle_count > 7344 or len(objects) != 3:
+        raise RuntimeError(f"F01 exceeds its3mesh/7344triangle cap: {triangle_count}")
 
-    seat_contact_contract = {
-        side: {
-            "lower_contact_z_m": [round(contact["z"], 6) for contact in contacts],
-            "upper_contact_z_m": [round(contact["z"] + SUPPORT_LIFT_DELTA_Z, 6) for contact in contacts],
-            "lower_contact_points_local_m": [contact["branch_contact_xyz_m"] for contact in contacts],
-            "upper_contact_points_local_m": [
-                [contact["branch_contact_xyz_m"][0],
-                 contact["branch_contact_xyz_m"][1],
-                 contact["branch_contact_xyz_m"][2] + SUPPORT_LIFT_DELTA_Z]
-                for contact in contacts
-            ],
-        }
-        for side, contacts in support_contacts.items()
-    }
+    old_contract = existing_manifest["coordinate_contract"]
+    for side, contacts in support_contacts.items():
+        old_points = old_contract["support_seat_contacts"][side]["blocking_contact_points_local_m"]
+        for contact, old_point in zip(contacts, old_points):
+            if math.dist(contact["branch_contact_xyz_m"], old_point) > 1e-6:
+                raise RuntimeError(f"An original {side} main contact ring moved")
+    if math.dist(grip_location, old_contract["grip_anchor"]["root_local_xyz_m"]) > 1e-6:
+        raise RuntimeError(f"The original center grip moved: {grip_location}")
+    branch_bounds = evaluated_bounds([body])
+    if abs(branch_bounds["size_blender_xyz_m"][0] - BRANCH_LENGTH) > 0.003:
+        raise RuntimeError("The bough no longer spans2.900m")
+    lower_start = branch_mesh["descending_fork_first_vertex"]
+    main_floor = min(vertex.co.z for vertex in branch_mesh.vertices[:lower_start])
+    if abs(main_floor - 1.350) > 0.015 or abs(branch_bounds["min_blender_xyz_m"][2] - 0.950) > 1e-5:
+        raise RuntimeError("Main seat or visible descending-fork floor changed")
+    if branch_bounds["max_blender_xyz_m"][2] > 1.700:
+        raise RuntimeError("The broken bough exceeds its1.700m top envelope")
 
-    clip_records = []
-    clip_records.append(add_clip(moving_root, "rest_blocking", [
-        (1, blocking_root), (12, blocking_root)], {
-            "precondition": "bough begins across the 1.5 m route at head height",
-            "result": "bough rests in two grounded lower fork seats; grip anchor is on the visible upper surface near centerline",
-            "root_xyz_m": [0.0, 0.0, 0.0],
-            "measured_support_contacts": seat_contact_contract,
-        }))
-    clip_records.append(add_clip(moving_root, "rest_moved", [
-        (1, moved_root), (12, moved_root)], {
-            "precondition": "bough has been lifted above the standing lane",
-            "result": "bough rests in two grounded upper fork seats beyond the lane edges",
-            "root_xyz_m": list(moved_root),
-            "measured_support_contacts": seat_contact_contract,
-    }))
-    clip_records.append(add_clip(moving_root, "lift_and_place", [
-        (1, blocking_root),
-        (8, (0.0, 0.0, 0.50)),
-        (18, (0.0, 0.0, 1.10)),
-        (26, moved_root),
-    ], {
-        "precondition": "bough is in the blocking rest pose; runtime uses the visible center grip anchor",
-        "result": "lift above the standing lane, then lower into the upper rooted fork seats",
-        "root_xyz_m": [list(blocking_root), [0.0, 0.0, 0.50],
-                       [0.0, 0.0, 1.10], list(moved_root)],
-        "measured_support_contacts": seat_contact_contract,
-        "gameplay_effect": "none; no quest flag or skip behavior is implemented in this asset",
-    }))
+    for support in supports:
+        for vertex in support.data.vertices:
+            point = support.matrix_world @ vertex.co
+            local_z = -point.y
+            if support == supports[0]:
+                safe = point.x <= -1.10
+            else:
+                outgoing = point.x * math.cos(OUTGOING_TURN) - local_z * math.sin(OUTGOING_TURN)
+                world = Matrix.Rotation(F01_YAW, 4, "Z") @ point + F01_WORLD_BLENDER
+                safe = point.x >= 1.10 and outgoing >= 1.10 and -world.y >= 49.60
+            if not safe:
+                raise RuntimeError(f"{support.name} enters a standing lane/F11core: {tuple(point)}")
+    support_bounds = {support.name: evaluated_bounds([support]) for support in supports}
+    if max(bounds["max_blender_xyz_m"][2] for bounds in support_bounds.values()) > 1.570:
+        raise RuntimeError("A support became a tall repeated post again")
 
-    for track in moving_root.animation_data.nla_tracks:
-        track.mute = True
-    render_objects = add_render_fixture()
-    preview_paths = [
-        render_pose(moving_root, output_dir, "branch_blocking", blocking_root),
-        render_pose(moving_root, output_dir, "branch_moved", moved_root),
+    # The moving crouched/standing capsule must hit SOURCE WOOD for every
+    # sampled center across the1.5m walking lane, before considering its hull.
+    fork_vertices = [vertex.co for vertex in branch_mesh.vertices[lower_start:]]
+    capsule_distances = {}
+    for height in (1.08, 1.80):
+        worst = 0.0
+        for step in range(31):
+            x = -0.75 + 1.50 * step / 30
+            distance = math.inf
+            for point in fork_vertices:
+                floor = ground_height(x, point.y)
+                axis_z = max(floor + 0.35, min(point.z, floor + height - 0.35))
+                distance = min(distance, math.hypot(point.x - x, point.z - axis_z))
+            worst = max(worst, distance)
+        if worst >= 0.335:
+            raise RuntimeError(f"The{height}m capsule can cross the sampled lane without source-wood contact: {worst}")
+        capsule_distances[str(height)] = round(worst, 6)
+    low_wood = [point.x for point in fork_vertices if point.z <= 1.080]
+    if max(low_wood) - min(low_wood) < 2.10:
+        raise RuntimeError("The low descending fork does not span2.10m of actual wood")
+
+    moved_matrix = Matrix.Translation(Vector(MOVED_ROOT)) @ Matrix.Rotation(MOVED_YAW, 4, "Z")
+    moved_points = [moved_matrix @ vertex.co for vertex in branch_mesh.vertices]
+    final_ground_gap = min(point.z - ground_height(point.x, point.y) for point in moved_points)
+    if final_ground_gap < 0.080 or max(point.x for point in moved_points) > -1.10:
+        raise RuntimeError(f"Moved wood enters ground/standing corridor; gap={final_ground_gap}")
+    final_seats = [list(moved_matrix @ Vector(contact["branch_contact_xyz_m"]))
+                   for contacts in support_contacts.values() for contact in contacts]
+    body_faces = [tuple(face.vertices) for face in body.data.polygons]
+    body_surface = BVHTree.FromPolygons(moved_points, body_faces)
+    surface_touches = {}
+    for support in supports:
+        points = [support.matrix_world @ vertex.co for vertex in support.data.vertices]
+        faces = [tuple(face.vertices) for face in support.data.polygons]
+        surface = BVHTree.FromPolygons(points, faces)
+        overlaps = body_surface.overlap(surface)
+        allowed = final_seats if support == supports[0] else []
+        for body_face, support_face in overlaps:
+            first = [moved_points[index] for index in body_faces[body_face]]
+            second = [points[index] for index in faces[support_face]]
+            center = Vector([(max(min(point[axis] for point in first), min(point[axis] for point in second))
+                              + min(max(point[axis] for point in first), max(point[axis] for point in second))) / 2
+                             for axis in range(3)])
+            if not any(math.hypot(center.x - seat[0], center.y - seat[1]) <= 0.025
+                       and abs(center.z - seat[2]) <= 0.004 for seat in allowed):
+                raise RuntimeError(f"{support.name}: actual wood surfaces intersect away from a final seat: {tuple(center)}")
+        surface_touches[support.name] = len(overlaps)
+
+    blocking = (0.0, 0.0, 0.0)
+    pose_contract = {"blocking_godot_position": [0, 0, 0], "blocking_yaw_degrees": 0,
+                     "moved_godot_position": [-2.35, -0.78, 0], "moved_yaw_degrees": -90,
+                     "final_main_seats_blender_xyz_m": final_seats}
+    clip_records = [
+        add_clip(moving_root, "rest_blocking", [(1, blocking, 0), (12, blocking, 0)], pose_contract),
+        add_clip(moving_root, "rest_moved", [(1, MOVED_ROOT, MOVED_YAW), (12, MOVED_ROOT, MOVED_YAW)], pose_contract),
+        add_clip(moving_root, "lift_and_place", [
+            (1, blocking, 0), (6, (0, 0, 0.25), 0),
+            (14, (-3.0, 0, 0.25), 0), (20, (-3.0, 0, 0.25), MOVED_YAW),
+            (26, MOVED_ROOT, MOVED_YAW)], pose_contract),
     ]
-    for obj in list(render_objects):
-        bpy.data.objects.remove(obj, do_unlink=True)
+    print(json.dumps({"source_geometry": {"triangles": triangle_count, "blocking_bounds": branch_bounds,
+          "final_ground_clearance_m": final_ground_gap, "capsule_source_vertex_distance_m": capsule_distances,
+          "uv": atlas_contract, "final_surface_contact_pairs": surface_touches}, "poses": pose_contract}, ensure_ascii=False), flush=True)
+    preview_paths = [render_pose(moving_root, output_dir, "branch_blocking", blocking, 0),
+                     render_pose(moving_root, output_dir, "branch_moved", MOVED_ROOT, MOVED_YAW)]
+    for obj in list(bpy.data.objects):
+        if obj.name.startswith("RenderOnly_"):
+            bpy.data.objects.remove(obj, do_unlink=True)
+    bpy.context.scene.camera = None
+    bpy.data.orphans_purge(do_recursive=True)
     for track in moving_root.animation_data.nla_tracks:
         track.mute = False
-
-    moving_root.location = blocking_root
-    moving_root.rotation_euler = (0.0, 0.0, 0.0)
-    moving_root.scale = (1.0, 1.0, 1.0)
     bpy.context.scene.frame_set(0)
+    moving_root.location, moving_root.rotation_euler = blocking, (0, 0, 0)
     bpy.context.view_layer.update()
-
-    branch_bounds = evaluated_bounds([body])
-    branch_size = branch_bounds["size_blender_xyz_m"]
-    if abs(branch_size[0] - BRANCH_LENGTH) > 0.003:
-        raise RuntimeError(f"Bough evaluated length {branch_size[0]} m is not 2.9 m")
-    if abs(branch_bounds["min_blender_xyz_m"][2] - LOWER_SEAT_Z) > 0.015:
-        raise RuntimeError("Blocking bough bottom no longer meets its 1.35 m lower-seat profile")
-    if not 1.60 <= branch_bounds["max_blender_xyz_m"][2] <= 1.70:
-        raise RuntimeError("Blocking bough and fork must remain within the authored 1.60-1.70 m top band")
-    if any(abs(s - 0.0) < 1e-9 for s in branch_size):
-        raise RuntimeError(f"Branch has a degenerate mesh bounds: {branch_size}")
-    if any(abs(actual - expected) > 1e-8 for actual, expected in zip(grip.location, grip_location)):
-        raise RuntimeError("The grip anchor moved away from the measured centerline point")
-    if abs(grip.location.z - 1.45) > 0.02:
-        raise RuntimeError("The visible center grip must remain near local height 1.45 m")
-    if not any(math.dist(grip.location, vertex.co) <= 1e-6 for vertex in branch_mesh.vertices):
-        raise RuntimeError("The grip anchor is not on a source bough vertex")
-    support_bounds = {obj.name: evaluated_bounds([obj]) for obj in bpy.context.scene.objects
-                      if obj.name.startswith("SIDE_RootSupport_")}
-    if len(support_bounds) != 2:
-        raise RuntimeError("Expected exactly two static side-root support meshes")
-    for name, bounds in support_bounds.items():
-        root_min_z = bounds["min_blender_xyz_m"][2]
-        if abs(root_min_z) > 0.002:
-            raise RuntimeError(f"{name} root base must touch local ground at z=0; measured {root_min_z} m")
-        if abs(bounds["max_blender_xyz_m"][2] - SUPPORT_TRUNK_TOP_Z) > 0.025:
-            raise RuntimeError(f"{name} rooted sapling does not reach its authored top")
-    left_inner_edge = abs(support_bounds["SIDE_RootSupport_Left"]["max_blender_xyz_m"][0])
-    right_inner_edge = support_bounds["SIDE_RootSupport_Right"]["min_blender_xyz_m"][0]
-    if min(left_inner_edge, right_inner_edge) < SUPPORT_INNER_EDGE_MIN_X:
-        raise RuntimeError("A rooted support enters the standing-lane clearance band")
-    for side_contacts in support_contacts.values():
-        for contact in side_contacts:
-            if abs(contact["z"] - LOWER_SEAT_Z) > 0.015:
-                raise RuntimeError(f"Measured lower bough contact {contact['z']} m drifted from the 1.35 m blocking seat")
-            if abs((contact["z"] + SUPPORT_LIFT_DELTA_Z) - UPPER_SEAT_Z) > 0.015:
-                raise RuntimeError("Upper support contact is not exactly the lower seat plus the .85 m lift")
-    final_bough_min = branch_bounds["min_blender_xyz_m"][2] + moved_root[2]
-    if final_bough_min < 2.15:
-        raise RuntimeError(f"Final bough underside {final_bough_min} m is below the 2.15 m clearance passport")
-
-    bpy.ops.file.pack_all()
     blend_path = output_dir / "urman_prologue_branch.blend"
-    glb_path = output_dir / "urman_prologue_branch.glb"
-    bpy.ops.wm.save_as_mainfile(filepath=str(blend_path), check_existing=False)
+    bpy.context.preferences.filepaths.save_version = 0
+    bpy.ops.file.pack_all()
+    bpy.ops.wm.save_as_mainfile(filepath=str(blend_path), check_existing=False, compress=True)
+    candidate = {
+        "stage": "source candidate; whole-composition review pending; runtime unchanged",
+        "source_sha256": sha256(Path(__file__).resolve()),
+        "triangles": triangle_count, "mesh_count": 3,
+        "blocking_bounds": branch_bounds, "static_supports": support_bounds,
+        "main_body_bottom_m": round(main_floor, 6), "descending_fork_bottom_m": 0.95,
+        "descending_fork_low_wood_span_m": round(max(low_wood) - min(low_wood), 6),
+        "capsule_source_vertex_distance_m": capsule_distances,
+        "minimum_final_wood_ground_gap_m": round(final_ground_gap, 6),
+        "ground_source": str(ground_path.relative_to(root_path)), "ground_sha256": sha256(ground_path),
+        "pose_contract": pose_contract, "clips": clip_records, "uv": atlas_contract,
+        "final_surface_contact_pairs": surface_touches,
+        "static_collision_contract": "actual triangle surfaces; one convex hull cannot represent the high/low root seats",
+        "blend": {"path": str(blend_path), "sha256": sha256(blend_path)},
+        "previews": [{"path": str(path), "sha256": sha256(path)} for path in preview_paths],
+        "scope_limits": ["No claim that every forest bypass is prevented.",
+                         "Source wood-surface checks do not prove native motion or author art acceptance.",
+                         "Existing runtime GLB/manifest artifact hashes remain the earlier stage until explicit promotion."]
+    }
+    existing_manifest["candidate_stage"] = candidate
+    manifest_path.write_text(json.dumps(existing_manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if preview_only:
+        print(json.dumps({"preview_only": True, "manifest": str(manifest_path), "candidate": candidate}, ensure_ascii=False), flush=True)
+        return
 
-    selected = [moving_root, body, grip, *[bpy.data.objects[name] for name in support_bounds]]
+    # Export only the three asset meshes and their existing root/grip owners.
+    for track in moving_root.animation_data.nla_tracks:
+        track.mute = False
     bpy.ops.object.select_all(action="DESELECT")
-    for obj in selected:
+    for obj in (moving_root, grip, *objects):
         obj.select_set(True)
     bpy.context.view_layer.objects.active = moving_root
-    bpy.ops.export_scene.gltf(
-        filepath=str(glb_path),
-        export_format="GLB",
-        use_selection=True,
-        export_animations=True,
-        export_nla_strips=True,
-        export_force_sampling=True,
-        export_current_frame=False,
-        export_yup=True,
-    )
-    if not glb_path.is_file():
-        raise RuntimeError("glTF exporter did not create the GLB")
+    glb_path = output_dir / "urman_prologue_branch.glb"
+    bpy.ops.export_scene.gltf(filepath=str(glb_path), export_format="GLB", use_selection=True,
+                             export_animations=True, export_animation_mode="ACTIONS", export_nla_strips=True,
+                             export_force_sampling=True, export_yup=True)
     gltf = glb_json(glb_path)
-    node_names = [node.get("name", "") for node in gltf.get("nodes", [])]
-    animations = sorted(animation.get("name", "") for animation in gltf.get("animations", []))
-    expected_nodes = ("PrologueBranch_MovingRoot", "PrologueBranch_Body", "Branch_GripCenter",
-                     "SIDE_RootSupport_Left", "SIDE_RootSupport_Right")
-    for name in expected_nodes:
-        if node_names.count(name) != 1:
-            raise RuntimeError(f"GLB node {name!r} appeared {node_names.count(name)} times")
-    expected_clips = sorted(("rest_blocking", "rest_moved", "lift_and_place"))
-    if animations != expected_clips:
-        raise RuntimeError(f"GLB clips {animations} do not match {expected_clips}")
-    root_node = gltf["nodes"][node_names.index("PrologueBranch_MovingRoot")]
-    default = root_node.get("translation", [0.0, 0.0, 0.0])
-    # Blender Z-up to glTF Y-up remaps (x,y,z) to (x,z,-y).
-    expected_default = [0.0, 0.0, 0.0]
-    if any(abs(default[i] - expected_default[i]) > 0.001 for i in range(3)):
-        raise RuntimeError(f"GLB default branch root {default} is not the blocking rest pose")
-
-    manifest = {
-        "schema": 1,
-        "asset": "A-BRANCH / W01 F01",
-        "stage_status": "offline PW-046 restage export; runtime NOT_RUN; author review pending",
-        "production_metric_delta": {
-            "supersedes": "PW-045 1.10 m light-branch production metric",
-            "previous_centerline_length_m": 1.100,
-            "current_centerline_length_m": BRANCH_LENGTH,
-            "reason": "intentional first-action restage: visible head-height bough with a raised, physically supported final pose",
-            "previous_metric_pass_reused": False,
-        },
-        "source": str(Path(__file__).resolve()),
-        "source_sha256": sha256(Path(__file__).resolve()),
-        "textures": [texture_provenance],
-        "coordinate_contract": {
-            "authoring": "Blender metres, X is branch length, Z is up; glTF exported Y-up",
-            "asset_local_ground_z_m": 0.0,
-            "F01_scene_anchor_world_y_m": 1.0,
-            "branch_centerline_length_m": BRANCH_LENGTH,
-            "route_clear_width_m": PATH_WIDTH,
-            "blocking_bough_z_m": [round(branch_bounds["min_blender_xyz_m"][2], 3), round(branch_bounds["max_blender_xyz_m"][2], 3)],
-            "grip_center_z_m": round(grip.location.z, 3),
-            "nominal_lower_support_seat_z_m": LOWER_SEAT_Z,
-            "nominal_upper_support_seat_z_m": UPPER_SEAT_Z,
-            "support_seat_contacts": seat_contact_contract,
-            "blocking_root_blender_xyz_m": list(blocking_root),
-            "moved_root_blender_xyz_m": list(moved_root),
-            "final_bough_bottom_z_m": round(final_bough_min, 3),
-            "final_standing_clearance_m": round(final_bough_min, 3),
-            "support_inner_edge_min_x_m": round(min(left_inner_edge, right_inner_edge), 3),
-            "grip_anchor": {"node": "Branch_GripCenter",
-                            "root_local_xyz_m": [round(value, 6) for value in grip_location]},
-        },
-        "moving_geometry": {
-            "root_node": "PrologueBranch_MovingRoot",
-            "mesh_node": "PrologueBranch_Body",
-            "mesh_count": 1,
-            "evaluated_blocking_bounds": branch_bounds,
-            "shape": "one light irregular 2.9 m bough with one natural fork; geometry rests at local 1.35-1.65 m in the blocking pose",
-        },
-        "static_supports": support_bounds,
-        "clips": clip_records,
-        "render_previews": [
-            {"path": path.name, "sha256": sha256(path)} for path in preview_paths
-        ],
-        "artifacts": {
-            "blend": {"path": blend_path.name, "sha256": sha256(blend_path), "bytes": blend_path.stat().st_size},
-            "glb": {"path": glb_path.name, "sha256": sha256(glb_path), "bytes": glb_path.stat().st_size},
-            "glb_node_names": node_names,
-            "glb_animation_names": animations,
-            "glb_default_moving_root_translation_yup_m": default,
-        },
-        "scope_limits": [
-            "Render-only ground, route swatch, camera, and lights are absent from the GLB.",
-            "No gameplay flag, prologue interaction, save/load behavior, or early-skip behavior is implemented.",
-            "No runtime import, station run, or author visual acceptance is claimed.",
-        ],
-    }
-    manifest_path = output_dir / "manifest.json"
-    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({
-        "output_dir": str(output_dir),
-        "blend": str(blend_path),
-        "glb": str(glb_path),
-        "manifest": str(manifest_path),
-        "branch_bounds": branch_bounds,
-        "clips": animations,
-        "default_root_translation_yup_m": default,
-    }, ensure_ascii=False, indent=2))
+    names = [node.get("name", "") for node in gltf.get("nodes", [])]
+    expected = ["PrologueBranch_MovingRoot", "PrologueBranch_Body", "Branch_GripCenter",
+                "SIDE_RootSupport_Left", "SIDE_RootSupport_Right"]
+    if any(names.count(name) != 1 for name in expected) or sorted(animation.get("name") for animation in gltf.get("animations", [])) != sorted(record["name"] for record in clip_records):
+        raise RuntimeError("Export changed the existing node/clip contract")
+    print(json.dumps({"candidate_glb": str(glb_path), "sha256": sha256(glb_path)}, ensure_ascii=False))
 
 
 if __name__ == "__main__":
-    build(parse_args().output_dir)
+    args = parse_args()
+    build(args.output_dir, args.preview_only)

@@ -54,6 +54,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private const string PrologueSkipLabelTextId = "urman.fullgame:text/pw-label-prologue-skip";
     private const string ForestCameraBackTextId = "urman.fullgame:text/pw-observation-forest-camera-back";
     private const string BranchMoveAnimationName = "lift_and_place";
+    private const string BranchBlockingRestAnimationName = "rest_blocking";
+    private const string BranchMovedRestAnimationName = "rest_moved";
     private const double ForestObservationPollSeconds = 0.2;
     private const float RootPassageCenterHalfWidth = 0.72f;
     private const float RootPassageGroundTolerance = 0.32f;
@@ -102,7 +104,6 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private static readonly Vector3 BranchF01 = new(12f, 1f, 50f);
     private static readonly Vector3 PrologueF02 = new(45f, 3f, 95f);
     private static readonly Vector3 PrologueF03 = new(80f, 4f, 140f);
-    private static readonly Vector3 BranchMovedRootPosition = new(0f, 0.85f, 0f);
     // Hints follow authored landmark centerlines; startup resolves them onto each mesh's triangles.
     private static readonly Vector3 ForestSplitBirchObservationHint = new(4.25f, 2.2f, 46.1f);
     // F11 sees the exposed end; the middle lies behind the split birch.
@@ -729,7 +730,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         // Clip imported triangles at capsule height so low branches count, but crowns do not widen the walk lane.
         float MeasurePineStandingFootprintRadius(
-            ArrayMesh sourceMesh, Aabb rootScaleBounds, float minimumTreeHeight, float standingHeight)
+            ArrayMesh sourceMesh, Aabb rootScaleBounds, float minimumTreeHeight, float standingHeight,
+            bool opaqueOnly = false)
         {
             var localTop = rootScaleBounds.Position.Y
                 + rootScaleBounds.Size.Y * standingHeight / minimumTreeHeight;
@@ -763,6 +765,9 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
             for (var surfaceIndex = 0; surfaceIndex < sourceMesh.GetSurfaceCount(); surfaceIndex++)
             {
+                if (opaqueOnly && sourceMesh.SurfaceGetMaterial(surfaceIndex) is not StandardMaterial3D
+                    { Transparency: BaseMaterial3D.TransparencyEnum.Disabled })
+                    continue;
                 using var arrays = sourceMesh.SurfaceGetArrays(surfaceIndex);
                 var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
                 var indexData = arrays[(int)Mesh.ArrayType.Index];
@@ -1099,93 +1104,133 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             selectedClusterCandidates = composedCandidates;
         }
 
-        // Let the prologue exit read as an opening in the daylit canopy. Only
-        // clustered roots in this local F03 circle may move or clear; authored
-        // trees and every candidate outside it keep their original transforms.
-        var f03 = new Vector2(PrologueF03.X, PrologueF03.Z);
-        const float f03CompositionRadius = 30f;
-        const float f03CanopyOpeningRadius = 7.5f;
-        var f03LocalIndices = Enumerable.Range(0, selectedClusterCandidates.Count)
-            .Where(index => selectedClusterCandidates[index].Position.DistanceSquaredTo(f03)
-                <= f03CompositionRadius * f03CompositionRadius).ToArray();
-        var f03LocalSet = f03LocalIndices.ToHashSet();
-        var f03StandingRadius = Mathf.Max(
+        // Compose only selected local clusters, after the unchanged global seed/stride.
+        // F01 frames the approach; F02/F03 open the canopy. Authored trees stay put.
+        var compositionStandingRadius = Mathf.Max(
             MeasurePineStandingFootprintRadius(lightPineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f),
             MeasurePineStandingFootprintRadius(farPineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f));
+        // Transparent far-card corners are not wood; F01 spacing measures the opaque near/mid tree.
+        var f01StandingRadius = Mathf.Max(
+            MeasurePineStandingFootprintRadius(pineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f, opaqueOnly: true),
+            MeasurePineStandingFootprintRadius(lightPineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f, opaqueOnly: true));
         static float HorizontalRadius(Aabb bounds) => Mathf.Max(
             Mathf.Max(Mathf.Abs(bounds.Position.X), Mathf.Abs(bounds.End.X)),
             Mathf.Max(Mathf.Abs(bounds.Position.Z), Mathf.Abs(bounds.End.Z)));
-        var f03CanopyRadius = Mathf.Max(HorizontalRadius(lightPineSourceBounds),
+        var compositionCanopyRadius = Mathf.Max(HorizontalRadius(lightPineSourceBounds),
             HorizontalRadius(farPineSourceBounds));
-        var f03Forward = (new Vector2(PrologueF03.X, PrologueF03.Z)
-            - new Vector2(PrologueF02.X, PrologueF02.Z)).Normalized();
-        var f03Side = new Vector2(-f03Forward.Y, f03Forward.X);
-        var f03Placements = new (Vector2 Position, float Height, float YawDegrees, float Girth)[]
+        bool TouchesPhotoSightline(Vector2 point, float radius)
         {
-            (f03 + f03Forward * 8f + f03Side * 22f, 19.2f, 34f, .82f),
-            (f03 + f03Forward * 8f - f03Side * 22f, 17.8f, 221f, .78f),
-            (f03 - f03Forward * 8f - f03Side * 22f, 20.2f, 128f, .85f),
-            (f03 - f03Forward * 8f + f03Side * 22f, 18.4f, 303f, .80f)
-        };
-        var f03Replacements = new Dictionary<int,
-            (Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand)>();
-        var f03Removed = new HashSet<int>();
-        float F03RootRadius(Transform3D transform) => f03StandingRadius * transform.Basis.X.Length();
-        bool F03RootsOverlap(Vector2 point, float radius,
-            (Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand) other) =>
-            point.DistanceTo(other.Position) < Mathf.Max(minimumClusterPineSpacing,
-                radius + F03RootRadius(other.Transform));
-        foreach (var placement in f03Placements)
-        {
-            if (f03Replacements.Count == f03LocalIndices.Length) break;
-            var position = placement.Position;
-            var heightScale = placement.Height / pineSourceBounds.Size.Y;
-            var horizontalScale = heightScale * placement.Girth;
-            var radius = f03StandingRadius * horizontalScale;
-            if (position.X < groundBounds.Position.X || position.X > groundBounds.End.X
-                || position.Y < groundBounds.Position.Z || position.Y > groundBounds.End.Z
-                || position.DistanceSquaredTo(f03) > f03CompositionRadius * f03CompositionRadius
-                || position.DistanceTo(f03) < f03CanopyOpeningRadius + f03CanopyRadius * horizontalScale
-                || RouteDistance(position) < radius + standingLaneHalfWidth
-                || NearExistingTree(position, radius + minimumExistingPineSpacing)
-                || f03Replacements.Values.Any(other => F03RootsOverlap(position, radius, other))
-                || selectedClusterCandidates.Where((_, index) => !f03LocalSet.Contains(index))
-                    .Any(other => F03RootsOverlap(position, radius, other)))
-                continue;
-
-            var slot = f03LocalIndices.Where(index => !f03Replacements.ContainsKey(index))
-                .OrderBy(index => selectedClusterCandidates[index].Position.DistanceSquaredTo(position)).First();
-            var basis = new Basis(Vector3.Up, Mathf.DegToRad(placement.YawDegrees))
-                * Basis.FromScale(new Vector3(horizontalScale, heightScale, horizontalScale));
-            var groundY = ForestGroundHeight(position.X, position.Y) - pineSourceBounds.Position.Y * heightScale;
-            var cell = new Vector2I(Mathf.FloorToInt(position.X / forestCellSize),
-                Mathf.FloorToInt(position.Y / forestCellSize));
-            var heightBand = Mathf.Clamp(Mathf.FloorToInt((placement.Height - minimumClusterPineHeight)
-                / clusterHeightStep), 0, 7);
-            f03Replacements.Add(slot, (position, new Transform3D(basis,
-                new Vector3(position.X, groundY, position.Y)), cell, heightBand));
-        }
-        foreach (var index in f03LocalIndices)
-        {
-            var candidate = selectedClusterCandidates[index];
-            var radius = F03RootRadius(candidate.Transform);
-            var canopyRadius = f03CanopyRadius * candidate.Transform.Basis.X.Length();
-            if (candidate.Position.DistanceTo(f03) < f03CanopyOpeningRadius + canopyRadius
-                || RouteDistance(candidate.Position) < radius + standingLaneHalfWidth
-                || f03Replacements.Values.Any(other => F03RootsOverlap(candidate.Position, radius, other)))
-                f03Removed.Add(index);
-        }
-        if (f03Replacements.Count > 0 || f03Removed.Count > 0)
-        {
-            var composedCandidates = new List<(Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand)>(
-                selectedClusterCandidates.Count);
-            for (var index = 0; index < selectedClusterCandidates.Count; index++)
+            bool NearHint(Vector2 observer, Vector3 hint)
             {
-                if (f03Replacements.TryGetValue(index, out var replacement)) composedCandidates.Add(replacement);
-                else if (!f03Removed.Contains(index)) composedCandidates.Add(selectedClusterCandidates[index]);
+                var segment = new Vector2(hint.X, hint.Z) - observer;
+                var t = Mathf.Clamp((point - observer).Dot(segment) / segment.LengthSquared(), 0f, 1f);
+                // F11 accepts a 1.5 m square around its marker, including corners.
+                return point.DistanceTo(observer + segment * t) < radius + 1.5f * Mathf.Sqrt(2f);
             }
-            selectedClusterCandidates = composedCandidates;
+            return NearHint(MainSpawnRouteF10, ForestSplitBirchObservationHint)
+                || NearHint(MainSpawnRouteF10, ForestCrossbarObservationHint)
+                || NearHint(MainSpawnRouteF10, ForestRootArchObservationHint)
+                || NearHint(MainSpawnRouteF11, ForestSplitBirchObservationHint)
+                || NearHint(MainSpawnRouteF11, ForestCrossbarObservationHint)
+                || NearHint(MainSpawnRouteF11, ForestRootArchObservationHint);
         }
+        var compositions = new (string Name, Vector2 Center, Vector2 Previous, float Radius, float OpeningRadius)[]
+        {
+            ("F01", new Vector2(BranchF01.X, BranchF01.Z), Vector2.Zero, 26f, 0f),
+            ("F02", new Vector2(PrologueF02.X, PrologueF02.Z), new Vector2(BranchF01.X, BranchF01.Z), 26f, 7.5f),
+            ("F03", new Vector2(PrologueF03.X, PrologueF03.Z), new Vector2(PrologueF02.X, PrologueF02.Z), 30f, 7.5f)
+        };
+        var compositionSummary = string.Empty;
+        foreach (var composition in compositions)
+        {
+            var protectPhoto = composition.Name == "F01";
+            var standingRadius = protectPhoto ? f01StandingRadius : compositionStandingRadius;
+            float CompositionRootRadius(Transform3D transform) => standingRadius * transform.Basis.X.Length();
+            bool CompositionRootsOverlap(Vector2 point, float radius,
+                (Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand) other) =>
+                point.DistanceTo(other.Position) < Mathf.Max(minimumClusterPineSpacing,
+                    radius + CompositionRootRadius(other.Transform));
+            var localIndices = Enumerable.Range(0, selectedClusterCandidates.Count)
+                .Where(index => selectedClusterCandidates[index].Position.DistanceSquaredTo(composition.Center)
+                    <= composition.Radius * composition.Radius
+                    && (!protectPhoto || !TouchesPhotoSightline(selectedClusterCandidates[index].Position,
+                        compositionStandingRadius * selectedClusterCandidates[index].Transform.Basis.X.Length()))).ToArray();
+            var localSet = localIndices.ToHashSet();
+            var forward = (composition.Center - composition.Previous).Normalized();
+            var side = new Vector2(-forward.Y, forward.X);
+            var placements = protectPhoto
+                ? new (Vector2 Position, float Height, float YawDegrees, float Girth)[]
+                {
+                    (new(0f, 29f), 16.4f, 34f, .78f),
+                    (new(16.7f, 37f), 18f, 211f, .80f)
+                }
+                : new (Vector2 Position, float Height, float YawDegrees, float Girth)[]
+                {
+                    (composition.Center + forward * 8f + side * 22f, 19.2f, 34f, .82f),
+                    (composition.Center + forward * 8f - side * 22f, 17.8f, 221f, .78f),
+                    (composition.Center - forward * 8f - side * 22f, 20.2f, 128f, .85f),
+                    (composition.Center - forward * 8f + side * 22f, 18.4f, 303f, .80f)
+                };
+            var replacements = new Dictionary<int,
+                (Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand)>();
+            var removed = new HashSet<int>();
+            foreach (var placement in placements)
+            {
+                if (replacements.Count == localIndices.Length) break;
+                var position = placement.Position;
+                var heightScale = placement.Height / pineSourceBounds.Size.Y;
+                var horizontalScale = heightScale * placement.Girth;
+                var radius = standingRadius * horizontalScale;
+                if (position.X < groundBounds.Position.X || position.X > groundBounds.End.X
+                    || position.Y < groundBounds.Position.Z || position.Y > groundBounds.End.Z
+                    || position.DistanceSquaredTo(composition.Center) > composition.Radius * composition.Radius
+                    || (composition.OpeningRadius > 0f && position.DistanceTo(composition.Center)
+                        < composition.OpeningRadius + compositionCanopyRadius * horizontalScale)
+                    || (protectPhoto && TouchesPhotoSightline(position, compositionStandingRadius * horizontalScale))
+                    || RouteDistance(position) < radius + standingLaneHalfWidth
+                    || NearExistingTree(position, radius + minimumExistingPineSpacing)
+                    || replacements.Values.Any(other => CompositionRootsOverlap(position, radius, other))
+                    || selectedClusterCandidates.Where((_, index) => !localSet.Contains(index))
+                        .Any(other => CompositionRootsOverlap(position, radius, other)))
+                    continue;
+
+                var slot = localIndices.Where(index => !replacements.ContainsKey(index))
+                    .OrderBy(index => selectedClusterCandidates[index].Position.DistanceSquaredTo(position)).First();
+                var basis = new Basis(Vector3.Up, Mathf.DegToRad(placement.YawDegrees))
+                    * Basis.FromScale(new Vector3(horizontalScale, heightScale, horizontalScale));
+                var groundY = ForestGroundHeight(position.X, position.Y) - pineSourceBounds.Position.Y * heightScale;
+                var cell = new Vector2I(Mathf.FloorToInt(position.X / forestCellSize),
+                    Mathf.FloorToInt(position.Y / forestCellSize));
+                var heightBand = Mathf.Clamp(Mathf.FloorToInt((placement.Height - minimumClusterPineHeight)
+                    / clusterHeightStep), 0, 7);
+                replacements.Add(slot, (position, new Transform3D(basis,
+                    new Vector3(position.X, groundY, position.Y)), cell, heightBand));
+            }
+            foreach (var index in localIndices)
+            {
+                var candidate = selectedClusterCandidates[index];
+                var radius = CompositionRootRadius(candidate.Transform);
+                var canopyRadius = compositionCanopyRadius * candidate.Transform.Basis.X.Length();
+                if ((composition.OpeningRadius > 0f && candidate.Position.DistanceTo(composition.Center)
+                        < composition.OpeningRadius + canopyRadius)
+                    || (!protectPhoto && RouteDistance(candidate.Position) < radius + standingLaneHalfWidth)
+                    || replacements.Values.Any(other => CompositionRootsOverlap(candidate.Position, radius, other)))
+                    removed.Add(index);
+            }
+            if (replacements.Count > 0 || removed.Count > 0)
+            {
+                var composedCandidates = new List<(Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand)>(
+                    selectedClusterCandidates.Count);
+                for (var index = 0; index < selectedClusterCandidates.Count; index++)
+                {
+                    if (replacements.TryGetValue(index, out var replacement)) composedCandidates.Add(replacement);
+                    else if (!removed.Contains(index)) composedCandidates.Add(selectedClusterCandidates[index]);
+                }
+                selectedClusterCandidates = composedCandidates;
+            }
+            compositionSummary += $" {composition.Name}:relocated={replacements.Count},removed={removed.Count(index => !replacements.ContainsKey(index))}";
+        }
+        GD.Print($"w01-local-forest:{compositionSummary} totalClusters={selectedClusterCandidates.Count}");
 
         float ClusterRepresentativeHeight(int heightBand) => Mathf.Min(24f, minimumClusterPineHeight
             + (heightBand + 0.5f) * clusterHeightStep);
@@ -1383,17 +1428,18 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _movingRoot = RequireDescendant<Node3D>(_branchVisual, "PrologueBranch_MovingRoot");
         _branchAnimation = Descendants<AnimationPlayer>(_branchVisual).FirstOrDefault()
             ?? throw new InvalidOperationException("W01 branch asset is missing its authored AnimationPlayer.");
-        if (!_branchAnimation.HasAnimation(BranchMoveAnimationName))
-            throw new InvalidOperationException($"W01 branch asset is missing animation: {BranchMoveAnimationName}");
+        foreach (var name in new[] { BranchMoveAnimationName, BranchBlockingRestAnimationName, BranchMovedRestAnimationName })
+            if (!_branchAnimation.HasAnimation(name))
+                throw new InvalidOperationException($"W01 branch asset is missing animation: {name}");
         _branchAnimation.AnimationFinished += OnBranchAnimationFinished;
         var branchMesh = RequireDescendant<MeshInstance3D>(_branchVisual, "PrologueBranch_Body");
         var leftRootMesh = RequireDescendant<MeshInstance3D>(_branchVisual, "SIDE_RootSupport_Left");
         var rightRootMesh = RequireDescendant<MeshInstance3D>(_branchVisual, "SIDE_RootSupport_Right");
         _gripCenter = RequireDescendant<Node3D>(_branchVisual, "Branch_GripCenter");
 
-        _movingBranchBody = AddConvexContact(_movingRoot, branchMesh, "MovingBranchContact", animatable: true);
-        _leftRootBody = AddConvexContact(_branchVisual, leftRootMesh, "LeftRootSupportContact", animatable: false);
-        _rightRootBody = AddConvexContact(_branchVisual, rightRootMesh, "RightRootSupportContact", animatable: false);
+        _movingBranchBody = AddBranchContact(_movingRoot, branchMesh, "MovingBranchContact", animatable: true);
+        _leftRootBody = AddBranchContact(_branchVisual, leftRootMesh, "LeftRootSupportContact", animatable: false);
+        _rightRootBody = AddBranchContact(_branchVisual, rightRootMesh, "RightRootSupportContact", animatable: false);
     }
 
     private void TryBindRuntimeBridge()
@@ -1472,9 +1518,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         // A new session or restored save is projected directly into its durable pose.
         // Only a live player action plays lift_and_place before its fact is dispatched.
-        CancelBranchMoveAnimation();
-        if (_movingRoot is { } movingRoot && GodotObject.IsInstanceValid(movingRoot))
-            movingRoot.Position = projection.Moved ? BranchMovedRootPosition : Vector3.Zero;
+        CancelBranchMoveAnimation(projection.Moved);
 
         visual.Visible = true;
         SetWorldPresentationVisible(true);
@@ -1693,14 +1737,22 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         target.SetPresentationEnabled(visible);
     }
 
-    private void CancelBranchMoveAnimation()
+    private void SetBranchRestPose(bool moved)
+    {
+        if (_branchAnimation is not { } animation || !GodotObject.IsInstanceValid(animation)) return;
+        animation.Stop();
+        animation.Play(moved ? BranchMovedRestAnimationName : BranchBlockingRestAnimationName, customBlend: 0);
+        animation.Advance(0.0);
+        animation.Stop(keepState: true);
+    }
+
+    private void CancelBranchMoveAnimation(bool moved = false)
     {
         _branchMoveInProgress = false;
         _branchMoveInteractionId = null;
         _branchMoveSceneId = null;
         _branchMoveSession = null;
-        if (_branchAnimation is { } animation && GodotObject.IsInstanceValid(animation))
-            animation.Stop();
+        SetBranchRestPose(moved);
     }
 
     private bool BeginBranchMove(string interactionId)
@@ -1725,13 +1777,13 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _branchTarget?.SetPresentationEnabled(false);
         if (_accessibility.ReducedMotion)
         {
-            animation.Stop();
-            movingRoot.Position = BranchMovedRootPosition;
+            SetBranchRestPose(true);
             CommitCompletedBranchMove();
         }
         else
         {
-            animation.Play(BranchMoveAnimationName);
+            animation.Play(BranchMoveAnimationName, customBlend: 0);
+            animation.Advance(0.0);
         }
         return false;
     }
@@ -2062,10 +2114,13 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _branchTarget = target;
     }
 
-    private static StaticBody3D AddConvexContact(Node3D owner, MeshInstance3D mesh, string name, bool animatable)
+    private static StaticBody3D AddBranchContact(Node3D owner, MeshInstance3D mesh, string name, bool animatable)
     {
         var sourceMesh = mesh.Mesh
             ?? throw new InvalidOperationException($"W01 contact mesh is missing: {mesh.Name}");
+        // Static fork gaps follow their triangles; a convex hull invents wood between seats.
+        Shape3D shape = animatable ? sourceMesh.CreateConvexShape() : sourceMesh.CreateTrimeshShape();
+        if (shape is ConcavePolygonShape3D surface) surface.BackfaceCollision = true;
         // The parent root owns this motion; child-local sync would leave its collider behind.
         StaticBody3D body = animatable
             ? new AnimatableBody3D { Name = name, CollisionLayer = 0u, CollisionMask = 0u, SyncToPhysics = false }
@@ -2075,7 +2130,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         body.AddChild(new CollisionShape3D
         {
             Name = name + "Shape",
-            Shape = sourceMesh.CreateConvexShape()
+            Shape = shape
         });
         return body;
     }

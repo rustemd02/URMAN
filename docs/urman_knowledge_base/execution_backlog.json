@@ -123158,10 +123158,10 @@
               "evidence/PW-045/physical-input-20261012/"
             ],
             "assigned_owner": "world_art",
-            "active_owner": "Codex",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Finite F00first32m actualterrain plus clusteredmiddleforest andpairedLODscene under existingfamily task; nativeca9pending, otherfamily/fullchildrequirements retained."
+              "state": "not_active",
+              "reason": "Finitefunctional source stage readyforcommit; ordinaryUI blockedbeforeinput byMaclock, ownedguardterminated143/userdatarestored. Assignedowner preserved, independentPW093materialworkeractive."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -123172,7 +123172,7 @@
               "F01/F03 authored graph gap исправлен в 5f1d9e98; существующий semantic route обновлён, ещё NOT_RUN. Нужен physical binding обоих endpoints и основного forest move, не ранний выход вместо полного пролога.",
               "W01 source consumer ground/F01 принят24.38s compile; real scene runtime/material/contacts/capsule/save/мovedbranchinspect NOT_RUN. Forestkit stage2 и isolatedbirch stage8 root rejected; untracked source/tmp сохранены, assetsнепубликовались."
             ],
-            "next_action": "Accept changed-source dbfa F00 frame and ordinary approach/movement/F01 action; verify path is legible and question timely. Existing full prologue/forest geometry, contacts, save, art/performance gates remain open.",
+            "next_action": "Reuse acceptedsource/compile/import. FinishindependentMeshyPBRmaterialcandidate withoutgeometrychanges; nextordinaryF01approach/E→side-rest→Save/coldContinue requiresownerMacunlock. ThenverifyactualF01relocations/lighting; do notrepeatlockedstartup/unsupportedLook oroldmicroshapeattempts.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -123479,6 +123479,57 @@
                 "sha256": "1eec8607f2d4ac95d8d37aaeeee3d4a2c92dffed3f6afdc356c6d4ccb58a122d",
                 "base_commit": "c7ab3504ab2f32c65e74d1dada19b493ba3faffe",
                 "members": "source.patch for generator+W01, rawmanifest; exact member readback verified"
+              }
+            },
+            "f01_side_rest_episode_2026_10_23": {
+              "state": "functional_geometry_rest_static_contacts_and_local_forest_source_verified_ordinary_pending_unlock",
+              "baseline": "8c9e4028",
+              "authority": "W01passport§3forest_branch: lifttrappedboughandplaceonsideroots; userprioritizevisibleMVP/gamefeel overisolatedmodelpolish. No newmechanic/state/schema/interactionID.",
+              "causal_facts": [
+                "ActualordinaryPW028frame showsgymbarinopenfield; F03requiresprologue_branch_moved despitevisualbypass.",
+                "Current.85mverticalfinalpose forcesdoubleforktiers; prior65mmshapeattemptrejected before runtime.",
+                "Crouchcapsule1.08m passesunderoldmovingbody1.35m loweredge.",
+                "RuntimeoldPosition-onlyposeconstant cannotrestoreyawinnewsideplacement; existing3clipsalreadycarrytranslation+rotation."
+              ],
+              "design": "One curvedfallenboughwithnaturaldescendingfork spanningcentral2.1m around.95m lowedge, asymmetricrootstumps(no2.325m duplicateupperseats), finalLOWLEFTrelativeMovingRoot(-2.35,-.78,0),yaw-90 withsourcegeometry/groundcontacts authoritative. Finalexactaftergeometrygate. Incoming/outgoing≥1.8mphysicalstandinglane, existingF11core1.2m+.35capsule andphotoobjects/sightlinespreserved; noglobalforestimpenetrabilityclaim.",
+              "targets": [
+                "game/scripts/photoworlds/W01Controller.cs",
+                "assets/source/blender/photoworlds/W01/urman_prologue_branch.py",
+                "assets/source/blender/photoworlds/W01/prologue-branch-v1/manifest.json",
+                "game/assets/photoworlds/branch/prologue-branch-v1.glb"
+              ],
+              "owners": {
+                "runtime": "Sol6.1High /root/sol_water_photo; onlyW01Controller.cs",
+                "asset": "Sol6.1High /root/sol_startup_scene_cost; generator/manifest/model",
+                "meshymaterial": "Sol6.1High /root/sol_meshy_asset_pipeline; preparationonly untilrootactualdonorview/referencegate",
+                "coordinator": "Codex rootonlyJSON/Git/build/native/ledger"
+              },
+              "verification_question": "DoesordinaryapproachpresentanaturalvisibleobstacleandattractingF02opening; do standing/crouchedcapsules hitvisiblewood beforeaction andpassafter; doesboughrestonsideroots andrestoreexactposition+yawinreducedmotion/Continue withoutchangingF11?",
+              "success": "Wholeepisodeapproach+afteraction, actualcontact/support/clearance anddurablestate; isolatedbranchbeauty/buildnotfullacceptance. No newtests/probes/harnesscases. Existingsemanticbroadsmoke doesnotprovephysicalDoD.",
+              "next_action": "Reuse acceptedsource/compile/import. FinishindependentMeshyPBRmaterialcandidate withoutgeometrychanges; nextordinaryF01approach/E→side-rest→Save/coldContinue requiresownerMacunlock. ThenverifyactualF01relocations/lighting; do notrepeatlockedstartup/unsupportedLook oroldmicroshapeattempts.",
+              "limits": "CapturedFPSlookunsupportedCUA; desktopconnectorread-onlydiscoverytunnelunavailable. No productioninputbugproven orcamera/controllerworkaroundauthorizedbythatlimit. Currentpose/F03fact/actorstatepreserved; authorart/culture/externalgatesopen.",
+              "asset_sha256": "060b8af9939754ba3f6de866b703430f6f22a6498733104c253b5ff451b1e742",
+              "asset_bytes": 1832120,
+              "triangles": 5928,
+              "pose": "All3authoredclips exactMovingRoot initialidentity/final(-2.35,-.78,0),yaw-90; runtimeprojection/load/cancel/reducedmotionreadrestclips.68ringvertices+gripretained. Two staticroots nowtrimesh vsfalseconvexwedge; movingbodyconvex.",
+              "source_review": "Astra runtime/phase/contacts/composition sourceclean noP1/P2; affectedGame15.87s0/0, protectedimport0.",
+              "ordinary_attempt": "Onechangedsourceprotectedordinaryprocess16154 live, CUAbindingfailedBEFOREINPUT becauseMaclocked/automaticunlockfailed. Owneraskedasyncunlock; rootTERM onlyownedguard87799→terminal143. Originaluserdatafiles/permissionsrestoredverified. NoScreens/action/walk/SaveContinueproof; NOTgamefailure, no sameinputretry.",
+              "actual_scene_counter": "w01-local-forest F01 relocated0/removed0; F02 relocated0/removed6; F03 relocated1/removed10;total1075. Startupsceneconstruction/3clipvalidationpassed beforeUI, nativeERROR0, notordinarygameplayaccepted.",
+              "new_causal_fix": "F01targets guaranteedrejected byFar MASK4card radius.250432523 vsopaqueLOD1.118284970; transparentquadtreatedstandingwood. Two independentreviews authorizeF01ONLY maxOPAQUELOD0/LOD1radius, oldFarconservativephoto/F11maskkept, globalgenerator/stride/F02F03unchanged. Implementingnow; finalcompilepending, twoactualrelocationsunproven.",
+              "old_unique_archive": {
+                "path": "evidence/PW-028/branch_pre_low_left_20261023.tar.xz",
+                "sha256": "61e9a6570d204bc1dbaf3d6fdbddef69258aedeab142072a03839050dc79508b",
+                "bytes": 1857252,
+                "members": 5
+              },
+              "final_source_verification": "FinalC#opaqueOnlyfootprintfix Game13.65s0warnings0errors, scopedgitdiffcheck0, Astra finalreadbacknoP1P2. F01newstandingwoodmaxopaqueLOD0/LOD1, photo/F11oldFarconservativeradius unchanged. Lastactualstartupcounter precededthislastfix andshows0F01relocations; do notclaimnewcount orsceneart.",
+              "evidence_archive": {
+                "path": "evidence/PW-045/f01_side_rest_20261023.zip",
+                "sha256": "c581460cc31fedb027fab8197861040286e2888d2e0d1ef9a2d141786db56b2a",
+                "bytes": 2036236,
+                "members": 6,
+                "verified_loose_bytes_removed": 2060719,
+                "scope": "Offlinepairedwholeapproach sourcePNG plus2Gamebuilds/import/lockedattemptlog. NativeordinaryUI/action/SaveContinueNOTRUN."
               }
             }
           },
@@ -126614,6 +126665,13 @@
               "members": 12,
               "verified_loose_bytes_removed": 4971970,
               "scope": "Exact currentP-WATERsource+rawImageGen+W02vista+affectedbuild/import/renderlogs+failedsidegateauditlog. Notordinarygameplay/humanauthoracceptance."
+            },
+            "legacy_capture_cleanup_2026_10_23": {
+              "result": "Ownedcleanup removedordinarytrackedoldW02vista screenfromworktree; beforeGitdeletion originalHEADuniquePNG savedlosslessly andbyteverified inlocalignoredarchive. Currentnewfarvistaalreadyretained inPW040sourcearchive. No screenshotisnewGitasset.",
+              "archive": "evidence/PW-050/legacy_vista_source_20261023.zip",
+              "sha256": "5496d068f9c21006737995ce40a0d7f05da0af85327eafc5c7010ec6ea83ff5b",
+              "archive_bytes": 1083585,
+              "original_bytes": 1083101
             }
           },
           {
@@ -145122,8 +145180,8 @@
         ],
         "budget": {
           "author_cap": 4000,
-          "actual_consumed": 465,
-          "remaining_author_cap": 3535,
+          "actual_consumed": 475,
+          "remaining_author_cap": 3525,
           "first_family_cap": 90,
           "first_family_consumed": 40,
           "active_task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
@@ -145180,7 +145238,12 @@
           "babai_side_gate_family_reserved": 0,
           "babai_side_gate_family_consumed": 10,
           "babai_side_gate_task_id": "01a169ce-1b21-7615-b1ad-090a25402579",
-          "babai_side_gate_task_state": "SUCCEEDED100; actual10credits; terminalreceipt and balance3815 rootverified; 1POST only"
+          "babai_side_gate_task_state": "SUCCEEDED100; actual10credits; terminalreceipt and balance3815 rootverified; 1POST only",
+          "prologue_branch_family_cap": 10,
+          "prologue_branch_family_reserved": 0,
+          "prologue_branch_family_consumed": 10,
+          "prologue_branch_task_state": "SUCCEEDED100 actual10 workerterminalreceipt; rootreadback/balancepending",
+          "prologue_branch_task_id": "01a16a54-4ed5-72da-9272-9bc8ef087354"
         },
         "current_artifact": "Babai side-gate literal8part96tri/2KgeneratedPBR integrated; sourceart+import/worldconstructionstrictbounds accepted, action/sceneview blocked byseparateglobalgorgeaudit. AS05birch frozenHOLD remainsno runtime; existing generatedconifers/hero house preserved.",
         "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
@@ -145263,6 +145326,22 @@
             "compact_provenance_bytes": 9022
           },
           "provenance": "assets/source/blender/act1/babai_side_gate_meshy_v1/candidate-receipt.json"
+        },
+        "prologue_branch_family_2026_10_23": {
+          "state": "one_retexture_succeeded_literal_maps_source_preparation_pending",
+          "owner": "Sol6.1High /root/sol_meshy_asset_pipeline; rootledger/runtimeintegration/Git",
+          "scope": "ExistingF01 whole3partfamily: sourcegeometrycurrentLOWsidepose5928tri/UV0unique+UV1metric/3clips preserved; generatedPBRmaps only. No newgeometry/remesh/Meshyimagegen.",
+          "canonical_donor": "game/assets/photoworlds/branch/prologue-branch-v1.glb",
+          "donor_sha256": "060b8af9939754ba3f6de866b703430f6f22a6498733104c253b5ff451b1e742",
+          "reference": "assets/source/blender/photoworlds/W01/prologue_branch_meshy_v1/input-material-reference-v1.png",
+          "reference_sha256": "4ea6d901f4df683d5dc702ec23c62e4c4a6cb03732df5f49fc698a9217673527",
+          "generation_id": "exec-1d366885-20ad-42b6-893a-e453b533e32e",
+          "root_review": "RootpersonallyviewedoneImageGenreference: same3pieces/fork/roots, coolgreyviolet/mutedtaupe barkfamily, barkflakepatternstrongerthanoriginal. Acceptonlyboundedmaterialcandidateinput; possibleoverscaledflake/readasstone isexplicitart risk, nofinalsceneapproval.",
+          "budget": "OnepaidPOSTSUCCEEDEDactual10, total475/4000,remaining3525,reserve0; rootbalance/readbackpending.",
+          "mapping_contract": "Use uniqueUV0forallgeneratedPBRbindings, preservebothUVsets/indices/normals/positions/nodes/animationbytes. OriginalbarkusesUV1; UV1→UV0materialbindingchangeINTENTIONAL. Discardreturnedgeometry. IfuploadmaterialreferencesUV1, prepareuntexturedmaterial-onlyuploaddonorwithsamegeometry/UV/animation, no rebake.",
+          "next_action": "DownloadsameoneGLBmapscontainer, attachUV0PBRtooriginaldonor preservinggeometry/UV0+UV1/all3clips, prepare2Ksourceviews; rootview beforecanonicalreplace. NoextraPOST.",
+          "task_id": "01a16a54-4ed5-72da-9272-9bc8ef087354",
+          "actual_consumed_credits": 10
         }
       },
       "root_conifer_frame_review_2026_10_19": {
