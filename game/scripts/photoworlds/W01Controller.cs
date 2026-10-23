@@ -29,6 +29,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         yield return BagScenePath;
         yield return ShuraleScenePath;
         yield return ShuraleRootedShootScenePath;
+        yield return ShuraleWorkAudioPath;
         yield return ProloguePhotoTexturePath;
         yield return FreshSnowTexturePath;
         yield return TrampledSnowTexturePath;
@@ -278,6 +279,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         RefreshPrologueSkipButtonState();
         ProcessBagPresentation(delta);
         ProcessShuralePresentation(delta);
+        ProcessShuraleWorkAudio();
     }
 
     public override void _PhysicsProcess(double delta)

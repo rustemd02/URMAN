@@ -125491,7 +125491,7 @@
       "title": "W01: закончить звуковую и световую постановку",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex",
+      "active_owner": null,
       "owner": "audio",
       "priority": "P1",
       "complexity": "medium",
@@ -125630,18 +125630,18 @@
       },
       "assigned_owner": "audio",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Root accepted ownerrejection of actualF00frame and coordinates existingforestcomposition/ground/light candidates; placementworker rig_contract andW01lightingworker gamefeel source owners, root integration/nativeacceptance pending."
+        "state": "idle",
+        "reason": "Finite spatial work-cue source stage delivered for review/compile; no worker remains active. Native hearing/full passport acceptance still pending."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Нет заметного короткого повторяющегося цикла.",
         "Не протекают чужая погода, радиосеть и обработка интерфейса.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Статическое ревью 23.10: в W01 отсутствует локальный звук обычной работы Шурале; общий 2D ambience его не заменяет. Проверить соответствие существующего forest_branch.wav (происхождение записано), затем подключить один пространственный cue у настоящей рабочей ветки с корректным lifecycle по существующему Foley owner pattern. Не повторять F00 screenshot как проверку звуковой карточки; слуховая/полная приёмка остаётся отдельной.",
+      "next_action": "Accept provisional F14 spatial woodwork cue in next necessary native W01 visit: real stroke alignment/audibility, no short obvious repetition, correct pause/hidden/session cancellation and5min linger. Current code stage does not prove hearing; do not replay unchanged F00screenshots or regenerateaudio without hearing feedback.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -125659,25 +125659,25 @@
             "task_id": "PW-045",
             "artifact": "W01: произвести и собрать всю проходимую геометрию «Лес за спиной»",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-047",
             "artifact": "W01: произвести, оживить и поставить Шурале",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-031",
             "artifact": "Зафиксировать colorscript и значения профилей",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-039",
             "artifact": "Встроить звуковые домены и переходы",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           }
         ],
         "scope_in": [
@@ -125765,25 +125765,25 @@
             "task_id": "PW-045",
             "artifact": "W01: произвести и собрать всю проходимую геометрию «Лес за спиной»",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-047",
             "artifact": "W01: произвести, оживить и поставить Шурале",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-031",
             "artifact": "Зафиксировать colorscript и значения профилей",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-039",
             "artifact": "Встроить звуковые домены и переходы",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           }
         ],
         "verification": [],
@@ -125874,6 +125874,19 @@
         "confirmed_cause": "Current matchingGLB COLOR_0 intact; centerlineR1,2.06m lateralR~.770. Shader remapped .16→.78 so lateral2.06m became track~.999, widening fullpackedcore beyond authored2.1m. Notmissingmask/import.",
         "correction": "Existing shader remap .72→1.0 retains fullstrengthonlyR1/authored2.1mcore and softens shouldercoverage. No terrain/sourceGLB/geometry/texture/physics/gates change.",
         "verification": "Binary/source inspection and arithmetic, diffcheck. Shader/native appearance requires next changedcandidate, not proven by C#compile."
+      },
+      "work_audio_stage_2026_10_24": {
+        "inputs": {
+          "PW-045": "W01Controller._Ready builds actual ground/F14 root/forest and exposes live Forest scene projection.",
+          "PW-047": "W01Controller.Shurale builds current imported actor + rooted work shoot, resolves ShuraleWorkBranch and validates work/notice/gesture/speak/yield clips; actual work clip1.25s.",
+          "PW-031": "W01 Environment_W01Daylight/current profile and scene presentation exist; no colorscript acceptance claimed.",
+          "PW-039": "Main.SetW01Ambience selects photoworld_forest; existing WorldFoleyPlayer and Sfx bus own spatial audio/pause lifecycle."
+        },
+        "change": "One spatial woodwork cue at actual ShuraleWorkBranch mesh center on active work-clip midpoint; first within8m, subsequent after random12–28 completed1.25s work cycles. No free ambience timer/loop/catchup/overlap. Existing WorldFoley/Sfx; hidden/modal/session/clip/exit cancel and owned duplicated stream disposed after player exits tree. ReducedMotion static pose does not create fake animated work sound.",
+        "asset": "Existing forest_branch.wav exact SHA90849a6c4458ac8053ef1e46c11bb63452776871dd0b21836f8064db0f235c48, monoPCM16/24kHz/2.5s. credits.json matches; original Branch Crack by lukabea CC0 source page reviewed. No new/downloaded/generated audio.",
+        "source": "https://freesound.org/people/lukabea/sounds/660471/",
+        "verification": "Source/caller/lifecycle review; affected Game compile18.72s exit0, 0warnings/errors; scoped diff check and tracker validation. Audio input tool unsupported: no claimed listening. Provisional -20dB/8m mix and physical-stroke semantic fit require hearing/native inspection.",
+        "remaining": "Listen at F14 while approaching, during actual work/noticing/dialogue, pause/modal, departure and revisit; five-minute linger/preset/volume/art acceptance remains open. Existing standalone73fd5377 does not include this later source stage."
       }
     },
     {
@@ -147302,7 +147315,8 @@
             "sizeBytes": 632678368,
             "sha256": "58c9bc8382cf1217a5fc69523a4ad461d01d0d35c97b2757dd639d93be502bdb"
           }
-        ]
+        ],
+        "source_freshness": "Frozen73fd5377 candidate includes latest movement/motorcycle/school/W02-binding fixes at export time. Later PW048 provisional Shurale work audio source is not included; keep candidate for its exact frozen acceptance, reexport only when a required current-source standalone check is available."
       }
     },
     {

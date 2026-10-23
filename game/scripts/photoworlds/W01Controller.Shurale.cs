@@ -10,6 +10,7 @@ public partial class W01Controller
 {
     private const string ShuraleScenePath = "res://assets/photoworlds/shurale/shurale_v1.glb";
     private const string ShuraleRootedShootScenePath = "res://assets/photoworlds/shurale/shurale_rooted_work_shoot_v1.glb";
+    private const string ShuraleWorkAudioPath = "res://assets/audio/act1/sound_mood/forest_branch.wav";
     private const string ShuraleInteractionId = "urman.fullgame:interaction/pw-forest-shurale";
     private const string ShuraleDialogueId = "urman.fullgame:dialogue/pw-forest-shurale-d06";
     private const string ShuraleLabelTextId = "urman.fullgame:text/pw-label-forest-shurale-talk";
@@ -53,11 +54,16 @@ public partial class W01Controller
     private string? _shuraleActiveDialogueId;
     private string? _shuraleActiveDialogueNodeId;
     private ShuraleAnimationPhase _shuraleAnimationPhase;
+    private readonly RandomNumberGenerator _shuraleWorkAudioRandom = new();
+    private WorldFoleyPlayer? _shuraleWorkFoley;
+    private double _shuralePreviousWorkAudioPhase = -1;
+    private int _shuraleWorkCyclesUntilAudio;
 
     private void BuildShuralePresentation()
     {
         if (_shuraleRoot is { } existing && GodotObject.IsInstanceValid(existing)) return;
 
+        _shuraleWorkAudioRandom.Randomize();
         _shuraleAnchor = GetNode<Marker3D>(ShuraleAnchorPath);
         var root = LoadScene(ShuraleScenePath).Instantiate<Node3D>();
         root.Name = "W01Shurale_PhysicalInstance";
@@ -394,6 +400,8 @@ public partial class W01Controller
 
     private void ExitShuralePresentation()
     {
+        CancelShuraleWorkAudio();
+        _shuraleWorkAudioRandom.Dispose();
         if (_shuraleAnimation is { } animation && GodotObject.IsInstanceValid(animation))
         {
             animation.AnimationFinished -= OnShuraleAnimationFinished;
@@ -495,6 +503,9 @@ public partial class W01Controller
     private void PlayShuraleClip(string clip, ShuraleAnimationPhase phase)
     {
         if (_shuraleAnimation is not { } animation || !GodotObject.IsInstanceValid(animation)) return;
+        CancelShuraleWorkAudio();
+        _shuralePreviousWorkAudioPhase = -1;
+        _shuraleWorkCyclesUntilAudio = 0;
         animation.Play(clip, customBlend: 0.18);
         _shuraleCurrentAnimation = clip;
         _shuraleAnimationPhase = phase;
@@ -502,6 +513,7 @@ public partial class W01Controller
 
     private void SetShuraleTerminalPose(string clip)
     {
+        CancelShuraleWorkAudio();
         if (_shuraleAnimation is not { } animation || !GodotObject.IsInstanceValid(animation)) return;
         animation.Stop();
         animation.Play(clip, fromEnd: true);
@@ -513,9 +525,82 @@ public partial class W01Controller
 
     private void StopShuraleClip()
     {
+        CancelShuraleWorkAudio();
+        _shuralePreviousWorkAudioPhase = -1;
+        _shuraleWorkCyclesUntilAudio = 0;
         if (_shuraleAnimation is { } animation && GodotObject.IsInstanceValid(animation)) animation.Stop();
         _shuraleCurrentAnimation = null;
         _shuraleAnimationPhase = ShuraleAnimationPhase.Resting;
+    }
+
+    private void ProcessShuraleWorkAudio()
+    {
+        if (_shuraleRoot is not { } root || !GodotObject.IsInstanceValid(root) || !root.IsVisibleInTree()
+            || _shuraleWorkBranch is not MeshInstance3D { Mesh: not null } branch
+            || !GodotObject.IsInstanceValid(branch) || !branch.IsVisibleInTree()
+            || _shuraleAnimation is not { } animation || !GodotObject.IsInstanceValid(animation)
+            || _shuraleCurrentAnimation != "work" || animation.CurrentAnimation != "work" || !animation.IsPlaying()
+            || animation.CurrentAnimationLength <= 0
+            || _accessibility.ReducedMotion || GetTree().Paused || ShuraleModalOpen()
+            || _shuraleBridgeIsCurrent()?.CurrentW01BranchProjection() is not { ActiveSceneId: ForestSceneId } projection
+            || !ReferenceEquals(projection.SessionIdentity, _shuraleSessionIdentity)
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController
+                { SessionTransitionActive: false, VehicleControlled: false } player)
+        {
+            CancelShuraleWorkAudio();
+            _shuralePreviousWorkAudioPhase = -1;
+            return;
+        }
+
+        var at = branch.ToGlobal(branch.GetAabb().GetCenter());
+        if (_shuraleWorkFoley is { } foley)
+        {
+            if (!GodotObject.IsInstanceValid(foley) || foley.IsQueuedForDeletion()) _shuraleWorkFoley = null;
+            else foley.GlobalPosition = at;
+        }
+        var phase = animation.CurrentAnimationPosition / animation.CurrentAnimationLength;
+        var previous = _shuralePreviousWorkAudioPhase;
+        _shuralePreviousWorkAudioPhase = phase;
+        if (previous < 0) return;
+        if (phase < previous)
+        {
+            if (_shuraleWorkCyclesUntilAudio > 0) _shuraleWorkCyclesUntilAudio--;
+            return;
+        }
+        // A sparse accent on a real working stroke, not a looping forest bed.
+        // Only completed work cycles advance the changing interval; no catch-up.
+        if (_shuraleWorkCyclesUntilAudio > 0 || previous >= .5 || phase < .5
+            || player.GlobalPosition.DistanceSquaredTo(at) > 8f * 8f || _shuraleWorkFoley is not null)
+            return;
+        _shuraleWorkCyclesUntilAudio = _shuraleWorkAudioRandom.RandiRange(12, 28);
+        if (DisplayServer.GetName() == "headless"
+            || ResourceLoader.Load<AudioStreamWav>(ShuraleWorkAudioPath) is not { } source) return;
+        var stream = (AudioStreamWav)source.Duplicate();
+        stream.LoopMode = AudioStreamWav.LoopModeEnum.Disabled;
+        AudioSettingsService.EnsureBuses();
+        var sound = new WorldFoleyPlayer
+        {
+            Name = "W01ShuraleWoodwork", Stream = stream, Bus = AudioSettingsService.SfxBus,
+            VolumeDb = -20f, MaxDistance = 8f, UnitSize = 1.5f
+        };
+        sound.SetMeta("audioProvenance", "Branch Crack by lukabea, CC0; forest_branch.wav credits.json. Provisional woodwork accent, not a branch-break event.");
+        sound.AddToGroup("world_foley");
+        root.AddChild(sound);
+        sound.GlobalPosition = at;
+        sound.Finished += () => sound.QueueFree();
+        sound.TreeExited += () => stream.Dispose();
+        _shuraleWorkFoley = sound;
+        sound.RequestPlay(paused: false);
+    }
+
+    private void CancelShuraleWorkAudio()
+    {
+        if (_shuraleWorkFoley is { } sound && GodotObject.IsInstanceValid(sound) && !sound.IsQueuedForDeletion())
+        {
+            sound.Cancel();
+            sound.QueueFree();
+        }
+        _shuraleWorkFoley = null;
     }
 
     private void OnShuraleAnimationFinished(StringName animationName)
