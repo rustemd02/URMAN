@@ -184,12 +184,15 @@ public partial class DocumentImageReader : VBoxContainer
         }
         else if (_zoom > 1 && input.IsPressed())
         {
+            var previousPan = _pan;
             if (input.IsAction("ui_left")) _pan.X += 48;
             else if (input.IsAction("ui_right")) _pan.X -= 48;
             else if (input.IsAction("ui_up")) _pan.Y += 48;
             else if (input.IsAction("ui_down")) _pan.Y -= 48;
             else return;
             LayoutPicture();
+            // At the edge, let ordinary directional focus reach the reader buttons.
+            if (_pan == previousPan) return;
         }
         else return;
         _canvas.AcceptEvent();

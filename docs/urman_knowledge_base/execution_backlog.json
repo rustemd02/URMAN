@@ -139793,7 +139793,7 @@
       "id": "PW-081",
       "title": "Проверить весь путь с клавиатурой и контроллером",
       "milestone": "PW-M4",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "qa",
       "priority": "P1",
@@ -139929,16 +139929,16 @@
       },
       "assigned_owner": "qa",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "idle",
+        "reason": "Finite reader directional-edge source fix accepted; native controller route remains open."
       },
       "task_type": "integration_check",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Проверить весь путь с клавиатурой и контроллером; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
       ],
-      "next_action": "Target controller native journaldefaultpage→photo-book tab→inspection/action→other tabs→cancel/reopen, mouse/controller switching. Godot ui_* defaults/navigation are not established by project bindings or codeinspection.",
+      "next_action": "Verify ordinary controller book→image→zoom→canvas→edge→reader buttons/return, including a fully fitted axis, then existing full keyboard/controller route and device/focus switching. Reuse accepted source compile; no unchanged rebuild.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -140010,7 +140010,7 @@
           ],
           "repeat_only_if": "Изменились потребитель/входные данные/проверяемый контракт либо предыдущий прогон неполон."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "SOURCE_PARTIAL: reader directional edge no longer swallows no-op navigation; affected Game compile15.84s0/0. Full keyboard/controller native acceptance NOT_RUN.",
         "evidence_refs": [
           "tasks[id=PW-081].evidence"
         ],
@@ -140125,6 +140125,20 @@
           "game/scripts/JournalUi.PhotoBook.cs"
         ],
         "remaining": "Actual remap+device switch/native journal/book focus/navigation still required; no game/tests/build run for this readback."
+      },
+      "reader_focus_edge_2026_10_24": {
+        "state": "source_verified_native_pending",
+        "finding": "DocumentImageReader consumed every directional press at zoom>1 even when LayoutPicture clamped pan to the same value, trapping directional navigation on the image. Pinned Godot4.7.1 ui_focus_next/prev defaults provide Tab/ShiftTab, not a controller escape.",
+        "result": "Only an actual pan consumes directional input. A no-op at an image edge or on a fully fitted axis reaches existing directional focus navigation. The last partial pan is still consumed; mouse/wheel/drag/Tab/modal/callbacks unchanged.",
+        "targets": [
+          "game/scripts/DocumentImageReader.cs"
+        ],
+        "inputs": [
+          "Existing shared DocumentImageReader used by DocumentUi and JournalUi front/back image readers; current focusable reader toolbar, description and return controls. No completed epilogue is required for this finite source repair.",
+          "https://raw.githubusercontent.com/godotengine/godot/4.7.1-stable/core/input/input_map.cpp#L448-L454"
+        ],
+        "verification": "Independent Sol identification/implementation; root source/caller review confirms clamp monotonicity and no-op event propagation. Affected Game compile15.84s,0warnings,0errors. No new tests/native launch.",
+        "remaining": "Actual controller focus-neighbor selection, zoom/pan/recovery comfort and full PW081 ordinary route remain unverified. Frozen standalone73fd5377 excludes this later fix."
       }
     },
     {
