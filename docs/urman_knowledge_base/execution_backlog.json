@@ -108058,7 +108058,9 @@
         "defect": "Ordinary WaterPlaceTalkTarget lacked dialogueId. Interaction pw-water-place-talk has no effects; home_water_place_told is produced only by ask-name in pw-water-place dialogue. Journal requested the conversation, but E could not open it, blocking permission/mount/W02 progression.",
         "change": "ArrivalPersonalProps.WaterPlaceTalkTarget now binds urman.fullgame:dialogue/pw-water-place, matching adjacent permission target pattern. No content effects, permission rules or save changes.",
         "verification": "Independent Sol source finding and root caller/content review; affected Game compile16.84s exit0, 0warnings/errors; scoped diff/tracker validation. Existing FullGameFlowSmokeTest.DialogueAsync directly opens dialogue and does not prove this physical binding. No native run/new tests.",
-        "remaining": "During next necessary protected ordinary investigation, use real E on әби→ask-name→permission→mount/read→river entry, preserving cancellation and save/Continue. Current source fix does not prove complete W02 play."
+        "remaining": "During next necessary protected ordinary investigation, use real E on әби→ask-name→permission→mount/read→river entry, preserving cancellation and save/Continue. Current source fix does not prove complete W02 play.",
+        "adjacent_binding_review": "24.10 source comparison after f0dee74b found no further missing mandatory dialogue binding in tea/school/home-return/common-file/water-permission/Shurale/authorship/Alsu/pre-W04/epilogue. Bag intentionally opens dialogue through its physical-action commit/retry owner. No new production edits justified by this bounded review; direct-dialogue semantic smoke still does not prove physical reachability.",
+        "acceptance_access": "24.10 01:41 MSK fresh Tailscale status: UnterPC online=false, lastSeen2026-10-21T06:40:09.1Z; desktop connector fresh NOT_FOUND tunnel_client_not_seen. Native Mac tool lacks captured relative look previously established. No game launched or speculative input workaround; whole ordinary investigation still requires usable native input or player-run acceptance."
       }
     },
     {

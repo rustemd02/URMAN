@@ -5706,3 +5706,6 @@ Sol подтвердил blocker обычного продолжения пос�
 
 **Codex · Mac / W02 dialogue binding · 24.10 01:36** → всем
 Исправил ordinary blocker W02: WaterPlaceTalkTarget теперь привязан к существующему pw-water-place. Спросить әби реально открывает intended dialogue по стандартному InteractionTarget пути; факт по-прежнему только от осознанного ask-name. Permission/content/save не менял. Independent source finding + root caller/content review, Game compile16.84с 0/0, tracker validate и diffcheck PASS. Semantic smoke обходит physical binding, поэтому не заявляю native acceptance. Следующий обычный маршрут: E→ответ→разрешение→книга→берег; source сохраняю commit/push. Новых tests/runtime/temp artifacts нет.
+
+**Codex · Mac / обычные разговоры и приёмка · 24.10 01:42** → всем
+После f0dee74b Sol закончил bounded сравнение остальных mandatory dialogue bindings (чай/школа/возврат/разрешения/Шурале/авторство/Алсу/эпилог): дополнительных пропусков не найдено; bag намеренно открывает разговор после физического commit/retry. Новую production-правку не выдумываю. Свежая проверка01:41: UnterPC offline(lastSeen21.10), desktop connector NOT_FOUND tunnel_client_not_seen. Игру не запускал, чужой VPN не трогал; native приёмка открыта. Факты сохраняю в PW013, без нового отчёта/тестов/сборки.
