@@ -466,7 +466,8 @@ public partial class StyleBenchmarkZone : Node3D
         target.Rotation = Vector3.Zero;
         target.SetMeta("physicalVisual", physicalVisual.GetPath());
         target.PresentationGate = () => GodotObject.IsInstanceValid(physicalVisual)
-            && physicalVisual.IsInsideTree() && physicalVisual.IsVisibleInTree();
+            && physicalVisual.IsInsideTree() && physicalVisual.IsVisibleInTree()
+            && physicalVisual.GetTree().GetFirstNodeInGroup("act1_demo_root") is not Act1DemoRoot { OwnsPhotoNivaArrival: true };
         target.SetPresentationEnabled(true);
     }
 

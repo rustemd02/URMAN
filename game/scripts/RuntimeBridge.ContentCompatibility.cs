@@ -26,6 +26,9 @@ public partial class RuntimeBridge
     private const string FullGameEntryPromptTextFingerprint =
         "ed3f63c9550d08fe26a640ac4945bce8ae41a1d520604a57498d52a6719001ab";
 
+    private const string FullGameNivaArrivalFingerprint =
+        "d6365c9d89f50395993b7397046ff006cd5c5882bcb5f570187cef160752fae0";
+
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
         // 80266983 -> 5b0a7ccf: 18 UI texts/provides IDs only; proof in PW-025.
@@ -56,7 +59,12 @@ public partial class RuntimeBridge
         // Two entry/inspection labels only; retain the accepted direct predecessor pairs.
         new(FullGamePhotoReturnTextFingerprint, FullGameEntryPromptTextFingerprint),
         new("d10e86231a472351cbbcf5ffaa46f18820269037acecaf17678e6472c0b8e710",
-            FullGameEntryPromptTextFingerprint)
+            FullGameEntryPromptTextFingerprint),
+        // Effects-free D00/four texts only; existing saved-state definitions are unchanged.
+        new(FullGameEntryPromptTextFingerprint, FullGameNivaArrivalFingerprint),
+        new(FullGamePhotoReturnTextFingerprint, FullGameNivaArrivalFingerprint),
+        new("d10e86231a472351cbbcf5ffaa46f18820269037acecaf17678e6472c0b8e710",
+            FullGameNivaArrivalFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -68,7 +76,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAllWorldBookReturnFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTamaraQuestFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGamePhotoReturnTextFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEntryPromptTextFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEntryPromptTextFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameNivaArrivalFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }

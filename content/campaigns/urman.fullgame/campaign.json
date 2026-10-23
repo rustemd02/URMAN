@@ -50,6 +50,7 @@
     "urman.fullgame:scene/pw-common",
     "urman.fullgame:scene/pw-cellar",
     "urman.fullgame:scene/pw-epilogue",
+    "urman.fullgame:dialogue/pw-niva-arrival-d00",
     "urman.fullgame:dialogue/pw-arrival-tea",
     "urman.fullgame:dialogue/pw-water-place",
     "urman.fullgame:dialogue/pw-first-world-home",

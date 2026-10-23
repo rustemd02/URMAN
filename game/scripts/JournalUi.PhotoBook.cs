@@ -13,6 +13,8 @@ public partial class JournalUi
     private const string SBankFrontImagePath = "res://assets/textures/photobook/s-bank-front-v1.png";
     private const string PForestFrontImagePath = "res://assets/textures/photobook/p-forest-front-v2.png";
     private const string PForestThumbnailPath = "res://assets/textures/photobook/p-forest-front-v2-thumbnail.png";
+    private const string SSchoolFrontImagePath = "res://assets/textures/photobook/s-school-front-v2.png";
+    private const string SSchoolThumbnailPath = "res://assets/textures/photobook/s-school-front-v2-thumbnail.png";
     private const string CommonRelationsSourceId = "urman.fullgame:interaction/pw-common-three-places";
     private const string CommonRelationsStudyAssetId = "urman.fullgame:asset/w04-common-relations-study";
     private static readonly IReadOnlyDictionary<string, (string Path, string Caption)> PhotoBookBackImages =
@@ -565,12 +567,13 @@ public partial class JournalUi
     // back images as list icons, since their captions require the ReadBack action.
     private static string? PhotoBookFrontImageResourcePath(string photoId, bool thumbnail = false)
     {
-        // The school contact print copies the same fictional staged photograph.
+        // The school print shows the same fictional group from a neighboring camera.
         return photoId switch
         {
             SGardenPhotoId => SGardenFrontImagePath,
             "S-BANK" => SBankFrontImagePath,
-            "P-FOREST" or "S-SCHOOL" => thumbnail ? PForestThumbnailPath : PForestFrontImagePath,
+            "P-FOREST" => thumbnail ? PForestThumbnailPath : PForestFrontImagePath,
+            "S-SCHOOL" => thumbnail ? SSchoolThumbnailPath : SSchoolFrontImagePath,
             _ => null
         };
     }

@@ -111501,6 +111501,11 @@
         "evidence": "evidence/PW-020/f11_crossbar_build_20261023.log.gz",
         "evidence_sha256": "b12218fcf83be45c268be462c241c80bf0a0d2401820f981bdcc710fe6b81b6d",
         "remaining": "Protected ordinary F11 observation must commit forest_camera_back_seen, then complete beyond-frame/Shurale/bag action, return and postreturn Save/Continue. Static geometry and compilation do not close PW-020."
+      },
+      "latest_native_attempt_2026_10_23": {
+        "state": "arrival_verified_forest_not_reached",
+        "result": "Current integrated native ordinary NewGame/Skip/D00/pause Save observed; F11 and full W01 action/return not reached before guard ended. No forest_camera_back_seen or earned-cycle completion claim.",
+        "evidence": "evidence/PW-043/arrival_native_20261023.zip"
       }
     },
     {
@@ -120155,15 +120160,21 @@
       ],
       "assignment_state": "preserved_person_or_existing_role; activity separate",
       "school_neighboring_print_2026_10_23": {
-        "state": "confirmed_source_gap_next_finite_art_result",
+        "state": "runtime_hook_compiled_art_candidate_native_pending",
         "finding": "P-FOREST and S-SCHOOL resolve to identical p-forest-front-v2 pixels. Previous provenance deliberately used a contact copy; current D04 says neighboring frame with same crossbar, and photos.spec S-SCHOOL calls for the same people and recognizable other side. School acquisition currently provides no distinct promised visual evidence.",
         "targets": [
-          "game/assets/textures/photobook/",
-          "game/scripts/JournalUi.PhotoBook.cs"
+          "game/scripts/JournalUi.PhotoBook.cs",
+          "game/assets/textures/photobook/s-school-front-v2.png",
+          "game/assets/textures/photobook/s-school-front-v2-thumbnail.png",
+          "game/assets/textures/photobook/s-school-front-v2.provenance.json"
         ],
-        "next_action": "Produce one neighboring school print from current staged P-FOREST and existing fictional cast, preserving the same geography/landmarks/painterly family; use built-in image_gen, then connect existing acquired-source reader and physical book. Do not restore old low-poly s-school-front-v1 or invent new world/quest.",
+        "next_action": "In next ordinary school/book route inspect distinct acquired S-SCHOOL front+thumbnail+physical reader against P-FOREST, verify useful recognizable neighboring viewpoint. Native player-clue and author art acceptance remain open; no further isolated generation without new defect.",
         "acceptance_question": "Can a player comparing the two prints identify what the school copy reveals about the same tree sides/crossbar? Native and author acceptance remain required.",
-        "source_review": "Independent Astra recommendation, followed by Sol spec/provenance readback and root direct inspection of both existing assets. No image generation or runtime change yet."
+        "source_review": "Independent Astra recommendation, followed by Sol spec/provenance readback and root direct inspection of both existing assets. No image generation or runtime change yet.",
+        "result": "Adjacent camera from same existing packed Blender scene (Godot2.5,2.206942903,35 toward.25,3.8,46,FOV48); exactly one built-in ImageGen transformation with current p-forest-v2 style/fictional identities. Root viewed actual reference and result. S-SCHOOL now separately resolves front/thumbnail via existing shared reader/list/physical-book lookup; P-FOREST unchanged.",
+        "verification": "Game18.40s0/0 includes resolver; controlled import accepted new assets. Full1800x1200 PNG4066040B SHAd9b9cb685e158d157fb90cb54afc35870b589b51159b4fda2f154f5e1a2cb73d; thumb256x171 PNG100571B SHA1673e60335f0dc98d9fb977572176c6bd15de17b95f057df2dc0e9e69a305451. Provenance records one generation, input hashes/camera recipe and geometric drift limits. Native book display NOT_RUN.",
+        "evidence": "game/assets/textures/photobook/s-school-front-v2.provenance.json",
+        "cleanup": "Temporary adjacent Blender render/log deleted after exact recipe/hash retained. No extra repo raw bitmap copied; unique original generated image remains at Codex source path. Reproducible thumbnails/runtimefront are actual product resources."
       }
     },
     {
@@ -121294,7 +121305,7 @@
       "assigned_owner": "narrative",
       "activity": {
         "state": "not_active",
-        "reason": "Finite keyboard Skip source/native evidence accepted in faf1274a; station freed after restored aef2. Full opening/ordinary cycle and visual gates remain open."
+        "reason": "Finite source+partial native D00 stage ended; guard1200s timeout/restoration terminal. No live native process or station claim; explicit exit and cold Continue still pending."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -122045,11 +122056,30 @@
         "native_fca": "Album after physical book correctly asks school copy; after S-SCHOOL and after Continue asks forest-edge. Shared gameplay HUD/general journal and alternate W01/W02 order not separately sampled."
       },
       "arrival_causality_2026_10_23": {
-        "state": "source_gap_recommended_bounded_next_result",
+        "state": "implemented_compiled_native_partial",
         "finding": "Prologue complete/skip enters pw-niva-arrival; Main routes to arrival on foot, but parked Niva target says stop and exit. Authored D00 passenger conversation is not presented on this path.",
-        "next_action": "Within existing arrival/prologue scope, reconcile passenger arrival and D00 with actual ordinary exit toward house, preserving skip/session/save guards. Inspect existing vehicle presentation before implementation; no new driving scene/cutscene.",
+        "next_action": "Next necessary protected ordinary run: complete explicit D00 exit, verify pavement control/house cue; Save then confirmed Quit and cold Continue before guard deadline. Also exercise ordinary complete-prologue path and unfinished-arrival reconstruction. Reuse accepted Skip/dialogue/E-cue/Save proof.",
         "acceptance_question": "After ordinary completion and Skip, does player understand where Aidar is, why he has the book and where to go?",
-        "source_review": "Read-only Astra judgment cited definitions.json1856, Main.cs558, StyleBenchmarkZone.cs431 and existing authored D00; native first-ten-minute timing not measured."
+        "source_review": "Sol implementation, root owner/callers/cleanup readback. Astra bounded review has no confirmed P1/P2: initially alleged missing mouse handler retracted after Act1DemoRoot.RenderDiagnostics._Input was found. Additional handler would have double-applied mouse motion.",
+        "targets": [
+          "game/scripts/Act1DemoRoot.cs",
+          "game/scripts/Act1DemoRoot.PrologueNivaRide.cs",
+          "game/scripts/StyleBenchmarkZone.cs",
+          "content/modules/urman-fullgame/definitions.json",
+          "content/campaigns/urman.fullgame/campaign.json",
+          "game/content/urman.fullgame.compiled.v1.json",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+        ],
+        "result": "Stationary passenger presentation reuses actual fleet Niva transform, driver/camera and existing DialogueUi. Exact authored D00 and explicit exit call unchanged pw-niva-stop. Real standing pose remains valid for SaveV3; unfinished arrival reconstructs by semantic scene. No driver/book ownership mutation or long ride.",
+        "verification": "ContentCli fullgame compile exit0; affected Game18.40s exit0/0warnings/0errors. Exact compiled comparison: all pre-existing registry records, schemas, dependencyGraph and campaign fields/order preserved; only one effects-free D00 dialogue, four texts and one narrative registration added, plus fingerprints. D00 uses ordinary existing dialogueChoices bookkeeping.",
+        "old_fingerprint": "ed3f63c9550d08fe26a640ac4945bce8ae41a1d520604a57498d52a6719001ab",
+        "new_fingerprint": "d6365c9d89f50395993b7397046ff006cd5c5882bcb5f570187cef160752fae0",
+        "save_compatibility": "Exact direct ed3f63/1249c9/d10e86→d6365c pairs only, earlier pairs preserved. Sol reviewed codec/current whitelist/normal+debug loading clean; unknown/reverse/transitive stay strict. Old-save loading not exercised natively.",
+        "native_observed": "Actual normal NewGame from clean guarded session→Return Skip→village passenger camera with Mansur D00.01 and Aidar choice; accepted choice→D00.03 and explicit exit choice visible. Esc closes dialogue into readable persistent E continuation cue; next Esc opens pause; native Save confirmed Сохранено and SaveGameV3 written. Root directly viewed each state; three selected screenshots retained in local raw archive.",
+        "native_boundary": "F11 forest fact and actual terminal exit choice were not exercised. First Quit click armed Выход—точно, but second confirmation was not sent before guard1200s deadline. Guard terminated first native process, wrapper exit124; automatic second session/cold Continue NOT_RUN. Original userdata files+permissions restored and verified. Do not call this normal exit, full D00 completion or release PASS.",
+        "evidence": "evidence/PW-043/arrival_native_20261023.zip",
+        "evidence_sha256": "11e33437141d3fb4cabb1c955c958a69b97154340920fa7f46dc79ebe179d015",
+        "remaining": "Native actual exit/cold restoration/complete-prologue and author scene acceptance remain open; full PW-043 and ActI release are not complete."
       }
     },
     {
@@ -146700,6 +146730,16 @@
         "evidence_sha256": "3c2fcf6182e9bda3602204298d58924f7655c17476f1a742da0a2920a6abea02",
         "cleanup": "Rawlog gzip11597B verified; stopped owned import/shader/mono/core build caches561784020B removed. No ordinary screenshots/video addedGit.",
         "remaining": "Mac rendered gameplay/HUD/modal/forest observation unverified. No immediate repeat of samefailedmanualcheck; retain rare necessary run policy."
+      },
+      "mac_import_native_2026_10_23_arrival": {
+        "state": "import_workaround_verified_native_partial",
+        "failure": "Cold Godot4.7.1 headless import exited139 at PT_Sans-Narrow-Web-Bold.ttf; OS report EXC_BAD_ACCESS faulting WorkerThread9. Before-native four custom-font cache-miss errors kept distinct from native log. No exact engine root cause claim.",
+        "controlled_recheck": "One temporary game/override.cfg with editor/import/use_multiple_threads=false; protected import exit0 and guard restoration verified. Temp override deleted with exact-byte assertion before native; project.godot/global/VPN unchanged. Native used actual default renderer/settings.",
+        "native": "Integrated D00/school source Game18.40s; ordinary clean NewGame/Skip/passengerD00/E-cue/Save observed. Native1200s guard deadline stopped process before confirmed Quit/cold Continue; exit124 and restored original userdata verified, no live child. Native ERROR count0, existing PainterlyMaterialLibrary warnings remain distinct.",
+        "evidence": "evidence/PW-043/arrival_native_20261023.zip",
+        "evidence_sha256": "11e33437141d3fb4cabb1c955c958a69b97154340920fa7f46dc79ebe179d015",
+        "cleanup": "8 raw logs/selectedscreens packed365281B; all member bytes compared then710597B loose logs/screens removed, old comparison pack removed;564930362B stopped owned import/shader/build caches removed. Temp override and Blender render removed. No screenshots/videos/archive added to Git.",
+        "remaining": "Full ordinary earned W01 cycle, Continue and release target performance/art remain unverified. Measured synchronous scene build stages30.565s; repeated zero-work snow logs do not prove reconstruction hotspot."
       }
     },
     {

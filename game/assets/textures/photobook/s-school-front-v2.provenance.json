@@ -1,0 +1,65 @@
+{
+  "asset_id": "S-SCHOOL",
+  "status": "root_selected_source_art_candidate; native_and_author_acceptance_open",
+  "method": "One built-in image_gen edit: adjacent-camera staged reference for composition, accepted P-FOREST v2 for fictional adults and painterly family. Original generated output retained outside repository.",
+  "tool": "image_gen.imagegen",
+  "generation_id": "exec-89cbe6c1-2a09-42e1-b639-1cc8ca766261",
+  "generation_count": 1,
+  "prompt": "Use case: identity-preserve / style-transfer. Asset type: one original in-game school-album neighboring print, landscape 3:2, full image without border. Edit IMAGE 1, the project-owned staged Blender neighboring-camera reference, into a finished winter rural Tatarstan family-album illustration. IMAGE 1 locks the camera, perspective, crop, exact landmark centers and silhouettes, and the three adults' positions and heights. IMAGE 2 is the accepted previous print from the SAME fictional occasion: use it for the SAME three adult identities, wardrobe, believable anatomy, materials, daylight and cold blue-violet painterly treatment, but DO NOT copy its camera or reset the new parallax to IMAGE 2. The new neighboring-camera composition must remain visibly distinct: the people sit farther right relative to the three tall central trunks; preserve IMAGE 1's large forked pale birch on the left, the same low wooden crossbar behind its stems on the left, and the low angular natural raised-root arch on the right. Keep the same three tall central trunks and existing conifer depth planes. No new geography. Replace IMAGE 1's plastic toy surfaces with IMAGE 2's coherent broad brushwork and convincing frosted bark, soft thick snow, rough wood and natural winter clothing. Recreate exactly IMAGE 2's three anonymous fictional older rural adults, retaining their left-to-right identities: left man in dark teal winter coat and black fur hat; middle man in belted brown coat and brown fur hat; right woman in muted purple coat and purple headscarf; all in trousers and felt winter boots. Relaxed shoulders and plausible hands, calm expressions, gazes slightly to the side of the photographer as in IMAGE 2. Their ground positions, relative heights and spacing follow IMAGE 1, not IMAGE 2. They remain ordinary people, no uniforms or weapons. Preserve the low crossbar clearly so a player recognizes the same forest side in both prints. Use the accepted cold blue-violet/teal winter shadows, pale soft daylight and restrained snowy atmosphere, without an overall yellow, orange, sepia or sunset wash. No additional people, buildings, portals, creatures, text, letters, labels, captions, watermark or border. This is project-generated fictional staged artwork, not a real historical family photograph. Deliver ONE finished 1800x1200 landscape illustration preserving IMAGE 1's neighboring view.",
+  "source_scene": {
+    "path": "assets/source/blender/photoworlds/W01/pforest-tableau-v1.blend",
+    "sha256": "439b43b505a897663c9140634273e906323cf62e93f68f3ba9ed7f6943776384",
+    "recipe_owner": "assets/source/blender/photoworlds/W01/pforest_tableau.py",
+    "render": "Blender 4.5.12 LTS, existing packed scene, EEVEE 96 samples, frame18,1800x1200; no source save or generator rerun",
+    "camera_godot_xyz_m": [
+      2.5,
+      2.206942903,
+      35
+    ],
+    "target_godot_xyz_m": [
+      0.25,
+      3.8,
+      46
+    ],
+    "vertical_fov_degrees": 48,
+    "coordinate_conversion": "Godot(X,Y,Z) -> Blender(X,-Z,Y); camera tracks local -Z with Y up",
+    "render_expression": "import bpy; from mathutils import Vector; scene=bpy.context.scene; cam=scene.camera; cam.location=Vector((2.5,-35,2.206942903)); target=Vector((.25,-46,3.8)); cam.rotation_euler=(target-cam.location).to_track_quat(\"-Z\",\"Y\").to_euler(); scene.render.filepath=\"<temporary-output.png>\"; bpy.ops.render.render(write_still=True)",
+    "temporary_reference_sha256": "626488072b9c5e3db41ef9e28b4cbc40b6c8f7214d7f26ddd01b2b9efcb7bdf0",
+    "temporary_reference_policy": "Reproducible render and log removed after checking stored recipe/input hash."
+  },
+  "style_and_identity_input": {
+    "path": "game/assets/textures/photobook/p-forest-front-v2.png",
+    "sha256": "c4b64f07534aca8a5e021b55f9e695686cd0180379d4227ebad19d169149c60e",
+    "invariants": "Same three fictional older adults: left teal coat/black fur hat, middle brown coat/brown fur hat, right muted-purple coat/purple scarf; felt boots; cold blue-violet painterly winter."
+  },
+  "original_generated_output": {
+    "path": "/Users/unterlantas/.codex/generated_images/01a168d3-d8df-71c1-97fa-1dcd6edb1430/exec-89cbe6c1-2a09-42e1-b639-1cc8ca766261.png",
+    "sha256": "8b15260f9e7558c8995f904ff4424500a39846a1433083fdc133a63fb18f4c6a",
+    "size_px": [
+      1536,
+      1024
+    ]
+  },
+  "runtime_front": {
+    "path": "game/assets/textures/photobook/s-school-front-v2.png",
+    "sha256": "d9b9cb685e158d157fb90cb54afc35870b589b51159b4fda2f154f5e1a2cb73d",
+    "size_px": [
+      1800,
+      1200
+    ],
+    "bytes": 4066040,
+    "export": "sips -z 1200 1800 original --out front; mechanical resample only"
+  },
+  "runtime_thumbnail": {
+    "path": "game/assets/textures/photobook/s-school-front-v2-thumbnail.png",
+    "sha256": "1673e60335f0dc98d9fb977572176c6bd15de17b95f057df2dc0e9e69a305451",
+    "size_px": [
+      256,
+      171
+    ],
+    "bytes": 100571,
+    "export": "sips -z 171 256 front --out thumbnail; required catalog size"
+  },
+  "rights": "Project-generated fictional staged artwork, not a historical family photograph. Existing packed project geometry and CC0 Resident derivative; no new external source or likeness.",
+  "limits": "Root viewed and selected source art candidate. Adjacent frame preserves recognizable split birch/low crossbar left, three central trunks and root arch right; generated bark/branches and some trunk centers drift from staged reference. Brush treatment is interpreted, not pixel-exact geometry. New player clue, native book rendering, W01 likeness, cultural/rights/final author acceptance remain unproven."
+}

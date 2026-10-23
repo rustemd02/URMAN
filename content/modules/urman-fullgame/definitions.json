@@ -6330,6 +6330,93 @@
   },
   {
     "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-niva-arrival-d00-01",
+    "value": {
+      "default": "Айдар. Приехали. Книгу только не урони.",
+      "translations": {
+        "ru": "Айдар. Приехали. Книгу только не урони."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-niva-arrival-d00-02",
+    "value": {
+      "default": "Я её открывал?",
+      "translations": {
+        "ru": "Я её открывал?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-niva-arrival-d00-03",
+    "value": {
+      "default": "На колени положил. Пойдём, әби уже в окно смотрит.",
+      "translations": {
+        "ru": "На колени положил. Пойдём, әби уже в окно смотрит."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-niva-arrival-exit",
+    "value": {
+      "default": "Выйти из Нивы",
+      "translations": {
+        "ru": "Выйти из Нивы"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-niva-arrival-d00",
+    "participantRoles": [
+      "aidar",
+      "mansur"
+    ],
+    "startNodeId": "d00-01",
+    "nodes": [
+      {
+        "id": "d00-01",
+        "speakerRole": "mansur",
+        "textId": "urman.fullgame:text/pw-dialogue-niva-arrival-d00-01",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "d00-02",
+            "textId": "urman.fullgame:text/pw-choice-niva-arrival-d00-02",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "d00-03"
+          }
+        ]
+      },
+      {
+        "id": "d00-03",
+        "speakerRole": "mansur",
+        "textId": "urman.fullgame:text/pw-dialogue-niva-arrival-d00-03",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "exit-niva",
+            "textId": "urman.fullgame:text/pw-choice-niva-arrival-exit",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
     "id": "urman.fullgame:scene/pw-niva-arrival",
     "sceneType": "scripted",
     "title": {

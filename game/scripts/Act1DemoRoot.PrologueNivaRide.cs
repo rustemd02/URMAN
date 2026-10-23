@@ -20,6 +20,191 @@ public partial class Act1DemoRoot
     private static readonly Vector3 RideCameraRest = new(.42f, 1.44f, .30f);
 
     private const string PrologueRideDialogue = "urman.chapter1:dialogue/prologue-niva-language";
+    private const string PhotoNivaArrivalScene = "urman.fullgame:scene/pw-niva-arrival";
+    private const string PhotoNivaArrivalDialogue = "urman.fullgame:dialogue/pw-niva-arrival-d00";
+    private Node3D? _photoNivaPresentation;
+    private FirstPersonController? _photoNivaPlayer;
+    private object? _photoNivaSession;
+    private object? _photoNivaFailedSession;
+    private bool _photoNivaPhysicsEnabled, _photoNivaInputEnabled, _photoNivaExitPending;
+    private ulong _photoNivaReleasedFrame;
+
+    internal bool PhotoNivaArrivalActive => _photoNivaPresentation is { } presentation
+        && IsInstanceValid(presentation) && ReferenceEquals(presentation, _rideNiva);
+
+    internal bool OwnsPhotoNivaArrival => UsesPhotoWorldsCampaign && !StudioPreviewMode
+        && _playerSessionSelected && !_photoWorldReplay
+        && _bridge is { } bridge && IsInstanceValid(bridge)
+        && bridge.ActiveSceneId == PhotoNivaArrivalScene && bridge.SessionIdentity is { } session
+        && !ReferenceEquals(session, _photoNivaFailedSession);
+
+    private bool IsCurrentPhotoNivaArrival(object session) => PhotoNivaArrivalActive
+        && IsInsideTree() && !IsQueuedForDeletion() && !_orderlyShutdownRequested
+        && ReferenceEquals(session, _photoNivaSession)
+        && _bridge is { } bridge && IsInstanceValid(bridge) && bridge.IsInsideTree()
+        && ReferenceEquals(session, bridge.SessionIdentity) && bridge.ActiveSceneId == PhotoNivaArrivalScene
+        && !bridge.IsPhotoBookProjectionDeferred && !bridge.NeedsPhysicalRecovery
+        && _photoNivaPlayer is { } player && IsInstanceValid(player) && player.IsInsideTree()
+        && !player.SessionTransitionActive && !MainMenuVisible && !_menuBusy;
+
+    private void UpdatePhotoNivaArrival(double delta)
+    {
+        if (_photoNivaPresentation is not null
+            && (_photoNivaSession is not { } activeSession || !IsCurrentPhotoNivaArrival(activeSession)))
+            ReleasePhotoNivaArrival();
+
+        if (!UsesPhotoWorldsCampaign || StudioPreviewMode || _orderlyShutdownRequested
+            || !_playerSessionSelected || MainMenuVisible || _menuBusy || _photoWorldReplay
+            || _bridge is not { } bridge || !IsInstanceValid(bridge) || !bridge.IsInsideTree()
+            || bridge.ActiveSceneId != PhotoNivaArrivalScene || bridge.SessionIdentity is not { } session
+            || bridge.IsPhotoBookProjectionDeferred || bridge.NeedsPhysicalRecovery
+            || ReferenceEquals(session, _photoNivaFailedSession)
+            || _player is not { } player || !IsInstanceValid(player) || !player.IsInsideTree()
+            || player.SessionTransitionActive)
+            return;
+
+        if (_photoNivaPresentation is null)
+        {
+            // Let the existing driver's deferred seating finish against its old
+            // owner before another session can reuse the ride fields.
+            if (_rideNiva is not null || Engine.GetProcessFrames() <= _photoNivaReleasedFrame + 3
+                || player.ModalOpen || !player.IsOnFloor() || !player.CanStandAt(player.GlobalPosition)
+                || _main.ConnectedWorld?.ActiveZoneId != "village_day") return;
+            var niva = (GetTree().GetFirstNodeInGroup("vehicle_fleet") as VehicleFleet)?.Vehicles
+                .SingleOrDefault(vehicle => vehicle.Definition.Id == "babay-niva" && vehicle.Definition.Kind == VehicleKind.Niva);
+            if (niva is null || !IsInstanceValid(niva) || !niva.IsInsideTree() || niva.Driver is not null) return;
+            try
+            {
+                _ = bridge.RequireDialogue(PhotoNivaArrivalDialogue);
+                if (GetTree().GetFirstNodeInGroup("dialogue_ui") is not DialogueUi dialogue || dialogue.IsOpen)
+                    return;
+                var visual = VehicleVisualFactory.Build(niva.Definition);
+                _photoNivaPresentation = _rideNiva = visual.Root;
+                _photoNivaSession = session;
+                _photoNivaPlayer = player;
+                _photoNivaPhysicsEnabled = player.IsPhysicsProcessing();
+                _photoNivaInputEnabled = player.IsProcessingUnhandledInput();
+                _rideNiva.Name = "PhotoWorldNivaArrival";
+                _rideNiva.SetMeta("presentationOnly", true);
+                _rideNiva.SetMeta("presentationOwner", nameof(Act1DemoRoot));
+                _main.AddChild(_rideNiva);
+                _rideNiva.GlobalTransform = niva.GlobalTransform;
+                _rideCamera = new Camera3D { Name = "PhotoWorldPassengerCamera", Position = RideCameraRest,
+                    Near = .045f, Fov = Mathf.Min(player.GetNode<Camera3D>("Head/Camera3D").Fov, 62f) };
+                _rideNiva.AddChild(_rideCamera);
+                BuildPrologueDriver();
+                _rideShake = Vector2.Zero;
+                _rideLook = new(35f, 0f);
+                ApplyPrologueRideLook();
+                _parkedNivaForRide = niva;
+                _parkedNivaWasVisible = niva.Visible;
+                niva.Visible = false;
+                _playerHudForRide = player.GetNodeOrNull<CanvasLayer>("Hud");
+                if (_playerHudForRide is { } hud)
+                {
+                    _playerHudWasVisibleForRide = hud.Visible;
+                    hud.Visible = false;
+                }
+                // The cabin is presentation only. Saves retain the already
+                // validated standing pose; Continue reconstructs this scene.
+                player.Velocity = Vector3.Zero;
+                player.SetPhysicsProcess(false);
+                player.SetProcessUnhandledInput(false);
+                _rideCamera.MakeCurrent();
+                DialogueUi.ChoiceAccepted += OnPhotoNivaArrivalChoice;
+                bridge.OpenDialogueUi(PhotoNivaArrivalDialogue);
+                UpdateRouteCue();
+            }
+            catch (Exception error)
+            {
+                _photoNivaFailedSession = session;
+                ReleasePhotoNivaArrival();
+                GD.PushWarning($"PhotoWorld Niva arrival presentation failed: {error.Message}");
+                player.NotifyTraversal("Не удалось открыть разговор в Ниве. Подойдите к машине, чтобы продолжить.");
+            }
+        }
+
+        if (IsCurrentPhotoNivaArrival(session) && !player.ModalOpen && _pauseMenu?.IsOpen != true)
+            UpdateRideLook(false, (float)delta);
+    }
+
+    private bool HandlePhotoNivaArrivalInput(InputEvent inputEvent)
+    {
+        if (_photoNivaSession is not { } session || !IsCurrentPhotoNivaArrival(session)
+            || _photoNivaExitPending || _photoNivaPlayer?.ModalOpen != false
+            || _pauseMenu?.IsOpen == true || inputEvent is InputEventKey { Echo: true }
+            || !inputEvent.IsActionPressed("interact")) return false;
+        _bridge!.OpenDialogueUi(PhotoNivaArrivalDialogue);
+        GetViewport().SetInputAsHandled();
+        return true;
+    }
+
+    private void OnPhotoNivaArrivalChoice(string dialogueId, string choiceId)
+    {
+        if (dialogueId != PhotoNivaArrivalDialogue || choiceId != "exit-niva" || _photoNivaExitPending
+            || _photoNivaSession is not { } session || !IsCurrentPhotoNivaArrival(session)) return;
+        _photoNivaExitPending = true;
+        _ = ExitPhotoNivaArrivalAsync(session);
+    }
+
+    private async Task ExitPhotoNivaArrivalAsync(object session)
+    {
+        try
+        {
+            // The accepted terminal choice closes DialogueUi before normal
+            // interaction dispatch/checkpoint capture can resume the player.
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (!IsCurrentPhotoNivaArrival(session)) return;
+            var bridge = _bridge!;
+            if (!await bridge.DispatchInteractionAsync("urman.fullgame:interaction/pw-niva-stop")
+                && IsCurrentPhotoNivaArrival(session))
+                bridge.OpenDialogueUi(PhotoNivaArrivalDialogue);
+        }
+        catch (Exception error)
+        {
+            GD.PushWarning($"PhotoWorld Niva exit failed: {error.Message}");
+            if (IsCurrentPhotoNivaArrival(session))
+            {
+                _photoNivaFailedSession = session;
+                ReleasePhotoNivaArrival();
+            }
+        }
+        finally
+        {
+            if (ReferenceEquals(session, _photoNivaSession)) _photoNivaExitPending = false;
+        }
+    }
+
+    private void ReleasePhotoNivaArrival()
+    {
+        if (_photoNivaPresentation is not { } presentation) return;
+        var player = _photoNivaPlayer;
+        _photoNivaPresentation = null;
+        _photoNivaSession = null;
+        _photoNivaPlayer = null;
+        _photoNivaExitPending = false;
+        _photoNivaReleasedFrame = Engine.GetProcessFrames();
+        DialogueUi.ChoiceAccepted -= OnPhotoNivaArrivalChoice;
+        if (IsInsideTree())
+            (GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi)?.CloseIfDialogue(PhotoNivaArrivalDialogue);
+        if (ReferenceEquals(presentation, _rideNiva))
+        {
+            _driver = null;
+            _driverSkeleton = null;
+            _driverGazeTarget = null;
+            ReleasePrologueRide(restoreSessionTransition: false);
+        }
+        else if (IsInstanceValid(presentation)) presentation.QueueFree();
+        if (player is not null && IsInstanceValid(player) && player.IsInsideTree())
+        {
+            player.SetPhysicsProcess(_photoNivaPhysicsEnabled);
+            player.SetProcessUnhandledInput(_photoNivaInputEnabled);
+            if (IsInsideTree() && (MainMenuVisible || _pauseMenu?.IsOpen == true || _orderlyShutdownRequested
+                || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true }))
+                player.SetModalOpen(true);
+        }
+        if (IsInsideTree() && !_orderlyShutdownRequested) UpdateRouteCue();
+    }
 
     // The village leg: the far-bank lane, the bridge and the FAP street, north up the
     // main street, once round Мәйдан and back to the arrival stop. Built from the
@@ -479,7 +664,7 @@ public partial class Act1DemoRoot
         _ = bridge.SetTatarLanguageLevelAsync(level);
     }
 
-    private void ReleasePrologueRide()
+    private void ReleasePrologueRide(bool restoreSessionTransition = true)
     {
         DialogueUi.ChoiceAccepted -= OnPrologueRideChoice;
         ReleaseApproachRoad();
@@ -487,7 +672,7 @@ public partial class Act1DemoRoot
         {
             (GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi)?.CloseIfDialogue(PrologueRideDialogue);
         }
-        if (_player is not null && IsInstanceValid(_player)) _player.SetSessionTransition(false);
+        if (restoreSessionTransition && _player is not null && IsInstanceValid(_player)) _player.SetSessionTransition(false);
         if (_player?.GetNodeOrNull<Camera3D>("Head/Camera3D") is { } playerCamera
             && GodotObject.IsInstanceValid(playerCamera))
         {

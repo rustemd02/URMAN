@@ -385,9 +385,14 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _Process(double delta)
     {
-        if (_orderlyShutdownRequested) return;
+        if (_orderlyShutdownRequested)
+        {
+            ReleasePhotoNivaArrival();
+            return;
+        }
         if (StudioPreviewMode) return;
         RefreshMenuResumeAvailability();
+        UpdatePhotoNivaArrival(delta);
 
         RecordM10Timing();
         if (_performanceProbe)
@@ -446,6 +451,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _ExitTree()
     {
+        ReleasePhotoNivaArrival();
         RestoreOrderlyShutdownHooks();
         StopIntroFlyover();
         StopRendererDiagnostics();
@@ -496,6 +502,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         if (_orderlyShutdownRequested) return;
         if (UsesPhotoWorldsCampaign)
         {
+            if (_photoNivaSession is { } arrivalSession && !IsCurrentPhotoNivaArrival(arrivalSession))
+                ReleasePhotoNivaArrival();
             if (_photoWorldReplay
                 && _bridge is { } photoWorldBridge
                 && photoWorldBridge.ActiveSceneId != PhotoWorldPrologueSceneId)
@@ -1313,6 +1321,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     public override void _UnhandledInput(InputEvent inputEvent)
     {
         if (_orderlyShutdownRequested) return;
+        if (HandlePhotoNivaArrivalInput(inputEvent)) return;
         if (_endingScreen is not null && inputEvent.IsActionPressed("ui_cancel"))
         {
             ReturnFromEnding();
@@ -1414,6 +1423,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private void BuildMainMenu(bool allowLiveReturn = false)
     {
+        ReleasePhotoNivaArrival();
         (GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge)?.CancelRinatPresentation();
         var player = _player;
         _menuReturnBridge = allowLiveReturn && _playerSessionSelected && !_introReplay && !_photoWorldReplay
@@ -2097,12 +2107,14 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _ => null
     };
 
-    private static string? PhotoWorldRouteCue(RuntimeBridge bridge) => bridge.ActiveSceneId switch
+    private string? PhotoWorldRouteCue(RuntimeBridge bridge) => bridge.ActiveSceneId switch
     {
         "urman.fullgame:scene/pw-niva-arrival" => PhotoWorldAvailableCue(
             bridge,
             "pw-niva-stop",
-            "Сначала подойти к Ниве. Потом — в дом Гөлсинә и Мансура."),
+            PhotoNivaArrivalActive
+                ? $"Приехали. {InputBindingService.ActionHint("interact", _player?.CurrentInputDevice == "gamepad")} — продолжить разговор с бабаем."
+                : "Подойти к Ниве. Потом — в дом Гөлсинә и Мансура."),
         "urman.fullgame:scene/pw-home" => JournalUi.PhotoBookPreparationObjectiveText(bridge)
             ?? (bridge.CanShowFamilyBookOnTable
                 ? PhotoWorldAvailableCue(bridge, "pw-home-enter-house", "Войти в дом Гөлсинә и Мансура.")
