@@ -23,6 +23,8 @@ public partial class RuntimeBridge
         "d172b0d0c7b25d88bce45b978e2b3352e230baee912491305c044e20b08418f2";
     private const string FullGamePhotoReturnTextFingerprint =
         "1249c9ed78a7ba4e08c8f7202f526e96c5f29e8d0b0ef56cb559ac82ef5cdce3";
+    private const string FullGameEntryPromptTextFingerprint =
+        "ed3f63c9550d08fe26a640ac4945bce8ae41a1d520604a57498d52a6719001ab";
 
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
@@ -50,7 +52,11 @@ public partial class RuntimeBridge
         new(FullGameAllWorldBookReturnFingerprint, FullGameTamaraQuestFingerprint),
         // Only the book-return label changed; the compiled state contract is identical.
         new("d10e86231a472351cbbcf5ffaa46f18820269037acecaf17678e6472c0b8e710",
-            FullGamePhotoReturnTextFingerprint)
+            FullGamePhotoReturnTextFingerprint),
+        // Two entry/inspection labels only; retain the accepted direct predecessor pairs.
+        new(FullGamePhotoReturnTextFingerprint, FullGameEntryPromptTextFingerprint),
+        new("d10e86231a472351cbbcf5ffaa46f18820269037acecaf17678e6472c0b8e710",
+            FullGameEntryPromptTextFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -61,7 +67,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameCellarReturnFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAllWorldBookReturnFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTamaraQuestFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGamePhotoReturnTextFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGamePhotoReturnTextFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEntryPromptTextFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }

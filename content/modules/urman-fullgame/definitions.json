@@ -4070,9 +4070,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-label-school-copy-source",
     "value": {
-      "default": "Найти разрешённую копию школьного альбома",
+      "default": "Осмотреть школьный альбом",
       "translations": {
-        "ru": "Найти разрешённую копию школьного альбома"
+        "ru": "Осмотреть школьный альбом"
       }
     },
     "purpose": "ui"
@@ -4724,9 +4724,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-label-enter-forest",
     "value": {
-      "default": "Вернуться к лесному снимку",
+      "default": "Открыть лесной снимок",
       "translations": {
-        "ru": "Вернуться к лесному снимку"
+        "ru": "Открыть лесной снимок"
       }
     },
     "purpose": "ui"

@@ -110774,7 +110774,7 @@
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "Native-check new photographed landmark/map at the supported road stance and enter W01 through the ordinary book. Then real forest action→ReturnTicket→post-return Save/Continue on current exported candidate; preserve required external gates.",
+      "next_action": "Next necessary protected ordinary run: confirm readable persistent goal and new first-entry/source prompts, then F11 shift at least0.2m/re-aim and observe committed forest fact before full W01 encounter→return→postreturn Save/Continue. Existing bookentry/return/coldContinuepose proven by5fb; full earned-insidephoto cycle remains open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111438,6 +111438,25 @@
           "current": "1249c9ed78a7ba4e08c8f7202f526e96c5f29e8d0b0ef56cb559ac82ef5cdce3"
         },
         "remaining": "Actual book presentation/confirmation and real W01 action→return→postreturn Save/Continue on current candidate; old-save native migration not exercised."
+      },
+      "first_loop_prompt_clarity_2026_10_23": {
+        "state": "content_and_compile_verified_native_pending",
+        "targets": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/content/urman.fullgame.compiled.v1.json",
+          "game/scripts/ArrivalPersonalProps.cs",
+          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+        ],
+        "result": "First entry/resume now neutral Открыть лесной снимок; source inspection Осмотреть школьный альбом no longer promises permission/copy before staff agreement. Both physical label copies match canonical content. IDs/conditions/effects/schema unchanged.",
+        "verification": "Existing ContentCli urman.fullgame compile exit0. Recursive exact compiled pack comparison: only four default/ru text scalar values and two content fingerprints changed. Old hardcoded phrases absent from active scripts/module/compiledpack. Affected Game compile17.57s exit0/0warnings/0errors; source diff check passed. Native labels/oldsave loading not exercised.",
+        "old_fingerprint": "1249c9ed78a7ba4e08c8f7202f526e96c5f29e8d0b0ef56cb559ac82ef5cdce3",
+        "new_fingerprint": "ed3f63c9550d08fe26a640ac4945bce8ae41a1d520604a57498d52a6719001ab",
+        "compatibility": "Exact one-way1249c9→ed3f63 and already accepted d10e86→ed3f63, original d10e86→1249c9 preserved. Unknown/reverse/transitive matches remain rejected by existing codec.",
+        "evidence": "evidence/PW-020/prompt_compat_build_20261023.log.gz",
+        "remaining": "Observe new prompts in next necessary protected ordinary gameplay; full W01 observation/action/return with earned fact and external acceptance remain open.",
+        "independent_review": "LunaFast exact-pair codec/strict unknown current handling reviewed clean; final narrow recheck of requested two IDs confirms module/compiled/Arrival191/School163 and exteriorResolveText agree. Root independently verified exact compiled delta, no native claim.",
+        "cleanup": "Temporary oldcompiledpack removed after exact comparison. Raw compile gzip397B SHA f547c8df0c707fc9d27455020193c1f88f75f8c973794f0a7a275c1821d76cd3 retained locally;53740367B stopped owned buildcache removed."
       }
     },
     {
@@ -146588,6 +146607,19 @@
           "staging_removed": true,
           "remaining": "Reuse accepted export10de Game/candidate751 under changed runner; actual EXE1 full loop and EXE2 Continue/normalQuit2."
         }
+      },
+      "mac_native_2026_10_23": {
+        "state": "normal_exit_userdata_restored_gameplay_unverified",
+        "source": "d78db08b",
+        "author_authorization": "23 October explicit rare necessary Mac game/test runs despite older Windows-only instructions.",
+        "mode": "Existing protected_run --clean --timeout900 around affected compile/import/ordinary photoworlds_game; no custom harness/probe.",
+        "result": "Compiled/imported/current supported prologue physicalW01 bootstrap, actual main menu screenshot, NewGame session-start log. CUA getApp consumed501.949s; subsequent captures stayed atmenu whilelogrecordednewsession, no gameplay/goal/forest acceptance inferred. Normal appQuit beforedeadline, processexit0; guard original files and permissions restored and verified.",
+        "engine_errors": 0,
+        "import_only_errors": "Cold customfont remap missing before first import:4errors; reimport generatedfont, subsequent nativeprocess has0error lines.",
+        "evidence": "evidence/PW-095/mac_native_20261023.log.gz",
+        "evidence_sha256": "3c2fcf6182e9bda3602204298d58924f7655c17476f1a742da0a2920a6abea02",
+        "cleanup": "Rawlog gzip11597B verified; stopped owned import/shader/mono/core build caches561784020B removed. No ordinary screenshots/video addedGit.",
+        "remaining": "Mac rendered gameplay/HUD/modal/forest observation unverified. No immediate repeat of samefailedmanualcheck; retain rare necessary run policy."
       }
     },
     {

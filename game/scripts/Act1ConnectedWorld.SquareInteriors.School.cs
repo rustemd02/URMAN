@@ -160,7 +160,7 @@ public partial class Act1ConnectedWorld
             RuralPropMaterials.Surface("upholstery", "5b6254"), .002f);
         AddSchoolCopyContact(sourceFolder, "FolderContact", new(.222f, .04f, .156f));
         var sourceTarget = FacilityTarget("SchoolPhotoCopySource", SchoolPhotoCopySourceInteraction,
-            "Найти разрешённую копию школьного альбома", school,
+            "Осмотреть школьный альбом", school,
             new(-8.48f, .76f, -3.98f), new(.20f, .09f, .14f));
         SetSchoolPhotoCopyMetadata(sourceTarget, SchoolPhotoCopySourceInteraction);
         RegisterPublicUse("school", sourceTarget, sourceFolder);

@@ -188,7 +188,7 @@ internal partial class ArrivalPersonalProps : Node3D
 
         house.MakeInteractionBox("PhotoWorldForestEntryTarget", new(.30f, .08f, .24f),
             book.Position, "4f5148",
-            "urman.fullgame:interaction/pw-enter-forest", "Вернуться к лесному снимку", rayOnly: true);
+            "urman.fullgame:interaction/pw-enter-forest", "Открыть лесной снимок", rayOnly: true);
 
         var waterChain = BuildWaterChain(house, things, paper);
         BuildHomePrinter(house, things, paper);
