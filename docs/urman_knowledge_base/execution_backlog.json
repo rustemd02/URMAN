@@ -95060,7 +95060,8 @@
           "game/scripts/Act1ConnectedWorld.AuthoredKitCollision.cs"
         ],
         "verification": "Sol source/GLB transform/terrain arithmetic; root final hunk, AuthoredSolidContact, whole-build/hero-only-refresh and later foundation-support filtering reviewed. Game compile17.49s,0warnings,0errors; scoped diffcheck. No game/newtest/probe/artifact export.",
-        "remaining": "Ordinary approach, side/reverse walk and actual feel/native rendering not accepted. This local missing-support repair does not prove the reported near-house/motorcycle sticking resolved. Frozen standalone73fd5377 excludes later source stages."
+        "remaining": "Ordinary approach, side/reverse walk and actual feel/native rendering not accepted. This local missing-support repair does not prove the reported near-house/motorcycle sticking resolved. Frozen standalone73fd5377 excludes later source stages.",
+        "related_family_scope": "Current runtime registration/placement inventory after a7243cb4:19 DwellingFacade_TimberPlaster placements,18 retired by KitPlacementTakeover (hidden and contacts disabled); sole active same DwellingFacade_StreetStep_LOD0 is H019. No further same-family patch/terrain replay justified. Independent Sol source inventory, no native claim."
       }
     },
     {
