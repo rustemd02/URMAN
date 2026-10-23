@@ -44,6 +44,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private SnowTrampleField? _snowTrample;
     private readonly List<OmniLight3D> _karaAccentLights = new();
     private readonly Dictionary<(string Variant, string Region), ArrayMesh> _foliageMeshes = new();
+    private const int MaximumGeneratedPineFits = 9;
+    private sealed record GeneratedPineFit(PackedScene Scene, ArrayMesh Source, ArrayMesh Fitted, Action Invalidated);
+    private static readonly Dictionary<(ulong Scene, ulong Mesh, int Lod, Vector3 Scale), GeneratedPineFit> GeneratedPineFits = new();
     internal static Aabb[] BuildingRoofBounds(Node root) => EnumerateDescendants<MeshInstance3D>(root)
         .Where(mesh => mesh.IsVisibleInTree() && mesh.Mesh is not null
             && mesh.Name.ToString().Contains("Roof", StringComparison.OrdinalIgnoreCase))
@@ -129,7 +132,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var path = generatedPine ? GeneratedWinterPinePath
             : pine ? PhysicalWinterPinePath
             : "res://assets/models/act1/urman_winter_dead_tree.glb";
-        var source = ResourceLoader.Load<PackedScene>(path).Instantiate<Node3D>();
+        var sourceScene = ResourceLoader.Load<PackedScene>(path);
+        var source = sourceScene.Instantiate<Node3D>();
         try
         {
             var names = pine ? new[] { "WinterPine", "WinterLightPine", "WinterFarPine" }
@@ -159,7 +163,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             for (var lod = 0; lod < names.Length; lod++)
             {
                 var template = EnumerateDescendants<MeshInstance3D>(source).Single(node => node.Name == $"{(pine ? "WinterPine" : "WinterDeadTree")}_LOD{lod}");
-                var mesh = generatedPine ? FitMeshFromRoot((ArrayMesh)template.Mesh!, visualScale)
+                var mesh = generatedPine ? FitGeneratedPineMesh(sourceScene, (ArrayMesh)template.Mesh!, visualScale, lod)
                     : (ArrayMesh)template.Mesh!.Duplicate();
                 if (generatedPine && mesh.GetSurfaceCount() is < 1 or > 2)
                     throw new InvalidOperationException("Generated pine requires one or two shared PBR surfaces.");
@@ -1827,6 +1831,42 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     {
         using var arrays = mesh.SurfaceGetArrays(surface);
         return arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+    }
+
+    private static ArrayMesh FitGeneratedPineMesh(PackedScene scene, ArrayMesh source, Vector3 scale, int lod)
+    {
+        // Reuse only the immutable fit, including between W01's temporary provider
+        // and the village. Resource identity and exact scale keep imports distinct.
+        var key = (scene.GetInstanceId(), source.GetInstanceId(), lod, scale);
+        if (GeneratedPineFits.TryGetValue(key, out var cached)) return cached.Fitted;
+        var fitted = FitMeshFromRoot(source, scale);
+        if (GeneratedPineFits.Count >= MaximumGeneratedPineFits)
+            ForgetGeneratedPineFit(GeneratedPineFits.Keys.First());
+        Action invalidated = () => ForgetGeneratedPineFit(key);
+        GeneratedPineFits.Add(key, new(scene, source, fitted, invalidated));
+        // In-place resource reloads can retain their native identity. Invalidate
+        // those too; dropping cache ownership never disposes a mesh still in use.
+        scene.Changed += invalidated;
+        source.Changed += invalidated;
+        return fitted;
+    }
+
+    private static void ForgetGeneratedPineFit((ulong Scene, ulong Mesh, int Lod, Vector3 Scale) key)
+    {
+        if (!GeneratedPineFits.Remove(key, out var entry)) return;
+        entry.Scene.Changed -= entry.Invalidated;
+        entry.Source.Changed -= entry.Invalidated;
+    }
+
+    internal static void ReleaseGeneratedPineFitsAfterSceneDisposal()
+    {
+        // Called only after Main and its tree instances have left the scene.
+        foreach (var key in GeneratedPineFits.Keys.ToArray())
+        {
+            var fitted = GeneratedPineFits[key].Fitted;
+            ForgetGeneratedPineFit(key);
+            if (GodotObject.IsInstanceValid(fitted)) fitted.Dispose();
+        }
     }
 
     private static ArrayMesh FitMeshFromRoot(ArrayMesh source, Vector3 scale)

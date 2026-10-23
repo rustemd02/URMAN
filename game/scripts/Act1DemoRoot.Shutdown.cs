@@ -72,6 +72,7 @@ public partial class Act1DemoRoot
 
             AnimationCatalog.ReleaseForFinalShutdown();
             Act1ConnectedWorld.ReleaseRoundLogCacheAfterSceneDisposal();
+            AgentBAct1ExteriorLayer.ReleaseGeneratedPineFitsAfterSceneDisposal();
             VillageWindowMaterials.ReleaseForFinalShutdown();
             WinterParticleSurfaces.ReleaseForFinalShutdown();
             PainterlyMaterialLibrary.ReleaseForFinalShutdown();
