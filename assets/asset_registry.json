@@ -4604,7 +4604,7 @@
       "id": "photoworlds.w01.first-action-bough.v1",
       "source": "assets/source/blender/photoworlds/W01/urman_prologue_branch.py",
       "derived": "game/assets/photoworlds/branch/prologue-branch-v1.glb",
-      "generator": "Existing original W01 producer: natural asymmetrical lower root-stumps and descending fork; LOW side rest authored in all3clips; globaluniqueUV0+originalmetricUV1. Functional stage5928tri; generated PBR candidate pending.",
+      "generator": "Existing original W01 producer: natural asymmetrical lower root-stumps and descending fork; LOW side rest authored in all3clips; globaluniqueUV0+originalmetricUV1. Functional stage5928tri; generated PBR source candidate HOLD after root actual views (too pale/stone-like), archived in PW-093 provenance; canonical original bark unchanged.",
       "license": "Project-original procedural bark/geometry; bark provenance retained in producer manifest",
       "scale": 1.0,
       "triangleBudget": 5928,

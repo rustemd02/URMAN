@@ -72312,6 +72312,19 @@
         "finding": "Sol reviewed four before/after frames and mesh tailoring. Closed NPC coat front14–15cm and upper trousers13cm leave only1–2cm fit clearance. A6cm tuck would intersect trousers; no safe coefficient-only fix established.",
         "evidence_limit": "Existing GaitCaptureProbe uses -72deg child-camera pitch versus production -82deg maximum; angle changes framing but cannot reveal genuinely occluded surfaces. Preserve accepted748b stride; no Body edit.",
         "remaining": "If ordinary current movement still obscures legs unacceptably, deliberate garment silhouette design needs scene/motion acceptance. Do not spend another isolated Meshy model cycle."
+      },
+      "inactive_source_cleanup_2026_10_23": {
+        "state": "rejected_historical_sources_compacted_runtime_unchanged",
+        "archive": "evidence/ACT1-LEGS.2/aidar-rejected-sources-20261023.tar.xz",
+        "sha256": "f1d7e506cf20607e8e88f52ae335f327256ff56411c2d6e8746b3f6155f673ce",
+        "bytes": 74418376,
+        "members": 23,
+        "removed_untracked_loose_files": 16,
+        "removed_loose_bytes": 78371057,
+        "net_saved_bytes": 3952681,
+        "retained": "Both tracked ImageGeninput+provenance unchanged; five small reproductionrecipes/manifests retained. All unique GLB/blend/inspection/render/log/rejectedpatch bytes in archive.",
+        "verification": "Worker eachmemberbytecompare+PAXSHA and activeMeshyowner confirmed no dependencies; root archiveSHA/member safety/count verified. No active/current body or foreign generate_character_kit.py changes.",
+        "acceptance_boundary": "HistoricalbodyHOLD remains; cleanup proves no movement/art acceptance."
       }
     },
     {
@@ -145186,7 +145199,7 @@
           "first_family_consumed": 40,
           "active_task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
           "active_task_state": "SUCCEEDED, actual30credits",
-          "live_balance_observed": 3815,
+          "live_balance_observed": 3805,
           "balance_is_not_author_budget": true,
           "active_remesh_task_id": "01a153a5-6669-7608-af5d-4ac72650653d",
           "active_remesh_task_state": "SUCCEEDED, actual5credits",
@@ -145242,7 +145255,7 @@
           "prologue_branch_family_cap": 10,
           "prologue_branch_family_reserved": 0,
           "prologue_branch_family_consumed": 10,
-          "prologue_branch_task_state": "SUCCEEDED100 actual10 workerterminalreceipt; rootreadback/balancepending",
+          "prologue_branch_task_state": "SUCCEEDED100 actual10; root terminalreceipt and balance3805 verified; PBRsourceHOLD pale stone-like bark, no runtimepromotion",
           "prologue_branch_task_id": "01a16a54-4ed5-72da-9272-9bc8ef087354"
         },
         "current_artifact": "Babai side-gate literal8part96tri/2KgeneratedPBR integrated; sourceart+import/worldconstructionstrictbounds accepted, action/sceneview blocked byseparateglobalgorgeaudit. AS05birch frozenHOLD remainsno runtime; existing generatedconifers/hero house preserved.",
@@ -145328,7 +145341,7 @@
           "provenance": "assets/source/blender/act1/babai_side_gate_meshy_v1/candidate-receipt.json"
         },
         "prologue_branch_family_2026_10_23": {
-          "state": "one_retexture_succeeded_literal_maps_source_preparation_pending",
+          "state": "root_viewed_material_hold_sources_compacted_runtime_unchanged",
           "owner": "Sol6.1High /root/sol_meshy_asset_pipeline; rootledger/runtimeintegration/Git",
           "scope": "ExistingF01 whole3partfamily: sourcegeometrycurrentLOWsidepose5928tri/UV0unique+UV1metric/3clips preserved; generatedPBRmaps only. No newgeometry/remesh/Meshyimagegen.",
           "canonical_donor": "game/assets/photoworlds/branch/prologue-branch-v1.glb",
@@ -145337,11 +145350,27 @@
           "reference_sha256": "4ea6d901f4df683d5dc702ec23c62e4c4a6cb03732df5f49fc698a9217673527",
           "generation_id": "exec-1d366885-20ad-42b6-893a-e453b533e32e",
           "root_review": "RootpersonallyviewedoneImageGenreference: same3pieces/fork/roots, coolgreyviolet/mutedtaupe barkfamily, barkflakepatternstrongerthanoriginal. Acceptonlyboundedmaterialcandidateinput; possibleoverscaledflake/readasstone isexplicitart risk, nofinalsceneapproval.",
-          "budget": "OnepaidPOSTSUCCEEDEDactual10, total475/4000,remaining3525,reserve0; rootbalance/readbackpending.",
+          "budget": "OnepaidPOSTSUCCEEDEDactual10; root read status-01 actual10 and balance-after3805(monthly2655+permanent1150). Total475/4000,remaining3525,reserve0. Balance not author budget.",
           "mapping_contract": "Use uniqueUV0forallgeneratedPBRbindings, preservebothUVsets/indices/normals/positions/nodes/animationbytes. OriginalbarkusesUV1; UV1→UV0materialbindingchangeINTENTIONAL. Discardreturnedgeometry. IfuploadmaterialreferencesUV1, prepareuntexturedmaterial-onlyuploaddonorwithsamegeometry/UV/animation, no rebake.",
-          "next_action": "DownloadsameoneGLBmapscontainer, attachUV0PBRtooriginaldonor preservinggeometry/UV0+UV1/all3clips, prepare2Ksourceviews; rootview beforecanonicalreplace. NoextraPOST.",
+          "next_action": "Do not repeat rejected material or promote it. Preserve canonical060b8 for ordinaryF01 whole-scene/action/SaveContinue acceptance after manualMacunlock; continue other agreed wholefamilies with existing reference→ImageGen→Meshy pipeline only against clear current scene input. Actual/sourcecandidate art status stays explicit; no reservedcredits.",
           "task_id": "01a16a54-4ed5-72da-9272-9bc8ef087354",
-          "actual_consumed_credits": 10
+          "actual_consumed_credits": 10,
+          "root_actual_review": "Root personally viewed actualPBR three-quarter and rear: bark too pale grey-white with stone/scale-like flakes. Source-only HOLD; do not promote to W01 or spend on tint/retry. Functional canonical060b8 remains. Geometry5928tri, original BIN/UV0+UV1/all3clips literal; generatedPBR binds uniqueUV0.",
+          "candidate": {
+            "path": "evidence/PW-093/prologue-branch-material-source-v1-20261023.tar.xz#f01-branch-whole-pbr-2k-v1.glb",
+            "bytes": 13071880,
+            "sha256": "e568cb6b8a8242f1f328b7282aaf4f22e706ecc32ce06c89be8c862371f27a50",
+            "status": "archive_only_source_hold"
+          },
+          "provenance": "assets/source/blender/photoworlds/W01/prologue_branch_meshy_v1/candidate-receipt.json",
+          "archive": {
+            "path": "evidence/PW-093/prologue-branch-material-source-v1-20261023.tar.xz",
+            "sha256": "8bb9bfa34bc010a8d0079adb733271180513b2bd7012e270ad84ca2922dc7e8d",
+            "bytes": 34487152,
+            "members": 24,
+            "verification": "Worker fullmemberbyte comparison before deleting23loosefiles61,795,409B; root archiveSHA/saferegularmembercount/statusactual10/balance3805/canonical060b8 readback independently verified.",
+            "net_saved_bytes": 27301287
+          }
         }
       },
       "root_conifer_frame_review_2026_10_19": {
@@ -146092,7 +146121,7 @@
       "title": "Собрать самостоятельный релизный кандидат",
       "milestone": "PW-M5",
       "status": "in_progress",
-      "active_owner": "/root",
+      "active_owner": null,
       "owner": "release",
       "priority": "P1",
       "complexity": "complex",
@@ -146231,8 +146260,8 @@
       },
       "assigned_owner": "release",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Single protected native5fb836 running; changed startup runner reuses accepted same Game packet, two lifetimes share deadline05:44UTC."
+        "state": "not_active",
+        "reason": "Finite current-source native package produced/structurally verified. No liveexport/native process; standaloneUI waits manualMacunlock and Windows availability, fullPW095 remainspartial."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -146242,7 +146271,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Reuse accepted same cached export10de/candidate751 with corrected startup gate; authorized Skip of already verified prologue, ordinary Niva/home/tea/book/photo/action/return/manualSave/normalQuit1, then actual EXE2 Continue retained state/pose and normalQuit2. No new Game export. All unproved gates retained.",
+      "next_action": "Use current candidate build/releases/act1-20261023-e534f9f4 only: after manualMacunlock one ordinary standalone NewGame/book/entry/action/return/Save/normalQuit/coldContinue route under existing userdata guard; separately Windows actualhost. Currentstructural receipts reused, no reexport without changedruntime input. Performance/rights/fullcampaign/external gates remainopen.",
       "blocker": null,
       "external_gates": [
         {
@@ -147057,6 +147086,62 @@
         "evidence_sha256": "8e54f1ffcc7b7988f33177ca7c0a197946da260e52cc69c4ed01d69eca7c33ed",
         "cleanup": "10rawmembers951528B archive, full member-byte comparison before deleting3085419B loose files including byte-identical duplicate quickSave. No screenshots/videos/archives inGit. Working import/currentDLL cache retained for the immediate existing W01 acceptance so it is not deleted/rebuilt between incomplete checks; temporary override absent.",
         "remaining": "Exact immediate loaded pose observation, unfinishedarrival, complete-prologue path, school artwork in book, earned W01 action/return and release performance/art remain open."
+      },
+      "current_candidate_2026_10_23": {
+        "state": "structural_native_export_pass_gameplay_pending",
+        "source_commit": "e534f9f4",
+        "output": "build/releases/act1-20261023-e534f9f4",
+        "question": "Does the existing exporter package the changed LANG.4/W02/F01 current runtime with stable provenance, correct fullgame resource scope and protected headless bootstrap on both PCKs?",
+        "success": "Existing exporter exit0 and final receipt points to exact native outputs/current-source manifest; no claim of actual desktop play/art/performance/signing.",
+        "reason": "Last local native macOS candidate dated19 October is stale relative to accepted runtime changes. One current package required for independent standalone acceptance.",
+        "material_freeze": "Canonical F01 original bark060b8 remains. Meshy task01a16a54 generated maps rejected by root source views as too pale/stone-like; cleanup outside runtime only.",
+        "remaining": "Ordinary standalone NewGame/book/action/return/Save/coldContinue Mac and Windows, checkout/network independence, target performance, rights and external gates.",
+        "producer": "eng/export-desktop-release.sh",
+        "producer_exit": 0,
+        "run_id": "8cad795c-dd30-4ec2-bd1b-98f1988fe979",
+        "receipt": "build/releases/act1-20261023-e534f9f4/desktop-artifact-receipt.json",
+        "receipt_sha256": "c5a0b1939935f0e1d40d9d4c8ed7f7a02c09ce43f1bd6fce9479716b3f5f7935",
+        "source_manifest_sha256": "2e23a6278e43812da382b541ff0240acedd6b98343cad420f6d4f87759e27979",
+        "source_file_count": 2471,
+        "source_before_after_equal": true,
+        "artifacts": [
+          {
+            "platform": "macOS",
+            "kind": "zip",
+            "path": "build/releases/act1-20261023-e534f9f4/macos/URMAN.zip",
+            "sizeBytes": 660700702,
+            "sha256": "83db2fb5230695c6503b2162be43ce18e16af2934c53ac2748d23d208e66a64c",
+            "entryCount": 410
+          },
+          {
+            "platform": "Windows",
+            "kind": "zip",
+            "path": "build/releases/act1-20261023-e534f9f4/URMAN-windows-x86_64.zip",
+            "sizeBytes": 595518472,
+            "sha256": "f2b442a00768c721ab903b0cd1175addf8df2a140c554b13a6c3fcf1304f3ae5",
+            "entryCount": 206
+          },
+          {
+            "platform": "Windows",
+            "kind": "executable",
+            "path": "build/releases/act1-20261023-e534f9f4/windows/URMAN.exe",
+            "sizeBytes": 632674448,
+            "sha256": "d2edbc4c9466c98a9009179831a4ae914c98281027261dbc9e16825deccebf02"
+          }
+        ],
+        "verification": "One existing producer exit0. Both actual native PCK scope gates PASS1429entries, registered dependencies vehicleJSON2/radio12rows11WAV/publicphotos2, separate protected headless/Dummy PhotoWorlds bootstrap PASS for both Mac and WindowsPCKs. Original userdata restoration verified by producer gates; both export groups stopped. macOS exactarm64+x86_64 and .NET10closure; Windows ZIP matches204file stagedtree/PE GUIx64. No ordinary UI/gameplay/performance/art/signing or Windows-host proof.",
+        "source_boundary": "Runtime source had no tracked diff during export. Dirty outer checkout includes unrelated Graphify3+generate_character_kit.py and roottracker/chat/untrackedauthoring; exact2471file runtime provenance stable. Receipt retains actualdirtypaths rather than asserting cleancommit-only build.",
+        "retired_old_export": {
+          "path": "build/releases/act1-20261019-f62bf22b",
+          "state": "superseded_generated_packages_removed_after_current_structural_pass",
+          "removed_bytes": 1682478254,
+          "retained_receipt": "build/releases/act1-20261019-f62bf22b/desktop-artifact-receipt.json",
+          "retained_receipt_sha256": "7abc99d6964527d27d836606ef58afcea794fda1aeb9f4f45c3f75abe411bb8b",
+          "contract_boundary": "Historical receipt retained; its artifactpaths intentionally no longer present. Oldcandidate is retired, not currently valid/reverifiable. CurrentMacZIP+WindowsZIP+Windowsruntime+receipt retained. Empty01814e45directory removed."
+        },
+        "producer_log": "evidence/PW-095/desktop-export-e534f9f4-20261023.log.gz",
+        "producer_log_sha256": "572d1d1bb8c78dee15f6e3612eb857a56c66041482c95ad4c4485d0034c3e4bc",
+        "producer_log_raw_removed_bytes": 491935
       }
     },
     {
