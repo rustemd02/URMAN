@@ -13,6 +13,8 @@ public partial class JournalUi
     private const string SBankFrontImagePath = "res://assets/textures/photobook/s-bank-front-v1.png";
     private const string PForestFrontImagePath = "res://assets/textures/photobook/p-forest-front-v2.png";
     private const string PForestThumbnailPath = "res://assets/textures/photobook/p-forest-front-v2-thumbnail.png";
+    private const string PWaterFrontImagePath = "res://assets/textures/photobook/p-water-front-v1.png";
+    private const string PWaterThumbnailPath = "res://assets/textures/photobook/p-water-front-v1-thumbnail.png";
     private const string SSchoolFrontImagePath = "res://assets/textures/photobook/s-school-front-v2.png";
     private const string SSchoolThumbnailPath = "res://assets/textures/photobook/s-school-front-v2-thumbnail.png";
     private const string CommonRelationsSourceId = "urman.fullgame:interaction/pw-common-three-places";
@@ -573,6 +575,7 @@ public partial class JournalUi
             SGardenPhotoId => SGardenFrontImagePath,
             "S-BANK" => SBankFrontImagePath,
             "P-FOREST" => thumbnail ? PForestThumbnailPath : PForestFrontImagePath,
+            "P-WATER" => thumbnail ? PWaterThumbnailPath : PWaterFrontImagePath,
             "S-SCHOOL" => thumbnail ? SSchoolThumbnailPath : SSchoolFrontImagePath,
             _ => null
         };

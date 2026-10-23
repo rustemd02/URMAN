@@ -28,10 +28,12 @@ public partial class W02Controller : Node3D
     private const string DampPrintLabelTextId = "urman.fullgame:text/pw-label-water-damp-print";
     private const string ReturnLabelTextId = "urman.fullgame:text/pw-label-water-return";
     private const string SummerWillowScenePath = "res://assets/photoworlds/W02/summer-willow-near-2k-v1.glb";
+    private const string SummerWillowFarScenePath = "res://assets/photoworlds/W02/summer-willow-far-impostor-2k-v1.glb";
 
     internal static IEnumerable<string> DynamicResourcePaths()
     {
         yield return SummerWillowScenePath;
+        yield return SummerWillowFarScenePath;
         yield return BoardContactAudioPath;
         yield return WaterAnswerAudioPath;
         foreach (var path in PainterlyMaterialLibrary.DynamicResourcePaths(new[]
@@ -42,7 +44,7 @@ public partial class W02Controller : Node3D
     // Authored placement from the W02 passport (§2). Y is the walking surface.
     private static readonly Vector3[] RouteNodes =
     [
-        new(0f, 1.2f, 0f),      // R00 photo place / spawn
+        new(0f, 1.2f, 0f),      // Old dry-pier geometry branch start; R00 spawn is authored in the scene.
         new(0f, 1.2f, 14f),     // R01 dry piers, vista
         new(-16f, 0.5f, 25f),   // R02 quiet bay
         new(10f, 1.2f, 30f),    // R03 reflection window
@@ -604,16 +606,23 @@ public partial class W02Controller : Node3D
         _reflectionObservationStandHalfExtents = standSize * 0.5f - Vector2.One * 0.4f;
 
         // The source composition: chipped left post, two standing posts and a
-        // diagonal board, with the old approach line kept right of the frame.
-        WaterPost("ReflectionPostChipped", 6.18f, 33.0f, 0.72f, chipped: true);
-        WaterPost("ReflectionPostMid", 5.8f, 32.3f, 0.55f);
-        WaterPost("ReflectionPostOuter", 5.42f, 31.6f, 0.66f);
+        // diagonal board, with the old approach kept outside the frame to the left.
+        var chippedPost = WaterPost("ReflectionPostChipped", 6.18f, 33.0f, 0.72f, chipped: true);
+        var midPost = WaterPost("ReflectionPostMid", 5.8f, 32.3f, 0.55f);
+        var outerPost = WaterPost("ReflectionPostOuter", 5.42f, 31.6f, 0.66f);
+        Vector3 PostTop(MeshInstance3D post) => post.Position
+            + post.Basis.Y * (((CylinderMesh)post.Mesh).Height * 0.5f);
+        var boardStart = PostTop(chippedPost);
+        var boardEnd = PostTop(outerPost);
+        var boardDirection = boardEnd - boardStart;
+        var boardBasis = Basis.LookingAt(boardDirection.Normalized(), Vector3.Up);
+        const float boardThickness = 0.065f;
         var board = new MeshInstance3D
         {
             Name = "ReflectionDiagonalBoard",
-            Mesh = new BoxMesh { Size = new Vector3(0.16f, 0.06f, 1.7f) },
-            Position = new Vector3(5.9f, 0.72f, 31.9f),
-            RotationDegrees = new Vector3(34f, -58f, 6f),
+            Mesh = new BoxMesh { Size = new Vector3(0.22f, boardThickness, boardDirection.Length() + 0.16f) },
+            Transform = new Transform3D(boardBasis,
+                (boardStart + boardEnd) * 0.5f + boardBasis.Y * (boardThickness * 0.5f)),
             MaterialOverride = WetPostMaterial()
         };
         _world!.AddChild(board);
@@ -622,31 +631,43 @@ public partial class W02Controller : Node3D
         // line read only under the water surface, aligned to the R03 view.
         var reflected = Snowless("8fa694", "wood_cut");
         float Mirrored(float top) => WaterLevel - (top - WaterLevel);
-        MeshInstance3D MirrorPost(string name, float x, float z, float top, float length, Vector3? tilt)
+        MeshInstance3D MirrorPost(string name, MeshInstance3D source)
         {
+            var sourceMesh = (CylinderMesh)source.Mesh;
+            var top = PostTop(source);
+            var axis = source.Basis.Y.Normalized();
+            var length = (top.Y - WaterLevel) / axis.Y;
+            var waterline = top - axis * length;
+            var mirroredTop = new Vector3(top.X, Mirrored(top.Y), top.Z);
             var post = new MeshInstance3D
             {
                 Name = name,
-                Mesh = new CylinderMesh { TopRadius = 0.08f, BottomRadius = 0.10f, Height = length, RadialSegments = 6 },
-                Position = new Vector3(x, Mirrored(top) + length * 0.5f, z),
+                Mesh = new CylinderMesh
+                {
+                    TopRadius = Mathf.Lerp(sourceMesh.TopRadius, sourceMesh.BottomRadius, length / sourceMesh.Height),
+                    BottomRadius = sourceMesh.TopRadius,
+                    Height = length,
+                    RadialSegments = 6
+                },
+                Transform = new Transform3D(Basis.Identity.Rotated(Vector3.Up, Mathf.Pi) * source.Basis,
+                    (waterline + mirroredTop) * 0.5f),
                 MaterialOverride = reflected,
                 CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
             };
-            if (tilt is { } rotation) post.RotationDegrees = rotation;
             _world.AddChild(post);
             return post;
         }
 
-        var chippedReflection = MirrorPost("MirrorPostChipped", 6.18f, 33.0f,
-            WaterLevel + 0.72f, 0.72f, new Vector3(-6f, 0f, -7f));
-        var midReflection = MirrorPost("MirrorPostMid", 5.8f, 32.3f, WaterLevel + 0.55f, 0.55f, null);
-        var outerReflection = MirrorPost("MirrorPostOuter", 5.42f, 31.6f, WaterLevel + 0.66f, 0.66f, null);
+        var chippedReflection = MirrorPost("MirrorPostChipped", chippedPost);
+        var midReflection = MirrorPost("MirrorPostMid", midPost);
+        var outerReflection = MirrorPost("MirrorPostOuter", outerPost);
         _world.AddChild(new MeshInstance3D
         {
             Name = "MirrorDiagonalBoard",
-            Mesh = new BoxMesh { Size = new Vector3(0.16f, 0.06f, 1.7f) },
-            Position = new Vector3(5.9f, Mirrored(0.72f), 31.9f),
-            RotationDegrees = new Vector3(-34f, -58f, -6f),
+            Mesh = board.Mesh,
+            Transform = new Transform3D(
+                Basis.LookingAt(new Vector3(boardDirection.X, -boardDirection.Y, boardDirection.Z).Normalized(), Vector3.Up),
+                new Vector3(board.Position.X, Mirrored(board.Position.Y), board.Position.Z)),
             MaterialOverride = reflected,
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
         });
@@ -658,8 +679,16 @@ public partial class W02Controller : Node3D
             var x = 5.0f + 0.42f * step;
             var z = 33.2f + 0.78f * step;
             var top = WaterLevel - 0.08f - 0.04f * step;
-            MirrorPost($"HiddenApproachPile{step + 1}", x, z, top, 0.62f + 0.05f * step,
-                new Vector3(0f, step * 14f, -4f + step * 2f));
+            var length = 0.62f + 0.05f * step;
+            _world.AddChild(new MeshInstance3D
+            {
+                Name = $"HiddenApproachPile{step + 1}",
+                Mesh = new CylinderMesh { TopRadius = 0.08f, BottomRadius = 0.10f, Height = length, RadialSegments = 6 },
+                Position = new Vector3(x, top - length * 0.5f, z),
+                RotationDegrees = new Vector3(0f, step * 14f, -4f + step * 2f),
+                MaterialOverride = reflected,
+                CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+            });
         }
 
         var approachReflection = new MeshInstance3D
@@ -680,9 +709,68 @@ public partial class W02Controller : Node3D
             approachReflection.GlobalPosition
         ];
 
-        // Two reed heights kept at the same edge, as in the source print.
-        AddReedClump("ReflectionReedTall", new Vector3(6.9f, 0f, 34.1f), 2.25f, 6, 77);
-        AddReedClump("ReflectionReedShort", new Vector3(4.6f, 0f, 31.2f), 1.45f, 5, 78);
+        // This close photo needs slender stems and folded leaves, not scaled cones.
+        using var leafSurface = new SurfaceTool();
+        leafSurface.Begin(Mesh.PrimitiveType.Triangles);
+        Vector3[] leafVertices =
+        [
+            Vector3.Zero, new(-0.023f, 0.06f, 0.16f), new(0f, 0.075f, 0.17f),
+            new(0.023f, 0.06f, 0.16f), new(0f, 0.08f, 0.42f)
+        ];
+        int[] leafTriangles = [0, 1, 2, 0, 2, 3, 1, 4, 2, 2, 4, 3];
+        for (var triangle = 0; triangle < leafTriangles.Length; triangle += 3)
+        {
+            for (var vertex = 0; vertex < 3; vertex++)
+                leafSurface.AddVertex(leafVertices[leafTriangles[triangle + vertex]]);
+            for (var vertex = 2; vertex >= 0; vertex--)
+                leafSurface.AddVertex(leafVertices[leafTriangles[triangle + vertex]]);
+        }
+        leafSurface.GenerateNormals();
+        var reedLeafMesh = leafSurface.Commit();
+        var reedStemMesh = new CylinderMesh { TopRadius = 0.004f, BottomRadius = 0.008f, Height = 1f, RadialSegments = 6 };
+        var reedMaterial = Snowless("62744d", "grass_tuft");
+        var reedLeafMaterial = Snowless("75824c", "grass_tuft");
+        void AddPhotoReeds(string name, Vector3 at, float visibleHeight, int count, int seed)
+        {
+            var clump = new Node3D { Name = name, Position = at };
+            _world.AddChild(clump);
+            var random = new Random(seed);
+            for (var stem = 0; stem < count; stem++)
+            {
+                var x = (float)random.NextDouble() * 0.42f - 0.21f;
+                var z = (float)random.NextDouble() * 0.42f - 0.21f;
+                var ground = TerrainHeight(at.X + x, at.Z + z);
+                var heightAboveWater = visibleHeight * (0.85f + (float)random.NextDouble() * 0.2f);
+                var length = WaterLevel + heightAboveWater - ground;
+                var stalk = new Node3D
+                {
+                    Name = $"Stem{stem + 1}",
+                    Position = new Vector3(x, ground, z),
+                    RotationDegrees = new Vector3((float)random.NextDouble() * 6f - 3f,
+                        stem * 137f, (float)random.NextDouble() * 4f - 2f)
+                };
+                clump.AddChild(stalk);
+                stalk.AddChild(new MeshInstance3D
+                {
+                    Name = "Stalk",
+                    Mesh = reedStemMesh,
+                    Position = Vector3.Up * (length * 0.5f),
+                    Scale = new Vector3(1f, length, 1f),
+                    MaterialOverride = reedMaterial
+                });
+                for (var leaf = 0; leaf < 2; leaf++)
+                    stalk.AddChild(new MeshInstance3D
+                    {
+                        Name = $"Leaf{leaf + 1}",
+                        Mesh = reedLeafMesh,
+                        Position = Vector3.Up * (WaterLevel - ground + heightAboveWater * (0.35f + leaf * 0.35f)),
+                        RotationDegrees = new Vector3(0f, leaf * 145f, 0f),
+                        MaterialOverride = reedLeafMaterial
+                    });
+            }
+        }
+        AddPhotoReeds("ReflectionReedTall", new Vector3(6.9f, 0f, 34.1f), 1.15f, 6, 77);
+        AddPhotoReeds("ReflectionReedShort", new Vector3(4.6f, 0f, 31.2f), 0.65f, 5, 78);
     }
 
     private void BuildReedTurn()
@@ -1138,11 +1226,35 @@ public partial class W02Controller : Node3D
             MaterialOverride = Snowless("d8d3a8", "grass_tuft")
         });
 
-        // The far wooded shore: coarse silhouettes that carry the horizon.
-        var trunkMesh = new CylinderMesh { TopRadius = 0.22f, BottomRadius = 0.3f, Height = 1f, RadialSegments = 5 };
-        var crownMesh = new SphereMesh { Radius = 1f, Height = 2f, RadialSegments = 6, Rings = 3 };
-        var trunkPlacements = new List<Transform3D>();
-        var crownPlacements = new List<Transform3D>();
+        // The far shore uses the paid willow's four-triangle cutout, sharing
+        // its imported mesh/material rather than rebuilding or recolouring it.
+        var farScene = ResourceLoader.Load<PackedScene>(SummerWillowFarScenePath)
+            ?? throw new InvalidOperationException($"W02 is missing its far willow: {SummerWillowFarScenePath}");
+        var farSource = farScene.Instantiate<Node3D>();
+        ArrayMesh farMesh;
+        try
+        {
+            var visual = farSource as MeshInstance3D
+                ?? farSource.GetNodeOrNull<MeshInstance3D>("SummerWillow_Far_LOD2");
+            farMesh = visual?.Mesh as ArrayMesh
+                ?? throw new InvalidOperationException("W02 far willow has no SummerWillow_Far_LOD2 ArrayMesh.");
+            if (farMesh.GetSurfaceCount() != 1 || farMesh.GetFaces().Length != 12
+                || farMesh.SurfaceGetMaterial(0) is not StandardMaterial3D
+                    { Transparency: BaseMaterial3D.TransparencyEnum.AlphaScissor, AlbedoTexture: not null })
+                throw new InvalidOperationException("W02 far willow requires four triangles and one imported cutout atlas material.");
+        }
+        finally
+        {
+            farSource.Free();
+        }
+        var farBounds = farMesh.GetAabb();
+        if (farBounds.Size.Y <= 0f || farBounds.Size.X <= 0f
+            || Mathf.Abs(farBounds.Position.Y) > .0001f
+            || Mathf.Abs(farBounds.Size.X - farBounds.Size.Z) > .0001f)
+            throw new InvalidOperationException("W02 far willow lost its rooted square crosscard envelope.");
+        // The atlas has 1% transparent headroom above the source's visible top.
+        var visibleSourceHeight = farBounds.Size.Y / 1.01f;
+        var willowPlacements = new List<Transform3D>();
         for (var tree = 0; tree < 70; tree++)
         {
             var x = -34f - (float)random.NextDouble() * 26f;
@@ -1150,12 +1262,12 @@ public partial class W02Controller : Node3D
             var ground = TerrainHeight(x, z);
             if (ground < WaterLevel + 0.4f) continue;
             var height = 4.5f + (float)random.NextDouble() * 5f;
-            trunkPlacements.Add(new Transform3D(
-                Basis.Identity.Scaled(new Vector3(0.9f, height * 0.6f, 0.9f)),
-                new Vector3(x, ground + height * 0.3f, z)));
-            crownPlacements.Add(new Transform3D(
-                Basis.Identity.Scaled(new Vector3(1.5f, height * 0.34f, 1.5f)),
-                new Vector3(x, ground + height * 0.72f, z)));
+            var yaw = tree * 2.39996323f;
+            // Fit the rotated cross to the former 3 m spherical crown width.
+            var horizontal = 3f / (farBounds.Size.X * Mathf.Max(Mathf.Abs(Mathf.Cos(yaw)), Mathf.Abs(Mathf.Sin(yaw))));
+            willowPlacements.Add(new Transform3D(
+                Basis.Identity.Rotated(Vector3.Up, yaw).Scaled(new Vector3(horizontal, height * 1.06f / visibleSourceHeight, horizontal)),
+                new Vector3(x, ground, z)));
         }
 
         for (var tree = 0; tree < 26; tree++)
@@ -1164,42 +1276,29 @@ public partial class W02Controller : Node3D
             var z = -18f + (float)random.NextDouble() * 60f;
             var ground = TerrainHeight(x, z);
             var height = 3.4f + (float)random.NextDouble() * 3.4f;
-            trunkPlacements.Add(new Transform3D(
-                Basis.Identity.Scaled(new Vector3(0.9f, height * 0.6f, 0.9f)),
-                new Vector3(x, ground + height * 0.3f, z)));
-            crownPlacements.Add(new Transform3D(
-                Basis.Identity.Scaled(new Vector3(1.2f, height * 0.34f, 1.2f)),
-                new Vector3(x, ground + height * 0.72f, z)));
+            var yaw = (tree + 70) * 2.39996323f;
+            var horizontal = 2.4f / (farBounds.Size.X * Mathf.Max(Mathf.Abs(Mathf.Cos(yaw)), Mathf.Abs(Mathf.Sin(yaw))));
+            willowPlacements.Add(new Transform3D(
+                Basis.Identity.Rotated(Vector3.Up, yaw).Scaled(new Vector3(horizontal, height * 1.06f / visibleSourceHeight, horizontal)),
+                new Vector3(x, ground, z)));
         }
 
-        var trunkMultimesh = new MultiMesh
+        var willowMultimesh = new MultiMesh
         {
             TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
-            Mesh = trunkMesh,
-            InstanceCount = trunkPlacements.Count
+            Mesh = farMesh,
+            InstanceCount = willowPlacements.Count
         };
-        for (var index = 0; index < trunkPlacements.Count; index++)
-            trunkMultimesh.SetInstanceTransform(index, trunkPlacements[index]);
+        for (var index = 0; index < willowPlacements.Count; index++)
+            willowMultimesh.SetInstanceTransform(index, willowPlacements[index]);
         _world!.AddChild(new MultiMeshInstance3D
         {
-            Name = "HorizonTrunks",
-            Multimesh = trunkMultimesh,
-            MaterialOverride = Snowless("5b5044", "wood_cut")
+            Name = "HorizonWillows",
+            Multimesh = willowMultimesh,
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
         });
-        var crownMultimesh = new MultiMesh
-        {
-            TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
-            Mesh = crownMesh,
-            InstanceCount = crownPlacements.Count
-        };
-        for (var index = 0; index < crownPlacements.Count; index++)
-            crownMultimesh.SetInstanceTransform(index, crownPlacements[index]);
-        _world.AddChild(new MultiMeshInstance3D
-        {
-            Name = "HorizonCrowns",
-            Multimesh = crownMultimesh,
-            MaterialOverride = Snowless("4e6242", "leaf_birch")
-        });
+        GD.Print($"w02-horizon-willows: instances={willowPlacements.Count} triangles={willowPlacements.Count * 4} "
+            + "maxInstances=96 maxTriangles=384 batches=1 surfaces=1 shadows=off");
     }
 
     // ------------------------------------------------------------------
@@ -1707,10 +1806,10 @@ public partial class W02Controller : Node3D
         }
     }
 
-    private void WaterPost(string name, float x, float z, float aboveWater, bool chipped = false)
+    private MeshInstance3D WaterPost(string name, float x, float z, float aboveWater, bool chipped = false)
     {
         var ground = TerrainHeight(x, z);
-        var top = WaterLevel + aboveWater;
+        var top = WaterLevel + aboveWater * (chipped ? 0.72f : 1f);
         var bottom = Mathf.Min(ground - 0.3f, WaterLevel - 0.8f);
         var height = top - bottom;
         var post = new MeshInstance3D
@@ -1722,12 +1821,11 @@ public partial class W02Controller : Node3D
         };
         if (chipped)
         {
-            post.Scale = new Vector3(1f, 0.72f, 1f);
-            post.Position = new Vector3(x, bottom + height * 0.36f, z);
             post.RotationDegrees = new Vector3(-3f, 0f, 7f);
         }
 
         _world!.AddChild(post);
+        return post;
     }
 
     /// <summary>Capture-only state switch; the running game always projects runtime facts.</summary>

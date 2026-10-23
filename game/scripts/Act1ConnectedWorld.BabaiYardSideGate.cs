@@ -8,6 +8,7 @@ namespace Urman.Godot;
 public partial class Act1ConnectedWorld
 {
     private const string BabaiYardSideGateSlug = "babai-yard-loose-side-gate-board";
+    private const string BabaiYardSideGateWoodPath = "res://assets/models/act1/babai-side-gate-wood-pbr-2k-v1.glb";
 
     // The lower side opening uses the existing posts at z=-1.51 and .12.
     // It clears the house interaction proxy; the original upper gate is the return exit.
@@ -89,29 +90,38 @@ public partial class Act1ConnectedWorld
         leafPivot.SetMeta("presentationOnly", true);
         gate.AddChild(leafPivot);
         _babaiYardSideGatePivot = leafPivot;
-        // A village board leaf, not a slab: five weathered uprights with drying
-        // gaps and uneven sawn tops, held by two battens and a Z-brace on the
-        // yard side (ACT1-DEPTH.10 / P2: construction reads at a glance). Same
-        // 1.38 m span, hinge line and collision volume as before.
-        string[] boardTones = ["6f5440", "7a5d45", "65503d", "735842", "6a523e"];
-        float[] boardTops = [1.08f, 1.04f, 1.09f, 1.02f, 1.06f];
-        for (var board = 0; board < boardTones.Length; board++)
+        // The donor retains these exact eight wood members and their local
+        // transforms. Its imported PBR replaces only their old box presentation.
+        var packedWood = ResourceLoader.Load<PackedScene>(BabaiYardSideGateWoodPath)
+            ?? throw new InvalidOperationException($"The Babai side-gate wood is missing: {BabaiYardSideGateWoodPath}.");
+        var wood = packedWood.Instantiate<Node3D>()
+            ?? throw new InvalidOperationException("The Babai side-gate wood has no 3D root.");
+        try
         {
-            var top = boardTops[board];
-            AddVisualBox(
-                leafPivot,
-                $"LooseBoardPlank{board}",
-                new(.03f, top - .04f, .235f),
-                new(0f, .04f + (top - .04f) * .5f, .1275f + board * .2813f),
-                boardTones[board],
-                "wood");
+            var nodes = new Node[] { wood }.Concat(FindDescendants<Node>(wood)).ToArray();
+            var meshes = nodes.OfType<MeshInstance3D>().ToArray();
+            string[] expectedNames = ["LooseBoardPlank0", "LooseBoardPlank1", "LooseBoardPlank2",
+                "LooseBoardPlank3", "LooseBoardPlank4", "LooseBoardBattenLow", "LooseBoardBattenHigh", "LooseBoardBrace"];
+            if (!IsIdentityTransform(wood.Transform)
+                || nodes.Any(node => node is CollisionObject3D or CollisionShape3D or CollisionPolygon3D)
+                || meshes.Length != expectedNames.Length || meshes.Any(mesh => mesh.Mesh is null)
+                || !meshes.Select(mesh => mesh.Name.ToString()).ToHashSet(StringComparer.Ordinal).SetEquals(expectedNames))
+                throw new InvalidOperationException("The Babai side-gate wood must retain exactly its eight named visual members, identity root and no physics.");
+            wood.Name = "BabaiSideGateWoodPbr";
+            wood.SetMeta("presentationOnly", true);
+            wood.SetMeta("assetSource", BabaiYardSideGateWoodPath);
+            leafPivot.AddChild(wood);
+            var bounds = meshes.Select(mesh => PublicBuildingShell.Bounds(leafPivot, mesh)).Aggregate((a, b) => a.Merge(b));
+            if (!bounds.Position.IsFinite() || !bounds.Size.IsFinite()
+                || bounds.Position.DistanceTo(new Vector3(-.0495f, .04f, .01f)) > .0002f
+                || bounds.End.DistanceTo(new Vector3(.015f, 1.09f, 1.3702f)) > .0002f)
+                throw new InvalidOperationException("The Babai side-gate wood differs from its measured donor bounds.");
         }
-        foreach (var (name, height) in new[] { ("LooseBoardBattenLow", .24f), ("LooseBoardBattenHigh", .84f) })
-            AddVisualBox(leafPivot, name, new(.035f, .09f, 1.30f), new(-.032f, height, .69f), "8a6b50", "wood");
-        // Rise .60 m over a 1.12 m run between the battens: the brace climbs
-        // away from the hinge, as a carpenter sets it.
-        var brace = AddVisualBox(leafPivot, "LooseBoardBrace", new(.03f, .08f, 1.27f), new(-.032f, .54f, .69f), "7d6249", "wood");
-        brace.RotationDegrees = new Vector3(-Mathf.RadToDeg(Mathf.Atan2(.60f, 1.12f)), 0f, 0f);
+        catch
+        {
+            wood.Free();
+            throw;
+        }
         DiscoveryCylinder(
             gate,
             "LooseBoardHingePin",

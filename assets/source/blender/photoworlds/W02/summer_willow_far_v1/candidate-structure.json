@@ -1,0 +1,122 @@
+{
+  "status": "one_far_impostor_preparation_source_only_not_runtime_or_art_accepted",
+  "recipe": "prepare_far_impostor.py",
+  "pattern": "assets/source/blender/act1/winter_spruce_meshy_v2/prepare_far_impostor.py",
+  "source": "game/assets/photoworlds/W02/summer-willow-near-2k-v1.glb",
+  "source_sha256": "0cf1b02366ff6a047a914873e7ef2723813986993a8056326c435f89069b3cfa",
+  "source_triangles": 19031,
+  "source_bounds_blender_xyz_m": [
+    [
+      -1.6911602020263672,
+      1.567176342010498
+    ],
+    [
+      -1.4616671800613403,
+      1.3378441333770752
+    ],
+    [
+      0.0,
+      4.534999847412109
+    ]
+  ],
+  "source_material_unchanged": true,
+  "new_meshy_or_imagegen_spend": 0,
+  "output": "summer-willow-far-impostor-2k-v1.glb",
+  "candidate": "game/assets/photoworlds/W02/summer-willow-far-impostor-2k-v1.glb",
+  "sha256": "28488a33b5aaf44cf3c57b7c351a06da825b2563d741b51a30a20a12f8c1027c",
+  "bytes": 2078872,
+  "triangles": 4,
+  "surfaces": 1,
+  "exported_bounds_godot_xyz_m": {
+    "min": [
+      -1.8321399688720703,
+      0,
+      -1.8321399688720703
+    ],
+    "max": [
+      1.8321399688720703,
+      4.580349922180176,
+      1.8321399688720703
+    ]
+  },
+  "root": [
+    0,
+    0,
+    0
+  ],
+  "source_visible_height_m": 4.534999847412109,
+  "card_height_including_headroom_m": 4.58034984588623,
+  "card_width_m": 3.664279876708984,
+  "atlas": "far-albedo-atlas.png",
+  "atlas_dimensions": [
+    2048,
+    1280
+  ],
+  "views_degrees": [
+    0,
+    90
+  ],
+  "rgb_bleed_pixels": 8,
+  "alpha_zero_pixels": 1973722,
+  "alpha_opaque_pixels": 619315,
+  "alpha_fraction_covered": 0.2362499237060547,
+  "material": {
+    "alphaMode": "MASK",
+    "doubleSided": true,
+    "name": "URMAN_SummerWillow_FarMask_v1",
+    "pbrMetallicRoughness": {
+      "baseColorTexture": {
+        "index": 0
+      },
+      "metallicFactor": 0
+    }
+  },
+  "material_contract": "same pine MASK/0.5 pattern; lit roughness1 metallic0 emission0 double-sided; no BLEND sorting, ordinary depth/fog/shadow paths; native mapping unverified",
+  "source_views": [
+    "source-front.png",
+    "source-side.png"
+  ],
+  "candidate_preview": "candidate-preview.png",
+  "preview_scope": "Blender lit render of reimported candidate GLB; no 18-40m native acceptance",
+  "runtime_changes": "none; near GLB and two near roots unchanged; no contact/state/terrain/placement edits",
+  "limits": "Crosscard lighting/self-shadow/oblique X read and edge filtering at 18-40m require root art review and later targeted native view; this is the only preparation attempt.",
+  "local_technical_archive": {
+    "path": "evidence/PW-093/summer-willow-far-v1-source-20261023.tar.xz",
+    "bytes": 4493668,
+    "sha256": "9b5f25fd56e421786c0668c8935301b04850673ea68ec7e05b665e3809c83c98",
+    "member_verification": "All six members read back byte-for-byte equal to original loose source files before removal.",
+    "members": [
+      {
+        "name": "source-front.png",
+        "bytes": 857299,
+        "sha256": "b764ec857f13e0a0f8baee180077ee80c4c03ecbe1d733fa9dde687fef6e061e"
+      },
+      {
+        "name": "source-side.png",
+        "bytes": 821038,
+        "sha256": "94669f50cb284629313160ce02261677d91cba852c0dc593448092d16fdedbd1"
+      },
+      {
+        "name": "candidate-preview.png",
+        "bytes": 766778,
+        "sha256": "8766a176e1b1e1b106c7688a3e454ab86bec15457cbcbe33982564fcbce41723"
+      },
+      {
+        "name": "far-albedo-atlas.png",
+        "bytes": 2076895,
+        "sha256": "6a03470b6a1636177fff06d5a6030be2b5e7367d250897f625358aba4649744e"
+      },
+      {
+        "name": "summer-willow-far-impostor-2k-v1.glb",
+        "bytes": 2078872,
+        "sha256": "28488a33b5aaf44cf3c57b7c351a06da825b2563d741b51a30a20a12f8c1027c"
+      },
+      {
+        "name": "blender-preparation.log",
+        "bytes": 29122,
+        "sha256": "d4a99cf5e55a39aeb11dd4aaaa0f9b2368e101fd384954cf6c930e41656fd033"
+      }
+    ],
+    "scope": "Technical source views, atlas, duplicate source GLB and preparation log only; runtime GLB and existing paid near source retained. Archive cleanup does not change art/runtime acceptance."
+  }
+}

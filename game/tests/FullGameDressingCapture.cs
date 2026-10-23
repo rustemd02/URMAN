@@ -30,9 +30,9 @@ public partial class FullGameDressingCapture : Node
     // way to look at the physical photo place before the author does. The
     // facts flag mirrors the authored state: parted reeds, settled board and
     // the water that has already answered.
-    private static readonly (string Name, Vector3 Camera, Vector3 Target, bool ApplyFacts)[] RiverFrames =
+    private static readonly (string Name, Vector3? Camera, Vector3? Target, bool ApplyFacts)[] RiverFrames =
     [
-        ("w02_entry", new Vector3(0f, 2.9f, -2.5f), new Vector3(1.2f, 1.6f, 12f), false),
+        ("w02_entry", null, null, false), // Uses the production P-WATER photo camera.
         ("w02_vista", new Vector3(0.2f, 2.9f, 15.2f), new Vector3(-18f, 0.9f, 24.5f), false),
         ("w02_bay", new Vector3(-15.4f, 2.2f, 24.9f), new Vector3(-46f, 0.8f, 27f), false),
         ("w02_bay_outside", new Vector3(-24f, 3.4f, 29.5f), new Vector3(-16f, 1.2f, 25f), false),
@@ -55,6 +55,17 @@ public partial class FullGameDressingCapture : Node
 
     public override async void _Ready()
     {
+        // A selector renders one existing W02 frame without the other scenes.
+        var frameArguments = OS.GetCmdlineUserArgs()
+            .Where(argument => argument == "--frame" || argument.StartsWith("--frame=", StringComparison.Ordinal)).ToArray();
+        if (frameArguments.Length > 1 || (frameArguments.Length == 1
+            && frameArguments[0] is not ("--frame=w02_entry" or "--frame=w02_vista")))
+        {
+            Fail("Supported frame selector: --frame=w02_entry or --frame=w02_vista (once); omit it to capture all existing frames.");
+            return;
+        }
+        var selectedFrame = frameArguments.Length == 1 ? frameArguments[0]["--frame=".Length..] : null;
+
         var outputDirectory = ProjectSettings.GlobalizePath("res://../docs/urman_knowledge_base/art/fullgame_frames");
         var directoryError = DirAccess.MakeDirRecursiveAbsolute(outputDirectory);
         if (directoryError != Error.Ok)
@@ -65,6 +76,7 @@ public partial class FullGameDressingCapture : Node
 
         foreach (var frame in Frames)
         {
+            if (selectedFrame is not null) continue;
             if (!await CaptureAsync(frame.Name, frame.ZoneId, frame.Camera, frame.Target, outputDirectory))
             {
                 return;
@@ -73,18 +85,20 @@ public partial class FullGameDressingCapture : Node
 
         foreach (var frame in RiverFrames)
         {
+            if (selectedFrame is not null && frame.Name != selectedFrame) continue;
             if (!await CaptureRiverAsync(frame.Name, frame.Camera, frame.Target, frame.ApplyFacts, outputDirectory))
             {
                 return;
             }
         }
 
-        if (!await CaptureHomeAsync(outputDirectory))
+        if (selectedFrame is null && !await CaptureHomeAsync(outputDirectory))
         {
             return;
         }
 
-        GD.Print($"fullgame-dressing-capture: {Frames.Length + RiverFrames.Length + HomeFrameCount} frames at 1920x1080 -> {outputDirectory}");
+        var frameCount = selectedFrame is not null ? 1 : Frames.Length + RiverFrames.Length + HomeFrameCount;
+        GD.Print($"fullgame-dressing-capture: {frameCount} frames (P-WATER 1800x1200, other frames 1920x1080) -> {outputDirectory}");
         GetTree().Quit(0);
     }
 
@@ -309,8 +323,8 @@ public partial class FullGameDressingCapture : Node
 
     private async Task<bool> CaptureRiverAsync(
         string name,
-        Vector3 cameraPosition,
-        Vector3 cameraTarget,
+        Vector3? cameraPosition,
+        Vector3? cameraTarget,
         bool applyFacts,
         string outputDirectory)
     {
@@ -322,10 +336,11 @@ public partial class FullGameDressingCapture : Node
             return false;
         }
 
+        var isPhotoSource = name == "w02_entry";
         var viewport = new SubViewport
         {
             Name = $"Capture_{name}",
-            Size = new Vector2I(1920, 1080),
+            Size = isPhotoSource ? new Vector2I(1800, 1200) : new Vector2I(1920, 1080),
             OwnWorld3D = true,
             RenderTargetUpdateMode = SubViewport.UpdateMode.Always,
             Msaa3D = Viewport.Msaa.Msaa2X
@@ -339,15 +354,36 @@ public partial class FullGameDressingCapture : Node
             controller.ApplyCaptureFacts(reedOpened: true, encounterResolved: true);
         }
 
-        var camera = new Camera3D
+        if (isPhotoSource)
         {
-            Name = "CaptureCamera",
-            Position = cameraPosition,
-            Fov = 72,
-            Current = true
-        };
-        viewport.AddChild(camera);
-        camera.LookAt(cameraTarget, Vector3.Up);
+            var camera = world.GetNodeOrNull<Camera3D>("Anchors/R00/PWaterPhotoCamera");
+            if (camera is null)
+            {
+                viewport.Free();
+                Fail("W02 is missing its production P-WATER photo camera.");
+                return false;
+            }
+            camera.MakeCurrent();
+            GD.Print($"fullgame-frame: {name} source=Anchors/R00/PWaterPhotoCamera camera={camera.GlobalPosition} rotation={camera.GlobalRotationDegrees} vFOV={camera.Fov}");
+        }
+        else
+        {
+            if (cameraPosition is not { } position || cameraTarget is not { } target)
+            {
+                viewport.Free();
+                Fail($"W02 capture {name} is missing its camera pose.");
+                return false;
+            }
+            var camera = new Camera3D
+            {
+                Name = "CaptureCamera",
+                Position = position,
+                Fov = 72,
+                Current = true
+            };
+            viewport.AddChild(camera);
+            camera.LookAt(target, Vector3.Up);
+        }
 
         for (var frame = 0; frame < 10; frame++)
         {
@@ -362,7 +398,7 @@ public partial class FullGameDressingCapture : Node
             return false;
         }
 
-        var outputPath = System.IO.Path.Combine(outputDirectory, $"godot_{name}_1080p.png");
+        var outputPath = System.IO.Path.Combine(outputDirectory, $"godot_{name}_{(isPhotoSource ? "1800x1200" : "1080p")}.png");
         var saveError = image.SavePng(outputPath);
         viewport.Free();
         if (saveError != Error.Ok)

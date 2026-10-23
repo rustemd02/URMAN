@@ -1,0 +1,80 @@
+{
+  "asset_id": "P-WATER",
+  "status": "root_selected_source_art_candidate; native_and_author_acceptance_open",
+  "method": "One built-in image_gen edit of the production W02 photo-camera source frame. Original generated output retained outside repository; only mechanical size exports are used at runtime.",
+  "tool": "image_gen.imagegen",
+  "generation_id": "exec-47d952dd-eefd-4c3c-854c-c3c368f7b85a",
+  "generation_count": 1,
+  "source_spec": "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json#P-WATER",
+  "author_front_brief": "Летние мостки, сколотый столб и диагональная доска, дети второстепенно, неизвестный берег за кадром.",
+  "author_back_text_ru": "У старых мостков.",
+  "physical_size_mm": [
+    150,
+    100
+  ],
+  "source_frame": {
+    "path": "docs/urman_knowledge_base/art/fullgame_frames/godot_w02_entry_1800x1200.png",
+    "sha256": "4639cb04a15eff0bd98f9b63298e5d849d44e30eceba1b7621326311e12823b1",
+    "size_px": [
+      1800,
+      1200
+    ],
+    "bytes": 665054,
+    "scene": "game/scenes/photoworlds/W02/W02.tscn",
+    "camera": "Anchors/R00/PWaterPhotoCamera",
+    "camera_godot_xyz_m": [
+      9.4,
+      2.71,
+      29.8
+    ],
+    "rotation_godot_xyz_degrees": [
+      -24.828356,
+      125.53767,
+      0
+    ],
+    "vertical_fov_degrees": 45,
+    "recipe": "Existing game/tests/FullGameDressingCapture.cs --frame=w02_entry consumes the production scene camera; no separate capture pose.",
+    "stage_limit": "Root-selected production-camera source frame; viewport capture, not ordinary player-loop or final author acceptance."
+  },
+  "original_generated_output": {
+    "path": "/Users/unterlantas/.codex/generated_images/01a14aac-61fe-7473-94ce-5fb5888594ba/exec-47d952dd-eefd-4c3c-854c-c3c368f7b85a.png",
+    "sha256": "e320ea72031b3537a150181537253b31d85df9024986295cd96a13654fa4b4a4",
+    "size_px": [
+      1536,
+      1024
+    ],
+    "bytes": 2852106
+  },
+  "runtime_front": {
+    "path": "game/assets/textures/photobook/p-water-front-v1.png",
+    "sha256": "9dab3cf3c3be43565310eb4443896bad43701102339409f0bc48c94e02fbec76",
+    "size_px": [
+      1800,
+      1200
+    ],
+    "bytes": 3561304,
+    "export": "sips -z 1200 1800 original --out front; mechanical resample only"
+  },
+  "runtime_thumbnail": {
+    "path": "game/assets/textures/photobook/p-water-front-v1-thumbnail.png",
+    "sha256": "3d2dacebc9bf06ab0e9454b2540363c0d8184807d1ec93c066b8431d9584e2b2",
+    "size_px": [
+      256,
+      171
+    ],
+    "bytes": 90801,
+    "export": "sips -z 171 256 front --out thumbnail; required catalog size"
+  },
+  "rights": "Project-generated fictional family-album artwork derived from the project-owned staged W02 frame. The two children are fictional back-view figures, not historical people or real family likenesses. No archive authenticity claimed; final rights/cultural/author gates remain open.",
+  "limits": "Root viewed and selected this single art candidate. Three posts, the linking board and two reed-height tiers remain recognizable; two fictional children are shown from behind on the foreground deck. Brushwork, water, wood details and apparent board angle are interpreted rather than pixel-perfect scene geometry. The submerged hidden-line contrast drifts from the source frame. Native album, reader, physical-book appearance, W02 likeness and final author acceptance remain unproven.",
+  "prompt": "Use case: style-transfer / compositing. Asset type: one original in-game family-album print P-WATER, landscape 3:2, full image without border. Edit the project-owned game camera image into a finished luminous painterly summer rural Tatarstan memory illustration. Camera perspective, crop, central support group placement and sizes are LOCKED to the input: foreground weathered plank platform at bottom, three dark wooden posts in calm water at center, the left post visibly shorter and leaning, the long plank visibly supported across the two outer post caps, middle shorter post below it; preserve their exact recognizable arrangement. Preserve two narrow reed clumps: taller left, shorter right, and the faint submerged old-pier support line to the left; do not invent an above-water pier there. The unknown distant bank must remain out of frame, no sky band/buildings/bridges/boats/portals. Replace toy cylinders and flat shading with convincing quiet brush-painted wet wood, subtle uneven aged plank ends and grain, translucent muted green-blue water with soft brush reflections; keep geometry and watery negative space. Add exactly TWO anonymous fictional children sitting close together on the BOTTOM RIGHT foreground platform edge, seen from behind/three-quarter back, small secondary figures entirely below the central support group; one in a faded blue summer shirt, the other in a muted cream shirt, plain worn summer clothing. Relaxed plausible anatomy and hands, a quiet ordinary afternoon, no danger, no swimming. They occupy at most 15% of the whole print and must NOT obscure the central posts, spanning diagonal plank or either reed clump. Warm restrained summer daylight with cool green-blue reflected water, ochre weathered wood, olive reeds, broad intentional brush shapes with natural material detail; same mature painterly game family as a quiet family-album memory, no cartoon outlines, no photorealistic CGI/plastic render, no orange sepia wash. No monsters, text, inscriptions, dates, captions, labels, watermark, border or additional people. Original project-generated fictional illustration, not an archival photograph. Deliver ONE 1800x1200 3:2 finished front, preserving the source composition and all three recognition clues.",
+  "local_source_archive": {
+    "path": "evidence/PW-040/pwater_source_front_20261023.zip",
+    "sha256": "5cc82a773c86b1e54dc36686b5fba835a2ef26e7b7edcc1e24fa2f323eeff0b8",
+    "bytes": 4566372,
+    "members": 12,
+    "source_frame_member": "source-game-frame.png",
+    "generated_output_member": "exec-47d952dd-eefd-4c3c-854c-c3c368f7b85a.png",
+    "policy": "All members byte-verified before loose source-frame/log/default-ImageGen-output duplicates were removed at owner cleanup request. Historical original output path above is no longer live; selected runtime front/thumbnail retained."
+  }
+}

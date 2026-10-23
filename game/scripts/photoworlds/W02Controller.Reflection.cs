@@ -22,6 +22,8 @@ public partial class W02Controller
     private readonly global::Godot.Collections.Array<Rid> _reflectionObservationRayExclusions = new();
     private double _reflectionObservationPollElapsed;
     private object? _reflectionObservationSessionIdentity;
+    private (Vector3 Position, Vector3 Forward)? _reflectionObservationInitialPose;
+    private bool _reflectionObservationArmed;
     private object? _reflectionObservationFailedSession;
     private Vector3 _reflectionObservationFailedPosition;
     private Vector3 _reflectionObservationFailedForward;
@@ -38,6 +40,8 @@ public partial class W02Controller
             _reflectionObservationGeneration++;
             _reflectionObservationSessionIdentity = null;
             _reflectionObservationPollElapsed = 0;
+            _reflectionObservationInitialPose = null;
+            _reflectionObservationArmed = false;
             _reflectionObservationFailedSession = null;
             _reflectionRemarkShownSession = null;
             _reflectionRemarkPendingSession = null;
@@ -52,6 +56,8 @@ public partial class W02Controller
         _reflectionObservationGeneration++;
         _reflectionObservationSessionIdentity = sessionIdentity;
         _reflectionObservationPollElapsed = 0;
+        _reflectionObservationInitialPose = null;
+        _reflectionObservationArmed = false;
         _reflectionObservationFailedSession = null;
         _reflectionRemarkShownSession = null;
         _reflectionRemarkPendingSession = null;
@@ -129,6 +135,23 @@ public partial class W02Controller
             return;
 
         var playerPosition = player.GlobalPosition;
+        var forward = (-camera.GlobalBasis.Z).Normalized();
+        // Entry shares this stand; observe only after the player moves or looks.
+        // Sample outside the footprint too, so an ordinary approach can arm it.
+        if (!_reflectionObservationArmed)
+        {
+            if (_reflectionObservationInitialPose is not { } initialPose)
+            {
+                _reflectionObservationInitialPose = (playerPosition, forward);
+                return;
+            }
+            if (new Vector2(playerPosition.X, playerPosition.Z)
+                    .DistanceTo(new Vector2(initialPose.Position.X, initialPose.Position.Z)) < ReflectionObservationRetryDistance
+                && forward.Dot(initialPose.Forward) >= ReflectionObservationRetryForwardDot)
+                return;
+            _reflectionObservationArmed = true;
+        }
+
         var standLocal = stand.ToLocal(playerPosition);
         if (Math.Abs(standLocal.X) > _reflectionObservationStandHalfExtents.X
             || Math.Abs(standLocal.Z) > _reflectionObservationStandHalfExtents.Y)
@@ -137,7 +160,6 @@ public partial class W02Controller
             return;
         }
 
-        var forward = (-camera.GlobalBasis.Z).Normalized();
         if (ObservationFailureStillSame(session, playerPosition, forward)) return;
 
         if (!_reflectionObservationRayExclusions.Contains(player.GetRid()))

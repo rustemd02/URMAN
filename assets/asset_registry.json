@@ -4711,7 +4711,7 @@
         "One shared double-sided OPAQUE PBR, three embedded2048² RGB8 PNG"
       ],
       "collision": "Visual-only two instances at existing OpeningWillows roots; original trees had no contact. No new trunk/canopy collisions or terrain/route changes.",
-      "lod": "Near only19031 triangles. Mid/far collapse rejected for trunk damage and budget failure, not included. No visibility range hiding the tree when absent lower LODs.",
+      "lod": "Near only19031 triangles, unchanged2nearinstances. Originalmid/farcollapse rejected. Far-only4tri derived impostor now separately registered as photoworld.w02.summer-willow.meshy.far.v1; fullmid/oblique/motion/performance acceptance remains open.",
       "status": "Source route/structure reviewed; current W02 consumer+asyncprewarm implemented; affected Game compile17.39s0/0 and bounded source review passed. Native/art/performance and full threeLOD family remain open.",
       "releaseDisposition": "near-only-compile-verified-native-pending-art-native-performance-pending",
       "provenance": "assets/source/blender/photoworlds/W02/summer_willow_meshy_v1/near-only-structure.json",
@@ -4758,6 +4758,63 @@
       "status": "Source illustration reviewed; earned notebook/album/remark integration compiled16.62s0warnings0errors and independent source review clean. Native/author acceptance pending.",
       "releaseDisposition": "Only earned C03 common-relations feedback, not a world photograph, outside proof, full W04 or all13photo acceptance",
       "runtimeAssetId": "urman.fullgame:asset/w04-common-relations-study"
+    },
+    {
+      "id": "photoworld.w02.summer-willow.meshy.far.v1",
+      "source": "game/assets/photoworlds/W02/summer-willow-near-2k-v1.glb",
+      "derived": "game/assets/photoworlds/W02/summer-willow-far-impostor-2k-v1.glb",
+      "generator": "Existing paid summer willow → reproducible Blender orthographic two-view atlas → four-triangle rooted crosscard, original source PBR sampled without new Meshy/ImageGen spend",
+      "license": "Owner-authorized own-game/ImageGen inputs and paid Meshy generation; applicable Meshy terms and final rights/author acceptance remain PW-093. Not CC0/free-planCCBY.",
+      "scale": 1.0,
+      "triangleBudget": 4,
+      "textureBudget": 2048,
+      "materials": [
+        "One shared lit PBR MASK 2048x1280 atlas, alphaScissor0.5, double-sided; runtime shadows off"
+      ],
+      "collision": "Visual-only far shore; same original75 terrain-rooted instances/RNG draws, max96. No new contact or route changes.",
+      "lod": "Far impostor only; existing two near19031tri willow instances preserved. Mid/oblique/motion and performance acceptance remain open.",
+      "status": "Root inspected actual protected Godot existing w02_vista frame: recognizable foliage replaces old sphere crowns; cutout import passed75instances300tri,1batch. Scene remains sparse; scene art/motion/FPS not accepted.",
+      "releaseDisposition": "native-still-source-reviewed-full-art-motion-performance-pending",
+      "provenance": "assets/source/blender/photoworlds/W02/summer_willow_far_v1/candidate-structure.json",
+      "sourceSha256": "0cf1b02366ff6a047a914873e7ef2723813986993a8056326c435f89069b3cfa",
+      "derivedSha256": "28488a33b5aaf44cf3c57b7c351a06da825b2563d741b51a30a20a12f8c1027c"
+    },
+    {
+      "id": "village.babai.side-gate.meshy-pbr.v1",
+      "source": "assets/source/blender/act1/babai_side_gate_meshy_v1/prepare_source.py",
+      "derived": "game/assets/models/act1/babai-side-gate-wood-pbr-2k-v1.glb",
+      "generator": "Exact existing8woodpart donor with unique48faceUV atlas → one built-in ImageGen material reference → one paid Meshy retexture10 → maps-only literal donor attachment →2K channel-preserving normalization",
+      "license": "Owner-authorized own-game/ImageGen inputs and paid Meshy generation; applicable Meshy terms and final rights/author acceptance remain PW-093. Not CC0/free-planCCBY.",
+      "scale": 1.0,
+      "triangleBudget": 96,
+      "textureBudget": 2048,
+      "materials": [
+        "Eight original named wood material slots share generated baseColor/normal/packedMR; all maps2048square, PBR not recoloured"
+      ],
+      "collision": "No imported physics. Existing hinge/hardware/latch/1.38m passage collider/discovery/save/tween owners unchanged; original8woodmember donor transforms/indices/normals/UV literal identical.",
+      "lod": "Single96triangle leaf, no remesh/LOD required.",
+      "status": "Root PBRfront/oblique source accepted; Game13.89s0/0/import0 and actualproductionworld strict8part/identity/no physics/bounds validation passed. Existingclosed/open capture failed beforeframes on unrelated pre-existing globalVillageForestGorge audit; no action/sceneart accepted.",
+      "releaseDisposition": "source-material-import-world-construction-verified-action-art-performance-pending",
+      "provenance": "assets/source/blender/act1/babai_side_gate_meshy_v1/candidate-receipt.json",
+      "derivedSha256": "ed600b058410c5a8ba5f7983ec1aa49b7c4588c2f310f182d180e7545e09d6c4"
+    },
+    {
+      "id": "photobook.p-water.front.v1",
+      "source": "game/scenes/photoworlds/W02/W02.tscn#Anchors/R00/PWaterPhotoCamera",
+      "derived": "game/assets/textures/photobook/p-water-front-v1.png",
+      "generator": "One built-in image_gen edit exec-47d952dd-eefd-4c3c-854c-c3c368f7b85a of actualproductioncamera frame; mechanical1800x1200 front and256x171 thumbnail",
+      "license": "Project-generated fictional family-album artwork using own staged W02 geometry. Two anonymous fictional children, no archival authenticity/likeness claimed; final author/cultural/rights acceptance open.",
+      "scale": 1.0,
+      "textureBudget": 1800,
+      "materials": [
+        "Photo front bitmap and separate generated thumbnail, shared existing album/reader/physicalbook resolver"
+      ],
+      "collision": "None; image only.",
+      "status": "Root selected art preserving recognizable3posts/linkingboard/two reed tiers. Native book/W02 likeness and author acceptance pending; interpreted water/wood and hidden-line contrast drift disclosed.",
+      "releaseDisposition": "source-art-selected-native-author-pending",
+      "provenance": "game/assets/textures/photobook/p-water-front-v1.provenance.json",
+      "sourceSha256": "4639cb04a15eff0bd98f9b63298e5d849d44e30eceba1b7621326311e12823b1",
+      "derivedSha256": "9dab3cf3c3be43565310eb4443896bad43701102339409f0bc48c94e02fbec76"
     }
   ]
 }

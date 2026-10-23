@@ -43,15 +43,21 @@ shadow_opacity = 0.32
 
 [node name="Anchors" type="Node3D" parent="."]
 
-; R00 photo place / entry: the photographer's stand at the start of the dry piers.
+; R00 photo place / entry: the existing safe stand beside the R03 reflection composition.
 [node name="R00" type="Marker3D" parent="Anchors"]
-position = Vector3(0, 1.32, 0)
-rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(9.4, 1.26, 29.8)
+rotation_degrees = Vector3(0, 125.537678, 0)
+
+[node name="PWaterPhotoCamera" type="Camera3D" parent="Anchors/R00"]
+position = Vector3(0, 1.45, 0)
+rotation_degrees = Vector3(-24.828357, 0, 0)
+current = false
+fov = 45.0
 
 ; PW_RIVER_ENTRY: semantic alias for R00 (PhotoWorlds W02 entry anchor).
 [node name="PW_RIVER_ENTRY" type="Marker3D" parent="Anchors"]
-position = Vector3(0, 1.32, 0)
-rotation_degrees = Vector3(0, 180, 0)
+position = Vector3(9.4, 1.26, 29.8)
+rotation_degrees = Vector3(0, 125.537678, 0)
 
 ; R01 dry piers: the vista over the river before the bay turns away.
 [node name="R01" type="Marker3D" parent="Anchors"]
