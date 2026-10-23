@@ -22162,6 +22162,12 @@
             "route_guard_review_2026_10_24": {
               "result": "No proven blocker inside allowed road/shoulder/yard. Policy frames/live predicates align; no production SetRoadBlocked caller found.",
               "open_hypothesis": "Advance validates predicted path before MoveAndSlide, not resulting physical path. A collision recovery placing the vehicle outside policy could make CanTraverse reject subsequent movement at i=0, including return. No concrete collider/user episode established; do not add speculative teleport or weaken policy."
+            },
+            "mount_control_2026_10_24": {
+              "finding": "TryExit automatically parks all vehicles. Reentering a motorcycle with its engine left running retained ParkingBrake=true; W could not move it until C. First ignition already released the brake, so this was specifically repeated-entry friction, not proof of a collision hardlock.",
+              "change": "Successful ordinary motorcycle Enter releases parking hold. Enter(restore:true) preserves saved brake; Niva/cart, manual brake, engine state, input release and safe exit unchanged. Hide nonexistent motorcycle wiper hint only; save/input fields preserved.",
+              "verification": "Source review of Enter/TryExit/VehicleFleet restore and one existing initial-entry assertion updated for intentionally changed motorcycle contract. Affected Game compile24.10:17.40s, exit0, 0 warnings/errors. Scoped diff check and tracker validate; no native run, no new tests.",
+              "remaining": "Verify ordinary ride→stop→dismount→remount with running engine→drive, and cold Continue preserving an intentionally set brake, within next necessary protected acceptance. Physical approach/collision feel remains open."
             }
           },
           {

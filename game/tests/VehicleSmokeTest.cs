@@ -116,7 +116,8 @@ public partial class VehicleSmokeTest : Node
                     +(entered ? string.Empty : $" (target={_player.PeekRayTarget()?.InteractionId ?? "none"}, available={vehicle.EntryTarget.IsAvailable()}, onFloor={_player.IsOnFloor()}, canEnter={_player.CanEnterVehicle(out var entryReason)}, reason={entryReason}, suspended={_fleet.Suspended}, deferred={_fleet.PlacementValidationDeferred})"));
                 Require(vehicle.VehicleCamera.Current&&!_camera.Current,"vehicle camera owns the view");
                 await Frames(4);
-                Require(!vehicle.EngineRunning&&vehicle.ParkingBrake,"parked start keeps ignition off");
+                Require(!vehicle.EngineRunning&&vehicle.ParkingBrake==(vehicle.Definition.Kind!=VehicleKind.Motorcycle),
+                    "ordinary entry keeps ignition off and releases motorcycle parking");
                 if(vehicle.Definition.Kind==VehicleKind.Niva)
                 {
                     await VehicleMouseSensitivityAcrossResolutions(vehicle);

@@ -182,6 +182,9 @@ public partial class VehicleController : CharacterBody3D
         { player.NotifyTraversal(reason); return false; }
         if (restore) player.SetVehicleControl(true);
         Driver = player; _controlsNeedRelease = true;
+        // Dismount parks the bike without stopping its engine. Ordinary entry
+        // releases that parking hold; loading keeps the saved brake state.
+        if (!restore && Definition.Kind == VehicleKind.Motorcycle) ParkingBrake = false;
         _pitch = _lookYaw = 0;
         player.GlobalPosition = ToGlobal(Definition.Seat);
         _camera.Fov = (float)player.CaptureSettings().FieldOfView;
@@ -694,7 +697,8 @@ public partial class VehicleController : CharacterBody3D
             +"\n"+H("carry_use")+" "+engine+" · "+H("jump")+(horse?" придержать · ":" тормоз · ")
                 +H("crouch")+" "+parking+" · "+H("interact")+" выйти"
             +(Definition.Kind!=VehicleKind.HorseCart?" · "+H("carry_rotate")+" фары · "
-                +H("vehicle_high_beam")+" дальний · "+H("vehicle_wipers")+" дворники":"")
+                +H("vehicle_high_beam")+" дальний":"")
+            +(Definition.Kind==VehicleKind.Niva?" · "+H("vehicle_wipers")+" дворники":"")
             +(Radio is null?"":"\n"+H("carry_place")+" радио · "+(Radio.Enabled?Radio.Display:"выключено")
                 +(Radio.StationCount>1?" · "+H("radio_station")+" канал":""));
     }
