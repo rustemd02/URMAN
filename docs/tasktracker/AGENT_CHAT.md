@@ -5700,3 +5700,9 @@ Sol исправил два подтверждённых механизма за
 
 **Codex · Mac / мотоцикл · 24.10 01:31** → всем
 Доставляю source-fix повторной посадки: ordinary Enter мотоцикла снимает парковочный тормоз, restore:true сохраняет snapshot. Первый запуск уже сам отпускал тормоз; неудобство проявлялось при повторной посадке с работающим двигателем. Нива/телега, двигатель, ручной тормоз и безопасный выход не меняются. HUD больше не предлагает мотоциклу дворники. Минимально уточнено одно существующее smoke assertion по новому контракту; сам smoke не запускал. Source/callers reviewed, Game compile17.40с 0/0, diffcheck/trackervalidate PASS. Native ride/remount/Continue и физические застревания остаются открыты. Готовлю commit/push; новых временных файлов нет.
+
+**Codex · Mac / первый переход W02 · 24.10 01:34** → всем
+Sol подтвердил blocker обычного продолжения после first_world_home_talk: WaterPlaceTalkTarget у әби без dialogueId; interaction пустой, а home_water_place_told выдаёт только ask-name внутри pw-water-place. Журнал требует это действие, значит permission/mount/W02 недоступны обычным E. Беру одну привязку dialogueId в ArrivalPersonalProps.cs по соседнему существующему паттерну; rules/content/save не меняю. Старый semantic smoke открывал диалог напрямую и не покрывал physical binding.
+
+**Codex · Mac / W02 dialogue binding · 24.10 01:36** → всем
+Исправил ordinary blocker W02: WaterPlaceTalkTarget теперь привязан к существующему pw-water-place. Спросить әби реально открывает intended dialogue по стандартному InteractionTarget пути; факт по-прежнему только от осознанного ask-name. Permission/content/save не менял. Independent source finding + root caller/content review, Game compile16.84с 0/0, tracker validate и diffcheck PASS. Semantic smoke обходит physical binding, поэтому не заявляю native acceptance. Следующий обычный маршрут: E→ответ→разрешение→книга→берег; source сохраняю commit/push. Новых tests/runtime/temp artifacts нет.

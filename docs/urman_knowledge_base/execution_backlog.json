@@ -108053,6 +108053,12 @@
         "change": "game/content/urman.settlement.addresses.v1.json now maps ADR-SCHOOL→ADR-SQUARE-SCHOOL and contains the exact existing OldSchool registration. H031 geometry/number/identity preserved; no duplicate building or quest state.",
         "verification": "JSON parsed; identity/address uniqueness checked; runtime replacement branch reuses the registered OldSchool once, fallback AuthoredAddressText resolves the same address. Both existing world generators retain the new row and alias. Scoped diff check passed. No build, tests or native rerun for this data-only correction.",
         "remaining": "Ordinary player following the directions→actual school album→permission/copy→first-image entry remains part of whole first-investigation acceptance."
+      },
+      "water_place_binding_2026_10_24": {
+        "defect": "Ordinary WaterPlaceTalkTarget lacked dialogueId. Interaction pw-water-place-talk has no effects; home_water_place_told is produced only by ask-name in pw-water-place dialogue. Journal requested the conversation, but E could not open it, blocking permission/mount/W02 progression.",
+        "change": "ArrivalPersonalProps.WaterPlaceTalkTarget now binds urman.fullgame:dialogue/pw-water-place, matching adjacent permission target pattern. No content effects, permission rules or save changes.",
+        "verification": "Independent Sol source finding and root caller/content review; affected Game compile16.84s exit0, 0warnings/errors; scoped diff/tracker validation. Existing FullGameFlowSmokeTest.DialogueAsync directly opens dialogue and does not prove this physical binding. No native run/new tests.",
+        "remaining": "During next necessary protected ordinary investigation, use real E on әби→ask-name→permission→mount/read→river entry, preserving cancellation and save/Continue. Current source fix does not prove complete W02 play."
       }
     },
     {

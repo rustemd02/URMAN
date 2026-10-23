@@ -329,7 +329,8 @@ internal partial class ArrivalPersonalProps : Node3D
         var npcAnchor = StyleBenchmarkInteriorFactory.GulsinaAnchor + Vector3.Up * .84f;
         var talk = house.MakeInteractionBox("WaterPlaceTalkTarget", new(.62f, 1.68f, .46f),
             npcAnchor, "6f6257", "urman.fullgame:interaction/pw-water-place-talk",
-            "Спросить әби, как она называет старые мостки", rayOnly: true);
+            "Спросить әби, как она называет старые мостки",
+            dialogueId: "urman.fullgame:dialogue/pw-water-place", rayOnly: true);
         var permission = house.MakeInteractionBox("WaterPhotoPermissionTarget", new(.62f, 1.68f, .46f),
             npcAnchor, "6f6257", "urman.fullgame:interaction/pw-water-photo-permission",
             "Получить разрешение на копию снимка",
