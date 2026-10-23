@@ -105,7 +105,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private static readonly Vector3 BranchMovedRootPosition = new(0f, 0.85f, 0f);
     // Hints follow authored landmark centerlines; startup resolves them onto each mesh's triangles.
     private static readonly Vector3 ForestSplitBirchObservationHint = new(4.25f, 2.2f, 46.1f);
-    private static readonly Vector3 ForestCrossbarObservationHint = new(3.6f, 1.15f, 45.975f);
+    // F11 sees the exposed end; the middle lies behind the split birch.
+    private static readonly Vector3 ForestCrossbarObservationHint = new(4.3f, 1.15f, 45.95f);
     private static readonly Vector3 ForestRootArchObservationHint = new(-6.2f, 1.85f, 46f);
     private static readonly float BranchAcrossPathYaw = Mathf.RadToDeg(Mathf.Atan2(12f, 50f));
     private static readonly Vector3[] PrologueRouteNodes = { Vector3.Zero, BranchF01, PrologueF02, PrologueF03 };

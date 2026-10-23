@@ -71675,7 +71675,7 @@
         "Ноги, звук шагов и restrained bob используют фактическое post-move горизонтальное перемещение, включая strafe/backwards; у стены/остановки нет шага на месте и ретракционного скольжения.",
         "Взлёт/полёт/приземление и crouch/stand переходят согласованно без скачка глаза; сохраняются roof/grounded/input/modal/reduced-motion guards и достижимость IK."
       ],
-      "next_action": "Native current body walking/stop/takeoff after hipdip15→2cm in e652c219; source/IK reviews and Game18.39s accepted, actual cadence/body clipping/fullmotion still open.",
+      "next_action": "Reuse748b verified stride fix (existing native80checks; ankle travel0.020744→0.054187m) and straight-walk frames; next distinct gait acceptance is stop/turn/run/crouch/takeoff with coat/body clipping. Do not rerun unchanged straight-walk check alone.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -72268,6 +72268,12 @@
         "result": "Before16frames weak/stiff readable stride; actualexistingnative anklecheck failed. After planner/finalIK physicalreach alignment, samecheckPASS80 and16newframes show alternatingfootadvance; root viewed before8samples and after4samples, LunaFast inspected all16baselineframes. No full subjectivequalityPASS.",
         "verification_boundary": "Only straightwalk visualbefore/after plus existingnative80checks. Coat/hem occlusion remains; all parent listedmodes/humanart gates stayopen.",
         "cleanup": "43 rawlogs/receipts/32frames packed and member-byteverified before deleting13,423,391B loosecopies;561,784,099B stoppedownedimport/shader/buildcache removed. No ordinary screenshots/video/archive inGit."
+      },
+      "coat_visibility_review_2026_10_23": {
+        "state": "reviewed_no_speculative_edit",
+        "finding": "Sol reviewed four before/after frames and mesh tailoring. Closed NPC coat front14–15cm and upper trousers13cm leave only1–2cm fit clearance. A6cm tuck would intersect trousers; no safe coefficient-only fix established.",
+        "evidence_limit": "Existing GaitCaptureProbe uses -72deg child-camera pitch versus production -82deg maximum; angle changes framing but cannot reveal genuinely occluded surfaces. Preserve accepted748b stride; no Body edit.",
+        "remaining": "If ordinary current movement still obscures legs unacceptably, deliberate garment silhouette design needs scene/motion acceptance. Do not spend another isolated Meshy model cycle."
       }
     },
     {
@@ -110646,7 +110652,7 @@
       "title": "Реализовать prepare и возвратный билет",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": "Codex",
+      "active_owner": null,
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -110793,8 +110799,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Root serializes active protected fca8 long ordinary native route on deployed worker; no concurrent station owners."
+        "state": "not_active",
+        "reason": "Finite F11 source fix compiled and independently reviewed; no live station or native process. Previous fca8 station text was historical; current native acceptance remains pending."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -110802,7 +110808,7 @@
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "Next necessary protected ordinary run: confirm readable persistent goal and new first-entry/source prompts, then F11 shift at least0.2m/re-aim and observe committed forest fact before full W01 encounter→return→postreturn Save/Continue. Existing bookentry/return/coldContinuepose proven by5fb; full earned-insidephoto cycle remains open.",
+      "next_action": "Next necessary protected ordinary run: confirm persistent goal/new prompts and F11 exposed-crossbar observation commits forest_camera_back_seen; then complete W01 meaningful action→return→postreturn Save/Continue. Reuse accepted5fb entry/return/coldContinuepose; full earned cycle remains open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111485,6 +111491,16 @@
         "remaining": "Observe new prompts in next necessary protected ordinary gameplay; full W01 observation/action/return with earned fact and external acceptance remain open.",
         "independent_review": "LunaFast exact-pair codec/strict unknown current handling reviewed clean; final narrow recheck of requested two IDs confirms module/compiled/Arrival191/School163 and exteriorResolveText agree. Root independently verified exact compiled delta, no native claim.",
         "cleanup": "Temporary oldcompiledpack removed after exact comparison. Raw compile gzip397B SHA f547c8df0c707fc9d27455020193c1f88f75f8c973794f0a7a275c1821d76cd3 retained locally;53740367B stopped owned buildcache removed."
+      },
+      "f11_crossbar_visibility_2026_10_23": {
+        "state": "source_geometry_compile_verified_native_pending",
+        "target": "game/scripts/photoworlds/W01Controller.cs",
+        "cause": "At actual F11 camera (13.842266,2.668455,47.951984), old crossbar target was occluded by split birch. Static authored GLB intersections: first split-left hit t=0.96125052, crossbar t=0.99837237. Exact-child visibility correctly rejected it.",
+        "result": "Hint moved from (3.6,1.15,45.975) to exposed end (4.3,1.15,45.95), resolving near (4.34499996,1.14999994,45.94999898). Sol reports first crossbar hit t=0.99946981 and nine additional F11 X/Z samples clear. Collision layers, camera framing, all three landmarks, grounded/modal/session gates and reducer remain unchanged.",
+        "verification": "Affected Game compile exit0,19.10s,0warnings/0errors. Root inspected diff and observation/collision point owner; independent Astra source review bounded clean. Static geometry checked by Sol, not independently repeated by Astra. No new tests/probes; ordinary current F11 reducer commit NOT_RUN.",
+        "evidence": "evidence/PW-020/f11_crossbar_build_20261023.log.gz",
+        "evidence_sha256": "b12218fcf83be45c268be462c241c80bf0a0d2401820f981bdcc710fe6b81b6d",
+        "remaining": "Protected ordinary F11 observation must commit forest_camera_back_seen, then complete beyond-frame/Shurale/bag action, return and postreturn Save/Continue. Static geometry and compilation do not close PW-020."
       }
     },
     {
@@ -120137,7 +120153,18 @@
           "evidence_ref": "PW-040.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "school_neighboring_print_2026_10_23": {
+        "state": "confirmed_source_gap_next_finite_art_result",
+        "finding": "P-FOREST and S-SCHOOL resolve to identical p-forest-front-v2 pixels. Previous provenance deliberately used a contact copy; current D04 says neighboring frame with same crossbar, and photos.spec S-SCHOOL calls for the same people and recognizable other side. School acquisition currently provides no distinct promised visual evidence.",
+        "targets": [
+          "game/assets/textures/photobook/",
+          "game/scripts/JournalUi.PhotoBook.cs"
+        ],
+        "next_action": "Produce one neighboring school print from current staged P-FOREST and existing fictional cast, preserving the same geography/landmarks/painterly family; use built-in image_gen, then connect existing acquired-source reader and physical book. Do not restore old low-poly s-school-front-v1 or invent new world/quest.",
+        "acceptance_question": "Can a player comparing the two prints identify what the school copy reveals about the same tree sides/crossbar? Native and author acceptance remain required.",
+        "source_review": "Independent Astra recommendation, followed by Sol spec/provenance readback and root direct inspection of both existing assets. No image generation or runtime change yet."
+      }
     },
     {
       "id": "PW-041",
@@ -122016,6 +122043,13 @@
         "verification": "Personal luna_fast implementation+source scenario readbacks, root exact helper/caller/branch review, affected Game17.78s0warnings/0errors; no newtests.",
         "remaining": "Not in already-running c855 snapshot11716463; current shared HUD native after patch, alternate W01/W02 orders, Save/Continue require later changed-source acceptance.",
         "native_fca": "Album after physical book correctly asks school copy; after S-SCHOOL and after Continue asks forest-edge. Shared gameplay HUD/general journal and alternate W01/W02 order not separately sampled."
+      },
+      "arrival_causality_2026_10_23": {
+        "state": "source_gap_recommended_bounded_next_result",
+        "finding": "Prologue complete/skip enters pw-niva-arrival; Main routes to arrival on foot, but parked Niva target says stop and exit. Authored D00 passenger conversation is not presented on this path.",
+        "next_action": "Within existing arrival/prologue scope, reconcile passenger arrival and D00 with actual ordinary exit toward house, preserving skip/session/save guards. Inspect existing vehicle presentation before implementation; no new driving scene/cutscene.",
+        "acceptance_question": "After ordinary completion and Skip, does player understand where Aidar is, why he has the book and where to go?",
+        "source_review": "Read-only Astra judgment cited definitions.json1856, Main.cs558, StyleBenchmarkZone.cs431 and existing authored D00; native first-ten-minute timing not measured."
       }
     },
     {
