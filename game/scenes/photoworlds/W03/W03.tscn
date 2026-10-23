@@ -47,7 +47,13 @@ shadow_opacity = 0.38
 [node name="H00" type="Marker3D" parent="Anchors"]
 rotation_degrees = Vector3(0, 180, 0)
 
-; H01 is the real porch threshold at the imported hero-house doorway.
+; Production source camera: 1800x1200 photo aspect, separate from the player camera.
+[node name="PHousePhotoCamera" type="Camera3D" parent="Anchors/H00"]
+position = Vector3(0, 1.5, 0)
+current = false
+fov = 50.0
+
+; H01 is the real porch deck centre of the imported hero house.
 [node name="H01" type="Marker3D" parent="Anchors"]
 position = Vector3(0, 0.3, 10)
 rotation_degrees = Vector3(0, 180, 0)

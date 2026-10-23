@@ -119655,7 +119655,7 @@
               "13backSVG produced1800×1200 and Godot rendered; protected album view/authorart+language acceptance open.",
               "Other required fronts, S-GARDEN1800×1200final, all thumbnails и scene/identity alignment; full E02 остаётся открытым."
             ],
-            "next_action": "Finish named W02 portal camera/support alignment and its P-WATER front/thumbnail, then P-HOUSE; extend existing resolver only with exact produced owned artifacts. Keep all13 and final art acceptance open.",
+            "next_action": "Reuse acceptedW02camera/support/P-WATERfront+thumbnail8c9e4028; do notrepeatunchangedrender. P-HOUSE requirescurrent W03orientation/approach/shutter/H05 ownerrepair (PW055E01) beforeexactH00frontcomposition/source→ImageGen. H03visibility/appleframing artgap explicit, no inventedlikeness. All13/fullnative/authorart gates remainopen.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -123185,7 +123185,7 @@
               "F01/F03 authored graph gap исправлен в 5f1d9e98; существующий semantic route обновлён, ещё NOT_RUN. Нужен physical binding обоих endpoints и основного forest move, не ранний выход вместо полного пролога.",
               "W01 source consumer ground/F01 принят24.38s compile; real scene runtime/material/contacts/capsule/save/мovedbranchinspect NOT_RUN. Forestkit stage2 и isolatedbirch stage8 root rejected; untracked source/tmp сохранены, assetsнепубликовались."
             ],
-            "next_action": "Reuse acceptedsource/compile/import. FinishindependentMeshyPBRmaterialcandidate withoutgeometrychanges; nextordinaryF01approach/E→side-rest→Save/coldContinue requiresownerMacunlock. ThenverifyactualF01relocations/lighting; do notrepeatlockedstartup/unsupportedLook oroldmicroshapeattempts.",
+            "next_action": "Reuse e534f9f4 acceptedfunctional source/compile/import. MeshyPBRsource reviewedHOLD and compacted (PW093), canonicalbark unchanged. Next distinctordinaryF01approach/E→side-rest→Save/coldContinue requiresmanualMacunlock; then verify actualshoulders/lighting. No lockedstartup/rejectedbark/oldmicroshape repeats.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -128717,7 +128717,7 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Finite coupled source stage delivered and affected Game compile passed; native observation/restore and art acceptance remain open. Bounded read-only collision/lifecycle reviews are separate from production ownership."
+              "reason": "Finite W03orientation/approach/directconsumerrepair source+compile+actualsceneconstruction accepted; fullordinaryrouting/turnwidth/photoART/Continue open. No activeworker/native."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -128726,7 +128726,7 @@
             "remaining": [
               "Actual ordinary traversal and safe landings across H00–H08 are not observed; scene/import/art alignment remains unaccepted."
             ],
-            "next_action": "After authoritative e79 terminal/restoration verify actual W03 H00–H08 terrain/roomfloor/collision/actions andreturn/Continue with normalizedheight source; reuse acceptedreview/shared16.27scompile, no unchanged rerun.",
+            "next_action": "AftermanualMacunlock one ordinarycurrent-source H00→veranda→bothsideapproaches, realshutteraction, H05actualaim, roominside/outside and retainedSave/Continue. Resolvepassportturn/safespace and P-HOUSEapple/H03frontcomposition before fullchild/art acceptance. Reuse thissource/compile/constructionproof withoutunchangedrerun.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -128859,6 +128859,30 @@
                 "evidence/PW-062/panorama-river-source-20261020/game-build-final.log"
               ],
               "remaining": "ActualordinaryW03entry→H00–H08/roomfloor/steps/actions/return/Continue andartpass remainopen."
+            },
+            "entry_orientation_2026_10_23": {
+              "state": "source_repaired_compiled_scene_constructed_ordinary_acceptance_pending",
+              "owner": "Sol6.1High /root/sol_water_photo sourceonly W03Geometry+W03scene; rootintegration",
+              "question": "Do actual imported houseplacement/collision and passport H00→H01 veranda approach agree before producing P-HOUSE?",
+              "evidence": {
+                "path": "evidence/PW-055/entry_orientation_20261023.zip",
+                "bytes": 1592,
+                "members": 4,
+                "sha256": "966b96b58ce75fb11b731a0554acd9f2a93a409615bab3e6e5734915c6757dbb",
+                "loose_bytes_removed": 1888,
+                "verification": "All4memberbytes compared before deletingloosebuild/scene logs; canonicaltracker only, rawarchive ignored/notGit."
+              },
+              "preserve": "H00(0,0,0) +Z, H01(0,.3,10), H02..H08/links, actual roomfloor/shelter/contact, shutter/grip/camera studies, oldpose safety and returnsemantics. No hidingwall/camera-only workaround.",
+              "next_action": "AftermanualMacunlock one ordinarycurrent-source H00→veranda→bothsideapproaches, realshutteraction, H05actualaim, roominside/outside and retainedSave/Continue. Resolvepassportturn/safespace and P-HOUSEapple/H03frontcomposition before fullchild/art acceptance. Reuse thissource/compile/constructionproof withoutunchangedrerun.",
+              "approved_fix": "W03Geometry+W03.tscn only: actualporchcenter→H01 via yaw180 andposition(-1.1644,.085,11.546); firsttwoapproachbranches viaporchgapz8.6 then aroundseni/body(leftx-9.5,rightx3.5). Sortedactualoppositewallinnerbounds ownroomfloor/shelter, housebuiltbeforeground. Shutterpane-localbasis/hinge/target. ExistingH05witness rebindsvisibleRear0glass with+.22localin-paneoffmullion, selectedpanefacesownership instead ofStreet1. AddnoncurrentH00photoCameraheight1.5/vFOV50; anchors/IDs/state unchanged.",
+              "loaded_pose_boundary": "Existing RuntimeBridge.PhotoBootstrap137–164 and Main.PhotoSceneLoading74 conditional safenoderecovery alreadychecks actualsupportedcapsule+floor. Unsupportedloadedpose mayfallback to verifiedownedanchor; validpose/blockeditemalone notmoved. No newsavefield/fallback/slotwrite. Nativecompatibility stillopen.",
+              "front_art_gap": "At1800x1200/vFOV50 hFOV~69.94deg: H03inside andunobscured; appletrunk(-29,38.5)outside. No crop/hidewall workaround, ImageGenfrontnotproduced oraccepted. Sourceorientation/playableapproachrepair first; exactphotoart remains PW040E02.",
+              "review": "Astra actualdiff found one directlycoupled P2: old+72deg openedshutterintoactualglass. Root verifiedmatrix and changedoneconstant to-72deg in existingInteractionsowner; rest of geometry/room/route/contact source review clean. Existingloadedposefallback correction accepted; no newrecovery.",
+              "technical_runtime_question": "After finalaffectedGamecompile, can existing W03.tscn construct changed room/ground/contact/shutter/H05 geometry in actualGodot _Ready without runtimeexception? One protectedheadless2frame directscene load (90sbound), no newharness/probe/test, noGUI/visual/walk/art/performance claim.",
+              "technical_runtime_success": "Process0, no ERROR/SCRIPTERROR, original userdata files/permissions restored and verified; anywarnings retainedraw. Does not closeordinaryroute/Continue/turnwidth/frontART.",
+              "actual_result": "Houseexistingkit yaw180 placesactualporchcenteratH01, H00approachfacesstreetveranda. Firsttwoauthoredpaths skirtactualhouse/seni. Sortedactualwallinnerbounds drivebothroom/shelterandmatchingterrainfloor. Shutterhinge/target usepane-localtransform, opensoutward-72deg. H05witness ownsactualexposedRear0panecontacts with+.22localoffset avoidingmullion; Street1 glassremainscollidable. AllH00..H08/aliases/links/actionIDs/facts unchanged. Noncurrent h1.5/vFOV50 sourcecamera added; no producedP-HOUSEfront.",
+              "source_geometry": "Worker canonicalGLBtriangle inspection: porchdeckcenter~(0,.3,10), top.315, x±.97/z9.51..10.49; frontpostgap1.64m, headroom2.22m. Lowthreshold .0285mabove deck<existing.22step. H05standingeye→offmullionRear0witness(-.052402,1.771,17.8625) first/onlyhousehit intendedglass35.735m. Roominnerx[-6.822401,1.177599],z[10.68,17.68],floor.331. This is sourcegeometryevidence, not nativewalk/turn acceptance.",
+              "verification": "Final affectedGame13.97s exit0/0warnings/0errors; initialcombined16.53s0/0 preceded one-literalshutterdirectionfix. Astraactualdiff plus finaldirection/sharedtransformconsumer review clean; no newrecovery. One directexistingW03.tscn protectedheadless/Dummy2frames withpinnedenv exit0/ERROR0, originaluserdatafiles+permissionsrestoredverified. This provesactualsceneconstruction only. Firstattempt lackedeng/dotnet-env: hostfxrmissing before scene; own guard97009 TERM, exit143/restoredverified, one correctedenvattemptpassed. No GUI/visual/action/Continue/performance claim."
             }
           },
           {
@@ -143435,7 +143459,7 @@
       "assigned_owner": "performance",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Finite duplicatedKara construction sourcefix compiled/reviewed; actualtargethardwaretiming and fullPW090 remainopen."
       },
       "task_type": "integration_check",
       "implementation_state": "partial",
@@ -143688,6 +143712,17 @@
         "evidence": "evidence/ACT1-LEGS.2/gait_20261023.zip",
         "evidence_sha256": "adca74a4f43474227b6cb843727cacfaf8aef5a02ba10154a0d4e75c136dcbed",
         "source_sha256": "3bf28a87662d59b497e3f50928e4c170eb8652fb698dfdeb571722fe1f98b495"
+      },
+      "startup_duplicate_kara_2026_10_23": {
+        "state": "source_fixed_compiled_independently_reviewed_timing_pending",
+        "owner": "Sol6.1High /root/sol_startup_scene_cost only game/scripts/StyleBenchmarkZone.cs; rootintegration",
+        "question": "Does connected Act1 world construct a benchmarkKara kit that is immediately hidden and replaced by identical corepresentation, and can existingparentguard avoidonlythatcost?",
+        "cause": "BuildKaraUrmanNight attach/regrade13components runs while all5logicalzones are constructed before profiled core. Connectedworld suppression hides KaraForestEdgeAuthoredKit and core latermounts samekit/sameanchors.",
+        "source_counts": "Static GLB216sourceNodes; selected13subtrees215nodes/202meshNodes/5040triangles; expected229retainedincludingwrappers plus one temporary216node tree. Actualruntimecounts/timing unknown.",
+        "boundary": "Reuse GetParent() is not Act1ConnectedWorld aroundonlyauthoredkitattach/regrade/loosebough loop; keep standalonebenchmark/coreKit/alllogicalzones/interaction/ground/content/state/spawns. No newowner/helper/cache; no persistence or externalboundary.",
+        "verification": "Final shared affectedGame13.97s0warnings/errors. Independentsource review verifies actualdirectAct1ConnectedWorldparent beforechild_Ready, onlyalreadyhiddenvisualkit skipped, samecorefamily/anchors retained, standalone fullblock untouched. No measuredstartup gain/nodecount/frameacceptance.",
+        "source_review": "Independent Sol actualparent/_Ready/corefamily/no physics+state owners review clean; no actualtimingclaim.",
+        "evidence": "evidence/PW-055/entry_orientation_20261023.zip"
       }
     },
     {
@@ -146271,7 +146306,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Use current candidate build/releases/act1-20261023-e534f9f4 only: after manualMacunlock one ordinary standalone NewGame/book/entry/action/return/Save/normalQuit/coldContinue route under existing userdata guard; separately Windows actualhost. Currentstructural receipts reused, no reexport without changedruntime input. Performance/rights/fullcampaign/external gates remainopen.",
+      "next_action": "Before nextstandaloneacceptance freeze latestacceptedruntime and buildone replacement for e534f9f4snapshot, then runordinary Macroute onlyaftermanualunlock and separatelyWindowsactualhost. Currentartifactreceipt remains validforits own frozeninputs, not newerW03/Karafixes. No reexport merelyforstatus; performance/rights/fullcampaign/externalgatesopen.",
       "blocker": null,
       "external_gates": [
         {
@@ -147141,7 +147176,8 @@
         },
         "producer_log": "evidence/PW-095/desktop-export-e534f9f4-20261023.log.gz",
         "producer_log_sha256": "572d1d1bb8c78dee15f6e3612eb857a56c66041482c95ad4c4485d0034c3e4bc",
-        "producer_log_raw_removed_bytes": 491935
+        "producer_log_raw_removed_bytes": 491935,
+        "source_freshness": "Frozen e534f9f4 artifact remains structurallyverified historicalsnapshot. Latest working-source now ahead by W03orientation/shutter and hiddenKara construction fixes; those fixes are NOT inthisZIP/EXE. Rebuildone replacement only before nextstandalone acceptance after sourcefreeze, retainthissetuntilreplacementverified."
       }
     },
     {

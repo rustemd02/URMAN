@@ -730,42 +730,46 @@ public partial class StyleBenchmarkZone : Node3D
         PainterlyEnvironmentDetails.AddRoadRelief(this, "PathMiddle", 3.6f, 11f, new(0.45f, 0f, -2.3f), "3b392f", yawDegrees: -5f);
         PainterlyEnvironmentDetails.AddRoadRelief(this, "PathFar", 3.3f, 10f, new(-0.1f, 0f, -12.3f), "37362e", yawDegrees: 7f);
 
-        var karaAuthoredKit = AttachAuthoredKitComponents(
-            KaraForestEdgeKitScenePath,
-            KaraForestEdgeKitRootName,
-            KaraForestEdgeKitComponentNames,
-            "KaraForestEdgeAuthoredKit",
-            "authored near/mid/far forest edge framing with an open central road window",
-            ("ForestBank_Left", "KaraForestBankLeft", new(-6.2f, 0f, 3.0f), -12f, Vector3.One, "kara-benchmark@west-road-bank"),
-            ("ForestBank_Right", "KaraForestBankRight", new(6.6f, 0f, -2.0f), 18f, Vector3.One * 0.98f, "kara-benchmark@east-road-bank"),
-            ("MixedTreeCluster_Left", "KaraMixedTreeClusterLeft", new(-10.0f, 0f, -3.5f), -18f, Vector3.One * 0.96f, "kara-benchmark@west-side-tree-mass"),
-            ("MixedTreeCluster_Right", "KaraMixedTreeClusterRight", new(10.0f, 0f, -8.5f), 22f, Vector3.One * 0.94f, "kara-benchmark@east-side-tree-mass"),
-            ("CrookedPineMass", "KaraCrookedPineMass", new(-11.0f, 0f, -10.0f), -14f, Vector3.One, "kara-benchmark@west-side-crooked-pine"),
-            ("BirchEdgeMass", "KaraBirchEdgeMass", new(11.0f, 0f, -14.0f), 17f, Vector3.One * 0.96f, "kara-benchmark@east-side-birch-edge"),
-            ("RootWall_Left", "KaraRootWallLeft", new(-5.5f, 0f, -1.5f), -12f, Vector3.One * 0.96f, "kara-benchmark@west-root-wall"),
-            ("RootWall_Right", "KaraRootWallRight", new(5.5f, 0f, -6.2f), 20f, Vector3.One * 0.92f, "kara-benchmark@east-root-wall"),
-            ("FallenLogCluster", "KaraFallenLogCluster", new(-5.9f, 0f, -5.8f), 28f, Vector3.One * 0.82f, "kara-benchmark@west-ground-breakup-outside-route"),
-            ("MossyBoulderCluster", "KaraMossyBoulderCluster", new(5.8f, 0f, -3.8f), -20f, Vector3.One * 0.86f, "kara-benchmark@east-ground-breakup-outside-route"),
-            ("CrookedStump", "KaraCrookedStump", new(-5.4f, 0f, -7.2f), 10f, Vector3.One * 0.88f, "kara-benchmark@west-ground-landmark-outside-route"),
-            ("DistantForestMass_Low", "KaraDistantForestMassLow", new(-13.5f, 0f, -30.0f), -8f, Vector3.One * 0.90f, "kara-benchmark@far-west-window-mass"),
-            ("DistantForestMass_Tall", "KaraDistantForestMassTall", new(13.5f, 0f, -32.0f), 11f, Vector3.One * 0.72f, "kara-benchmark@far-east-window-mass"));
-        RegradeAuthoredKitMaterials(karaAuthoredKit, KaraForestEdgeKitScenePath);
-        var looseBoughCount = 0;
-        foreach (var mesh in Descendants(karaAuthoredKit).OfType<MeshInstance3D>())
+        // The connected core owns this same kit; its benchmark copy is suppressed.
+        if (GetParent() is not Act1ConnectedWorld)
         {
-            var name = mesh.Name.ToString();
-            if (!name.StartsWith("MixedTreeCluster_Left_AngledBough_", StringComparison.Ordinal)
-                && !name.StartsWith("MixedTreeCluster_Right_AngledBough_", StringComparison.Ordinal)
-                && !name.StartsWith("CrookedPineMass_SideBough_", StringComparison.Ordinal)
-                && !name.StartsWith("BirchEdgeMass_FineBranch_", StringComparison.Ordinal))
+            var karaAuthoredKit = AttachAuthoredKitComponents(
+                KaraForestEdgeKitScenePath,
+                KaraForestEdgeKitRootName,
+                KaraForestEdgeKitComponentNames,
+                "KaraForestEdgeAuthoredKit",
+                "authored near/mid/far forest edge framing with an open central road window",
+                ("ForestBank_Left", "KaraForestBankLeft", new(-6.2f, 0f, 3.0f), -12f, Vector3.One, "kara-benchmark@west-road-bank"),
+                ("ForestBank_Right", "KaraForestBankRight", new(6.6f, 0f, -2.0f), 18f, Vector3.One * 0.98f, "kara-benchmark@east-road-bank"),
+                ("MixedTreeCluster_Left", "KaraMixedTreeClusterLeft", new(-10.0f, 0f, -3.5f), -18f, Vector3.One * 0.96f, "kara-benchmark@west-side-tree-mass"),
+                ("MixedTreeCluster_Right", "KaraMixedTreeClusterRight", new(10.0f, 0f, -8.5f), 22f, Vector3.One * 0.94f, "kara-benchmark@east-side-tree-mass"),
+                ("CrookedPineMass", "KaraCrookedPineMass", new(-11.0f, 0f, -10.0f), -14f, Vector3.One, "kara-benchmark@west-side-crooked-pine"),
+                ("BirchEdgeMass", "KaraBirchEdgeMass", new(11.0f, 0f, -14.0f), 17f, Vector3.One * 0.96f, "kara-benchmark@east-side-birch-edge"),
+                ("RootWall_Left", "KaraRootWallLeft", new(-5.5f, 0f, -1.5f), -12f, Vector3.One * 0.96f, "kara-benchmark@west-root-wall"),
+                ("RootWall_Right", "KaraRootWallRight", new(5.5f, 0f, -6.2f), 20f, Vector3.One * 0.92f, "kara-benchmark@east-root-wall"),
+                ("FallenLogCluster", "KaraFallenLogCluster", new(-5.9f, 0f, -5.8f), 28f, Vector3.One * 0.82f, "kara-benchmark@west-ground-breakup-outside-route"),
+                ("MossyBoulderCluster", "KaraMossyBoulderCluster", new(5.8f, 0f, -3.8f), -20f, Vector3.One * 0.86f, "kara-benchmark@east-ground-breakup-outside-route"),
+                ("CrookedStump", "KaraCrookedStump", new(-5.4f, 0f, -7.2f), 10f, Vector3.One * 0.88f, "kara-benchmark@west-ground-landmark-outside-route"),
+                ("DistantForestMass_Low", "KaraDistantForestMassLow", new(-13.5f, 0f, -30.0f), -8f, Vector3.One * 0.90f, "kara-benchmark@far-west-window-mass"),
+                ("DistantForestMass_Tall", "KaraDistantForestMassTall", new(13.5f, 0f, -32.0f), 11f, Vector3.One * 0.72f, "kara-benchmark@far-east-window-mass"));
+            RegradeAuthoredKitMaterials(karaAuthoredKit, KaraForestEdgeKitScenePath);
+            var looseBoughCount = 0;
+            foreach (var mesh in Descendants(karaAuthoredKit).OfType<MeshInstance3D>())
             {
-                continue;
-            }
+                var name = mesh.Name.ToString();
+                if (!name.StartsWith("MixedTreeCluster_Left_AngledBough_", StringComparison.Ordinal)
+                    && !name.StartsWith("MixedTreeCluster_Right_AngledBough_", StringComparison.Ordinal)
+                    && !name.StartsWith("CrookedPineMass_SideBough_", StringComparison.Ordinal)
+                    && !name.StartsWith("BirchEdgeMass_FineBranch_", StringComparison.Ordinal))
+                {
+                    continue;
+                }
 
-            mesh.Hide();
-            looseBoughCount++;
+                mesh.Hide();
+                looseBoughCount++;
+            }
+            karaAuthoredKit.SetMeta("suppressedLooseBoughCount", looseBoughCount);
         }
-        karaAuthoredKit.SetMeta("suppressedLooseBoughCount", looseBoughCount);
 
         // The imported pines are deliberately offset from the repeated
         // authored forest kit: one keeps the existing project-original style

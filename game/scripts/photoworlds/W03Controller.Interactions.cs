@@ -86,7 +86,7 @@ public partial class W03Controller
         {
             _shutterClosedTransform = shutter.GlobalTransform;
             _shutterOpenTransform = new Transform3D(
-                shutter.GlobalBasis * new Basis(Vector3.Up, Mathf.DegToRad(72f)), shutter.GlobalPosition);
+                shutter.GlobalBasis * new Basis(Vector3.Up, Mathf.DegToRad(-72f)), shutter.GlobalPosition);
         }
 
         if (_cloth is { } cloth)

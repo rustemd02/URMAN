@@ -17,8 +17,8 @@ public partial class W03Controller
 
     private static readonly Vector2[][] HouseWalkRoutes =
     [
-        [new(0, 0), new(0, 7), new(0, 10), new(-2.2f, 10.5f), new(-4.5f, 12), new(-6.8f, 14.7f), new(-8.7f, 17.5f), new(-10, 20)],
-        [new(0, 10), new(3.5f, 10.5f), new(6.6f, 12), new(8.2f, 14.5f), new(9.3f, 17.4f), new(10, 20)],
+        [new(0, 0), new(0, 7), new(0, 10), new(0, 8.6f), new(-9.5f, 8.6f), new(-10, 20)],
+        [new(0, 10), new(0, 8.6f), new(3.5f, 8.6f), new(6.6f, 12), new(8.2f, 14.5f), new(9.3f, 17.4f), new(10, 20)],
         [new(-10, 20), new(-13.5f, 22.4f), new(-18.5f, 25.4f), new(-23.5f, 28.8f), new(-25, 30)],
         [new(-25, 30), new(-25, 34), new(-25, 38)],
         [new(-25, 48), new(-25, 43), new(-25, 38)],
@@ -37,8 +37,8 @@ public partial class W03Controller
         _world.SetMeta("presentationRole", "walkable summer courtyard; paired doors lead to the same H04 garden");
         AddChild(_world);
 
-        BuildHouseGround();
         var house = BuildImportedHeroHouse();
+        BuildHouseGround();
         BuildHousePassageFrames();
         BuildH04AppleTree();
         BuildH04GardenTable();
@@ -135,7 +135,7 @@ public partial class W03Controller
     private static float HouseSmoothRange(float from, float to, float value) =>
         Mathf.SmoothStep(0f, 1f, Mathf.Clamp((value - from) / (to - from), 0f, 1f));
 
-    private static float HouseGroundHeightAt(float x, float z)
+    private float HouseGroundHeightAt(float x, float z)
     {
         var frontRise = HouseSmoothRange(0f, 10f, z);
         var frontFall = 1f - HouseSmoothRange(20f, 31f, z);
@@ -148,15 +148,15 @@ public partial class W03Controller
             * (1f - HouseSmoothRange(56f, 64f, z));
         var ground = Mathf.Max(houseYard, eastwardYardGrade);
 
-        // The shipped hero shell carries its own .246 m raised floor. Blend the
-        // matching terrain beneath that real floor so the world guard never
-        // drags a player through the house or creates a step through its walls.
-        var roomX = HouseSmoothRange(-2.90f, -2.30f, x)
-            * (1f - HouseSmoothRange(5.55f, 6.15f, x));
-        var roomZ = HouseSmoothRange(2.75f, 3.35f, z)
-            * (1f - HouseSmoothRange(8.45f, 9.05f, z));
+        // The same actual inner wall bounds own shelter and the raised floor.
+        // Feather outside those bounds; the full room remains at its real floor.
+        if (_houseRoomBounds is not { } room) return ground;
+        var roomX = HouseSmoothRange(room.Position.X - .60f, room.Position.X, x)
+            * (1f - HouseSmoothRange(room.End.X, room.End.X + .60f, x));
+        var roomZ = HouseSmoothRange(room.Position.Z - .60f, room.Position.Z, z)
+            * (1f - HouseSmoothRange(room.End.Z, room.End.Z + .60f, z));
         var roomFloor = roomX * roomZ;
-        return Mathf.Lerp(ground, .331f, roomFloor);
+        return Mathf.Lerp(ground, room.Position.Y, roomFloor);
     }
 
     private static Color HouseGroundColor(float x, float z)
@@ -209,7 +209,10 @@ public partial class W03Controller
         var placement = new Node3D
         {
             Name = "HeroHousePlacement",
-            Position = new Vector3(1.1644f, .085f, 7.7f)
+            // The authored porch deck centre becomes H01; the street facade
+            // faces the H00 approach instead of presenting the rear glazing.
+            Position = new Vector3(-1.1644f, .085f, 11.546f),
+            RotationDegrees = new Vector3(0f, 180f, 0f)
         };
         placement.SetMeta("assetSource", HouseKitScenePath);
         placement.SetMeta("componentSource", HeroHouseRootName);
@@ -230,12 +233,12 @@ public partial class W03Controller
         var rightWall = RoomWall("Right");
         var rearWall = RoomWall("Rear");
         var streetWall = RoomWall("Street");
-        var roomMin = new Vector3(leftWall.End.X,
+        var roomMin = new Vector3(Mathf.Min(leftWall.End.X, rightWall.End.X),
             Mathf.Max(Mathf.Max(leftWall.Position.Y, rightWall.Position.Y),
-                Mathf.Max(rearWall.Position.Y, streetWall.Position.Y)), rearWall.End.Z);
-        var roomMax = new Vector3(rightWall.Position.X,
+                Mathf.Max(rearWall.Position.Y, streetWall.Position.Y)), Mathf.Min(rearWall.End.Z, streetWall.End.Z));
+        var roomMax = new Vector3(Mathf.Max(leftWall.Position.X, rightWall.Position.X),
             Mathf.Min(Mathf.Min(leftWall.End.Y, rightWall.End.Y),
-                Mathf.Min(rearWall.End.Y, streetWall.End.Y)), streetWall.Position.Z);
+                Mathf.Min(rearWall.End.Y, streetWall.End.Y)), Mathf.Max(rearWall.Position.Z, streetWall.Position.Z));
         if (roomMax.X <= roomMin.X || roomMax.Y <= roomMin.Y || roomMax.Z <= roomMin.Z)
             throw new InvalidOperationException("The W03 authored walls do not enclose a valid room.");
         _houseRoomBounds = new Aabb(roomMin, roomMax - roomMin);
@@ -257,7 +260,9 @@ public partial class W03Controller
         houseBody.SetMeta("footstepSurface", "wood");
         _world.AddChild(houseBody);
         var contacts = 0;
-        var windowGlass = FindNamedNode<MeshInstance3D>(component, "HeroHouse_Street_Window1_Glass_LOD0");
+        // H05 owns this real pane's contacts so its visible off-mullion point
+        // resolves to the witness collider. Every other pane remains solid.
+        var windowGlass = FindNamedNode<MeshInstance3D>(component, "HeroHouse_Rear_Window0_Glass_LOD0");
         foreach (var mesh in FindNamedNodes<MeshInstance3D>(component))
         {
             if (mesh.Mesh is null || !mesh.Name.ToString().EndsWith("_LOD0", StringComparison.Ordinal)
@@ -613,9 +618,10 @@ public partial class W03Controller
         AddBoxContact(board, "CameraBodyContact", new Vector3(.25f, .16f, .19f), new Vector3(-.28f, .52f, .07f));
         AddSphereContact(board, "CameraLensContact", new Vector3(-.50f, .54f, .07f), .065f);
 
-        var pane = FindNamedNode<MeshInstance3D>(house, "HeroHouse_Street_Window1_Glass_LOD0")
-            ?? throw new InvalidOperationException("The shipped W03 hero house is missing its street window composition subject.");
-        var windowWitnessPosition = new Vector3(1.1644f + .808f + .22f, .085f + 1.686f, 7.7f + .896f);
+        var pane = FindNamedNode<MeshInstance3D>(house, "HeroHouse_Rear_Window0_Glass_LOD0")
+            ?? throw new InvalidOperationException("The shipped W03 hero house is missing its rear window composition subject.");
+        // Keep the existing in-pane offset clear of the actual central mullion.
+        var windowWitnessPosition = _world.ToLocal(pane.ToGlobal(new Vector3(.22f, 0f, 0f)));
         var windowWitness = new StaticBody3D
         {
             Name = "H05WindowCompositionWitness",
@@ -623,7 +629,7 @@ public partial class W03Controller
             CollisionLayer = 1u,
             CollisionMask = 1u
         };
-        windowWitness.SetMeta("presentationRole", "actual imported HeroHouse Street Window 1 glass composition point");
+        windowWitness.SetMeta("presentationRole", "actual imported HeroHouse Rear Window 0 glass composition point visible from H05");
         _world.AddChild(windowWitness);
         windowWitness.AddChild(Act1ConnectedWorld.AuthoredSurfaceContact(windowWitness, pane));
     }
@@ -711,7 +717,8 @@ public partial class W03Controller
         var pivot = new Node3D
         {
             Name = "ShutterPivot",
-            Position = new Vector3(1.1644f + 2.658f - .50f, .085f + 1.686f, 7.7f + .896f + .12f)
+            Transform = _world.GlobalTransform.AffineInverse() * window.GlobalTransform
+                * new Transform3D(Basis.Identity, new Vector3(-.50f, 0f, .12f))
         };
         _world!.AddChild(pivot);
         var shutter = new StaticBody3D
