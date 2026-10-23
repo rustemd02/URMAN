@@ -143325,7 +143325,16 @@
           "evidence_ref": "PW-090.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "startup_phase_timing_2026_10_21": {
+        "state": "source_prepared_affected_compile_pending",
+        "owner": "Codex / arrival_load_analysis",
+        "target": "game/scripts/Act1ConnectedWorld.cs:ProfileWorldBuildStep",
+        "input": "Observed long normal village preparation in current exported candidate; existing 16 finite major-stage timing callers, no supported per-job environment opt-in.",
+        "result": "Remove one early-return guard; existing Stopwatch/build()/same-format GD.Print now publishes bounded named startup durations during normal play. No new profiler/probe/API/OS setting, one build call preserved.",
+        "verification": "All16 caller sites inspected: finite startup/build phases, no per-frame/per-object calls. Scoped diff check passed. Actual Windows compile and timing readback pending; current5fb6 Game unchanged.",
+        "remaining": "Compile in already required changed-HUD export after current protected native restores; read real startup durations during the same narrow HUD check. This is measurement preparation, NOT optimization or CPU/GPU/frame-time/profile/release acceptance."
+      }
     },
     {
       "id": "PW-091",
@@ -146423,15 +146432,30 @@
           "job_id": "5fb8365a12aad725b6e775a463d41a8c",
           "candidate_id": "7510635943e1ad8779ebe0aa46464574358d4666e5f6d02564fe4eb4216ccea5",
           "source_export_job": "10de5f78dbe34858b4f5a3de9bfb061a",
-          "status": "RUNNING",
+          "status": "PASS",
           "started_at_utc": "2026-10-21T04:44:19.737794+00:00",
           "deadline_at_utc": "2026-10-21T05:44:19.737794+00:00",
           "shared_guard_timeout_seconds": 3600,
           "mode": "candidate-play",
           "changed_input": "run-windows-check.ps1 ebc433bf81119ad4daaa792ffb3757ea60c4205367252b3f0923e82be1dbfc67; same unchanged accepted Game export10de packet",
           "question": "Authorized Skip of already proven ordinary prologue; ordinary village/home/tea/book/photo/world action/return/Save/Quit1 then actualEXE2 Continue retained state/pose/Quit2.",
-          "observed": "Actual menu/NewGame/authorizedSkip, village engineErrors0/Niva commit, ordinary home/tea/book, school entrance and staff room. Separate SchoolPhotoCopySource E identified source; authored permission dialogue completed, S-SCHOOL visible in actual album alongside P-FOREST. Book objective now directs to three trunks/forestedge, entry disabled only until stance. Ordinary school exit completed; walking to supported forest stance. Full W01 action/return/coldContinue/secondQuit not yet proven.",
-          "not_proven": "Full ordinary gameplay/actual Continue/second exit/art/performance/macOS/fullcampaign/external gates remain open."
+          "observed": "Ordinary menu/NewGame/authorizedSkip→Niva→home/tea/physicalbook→school source E/permission dialogue/S-SCHOOL album→forest stance→photo-book entry into W01. At F11 correct position/facing reached but no forest observation event confirmed. Photo-book return event221 committed; manual Save UI and file write confirmed. NormalQuit1 exit0; actual second EXE Continue loaded saved forestedge pose (0.43038848,0.75164545,-120.16548), yaw−6.1600075 and resumed photo exploration objective. NormalQuit2 exit0. Both engine-error arrays empty; native technical session PASS.",
+          "not_proven": "Earned forest observation/full W01 encounter and complete satisfying loop, retention of newly earned inside-photo fact, all release/art/performance/macOS/fullcampaign/external acceptance remain open. S-SCHOOL was visible before Save; album inventory was not re-opened after coldContinue.",
+          "finished_at_utc": "2026-10-21T05:43:26.156718+00:00",
+          "exit_code": 0,
+          "first_exe_exit_code": 0,
+          "second_exe_exit_code": 0,
+          "engine_errors_per_run": [
+            0,
+            0
+          ],
+          "userdata_restored": true,
+          "result_sha256": "e0fe5dbf575b929897aa879fc9384c9dd2b6af2b83996d407a99dabab62a4bf7",
+          "evidence": "evidence/PW-095/native_5fb8365a12aad725b6e775a463d41a8c.zip",
+          "archive_sha256": "acf71c395b39f6da025192d5b5077a5025d5615ae320d423ac9624997a4f2aed",
+          "archive_bytes": 25220864,
+          "doctor": "After terminal: ready/idle, userdata_recovery_pending=false, orphan_candidate_process=false, orphan_game_process=false; this is 21 October evidence, not fresh 23 October station availability.",
+          "cleanup": "74 raw receipt/log/frame members packed into one local archive and verified byte-for-byte before removing loose duplicates. Original result.zip transport duplicate25222344B previously removed after SHA/member verification. No playthrough PNG/video/archive added to Git."
         },
         "village_export_loader_fix": {
           "targets": [
