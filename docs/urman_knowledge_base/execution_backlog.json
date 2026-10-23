@@ -71935,6 +71935,18 @@
         "method": "Scoped read-only /root/all_world_visit_core source check, no execution.",
         "result": "Current BodyPrefixCouncilWitness attaches own urman_character_kit.glb sixLOD0 body surfaces. AnimationPlayer stopped/removed; gait is existing post-move knee/ankle IK with2cm hipdip, footstep sound from actual body contacts. Revoked Meshy body has no live consumer. No new proved source defect in jump/postmove/IK/contact seams.",
         "next_action": "Current protected native continuous walk→stop→takeoff→landing with ordinary/down camera. Review one actual defect or accept finite slice, retain full LEGS.2 criteria. No blind tuning/new probe."
+      },
+      "minimum_step_reach_2026_10_23": {
+        "state": "verified_finite_fix",
+        "target": "game/scripts/FirstPersonController.Body.cs:BodyStanceTravel",
+        "cause_evidence": "Existing native movement test48checks thenFAIL backward-diagonal ankleTravel0.020744324 vs>.035;36samples repeatfour-tickcycle. Gaitplanner reachlegsum-.035 versus finalIK-.001 cancollapse planarreachablewindow to .02minimumstride.",
+        "result_contract": "Same physicalreach envelope for planner/finalIK; preserve .75 utilization, .02min, forwardlead guard, player/camera/physics and testthreshold. Restore meaningful actualankletravel, then visually review same16framewalk.",
+        "verification_question": "Does sameexistingnative controller check advance actualankle>.035 without violating existing floor/jump/wallstop cases; does changed straightwalk have readable stride?",
+        "remaining": "Finite minimum-stride regression accepted. Full gait/art quality notaccepted: coat stilloccludeslegs, full run/crouch/turn/jump/landing/slopes sequence and human assessment remain open.",
+        "verification": "Affected Game compile14.74s exit0/0warnings/0errors. Same existing native Act1PlayerMovementSmokeTest: beforeFAIL48checks/.020744324m actualankletravel, afterPASS80checks/.054187447m, unchangedthreshold>.035. Actual before/after16frame GaitCaptureProbe bothautoexit0/nativeengineerrors0/guardrestore verified; root compared phase samples, alternating footadvance more readable. Independent read-only2file review no concreteP1/P2. No newtests/probes or thresholdchanges.",
+        "evidence": "evidence/ACT1-LEGS.2/gait_20261023.zip",
+        "evidence_sha256": "adca74a4f43474227b6cb843727cacfaf8aef5a02ba10154a0d4e75c136dcbed",
+        "source_sha256": "39d3f46c8245f31225cecead3b37afd4afd8ade31199f1814168b8e8a2487637"
       }
     },
     {
@@ -72240,6 +72252,22 @@
           "visual_defect": "Root motion frames show open trouser-to-boot cuff and ragged coat side edges. L58/R61 original shared cuff positions Knee1 in trousers versus Ankle1 in Boot, which includes lower trouser cloth. Runtime skin fix in progress; technical PASS is not art acceptance."
         },
         "owner_feedback_2026_10_19": "Автор: слишком много времени уходит на модели, показанные модели не подходят стилю игры. Не продолжать изолированную полировку этого тела."
+      },
+      "straight_walk_capture_2026_10_23": {
+        "state": "completed_straight_walk_comparison_full_acceptance_open",
+        "source_commit": "c9c46751",
+        "input": "Current project CouncilWitness body subset; existing GaitCaptureProbe16frames at6physics-tick intervals, no newharness.",
+        "question": "Which concrete visible stride defect explains user complaint: silhouette, plantedfeet sliding, knees/ankles or camera clipping?",
+        "success": "Inspect actual captured straightwalk sequence and identify visible defect or bounded no-defect evidence; only this reproduction, not whole parent DoD.",
+        "guard": "Existing protected_run --clean --timeout480; shared preparation/native deadline12:14:30UTC23October; autoquit; user authorization rare necessary Macruns.",
+        "output": "/private/tmp/urman-gait-20261023",
+        "remaining": "Fit first-person garment sightline; continuousfull run/crouch/turn/jump/landing/step and authorplausibility acceptance.",
+        "evidence": "evidence/ACT1-LEGS.2/gait_20261023.zip",
+        "evidence_sha256": "adca74a4f43474227b6cb843727cacfaf8aef5a02ba10154a0d4e75c136dcbed",
+        "archive_bytes": 12795067,
+        "result": "Before16frames weak/stiff readable stride; actualexistingnative anklecheck failed. After planner/finalIK physicalreach alignment, samecheckPASS80 and16newframes show alternatingfootadvance; root viewed before8samples and after4samples, LunaFast inspected all16baselineframes. No full subjectivequalityPASS.",
+        "verification_boundary": "Only straightwalk visualbefore/after plus existingnative80checks. Coat/hem occlusion remains; all parent listedmodes/humanart gates stayopen.",
+        "cleanup": "43 rawlogs/receipts/32frames packed and member-byteverified before deleting13,423,391B loosecopies;561,784,099B stoppedownedimport/shader/buildcache removed. No ordinary screenshots/video/archive inGit."
       }
     },
     {
@@ -120445,6 +120473,12 @@
         "result": "Реальная анонимная сотрудница школы вместо конверта. Точные D04.01–05; терминальный ответ выдаёт S-SCHOOL и context P-FOREST. Оба backRead остаются false до реального чтения. Повторно использован существующий female Naila mesh, уникальный арт не принят.",
         "verification": "Content compile exit0; final Game affected compile0warnings/0errors13.31s. Independent review found capsule occluding face-on target; moved target65mm clear in front, source bounds checked. Existing school assertion updated only for intentional contract. Native D04 NOT_RUN; product job918545 snapshot predates target correction.",
         "remaining": "Проверить обычный доступ к NPC/разговору; прочие реплики и полная карточка открыты."
+      },
+      "forest_payoff_recognition_2026_10_23": {
+        "state": "source_gap_identified_no_implementation",
+        "source": "LunaFast read-only W01 authoredflow review",
+        "finding": "worlds.spec.json217 expects Gulsina recognition of familiarroot afterreturn. Partialroute definitions4374 says япомнюэтоместо, resolvedroute4385 asksShurale butomits recognition; journal discovery stillrecorded4510–4528. No source-deadend found incomparison/beyondframe/encounter/returngates.",
+        "remaining": "Finite existingnarrative-owner follow-up: carry already-authored recognition into resolvedline withtext-onlycompatibility handling; currently no textchange/nativeclaim. Not immediatepriority over fullplayableloop."
       }
     },
     {
@@ -143355,6 +143389,18 @@
         "verification": "Actual Mac affected Game compile23.10 exit0/0warnings/0errors20.20s; all16 finite callers reviewed, one build call preserved, scoped diff check passed. No runtime durations read yet; no performance improvement claimed.",
         "remaining": "Compile in already required changed-HUD export after current protected native restores; read real startup durations during the same narrow HUD check. This is measurement preparation, NOT optimization or CPU/GPU/frame-time/profile/release acceptance.",
         "compile_evidence": "evidence/PW-095/affected_game_20261023.log.gz"
+      },
+      "registry_faces_snapshot_2026_10_23": {
+        "state": "verified_source_and_startup_sample",
+        "target": "game/scripts/Act1ConnectedWorld.Addresses.cs:BuildAddressRegistry",
+        "baseline": "Nativec9 timings addresses2.588s, authored-addresses5.942s, core12.594s, authored10.367s; nestedtimings notsummed.",
+        "result": "Reuse existing PreparedWorldFaces snapshot afterImportAddressRoads for manifestfacadequeries. Loopaddsonly metadata/signs/interactionnodes; signsalreadyexcluded byowner. Deferred reconciliation staysuncached afterfrontage/fence changes.",
+        "verification_question": "Compile and samealreadyneeded movement scene build: addressmount outcomes/addresses stage, notFPS or releasebudgets.",
+        "remaining": "Runtime pictured signplacement/fulladdressaudit and full CPU/GPU/frame-time/Low-Medium-High budgets remain open. No repeatunchangedtimingcheck for strongerstatistics without actualneed.",
+        "verification": "Affectedcompile14.74s0/0; independent source review cacheequivalence/synchronousstablegeometry/deferreduncached no concreteP1/P2; existingnative movement80checksPASS and0engineerrors/guardrestore. Same native movementbuild addresses stage baseline2.370s→candidate1.552s. One sample each, no FPS/releasebudget assertion.",
+        "evidence": "evidence/ACT1-LEGS.2/gait_20261023.zip",
+        "evidence_sha256": "adca74a4f43474227b6cb843727cacfaf8aef5a02ba10154a0d4e75c136dcbed",
+        "source_sha256": "3bf28a87662d59b497e3f50928e4c170eb8652fb698dfdeb571722fe1f98b495"
       }
     },
     {

@@ -454,7 +454,11 @@ public partial class FirstPersonController
             ? (_bodySkeleton.GlobalTransform.AffineInverse() * plant).Origin
             : leg.AnkleRest.Origin;
         var hip = leg.ThighRest.Origin + hipShift;
-        var reach = Math.Max(.05f, leg.UpperLength + leg.LowerLength - .035f);
+        // Use the same physical reach limit as the final two-bone solve. The
+        // stance factor below keeps a quarter of the resulting travel window
+        // in reserve for slopes and steps; subtracting another 35 mm here can
+        // collapse that window to the 20 mm minimum step length.
+        var reach = Math.Max(.05f, leg.UpperLength + leg.LowerLength - .001f);
         var vertical = foot.Y - hip.Y;
         var planarReach = Mathf.Sqrt(Math.Max(0, reach * reach - vertical * vertical));
         var horizontalDirection = new Vector2(direction.X, direction.Z).Normalized();

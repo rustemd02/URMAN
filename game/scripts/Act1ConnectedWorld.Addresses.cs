@@ -87,6 +87,7 @@ public partial class Act1ConnectedWorld
         _addressRoot.SetMeta("stateOwner","RuntimeBridge");
         AddChild(_addressRoot);
         ImportAddressRoads(registry,worldMeshes,worldNodes);
+        var preparedWorldFaces=AddressFacadeMount.PrepareWorldFaces(this);
         var imported=new HashSet<Node3D>();
         foreach(var row in manifest.RootElement.GetProperty("buildings").EnumerateArray())
         {
@@ -149,7 +150,8 @@ public partial class Act1ConnectedWorld
             }
             node.SetMeta("addressSignDoor",door);
             node.SetMeta("addressSignPreferredOutward",signOutward);
-            var mounted=AddressFacadeMount.TryFind(node,door,signOutward,this,out var sign,out var mountedOutward,out var mountOwner,out var mountFailure,signSurface);
+            var mounted=AddressFacadeMount.TryFind(node,door,signOutward,this,out var sign,out var mountedOutward,out var mountOwner,out var mountFailure,signSurface,
+                preparedWorldFaces:preparedWorldFaces);
             if(mounted)signOutward=mountedOutward;
             else
                 _addressImportIssues.Add(new("SIGN_MOUNT_NOT_FOUND",addressId,node.GetPath()+": "+mountFailure));
