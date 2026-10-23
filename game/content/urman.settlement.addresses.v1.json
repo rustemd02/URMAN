@@ -4,7 +4,7 @@
   "source": "Act1ConnectedWorld existing authored scene; these committed bindings do not move geometry",
   "addressAliases": {
     "ADR-SHOP": "ADR-H020",
-    "ADR-SCHOOL": "ADR-H031",
+    "ADR-SCHOOL": "ADR-SQUARE-SCHOOL",
     "ADR-COUNCIL": "ADR-H040"
   },
   "streets": [
@@ -130,6 +130,17 @@
     }
   ],
   "buildings": [
+    {
+      "sourceName": "OldSchool",
+      "sourceKey": "act1/square/SCHOOL",
+      "buildingId": "BLD-SQUARE-SCHOOL",
+      "parcelId": "PAR-SQUARE-SCHOOL",
+      "addressId": "ADR-SQUARE-SCHOOL",
+      "streetId": "urman",
+      "number": "12",
+      "cadastral": "URM-Q03-P0001",
+      "role": "school"
+    },
     {
       "sourceName": "BabaiApproachDwellingFacade",
       "sourceKey": "act1/babai",

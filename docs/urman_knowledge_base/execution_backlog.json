@@ -22158,6 +22158,10 @@
               "result": "Conservative convex chassis replaces full-width AABB; wheel contacts/support, controls and SaveGameV3 unchanged. See ACT1-VILLAGE-BLOCKOUT.approach_repair_2026_10_24.",
               "verification": "Affected Game compile exit0,0warnings/0errors,16.60s; no native driving acceptance.",
               "remaining": "Original entry/exit/control/SaveGameV3 acceptance remains required; this source repair is not the whole child DoD."
+            },
+            "route_guard_review_2026_10_24": {
+              "result": "No proven blocker inside allowed road/shoulder/yard. Policy frames/live predicates align; no production SetRoadBlocked caller found.",
+              "open_hypothesis": "Advance validates predicted path before MoveAndSlide, not resulting physical path. A collision recovery placing the vehicle outside policy could make CanTraverse reject subsequent movement at i=0, including return. No concrete collider/user episode established; do not add speculative teleport or weaken policy."
             }
           },
           {
@@ -107857,7 +107861,7 @@
         "Готово: 13 фото привязаны к sourceId/permissionId (compiled catalog); AcquirePhoto проверяет соответствие каталогу и provenance; повторное приобретение из другого источника отвергается. Редьюсер уже обрабатывает pw1.photo.acquire.",
         "Осталось: runtime-проверка различения 13 типов источников и что оригинал остаётся на месте там, где обещана копия (школьный/сельский альбом) — нужна обычная сессия/станция (PW-054 или targeted scenario)."
       ],
-      "next_action": "Accept this whole school-source→permission/copy→W01 action→home reply→P-FOREST earned record→Save/Continue episode once an ordinary verification can answer its remaining UI/physical questions. Do not replace user walking blocker with repeated album-only checks.",
+      "next_action": "Accept the whole first investigation with corrected school destination (Лесная,12): directions→actual source album→permission/copy→W01 action→home reply→earned P-FOREST record→Save/Continue. Do not substitute an isolated hint check or internal full_game launch for the ordinary route.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -108037,6 +108041,12 @@
           "removed_loose_bytes": 620
         },
         "next_action": "Accept this whole school-source→permission/copy→W01 action→home reply→P-FOREST earned record→Save/Continue episode once an ordinary verification can answer its remaining UI/physical questions. Do not replace user walking blocker with repeated album-only checks."
+      },
+      "school_destination_2026_10_24": {
+        "problem": "ADR-SCHOOL pointed at H031 (Лесная,3), the later annex without the required S-SCHOOL album/staff. Existing directions and address-school knowledge describe the old school archive, whose actual gameplay targets are in OldSchool on the square (ADR-SQUARE-SCHOOL,Лесная,12). Following the directions could send the player to the wrong building and leave the first-image context unavailable.",
+        "change": "game/content/urman.settlement.addresses.v1.json now maps ADR-SCHOOL→ADR-SQUARE-SCHOOL and contains the exact existing OldSchool registration. H031 geometry/number/identity preserved; no duplicate building or quest state.",
+        "verification": "JSON parsed; identity/address uniqueness checked; runtime replacement branch reuses the registered OldSchool once, fallback AuthoredAddressText resolves the same address. Both existing world generators retain the new row and alias. Scoped diff check passed. No build, tests or native rerun for this data-only correction.",
+        "remaining": "Ordinary player following the directions→actual school album→permission/copy→first-image entry remains part of whole first-investigation acceptance."
       }
     },
     {
@@ -115880,7 +115890,7 @@
         "Book/held sleeves/W01 moving branch source-safe; fulfill named movement checks as required, preserve existing valid wind/normal receipts on unchanged inputs.",
         "83genericUV/coherentLOD +2Tamara trim +2Timur cap sourceaccepted; printedUV/rig/geometry/images preserved, collar accepted. Actual nativegait/LOD/door/collar/cap views remain."
       ],
-      "next_action": "Через готовый защищённый play-full и owned UI/current viewport пройти обычный старт full_game, движение/поворот и существующую дверь дома по фактическому экрану; сохранить восстановление данных и реальные кадры. Статический capture этого сценария не закрывает.",
+      "next_action": "При необходимом защищённом проходе запускать настроенный entry photoworlds_game.tscn / default project route, затем движение/поворот и существующую дверь по фактическому экрану. Direct full_game.tscn обходит Act1DemoRoot и не доказывает обычный startup/input flow. Сохранять данные; статический кадр не закрывает приёмку.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -143775,6 +143785,11 @@
         "verification": "Final shared affectedGame13.97s0warnings/errors. Independentsource review verifies actualdirectAct1ConnectedWorldparent beforechild_Ready, onlyalreadyhiddenvisualkit skipped, samecorefamily/anchors retained, standalone fullblock untouched. No measuredstartup gain/nodecount/frameacceptance.",
         "source_review": "Independent Sol actualparent/_Ready/corefamily/no physics+state owners review clean; no actualtimingclaim.",
         "evidence": "evidence/PW-055/entry_orientation_20261023.zip"
+      },
+      "return_world_rebuild_2026_10_24": {
+        "evidence": "Existing ordinary_approach_20261024.zip raw log: one connected-world build has top-level stages totalling30.525s (core12.531s,authored10.229s). Not a fresh profile or measured return time.",
+        "source": "Main.MountW01/W02/W03/W04/W05 calls RetireConnectedWorld, nulling cache and QueueFree. Returning village/house invokes EnsureConnectedWorld→AddChild→Act1ConnectedWorld._Ready→Build, rerunning the whole synchronous producer.",
+        "remaining": "Choose a safe lifecycle solution for same-session return (full suspend/resume ownership or bounded cached construction) and verify it protects world contacts/environment/groups/audio/runtime projection and session disposal. Removing QueueFree alone is unsafe. Do not claim measured speedup or add another unrelated profiler."
       }
     },
     {
