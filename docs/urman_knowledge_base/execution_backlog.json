@@ -139938,7 +139938,7 @@
       "remaining": [
         "Проверить весь путь с клавиатурой и контроллером; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
       ],
-      "next_action": "Verify ordinary controller book→image→zoom→canvas→edge→reader buttons/return, including a fully fitted axis, then existing full keyboard/controller route and device/focus switching. Reuse accepted source compile; no unchanged rebuild.",
+      "next_action": "Verify current controller A/B in normal menu→dialogue/document→book→zoom/pan edge→buttons→cancel, no same-press world interaction/drop; verify prologue B skip outside modal and regular gameplay remaps. Then remaining full keyboard/controller route/device/focus switching. Reuse source-only binding review and previous reader compile.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -140010,7 +140010,7 @@
           ],
           "repeat_only_if": "Изменились потребитель/входные данные/проверяемый контракт либо предыдущий прогон неполон."
         },
-        "actual_result": "SOURCE_PARTIAL: reader directional edge no longer swallows no-op navigation; affected Game compile15.84s0/0. Full keyboard/controller native acceptance NOT_RUN.",
+        "actual_result": "SOURCE_PARTIAL: reader directional edge no longer swallows no-op navigation (Game15.84s0/0); project now supplies missing UI A/B bindings while retaining keyboard defaults (source/config review). Full native keyboard/controller acceptance NOT_RUN.",
         "evidence_refs": [
           "tasks[id=PW-081].evidence"
         ],
@@ -140139,6 +140139,24 @@
         ],
         "verification": "Independent Sol identification/implementation; root source/caller review confirms clamp monotonicity and no-op event propagation. Affected Game compile15.84s,0warnings,0errors. No new tests/native launch.",
         "remaining": "Actual controller focus-neighbor selection, zoom/pan/recovery comfort and full PW081 ordinary route remain unverified. Frozen standalone73fd5377 excludes this later fix."
+      },
+      "ui_gamepad_bindings_2026_10_24": {
+        "state": "source_verified_native_pending",
+        "finding": "Pinned Godot4.7.1 ui_accept has Enter/KpEnter/Space and ui_cancel has Esc only; project did not override or add gamepad events to either. Directional navigation alone cannot activate ordinary UI buttons with A or cancel via B.",
+        "result": "Explicit project input bindings preserve those logical keyboard keys and add Joy0/A acceptance and Joy1/B cancellation for any controller. Existing GUI owners, saved gameplay remaps and their input-release gates are retained.",
+        "targets": [
+          "game/project.godot"
+        ],
+        "inputs": [
+          "https://raw.githubusercontent.com/godotengine/godot/4.7.1-stable/core/input/input_map.cpp#L427-L439",
+          "https://raw.githubusercontent.com/godotengine/godot/4.7.1-stable/core/os/keyboard.h#L42-L49",
+          "https://raw.githubusercontent.com/godotengine/godot/4.7.1-stable/scene/gui/base_button.cpp",
+          "game/scripts/InputBindingService.cs",
+          "game/scripts/FirstPersonController.cs"
+        ],
+        "verification": "Root exact default/keycode/config serialization comparison and scoped diffcheck; independent Sol follows GUI press/release and modal neutral-frame gate. No new tests, game run or redundant compile for input-only configuration.",
+        "scope_note": "B/carry_place and A/interact wait for release after a modal closes. Outside a modal in the prologue B now shares the existing ui_cancel skip path and its live hint; the skip handler is unchanged.",
+        "remaining": "Native physical controller menu/choices/book/cancel/release/navigation and full PW081 route are not accepted. Frozen standalone73fd5377 excludes this later configuration."
       }
     },
     {
