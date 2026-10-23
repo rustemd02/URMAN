@@ -94907,7 +94907,7 @@
         "Планировка и доступ согласованы с PW-003/PW-044/PW-070: все обязательные якоря и действия достижимы; ночное разрушение моста/закрытие дальней половины не являются обязательными условиями новой истории.",
         "Применимые прежние жалобы/адреса и ограничения сохранены с явной картой PW-004; реальные координаты, scale, save/load и обе стороны переходов подтверждены на текущей сборке."
       ],
-      "next_action": "Accept the repaired diagonal step approach and conservative motorcycle chassis on the configured normal route when a supported targeted check is available; resolve legacy H019 terrain/visible-step support only from measured ground. Keep whole-world traversal and author acceptance open.",
+      "next_action": "When native control is available, ordinary house/motorcycle route must verify prior diagonal-step/chassis/remount fixes plus H019 actual stone support from street/side/reverse. Current H019 source fix uses actual terrain and capsule approach; do not repeat unchanged arithmetic/build. Full village physical/art acceptance remains open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -95049,6 +95049,18 @@
         "verification": "Affected Urman.Game compile exit0,0warnings/0errors,16.60s; independent Astra source review of both step and motorcycle diffs found no P1/P2. Godot plane convention/managed instance binding and unchanged collision consumers checked. Tracker validate passed. No new tests/probes/runtime or recordings.",
         "remaining": "Native acceptance of diagonal approach and motorcycle travel past low obstacles remains open. A direct full_game.tscn launch cannot prove configured photoworlds_game.tscn normal flow. No assertion of complete village traversal, pleasant gamefeel or release readiness.",
         "house_contacts": "Generated housing already owns visible Step/Porch surfaces via AuthoredWorldDirector; do not add duplicate contacts. Legacy H019 StreetStep exclusion remains: top=Ground(27.75,74)+0.23, approach(26.33,76.33..76.38). Need actual CollisionGround across leading edge/capsule before adding contact that could exceed the 0.22m step limit."
+      },
+      "h019_step_contact_2026_10_24": {
+        "state": "source_verified_native_pending",
+        "finding": "Current H019 MainStreetEastNeighborFacade kit StreetStep is skipped by the general Step/flat-slab contact filter. Its visible top is0.219520–0.243405m above the four physical terrain corners (centre0.228548m); this proves missing visible support, not the author-reported stuck location.",
+        "inputs": "Actual authored H019 anchor (27.75,Ground(27.75,74)+.03,74),yaw0,scale1; GLB DwellingFacade_StreetStep_LOD0 localcentre(-1.420,.100,1.640),bounds1.34×.20×.68 with identity ancestor basis. Physical support evaluated from current jittered CollisionGround triangles, not only analytic Ground.",
+        "result": "Only exact H019 + VillageExteriorKitScenePath + DwellingFacade_StreetStep_LOD0 is lowered0.05m once and receives existing AuthoredSolidContact/kit proxy. Shared Step filter, facade/door/threshold and all other assets unchanged. Existing source-contact exclusion and grounding metadata prevent repeated shift/contact.",
+        "geometry": "World footprint X25.66..27.00,Z75.30..75.98; original topY0.170632m. Exact terrain extrema over footprint expanded by actual capsule radius0.35m:−0.085073..−0.044521m. Lowering0.035m would still leave0.220705m maximum rise, so rejected. Lowering0.05m gives0.165154..0.205705m, at least0.014295m below0.22m controller limit. Solid convex contact follows own stone vertices; no aggregate box.",
+        "targets": [
+          "game/scripts/Act1ConnectedWorld.AuthoredKitCollision.cs"
+        ],
+        "verification": "Sol source/GLB transform/terrain arithmetic; root final hunk, AuthoredSolidContact, whole-build/hero-only-refresh and later foundation-support filtering reviewed. Game compile17.49s,0warnings,0errors; scoped diffcheck. No game/newtest/probe/artifact export.",
+        "remaining": "Ordinary approach, side/reverse walk and actual feel/native rendering not accepted. This local missing-support repair does not prove the reported near-house/motorcycle sticking resolved. Frozen standalone73fd5377 excludes later source stages."
       }
     },
     {

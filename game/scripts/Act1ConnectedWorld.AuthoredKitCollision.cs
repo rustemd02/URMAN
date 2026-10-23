@@ -176,6 +176,23 @@ public partial class Act1ConnectedWorld
                 var meshName = mesh.Name.ToString();
                 if (existingSourceContacts.Contains(mesh.GetPath().ToString()))
                     continue;
+                if (placement.Name == "MainStreetEastNeighborFacade"
+                    && placement.GetMeta("assetSource").AsString() == VillageExteriorKitScenePath
+                    && meshName == "DwellingFacade_StreetStep_LOD0")
+                {
+                    // This metric H019 step otherwise has no contact. Seat only
+                    // its stone 5 cm lower: the current terrain, including the
+                    // .35 m capsule approach, then leaves at most a .206 m rise.
+                    if (!mesh.HasMeta("h019StreetStepGrounding"))
+                    {
+                        mesh.Position += Vector3.Down * .05f;
+                        mesh.SetMeta("h019StreetStepGrounding", "stone embedded 5cm; facade threshold unchanged");
+                    }
+                    proxy ??= NewKitBlockerProxy();
+                    proxy.AddChild(AuthoredSolidContact(placement, mesh, $"{meshName}_Contact"));
+                    shapeCount++;
+                    continue;
+                }
                 var building = meshName.StartsWith("HeroHouse_", StringComparison.Ordinal)
                     || AuthoredKitBlockerFamilies.Any(family => meshName.StartsWith(family, StringComparison.Ordinal));
                 var piercedWall = building && meshName.Contains("_Wall", StringComparison.Ordinal)
