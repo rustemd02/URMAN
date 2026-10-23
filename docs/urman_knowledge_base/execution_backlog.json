@@ -146449,7 +146449,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Use frozen73fd5377 standalone candidate for next necessary ordinary Mac NewGame/Save/Continue and separately actualWindows-host acceptance once usable native input/host is available. Contains latest source fixes; do not reexport unchanged candidate. Fullcampaign/performance/rights/art/signing/externalgates remain open.",
+      "next_action": "Keep frozen73fd5377 candidate as evidence for its own source snapshot; it excludes9c13cf15 Shurale audio,7ba54158 reader focus,c733cae8 UI gamepad bindings,a7243cb4 H019 support. Once ordinary native acceptance access is restored, export current verified source once before testing these newer changes, verify replacement before retiring old generated packages. Full native NewGame/Save/Continue,Windows-host/performance/rights/art/signing/external gates remain open.",
       "blocker": null,
       "external_gates": [
         {
@@ -147362,6 +147362,13 @@
           }
         ],
         "source_freshness": "Frozen73fd5377 candidate includes latest movement/motorcycle/school/W02-binding fixes at export time. Later PW048 provisional Shurale work audio source is not included; keep candidate for its exact frozen acceptance, reexport only when a required current-source standalone check is available."
+      },
+      "native_admission_2026_10_24": {
+        "state": "blocked_external_access",
+        "observed_at": "2026-10-24T02:37:00+03:00",
+        "evidence": "Fresh Tailscale BackendState Running; UnterPC Online=false,lastSeen2026-10-21T06:40:09.1Z. Fresh desktop connector read returns NOT_FOUND tunnel_client_not_seen (unseen300s). Available CUA absolute-pointer interface previously failed ordinary captured FPS look; no unchanged drag/input retry.",
+        "remaining": "Whole first investigation/movement/SaveContinue/native controller and current source visuals cannot be accepted from source/compile/package metadata. Pending owner choice: connect desktop client, supply Windows station, or perform ordinary current-source playthrough.",
+        "next_action": "Restore one usable ordinary native route, then one current-source export if testing standalone and the bounded player acceptance route. No repeated builds/static audits solely to fill the wait. Broader agreed campaign and external gates unchanged."
       }
     },
     {
