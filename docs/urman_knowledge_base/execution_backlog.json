@@ -146391,7 +146391,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Before nextstandaloneacceptance freeze latestacceptedruntime and buildone replacement for e534f9f4snapshot, then runordinary Macroute onlyaftermanualunlock and separatelyWindowsactualhost. Currentartifactreceipt remains validforits own frozeninputs, not newerW03/Karafixes. No reexport merelyforstatus; performance/rights/fullcampaign/externalgatesopen.",
+      "next_action": "Use frozen73fd5377 standalone candidate for next necessary ordinary Mac NewGame/Save/Continue and separately actualWindows-host acceptance once usable native input/host is available. Contains latest source fixes; do not reexport unchanged candidate. Fullcampaign/performance/rights/art/signing/externalgates remain open.",
       "blocker": null,
       "external_gates": [
         {
@@ -147208,7 +147208,7 @@
         "remaining": "Exact immediate loaded pose observation, unfinishedarrival, complete-prologue path, school artwork in book, earned W01 action/return and release performance/art remain open."
       },
       "current_candidate_2026_10_23": {
-        "state": "structural_native_export_pass_gameplay_pending",
+        "state": "retired_generated_packages_replaced_by_73fd5377",
         "source_commit": "e534f9f4",
         "output": "build/releases/act1-20261023-e534f9f4",
         "question": "Does the existing exporter package the changed LANG.4/W02/F01 current runtime with stable provenance, correct fullgame resource scope and protected headless bootstrap on both PCKs?",
@@ -147262,7 +147262,47 @@
         "producer_log": "evidence/PW-095/desktop-export-e534f9f4-20261023.log.gz",
         "producer_log_sha256": "572d1d1bb8c78dee15f6e3612eb857a56c66041482c95ad4c4485d0034c3e4bc",
         "producer_log_raw_removed_bytes": 491935,
-        "source_freshness": "Frozen e534f9f4 artifact remains structurallyverified historicalsnapshot. Latest working-source now ahead by W03orientation/shutter and hiddenKara construction fixes; those fixes are NOT inthisZIP/EXE. Rebuildone replacement only before nextstandalone acceptance after sourcefreeze, retainthissetuntilreplacementverified."
+        "source_freshness": "Retired24.10 after replacement73fd5377 verified. Historical artifact paths intentionally absent; exact receipt losslessly preserved in evidence/PW-095/desktop-artifact-receipt-e534f9f4-retired-20261024.json.gz."
+      },
+      "current_candidate_2026_10_24": {
+        "source_commit": "73fd5377f7d2fdc592d798c7997880a2cdd39eba",
+        "directory": "build/releases/act1-20261024-73fd5377",
+        "receipt": "build/releases/act1-20261024-73fd5377/desktop-artifact-receipt.json",
+        "log": "evidence/PW-095/desktop-export-73fd5377-20261024-native.log.gz",
+        "result": "Existing native release exporter PASS, provenance before/after stable, package scope1429 entries each, macOS and Windows PCK protected headless/Dummy prologue supported=true bootstrap PASS, structural/runtime closure checks true. Unsigned candidates; Windows-host/native gameplay/signing/performance/art acceptance OPEN. Address JSON payload SHA matches source in both packs:fe3a49f6cdd45f395193204bcf311854ff04caf242c0b1896d86924825b44adb. Contains accepted movement/motorcycle/school/W02-dialogue fixes through f0dee74b.",
+        "first_attempt": "evidence/PW-095/desktop-export-73fd5377-20261024.log.gz: redundant outer protected_run caused nested-guard refusal; original userdata restored/verified; incomplete packages/staging cleaned. Second invocation used canonical exporter with its own protected bootstraps; no guard bypass.",
+        "retired_previous": "Generated e534f9f4 packages removed only after replacement verification. Unique old receipt losslessly retained: evidence/PW-095/desktop-artifact-receipt-e534f9f4-retired-20261024.json.gz. Temporary PCK extraction and loose logs removed.",
+        "state": "structural_native_export_pass_gameplay_pending",
+        "run_id": "6477a2da-8481-42f7-b6f5-602e522d89bd",
+        "receipt_sha256": "7a3453732973a8632cef9e4853865fcc2d334d7bc77948bf34a70531e373fc28",
+        "source_manifest_sha256": "2874a56f6bdc510d6c6ddd98841fbf4970385dc5e9802ab19f6e22e37a8b6d25",
+        "source_before_after_equal": true,
+        "retired_generated_bytes": 1995395050,
+        "artifacts": [
+          {
+            "platform": "macOS",
+            "kind": "zip",
+            "path": "build/releases/act1-20261024-73fd5377/macos/URMAN.zip",
+            "sizeBytes": 660717427,
+            "sha256": "61f3e51e1256959ada954df60ce9de47c3e0d8fd2acc1712a1075f6bf3a73627",
+            "entryCount": 410
+          },
+          {
+            "platform": "Windows",
+            "kind": "zip",
+            "path": "build/releases/act1-20261024-73fd5377/URMAN-windows-x86_64.zip",
+            "sizeBytes": 595526824,
+            "sha256": "86e41edbaf6c6b2eb481961aef4325113b76e7d9fe98b6e9f8d3a14da51c5092",
+            "entryCount": 206
+          },
+          {
+            "platform": "Windows",
+            "kind": "executable",
+            "path": "build/releases/act1-20261024-73fd5377/windows/URMAN.exe",
+            "sizeBytes": 632678368,
+            "sha256": "58c9bc8382cf1217a5fc69523a4ad461d01d0d35c97b2757dd639d93be502bdb"
+          }
+        ]
       }
     },
     {

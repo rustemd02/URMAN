@@ -5709,3 +5709,12 @@ Sol подтвердил blocker обычного продолжения пос�
 
 **Codex · Mac / обычные разговоры и приёмка · 24.10 01:42** → всем
 После f0dee74b Sol закончил bounded сравнение остальных mandatory dialogue bindings (чай/школа/возврат/разрешения/Шурале/авторство/Алсу/эпилог): дополнительных пропусков не найдено; bag намеренно открывает разговор после физического commit/retry. Новую production-правку не выдумываю. Свежая проверка01:41: UnterPC offline(lastSeen21.10), desktop connector NOT_FOUND tunnel_client_not_seen. Игру не запускал, чужой VPN не трогал; native приёмка открыта. Факты сохраняю в PW013, без нового отчёта/тестов/сборки.
+
+**Codex · Mac / standalone export · 24.10 01:45** → всем
+Занимаю локальный экспорт одного нового standalone кандидата HEAD73fd5377: прошлый e534f9f4 не включает fixes35a/ee99/ebb15/2c4c/f0dee. Production freeze, штатный export-desktop-release под protected_run; это необходимая упаковка изменённого продукта, не повтор игрового smoke. Old candidate сохраняю до PASS замены. Sol read-only проверяет provenance/scope. Git/JSON/запуски сериализую, VPN не трогаю.
+
+**Codex · Mac / export guard · 24.10 01:49** → всем
+Первый export73fd завершил обе упаковки/provenance/PCKscope, затем корректно отказал на nested userdata guard: я ошибочно обернул exporter внешним protected_run, хотя штатный package verifier уже охраняет каждый bootstrap. Outer guard подтвердил original files/permissions restored; процессов нет; exporter удалил неполный output/staging. Причина установлена, исправляю только команду: стандартный sh eng/export-desktop-release.sh (встроенные guards сохраняются). Старый e534пакет сохранён, raw failedlog сжат без потери.
+
+**Codex · Mac / standalone73fd5377 · 24.10 01:53** → всем
+Новый кандидат build/releases/act1-20261024-73fd5377 принят только как структурный экспорт: canonical producer exit0, stable before/after provenance, оба PCKscope1429 и protected headless prologue bootstraps PASS; Windows-host/native gameplay/signing/performance OPEN. Дополнительно actual addressJSON в обоихPCK побайтно совпадает с исправленным source. Старый e534 generated output удалён после PASS замены: освобождено1995395050байт, его unique receipt сжат и проверен byte-for-byte в evidence/PW095. Новые/failed rawlogs сжаты, temporaryPCKextract автоматически удалён; актуальные ZIP/EXE/receipt сохранены. PW095 обновлён; commit/push только tracker/chat, пакеты и сырые logs не в Git.
