@@ -50753,7 +50753,7 @@
       "milestone": "M5",
       "status": "todo",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "Sol6.1High language integration; root integration/review",
       "owner": "finished-act1",
       "depends_on": [
         "ACT1-LANG.1"
@@ -50898,8 +50898,8 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "23.10 confirmed current PhotoWorlds missing legacy conversational calibration. Finite integration approved in two actual owner files, no content/service/new state fields."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -50909,7 +50909,7 @@
         "Игрок понимает результат, может подтвердить/поменять/пропустить без провала или сюжетной награды; калибровка не экзамен и не официальный A1/B1/C1.",
         "Skip и загрузка не назначают прогресс расследования и не теряют выбранный уровень."
       ],
-      "next_action": "Прочитать действующий контракт и владельца; зафиксировать исходное состояние только выбранного участка. Сохранить чужие изменения и пользовательские данные.",
+      "next_action": "Integrate existing compiled Niva language dialogue before unchanged D00 only for live new-session prologue→arrival. Preserve skip/profile/Continue/session teardown; root review then affected compile and necessary ordinary GUI acceptance.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -50917,8 +50917,8 @@
       "work_contract": {
         "result": "Определить уровень татарского в живом разговоре с бабаем в Ниве",
         "targets": [
-          "game/scripts/RuntimeBridge.Notebook.cs",
-          "docs/urman_knowledge_base/language_learning.md"
+          "game/scripts/Act1DemoRoot.PrologueNivaRide.cs",
+          "game/scripts/RuntimeBridge.Opening.cs"
         ],
         "required_inputs": [
           {
@@ -50929,8 +50929,8 @@
           }
         ],
         "scope_in": [
-          "game/scripts/RuntimeBridge.Notebook.cs",
-          "docs/urman_knowledge_base/language_learning.md"
+          "game/scripts/Act1DemoRoot.PrologueNivaRide.cs",
+          "game/scripts/RuntimeBridge.Opening.cs"
         ],
         "scope_out": [
           "Контент соседнего блока, кроме указанного артефакта-входа.",
@@ -51034,7 +51034,14 @@
           "evidence_ref": "ACT1-LANG.4.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "ordinary_photo_worlds_reachability_2026_10_23": {
+        "baseline": "492e40f4",
+        "finding": "Three levels/settings and legacy dialogue exist; current PhotoWorlds D00 has no reachable conversational choice. Retained required contract is not superseded.",
+        "scope": "Act1DemoRoot.PrologueNivaRide.cs + RuntimeBridge.Opening.cs only; existing dialogueChoices history, profile and language dialogue; no new dialogue, persistence field, service or fingerprint. Esc dismiss does not fabricate choice.",
+        "verification_question": "Does ordinary prologue→arrival offer three choices/confirm/change/skip once before unchanged D00, while coldContinue/Skip retain profile and no old-session write changes loaded session?",
+        "status": "implementation_started_not_accepted"
+      }
     },
     {
       "id": "ACT1-LANG.5",
@@ -110800,7 +110807,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Finite F11 source fix compiled and independently reviewed; no live station or native process. Previous fca8 station text was historical; current native acceptance remains pending."
+        "reason": "Finite ordinary Mac check ended0 and userdata restored. UIlook transport not observed, no active game/station; whole earned W01 acceptance remains open."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -111517,6 +111524,16 @@
         "next_action": "For next necessary protected ordinary W01 acceptance, resume this exact native Save inside isolated guard rather than repeat NewGame/arrival. Continue legitimate physical house/tea/book→school copy→forest entry/F11→encounter→return→Save/Continue. No fact/quest/pose edits or teleport; archive keeps original byte hashes.",
         "remaining": "F11 forest_camera_back_seen and full earned W01 cycle still NOT_RUN. Distinct school image not yet viewed in native book.",
         "route_readback": "P-FOREST initial acquired+mounted in current campaign; book handoff still required. No second home visit needed for mounting. Existing look_* are gamepad-only; default mouse sensitivity.16deg/pixel. Source-supported route supplied by Sol; navigation itself not verified."
+      },
+      "ordinary_mac_look_transport_2026_10_23": {
+        "state": "finite_check_terminal_look_input_not_observed",
+        "source": "492e40f4/e25f5b6f production",
+        "evidence": "evidence/PW-020/ordinary_mac_look_block_20261023.zip",
+        "evidence_sha256": "9687044cd0e282aefae2c30b80803cc623cbbacbfd28470393b83d843d2c82f7",
+        "result": "Sole UI-owner Sol6.1High used ordinary Continue from byte-verified prior engineSave57, walked physically to home porch, pause Save confirmed then normalappQuit. Guard/sessionexit0, originaluserdata files+permissions restored verified, engineERROR0. No door/tea/book/school/W01/F11 fact accepted.",
+        "blocker": "LOOK_INPUT_NOT_OBSERVED: documented CUA drag did not rotate camera. One ordinary Escape/pause→Resume was verified focused=True/mouseModeCaptured, but subsequent drag still unchanged. No unsupported UI methods, teleport/fact edits, speculative input source patch or same native rerun. This is a computer-input acceptance limitation, not a proven game-look defect.",
+        "remaining": "Proceed ordinary house/book/school/F11 only after usable supported mouse-look path or controlled human/station input. Source Save57 remains resumable; do not repeat NewGame/arrival or blind native checks.",
+        "cleanup": "3rawmembers181982B byteverified then297870B loose PNG/log removed. UIprocessstopped;564930282B unusedreproducible import/shader/buildcache removed once this check ended with input blocker. No temporary override."
       }
     },
     {
@@ -144982,13 +144999,13 @@
         ],
         "budget": {
           "author_cap": 4000,
-          "actual_consumed": 425,
-          "remaining_author_cap": 3575,
+          "actual_consumed": 455,
+          "remaining_author_cap": 3545,
           "first_family_cap": 90,
           "first_family_consumed": 40,
           "active_task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
           "active_task_state": "SUCCEEDED, actual30credits",
-          "live_balance_observed": 3975,
+          "live_balance_observed": 3825,
           "balance_is_not_author_budget": true,
           "active_remesh_task_id": "01a153a5-6669-7608-af5d-4ac72650653d",
           "active_remesh_task_state": "SUCCEEDED, actual5credits",
@@ -145030,9 +145047,14 @@
           "h049_multiview_consumed": 35,
           "h049_multiview_task_state": "RawSUCCEEDED30 sourceusable; remeshSUCCEEDED5 actual5538tri but rearplinth/gableholesHOLD; stage35/family65 frozen, no runtimepromote",
           "h049_multiview_task_id": "01a15841-9e99-7197-aa52-5ae2e9786101",
-          "h049_multiview_remesh_task_id": "01a1584a-2d8b-75cc-8006-2c1e6b055329"
+          "h049_multiview_remesh_task_id": "01a1584a-2d8b-75cc-8006-2c1e6b055329",
+          "winter_birch_family_cap": 35,
+          "winter_birch_family_reserved": 0,
+          "winter_birch_family_consumed": 30,
+          "winter_birch_task_state": "SUCCEEDED100 actual30; raw planar crown HOLD, no runtime. Final two-reference gate rejected before secondPOST; no remesh; unused5 released.",
+          "winter_birch_task_id": "01a16967-667a-7619-ade5-9241cdf9bbb0"
         },
-        "current_artifact": "Conifer static native stage retained; full art/motion/performance open. VariantA V2 PBR integrated only into active residential H001 default nested dwelling; explicit Studio modelPath wins. W02 two near-only generated willows integrated into existing roots/prewarm. Both runtime bytes match source, Game17.39s0/0 and independent source review pass. Native/UVcoverage/art/performance and full asset family acceptance remain open; no council/retired-house replacement.",
+        "current_artifact": "AS05 attempt frozen at structural HOLD; unique source/provenance only in local archive recorded in winter_birch_family_2026_10_23. Previously accepted generated conifers remain runtime; no failed birch promotion.",
         "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
         "pine_remesh_recovery": "Completed source revision2 fromone25Kremesh; actual5credits already in305total. Runtime16.19MB canonicalpathstable, native d61c830PASS, art/performance still open.",
         "rough_picket_source_2026_10_19": {
@@ -145046,6 +145068,32 @@
             "assets/source/blender/act1/rough_picket_meshy_v1/metric_candidate_v1/welded/candidate-receipt.json"
           ],
           "cleanup": "Removed four closed recreatable rejected binary intermediates, 20625548 bytes. Exact paths/hashes recorded in existing receipts; producer, both receipts, four actual renders and unique original Meshy GLB/ZIP retained. Raw prep stdout only exists in tool transcript, no fabricated logfile."
+        },
+        "winter_birch_family_2026_10_23": {
+          "state": "frozen_structural_hold_no_runtime_promotion",
+          "owner": "Sol6.1High dedicated Meshy asset worker; root ledger/runtime/Git",
+          "scope": "One whole winter birch family candidate from existing WinterBirch_1/2 source with near/mid/far preparation; built-in image_gen reference, one Meshy7.1 textured model30 and only if needed inspected remesh5. Existing conifer/hero house preserved; no raw runtime promotion.",
+          "budget_reconciliation": "GETbalance3855 monthly2705/permanent1150; preserved3975→3930 willow+neighbor45→3920fence10→3890H049single30→3855H049multiview+remesh35. Actual425/4000, remaining3575 before35reserve. Accountbalance does not expand ownercap. Old API tasks now404/listempty; receipts authoritative, do not repost.",
+          "reason": "A complete visible winter tree family extends generated environment coverage; avoid spending this stage on H002 degenerate UV/normal microthreshold or repeat rejected H049/fence geometry.",
+          "next_action": "Do not retry AS05 without a new causal input. Dedicated Meshy pipeline may prepare another existing visible family; root chooses bounded source/consumer before new spend. Continue ordinary ActI gameplay work independently.",
+          "acceptance": "Source silhouette/root/trunk/finebranch suitability and materialfamily; then preparedLOD sizes/geometry. Actual native scene/motion/performance and fullPW093 author art gate remain mandatory/open.",
+          "reference": "archived member input-winter-birch-v1.png in assets/source/blender/act1/winter_birch_meshy_v1/local-as05-source-attempts.tar.xz",
+          "reference_sha256": "209a3868d6e551c8d0eb871a280b32ba78d7d2813edde28ca1114247f302e106",
+          "reference_review": "Root personally viewed exact generated reference: connected pale weathered trunk/airy leafless crown/rootedbase/no pedestal, candidate matches house materialfamily; source art only, native/human gates open. One source render and one own built-in ImageGen call.",
+          "task_id": "01a16967-667a-7619-ade5-9241cdf9bbb0",
+          "actual_cost": 30,
+          "remaining_family_reserve": 0,
+          "result": "One actual Meshy7.1 textured4K task SUCCEEDED100 consumed30. ActualGLB1367304triangles, side depth/width0.196 versus source0.882/1.061; root viewed front/side and rejected flat crown. One final two-reference ImageGen preparation also rejected by root: claimed orthogonal view repeats front scars/bough projections; stopped before secondPOST. No further generation/remesh/texture payment, no runtime changes.",
+          "archive": {
+            "path": "assets/source/blender/act1/winter_birch_meshy_v1/local-as05-source-attempts.tar.xz",
+            "sha256": "5a1deed30d1a73889decf0366087ea8fce50c179330facc3f1dc9df64fe4c3c1",
+            "bytes": 64171156,
+            "members": 33,
+            "uncompressed_bytes": 83914204,
+            "verification": "Worker verified every member against original before removal; root independently verified final SHA/membercount and raw terminal30credit receipt/balance3825. All unique source/reference images, recipes, rawGLB/four actual views and sanitized receipts retained locally; no failed PNG/GLB/archive entersGit. Archived old receipt archive pointer is historical and superseded by this final path.",
+            "loose_duplicate_bytes_removed": 83868860,
+            "net_bytes_reclaimed": 19697704
+          }
         }
       },
       "root_conifer_frame_review_2026_10_19": {
@@ -163395,12 +163443,12 @@
     "credits": {
       "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 195,
-      "authorized_budget_remaining": 3805,
+      "agent_spent_after_purchase": 455,
+      "authorized_budget_remaining": 3545,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4100,
-      "balance_note": "Actual API GETbalance4055 (monthly2905/permanent1150), matching total paidoperations195. Last observed IABbalance4100 preceded newesthouse10/body35. Authorized remaining3805; accountbonuses do notexpandowner4000cap.",
-      "latest_api_balance_observed": 4055
+      "balance_note": "Current authoritative PW093budget:455/4000 spent,3545 remaining,0AS05reserved. Actual Meshy task01a16967-667a-7619-ade5-9241cdf9bbb0 SUCCEEDED30credits; GET3825 monthly2675/permanent1150. AS05rawstructuralHOLD; secondreferencepair rejected beforePOST, no further paidcalls. Accountbalance does not expand authorcap.",
+      "latest_api_balance_observed": 3825
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
     "operations": [
