@@ -58,6 +58,7 @@ internal partial class ArrivalPersonalProps
         };
         box.SetMeta("geometryOwner", nameof(ArrivalPersonalProps));
         box.SetMeta("presentationRole", "small family photo box seated on the authored shelf; compiled facts own its open state");
+        box.SetMeta("storedSource", "Семейный альбом Гөлсинә; контактный отпечаток S-PHOTOGRAPHER остаётся в семье, разрешённая копия попадает в книгу");
         box.SetMeta("dimensionsMetres", new Vector3(boxWidth, boxSideHeight + boxLidThickness, boxDepth));
         box.SetMeta("supportMesh", shelf.GetPath().ToString());
         box.SetMeta("assetStatus", "project-original box; no unproduced photo front art is synthesized");

@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Text.Json;
 using Godot;
 using Urman.Core.Narrative;
 
@@ -101,6 +102,21 @@ internal partial class WaterChainHomePresence : Node3D
         var cellarFound = bridge.PhotoWorldFactObserved("cellar_photo_found");
         var cellarAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-CELLAR");
         var familyBoxOpened = bridge.PhotoWorldFactObserved("family_box_opened");
+        const string photographerSourceId = "urman.fullgame:interaction/pw-photographer-photo-source";
+        const string photographerPermissionId = "urman.fullgame:interaction/pw-photographer-photo-permission";
+        const string photographerVerifyId = "urman.fullgame:interaction/pw-verify-photographer-evidence";
+        var homeActive = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home";
+        var photographerFound = bridge.PhotoWorldFactObserved("photographer_copy_found");
+        var photographerAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-PHOTOGRAPHER");
+        var photographerVerified = bridge.SessionIdentity is { } photographerSession
+            && PhotoWorldState.EvaluateCondition(JsonSerializer.SerializeToElement(new
+            {
+                op = "photoworlds.evidence.confirmed", evidenceId = "E-PHOTOGRAPHER-OUTSIDE"
+            }), photographerSession.SelectState());
+        var photographerSourceLive = homeActive && !photographerFound
+            && bridge.IsInteractionAvailable(photographerSourceId);
+        var photographerVerifyLive = homeActive && !photographerVerified
+            && bridge.IsInteractionAvailable(photographerVerifyId);
 
         var homeReturnLive = bookReceived && !firstHomeTalk
             && bridge.IsInteractionAvailable(HomeReturnTarget.InteractionId);
@@ -120,16 +136,26 @@ internal partial class WaterChainHomePresence : Node3D
         var houseSourceLive = bookReceived && firstHomeTalk && !housePrintFound
             && bridge.IsInteractionAvailable(HousePhotoSourceTarget.InteractionId);
 
-        var cellarHomeActive = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home";
         var otherHomeWindowLive = homeReturnLive || housePermissionLive || talkLive
             || permissionLive || filePermissionLive;
+        // W03 may precede W02. Its album questions must not hide an unfinished
+        // main-route conversation at the same NPC anchor.
+        var photographerPermissionLive = homeActive && !otherHomeWindowLive
+            && photographerFound && !photographerAcquired
+            && bridge.IsInteractionAvailable(photographerPermissionId);
+        var photographerAuthorLive = homeActive && !otherHomeWindowLive
+            && !bridge.PhotoWorldFactObserved("golsina_author_conversation")
+            && bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-gulsina-author-talk");
+        var photographerWindowLive = photographerSourceLive || photographerPermissionLive
+            || photographerAuthorLive || photographerVerifyLive;
+        var cellarHomeActive = homeActive && !photographerWindowLive;
         var familyBoxSourceLive = cellarHomeActive && bookReceived && !familyBoxOpened
-            && FamilyBoxSourceTarget is { } familySource
-            && bridge.IsInteractionAvailable(familySource.InteractionId);
+            && FamilyBoxSourceTarget is not null
+            && bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-family-box-source");
         var familyBoxPermissionLive = cellarHomeActive && bookReceived && familyBoxOpened
             && !handAcquired && !otherHomeWindowLive
-            && FamilyBoxPermissionTarget is { } familyPermission
-            && bridge.IsInteractionAvailable(familyPermission.InteractionId);
+            && FamilyBoxPermissionTarget is not null
+            && bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-family-box-permission");
         var cellarPhotoSourceLive = cellarHomeActive && bookReceived && handAcquired && !cellarFound
             && CellarPhotoSourceTarget is { } cellarSource
             && bridge.IsInteractionAvailable(cellarSource.InteractionId);
@@ -143,13 +169,23 @@ internal partial class WaterChainHomePresence : Node3D
         HousePhotoPermissionTarget.Prompt = bridge.ResolveText("urman.fullgame:text/pw-label-house-photo-permission");
         if (FamilyBoxSourceTarget is { } familySourceTarget)
         {
-            familySourceTarget.Prompt = bridge.ResolveText("urman.fullgame:text/pw-label-family-box-source");
-            familySourceTarget.SetPresentationEnabled(familyBoxSourceLive);
+            var interactionId = photographerSourceLive ? photographerSourceId
+                : photographerVerifyLive ? photographerVerifyId
+                : "urman.fullgame:interaction/pw-family-box-source";
+            var labelId = photographerSourceLive ? "pw-label-photographer-photo-source"
+                : photographerVerifyLive ? "pw-label-verify-photographer-evidence"
+                : "pw-label-family-box-source";
+            familySourceTarget.SetAuthoredBinding(interactionId,
+                bridge.ResolveText("urman.fullgame:text/" + labelId), string.Empty);
+            familySourceTarget.SetPresentationEnabled(familyBoxSourceLive || photographerSourceLive || photographerVerifyLive);
         }
         if (FamilyBoxPermissionTarget is { } familyPermissionTarget)
         {
-            familyPermissionTarget.Prompt = bridge.ResolveText("urman.fullgame:text/pw-label-family-box-permission");
-            familyPermissionTarget.SetPresentationEnabled(familyBoxPermissionLive);
+            familyPermissionTarget.SetAuthoredBinding(photographerPermissionLive ? photographerPermissionId
+                    : "urman.fullgame:interaction/pw-family-box-permission",
+                bridge.ResolveText(photographerPermissionLive ? "urman.fullgame:text/pw-label-photographer-photo-permission"
+                    : "urman.fullgame:text/pw-label-family-box-permission"), string.Empty);
+            familyPermissionTarget.SetPresentationEnabled(familyBoxPermissionLive || photographerPermissionLive);
         }
         if (CellarPhotoSourceTarget is { } cellarSourceTarget)
         {
@@ -177,9 +213,10 @@ internal partial class WaterChainHomePresence : Node3D
         HousePhotoSourceTarget.SetPresentationEnabled(houseSourceLive);
         HousePhotoPermissionTarget.SetPresentationEnabled(housePermissionLive);
         // әби keeps her greeting whenever the chain is not asking a question.
-        TeaTarget?.SetPresentationEnabled(!bookReceived || (!homeReturnLive && !talkLive
+        var teaLive = !bookReceived || (!homeReturnLive && !talkLive
             && !permissionLive && !filePermissionLive && !housePermissionLive
-            && !familyBoxPermissionLive && !cellarPhotoPermissionLive));
+            && !familyBoxPermissionLive && !cellarPhotoPermissionLive);
+        TeaTarget?.SetPresentationEnabled(photographerAuthorLive || (!photographerWindowLive && teaLive));
 
         if (HousePhotoEnvelope is { } houseEnvelope)
             houseEnvelope.Visible = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home"
@@ -217,7 +254,7 @@ internal partial class WaterChainHomePresence : Node3D
 
         if (FamilyBoxLid is { } familyLid)
         {
-            var goal = familyBoxOpened ? -105f : 0f;
+            var goal = familyBoxOpened || photographerFound ? -105f : 0f;
             if (!_appliedOnce || Mathf.IsEqualApprox(familyLid.RotationDegrees.X, goal))
                 familyLid.RotationDegrees = new Vector3(goal, familyLid.RotationDegrees.Y, familyLid.RotationDegrees.Z);
             else

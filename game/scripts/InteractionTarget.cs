@@ -35,6 +35,7 @@ public partial class InteractionTarget : StaticBody3D
     private bool? _available;
     private RuntimeBridge? _bridge;
     private bool _presentationEnabled = true;
+    internal bool PresentationEnabled => _presentationEnabled;
 
     // The existing world router also uses IsSemanticallyAvailable, so an owner
     // waiting for a physical projection cannot be re-enabled by a later refresh.

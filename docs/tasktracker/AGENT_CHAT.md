@@ -5766,3 +5766,18 @@ H019 source fix принят: одна exact StreetStep опущена5см и �
 
 **Codex · Mac / commit source stage · 25.10 20:17** → всем
 Независимое Luna source review F03/drive/repeat/home/school: P1/P2 нет. Фиксирую отдельный source этап, Windows changed-source приёмка следующая; в коммит не входят чужие .gitignore/Blender, raw assets и прогоны. Baseline архив проверен CRC+побайтово: evidence/PW-043/ordinary_783047ce14af49cb8868134e367da644.zip, receipt оставлен рядом; удалены только подтверждённые извлечённые дубли и локальные screenshot-дубли. Станция idle/ready, protected userdata restored, новый run ещё не начат.
+
+**Codex · Mac / changed-source Windows acceptance · 25.10 20:18** → всем
+Source этап9fc17d2a committed и pushed main. Запускаю один changed-source ordinary play-product, вопрос: ветка→естественный F03 handoff→движущаяся Нива→D00→дом→чай/книга. Станция единолично root; источники заморожены на снимок. Не путать source этап с приёмкой целого пролога или кампании. В основной JSON после receipt внесу только фактический результат.
+
+**Codex · Mac / narrative authority correction · 25.10 20:21** → всем
+Найденные read-only ревью старые narrative.md/chapter1_mvp_campaign.md и beat_sheet28.09 называли прежний сюжет действующим. Добавил короткий явный scope header со ссылкой на актуальную PhotoWorlds bible; исторический текст сохранён. Это не возвращает ночное обрушение/old cliff в обязательный граф и не удаляет старый runtime. Изменённый Windows snapshot3c51121af8d04923953c4234b8401e6d/111d7fae уже running; продолжаю по его handle без новых запусков.
+
+**Codex · Mac / Act I snow-bank refresh · 25.10 20:43** → всем
+📋 Беру узкий runtime-guard в game/scripts/Act1ConnectedWorld.SnowRelief.cs: сохранить немедленный refresh после каждого подтверждённого пути, но не пересчитывать глобальные коридоры, если нет видимой eligible street-bank без streetBankReworked. Проверю скрытые/позже открытые banks остаются доступными следующему refresh. Без игры, сборки, тестов и tracker edits.
+
+**Codex · Mac / playable campaign interface · 25.10 23:18** → всем
+Автор остановил бесполезные прогоны: приоритет ясное действие, интерфейс/маркеры и человеческий текст. Root интегрировал6 независимых bounded source задач: одна CurrentPlayerMission для постоянной верхней задачи и журнала; пространственный маркер/расстояние/стрелка;149text keys+2summary в13диалогах; недостающие hint стадии и физические photographer source/permission/verify на существующих props. W01/W02 either-first и необязательный W05 сохранены. Astra нашла3дефекта (приоритет водного NPC, дальний береговой маркер, W05 подставка) — исправлены и повторно приняты чтением, оставшихсяP1/P2 в этом участке не нашла. Game affected compile15.35s0/0, ContentCli0; новые тесты/игру/probes после steering не запускали. Визуал и pleasant-play не объявлены принятыми.
+
+**Codex · Mac / acceptance and cleanup correction · 25.10 23:18** → всем
+Changed-source run3c51121a terminalFAIL из-за native timeout3600s/124, protected userdataRestored=true. Лог подтверждает F03→arrival→Niva conversation→home street; прямого кадра движения Нивы и прохода дом→чай→книга нет. Остановка возле открытой калитки ещё без доказанного collision owner. Снял добавленные локальные diagnostics и SnowRelief guard: без нового причинного факта не расширяем runtime. Сообщение20:43 было взятием гипотезы, её код не доставляется. Архив3c сохранён послеCRC/побайтовой проверки, удалены только дубли43МБ; receipt сохранён отдельно, сырые прогоны вGit не идут. Обновил существующие6карточек/dispatch, render+validatePASS308tasks; полные DoD/внешние гейты открыты. Фиксирую и пушу source этап, чужие ignore/Blender/asset изменения сохраняю.

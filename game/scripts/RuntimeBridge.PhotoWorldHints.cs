@@ -90,13 +90,13 @@ public partial class RuntimeBridge
                 action);
         }
 
-        (string Key, string TextKey, string FactId, string InteractionId, string ActionTextId)? Next(
+        (string Key, string TextKey, string InteractionId, string ActionTextId)? Next(
             string key, string textKey, string factId, string interactionId, string actionTextId) =>
             PhotoWorldFactObserved(factId)
                 ? null
-                : (key, textKey, factId, interactionId, actionTextId);
+                : (key, textKey, interactionId, actionTextId);
 
-        var cue = route.ActiveSceneId switch
+        (string Key, string TextKey, string InteractionId, string ActionTextId)? cue = route.ActiveSceneId switch
         {
             "urman.fullgame:scene/pw-river" =>
                 Next("river-reflection", "pw-hint-river-reflection", "water_reflection_relation_seen",
@@ -106,7 +106,10 @@ public partial class RuntimeBridge
                 ?? Next("river-approach", "pw-hint-river-approach", "water_old_approach_seen",
                     "urman.fullgame:interaction/pw-water-old-approach", "urman.fullgame:text/pw-label-water-old-approach")
                 ?? Next("river-encounter", "pw-hint-river-encounter", "water_encounter_resolved",
-                    "urman.fullgame:interaction/pw-water-encounter", "urman.fullgame:text/pw-label-water-encounter"),
+                    "urman.fullgame:interaction/pw-water-encounter", "urman.fullgame:text/pw-label-water-encounter")
+                ?? Next("river-damp-print", "pw-hint-river-damp-print", "water_damp_print",
+                    "urman.fullgame:interaction/pw-water-damp-print", "urman.fullgame:text/pw-label-water-damp-print")
+                ?? ("river-exit", "pw-hint-river-exit", "urman.fullgame:interaction/pw-water-return", "urman.fullgame:text/pw-label-water-return"),
             "urman.fullgame:scene/pw-house" =>
                 Next("house-shutter", "pw-hint-house-shutter", "house_shutter_opened",
                     "urman.fullgame:interaction/pw-house-shutter", "urman.fullgame:text/pw-label-house-shutter")
@@ -121,7 +124,8 @@ public partial class RuntimeBridge
                 ?? Next("house-cloth", "pw-hint-house-cloth", "cloth_cleared",
                     "urman.fullgame:interaction/pw-house-cloth", "urman.fullgame:text/pw-label-house-cloth")
                 ?? Next("house-frame", "pw-hint-house-frame", "house_frame_seen",
-                    "urman.fullgame:interaction/pw-house-frame", "urman.fullgame:text/pw-label-house-frame"),
+                    "urman.fullgame:interaction/pw-house-frame", "urman.fullgame:text/pw-label-house-frame")
+                ?? ("house-exit", "pw-hint-house-exit", "urman.fullgame:interaction/pw-house-return", "urman.fullgame:text/pw-label-house-return"),
             "urman.fullgame:scene/pw-common" =>
                 Next("common-places", "pw-hint-common-places", "common_three_relations_seen",
                     "urman.fullgame:interaction/pw-common-three-places", "urman.fullgame:text/pw-label-common-three-places")
@@ -130,7 +134,18 @@ public partial class RuntimeBridge
                 ?? Next("common-horizon", "pw-hint-common-horizon", "common_horizon_seen",
                     "urman.fullgame:interaction/pw-common-horizon", "urman.fullgame:text/pw-label-common-horizon")
                 ?? Next("common-note", "pw-hint-common-note", "common_note_finished",
-                    "urman.fullgame:interaction/pw-common-note", "urman.fullgame:text/pw-label-common-note"),
+                    "urman.fullgame:interaction/pw-common-note", "urman.fullgame:text/pw-label-common-note")
+                ?? ("common-exit", "pw-hint-common-exit", "urman.fullgame:interaction/pw-common-return", "urman.fullgame:text/pw-label-common-return"),
+            "urman.fullgame:scene/pw-cellar" =>
+                Next("cellar-order", "pw-hint-cellar-order", "cellar_household_pattern_seen",
+                    "urman.fullgame:interaction/pw-cellar-order", "urman.fullgame:text/pw-label-cellar-order")
+                ?? Next("cellar-object", "pw-hint-cellar-object", "cellar_box_returned",
+                    "urman.fullgame:interaction/pw-cellar-object", "urman.fullgame:text/pw-label-cellar-object")
+                ?? Next("cellar-response", "pw-hint-cellar-response", "cellar_response_seen",
+                    "urman.fullgame:interaction/pw-cellar-response", "urman.fullgame:text/pw-label-cellar-response")
+                ?? Next("cellar-niche", "pw-hint-cellar-niche", "cellar_niche_seen",
+                    "urman.fullgame:interaction/pw-cellar-niche", "urman.fullgame:text/pw-label-cellar-niche")
+                ?? ("cellar-exit", "pw-hint-cellar-exit", "urman.fullgame:interaction/pw-cellar-return", "urman.fullgame:text/pw-label-cellar-return"),
             _ => null
         };
 

@@ -1,0 +1,224 @@
+using System;
+using System.Collections.Generic;
+using Godot;
+using Urman.Core.Persistence;
+
+namespace Urman.Godot;
+
+public partial class Act1DemoRoot
+{
+    private static readonly Vector2[] ObjectiveDiamond = [new(0, -10), new(8, 0), new(0, 10), new(-8, 0)];
+    private static readonly Vector2[] ObjectiveArrow = [new(0, -12), new(10, 10), new(0, 5), new(-10, 10)];
+    private Control? _objectiveMarker;
+    private Polygon2D? _objectiveMarkerGlyph;
+    private Polygon2D? _objectiveMarkerOutline;
+    private Label? _objectiveMarkerLabel;
+    private Node3D? _objectiveMarkerTarget;
+    private PlayerMission? _objectiveMarkerMission;
+    private object? _objectiveMarkerSession;
+    private string? _objectiveMarkerScene;
+    private string? _objectiveMarkerZone;
+    private double _objectiveMarkerRetry;
+    private bool _objectiveMarkerUsingAnchor;
+    private AccessibilitySettingsSnapshot? _objectiveMarkerSettings;
+
+    private void UpdateObjectiveMarker(double delta)
+    {
+        var bridge = _bridge;
+        var player = _player;
+        if (_mission is not { } mission || bridge is null || !GodotObject.IsInstanceValid(bridge)
+            || bridge.SessionIdentity is not { } session
+            || player is null || !GodotObject.IsInstanceValid(player) || !player.IsInsideTree()
+            || !GodotObject.IsInstanceValid(_main) || !_main.IsInsideTree()
+            || RouteCueBlockedByModal() || MainMenuVisible || IntroVisible || _endingShown
+            || _introReplay || _photoWorldReplay || player.SessionTransitionActive || player.VehicleControlled
+            || GetTree().Paused)
+        {
+            HideObjectiveMarker();
+            return;
+        }
+
+        if (!Equals(_objectiveMarkerMission, mission) || !ReferenceEquals(_objectiveMarkerSession, session)
+            || _objectiveMarkerScene != bridge.ActiveSceneId || _objectiveMarkerZone != bridge.CurrentZoneId)
+        {
+            _objectiveMarkerMission = mission;
+            _objectiveMarkerSession = session;
+            _objectiveMarkerScene = bridge.ActiveSceneId;
+            _objectiveMarkerZone = bridge.CurrentZoneId;
+            _objectiveMarkerTarget = null;
+            _objectiveMarkerUsingAnchor = false;
+            _objectiveMarkerRetry = 0;
+        }
+
+        var camera = GetViewport().GetCamera3D();
+        if (camera is null || camera != player.GetNodeOrNull<Camera3D>("Head/Camera3D")
+            || (!string.IsNullOrWhiteSpace(mission.TargetZoneId) && mission.TargetZoneId != bridge.CurrentZoneId))
+        {
+            HideObjectiveMarker();
+            return;
+        }
+
+        var targetCurrent = ObjectiveMarkerTargetAvailable(_objectiveMarkerTarget, mission, _objectiveMarkerUsingAnchor);
+        if (!targetCurrent || (_objectiveMarkerUsingAnchor && !string.IsNullOrWhiteSpace(mission.InteractionId)))
+        {
+            if (!targetCurrent) _objectiveMarkerTarget = null;
+            _objectiveMarkerRetry -= delta;
+            if (_objectiveMarkerRetry <= 0)
+            {
+                _objectiveMarkerRetry = .75;
+                _objectiveMarkerTarget = ResolveObjectiveMarkerTarget(mission);
+            }
+        }
+        if (_objectiveMarkerTarget is not { } target)
+        {
+            HideObjectiveMarker();
+            return;
+        }
+
+        EnsureObjectiveMarker();
+        var settings = player.Accessibility;
+        if (!Equals(_objectiveMarkerSettings, settings))
+        {
+            _objectiveMarkerSettings = settings;
+            _objectiveMarker!.Theme = UrmanUiTheme.For(settings);
+            UrmanUiTheme.ApplyWorldText(_objectiveMarkerLabel!, settings, UrmanUiTheme.Size.Body);
+            _objectiveMarkerGlyph!.Color = UrmanUiTheme.Colours(settings).Focus;
+            _objectiveMarkerOutline!.Color = UrmanUiTheme.Colours(settings).InkSunken;
+        }
+
+        var scale = Mathf.Clamp((float)settings.TextScale, .8f, 1.6f);
+        var viewportSize = GetViewport().GetVisibleRect().Size;
+        if (viewportSize.X < 160 || viewportSize.Y < 160)
+        {
+            HideObjectiveMarker();
+            return;
+        }
+        var label = _objectiveMarkerLabel!;
+        var name = string.IsNullOrWhiteSpace(mission.TargetLabel) ? mission.Title : mission.TargetLabel;
+        var distance = player.GlobalPosition.DistanceTo(target.GlobalPosition);
+        label.Text = $"{name}\n{Mathf.RoundToInt(distance)} м";
+        var labelWidth = Mathf.Min(320f * scale, viewportSize.X - 48f);
+        label.Size = new Vector2(labelWidth, 48f * scale);
+        label.Position = new Vector2(-labelWidth / 2f, 18f * scale);
+
+        // Anchors describe feet-level destinations; interaction bodies already own their centre.
+        var worldPoint = target.GlobalPosition + Vector3.Up * (target is InteractionTarget ? .65f : 1.5f);
+        var screenPoint = camera.UnprojectPosition(worldPoint);
+        var centre = viewportSize / 2f;
+        var inset = new Vector2(labelWidth / 2f + 24f, 64f * scale);
+        var limits = new Vector2(Mathf.Max(1f, centre.X - inset.X), Mathf.Max(1f, centre.Y - inset.Y));
+        // Leave room below the glyph for the label at the bottom edge.
+        var bottom = viewportSize.Y - 96f * scale;
+        var behind = camera.IsPositionBehind(worldPoint);
+        var onScreen = !behind && screenPoint.X >= inset.X && screenPoint.X <= viewportSize.X - inset.X
+            && screenPoint.Y >= inset.Y && screenPoint.Y <= bottom
+            && !ObjectiveMarkerOverlapsMission(screenPoint, labelWidth, scale);
+        if (onScreen)
+        {
+            SetObjectiveMarkerGlyph(false, 0f, scale);
+            _objectiveMarker!.Position = screenPoint;
+        }
+        else
+        {
+            // Camera-local X/Y retain the correct turn direction behind the player.
+            var local = camera.GlobalTransform.AffineInverse() * worldPoint;
+            var direction = behind || !float.IsFinite(screenPoint.X) || !float.IsFinite(screenPoint.Y)
+                ? new Vector2(local.X, -local.Y) : screenPoint - centre;
+            if (direction.LengthSquared() < .001f) direction = Vector2.Down;
+            direction = direction.Normalized();
+            var factor = Mathf.Min(limits.X / Mathf.Max(Mathf.Abs(direction.X), .001f),
+                limits.Y / Mathf.Max(Mathf.Abs(direction.Y), .001f));
+            var edge = centre + direction * factor;
+            edge.Y = Mathf.Clamp(edge.Y, inset.Y, bottom);
+            if (ObjectiveMarkerOverlapsMission(edge, labelWidth, scale))
+            {
+                edge.Y = _routeCuePanel!.GetGlobalRect().End.Y + 28f * scale;
+                if (edge.Y > bottom)
+                {
+                    HideObjectiveMarker();
+                    return;
+                }
+            }
+            SetObjectiveMarkerGlyph(true, direction.Angle() + Mathf.Pi / 2f, scale);
+            _objectiveMarker!.Position = edge;
+        }
+        _objectiveMarker!.Visible = true;
+    }
+
+    private bool ObjectiveMarkerOverlapsMission(Vector2 position, float labelWidth, float scale) =>
+        _routeCuePanel is { Visible: true } panel
+        && panel.GetGlobalRect().Grow(12f * scale).Intersects(new Rect2(
+            position - new Vector2(labelWidth / 2f, 16f * scale), new Vector2(labelWidth, 82f * scale)));
+
+    private Node3D? ResolveObjectiveMarkerTarget(PlayerMission mission)
+    {
+        _objectiveMarkerUsingAnchor = false;
+        if (!string.IsNullOrWhiteSpace(mission.InteractionId))
+        {
+            // No public interaction index exists. Search only while unresolved, at most once per .75 s.
+            var pending = new Stack<Node>();
+            pending.Push(_main);
+            while (pending.TryPop(out var node))
+            {
+                if (node.IsQueuedForDeletion() || (node is Node3D spatial && !spatial.IsVisibleInTree())) continue;
+                if (node is InteractionTarget target && ObjectiveMarkerTargetAvailable(target, mission)) return target;
+                foreach (var child in node.GetChildren()) pending.Push(child);
+            }
+        }
+        if (string.IsNullOrWhiteSpace(mission.AnchorPath)) return null;
+        var anchor = _main.GetNodeOrNull<Node3D>(mission.AnchorPath);
+        if (!ObjectiveMarkerTargetAvailable(anchor, mission, endpoint: true)) return null;
+        _objectiveMarkerUsingAnchor = true;
+        return anchor;
+    }
+
+    private bool ObjectiveMarkerTargetAvailable(Node3D? target, PlayerMission mission, bool endpoint = false)
+    {
+        if (target is null || !GodotObject.IsInstanceValid(target) || target.IsQueuedForDeletion()
+            || !target.IsInsideTree() || !target.IsVisibleInTree() || !_main.IsAncestorOf(target)) return false;
+        if (target is InteractionTarget { PresentationEnabled: false }) return false;
+        // The mission owns semantic unlocks; proximity/aim gates must not hide a known destination.
+        return endpoint || string.IsNullOrWhiteSpace(mission.InteractionId)
+            || target is InteractionTarget interaction && interaction.InteractionId == mission.InteractionId;
+    }
+
+    private void EnsureObjectiveMarker()
+    {
+        if (_objectiveMarker is not null && GodotObject.IsInstanceValid(_objectiveMarker)) return;
+        var layer = GetNodeOrNull<CanvasLayer>("Act1DemoRouteCue");
+        if (layer is null)
+        {
+            layer = new CanvasLayer { Name = "Act1ObjectiveMarker", Layer = 84 };
+            AddChild(layer);
+        }
+        _objectiveMarker = new Control { Name = "ObjectiveMarker", MouseFilter = Control.MouseFilterEnum.Ignore, Visible = false };
+        layer.AddChild(_objectiveMarker);
+        _objectiveMarkerOutline = new Polygon2D { Name = "Outline" };
+        _objectiveMarkerGlyph = new Polygon2D { Name = "Destination" };
+        _objectiveMarker.AddChild(_objectiveMarkerOutline);
+        _objectiveMarker.AddChild(_objectiveMarkerGlyph);
+        _objectiveMarkerLabel = new Label
+        {
+            Name = "DestinationLabel", HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Top, TextOverrunBehavior = TextServer.OverrunBehavior.TrimEllipsis,
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        };
+        _objectiveMarker.AddChild(_objectiveMarkerLabel);
+        _objectiveMarkerSettings = null;
+    }
+
+    private void SetObjectiveMarkerGlyph(bool arrow, float rotation, float scale)
+    {
+        var points = arrow ? ObjectiveArrow : ObjectiveDiamond;
+        _objectiveMarkerGlyph!.Polygon = points;
+        _objectiveMarkerOutline!.Polygon = points;
+        _objectiveMarkerGlyph.Rotation = _objectiveMarkerOutline.Rotation = rotation;
+        _objectiveMarkerGlyph.Scale = Vector2.One * scale;
+        _objectiveMarkerOutline.Scale = Vector2.One * scale * 1.4f;
+    }
+
+    private void HideObjectiveMarker()
+    {
+        if (_objectiveMarker is not null && GodotObject.IsInstanceValid(_objectiveMarker)) _objectiveMarker.Visible = false;
+    }
+}

@@ -2017,7 +2017,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         if (!string.Equals(button.Text, caption, StringComparison.Ordinal)) button.Text = caption;
         if (_prologueHintPanel is { } hintPanel && GodotObject.IsInstanceValid(hintPanel))
         {
-            hintPanel.Visible = !button.Disabled && _prologueHintAvailable;
+            var missionRoot = (GetTree().GetFirstNodeInGroup("zone_manager") as Main)?.GetParent() as Act1DemoRoot;
+            hintPanel.Visible = missionRoot?.MissionHudVisible != true && !button.Disabled && _prologueHintAvailable;
             var showBranchQuestion = _prologueHintKey != "prologue-branch"
                 || GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController hintPlayer
                     && IsPrologueBranchFramedForQuestion(hintPlayer);

@@ -39,6 +39,11 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private Tween? _introTween;
     private PanelContainer? _routeCuePanel;
     private Label? _routeCue;
+    private Label? _routeCueHeader;
+    private Label? _routeCueTitle;
+    private Label? _routeCueShortcuts;
+    private PlayerMission? _mission;
+    private Vector2 _routeCueViewportSize;
     private Tween? _routeCueTween;
     private string _lastRouteCue = string.Empty;
     private Control? _endingScreen;
@@ -162,6 +167,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public bool IntroVisible => _introScreen is not null || _prologueForestActive;
 
+    internal bool MissionHudVisible => UsesPhotoWorldsCampaign
+        && _routeCuePanel is { Visible: true } panel && IsInstanceValid(panel);
+
     /// <summary>The forest teaser or Niva ride owns the screen; E is ignored, Esc skips.</summary>
     internal bool PrologueActive => _prologueForestActive;
 
@@ -190,32 +198,41 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             AccessibilityPresentation.ApplyToControl(_endingStack, settings);
         }
 
-        var routeCueTheme = UrmanUiTheme.For(settings);
-        if (_routeCuePanel is not null && GodotObject.IsInstanceValid(_routeCuePanel))
+        if (_routeCuePanel is null || !GodotObject.IsInstanceValid(_routeCuePanel)) return;
+        _routeCuePanel.Theme = UrmanUiTheme.For(settings);
+        _routeCuePanel.SetMeta("accessibilityHighContrast", settings.HighContrast);
+        _routeCuePanel.SetMeta("accessibilityReducedMotion", settings.ReducedMotion);
+        var scale = Mathf.Clamp((float)settings.TextScale, 0.8f, 1.6f);
+        var colours = UrmanUiTheme.Colours(settings);
+        if (UsesPhotoWorldsCampaign)
         {
-            _routeCuePanel.Theme = routeCueTheme;
-            _routeCuePanel.SetMeta("accessibilityHighContrast", settings.HighContrast);
-            _routeCuePanel.SetMeta("accessibilityReducedMotion", settings.ReducedMotion);
-            FitRouteCuePlate(settings);
+            _routeCuePanel.AddThemeStyleboxOverride("panel", UrmanUiTheme.PlateBox(
+                colours.Ink with { A = 1f }, colours.Accent, settings.HighContrast ? 3 : 2,
+                marginX: UrmanUiTheme.Space.L, marginY: UrmanUiTheme.Space.M));
         }
-
-        if (_routeCue is not null && GodotObject.IsInstanceValid(_routeCue))
+        foreach (var (label, size) in new[]
         {
-            _routeCue.Theme = routeCueTheme;
-            _routeCue.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(
-                UrmanUiTheme.Size.Subtitle * Mathf.Clamp((float)settings.TextScale, 0.8f, 1.6f)));
-            _routeCue.SetMeta("accessibilityTextScale", settings.TextScale);
-            _routeCue.SetMeta("accessibilityHighContrast", settings.HighContrast);
-            _routeCue.SetMeta("accessibilityReducedMotion", settings.ReducedMotion);
-            if (UsesPhotoWorldsCampaign && settings.ReducedMotion
-                && _routeCueTween is { } cueTween && cueTween.IsValid())
-            {
-                cueTween.Kill();
-                _routeCueTween = null;
-                _routeCue.Modulate = Colors.White;
-                if (_routeCuePanel is not null) _routeCuePanel.Modulate = Colors.White;
-            }
+            (_routeCueHeader, UrmanUiTheme.Size.Small),
+            (_routeCueTitle, UrmanUiTheme.Size.Heading),
+            (_routeCue, UrmanUiTheme.Size.Subtitle),
+            (_routeCueShortcuts, UrmanUiTheme.Size.Small)
+        })
+        {
+            if (label is null || !GodotObject.IsInstanceValid(label)) continue;
+            label.AddThemeFontSizeOverride("font_size", Mathf.RoundToInt(size * scale));
+            label.SetMeta("accessibilityTextScale", settings.TextScale);
+            label.SetMeta("accessibilityHighContrast", settings.HighContrast);
+            label.SetMeta("accessibilityReducedMotion", settings.ReducedMotion);
         }
+        _routeCueHeader?.AddThemeColorOverride("font_color", settings.HighContrast ? colours.Text : colours.Accent);
+        if (UsesPhotoWorldsCampaign && settings.ReducedMotion
+            && _routeCueTween is { } cueTween && cueTween.IsValid())
+        {
+            cueTween.Kill();
+            _routeCueTween = null;
+            _routeCuePanel.Modulate = Colors.White;
+        }
+        FitRouteCuePlate(settings);
     }
 
     public override void _Ready()
@@ -411,6 +428,13 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
         UpdateIntroControls();
         UpdateIntroFlyover(delta);
+        if (UsesPhotoWorldsCampaign && _mission is not null)
+        {
+            RefreshMissionShortcuts();
+            if (_routeCueViewportSize != GetViewport().GetVisibleRect().Size)
+                FitRouteCuePlate(_player?.Accessibility ?? AccessibilitySettingsSnapshot.Default);
+        }
+        UpdateObjectiveMarker(delta);
         if (_routeCue is not null
             && ((_routeCueTween is { } activeCueTween && activeCueTween.IsValid())
                 || (UsesPhotoWorldsCampaign && !string.IsNullOrWhiteSpace(_lastRouteCue))))
@@ -1879,46 +1903,57 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     {
         var layer = new CanvasLayer { Layer = 85, Name = "Act1DemoRouteCue" };
         AddChild(layer);
-
-        var settings = _player?.Accessibility ?? AccessibilitySettingsSnapshot.Default;
-        var theme = UrmanUiTheme.For(settings);
         _routeCuePanel = new PanelContainer
         {
-            Name = "RouteCuePlate",
-            Theme = theme,
+            Name = UsesPhotoWorldsCampaign ? "CurrentMission" : "RouteCuePlate",
             ThemeTypeVariation = UrmanUiTheme.SubtitlePanel,
             MouseFilter = Control.MouseFilterEnum.Ignore,
-            Visible = false
+            Visible = false,
+            Modulate = new Color(1, 1, 1, 0)
         };
-        _routeCuePanel.AnchorTop = _routeCuePanel.AnchorBottom = 1f;
-        _routeCuePanel.OffsetLeft = 24;
-        _routeCuePanel.OffsetTop = -209;
-        _routeCuePanel.OffsetRight = 744;
-        _routeCuePanel.OffsetBottom = -152;
-        _routeCuePanel.Modulate = new Color(1, 1, 1, 0);
         layer.AddChild(_routeCuePanel);
+        if (UsesPhotoWorldsCampaign)
+            _routeCuePanel.MinimumSizeChanged += FitMissionHeight;
+        var stack = new VBoxContainer { MouseFilter = Control.MouseFilterEnum.Ignore };
+        stack.AddThemeConstantOverride("separation", UrmanUiTheme.Space.S);
+        _routeCuePanel.AddChild(stack);
+        _routeCueHeader = AddRouteCueLabel(stack, "MissionHeader", "ТЕКУЩАЯ ЗАДАЧА", UrmanUiTheme.Hint);
+        _routeCueTitle = AddRouteCueLabel(stack, "MissionTitle", "", UrmanUiTheme.Heading);
+        _routeCue = AddRouteCueLabel(stack, "RoutePrompt", "", UrmanUiTheme.Subtitle);
+        _routeCueShortcuts = AddRouteCueLabel(stack, "MissionControls", "", UrmanUiTheme.Hint);
+        _routeCueHeader.Visible = _routeCueTitle.Visible = _routeCueShortcuts.Visible = UsesPhotoWorldsCampaign;
+        ApplyAccessibilitySettings(_player?.Accessibility ?? AccessibilitySettingsSnapshot.Default);
+    }
 
-        _routeCue = new Label
+    private void FitMissionHeight()
+    {
+        if (_routeCuePanel is null) return;
+        _routeCuePanel.Size = new Vector2(_routeCuePanel.Size.X, _routeCuePanel.GetCombinedMinimumSize().Y);
+    }
+
+    private static Label AddRouteCueLabel(VBoxContainer stack, string name, string text, string variation)
+    {
+        var label = new Label
         {
-            Name = "RoutePrompt",
-            Theme = theme,
-            ThemeTypeVariation = UrmanUiTheme.Subtitle,
-            HorizontalAlignment = HorizontalAlignment.Left,
-            VerticalAlignment = VerticalAlignment.Top,
+            Name = name,
+            Text = text,
+            ThemeTypeVariation = variation,
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             MouseFilter = Control.MouseFilterEnum.Ignore,
-            Visible = false,
-            GrowVertical = Control.GrowDirection.Begin
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
         };
-        _routeCue.AnchorTop = 1f;
-        _routeCue.AnchorBottom = 1f;
-        _routeCue.OffsetLeft = 48;
-        _routeCue.OffsetTop = -193;
-        _routeCue.OffsetRight = 720;
-        _routeCue.OffsetBottom = -168;
-        _routeCue.Modulate = new Color(1, 1, 1, 0);
-        layer.AddChild(_routeCue);
-        ApplyAccessibilitySettings(settings);
+        stack.AddChild(label);
+        return label;
+    }
+
+    private void RefreshMissionShortcuts()
+    {
+        if (_routeCueShortcuts is null || _mission is null) return;
+        var gamepad = _player?.CurrentInputDevice == "gamepad";
+        var text = $"{InputBindingService.ActionHint("journal", gamepad)}  Задачи и книга";
+        if (_mission.InteractionId is { } interactionId && _player?.FocusedInteractionId == interactionId)
+            text += $"    {InputBindingService.ActionHint("interact", gamepad)}  Взаимодействовать";
+        if (_routeCueShortcuts.Text != text) _routeCueShortcuts.Text = text;
     }
 
     private void UpdateRouteCue()
@@ -1935,8 +1970,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             return;
         }
 
+        _mission = UsesPhotoWorldsCampaign ? JournalUi.CurrentPlayerMission(bridge) : null;
         var routeText = UsesPhotoWorldsCampaign
-            ? PhotoWorldRouteCue(bridge)
+            ? _mission?.Action
             : OpeningRouteCue(bridge) ?? RouteCueText(bridge);
         var text = routeText?.Replace("[J]",
             InputBindingService.ActionHint("journal", _player?.CurrentInputDevice == "gamepad"), StringComparison.Ordinal);
@@ -1945,7 +1981,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             HideRouteCue();
             return;
         }
-        if (string.Equals(text, _lastRouteCue, StringComparison.Ordinal))
+        var cueIdentity = UsesPhotoWorldsCampaign ? $"{_mission?.Id}\n{_mission?.Title}\n{text}" : text;
+        if (string.Equals(cueIdentity, _lastRouteCue, StringComparison.Ordinal))
         {
             if (UsesPhotoWorldsCampaign)
             {
@@ -1956,16 +1993,17 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             return;
         }
 
-        _lastRouteCue = text;
+        _lastRouteCue = cueIdentity;
         _routeCueTween?.Kill();
         _routeCue.Text = text;
+        if (_routeCueTitle is not null) _routeCueTitle.Text = _mission?.Title ?? string.Empty;
+        RefreshMissionShortcuts();
         FitRouteCuePlate(_player?.Accessibility ?? AccessibilitySettingsSnapshot.Default);
         var modal = RouteCueBlockedByModal();
         _routeCue.Visible = !modal;
         _routeCuePanel.Visible = !modal;
         var reducedMotion = UsesPhotoWorldsCampaign && _player?.Accessibility.ReducedMotion == true;
         var initialModulate = reducedMotion ? Colors.White : new Color(1, 1, 1, 0);
-        _routeCue.Modulate = initialModulate;
         _routeCuePanel.Modulate = initialModulate;
         if (reducedMotion) return;
 
@@ -1975,19 +2013,13 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         {
             if (_routeCueTween == currentTween) _routeCueTween = null;
         };
-        currentTween.TweenProperty(_routeCue, "modulate", Colors.White, 0.22)
-            .SetTrans(Tween.TransitionType.Sine)
-            .SetEase(Tween.EaseType.Out);
-        currentTween.Parallel().TweenProperty(_routeCuePanel, "modulate", Colors.White, 0.22)
+        currentTween.TweenProperty(_routeCuePanel, "modulate", Colors.White, 0.22)
             .SetTrans(Tween.TransitionType.Sine)
             .SetEase(Tween.EaseType.Out);
         if (!UsesPhotoWorldsCampaign)
         {
             currentTween.TweenInterval(RouteCueVisibleSeconds);
-            currentTween.TweenProperty(_routeCue, "modulate", new Color(1, 1, 1, 0), 0.42)
-                .SetTrans(Tween.TransitionType.Sine)
-                .SetEase(Tween.EaseType.In);
-            currentTween.Parallel().TweenProperty(_routeCuePanel, "modulate", new Color(1, 1, 1, 0), 0.42)
+            currentTween.TweenProperty(_routeCuePanel, "modulate", new Color(1, 1, 1, 0), 0.42)
                 .SetTrans(Tween.TransitionType.Sine)
                 .SetEase(Tween.EaseType.In);
         }
@@ -1997,15 +2029,26 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private void FitRouteCuePlate(AccessibilitySettingsSnapshot settings)
     {
         if (_routeCue is null || _routeCuePanel is null) return;
-        var fontSize = Mathf.RoundToInt(
-            UrmanUiTheme.Size.Subtitle * Mathf.Clamp((float)settings.TextScale, 0.8f, 1.6f));
-        var charactersPerLine = Mathf.Max(1, Mathf.FloorToInt(672f / (fontSize * 0.7f)));
+        _routeCueViewportSize = GetViewport().GetVisibleRect().Size;
+        var scale = Mathf.Clamp((float)settings.TextScale, 0.8f, 1.6f);
+        var margin = _routeCueViewportSize.X < 720 ? 16f : 24f;
+        var width = Mathf.Min(UsesPhotoWorldsCampaign ? 480f * scale : 720f,
+            Mathf.Max(1f, _routeCueViewportSize.X - margin * 2));
+        _routeCuePanel.AnchorTop = _routeCuePanel.AnchorBottom = UsesPhotoWorldsCampaign ? 0f : 1f;
+        _routeCuePanel.OffsetLeft = margin;
+        _routeCuePanel.OffsetRight = margin + width;
+        if (UsesPhotoWorldsCampaign)
+        {
+            // Container minimum size follows wrapped text, including large accessibility type.
+            _routeCuePanel.OffsetTop = margin;
+            _routeCuePanel.OffsetBottom = margin;
+            return;
+        }
+        var fontSize = Mathf.RoundToInt(UrmanUiTheme.Size.Subtitle * scale);
+        var charactersPerLine = Mathf.Max(1, Mathf.FloorToInt((width - 48f) / (fontSize * 0.7f)));
         var estimatedLines = Mathf.Max(1, Mathf.CeilToInt(_routeCue.Text.Length / (float)charactersPerLine));
-        var textHeight = estimatedLines * (fontSize + 3f);
-        _routeCuePanel.OffsetTop = -152f - textHeight - 32f;
+        _routeCuePanel.OffsetTop = -152f - estimatedLines * (fontSize + 3f) - 32f;
         _routeCuePanel.OffsetBottom = -152f;
-        _routeCue.OffsetTop = -152f - textHeight - 16f;
-        _routeCue.OffsetBottom = -168f;
     }
 
     private void HideRouteCue()
@@ -2013,10 +2056,11 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _routeCueTween?.Kill();
         _routeCueTween = null;
         _lastRouteCue = string.Empty;
+        _mission = null;
+        HideObjectiveMarker();
         if (_routeCue is not null && GodotObject.IsInstanceValid(_routeCue))
         {
             _routeCue.Visible = false;
-            _routeCue.Modulate = new Color(1, 1, 1, 0);
         }
         if (_routeCuePanel is not null && GodotObject.IsInstanceValid(_routeCuePanel))
         {
@@ -2027,7 +2071,10 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private bool RouteCueBlockedByModal()
     {
-        if (_player?.ModalOpen == true || MainMenuVisible || _pauseMenu?.IsOpen == true || _photoNivaDriving) return true;
+        if (_player?.ModalOpen == true || MainMenuVisible || IntroVisible || _endingShown
+            || _pauseMenu?.IsOpen == true || _photoNivaDriving || _introReplay || _photoWorldReplay) return true;
+        if (_bridge is { } bridge && GodotObject.IsInstanceValid(bridge)
+            && (bridge.CapturePlayTimeBlocks() & (PlayTimeBlock.Loading | PlayTimeBlock.NotReady)) != 0) return true;
         var tree = GetTree();
         if (tree.GetFirstNodeInGroup("journal_ui")?.GetNodeOrNull<Control>("Screen")?.Visible == true
             || tree.GetFirstNodeInGroup("dialogue_ui") is DialogueUi { IsOpen: true }
@@ -2107,24 +2154,6 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _ => null
     };
 
-    private string? PhotoWorldRouteCue(RuntimeBridge bridge) => bridge.ActiveSceneId switch
-    {
-        "urman.fullgame:scene/pw-niva-arrival" => PhotoWorldAvailableCue(
-            bridge,
-            "pw-niva-stop",
-            PhotoNivaArrivalActive
-                ? $"Приехали. {InputBindingService.ActionHint("interact", _player?.CurrentInputDevice == "gamepad")} — продолжить разговор с бабаем."
-                : "Подойти к Ниве. Потом — в дом Гөлсинә и Мансура."),
-        "urman.fullgame:scene/pw-home" => JournalUi.PhotoBookPreparationObjectiveText(bridge)
-            ?? (bridge.CanShowFamilyBookOnTable
-                ? bridge.CurrentZoneId == "house_old_pc"
-                    ? PhotoWorldAvailableCue(bridge, "pw-book-handoff", "Взять семейную книгу со стола — закончить подписи, которые начал Марат.")
-                        ?? PhotoWorldAvailableCue(bridge, "pw-arrival-tea-talk", "Поговорить с Гөлсинә за чайным столом.")
-                    : PhotoWorldAvailableCue(bridge, "pw-home-enter-house", "Войти в дом Гөлсинә и Мансура — они ждут к чаю.")
-                : null),
-        _ => null
-    };
-
     private static string? SavedMessageRouteCue(RuntimeBridge bridge)
     {
         if (!KnowledgeConfirmed(bridge, "clue_marat_message_read"))
@@ -2180,8 +2209,6 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private static string? AvailableCue(RuntimeBridge bridge, string localInteractionId, string text) =>
         bridge.IsInteractionAvailable($"urman.chapter1:interaction/{localInteractionId}") ? text : null;
 
-    private static string? PhotoWorldAvailableCue(RuntimeBridge bridge, string localInteractionId, string text) =>
-        bridge.IsInteractionAvailable($"urman.fullgame:interaction/{localInteractionId}") ? text : null;
 
     private static string? LastInteraction(RuntimeBridge bridge)
     {

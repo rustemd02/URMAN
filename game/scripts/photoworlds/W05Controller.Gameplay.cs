@@ -65,6 +65,7 @@ public partial class W05Controller
     {
         if (!CanUseCellarAction(OrderInteractionId, out var bridge, out _) || bridge.PhotoWorldFactObserved(OrderFactId)) return false;
         _seenTraces |= 1 << index;
+        _traceTargets[index].SetPresentationEnabled(false);
         _traceTargets[index].Prompt = index switch
         {
             0 => "Сухой круг: чашку ставили на одно место",
@@ -105,7 +106,7 @@ public partial class W05Controller
         }
         var orderKnown = bridge.PhotoWorldFactObserved(OrderFactId);
         for (var index = 0; index < _traceTargets.Length; index++)
-            _traceTargets[index].SetPresentationEnabled(!orderKnown);
+            _traceTargets[index].SetPresentationEnabled(!orderKnown && (_seenTraces & (1 << index)) == 0);
         ProjectCellarCarry(active, bridge);
         _responseTarget.SetPresentationEnabled(!bridge.PhotoWorldFactObserved(ResponseFactId) && CellarResponseReady);
         _nicheTarget.SetPresentationEnabled(!bridge.PhotoWorldFactObserved(NicheFactId));

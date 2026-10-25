@@ -53891,7 +53891,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": "Codex",
+      "active_owner": null,
       "owner": "finished-act1",
       "depends_on": [
         "ACT1-UI.1"
@@ -53918,7 +53918,12 @@
         "docs/production/tamara_mvp_2026-09-26/dialogue-size/README.md",
         "docs/production/mvp_tracker_2026-09-27/interaction-hint/receipt.json",
         "docs/production/act1_ui_family_2026-10-04.md",
-        "game/scripts/DialogueUi.cs"
+        "game/scripts/DialogueUi.cs",
+        "game/scripts/Act1DemoRoot.cs",
+        "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+        "game/scripts/PlayerMission.cs",
+        "game/scripts/JournalUi.Missions.cs",
+        "game/scripts/InteractionTarget.cs"
       ],
       "mvp_priority": 17,
       "mvp_packet": "LEGACY-COMPAT",
@@ -54046,16 +54051,17 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "One-file HUD source delivered/reviewed; root coordinates affected Windows compile after current5fb6 restores. Separate honest SchoolRegister inspection label source accepted. Full UI/author acceptance open."
+        "state": "released",
+        "reason": "Source этап интегрирован и проверен; полная игровая и обязательная внешняя приёмка открыты. Новые прогоны после уточнения автора не запускались."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "Подсказка/субтитры/выбор ответа читаемы, не перекрывают действие; один focus; подтверждается именно выделенная реплика."
+        "Подсказка/субтитры/выбор ответа читаемы, не перекрывают действие; один focus; подтверждается именно выделенная реплика.",
+        "На текущем candidate подтвердить читаемость задачи/маркера, отсутствие перекрытий, смену после действия и модальных окон; source compile не заменяет GUI."
       ],
-      "next_action": "Finish bounded PhotoWorlds persistent readable current route cue in Act1DemoRoot with existing theme; legacy timed toast remains. Root then affected Windows compile and one changed-HUD check after owned5fb6 restores; retain full dialogue/focus/HUD acceptance.",
+      "next_action": "Не повторять широкие smoke. Сначала довести читаемый первый эпизод по текущим исходникам; следующая необходимая Windows приёмка одним цельным маршрутом должна закрыть конкретно оставшийся визуальный вопрос HUD и доступность целей.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -54065,7 +54071,11 @@
         "targets": [
           "game/scripts/DialogueUi.cs",
           "game/scripts/Act1DemoRoot.cs",
-          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs"
+          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/PlayerMission.cs",
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/InteractionTarget.cs"
         ],
         "required_inputs": [
           {
@@ -54113,7 +54123,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "2026-09-27 route-cue-modal: existing route hint pauses/hides with ModalOpen, resumes remaining time and does not replay after natural expiry. Current build and guarded pause-menu smoke exit0; native1280x720 frame inspected. First run logged finished-Tween error despite exit0; fixed with Finished cleanup, final log clean. Actual long interruption tested through journal; dialogue/pause use same gate by code. Human readability/full UI.3 open. 2026-09-27 quest banner: same Finished cleanup fixed reproduced expiry error; clean native quest route and large160% dialogue/banner frames in scene-blends. Whole UI.3 still open. 2026-09-27 dialogue-size: compact shared dialogue layout; build0/0, current native dialogue-flow and Tamara Space/localE/repeat/repair/journal pass. Full scene/save/load not repeated for this UI-only change. Evidence dialogue-size/.",
+        "actual_result": "Постоянная верхняя левая задача: заголовок+конкретное действие+реальная кнопка журнала; единая проекция фактов/книги, видимая известная цель с расстоянием и стрелкой за краем экрана. Modal/loading/replay/drive скрывают HUD/маркер; масштаб/контраст сохранены. Дальние W02/W04 якоря и W05 подставка исправлены после независимого ревью. Визуал/удобство ещё не приняты.",
         "evidence_refs": [
           "tasks[id=ACT1-UI.3].evidence"
         ],
@@ -54230,6 +54240,14 @@
         "result": "Only SchoolRegister prompt changed to Осмотреть журнал; existing SquareLook pattern and callback untouched.",
         "verification": "Source/callback/analogous inspect-label review and scoped git diff --check passed. One literal UI wording change, no tests/build needed for finite source acceptance; current native still uses previous literal.",
         "remaining": "Actual new literal appears in next changed-HUD packet; full ACT1-UI.3/modal/theme acceptance remains open."
+      },
+      "player_clarity_2026_10_25": {
+        "state": "source_compile_verified_native_pending",
+        "result": "Постоянная верхняя левая задача: заголовок+конкретное действие+реальная кнопка журнала; единая проекция фактов/книги, видимая известная цель с расстоянием и стрелкой за краем экрана. Modal/loading/replay/drive скрывают HUD/маркер; масштаб/контраст сохранены. Дальние W02/W04 якоря и W05 подставка исправлены после независимого ревью. Визуал/удобство ещё не приняты.",
+        "verification": "Game affected assembly compile exit0,0warnings,0errors,15.35s; ContentCli compile exit0. Independent Astra limited source review: three concrete findings fixed and rechecked; remaining P1/P2 not found in reviewed seam. Definitions comparison:149 existing text records+2 knowledge summaries changed,18 hint text resources added; no dialogue nodes/conditions/effects/transition changes. No tests/new game/probes after latest author steering.",
+        "remaining": [
+          "На текущем candidate подтвердить читаемость задачи/маркера, отсутствие перекрытий, смену после действия и модальных окон; source compile не заменяет GUI."
+        ]
       }
     },
     {
@@ -108782,7 +108800,10 @@
         "evidence/PW-016/ordinary-ui-20261014/capture-current-first.log",
         "evidence/PW-016/ordinary-ui-20261014/capture-current-resume.log",
         "evidence/PW-043/interactive-20261016/frames/x11-journal1.png: root personally viewed clean1886x1061 full_game viewport. Selected01 Люди у леса, Происхождение: Снимок из семейной книги., Оборот ещё не прочитан. readable; no desktop overlay or back caption shown, Рассмотреть снимок launcher present. Adjacent JSON job0447577330ef4e6e9a925ad6124f9d5c/request66d44d9f476c47a6a087b487b8ced7de, PNG SHA324a9f856b58b153e7d922c97bd875833a07ba40826ecd45a91877d0e0f2013f verified. Scoped origin-label/unread-back presentation accepted; not720p/reader-open/zoom/pan/reopen/focus/session or persistence proof. Peer run11-status rawFAIL/game124 retained; rawZIP fetch interrupted then failed because configured loopback1055 Connection refused; root did not verify rawZIP/snapshot hashes or userdata restoration for this run. No acquired-route replay.",
-        "eng/windows_station_worker.py: source import uuid added by peer (incoming0e1579a7); capture_current calls uuid.uuid4, so missing import was a confirmed code defect behind old502 diagnosis. Peer reports deployed worker restart, but root has no positive official capture-current API check/deployed hash yet. Delivered x11 viewport is from existing interactive rawprobe interface; do not treat it as official endpoint certification. Current root fetch attempt gets loopback127.0.0.1:1055 Connection refused; do not alter tailscaled/config or replay stale HTTP502 jobs."
+        "eng/windows_station_worker.py: source import uuid added by peer (incoming0e1579a7); capture_current calls uuid.uuid4, so missing import was a confirmed code defect behind old502 diagnosis. Peer reports deployed worker restart, but root has no positive official capture-current API check/deployed hash yet. Delivered x11 viewport is from existing interactive rawprobe interface; do not treat it as official endpoint certification. Current root fetch attempt gets loopback127.0.0.1:1055 Connection refused; do not alter tailscaled/config or replay stale HTTP502 jobs.",
+        "game/scripts/JournalUi.cs",
+        "game/scripts/JournalUi.Missions.cs",
+        "game/scripts/PlayerMission.cs"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-016",
       "source_requirements": [
@@ -108905,7 +108926,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "released",
-        "reason": "Ordinary J verification not started: capture-current502, delayed404 after terminal; source diagnosis needs Windows frame folder/upstream trace. No blind input/retry; station restored/released."
+        "reason": "Source этап интегрирован и проверен; полная игровая и обязательная внешняя приёмка открыты. Новые прогоны после уточнения автора не запускались."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -108913,9 +108934,10 @@
       "remaining": [
         "Все старые полезные функции доступны.",
         "Фотомиры не открывают клетки наружной карты.",
-        "После обычного получения снимка игрок находит фронт/оборот и вклейку в семейной книге; Continue сохраняет личные записи и состояния снимка. Карта/адреса/словарь/прежний инвентарь используют существующий источник состояния; открытие страницы не выдаёт непрочитанное знание или внешнее подтверждение."
+        "После обычного получения снимка игрок находит фронт/оборот и вклейку в семейной книге; Continue сохраняет личные записи и состояния снимка. Карта/адреса/словарь/прежний инвентарь используют существующий источник состояния; открытие страницы не выдаёт непрочитанное знание или внешнее подтверждение.",
+        "Обычное использование книги/вклейки/сравнения и сохранённое продолжение текущего first episode ещё не приняты."
       ],
-      "next_action": "Reuse x11 clean acquired-first-photo/origin-label viewport. Wait current station owner and existing local proxy availability, confirm deployed worker SHA then one official owned UI2 viewport; no repeated acquisition, obsolete502 trace audit or unverified legacy worker. Remaining family-book GUI criteria stay open.",
+      "next_action": "Сопоставить первый эпизод с физическими affordance по исходникам; не повторять старые502 диагностики. GUI книги проверить в следующей необходимой цельной Windows приёмке.",
       "blocker": {
         "reason": "Old missing-uuid source defect identified and fixed by peer; root official UI2 endpoint still unverified. Configured root loopback proxy127.0.0.1:1055 currently refuses connection, so raw receipt fetch/official capture-current cannot be completed here. Clean delivered x11 viewport accepted only for its visible UI.",
         "release_condition": "Configured existing local proxy becomes reachable; station owner releases/coordinates a current protected run and current deployed worker SHA is confirmed. Get one official scoped capture-current receipt/PNG on that owned run, preserving guards. No repeated old502 or rawprobe bypass/new daemon/config changes.",
@@ -108929,7 +108951,9 @@
         "targets": [
           "game/scripts/JournalUi.cs",
           "game/scripts/JournalUi.Notebook.cs",
-          "game/scripts/RuntimeBridge.Notebook.cs"
+          "game/scripts/RuntimeBridge.Notebook.cs",
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/PlayerMission.cs"
         ],
         "required_inputs": [
           {
@@ -108990,7 +109014,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "HUD и первая строка журнала получают CurrentPlayerMission из одного owner; после получения книги остальные действующие задачи и прежние функции остаются. Подготовка/вход/действие/возврат всех фотомиров используют прежние facts/photos/условия, без второго progress state.",
         "evidence_refs": [
           "tasks[id=PW-016].evidence"
         ],
@@ -109179,6 +109203,14 @@
         ],
         "runtime_receipt": "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
         "transport_limit": "Uses delivered guarded ordinary route evidence, not failed capture-current API. d8b502 cause/trace remains unresolved; do not repeat it or relabel old FAIL as PASS."
+      },
+      "player_clarity_2026_10_25": {
+        "state": "source_compile_verified_native_pending",
+        "result": "HUD и первая строка журнала получают CurrentPlayerMission из одного owner; после получения книги остальные действующие задачи и прежние функции остаются. Подготовка/вход/действие/возврат всех фотомиров используют прежние facts/photos/условия, без второго progress state.",
+        "verification": "Game affected assembly compile exit0,0warnings,0errors,15.35s; ContentCli compile exit0. Independent Astra limited source review: three concrete findings fixed and rechecked; remaining P1/P2 not found in reviewed seam. Definitions comparison:149 existing text records+2 knowledge summaries changed,18 hint text resources added; no dialogue nodes/conditions/effects/transition changes. No tests/new game/probes after latest author steering.",
+        "remaining": [
+          "Обычное использование книги/вклейки/сравнения и сохранённое продолжение текущего first episode ещё не приняты."
+        ]
       }
     },
     {
@@ -114060,7 +114092,12 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-028/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
+        "game/scripts/photoworlds/W01Controller.cs",
+        "game/scripts/photoworlds/W05Controller.Gameplay.cs",
+        "content/modules/urman-fullgame/module.json"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-028",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -114173,17 +114210,18 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "BeforebranchfiniteUIstageaccepted; unsupportedlookpreventsphysicalbranch/afteraction; stoppednormal0/restored. No unchangedretry."
+        "state": "released",
+        "reason": "Source этап интегрирован и проверен; полная игровая и обязательная внешняя приёмка открыты. Новые прогоны после уточнения автора не запускались."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Пять минут неподвижности не вызывают наказание или окрик.",
-        "Последний уровень снимает технический тупик, но не завершает главу автоматически."
+        "Последний уровень снимает технический тупик, но не завершает главу автоматически.",
+        "Смена задач/маркеров внутри миров ещё не наблюдалась на текущем candidate."
       ],
-      "next_action": "Reuse23.10actualJ/Дела/3optionallevels proof. Next distinctordinaryacceptance needs realaimatfirstbranch→physicalaction→hintnextstage/F03; do not repeat sameCUAdrag or passedbeforebranchalone.",
+      "next_action": "Приоритет — законченный первый эпизод; source-covered ветки не гонять повторно. Проверить только оставшееся визуальное/пространственное поведение на следующем необходимом Windows candidate.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -114193,7 +114231,11 @@
         "targets": [
           "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs",
           "src-dotnet/Urman.Core/Narrative/PhotoWorldCommandHandler.cs",
-          "game/scripts/RuntimeBridge.cs"
+          "game/scripts/RuntimeBridge.cs",
+          "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
+          "game/scripts/photoworlds/W01Controller.cs",
+          "game/scripts/photoworlds/W05Controller.Gameplay.cs",
+          "content/modules/urman-fullgame/module.json"
         ],
         "required_inputs": [
           {
@@ -114254,7 +114296,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "Общая текущая задача охватывает обычный пролог/5миров. Добавлены недостающие следующие стадии water damp print/выходы/W05;9keys×2text resources. Прежние уровни добровольной подсказки сохранены, автоматического решения нет; осмотренные W05 следы убираются из текущей презентации.",
         "evidence_refs": [
           "tasks[id=PW-028].evidence"
         ],
@@ -114467,6 +114509,14 @@
         "archive": "evidence/PW-028/branch_natural_rejected_20261023.tar.xz",
         "sha256": "6cc2f7b9f9dbc25bb1d2cffd3cb26fcda320c998f029c1be3a19bd0b8908a6d8",
         "next_action": "Before another render revise whole support topology: truncated2.325m identicalupperforklevels preservegymstand. Visibleasymmetrictrunkcontinuation/rooting and colliderreview before relaxingverticalAABB outsidewalkcorridor; preservegrip/contactseats/2.15mclearance. No third detailpolishloop."
+      },
+      "player_clarity_2026_10_25": {
+        "state": "source_compile_verified_native_pending",
+        "result": "Общая текущая задача охватывает обычный пролог/5миров. Добавлены недостающие следующие стадии water damp print/выходы/W05;9keys×2text resources. Прежние уровни добровольной подсказки сохранены, автоматического решения нет; осмотренные W05 следы убираются из текущей презентации.",
+        "verification": "Game affected assembly compile exit0,0warnings,0errors,15.35s; ContentCli compile exit0. Independent Astra limited source review: three concrete findings fixed and rechecked; remaining P1/P2 not found in reviewed seam. Definitions comparison:149 existing text records+2 knowledge summaries changed,18 hint text resources added; no dialogue nodes/conditions/effects/transition changes. No tests/new game/probes after latest author steering.",
+        "remaining": [
+          "Смена задач/маркеров внутри миров ещё не наблюдалась на текущем candidate."
+        ]
       }
     },
     {
@@ -120413,7 +120463,7 @@
       "title": "Набрать текст книги и короткие реплики",
       "milestone": "PW-M2",
       "status": "in_progress",
-      "active_owner": "Codex",
+      "active_owner": null,
       "owner": "narrative",
       "priority": "P0",
       "complexity": "medium",
@@ -120434,7 +120484,10 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-041/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "content/modules/urman-fullgame/definitions.json",
+        "game/content/urman.fullgame.compiled.v1.json"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-041",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -120549,17 +120602,18 @@
       },
       "assigned_owner": "narrative",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Независимое ревью выявило всеведущую реакцию Гөлсинә и обещание названия места без ответа. Исправляем причинность существующего первого эпизода."
+        "state": "released",
+        "reason": "Source этап интегрирован и проверен; полная игровая и обязательная внешняя приёмка открыты. Новые прогоны после уточнения автора не запускались."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Критические строки редактируются отдельно от изображения.",
-        "Отсутствующая запись голоса не блокирует прохождение."
+        "Отсутствующая запись голоса не блокирует прохождение.",
+        "Авторская оценка естественности и интереса новой кампании; полная обязательная языковая/культурная/слуховая приёмка."
       ],
-      "next_action": "Принять цельный первый эпизод на Windows с изменёнными репликами и физическим результатом; отдельно сохранить авторскую/культурную/языковую/слуховую приёмку. Не объявлять всю кампанию понятной по одной переписанной реплике.",
+      "next_action": "Продолжить содержательный первый эпизод по существующим состояниям, не подменять сюжет подсказками; не расходовать прогоны для проверки очевидного текста.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -120574,7 +120628,8 @@
           "content/modules/urman-fullgame/module.json",
           "content/campaigns/urman.fullgame/campaign.json",
           "game/scripts/DialogueUi.cs",
-          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs"
+          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+          "game/content/urman.fullgame.compiled.v1.json"
         ],
         "required_inputs": [
           {
@@ -120635,7 +120690,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "Source text corrected: home learns encounter from Aidar and reports only earned assistance (no unearned D07 quote); water talk no unanswered place-name promise; W01 question/payoff aligned. Existing fullgame content compilation exit0; changed keys have no existing voice assets. New native dialogue/story acceptance remains open.",
+        "actual_result": "Переписаны149 существующих text keys и2summary в13 активных PW диалогах: бытовая причина закончить подписи Марата, конкретные действия/развилки, честный рассказ после снимка, разрешения и финал без всеведения. default/ru согласованы; граф/ID/effects/conditions не менялись. Культурная/языковая/авторская/слуховая приёмка остаётся открытой.",
         "evidence_refs": [
           "tasks[id=PW-041].evidence"
         ],
@@ -120748,6 +120803,14 @@
         "source": "LunaFast read-only W01 authoredflow review",
         "finding": "worlds.spec.json217 expects Gulsina recognition of familiarroot afterreturn. Partialroute definitions4374 says япомнюэтоместо, resolvedroute4385 asksShurale butomits recognition; journal discovery stillrecorded4510–4528. No source-deadend found incomparison/beyondframe/encounter/returngates.",
         "remaining": "Finite existingnarrative-owner follow-up: carry already-authored recognition into resolvedline withtext-onlycompatibility handling; currently no textchange/nativeclaim. Not immediatepriority over fullplayableloop."
+      },
+      "player_clarity_2026_10_25": {
+        "state": "source_compile_verified_native_pending",
+        "result": "Переписаны149 существующих text keys и2summary в13 активных PW диалогах: бытовая причина закончить подписи Марата, конкретные действия/развилки, честный рассказ после снимка, разрешения и финал без всеведения. default/ru согласованы; граф/ID/effects/conditions не менялись. Культурная/языковая/авторская/слуховая приёмка остаётся открытой.",
+        "verification": "Game affected assembly compile exit0,0warnings,0errors,15.35s; ContentCli compile exit0. Independent Astra limited source review: three concrete findings fixed and rechecked; remaining P1/P2 not found in reviewed seam. Definitions comparison:149 existing text records+2 knowledge summaries changed,18 hint text resources added; no dialogue nodes/conditions/effects/transition changes. No tests/new game/probes after latest author steering.",
+        "remaining": [
+          "Авторская оценка естественности и интереса новой кампании; полная обязательная языковая/культурная/слуховая приёмка."
+        ]
       }
     },
     {
@@ -121173,7 +121236,7 @@
       "title": "Перенести пролог внутрь W01",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex / prologue_repair",
+      "active_owner": null,
       "owner": "narrative",
       "priority": "P0",
       "complexity": "complex",
@@ -121406,7 +121469,9 @@
         "evidence/PW-043/interactive-20261016/run22-status.json",
         "evidence/PW-043/interactive-20261016/run22-driver-live.log",
         "evidence/PW-043/interactive-20261016/run22-game.log",
-        "evidence/PW-043/ordinary_783047ce14af49cb8868134e367da644/receipt.json"
+        "evidence/PW-043/ordinary_783047ce14af49cb8868134e367da644/receipt.json",
+        "evidence/PW-043/ordinary_3c51121af8d04923953c4234b8401e6d/receipt.json",
+        "evidence/PW-043/ordinary_3c51121af8d04923953c4234b8401e6d.zip"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-043",
       "source_requirements": [
@@ -121536,18 +121601,17 @@
       },
       "assigned_owner": "narrative",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Автор25.10 подтвердил сломанный путь и отсутствие поездки; Windows доступен. Восстанавливаем обычную PW-цепочку, legacy не подставляем."
+        "state": "released",
+        "reason": "Changed-source Windows run terminal; protected userdataRestored=true. Автор остановил бесполезные прогоны; source UI/story этап в приоритете."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "Пройти F00–F03 обычным вводом и исправить доказанное препятствие маршрута.",
-        "Доставить короткую реальную поездку внутри действующего перехода в Ниву; Continue из прибытия не повторяет пролог.",
-        "Принять переход из Нивы в дом, разговор за чаем и получение книги; полная художественная/авторская приёмка остаётся открытой."
+        "Проверить непосредственно движение Нивы/удобство пролога на текущем candidate; логи переходов уже есть, повторять только ради ещё не покрытого вопроса.",
+        "Установить конкретную причину остановки у калитки и принять подход к дому→чай→книга; полный первый эпизод и художественная/авторская приёмка остаются открытыми."
       ],
-      "next_action": "После code/content compile и независимого ревью принять исправленный обычный NewGame→ветка→F03 без E→движущаяся Нива→D00→дом/книга на Windows. Baseline783047ce PASS/userdataRestored подтверждает запуск/ветку, но не целый пролог: участок~68,127 требует отдельного наблюдения, полный переход не достигнут. Не объявлять предполагаемую коллизию решённой.",
+      "next_action": "Продолжить ясный первый эпизод/HUD по исходникам без новых очевидных прогонов. Для следующей необходимой Windows приёмки осталось точно локализовать остановку у калитки и пройти дом→чай→книга; не ослаблять общую физику по гипотезе, не повторять принятые ветку/F03 отдельно.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121649,7 +121713,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "Source: F03 natural endpoint dispatch+spatial wake; live PW Niva20s drive, pause/skip/Continue/session teardown; Game compile13.60s0/0 and content compile0. Native acceptance of changed source pending. Baseline783047ce ordinary F00→F01 branch action passed, end not reached; protected receiptPASS,userdataRestored=true.",
+        "actual_result": "9fc17d2a changed-source ordinary3c51121a: журнал подтверждает F00→ветка→F03 auto handoff→pw-niva-arrival→pw-niva-stop→pw-home. Общий receiptFAIL native timeout3600s/124, userdataRestored=true; движение Нивы не заснято напрямую. Вход в дом/чай/книга не достигнуты: остановка возле открытой калитки, конкретный collision owner не установлен. Не считать целый пролог/дом принятым.",
         "evidence_refs": [
           "tasks[id=PW-043].evidence"
         ],
@@ -122313,6 +122377,14 @@
         "evidence_sha256": "8e54f1ffcc7b7988f33177ca7c0a197946da260e52cc69c4ed01d69eca7c33ed",
         "remaining": "Whole PW-043 remains open: full prologue gameplay/art, ordinary finish path and unfinished-arrival/pose boundaries; full ActI release not proven.",
         "native_input_resolution": "Initial motorcycle HUD observation was first called a possible restore regression. Actual original quickSave57 occupiedId=null/all enginesfalse; postload sequence60 still parked/off/empty,63 new explored cell,64 ordinary seat entry,65 ignition,68–76 actual travel1.37→51.09m. User explicitly confirmed Да, управлял игрой. This refutes automatic motorcycle occupancy restoration; no speculative production patch. Screenshot historical filename includes regression but records retracted hypothesis only."
+      },
+      "ordinary_acceptance_2026_10_25": {
+        "run_id": "3c51121af8d04923953c4234b8401e6d",
+        "snapshot": "111d7faeeb3bab4210a48892c5443870b4b6ad114eee3a23f39af49429156441",
+        "result": "FAIL_TIMEOUT_124",
+        "userdataRestored": true,
+        "observed": "game.log scene/checkpoint sequence confirms F03→arrival→Niva conversation→home street, no home entrance proof.",
+        "cleanup": "CRC+all extracted byte comparisons passed; original zip moved without duplicate; receipt kept, duplicate extracted files/screens removed43086855bytes."
       }
     },
     {
@@ -147700,7 +147772,7 @@
       "title": "Удалить противоречивые активные инструкции и мёртвые входы",
       "milestone": "PW-M5",
       "status": "in_progress",
-      "active_owner": "Codex",
+      "active_owner": null,
       "owner": "integration",
       "priority": "P1",
       "complexity": "medium",
@@ -147723,7 +147795,11 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-097/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/urman_knowledge_base/narrative.md",
+        "docs/urman_knowledge_base/chapter1_mvp_campaign.md",
+        "docs/production/act1_prologue_beat_sheet_2026-09-28.md"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-097",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -147842,8 +147918,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Root интегрирует принятый source/compile этап; native gate ожидает обновления станции."
+        "state": "released",
+        "reason": "Source этап интегрирован и проверен; полная игровая и обязательная внешняя приёмка открыты. Новые прогоны после уточнения автора не запускались."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -147852,7 +147928,7 @@
         "Новая игра не стартует случайно в старой сцене.",
         "История решений сохранена, но не конкурирует с текущим заданием."
       ],
-      "next_action": "Проверить обычный current-campaign menu/NewGame/Continue/replay на Windows после штатного обновления worker (5559230c).",
+      "next_action": "Не возвращать старый демо-пролог. Проверять только противоречащие активные входы/инструкции выбранного первого эпизода; общий legacy runtime не удалять вслепую.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -147862,7 +147938,10 @@
         "targets": [
           "eng/export-desktop-release.sh",
           "game/export_presets.cfg",
-          "docs/urman_knowledge_base/release_gate_matrix.md"
+          "docs/urman_knowledge_base/release_gate_matrix.md",
+          "docs/urman_knowledge_base/narrative.md",
+          "docs/urman_knowledge_base/chapter1_mvp_campaign.md",
+          "docs/production/act1_prologue_beat_sheet_2026-09-28.md"
         ],
         "required_inputs": [
           {
@@ -147932,7 +148011,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "Исторические narrative/chapter1 MVP/beat sheet28.09 явно обозначены как прежний chapter1 demo и ссылаются на текущую PhotoWorlds bible; история сохранена. Новый HUD использует один typed mission owner, два неиспользуемых дублирующих private PW cue метода удалены.",
         "evidence_refs": [
           "tasks[id=PW-097].evidence"
         ],
@@ -148106,6 +148185,12 @@
         "userdata": "restored=true; recovery pending=false; doctor ready/idle/no orphan",
         "release_condition": "Interactive station desktop must retain verified own game HWND foreground through existing guard. No repeated input/new focus workarounds without changed input or causal fact.",
         "menu_frame": "evidence/PW-097/owned-raise-20261018/native/frames/interactive-7a441e5cf70c442084cac02fb360a2e9.png"
+      },
+      "player_clarity_2026_10_25": {
+        "state": "source_compile_verified_native_pending",
+        "result": "Исторические narrative/chapter1 MVP/beat sheet28.09 явно обозначены как прежний chapter1 demo и ссылаются на текущую PhotoWorlds bible; история сохранена. Новый HUD использует один typed mission owner, два неиспользуемых дублирующих private PW cue метода удалены.",
+        "verification": "Game affected assembly compile exit0,0warnings,0errors,15.35s; ContentCli compile exit0. Independent Astra limited source review: three concrete findings fixed and rechecked; remaining P1/P2 not found in reviewed seam. Definitions comparison:149 existing text records+2 knowledge summaries changed,18 hint text resources added; no dialogue nodes/conditions/effects/transition changes. No tests/new game/probes after latest author steering.",
+        "remaining": []
       }
     },
     {
@@ -160737,12 +160822,14 @@
       "mvp_selection_rule": "Сначала законченные, сразу заметные игроку этапы: обычный запуск и Continue; цельный пролог и первая прогулка; фото → физическая книга → вход → содержательное действие → возврат → сохранённое продолжение; убедительная сцена деревни; самостоятельный релизный кандидат. Мелкие веточки, кусты, фактуры и локальная полировка идут после этих результатов, кроме доказанного блокера проходимости, читаемости, стабильности или производительности выбранного этапа.",
       "mvp_delivery_order": [
         "PW-043",
+        "ACT1-UI.3",
         "PW-003",
         "PW-041",
+        "PW-016",
+        "PW-028",
         "PW-013",
         "PW-020",
         "PW-019",
-        "PW-028",
         "PW-045",
         "PW-097",
         "ACT1-VILLAGE-BLOCKOUT",
@@ -160757,7 +160844,6 @@
         "PW-047",
         "PW-014",
         "PW-017",
-        "PW-016",
         "PW-015",
         "PW-018",
         "PW-021",
@@ -160816,7 +160902,8 @@
         "preserved": "Unique original inputs/producer/rejected consumer patch, raw extracted receipt/logs/frames, pinned tools, userdata and latest f62 desktop package. One differing/unique archive retained."
       },
       "player_experience_priority": "24.10 author ranking 1-3-2: first ordinary walking blockages, then meaningful exploration/action/result, then movement/camera feel. Prefer a complete playable episode over isolated hints, model polish or placement. A disproved hypothesis does not authorize speculative physics changes.",
-      "campaign_priority": "Сначала восстановить обычный целый пролог с Нивой; затем принять законченный первый эпизод с понятной мотивацией, поиском, действием, результатом и следующим сюжетным шагом. Одни подсказки/переписанные строки не заменяют проходимость и содержательный игровой цикл."
+      "campaign_priority": "Сначала восстановить обычный целый пролог с Нивой; затем принять законченный первый эпизод с понятной мотивацией, поиском, действием, результатом и следующим сюжетным шагом. Одни подсказки/переписанные строки не заменяют проходимость и содержательный игровой цикл.",
+      "player_clarity_priority_2026_10_25": "Автор: очевидные отсутствующие интерфейс/маркеры/ясные действия и графоманский текст исправлять непосредственно. Новые игровые прогоны только когда конкретный оставшийся результат нельзя проверить чтением; не тратить время на подтверждение очевидного."
     }
   },
   "requirements_integration_2026_10_10": {
