@@ -186,7 +186,9 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _title.Text = title;
         _body.Text = title == description ? title : title + "\n\n" + description;
         _images.SetImages([new DocumentImageContent(photoId, imagePath, description)]);
-        _status.Text = "Рассмотрите снимок · Esc или «Закрыть» — вернуться к месту";
+        _status.Text = confirm is null
+            ? "Осмотр снимка · Esc — вернуться к месту"
+            : "Нажмите «Рассмотреть снимок», чтобы отметить находку · Esc — уйти без записи";
         _save.Visible = confirm is not null;
         _save.Disabled = confirm is null;
         _save.Text = confirm is null ? _saveLabel : "Рассмотреть снимок";

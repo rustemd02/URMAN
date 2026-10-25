@@ -53923,7 +53923,8 @@
         "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
         "game/scripts/PlayerMission.cs",
         "game/scripts/JournalUi.Missions.cs",
-        "game/scripts/InteractionTarget.cs"
+        "game/scripts/InteractionTarget.cs",
+        "game/scripts/DocumentUi.cs"
       ],
       "mvp_priority": 17,
       "mvp_packet": "LEGACY-COMPAT",
@@ -54052,7 +54053,7 @@
       "assigned_owner": "finished-act1",
       "activity": {
         "state": "released",
-        "reason": "Source этап интегрирован и проверен; полная игровая и обязательная внешняя приёмка открыты. Новые прогоны после уточнения автора не запускались."
+        "reason": "Конечный source continuity fix проверен; новых игровых прогонов нет, полная приёмка открыта."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -54075,7 +54076,8 @@
           "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
           "game/scripts/PlayerMission.cs",
           "game/scripts/JournalUi.Missions.cs",
-          "game/scripts/InteractionTarget.cs"
+          "game/scripts/InteractionTarget.cs",
+          "game/scripts/DocumentUi.cs"
         ],
         "required_inputs": [
           {
@@ -54123,7 +54125,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "Постоянная верхняя левая задача: заголовок+конкретное действие+реальная кнопка журнала; единая проекция фактов/книги, видимая известная цель с расстоянием и стрелкой за краем экрана. Modal/loading/replay/drive скрывают HUD/маркер; масштаб/контраст сохранены. Дальние W02/W04 якоря и W05 подставка исправлены после независимого ревью. Визуал/удобство ещё не приняты.",
+        "actual_result": "Постоянная верхняя левая задача: заголовок+конкретное действие+реальная кнопка журнала; единая проекция фактов/книги, видимая известная цель с расстоянием и стрелкой за краем экрана. Modal/loading/replay/drive скрывают HUD/маркер; масштаб/контраст сохранены. Дальние W02/W04 якоря и W05 подставка исправлены после независимого ревью. Визуал/удобство ещё не приняты. 25.10 continuity follow-up: После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным.",
         "evidence_refs": [
           "tasks[id=ACT1-UI.3].evidence"
         ],
@@ -54248,6 +54250,18 @@
         "remaining": [
           "На текущем candidate подтвердить читаемость задачи/маркера, отсутствие перекрытий, смену после действия и модальных окон; source compile не заменяет GUI."
         ]
+      },
+      "first_episode_continuity_2026_10_25": {
+        "state": "source_compile_verified_native_pending",
+        "result": "После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным.",
+        "evidence": [
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/WaterChainHomePresence.cs",
+          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+          "game/scripts/DocumentUi.cs"
+        ],
+        "verification": "Two independent bounded source reviews. Root read confirmation callback/current guards and all OpenSourcePhotoInspection callers. W01-first placeTold false/true and W02/W03-first inspected; no game/tests/probes. Affected Game compile exit0,0warnings,0errors,17.41s.",
+        "remaining": "Кодовая причина устранена; действительный полный первый эпизод и авторская приёмка ещё не подтверждены."
       }
     },
     {
@@ -103658,7 +103672,7 @@
       "title": "Перестроить сюжетный граф кампании «За краем снимка»",
       "milestone": "PW-M0",
       "status": "in_progress",
-      "active_owner": "codex/graph-reconciliation-2026-10-16",
+      "active_owner": null,
       "owner": "narrative",
       "priority": "P0",
       "complexity": "complex",
@@ -103741,7 +103755,9 @@
           "path": "evidence/PW-003/graph-reconciliation-20261016/receipt.json",
           "result": "Квест-условия и сцены всех пяти миров сведены с каноническими фактами паспортов; 17 ранее отсутствовавших производителей добавлены; полный protected full_game_flow_smoke_test проходит, включая опциональное W05 после финала.",
           "verified": "static producer/registration audit + ContentCli compile + protected headless semantic route exit=0; station native/visual and physical worlds NOT_RUN (successors/author deprioritization)"
-        }
+        },
+        "game/scripts/JournalUi.Missions.cs",
+        "game/scripts/DocumentUi.cs"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-003",
       "source_requirements": [
@@ -104197,8 +104213,8 @@
       },
       "assigned_owner": "narrative",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Канонический граф сведён и проверен существующим smoke; агрегат остаётся открыт для native/visual receipt исправленного контракта и физических миров-преемников."
+        "state": "released",
+        "reason": "Конечный source continuity fix проверен; новых игровых прогонов нет, полная приёмка открыта."
       },
       "task_type": "aggregate",
       "implementation_state": "partial",
@@ -104228,7 +104244,9 @@
           "src-dotnet/Urman.Core/World/EvidenceProvenance.cs",
           "game/scripts/CompiledCampaignRepository.cs",
           "game/scripts/RuntimeBridge.cs",
-          "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs"
+          "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs",
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/DocumentUi.cs"
         ],
         "required_inputs": [],
         "scope_in": [
@@ -104279,7 +104297,7 @@
           "success": "Наблюдаемый результат этой единицы и обратное действие/восстановление там, где меняются данные. Для ассета — импорт выбранного файла и целевой вид/движение; для кода — узкая компиляция только затронутого модуля, затем указанный пользовательский сценарий. Компиляция не доказывает изображение или GUI.",
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "Corrected source and compiled urman.fullgame pack verified; compiled pack SHA 91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad, campaign fingerprint aecbc853a4171fcd2ce21fcd4c3eb41e3db0377a18c0bdcc5273d4be02c31ba6. Corrected-source Windows/native flow NOT_RUN. The 17 absent producers still block full route; two existing semantic sources lack physical validation. Native PASS 442857 is historical on the previous graph/source only; ordinary route, profile/style and author acceptance remain separate gates.",
+        "actual_result": "Corrected source and compiled urman.fullgame pack verified; compiled pack SHA 91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad, campaign fingerprint aecbc853a4171fcd2ce21fcd4c3eb41e3db0377a18c0bdcc5273d4be02c31ba6. Corrected-source Windows/native flow NOT_RUN. The 17 absent producers still block full route; two existing semantic sources lack physical validation. Native PASS 442857 is historical on the previous graph/source only; ordinary route, profile/style and author acceptance remain separate gates. 25.10 continuity follow-up: После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным.",
         "evidence_refs": [
           "tasks[id=PW-003].evidence"
         ],
@@ -104525,6 +104543,18 @@
         "result": "Repeatable Gulsina conversation first routes on both existing beyond-frame and resolved-encounter facts; player retells canonical D07 exchange, confirms knowledge pw-forest-inside and records idempotent journal entry Жизнь за краем снимка, preserving first_world_home_talk. Earlier beyond-only route/default/W02-first ordering retained.",
         "verification": "Existing ContentCLI exit0; generated pack has exact route order/text/knowledge; module fingerprint ec90684199609a7bd78ec5f46bad4473a3f6d8a09b3cd241ad66dde5ec00d975. Independent Fast checked kernel idempotency, canon D05/D07/E-FOREST-INSIDE and unchanged fallback/gates; root inspected source diff.",
         "remaining": "Native earned discovery/home dialogue/journal visibility unverified; dd785 snapshot predates new content. Full story/cultural/author acceptance remains open."
+      },
+      "first_episode_continuity_2026_10_25": {
+        "state": "source_compile_verified_native_pending",
+        "result": "После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным.",
+        "evidence": [
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/WaterChainHomePresence.cs",
+          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+          "game/scripts/DocumentUi.cs"
+        ],
+        "verification": "Two independent bounded source reviews. Root read confirmation callback/current guards and all OpenSourcePhotoInspection callers. W01-first placeTold false/true and W02/W03-first inspected; no game/tests/probes. Affected Game compile exit0,0warnings,0errors,17.41s.",
+        "remaining": "Кодовая причина устранена; действительный полный первый эпизод и авторская приёмка ещё не подтверждены."
       }
     },
     {
@@ -108803,7 +108833,8 @@
         "eng/windows_station_worker.py: source import uuid added by peer (incoming0e1579a7); capture_current calls uuid.uuid4, so missing import was a confirmed code defect behind old502 diagnosis. Peer reports deployed worker restart, but root has no positive official capture-current API check/deployed hash yet. Delivered x11 viewport is from existing interactive rawprobe interface; do not treat it as official endpoint certification. Current root fetch attempt gets loopback127.0.0.1:1055 Connection refused; do not alter tailscaled/config or replay stale HTTP502 jobs.",
         "game/scripts/JournalUi.cs",
         "game/scripts/JournalUi.Missions.cs",
-        "game/scripts/PlayerMission.cs"
+        "game/scripts/PlayerMission.cs",
+        "game/scripts/DocumentUi.cs"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-016",
       "source_requirements": [
@@ -108926,7 +108957,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "released",
-        "reason": "Source этап интегрирован и проверен; полная игровая и обязательная внешняя приёмка открыты. Новые прогоны после уточнения автора не запускались."
+        "reason": "Конечный source continuity fix проверен; новых игровых прогонов нет, полная приёмка открыта."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -108953,7 +108984,8 @@
           "game/scripts/JournalUi.Notebook.cs",
           "game/scripts/RuntimeBridge.Notebook.cs",
           "game/scripts/JournalUi.Missions.cs",
-          "game/scripts/PlayerMission.cs"
+          "game/scripts/PlayerMission.cs",
+          "game/scripts/DocumentUi.cs"
         ],
         "required_inputs": [
           {
@@ -109014,7 +109046,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "HUD и первая строка журнала получают CurrentPlayerMission из одного owner; после получения книги остальные действующие задачи и прежние функции остаются. Подготовка/вход/действие/возврат всех фотомиров используют прежние facts/photos/условия, без второго progress state.",
+        "actual_result": "HUD и первая строка журнала получают CurrentPlayerMission из одного owner; после получения книги остальные действующие задачи и прежние функции остаются. Подготовка/вход/действие/возврат всех фотомиров используют прежние facts/photos/условия, без второго progress state. 25.10 continuity follow-up: После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным.",
         "evidence_refs": [
           "tasks[id=PW-016].evidence"
         ],
@@ -109211,6 +109243,18 @@
         "remaining": [
           "Обычное использование книги/вклейки/сравнения и сохранённое продолжение текущего first episode ещё не приняты."
         ]
+      },
+      "first_episode_continuity_2026_10_25": {
+        "state": "source_compile_verified_native_pending",
+        "result": "После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным.",
+        "evidence": [
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/WaterChainHomePresence.cs",
+          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+          "game/scripts/DocumentUi.cs"
+        ],
+        "verification": "Two independent bounded source reviews. Root read confirmation callback/current guards and all OpenSourcePhotoInspection callers. W01-first placeTold false/true and W02/W03-first inspected; no game/tests/probes. Affected Game compile exit0,0warnings,0errors,17.41s.",
+        "remaining": "Кодовая причина устранена; действительный полный первый эпизод и авторская приёмка ещё не подтверждены."
       }
     },
     {

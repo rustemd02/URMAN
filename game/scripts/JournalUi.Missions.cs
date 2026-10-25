@@ -77,7 +77,7 @@ public partial class JournalUi
         if (selectedPhotoId == "P-CELLAR") return PhotoBookCellarMission(bridge);
         if (!selectedForestPhotoIsIncomplete && waterQuestStatus != "completed"
             && (waterObjectiveIsActive || waterRouteHasProgress))
-            return PhotoBookWaterMission(bridge, requireFirstWorldHomeTalk: false);
+            return PhotoBookWaterMission(bridge, requireFirstWorldHomeTalk: forestQuestStatus == "completed");
         if (selectedForestPhotoCanResume || (!selectedForestPhotoIsIncomplete && forestObjectiveIsActive))
             return ForestEntryMission(bridge, forestPhoto?.HasResumePoint == true);
         if (!selectedForestPhotoIsIncomplete && houseQuestStatus == "completed"
@@ -96,7 +96,7 @@ public partial class JournalUi
         if (schoolPhoto is null)
             return bridge.PhotoWorldFactObserved("school_copy_identified")
                 ? StreetMission(bridge, "forest-school-copy", "Копия из школьного альбома", "Попросите сотрудницу старой школы на Лесной, 12 сделать копию снимка.", "pw-school-copy-permission", "Сотрудница школы")
-                : StreetMission(bridge, "forest-school-album", "Другой ракурс", "Найдите снимок людей у леса в альбоме старой школы на Лесной, 12.", "pw-school-copy-source", "Школьный альбом");
+                : StreetMission(bridge, "forest-school-album", "Другой ракурс", "Откройте альбом в старой школе на Лесной, 12. На снимке людей у леса нажмите «Рассмотреть снимок».", "pw-school-copy-source", "Школьный альбом");
         var canEnterForest = bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-forest");
         if (forestPhoto.Mounted && canEnterForest) return ForestEntryMission(bridge, forestPhoto.HasResumePoint);
         if (bridge.CurrentZoneId != MissionHomeZone)
