@@ -121028,6 +121028,18 @@
           "game/content/urman.fullgame.compiled.v1.json",
           "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e.zip"
         ]
+      },
+      "first_investigation_clarity_2026_10_26": {
+        "state": "source_verified_native_pending",
+        "result": "Первый разговор задаёт конкретный вопрос о месте съёмки; школьная копия больше не отправляет домой вопреки доступному маршруту к опушке. Задание называет учительскую. HUD показывает реальный путь Журнал → Фотоальбом; обычная задача без красной тревожной рамки, high contrast сохранён. Школьный маркер навигационно ведёт через главный вход, коридор и дверь учительской, затем к исходной цели; факты, gates и физика не изменены.",
+        "verification": "Ограниченная проверка текста и геометрии двумя исполнителями, root diff/caller review; независимое source review школьных веток без P1/P2; ContentCli urman.fullgame exit0, affected Game build17.17s/0warnings/0errors. Новых тестов и игровых запусков для этой правки нет.",
+        "evidence": [
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/Act1DemoRoot.cs",
+          "game/scripts/JournalUi.Missions.cs",
+          "content/modules/urman-fullgame/definitions.json"
+        ],
+        "remaining": "Новый школьный waypoint и оформление ещё не приняты в движении. Текущий защищённый job352d705638054f4d8a4b07af93055eb3 проверяет прежний cd12bb62, а не эту правку; его результат записать отдельно. Авторская естественность/интерес и обязательные внешние гейты открыты."
       }
     },
     {
@@ -136662,7 +136674,7 @@
       "title": "Сделать школьный контекст лесной фотографии",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex / prologue_repair",
       "owner": "integration",
       "priority": "P1",
       "complexity": "medium",
@@ -136799,8 +136811,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "One current-source protected ordinary school/W01 acceptance; root coordinates, one child owns native input after explicit lease. Ready/idle doctor confirmed."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -136809,7 +136821,7 @@
         "Первый вход W01 имеет понятную причину.",
         "Школа не становится экспозицией секретного общества."
       ],
-      "next_action": "В ближайшем обычном PW020проходе проверить, понятна ли причина входаW01 послеS-SCHOOL; не переписывать уже имеющийся сюжет и не выдумывать личности снимка.",
+      "next_action": "Закончить текущий ограниченный ordinary school→W01 сценарий на cd12bb62; зафиксировать факты без повторного домашнего smoke. Навигационный source-этап школы проверен отдельно, его native удобство не заявлять.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -137005,6 +137017,23 @@
           "game/scripts/JournalUi.cs:610"
         ],
         "risk_for_native": "Closedphysicalfolder andSSCHOOLreusesPFORESTimage; dialoguecurrentlycarriescrossbarclue, understandabilitymustbeobservedinordinaryplay."
+      },
+      "current_native_question_2026_10_26": {
+        "question": "Can an ordinary player reach OldSchool via manual doors, confirm the real album, obtain S-SCHOOL from staff, then continue the first W01 investigation without wrong marker/gate?",
+        "success": "Actual UI/physical actions and resulting facts/owned photo; preserve original userdata and capture final restored receipt. Home/book already accepted6832: setup only, no repeat evidence requirement.",
+        "bounds": "One play-product3600s, no debug/seed/teleports/newtestscene. Code frozen, source maps read-only, one station controller. Stop on confirmed obstacle after bounded hypotheses; retain same handle on observation timeout."
+      },
+      "school_wayfinding_2026_10_26": {
+        "state": "source_verified_native_pending",
+        "result": "Первый разговор задаёт конкретный вопрос о месте съёмки; школьная копия больше не отправляет домой вопреки доступному маршруту к опушке. Задание называет учительскую. HUD показывает реальный путь Журнал → Фотоальбом; обычная задача без красной тревожной рамки, high contrast сохранён. Школьный маркер навигационно ведёт через главный вход, коридор и дверь учительской, затем к исходной цели; факты, gates и физика не изменены.",
+        "verification": "Ограниченная проверка текста и геометрии двумя исполнителями, root diff/caller review; независимое source review школьных веток без P1/P2; ContentCli urman.fullgame exit0, affected Game build17.17s/0warnings/0errors. Новых тестов и игровых запусков для этой правки нет.",
+        "evidence": [
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/Act1DemoRoot.cs",
+          "game/scripts/JournalUi.Missions.cs",
+          "content/modules/urman-fullgame/definitions.json"
+        ],
+        "remaining": "Новый школьный waypoint и оформление ещё не приняты в движении. Текущий защищённый job352d705638054f4d8a4b07af93055eb3 проверяет прежний cd12bb62, а не эту правку; его результат записать отдельно. Авторская естественность/интерес и обязательные внешние гейты открыты."
       }
     },
     {
@@ -150429,21 +150458,24 @@
             "title": "Пройти E обычным вводом: фото→книга→вход→действие→возврат→следующий шаг",
             "result": "Пройти E обычным вводом: фото→книга→вход→действие→возврат→следующий шаг",
             "owner": "integration/qa",
-            "evidence": [],
+            "evidence": [
+              "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e.zip — только наблюдённый home/tea/book/Continue отрезок; общий receipt FAILtimeout, userdataRestored=true."
+            ],
             "assigned_owner": "integration/qa",
-            "active_owner": null,
+            "active_owner": "Codex / prologue_repair",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Подтверждённый exclusive native input lease job352d705638054f4d8a4b07af93055eb3; школа и W01, без повторной приёмки домашнего setup."
             },
             "task_type": "integration_check",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Не поставлены все actual E inputs; исходников/compiled route недостаточно."
+              "Текущая школа → первый вход W01 → содержательное действие → возврат → следующий сюжетный шаг ещё не приняты в обычном прохождении.",
+              "Авторская/новый игрок приёмка интереса и ясности сохраняется отдельно."
             ],
-            "next_action": "Принять выбранные E inputs от listed producers и выполнить ROUTE scenario; не производить их здесь.",
+            "next_action": "Довести ограниченный текущий native сценарий до результата либо конкретного препятствия; штатно выйти, подтвердить восстановление userdata, записать реальный покрытый отрезок. Не повторять пройденный home/book setup ради evidence.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

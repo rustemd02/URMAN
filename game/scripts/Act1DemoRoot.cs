@@ -207,7 +207,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         if (UsesPhotoWorldsCampaign)
         {
             _routeCuePanel.AddThemeStyleboxOverride("panel", UrmanUiTheme.PlateBox(
-                colours.Ink with { A = 1f }, colours.Accent, settings.HighContrast ? 3 : 2,
+                colours.Ink with { A = 1f }, colours.Line, settings.HighContrast ? 3 : 0,
                 marginX: UrmanUiTheme.Space.L, marginY: UrmanUiTheme.Space.M));
         }
         foreach (var (label, size) in new[]
@@ -224,7 +224,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             label.SetMeta("accessibilityHighContrast", settings.HighContrast);
             label.SetMeta("accessibilityReducedMotion", settings.ReducedMotion);
         }
-        _routeCueHeader?.AddThemeColorOverride("font_color", settings.HighContrast ? colours.Text : colours.Accent);
+        _routeCueHeader?.AddThemeColorOverride("font_color", settings.HighContrast ? colours.Text : colours.TextMuted);
         if (UsesPhotoWorldsCampaign && settings.ReducedMotion
             && _routeCueTween is { } cueTween && cueTween.IsValid())
         {
@@ -1950,7 +1950,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     {
         if (_routeCueShortcuts is null || _mission is null) return;
         var gamepad = _player?.CurrentInputDevice == "gamepad";
-        var text = $"{InputBindingService.ActionHint("journal", gamepad)}  Задачи и книга";
+        var text = $"{InputBindingService.ActionHint("journal", gamepad)}  Журнал";
+        if (_bridge?.CanInspectReceivedPhotoBook == true) text += " → Фотоальбом";
         if (_mission.InteractionId is { } interactionId && _player?.FocusedInteractionId == interactionId)
             text += $"    {InputBindingService.ActionHint("interact", gamepad)}  Взаимодействовать";
         if (_routeCueShortcuts.Text != text) _routeCueShortcuts.Text = text;

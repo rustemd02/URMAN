@@ -21,6 +21,7 @@ public partial class Act1DemoRoot
     private Polygon2D? _objectiveMarkerOutline;
     private Label? _objectiveMarkerLabel;
     private Node3D? _objectiveMarkerTarget;
+    private Node3D? _objectiveMarkerSchool;
     private PlayerMission? _objectiveMarkerMission;
     private object? _objectiveMarkerSession;
     private string? _objectiveMarkerScene;
@@ -104,6 +105,7 @@ public partial class Act1DemoRoot
         var name = string.IsNullOrWhiteSpace(mission.TargetLabel) ? mission.Title : mission.TargetLabel;
         var destination = target.GlobalPosition;
         var waypoint = TryGetRootPassageObjectiveWaypoint(mission, bridge, player.GlobalPosition, out var routePoint, out var routeLabel)
+            || TryGetSchoolObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel)
             || TryGetHomeObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel);
         if (waypoint)
         {
@@ -189,6 +191,71 @@ public partial class Act1DemoRoot
             }
         }
         waypoint = anchor!.GlobalPosition;
+        return true;
+    }
+
+    private bool TryGetSchoolObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition,
+        out Vector3 waypoint, out string label)
+    {
+        waypoint = default;
+        label = "Учительская";
+        if (_bridge?.CurrentZoneId != "village_day" || mission.InteractionId is not
+            ("urman.fullgame:interaction/pw-school-copy-source" or "urman.fullgame:interaction/pw-school-copy-permission"))
+            return false;
+
+        if (_objectiveMarkerSchool is null || !GodotObject.IsInstanceValid(_objectiveMarkerSchool)
+            || !_objectiveMarkerSchool.IsInsideTree() || _objectiveMarkerSchool.IsQueuedForDeletion()
+            || !_main.IsAncestorOf(_objectiveMarkerSchool))
+            _objectiveMarkerSchool = _main.ConnectedWorld?.GetNodeOrNull<Node3D>(
+                "Act1CoreWorldGreybox/SovkhozSquare/OldSchool");
+        var school = _objectiveMarkerSchool;
+        if (!ObjectiveMarkerTargetAvailable(school, mission, endpoint: true)) return false;
+        var local = school!.ToLocal(playerPosition);
+        // SquareInteriors.School owns the 20 x 11 shell, corridor wall Z2.9 and these four doors.
+        const float corridorZ = 4.2f, staffX = -7.8f, roomSideZ = 2.35f;
+        var inside = Mathf.Abs(local.X) < 9.65f && Mathf.Abs(local.Z) < 5.15f
+            && local.Y > -.2f && local.Y < 3.4f;
+        Vector3 destination;
+        if (!inside)
+        {
+            label = "Вход в школу";
+            var side = local.X < 0f ? -1f : 1f;
+            if (local.Z < -5.15f && Mathf.Abs(local.X) < 10.45f)
+                destination = new(side * 10.6f, .05f, -6.1f);
+            else if (Mathf.Abs(local.X) >= 9.65f && local.Z < 6.15f)
+                destination = new(side * 10.6f, .05f, 6.3f);
+            else if (Mathf.Abs(local.X) <= .4f && local.Z >= 5.15f && local.Z <= 6.45f)
+                destination = new(0, .05f, corridorZ);
+            else if (local.Z < 6.15f)
+                destination = new(local.X, .05f, 6.3f);
+            else
+                destination = new(0, .05f, 6.3f);
+        }
+        else if (local.Z < 2.82f)
+        {
+            if (local.X < -6.28f)
+            {
+                if (local.Z <= 2.4f) return false;
+                destination = new(staffX, .05f, roomSideZ);
+            }
+            else
+            {
+                // Leave the current class/museum through its own opening, never through a partition.
+                var doorX = local.X < -.5f ? -2.5f : local.X < 5.2f ? 2.5f : 6.4f;
+                destination = Mathf.Abs(local.X - doorX) > .1f
+                    ? new(doorX, .05f, Mathf.Min(local.Z, roomSideZ))
+                    : new(doorX, .05f, corridorZ);
+            }
+        }
+        else if (Mathf.Abs(local.X - staffX) <= .1f)
+            destination = new(staffX, .05f, roomSideZ);
+        else if (Mathf.Abs(local.Z - corridorZ) > .12f)
+            // Align in the hall before walking along it; the cloakroom bench ends at Z3.61.
+            destination = new(local.X, .05f, corridorZ);
+        else
+            destination = new(staffX, .05f, corridorZ);
+
+        waypoint = school.ToGlobal(destination);
         return true;
     }
 
