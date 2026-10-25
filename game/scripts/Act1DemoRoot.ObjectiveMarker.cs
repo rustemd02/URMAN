@@ -103,7 +103,7 @@ public partial class Act1DemoRoot
         var label = _objectiveMarkerLabel!;
         var name = string.IsNullOrWhiteSpace(mission.TargetLabel) ? mission.Title : mission.TargetLabel;
         var destination = target.GlobalPosition;
-        var waypoint = TryGetRootPassageObjectiveWaypoint(mission, bridge, out var routePoint, out var routeLabel)
+        var waypoint = TryGetRootPassageObjectiveWaypoint(mission, bridge, player.GlobalPosition, out var routePoint, out var routeLabel)
             || TryGetHomeObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel);
         if (waypoint)
         {
@@ -160,7 +160,7 @@ public partial class Act1DemoRoot
         _objectiveMarker!.Visible = true;
     }
 
-    private bool TryGetRootPassageObjectiveWaypoint(PlayerMission mission, RuntimeBridge bridge,
+    private bool TryGetRootPassageObjectiveWaypoint(PlayerMission mission, RuntimeBridge bridge, Vector3 playerPosition,
         out Vector3 waypoint, out string label)
     {
         waypoint = default;
@@ -174,8 +174,21 @@ public partial class Act1DemoRoot
         var lookBack = forest.HasPendingRootPassageInspection(bridge.PhotoWorldPresentationIdentity);
         var anchor = forest.GetNodeOrNull<Node3D>(lookBack ? "Anchors/F13" : "Anchors/F12");
         if (!ObjectiveMarkerTargetAvailable(anchor, mission, endpoint: true)) return false;
-        waypoint = anchor!.GlobalPosition;
         label = lookBack ? "Три ствола за поворотом" : "Проход у корней";
+        if (!lookBack && forest.GetNodeOrNull<Node3D>("Anchors/F13") is { } returnAnchor
+            && ObjectiveMarkerTargetAvailable(returnAnchor, mission, endpoint: true))
+        {
+            var position = new Vector2(playerPosition.X, playerPosition.Z);
+            var entry = new Vector2(anchor!.GlobalPosition.X, anchor.GlobalPosition.Z);
+            var exit = new Vector2(returnAnchor.GlobalPosition.X, returnAnchor.GlobalPosition.Z);
+            // Near the far end after a reset, point back through it; distance never arms inspection.
+            if (position.DistanceSquaredTo(exit) < position.DistanceSquaredTo(entry))
+            {
+                anchor = returnAnchor;
+                label = "Вернитесь через проход";
+            }
+        }
+        waypoint = anchor!.GlobalPosition;
         return true;
     }
 

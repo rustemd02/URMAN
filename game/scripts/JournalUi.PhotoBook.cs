@@ -609,6 +609,16 @@ public partial class JournalUi
         var placement = photo.Mounted
             ? "Место в альбоме: снимок вклеен на свою страницу."
             : "Место в альбоме: снимок пока не вклеен.";
+        if (photo.WorldCompleted)
+            placement = photo.PhotoId switch
+            {
+                "P-FOREST" => "Итог: сумка освобождена.",
+                "P-WATER" => "Итог: старый спуск найден, дощечка возвращена.",
+                "P-HOUSE" => "Итог: место фотографа найдено, вид из окна открыт.",
+                "P-COMMON" => "Итог: подпись к общему снимку сохранена.",
+                "P-CELLAR" => "Итог: коробка возвращена на место.",
+                _ => placement
+            };
         _photoBookPlacement.Text = string.IsNullOrWhiteSpace(photo.OriginLabel)
             ? placement
             : $"{placement}\nПроисхождение: {photo.OriginLabel}.";

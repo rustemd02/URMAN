@@ -172,8 +172,15 @@ public partial class JournalUi
     {
         var atHome = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home" && bridge.CurrentZoneId == MissionHomeZone;
         if (!bridge.PhotoWorldFactObserved("first_world_home_talk"))
+        {
+            var state = bridge.SelectRuntimeState();
+            var waterOnlyCompleted = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w02") == "completed"
+                && PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w01") != "completed";
             return !atHome || bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-first-world-home-talk")
-                ? HomeMission(bridge, "first-return-talk", "Рассказать о снимке", "Расскажите Гөлсинә о возвращении из снимка.", "pw-first-world-home-talk", "Гөлсинә") : null;
+                ? HomeMission(bridge, "first-return-talk", waterOnlyCompleted ? "Старый спуск найден" : "Рассказать о снимке",
+                    waterOnlyCompleted ? "Найден старый спуск за мостками. Расскажите Гөлсинә, что удалось увидеть."
+                        : "Расскажите Гөлсинә о возвращении из снимка.", "pw-first-world-home-talk", "Гөлсинә") : null;
+        }
         var photo = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-HOUSE");
         if (!bridge.PhotoWorldFactObserved("house_print_found"))
             return !atHome || bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-house-photo-source")

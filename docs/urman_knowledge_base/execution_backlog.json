@@ -54132,7 +54132,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "Постоянная верхняя левая задача: заголовок+конкретное действие+реальная кнопка журнала; единая проекция фактов/книги, видимая известная цель с расстоянием и стрелкой за краем экрана. Modal/loading/replay/drive скрывают HUD/маркер; масштаб/контраст сохранены. Дальние W02/W04 якоря и W05 подставка исправлены после независимого ревью. Визуал/удобство ещё не приняты. 25.10 continuity follow-up: После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным. 26.10 one native2f1f observed prologue mission HUD/51m marker and village mission text; missing house marker had exact hidden logical owner cause. Marker source visibility exception fixed and affected compile18.83s0/0; new marker not visually rechecked. Run overallFAILtimeout124/userdataRestored=true. 26.10 source: preventive home marker follows existing incoming gate/yard/door route instead of direct fence-cut. Runtime route/recovery not accepted. 26.10 ordinary6832: Обычный current-source NewGame с разрешённым пропуском пролога→Нива/language/D00→улица: home marker виден; прошёл обычным вводом incoming route через калитку/поворот, HouseDoor ray available=true, E вошёл домой. GulsinaNpc tea available=true,5обычных подтверждений завершили чай; book handoff available=true, E получил книгу и автоматически открыл фотоальбом с лесным снимком/школьной задачей. Pause Save показал Сохранено; через MainMenu именно Continue (не Resume) вернулся к столу с task Другойракурс/школьнойзацепкой. Школа/W01/обратный разговор не пройдены; отдельное открытие книги после Continue не успело до timeout. Overall receiptFAILtimeout124,userdataRestored=true. 26.10 source: forest/path marker formerly pointed past required F12 entrance toF13; now F12→F13 switches only on existing guarded live traversal proof, reverse/reset reverts, no progress grant. Game16.45s0/0; full W01 native pending.",
+        "actual_result": "Постоянная верхняя левая задача: заголовок+конкретное действие+реальная кнопка журнала; единая проекция фактов/книги, видимая известная цель с расстоянием и стрелкой за краем экрана. Modal/loading/replay/drive скрывают HUD/маркер; масштаб/контраст сохранены. Дальние W02/W04 якоря и W05 подставка исправлены после независимого ревью. Визуал/удобство ещё не приняты. 25.10 continuity follow-up: После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным. 26.10 one native2f1f observed prologue mission HUD/51m marker and village mission text; missing house marker had exact hidden logical owner cause. Marker source visibility exception fixed and affected compile18.83s0/0; new marker not visually rechecked. Run overallFAILtimeout124/userdataRestored=true. 26.10 source: preventive home marker follows existing incoming gate/yard/door route instead of direct fence-cut. Runtime route/recovery not accepted. 26.10 ordinary6832: Обычный current-source NewGame с разрешённым пропуском пролога→Нива/language/D00→улица: home marker виден; прошёл обычным вводом incoming route через калитку/поворот, HouseDoor ray available=true, E вошёл домой. GulsinaNpc tea available=true,5обычных подтверждений завершили чай; book handoff available=true, E получил книгу и автоматически открыл фотоальбом с лесным снимком/школьной задачей. Pause Save показал Сохранено; через MainMenu именно Continue (не Resume) вернулся к столу с task Другойракурс/школьнойзацепкой. Школа/W01/обратный разговор не пройдены; отдельное открытие книги после Continue не успело до timeout. Overall receiptFAILtimeout124,userdataRestored=true. 26.10 source: forest/path marker formerly pointed past required F12 entrance toF13; now F12→F13 switches only on existing guarded live traversal proof, reverse/reset reverts, no progress grant. Game16.45s0/0; full W01 native pending. 26.10 source: after reset/unarmed nearF13, marker points to existing local reverse crossing/retry instead of distant F12; distance chooses navigation only, no traversal/knowledge grant. Native intermediate Save/Continue remainsopen.",
         "evidence_refs": [
           "tasks[id=ACT1-UI.3].evidence"
         ],
@@ -54330,6 +54330,20 @@
           "game/scripts/photoworlds/W01Controller.PassageObservation.cs",
           "game/scripts/photoworlds/W01Controller.cs"
         ]
+      },
+      "forest_resume_waypoint_2026_10_26": {
+        "state": "source_compile_verified_native_pending",
+        "cause": "Save сохраняетphysicalpose уF13, новыйsessionreset сбрасываетнеcommitpending. ВзглядпослеContinue самнезавершаетstage, а прежнийunarmedmarker вёлкF12за70м. Это неirreversiblesoftlock: existingreverseF13→F12/выходизcooldown/forwardF12→F13армируютобычныйосмотр.",
+        "result": "Pendingtrue остаётсяединственнымproofиlookbackF13. Pendingfalse используетhorizontalnear-end ТОЛЬКОдляnavigation: ближеF13→Вернитесьчерезпроход/F13; иначе Проходукорней/F12. ПослеобратногопереходапозицияуF12самаобновляетmarker; newprogressflags/persistedpayload/rearm-by-pose/physicsнет.",
+        "verification": "Boundedsource read CaptureSessionSave/RestoreLoadedWorldAsync/physicalsupportfallback иW01reset/traversal. Workertraceобычныйдоfold/послеfold/resetload/reverse/localretry; rootdiffguardread. Game16.52s0/0, diffcheck, новогонативногопрогонанет.",
+        "remaining": "ActualSave/Continueпосерединеfold иобратный/повторныйпроход ещёнепринятывдвижении.",
+        "evidence": [
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/RuntimeBridge.cs",
+          "game/scripts/photoworlds/W01Controller.cs",
+          "game/scripts/photoworlds/W01Controller.PassageObservation.cs"
+        ],
+        "cleanup": "Послевыходакомпиляции/lsof(noopenfiles)/exactpath/no-symlink/emptygit-ls-files удалёнтолькоignoredreproduciblegame/.godot/mono48457945bytes; sources/release/userdataнетронуты."
       }
     },
     {
@@ -109119,7 +109133,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "HUD и первая строка журнала получают CurrentPlayerMission из одного owner; после получения книги остальные действующие задачи и прежние функции остаются. Подготовка/вход/действие/возврат всех фотомиров используют прежние facts/photos/условия, без второго progress state. 25.10 continuity follow-up: После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным. 26.10 source carried-book flow: canonical top mission, no artificial return-home for valid mount/read, forest fallback reordered after actionable gates; actual GUI/Continue still open. 26.10 ordinary6832: Обычный current-source NewGame с разрешённым пропуском пролога→Нива/language/D00→улица: home marker виден; прошёл обычным вводом incoming route через калитку/поворот, HouseDoor ray available=true, E вошёл домой. GulsinaNpc tea available=true,5обычных подтверждений завершили чай; book handoff available=true, E получил книгу и автоматически открыл фотоальбом с лесным снимком/школьной задачей. Pause Save показал Сохранено; через MainMenu именно Continue (не Resume) вернулся к столу с task Другойракурс/школьнойзацепкой. Школа/W01/обратный разговор не пройдены; отдельное открытие книги после Continue не успело до timeout. Overall receiptFAILtimeout124,userdataRestored=true.",
+        "actual_result": "HUD и первая строка журнала получают CurrentPlayerMission из одного owner; после получения книги остальные действующие задачи и прежние функции остаются. Подготовка/вход/действие/возврат всех фотомиров используют прежние facts/photos/условия, без второго progress state. 25.10 continuity follow-up: После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным. 26.10 source carried-book flow: canonical top mission, no artificial return-home for valid mount/read, forest fallback reordered after actionable gates; actual GUI/Continue still open. 26.10 ordinary6832: Обычный current-source NewGame с разрешённым пропуском пролога→Нива/language/D00→улица: home marker виден; прошёл обычным вводом incoming route через калитку/поворот, HouseDoor ray available=true, E вошёл домой. GulsinaNpc tea available=true,5обычных подтверждений завершили чай; book handoff available=true, E получил книгу и автоматически открыл фотоальбом с лесным снимком/школьной задачей. Pause Save показал Сохранено; через MainMenu именно Continue (не Resume) вернулся к столу с task Другойракурс/школьнойзацепкой. Школа/W01/обратный разговор не пройдены; отдельное открытие книги после Continue не успело до timeout. Overall receiptFAILtimeout124,userdataRestored=true. 26.10 source earned-result feedback:5completed entry photos use existing placement line for actual result, provenance/uncompleted/default preserved; firstW02-only home task states found old approach. Game16.52s0/0, nativepending.",
         "evidence_refs": [
           "tasks[id=PW-016].evidence"
         ],
@@ -109355,6 +109369,17 @@
         ],
         "scope_limit": "Принят наблюдённый конечный отрезок и сохранённая задача после Continue; полный пролог/кампания/культурная/языковая/художественная/новичковая приёмка этим не закрываются. Старый P у створки не воспроизводился и recovery не объявлен решённым.",
         "cleanup": "Archive CRC+every extracted byte comparison passed; original result.zip moved, receipt retained.32272431bytes extracted/local duplicate frames/logs removed; nothing raw committed."
+      },
+      "earned_photo_outcomes_2026_10_26": {
+        "state": "source_compile_verified_native_pending",
+        "cause": "Завершение первых миров отражалось сменойследующейзадачи/кнопкойВернутьсявснимок, но существующаястрокастраницы описывала лишьвклейку, анепонятныйрезультат.",
+        "result": "Для5entryphoto при WorldCompleted существующаястрокаразмещения показываеткраткий earnedитог: освобождённаясумка; найденныйспуск/возвращённаядощечка; местофотографа/открытыйвид; сохранённаяподпись; возвращённаякоробка. Происхождение, незавершённые/неизвестныеphotos иmanualselectionсохранены. ПервоеW02-onlyвозвращение вexistingmission показывает Старыйспускнайден, обаcompletedоставляютgenericтекст. НовыхHUDпанелей/events/journalfacts/progressнет.",
+        "verification": "Boundedисследованиеexistingowners/questcompletionclauses, workerреализация+rootточныйdiff. Gameaffectedcompile16.52s exit0,0warnings,0errors; diffcheck. Новыхgame/tests/probesнет.",
+        "remaining": "Новыйвидрезультатов/первыйW02return ещёневиделивигре; полнаякнига/Continue/внешниегейтыостаютсяоткрытыми.",
+        "evidence": [
+          "game/scripts/JournalUi.PhotoBook.cs",
+          "game/scripts/JournalUi.Missions.cs"
+        ]
       }
     },
     {
@@ -124441,7 +124466,9 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-046/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "game/scripts/Act1DemoRoot.ObjectiveMarker.cs"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-046",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -124663,7 +124690,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "NOT_RUN 26.10 source: after reset/unarmed nearF13, marker points to existing local reverse crossing/retry instead of distant F12; distance chooses navigation only, no traversal/knowledge grant. Native intermediate Save/Continue remainsopen.",
         "evidence_refs": [
           "tasks[id=PW-046].evidence"
         ],
@@ -124955,6 +124982,20 @@
           }
         ],
         "terminal": "Original receipt FAIL/game124; userdataRestored/snapshot_hashes_verified=true. Accepted bounded action is not normal exit, complete W01/book-loop/Continue/art or continuous animation review. No rerun."
+      },
+      "forest_resume_waypoint_2026_10_26": {
+        "state": "source_compile_verified_native_pending",
+        "cause": "Save сохраняетphysicalpose уF13, новыйsessionreset сбрасываетнеcommitpending. ВзглядпослеContinue самнезавершаетstage, а прежнийunarmedmarker вёлкF12за70м. Это неirreversiblesoftlock: existingreverseF13→F12/выходизcooldown/forwardF12→F13армируютобычныйосмотр.",
+        "result": "Pendingtrue остаётсяединственнымproofиlookbackF13. Pendingfalse используетhorizontalnear-end ТОЛЬКОдляnavigation: ближеF13→Вернитесьчерезпроход/F13; иначе Проходукорней/F12. ПослеобратногопереходапозицияуF12самаобновляетmarker; newprogressflags/persistedpayload/rearm-by-pose/physicsнет.",
+        "verification": "Boundedsource read CaptureSessionSave/RestoreLoadedWorldAsync/physicalsupportfallback иW01reset/traversal. Workertraceобычныйдоfold/послеfold/resetload/reverse/localretry; rootdiffguardread. Game16.52s0/0, diffcheck, новогонативногопрогонанет.",
+        "remaining": "ActualSave/Continueпосерединеfold иобратный/повторныйпроход ещёнепринятывдвижении.",
+        "evidence": [
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/RuntimeBridge.cs",
+          "game/scripts/photoworlds/W01Controller.cs",
+          "game/scripts/photoworlds/W01Controller.PassageObservation.cs"
+        ],
+        "cleanup": "Послевыходакомпиляции/lsof(noopenfiles)/exactpath/no-symlink/emptygit-ls-files удалёнтолькоignoredreproduciblegame/.godot/mono48457945bytes; sources/release/userdataнетронуты."
       }
     },
     {
@@ -161094,6 +161135,10 @@
       "integration": "Регулярный отдельный commit/push каждого проверенного этапа, не копить большой незакоммиченный пакет. Source/compile этап не выдавать за native acceptance; включать только свои проверенные файлы/хунки, сохранять чужие изменения.",
       "mvp_selection_rule": "Сначала законченные, сразу заметные игроку этапы: обычный запуск и Continue; цельный пролог и первая прогулка; фото → физическая книга → вход → содержательное действие → возврат → сохранённое продолжение; убедительная сцена деревни; самостоятельный релизный кандидат. Мелкие веточки, кусты, фактуры и локальная полировка идут после этих результатов, кроме доказанного блокера проходимости, читаемости, стабильности или производительности выбранного этапа.",
       "mvp_delivery_order": [
+        "PW-072",
+        "PW-046",
+        "PW-049",
+        "UXA-001/ROUTE",
         "PW-043",
         "ACT1-UI.3",
         "PW-003",
@@ -161113,7 +161158,6 @@
         "ACT1-LEGS.1",
         "ACT1-PLAYER/E02",
         "ACT1-LEGS.2",
-        "PW-046",
         "PW-047",
         "PW-014",
         "PW-017",
@@ -161123,7 +161167,6 @@
         "PW-022",
         "PW-023",
         "PW-024",
-        "UXA-001/ROUTE",
         "UXA-001/CONTINUE",
         "UXA-002",
         "PW-044",
@@ -161176,7 +161219,8 @@
       },
       "player_experience_priority": "24.10 author ranking 1-3-2: first ordinary walking blockages, then meaningful exploration/action/result, then movement/camera feel. Prefer a complete playable episode over isolated hints, model polish or placement. A disproved hypothesis does not authorize speculative physics changes.",
       "campaign_priority": "Сначала восстановить обычный целый пролог с Нивой; затем принять законченный первый эпизод с понятной мотивацией, поиском, действием, результатом и следующим сюжетным шагом. Одни подсказки/переписанные строки не заменяют проходимость и содержательный игровой цикл.",
-      "player_clarity_priority_2026_10_25": "Автор: очевидные отсутствующие интерфейс/маркеры/ясные действия и графоманский текст исправлять непосредственно. Новые игровые прогоны только когда конкретный оставшийся результат нельзя проверить чтением; не тратить время на подтверждение очевидного."
+      "player_clarity_priority_2026_10_25": "Автор: очевидные отсутствующие интерфейс/маркеры/ясные действия и графоманский текст исправлять непосредственно. Новые игровые прогоны только когда конкретный оставшийся результат нельзя проверить чтением; не тратить время на подтверждение очевидного.",
+      "next_visible_stage_2026_10_26": "После фактически принятого6832 gate→home→tea→book/SaveContinue ближайший непокрытый отрезок — школа→W01→действие→возврат→разговор. Не начинать очередной standalone prologue/house/Continue check без изменённого покрываемого входа; этот порядок не снимает зависимости, полный объём и отдельную внешнюю приёмку."
     }
   },
   "requirements_integration_2026_10_10": {
