@@ -103,7 +103,8 @@ public partial class Act1DemoRoot
         var label = _objectiveMarkerLabel!;
         var name = string.IsNullOrWhiteSpace(mission.TargetLabel) ? mission.Title : mission.TargetLabel;
         var destination = target.GlobalPosition;
-        var waypoint = TryGetHomeObjectiveWaypoint(mission, player.GlobalPosition, out var routePoint, out var routeLabel);
+        var waypoint = TryGetRootPassageObjectiveWaypoint(mission, bridge, out var routePoint, out var routeLabel)
+            || TryGetHomeObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel);
         if (waypoint)
         {
             destination = routePoint;
@@ -157,6 +158,25 @@ public partial class Act1DemoRoot
             _objectiveMarker!.Position = edge;
         }
         _objectiveMarker!.Visible = true;
+    }
+
+    private bool TryGetRootPassageObjectiveWaypoint(PlayerMission mission, RuntimeBridge bridge,
+        out Vector3 waypoint, out string label)
+    {
+        waypoint = default;
+        label = string.Empty;
+        if (mission.InteractionId != "urman.fullgame:interaction/pw-forest-photographer"
+            || bridge.ActiveSceneId != "urman.fullgame:scene/pw-forest"
+            || _main.GetNodeOrNull<W01Controller>("ZoneHost/W01") is not { } forest
+            || !GodotObject.IsInstanceValid(forest) || !forest.IsInsideTree() || forest.IsQueuedForDeletion())
+            return false;
+
+        var lookBack = forest.HasPendingRootPassageInspection(bridge.PhotoWorldPresentationIdentity);
+        var anchor = forest.GetNodeOrNull<Node3D>(lookBack ? "Anchors/F13" : "Anchors/F12");
+        if (!ObjectiveMarkerTargetAvailable(anchor, mission, endpoint: true)) return false;
+        waypoint = anchor!.GlobalPosition;
+        label = lookBack ? "Три ствола за поворотом" : "Проход у корней";
+        return true;
     }
 
     private bool TryGetHomeObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition,

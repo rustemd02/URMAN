@@ -17,6 +17,14 @@ public partial class W01Controller
     private Vector3 _rootPassageObservationFailedPosition;
     private Vector3 _rootPassageObservationFailedForward;
 
+    /// <summary>Reads the live traversal proof; it never records campaign progress.</summary>
+    internal bool HasPendingRootPassageInspection(object? identity) =>
+        identity is not null && _rootPassageEnabled && _rootPassageObservedExitSide != 0f
+        && ReferenceEquals(_rootPassageSessionIdentity, identity)
+        && _bridge is { } bridge && IsValidCurrentBridge(bridge)
+        && bridge.ActiveSceneId == ForestSceneId
+        && ReferenceEquals(bridge.PhotoWorldPresentationIdentity, identity);
+
     private void BuildRootPassageObservationSubjects()
     {
         if (_heroRootAtF13 is not { } visual || _heroRootContactAtF13 is not { } contact)

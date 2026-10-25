@@ -53928,7 +53928,9 @@
         "evidence/PW-043/ordinary_2f1f60131ede469f9c0c9b1f27d55b7a/receipt.json",
         "evidence/PW-043/ordinary_2f1f60131ede469f9c0c9b1f27d55b7a.zip",
         "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e/receipt.json",
-        "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e.zip"
+        "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e.zip",
+        "game/scripts/photoworlds/W01Controller.PassageObservation.cs",
+        "game/scripts/photoworlds/W01Controller.cs"
       ],
       "mvp_priority": 17,
       "mvp_packet": "LEGACY-COMPAT",
@@ -54081,7 +54083,8 @@
           "game/scripts/PlayerMission.cs",
           "game/scripts/JournalUi.Missions.cs",
           "game/scripts/InteractionTarget.cs",
-          "game/scripts/DocumentUi.cs"
+          "game/scripts/DocumentUi.cs",
+          "game/scripts/photoworlds/W01Controller.PassageObservation.cs"
         ],
         "required_inputs": [
           {
@@ -54129,7 +54132,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "Постоянная верхняя левая задача: заголовок+конкретное действие+реальная кнопка журнала; единая проекция фактов/книги, видимая известная цель с расстоянием и стрелкой за краем экрана. Modal/loading/replay/drive скрывают HUD/маркер; масштаб/контраст сохранены. Дальние W02/W04 якоря и W05 подставка исправлены после независимого ревью. Визуал/удобство ещё не приняты. 25.10 continuity follow-up: После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным. 26.10 one native2f1f observed prologue mission HUD/51m marker and village mission text; missing house marker had exact hidden logical owner cause. Marker source visibility exception fixed and affected compile18.83s0/0; new marker not visually rechecked. Run overallFAILtimeout124/userdataRestored=true. 26.10 source: preventive home marker follows existing incoming gate/yard/door route instead of direct fence-cut. Runtime route/recovery not accepted. 26.10 ordinary6832: Обычный current-source NewGame с разрешённым пропуском пролога→Нива/language/D00→улица: home marker виден; прошёл обычным вводом incoming route через калитку/поворот, HouseDoor ray available=true, E вошёл домой. GulsinaNpc tea available=true,5обычных подтверждений завершили чай; book handoff available=true, E получил книгу и автоматически открыл фотоальбом с лесным снимком/школьной задачей. Pause Save показал Сохранено; через MainMenu именно Continue (не Resume) вернулся к столу с task Другойракурс/школьнойзацепкой. Школа/W01/обратный разговор не пройдены; отдельное открытие книги после Continue не успело до timeout. Overall receiptFAILtimeout124,userdataRestored=true.",
+        "actual_result": "Постоянная верхняя левая задача: заголовок+конкретное действие+реальная кнопка журнала; единая проекция фактов/книги, видимая известная цель с расстоянием и стрелкой за краем экрана. Modal/loading/replay/drive скрывают HUD/маркер; масштаб/контраст сохранены. Дальние W02/W04 якоря и W05 подставка исправлены после независимого ревью. Визуал/удобство ещё не приняты. 25.10 continuity follow-up: После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным. 26.10 one native2f1f observed prologue mission HUD/51m marker and village mission text; missing house marker had exact hidden logical owner cause. Marker source visibility exception fixed and affected compile18.83s0/0; new marker not visually rechecked. Run overallFAILtimeout124/userdataRestored=true. 26.10 source: preventive home marker follows existing incoming gate/yard/door route instead of direct fence-cut. Runtime route/recovery not accepted. 26.10 ordinary6832: Обычный current-source NewGame с разрешённым пропуском пролога→Нива/language/D00→улица: home marker виден; прошёл обычным вводом incoming route через калитку/поворот, HouseDoor ray available=true, E вошёл домой. GulsinaNpc tea available=true,5обычных подтверждений завершили чай; book handoff available=true, E получил книгу и автоматически открыл фотоальбом с лесным снимком/школьной задачей. Pause Save показал Сохранено; через MainMenu именно Continue (не Resume) вернулся к столу с task Другойракурс/школьнойзацепкой. Школа/W01/обратный разговор не пройдены; отдельное открытие книги после Continue не успело до timeout. Overall receiptFAILtimeout124,userdataRestored=true. 26.10 source: forest/path marker formerly pointed past required F12 entrance toF13; now F12→F13 switches only on existing guarded live traversal proof, reverse/reset reverts, no progress grant. Game16.45s0/0; full W01 native pending.",
         "evidence_refs": [
           "tasks[id=ACT1-UI.3].evidence"
         ],
@@ -54315,6 +54318,18 @@
         ],
         "scope_limit": "Принят наблюдённый конечный отрезок и сохранённая задача после Continue; полный пролог/кампания/культурная/языковая/художественная/новичковая приёмка этим не закрываются. Старый P у створки не воспроизводился и recovery не объявлен решённым.",
         "cleanup": "Archive CRC+every extracted byte comparison passed; original result.zip moved, receipt retained.32272431bytes extracted/local duplicate frames/logs removed; nothing raw committed."
+      },
+      "forest_entry_marker_2026_10_26": {
+        "state": "source_compile_verified_native_pending",
+        "cause": "forest/path не имеет InteractionTarget producer; fallback F13 указывал выход. Прямая F11→F13 минует обязательный F12 примерно на9.8m при входном объёме±.72X/±1.15Z. Сам подход кF13 не армирует forward observation и способен вернуть назад.",
+        "result": "Единый marker до успешного crossing указывает Anchors/F12 (Проход у корней), после crossing→F13 (Три ствола за поворотом). Сигнал read-only из существующих _rootPassageEnabled/_rootPassageObservedExitSide и точного PhotoWorldPresentationIdentity; обратный проход/reset снимают pending. Marker читает это каждыйкадр, новые progress flags/events/Nodes/physics не добавлены; current action и NotifyTraversal уже описывают оба шага.",
+        "verification": "Исследователь дал exact producer/fold geometry; root diff и actual traversal/observation code; independent Astra limited review current identity/arming/reset/reverse/epilogue: новыхP1/P2не найдено. Game affected compile16.45s exit0,0warnings,0errors; diffcheck. Новых game/tests/probes нет.",
+        "remaining": "Полный first episode/W01 и save/load посередине незавершённого fold→lookback ещё не приняты в игре.",
+        "evidence": [
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/photoworlds/W01Controller.PassageObservation.cs",
+          "game/scripts/photoworlds/W01Controller.cs"
+        ]
       }
     },
     {
@@ -114227,7 +114242,9 @@
         "game/scripts/photoworlds/W05Controller.Gameplay.cs",
         "content/modules/urman-fullgame/module.json",
         "game/scripts/JournalUi.Missions.cs",
-        "game/scripts/photoworlds/W03Controller.Interactions.cs"
+        "game/scripts/photoworlds/W03Controller.Interactions.cs",
+        "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+        "game/scripts/photoworlds/W01Controller.PassageObservation.cs"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-028",
       "source_requirements": [
@@ -114366,7 +114383,9 @@
           "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
           "game/scripts/photoworlds/W01Controller.cs",
           "game/scripts/photoworlds/W05Controller.Gameplay.cs",
-          "content/modules/urman-fullgame/module.json"
+          "content/modules/urman-fullgame/module.json",
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/photoworlds/W01Controller.PassageObservation.cs"
         ],
         "required_inputs": [
           {
@@ -114427,7 +114446,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "Общая текущая задача охватывает обычный пролог/5миров. Добавлены недостающие следующие стадии water damp print/выходы/W05;9keys×2text resources. Прежние уровни добровольной подсказки сохранены, автоматического решения нет; осмотренные W05 следы убираются из текущей презентации.",
+        "actual_result": "Общая текущая задача охватывает обычный пролог/5миров. Добавлены недостающие следующие стадии water damp print/выходы/W05;9keys×2text resources. Прежние уровни добровольной подсказки сохранены, автоматического решения нет; осмотренные W05 следы убираются из текущей презентации. 26.10 source: forest/path marker formerly pointed past required F12 entrance toF13; now F12→F13 switches only on existing guarded live traversal proof, reverse/reset reverts, no progress grant. Game16.45s0/0; full W01 native pending.",
         "evidence_refs": [
           "tasks[id=PW-028].evidence"
         ],
@@ -114664,6 +114683,18 @@
           "game/scripts/JournalUi.Missions.cs",
           "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
           "game/scripts/photoworlds/W03Controller.Interactions.cs"
+        ]
+      },
+      "forest_entry_marker_2026_10_26": {
+        "state": "source_compile_verified_native_pending",
+        "cause": "forest/path не имеет InteractionTarget producer; fallback F13 указывал выход. Прямая F11→F13 минует обязательный F12 примерно на9.8m при входном объёме±.72X/±1.15Z. Сам подход кF13 не армирует forward observation и способен вернуть назад.",
+        "result": "Единый marker до успешного crossing указывает Anchors/F12 (Проход у корней), после crossing→F13 (Три ствола за поворотом). Сигнал read-only из существующих _rootPassageEnabled/_rootPassageObservedExitSide и точного PhotoWorldPresentationIdentity; обратный проход/reset снимают pending. Marker читает это каждыйкадр, новые progress flags/events/Nodes/physics не добавлены; current action и NotifyTraversal уже описывают оба шага.",
+        "verification": "Исследователь дал exact producer/fold geometry; root diff и actual traversal/observation code; independent Astra limited review current identity/arming/reset/reverse/epilogue: новыхP1/P2не найдено. Game affected compile16.45s exit0,0warnings,0errors; diffcheck. Новых game/tests/probes нет.",
+        "remaining": "Полный first episode/W01 и save/load посередине незавершённого fold→lookback ещё не приняты в игре.",
+        "evidence": [
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/photoworlds/W01Controller.PassageObservation.cs",
+          "game/scripts/photoworlds/W01Controller.cs"
         ]
       }
     },
@@ -138029,7 +138060,13 @@
           "evidence_ref": "PW-075.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "late_input_chain_source_2026_10_26": {
+        "state": "bounded_source_clear_runtime_open",
+        "scope": "ПослеW01/W02/W03 обе внешние evidence→contactsheet/S-PRINT→поиск общего файла→разрешение→caption/print/mount→Алсу/W04вход.",
+        "result": "Реальные producers/gates установлены: council source/permission активны наbankapproach+village zone; piles/verify physical; photographer source/verify существующийFamilyBox иNPCpermission/author; PC file search/caption/print UI действуют. S-PHOTOGRAPHER front SPECIFIED_NOT_PRODUCED не принят как art; backSVG существует, permission сразу делаетback-read, обычная/legacy CanReadBack не требуеткартинку. Нового hard dead end этим ограниченным чтением не найдено.",
+        "limit": "Это source inspection, не runtime/asset/art PASS. Не повторятьтотже статическийобзор без изменённогоinput/конкретного causal finding."
+      }
     },
     {
       "id": "PW-076",
@@ -138819,7 +138856,11 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-078/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "content/modules/urman-fullgame/definitions.json",
+        "game/content/urman.fullgame.compiled.v1.json",
+        "game/scripts/PhotoWorldEpiloguePresence.cs"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-078",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -139041,7 +139082,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "NOT_RUN 26.10 source epilogue return-home now waits for existing final dialogue knowledge, avoiding unintended bank roundtrip before reflection. Content compile0 and independent source review; native/full epilogue acceptance open.",
         "evidence_refs": [
           "tasks[id=PW-078].evidence"
         ],
@@ -139193,6 +139234,18 @@
         "method": "Independent photo_audio_review exact conditions/route owners read, no edits or runs.",
         "result": "bank-to-epilogue, epilogue entry and take-now-photo require W04completed/outside_leaf_witnessed/alsu_meeting_agreed, never W05. W05 first entry still requires only book+mountedPCELLAR+acquiredSHAND. Epilogue explicit return-home then house exit reaches village-side cellar target; completed W05 uses home-table revisit. Current route projection/loading handles home/epilogue/cellar; this is source availability, not proof of Continue.",
         "remaining": "Complete finale without W05, close/Continue from epilogue, explicitly return home/exit village and first-enter W05; separately Continue from pw-home. Human ending/ordinary play/art/whole finale gates remain open."
+      },
+      "epilogue_return_order_2026_10_26": {
+        "state": "content_compile_verified_native_pending",
+        "cause": "S-NOW ранее одновременно открывал обязательный финальный разговор и narrative return-home. После раннего return сцена pw-home теряла источник разговора, а mission направляла в лишний цикл через берег/эпилог.",
+        "result": "pw-epilogue-return-home дополнительно требует confirmed knowledge pw-marat-death-question-remains-open, которую устанавливает единственный существующий ответ финального разговора. После разговора прежнее свободное возвращение доступно. Другие effects/choices/transitions не изменены.",
+        "verification": "Worker/root exact condition/producer/callers review. PhotoWorldEpiloguePresence учитывает IsInteractionReady; bookreturn fallback изepilogue нет; обычные house worldLocations/known-door repeat сохраняют сюжетную сцену и не обходят narrative exit. ExistingContentCli compile urman.fullgame exit0; independent Astra source review новыхP1/P2не нашёл, diffcheck. Native не запускался.",
+        "remaining": "S-NOW framing/реальная финальная сцена/разговор/свободное возвращение и внешняя авторская/культурная/слуховая приёмка открыты.",
+        "evidence": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/content/urman.fullgame.compiled.v1.json",
+          "game/scripts/PhotoWorldEpiloguePresence.cs"
+        ]
       }
     },
     {

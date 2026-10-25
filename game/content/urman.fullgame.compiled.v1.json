@@ -21825,6 +21825,11 @@
                 "op": "photoworlds.photo.state",
                 "photoId": "S-NOW",
                 "state": "acquired"
+              },
+              {
+                "op": "knowledge.status",
+                "knowledgeId": "urman.fullgame:knowledge/pw-marat-death-question-remains-open",
+                "status": "confirmed"
               }
             ],
             "effects": [],
@@ -33276,7 +33281,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "830263df8cf565396a224f0878292fff2988f8ffc5806ff3857c4912d057cc20"
+      "sha256": "e221a46fdf682b5e9e480889aab36be81f96224e92501424aa7af9d5c90cd830"
     },
     {
       "moduleId": "urman.oldpc",
@@ -33284,5 +33289,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "43498c211616092cad429a0734b1dedce57c05aa29590279cf05095cf947f5d8"
+  "campaignFingerprint": "4b6b19b9765d11416355f5e964425490b9f183534b1d4f205dbda80fb86d1b84"
 }

@@ -4004,6 +4004,11 @@
             "op": "photoworlds.photo.state",
             "photoId": "S-NOW",
             "state": "acquired"
+          },
+          {
+            "op": "knowledge.status",
+            "knowledgeId": "urman.fullgame:knowledge/pw-marat-death-question-remains-open",
+            "status": "confirmed"
           }
         ],
         "effects": [],
