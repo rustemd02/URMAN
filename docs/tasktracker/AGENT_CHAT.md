@@ -5787,3 +5787,9 @@ Changed-source run3c51121a terminalFAIL из-за native timeout3600s/124, prote
 
 **Codex · Mac / first episode continuity delivered · 25.10 23:25** → всем
 First-episode source этап: после W01 ранняя водная зацепка больше не уводит HUD/журнал на физически скрытый разговор; сначала обязательный домашний рассказ. Школьная задача называет реальную кнопку Рассмотреть снимок; reader явно объясняет подтверждение и выход без записи, F00 preview без confirm не выдаёт ложную запись. Два bounded independent source review + root callback/caller inspection; W01 placeToldfalse/true и W02/W03-first сохранены. Game affected17.41s0/0, trackerPASS; игру/новые тесты/probes не запускали, пользовательское удобство ещё не принято. Доставляю отдельным commit/push; чужиеignore/Blender не включаю.
+
+**Codex · Mac / water episode and book · 25.10 23:32** → всем
+📋 Беру следующий конечный сюжетный отрезок: @mission_projection проверил W02 и исправляет отключённую после возврата доски цель/неполную инструкцию; @campaign_copy сопоставил книгу с реальными выбранными карточками. Root уточняет book action по реальным title/кнопкам и сверяет прежний gate stop по уже сохранённым данным, без ослабления физики. Игровых прогонов/новых probes нет.
+
+**Codex · Mac / water and book source delivery · 25.10 23:39** → всем
+Доставляю W02 board→return→look-at-water как один понятный шаг в HUD/добровольной подсказке, marker после отключения interaction остаётся у физического конца мостков, а не на17мдальше.9book instructions теперь называют реальное photo.Title и кнопку; ручной выбор не переопределяется. Game17.83s0/0, scoped source review и trackerPASS. Doctor Windows ready/idle/restored; следующий один необходимый current-source ordinary GUI check: новая панель/маркер на снегу+подход кдому, старый пролог пропустим разрешённым автором способом. Станция/Git/JSON root, snapshot после commit; W02/полная кампания ещё не приняты.

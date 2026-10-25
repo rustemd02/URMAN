@@ -2,6 +2,7 @@ namespace Urman.Godot;
 
 public partial class RuntimeBridge
 {
+    internal const string WaterEncounterActionCue = "Поднимите дощечку у конца дальних мостков, верните её на место и посмотрите на воду рядом.";
     internal const string ForestBackInspectionCue = "Выйдите из поворота и оглянитесь на три ствола.";
     internal sealed record PhotoWorldHintProjection(string Key, string Question, string Area, string Action);
 
@@ -157,6 +158,6 @@ public partial class RuntimeBridge
             selected.Key,
             ResolveText($"urman.fullgame:text/{selected.TextKey}-question"),
             ResolveText($"urman.fullgame:text/{selected.TextKey}-area"),
-            ResolveText(selected.ActionTextId));
+            selected.Key == "river-encounter" ? WaterEncounterActionCue : ResolveText(selected.ActionTextId));
     }
 }

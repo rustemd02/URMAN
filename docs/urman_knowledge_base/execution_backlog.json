@@ -53891,7 +53891,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "Codex",
       "owner": "finished-act1",
       "depends_on": [
         "ACT1-UI.1"
@@ -54052,8 +54052,8 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "released",
-        "reason": "Конечный source continuity fix проверен; новых игровых прогонов нет, полная приёмка открыта."
+        "state": "confirmed_active",
+        "reason": "Station doctor ready/idle, root готовит один changed-source ordinary GUI check вместо повторения пролога. Только конкретный оставшийся rendering/mission marker вопрос."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -54062,7 +54062,7 @@
         "Подсказка/субтитры/выбор ответа читаемы, не перекрывают действие; один focus; подтверждается именно выделенная реплика.",
         "На текущем candidate подтвердить читаемость задачи/маркера, отсутствие перекрытий, смену после действия и модальных окон; source compile не заменяет GUI."
       ],
-      "next_action": "Не повторять широкие smoke. Сначала довести читаемый первый эпизод по текущим исходникам; следующая необходимая Windows приёмка одним цельным маршрутом должна закрыть конкретно оставшийся визуальный вопрос HUD и доступность целей.",
+      "next_action": "Один current-source Windows play-product: обычный NewGame, разрешённый автором пропуск уже проверенного пролога; проверить фактическую читаемость новой задачи/маркера на снегу и направление к дому. Не считать этот ограниченный просмотр полной сюжетной приёмкой. Затем штатное завершение и userdataRestored receipt.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -54262,6 +54262,11 @@
         ],
         "verification": "Two independent bounded source reviews. Root read confirmation callback/current guards and all OpenSourcePhotoInspection callers. W01-first placeTold false/true and W02/W03-first inspected; no game/tests/probes. Affected Game compile exit0,0warnings,0errors,17.41s.",
         "remaining": "Кодовая причина устранена; действительный полный первый эпизод и авторская приёмка ещё не подтверждены."
+      },
+      "current_gui_question_2026_10_25": {
+        "question": "Показывает ли новый HUD действительную задачу и пространственный маркер дома, читаемые на снегу без перекрытия; проходит ли обычный вход через открытый проход калитки, а не через её створку?",
+        "success": "Текущий source snapshot, обычные NewGame/skip/диалог, фактический village frame с видимыми задачей/маркером; по возможности gate→door обычным движением. Незавершённый путь не объявлять исправленным.",
+        "bound": "Один play-product на idle ready станции с защищёнными данными, без новых тестовых сцен и повторения baselineF00/F01/F03. Вопрос рендера нельзя закрыть source compile."
       }
     },
     {
@@ -108834,7 +108839,8 @@
         "game/scripts/JournalUi.cs",
         "game/scripts/JournalUi.Missions.cs",
         "game/scripts/PlayerMission.cs",
-        "game/scripts/DocumentUi.cs"
+        "game/scripts/DocumentUi.cs",
+        "game/scripts/RuntimeBridge.PhotoWorldHints.cs"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-016",
       "source_requirements": [
@@ -109255,6 +109261,12 @@
         ],
         "verification": "Two independent bounded source reviews. Root read confirmation callback/current guards and all OpenSourcePhotoInspection callers. W01-first placeTold false/true and W02/W03-first inspected; no game/tests/probes. Affected Game compile exit0,0warnings,0errors,17.41s.",
         "remaining": "Кодовая причина устранена; действительный полный первый эпизод и авторская приёмка ещё не подтверждены."
+      },
+      "water_book_clarity_2026_10_25": {
+        "state": "source_compile_verified_native_pending",
+        "result": "W02 encounter instruction теперь полная: поднять/вернуть дощечку и посмотреть на воду. HUD и3уровень добровольной подсказки используют одну константу. После отключения target marker держится на видимой FarPierLooseBoard у настоящего конца(33.4,83.9), не R06(48,83) дальше8мотфигуры. Девять инструкций вклейки/оборота называют реальную выбранную карточку черезphoto.Title и точную существующую кнопку, не изменяют ручной выбор/прогресс.",
+        "verification": "Два bounded source исследования, root проверил W02 phase/board visibility/8m observation и кнопки/обработчики/guards книги. Game affected compile17.83s exit0,0warnings,0errors. Новых тестов/probes не создавали; W02 runtime не наблюдался.",
+        "remaining": "Обычный W02 и физическая книга/авторское ощущение ещё не приняты."
       }
     },
     {
@@ -114140,7 +114152,8 @@
         "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
         "game/scripts/photoworlds/W01Controller.cs",
         "game/scripts/photoworlds/W05Controller.Gameplay.cs",
-        "content/modules/urman-fullgame/module.json"
+        "content/modules/urman-fullgame/module.json",
+        "game/scripts/JournalUi.Missions.cs"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-028",
       "source_requirements": [
@@ -114561,6 +114574,12 @@
         "remaining": [
           "Смена задач/маркеров внутри миров ещё не наблюдалась на текущем candidate."
         ]
+      },
+      "water_book_clarity_2026_10_25": {
+        "state": "source_compile_verified_native_pending",
+        "result": "W02 encounter instruction теперь полная: поднять/вернуть дощечку и посмотреть на воду. HUD и3уровень добровольной подсказки используют одну константу. После отключения target marker держится на видимой FarPierLooseBoard у настоящего конца(33.4,83.9), не R06(48,83) дальше8мотфигуры. Девять инструкций вклейки/оборота называют реальную выбранную карточку черезphoto.Title и точную существующую кнопку, не изменяют ручной выбор/прогресс.",
+        "verification": "Два bounded source исследования, root проверил W02 phase/board visibility/8m observation и кнопки/обработчики/guards книги. Game affected compile17.83s exit0,0warnings,0errors. Новых тестов/probes не создавали; W02 runtime не наблюдался.",
+        "remaining": "Обычный W02 и физическая книга/авторское ощущение ещё не приняты."
       }
     },
     {
@@ -128386,7 +128405,10 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-054/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "game/scripts/JournalUi.Missions.cs",
+        "game/scripts/RuntimeBridge.PhotoWorldHints.cs"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-054",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -128804,7 +128826,13 @@
           "evidence_ref": "PW-054.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "water_book_clarity_2026_10_25": {
+        "state": "source_compile_verified_native_pending",
+        "result": "W02 encounter instruction теперь полная: поднять/вернуть дощечку и посмотреть на воду. HUD и3уровень добровольной подсказки используют одну константу. После отключения target marker держится на видимой FarPierLooseBoard у настоящего конца(33.4,83.9), не R06(48,83) дальше8мотфигуры. Девять инструкций вклейки/оборота называют реальную выбранную карточку черезphoto.Title и точную существующую кнопку, не изменяют ручной выбор/прогресс.",
+        "verification": "Два bounded source исследования, root проверил W02 phase/board visibility/8m observation и кнопки/обработчики/guards книги. Game affected compile17.83s exit0,0warnings,0errors. Новых тестов/probes не создавали; W02 runtime не наблюдался.",
+        "remaining": "Обычный W02 и физическая книга/авторское ощущение ещё не приняты."
+      }
     },
     {
       "id": "PW-055",
