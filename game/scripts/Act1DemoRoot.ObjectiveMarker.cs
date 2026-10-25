@@ -160,7 +160,8 @@ public partial class Act1DemoRoot
             pending.Push(_main);
             while (pending.TryPop(out var node))
             {
-                if (node.IsQueuedForDeletion() || (node is Node3D spatial && !spatial.IsVisibleInTree())) continue;
+                if (node.IsQueuedForDeletion() || (node is Node3D { Visible: false } spatial
+                    && !IsActiveSuppressedObjectiveZone(spatial))) continue;
                 if (node is InteractionTarget target && ObjectiveMarkerTargetAvailable(target, mission)) return target;
                 foreach (var child in node.GetChildren()) pending.Push(child);
             }
@@ -175,12 +176,29 @@ public partial class Act1DemoRoot
     private bool ObjectiveMarkerTargetAvailable(Node3D? target, PlayerMission mission, bool endpoint = false)
     {
         if (target is null || !GodotObject.IsInstanceValid(target) || target.IsQueuedForDeletion()
-            || !target.IsInsideTree() || !target.IsVisibleInTree() || !_main.IsAncestorOf(target)) return false;
+            || !target.IsInsideTree() || !ObjectiveMarkerTargetVisible(target) || !_main.IsAncestorOf(target)) return false;
         if (target is InteractionTarget { PresentationEnabled: false }) return false;
         // The mission owns semantic unlocks; proximity/aim gates must not hide a known destination.
         return endpoint || string.IsNullOrWhiteSpace(mission.InteractionId)
             || target is InteractionTarget interaction && interaction.InteractionId == mission.InteractionId;
     }
+
+    private static bool ObjectiveMarkerTargetVisible(Node3D target)
+    {
+        if (!target.Visible) return false;
+        for (var ancestor = target.GetParent(); ancestor is not null; ancestor = ancestor.GetParent())
+        {
+            if (ancestor.IsQueuedForDeletion()
+                || (ancestor is Node3D { Visible: false } spatial && !IsActiveSuppressedObjectiveZone(spatial)))
+                return false;
+        }
+        return true;
+    }
+
+    // The active legacy street hides its old visuals while retaining the real interaction owners.
+    private static bool IsActiveSuppressedObjectiveZone(Node3D node) => node is StyleBenchmarkZone
+        && node.GetMeta("legacyPresentationSuppressed", false).AsBool()
+        && node.GetMeta("activePresentation", false).AsBool();
 
     private void EnsureObjectiveMarker()
     {

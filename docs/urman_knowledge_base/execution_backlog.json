@@ -2672,7 +2672,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-10-25",
+  "updated": "2026-10-26",
   "goal_key": "urman-photoworlds-finished-game",
   "goal_statement": "Довести единую очередь до готовой игры «За краем снимка»: обычная зимняя Кара-Урман, физическая книга Тукая, 13 снимков, пять полноценных фотомиров, пролог W01, реальные внешние подтверждения, домашний эпилог и свободные возвращения. Все применимые требования Visual Reset и PhotoWorlds, сохранённые бытовые системы и выпускная приёмка обязательны; готовность принимается REL-003 на конкретной поставляемой сборке, а не по числу закрытых карточек.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -53891,7 +53891,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": "Codex",
+      "active_owner": null,
       "owner": "finished-act1",
       "depends_on": [
         "ACT1-UI.1"
@@ -53924,7 +53924,9 @@
         "game/scripts/PlayerMission.cs",
         "game/scripts/JournalUi.Missions.cs",
         "game/scripts/InteractionTarget.cs",
-        "game/scripts/DocumentUi.cs"
+        "game/scripts/DocumentUi.cs",
+        "evidence/PW-043/ordinary_2f1f60131ede469f9c0c9b1f27d55b7a/receipt.json",
+        "evidence/PW-043/ordinary_2f1f60131ede469f9c0c9b1f27d55b7a.zip"
       ],
       "mvp_priority": 17,
       "mvp_packet": "LEGACY-COMPAT",
@@ -54052,8 +54054,8 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Station doctor ready/idle, root готовит один changed-source ordinary GUI check вместо повторения пролога. Только конкретный оставшийся rendering/mission marker вопрос."
+        "state": "released",
+        "reason": "Один changed-source native run2f1f terminalFAIL timeout124; userdataRestored=true. Найденный marker owner defect исправлен source/compile, новый игровой запуск не делался."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -54062,7 +54064,7 @@
         "Подсказка/субтитры/выбор ответа читаемы, не перекрывают действие; один focus; подтверждается именно выделенная реплика.",
         "На текущем candidate подтвердить читаемость задачи/маркера, отсутствие перекрытий, смену после действия и модальных окон; source compile не заменяет GUI."
       ],
-      "next_action": "Один current-source Windows play-product: обычный NewGame, разрешённый автором пропуск уже проверенного пролога; проверить фактическую читаемость новой задачи/маркера на снегу и направление к дому. Не считать этот ограниченный просмотр полной сюжетной приёмкой. Затем штатное завершение и userdataRestored receipt.",
+      "next_action": "Не повторять уже наблюдённые prologue HUD/language/D00. Следующую необходимую Windows приёмку совмещать с целым первым эпизодом: changed home marker→реальный проход калитки/дверь→чай→книга. Source fixed marker не объявлять визуально принятым, full dialogue/theme/1.6scale/pleasant-play gates открыты.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -54125,7 +54127,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "Постоянная верхняя левая задача: заголовок+конкретное действие+реальная кнопка журнала; единая проекция фактов/книги, видимая известная цель с расстоянием и стрелкой за краем экрана. Modal/loading/replay/drive скрывают HUD/маркер; масштаб/контраст сохранены. Дальние W02/W04 якоря и W05 подставка исправлены после независимого ревью. Визуал/удобство ещё не приняты. 25.10 continuity follow-up: После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным.",
+        "actual_result": "Постоянная верхняя левая задача: заголовок+конкретное действие+реальная кнопка журнала; единая проекция фактов/книги, видимая известная цель с расстоянием и стрелкой за краем экрана. Modal/loading/replay/drive скрывают HUD/маркер; масштаб/контраст сохранены. Дальние W02/W04 якоря и W05 подставка исправлены после независимого ревью. Визуал/удобство ещё не приняты. 25.10 continuity follow-up: После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным. 26.10 one native2f1f observed prologue mission HUD/51m marker and village mission text; missing house marker had exact hidden logical owner cause. Marker source visibility exception fixed and affected compile18.83s0/0; new marker not visually rechecked. Run overallFAILtimeout124/userdataRestored=true.",
         "evidence_refs": [
           "tasks[id=ACT1-UI.3].evidence"
         ],
@@ -54267,6 +54269,23 @@
         "question": "Показывает ли новый HUD действительную задачу и пространственный маркер дома, читаемые на снегу без перекрытия; проходит ли обычный вход через открытый проход калитки, а не через её створку?",
         "success": "Текущий source snapshot, обычные NewGame/skip/диалог, фактический village frame с видимыми задачей/маркером; по возможности gate→door обычным движением. Незавершённый путь не объявлять исправленным.",
         "bound": "Один play-product на idle ready станции с защищёнными данными, без новых тестовых сцен и повторения baselineF00/F01/F03. Вопрос рендера нельзя закрыть source compile."
+      },
+      "native_mission_hud_2026_10_26": {
+        "run_id": "2f1f60131ede469f9c0c9b1f27d55b7a",
+        "snapshot": "e7ba04e21d8b7c073b09e23111a8ebf71b692f2215bbc40958642284fef8dd2e",
+        "commit": "444de32d",
+        "overall_result": "FAIL_TIMEOUT_124",
+        "userdataRestored": true,
+        "observed": "Обычный menu→NewGame: постоянная панель задачи читаема на снегу, branch marker51m виден; модальный Niva dialogue скрывает HUD. Авторски разрешённый Enter skip→Niva arrival/language/D00→village; village mission panel есть, home marker отсутствует. House entry не проверен. Это не PASS всей кампании/пролога или удобства.",
+        "cause": "Act1ConnectedWorld intentionally sets village-main-road StyleBenchmarkZone.Visible=false and legacyPresentationSuppressed=true while retaining real interaction/physics owners. Marker DFS/target IsVisibleInTree wrongly pruned that active owner.",
+        "repair": "Only marker search/cache visibility permits hidden StyleBenchmarkZone when BOTH legacyPresentationSuppressed=true and activePresentation=true. Hidden target/other hidden ancestor/inactive zones/PresentationEnabled=false/session ownership remain refused. Physics/content/progress unchanged.",
+        "verification": "Worker scoped implementation and root exact diff/owner review; affected Game compile18.83s exit0,0warnings,0errors; scoped diff check. Changed marker rendering not observed after fix.",
+        "evidence": [
+          "evidence/PW-043/ordinary_2f1f60131ede469f9c0c9b1f27d55b7a/receipt.json",
+          "evidence/PW-043/ordinary_2f1f60131ede469f9c0c9b1f27d55b7a.zip",
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs"
+        ],
+        "cleanup": "CRC+every extracted byte comparison passed; original result.zip moved without copy, receipt retained;10744408bytes extracted/local screenshot duplicates deleted."
       }
     },
     {
@@ -122448,6 +122467,13 @@
         "userdataRestored": true,
         "observed": "game.log scene/checkpoint sequence confirms F03→arrival→Niva conversation→home street, no home entrance proof.",
         "cleanup": "CRC+all extracted byte comparisons passed; original zip moved without duplicate; receipt kept, duplicate extracted files/screens removed43086855bytes."
+      },
+      "native_ordinary_2f1f_2026_10_26": {
+        "state": "partial_observed_full_gate_open",
+        "run_id": "2f1f60131ede469f9c0c9b1f27d55b7a",
+        "result": "FAIL_TIMEOUT_124",
+        "userdataRestored": true,
+        "observed": "Обычный menu/NewGame/current PW scene, разрешённый skip→Niva drive arrival/language/D00→home street. Old demo не подставлен. Дом/чай/книга/Continue не проверены; движущаяся поездка не оценена непрерывным наблюдением. Receipt+archive in ACT1-UI.3."
       }
     },
     {
@@ -148263,6 +148289,13 @@
         "result": "Исторические narrative/chapter1 MVP/beat sheet28.09 явно обозначены как прежний chapter1 demo и ссылаются на текущую PhotoWorlds bible; история сохранена. Новый HUD использует один typed mission owner, два неиспользуемых дублирующих private PW cue метода удалены.",
         "verification": "Game affected assembly compile exit0,0warnings,0errors,15.35s; ContentCli compile exit0. Independent Astra limited source review: three concrete findings fixed and rechecked; remaining P1/P2 not found in reviewed seam. Definitions comparison:149 existing text records+2 knowledge summaries changed,18 hint text resources added; no dialogue nodes/conditions/effects/transition changes. No tests/new game/probes after latest author steering.",
         "remaining": []
+      },
+      "native_ordinary_2f1f_2026_10_26": {
+        "state": "partial_observed_full_gate_open",
+        "run_id": "2f1f60131ede469f9c0c9b1f27d55b7a",
+        "result": "FAIL_TIMEOUT_124",
+        "userdataRestored": true,
+        "observed": "Обычный menu/NewGame/current PW scene, разрешённый skip→Niva drive arrival/language/D00→home street. Old demo не подставлен. Дом/чай/книга/Continue не проверены; движущаяся поездка не оценена непрерывным наблюдением. Receipt+archive in ACT1-UI.3."
       }
     },
     {
