@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using Urman.Core.Persistence;
+using Urman.Experiments.AgentBAct1;
 
 namespace Urman.Godot;
 
@@ -9,6 +10,12 @@ public partial class Act1DemoRoot
 {
     private static readonly Vector2[] ObjectiveDiamond = [new(0, -10), new(8, 0), new(0, 10), new(-8, 0)];
     private static readonly Vector2[] ObjectiveArrow = [new(0, -12), new(10, 10), new(0, 5), new(-10, 10)];
+    private static readonly Lazy<IReadOnlyList<Vector2>> HomeObjectiveRoute = new(() => Array.AsReadOnly(
+        new[]
+        {
+            AgentBAct1Layout.WalkChain[2], AgentBAct1Layout.WalkChain[3], AgentBAct1Layout.WalkChain[4],
+            AgentBAct1Layout.WalkChain[5], AgentBAct1Layout.WalkChain[6], AgentBAct1Layout.WalkChain[7]
+        }));
     private Control? _objectiveMarker;
     private Polygon2D? _objectiveMarkerGlyph;
     private Polygon2D? _objectiveMarkerOutline;
@@ -95,14 +102,21 @@ public partial class Act1DemoRoot
         }
         var label = _objectiveMarkerLabel!;
         var name = string.IsNullOrWhiteSpace(mission.TargetLabel) ? mission.Title : mission.TargetLabel;
-        var distance = player.GlobalPosition.DistanceTo(target.GlobalPosition);
+        var destination = target.GlobalPosition;
+        var waypoint = TryGetHomeObjectiveWaypoint(mission, player.GlobalPosition, out var routePoint, out var routeLabel);
+        if (waypoint)
+        {
+            destination = routePoint;
+            name = routeLabel;
+        }
+        var distance = player.GlobalPosition.DistanceTo(destination);
         label.Text = $"{name}\n{Mathf.RoundToInt(distance)} м";
         var labelWidth = Mathf.Min(320f * scale, viewportSize.X - 48f);
         label.Size = new Vector2(labelWidth, 48f * scale);
         label.Position = new Vector2(-labelWidth / 2f, 18f * scale);
 
         // Anchors describe feet-level destinations; interaction bodies already own their centre.
-        var worldPoint = target.GlobalPosition + Vector3.Up * (target is InteractionTarget ? .65f : 1.5f);
+        var worldPoint = destination + Vector3.Up * (!waypoint && target is InteractionTarget ? .65f : 1.5f);
         var screenPoint = camera.UnprojectPosition(worldPoint);
         var centre = viewportSize / 2f;
         var inset = new Vector2(labelWidth / 2f + 24f, 64f * scale);
@@ -143,6 +157,50 @@ public partial class Act1DemoRoot
             _objectiveMarker!.Position = edge;
         }
         _objectiveMarker!.Visible = true;
+    }
+
+    private bool TryGetHomeObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition,
+        out Vector3 waypoint, out string label)
+    {
+        waypoint = default;
+        label = "Вход в дом";
+        if (_bridge?.CurrentZoneId != "village_day" || mission.InteractionId is not
+            ("urman.fullgame:interaction/pw-home-enter-house" or "urman.chapter1:interaction/arrival-enter-house"))
+            return false;
+
+        var route = HomeObjectiveRoute.Value;
+        var position = new Vector2(playerPosition.X, playerPosition.Z);
+        var inward = (route[3] - route[2]).Normalized();
+        // Once across the gate plane, never send the player back to the street approach.
+        var insideYard = (position - route[2]).Dot(inward) >= 0f;
+        var firstSegment = insideYard ? 2 : 0;
+        var lastSegment = insideYard ? route.Count - 2 : 1;
+        var closestDistance = float.PositiveInfinity;
+        var closestProgress = -1f;
+        var next = firstSegment + 1;
+        for (var index = firstSegment; index <= lastSegment; index++)
+        {
+            var leg = route[index + 1] - route[index];
+            var fraction = Mathf.Clamp((position - route[index]).Dot(leg) / leg.LengthSquared(), 0f, 1f);
+            var distance = position.DistanceSquaredTo(route[index] + leg * fraction);
+            var progress = index + fraction;
+            if (distance < closestDistance - .0001f
+                || (Mathf.Abs(distance - closestDistance) <= .0001f && progress >= closestProgress))
+            {
+                closestDistance = distance;
+                closestProgress = progress;
+                next = index + 1;
+            }
+        }
+
+        // The inside node is only .85 m beyond the gate: .15 m leaves .70 m before the turn,
+        // keeping the .35 m capsule clear instead of cutting the corner through the fence.
+        if (position.DistanceSquaredTo(route[next]) <= .15f * .15f) next++;
+        if (next >= route.Count || closestProgress >= route.Count - 1) return false;
+        var point = route[next];
+        waypoint = new Vector3(point.X, AgentBAct1HeightField.CollisionGround(point.X, point.Y) + .05f, point.Y);
+        label = next <= 2 ? "Калитка" : next <= 4 ? "Проход во дворе" : "Вход в дом";
+        return true;
     }
 
     private bool ObjectiveMarkerOverlapsMission(Vector2 position, float labelWidth, float scale) =>

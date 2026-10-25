@@ -54127,7 +54127,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "Постоянная верхняя левая задача: заголовок+конкретное действие+реальная кнопка журнала; единая проекция фактов/книги, видимая известная цель с расстоянием и стрелкой за краем экрана. Modal/loading/replay/drive скрывают HUD/маркер; масштаб/контраст сохранены. Дальние W02/W04 якоря и W05 подставка исправлены после независимого ревью. Визуал/удобство ещё не приняты. 25.10 continuity follow-up: После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным. 26.10 one native2f1f observed prologue mission HUD/51m marker and village mission text; missing house marker had exact hidden logical owner cause. Marker source visibility exception fixed and affected compile18.83s0/0; new marker not visually rechecked. Run overallFAILtimeout124/userdataRestored=true.",
+        "actual_result": "Постоянная верхняя левая задача: заголовок+конкретное действие+реальная кнопка журнала; единая проекция фактов/книги, видимая известная цель с расстоянием и стрелкой за краем экрана. Modal/loading/replay/drive скрывают HUD/маркер; масштаб/контраст сохранены. Дальние W02/W04 якоря и W05 подставка исправлены после независимого ревью. Визуал/удобство ещё не приняты. 25.10 continuity follow-up: После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным. 26.10 one native2f1f observed prologue mission HUD/51m marker and village mission text; missing house marker had exact hidden logical owner cause. Marker source visibility exception fixed and affected compile18.83s0/0; new marker not visually rechecked. Run overallFAILtimeout124/userdataRestored=true. 26.10 source: preventive home marker follows existing incoming gate/yard/door route instead of direct fence-cut. Runtime route/recovery not accepted.",
         "evidence_refs": [
           "tasks[id=ACT1-UI.3].evidence"
         ],
@@ -54286,6 +54286,19 @@
           "game/scripts/Act1DemoRoot.ObjectiveMarker.cs"
         ],
         "cleanup": "CRC+every extracted byte comparison passed; original result.zip moved without copy, receipt retained;10744408bytes extracted/local screenshot duplicates deleted."
+      },
+      "home_approach_guidance_2026_10_26": {
+        "state": "source_compile_verified_native_pending",
+        "result": "Один home-entry marker теперь показывает следующие authored точки incoming WalkChain[2..7]: Калитка→Проход во дворе→Вход в дом→реальная дверь. Два точных interaction ID, village_day only; статическая nearest-segment проекция, вне gate plane не выбирает двор через UpperFence, внутри не отправляет обратно на улицу. .15m arrival threshold сохраняет .70m прямого хода за калиткой для .35m capsule. Без нового progress/Node/general navigation/physics.",
+        "verified": "Worker bounded geometry review + implementation; independent Astra final source review and root exact diff. Последний Game affected compile14.48s exit0,0warnings,0errors; scoped diffcheck. Новых game/tests/probes нет.",
+        "limitation": "Это PREVENTIVE guide обычного уличного подхода, не доказательство свободного контакта и не recovery прежней позиции3c(-6.1985,2.56715) севернее открытой створки. Последний recovery/физический owner native и фактическая проходимость остаются открытыми. Новый маршрут в игре не осмотрен.",
+        "evidence": [
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/experiments/agent_b_act1/AgentBAct1Layout.cs",
+          "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+          "game/scripts/Act1ConnectedWorld.BabaiYardSideGate.cs"
+        ],
+        "cleanup": "После выхода compile и свежего lsof(no open files), git ls-files(empty), exact path/no-symlink checks удалён только ignored reproducible game/.godot/mono cache427950885bytes. Sources/release/userdata/архивы не трогались."
       }
     },
     {
@@ -108859,7 +108872,9 @@
         "game/scripts/JournalUi.Missions.cs",
         "game/scripts/PlayerMission.cs",
         "game/scripts/DocumentUi.cs",
-        "game/scripts/RuntimeBridge.PhotoWorldHints.cs"
+        "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
+        "game/scripts/JournalUi.PhotoBook.cs",
+        "game/scripts/RuntimeBridge.PhotoBook.cs"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-016",
       "source_requirements": [
@@ -109071,7 +109086,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "HUD и первая строка журнала получают CurrentPlayerMission из одного owner; после получения книги остальные действующие задачи и прежние функции остаются. Подготовка/вход/действие/возврат всех фотомиров используют прежние facts/photos/условия, без второго progress state. 25.10 continuity follow-up: После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным.",
+        "actual_result": "HUD и первая строка журнала получают CurrentPlayerMission из одного owner; после получения книги остальные действующие задачи и прежние функции остаются. Подготовка/вход/действие/возврат всех фотомиров используют прежние facts/photos/условия, без второго progress state. 25.10 continuity follow-up: После9928027a исправлен реальный first-episode mismatch: после completed W01 ранний water progress больше не обходит обязательный first_world_home_talk; HUD/журнал предлагают доступный домашний рассказ прежде скрытых water talk/permission. Для школы названа реальная кнопка Рассмотреть снимок, а reader объясняет явное подтверждение/выход без записи. Никаких новых facts/effects/progress state; prologue reader без confirm не объявляется записанным. 26.10 source carried-book flow: canonical top mission, no artificial return-home for valid mount/read, forest fallback reordered after actionable gates; actual GUI/Continue still open.",
         "evidence_refs": [
           "tasks[id=PW-016].evidence"
         ],
@@ -109286,6 +109301,13 @@
         "result": "W02 encounter instruction теперь полная: поднять/вернуть дощечку и посмотреть на воду. HUD и3уровень добровольной подсказки используют одну константу. После отключения target marker держится на видимой FarPierLooseBoard у настоящего конца(33.4,83.9), не R06(48,83) дальше8мотфигуры. Девять инструкций вклейки/оборота называют реальную выбранную карточку черезphoto.Title и точную существующую кнопку, не изменяют ручной выбор/прогресс.",
         "verification": "Два bounded source исследования, root проверил W02 phase/board visibility/8m observation и кнопки/обработчики/guards книги. Game affected compile17.83s exit0,0warnings,0errors. Новых тестов/probes не создавали; W02 runtime не наблюдался.",
         "remaining": "Обычный W02 и физическая книга/авторское ощущение ещё не приняты."
+      },
+      "carried_book_flow_2026_10_26": {
+        "state": "source_compile_verified_native_pending",
+        "cause": "Верх книги передавал автоматически выбранный P-FOREST в preparation и вытеснял текущую водную задачу. HomeMission для9mount/read действий навязывал возврат к столу, хотя существующие bridge gates позволяют эти действия на улице текущей сцены. Forest home fallback также стоял перед CanMount/CanReadBack.",
+        "result": "Верх книги показывает тот же CurrentPlayerMission, что HUD/Дела; выбор карточки, подробности, entry/resume и причины disabled сохранены.9book действий больше не создают world destination/return-home; доступные forest mount/read проверяются до home fallback. Только presentation, authored facts/permissions/ownership/mount/read conditions и кнопочные guards не ослаблены.",
+        "verification": "2 bounded source reviews + root bridge route/condition/caller inspection; Astra выявила ранний forest fallback, исправлен. После последней правки Game14.48s0warnings0errors; diffcheck. В игре carried-book flow не проверен.",
+        "remaining": "Обычная полная книга/сохранённый Continue и внешняя приёмка открыты."
       }
     },
     {
@@ -114172,7 +114194,8 @@
         "game/scripts/photoworlds/W01Controller.cs",
         "game/scripts/photoworlds/W05Controller.Gameplay.cs",
         "content/modules/urman-fullgame/module.json",
-        "game/scripts/JournalUi.Missions.cs"
+        "game/scripts/JournalUi.Missions.cs",
+        "game/scripts/photoworlds/W03Controller.Interactions.cs"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-028",
       "source_requirements": [
@@ -114599,6 +114622,17 @@
         "result": "W02 encounter instruction теперь полная: поднять/вернуть дощечку и посмотреть на воду. HUD и3уровень добровольной подсказки используют одну константу. После отключения target marker держится на видимой FarPierLooseBoard у настоящего конца(33.4,83.9), не R06(48,83) дальше8мотфигуры. Девять инструкций вклейки/оборота называют реальную выбранную карточку черезphoto.Title и точную существующую кнопку, не изменяют ручной выбор/прогресс.",
         "verification": "Два bounded source исследования, root проверил W02 phase/board visibility/8m observation и кнопки/обработчики/guards книги. Game affected compile17.83s exit0,0warnings,0errors. Новых тестов/probes не создавали; W02 runtime не наблюдался.",
         "remaining": "Обычный W02 и физическая книга/авторское ощущение ещё не приняты."
+      },
+      "house_camera_instruction_2026_10_26": {
+        "state": "source_compile_verified_native_pending",
+        "cause": "Старое указание совместить тень ремешка и окно в одном виде невыполнимо при FOV75: направления с H05 расходятся~170deg. Реальный W03 producer сохраняет2последовательных sightings с одной стойки.",
+        "result": "HUD и3уровень добровольной подсказки используют общий HouseCameraActionCue: со стойки осмотреть тень на заборе, затем окно, не уходя с места. Gameplay flags/commit/gates не менялись.",
+        "verification": "Independent bounded W03 source review + root producer check; last Game14.48s0/0. W03 native not run.",
+        "evidence": [
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
+          "game/scripts/photoworlds/W03Controller.Interactions.cs"
+        ]
       }
     },
     {
@@ -130047,7 +130081,11 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-057/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "game/scripts/JournalUi.Missions.cs",
+        "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
+        "game/scripts/photoworlds/W03Controller.Interactions.cs"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-057",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -130406,6 +130444,17 @@
         "limits": "Compilation is not visual/traversal/restore proof. E02 authored asset families/provenance, source art and ordinary native acceptance remain open. No whole-card completion.",
         "review": "Independent native luna_fast source review found no confirmed W03 lifecycle/session/restore/return blocker. Producer read-only collision-path pass found door clearance1.30x2.25m vs player radius.35/height1.8, interior ground matches.331m floor. H06 sill.21m vs stepcap.22m remains a specific native uncertainty, not proof of safe traversal.",
         "native_import": "Current d334 ordinary job6280675a: Windows build/content/import exit0; W03 traversal/actions not reached. Use existing receipt evidence/FINISH-06/native_6280675a75da42fa98e8bf8e957ea1e4/receipt.json; no repeated unchanged compile/import needed."
+      },
+      "house_camera_instruction_2026_10_26": {
+        "state": "source_compile_verified_native_pending",
+        "cause": "Старое указание совместить тень ремешка и окно в одном виде невыполнимо при FOV75: направления с H05 расходятся~170deg. Реальный W03 producer сохраняет2последовательных sightings с одной стойки.",
+        "result": "HUD и3уровень добровольной подсказки используют общий HouseCameraActionCue: со стойки осмотреть тень на заборе, затем окно, не уходя с места. Gameplay flags/commit/gates не менялись.",
+        "verification": "Independent bounded W03 source review + root producer check; last Game14.48s0/0. W03 native not run.",
+        "evidence": [
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
+          "game/scripts/photoworlds/W03Controller.Interactions.cs"
+        ]
       }
     },
     {

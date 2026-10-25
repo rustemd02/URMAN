@@ -99,13 +99,13 @@ public partial class JournalUi
                 : StreetMission(bridge, "forest-school-album", "Другой ракурс", "Откройте альбом в старой школе на Лесной, 12. На снимке людей у леса нажмите «Рассмотреть снимок».", "pw-school-copy-source", "Школьный альбом");
         var canEnterForest = bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-forest");
         if (forestPhoto.Mounted && canEnterForest) return ForestEntryMission(bridge, forestPhoto.HasResumePoint);
+        if (!forestPhoto.Mounted && forestPhoto.CanMount)
+            return new("forest-mount", "Лесной снимок в книге", $"В книге выберите «{forestPhoto.Title}» → «Вклеить снимок».");
+        if (!forestPhoto.BackRead && forestPhoto.CanReadBack)
+            return new("forest-back", "Помета на обороте", $"В книге выберите «{forestPhoto.Title}» → «Прочитать оборот».");
         if (bridge.CurrentZoneId != MissionHomeZone)
             return HomeMission(bridge, "forest-compare", "Сверить два снимка", "Откройте дома книгу и сравните школьную копию с лесным снимком.", anchor: MissionBookAnchor);
-        if (!forestPhoto.Mounted)
-            return forestPhoto.CanMount
-                ? HomeMission(bridge, "forest-mount", "Лесной снимок в книге", $"В книге выберите «{forestPhoto.Title}» → «Вклеить снимок».", anchor: MissionBookAnchor) : null;
-        if (!forestPhoto.BackRead && forestPhoto.CanReadBack)
-            return HomeMission(bridge, "forest-back", "Помета на обороте", $"В книге выберите «{forestPhoto.Title}» → «Прочитать оборот».", anchor: MissionBookAnchor);
+        if (!forestPhoto.Mounted) return null;
         return canEnterForest ? ForestEntryMission(bridge, forestPhoto.HasResumePoint)
             : HomeMission(bridge, "forest-compare", "Сверить два снимка", "Сравните школьную копию с лесным снимком в семейной книге.", anchor: MissionBookAnchor);
     }
@@ -144,8 +144,8 @@ public partial class JournalUi
         PlayerMission WaterSource() => HomeMission(bridge, "water-source", "Снимок у мостков", "Найдите снимок у мостков в семейном конверте на столе.", "pw-water-photo-source", "Семейный конверт");
         PlayerMission PlaceTalk() => HomeMission(bridge, "water-place", "Где были мостки", "Спросите Гөлсинә, где находились старые мостки.", "pw-water-place-talk", "Гөлсинә");
         PlayerMission WaterPermission() => HomeMission(bridge, "water-permission", "Копия снимка у мостков", "Попросите у Гөлсинә разрешение на копию снимка у мостков.", "pw-water-photo-permission", "Гөлсинә");
-        PlayerMission Mount() => HomeMission(bridge, "water-mount", "Снимок у мостков в книге", $"В книге выберите «{waterPhoto!.Title}» → «Вклеить снимок».", anchor: MissionBookAnchor);
-        PlayerMission Back() => HomeMission(bridge, "water-back", "Оборот снимка", $"В книге выберите «{waterPhoto!.Title}» → «Прочитать оборот».", anchor: MissionBookAnchor);
+        PlayerMission Mount() => new("water-mount", "Снимок у мостков в книге", $"В книге выберите «{waterPhoto!.Title}» → «Вклеить снимок».");
+        PlayerMission Back() => new("water-back", "Оборот снимка", $"В книге выберите «{waterPhoto!.Title}» → «Прочитать оборот».");
         if (placeTold && waterPhoto is { Mounted: true, BackRead: true })
             return EntryMission(bridge, "water-enter", "Старые мостки", waterPhoto, "pw-enter-river", "старому подходу к мосткам на берегу");
         if (!atHome)
@@ -183,9 +183,9 @@ public partial class JournalUi
                 ? HomeMission(bridge, "house-permission", "Семейная копия", "Попросите у Гөлсинә копию снимка двора.", "pw-house-photo-permission", "Гөлсинә") : null;
         if (!photo.Mounted)
             return !atHome || photo.CanMount
-                ? HomeMission(bridge, "house-mount", "Снимок двора в книге", $"В книге выберите «{photo.Title}» → «Вклеить снимок».", anchor: MissionBookAnchor) : null;
+                ? new("house-mount", "Снимок двора в книге", $"В книге выберите «{photo.Title}» → «Вклеить снимок».") : null;
         if (!photo.BackRead)
-            return photo.CanReadBack ? HomeMission(bridge, "house-back", "Оборот снимка двора", $"В книге выберите «{photo.Title}» → «Прочитать оборот».", anchor: MissionBookAnchor) : null;
+            return photo.CanReadBack ? new("house-back", "Оборот снимка двора", $"В книге выберите «{photo.Title}» → «Прочитать оборот».") : null;
         return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-house")
             ? EntryMission(bridge, "house-enter", "Двор на старом снимке", photo, "pw-enter-house", "наружному окну семейного дома") : null;
     }
@@ -210,7 +210,7 @@ public partial class JournalUi
                 return HomeMission(bridge, "photographer-permission", "Копия из альбома", "Попросите у Гөлсинә копию снимка с подписью фотографа.", "pw-photographer-photo-permission", "Гөлсинә");
             if (!photographer.BackRead)
                 return photographer.CanReadBack
-                    ? HomeMission(bridge, "photographer-back", "Подпись фотографа", $"В книге выберите «{photographer.Title}» → «Прочитать оборот».", anchor: MissionBookAnchor) : null;
+                    ? new("photographer-back", "Подпись фотографа", $"В книге выберите «{photographer.Title}» → «Прочитать оборот».") : null;
             if (!bridge.PhotoWorldFactObserved("golsina_author_conversation"))
                 return HomeMission(bridge, "photographer-talk", "Кто стоял за камерой", "Спросите Гөлсинә, кто снимал семейный двор.", "pw-gulsina-author-talk", "Гөлсинә");
             return HomeMission(bridge, "photographer-verify", "Сверить рассказ и снимок", "Сверьте рассказ Гөлсинә с подписью фотографа на снимке.", "pw-verify-photographer-evidence", "Семейный альбом");
@@ -233,7 +233,7 @@ public partial class JournalUi
             if (!bridge.HasPrintedCommonPhoto)
                 return HomeMission(bridge, "common-print", "Бумажный снимок", "В «Блокноте» на ПК нажмите «Напечатать подписанный снимок для книги».", "pw-print-common-photo", "Домашний ПК", MissionPcAnchor);
             if (bridge.CurrentZoneId != MissionHomeZone || common.CanMount)
-                return HomeMission(bridge, "common-mount", "Общий снимок в книге", $"В книге выберите «{common.Title}» → «Вклеить снимок».", anchor: MissionBookAnchor);
+                return new("common-mount", "Общий снимок в книге", $"В книге выберите «{common.Title}» → «Вклеить снимок».");
             return null;
         }
         if (!bridge.PhotoWorldFactObserved("alsu_bank_meeting_planned")
@@ -306,7 +306,7 @@ public partial class JournalUi
         if (photo is null)
             return HomeMission(bridge, "cellar-permission", "Копия снимка сеней", "Попросите у Гөлсинә копию снимка сеней.", "pw-cellar-photo-permission", "Гөлсинә");
         if (!photo.Mounted)
-            return bridge.CurrentZoneId != MissionHomeZone || photo.CanMount ? HomeMission(bridge, "cellar-mount", "Снимок сеней в книге", $"В книге выберите «{photo.Title}» → «Вклеить снимок».", anchor: MissionBookAnchor) : null;
+            return bridge.CurrentZoneId != MissionHomeZone || photo.CanMount ? new("cellar-mount", "Снимок сеней в книге", $"В книге выберите «{photo.Title}» → «Вклеить снимок».") : null;
         return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-cellar")
             ? EntryMission(bridge, "cellar-enter", "Сухие сени", photo, "pw-enter-cellar", "двери сухих сеней семейного дома") : null;
     }
@@ -386,7 +386,7 @@ public partial class JournalUi
                 ("urman.fullgame:scene/pw-house", "house-two-views") =>
                     ("Два вида одного двора", "Посмотрите на яблоню и садовый стул из обоих проходов.", "pw-house-two-views", "ZoneHost/W03/Anchors/H04", "Яблоня и садовый стул"),
                 ("urman.fullgame:scene/pw-house", "house-camera") =>
-                    ("Место фотографа", "Встаньте на место фотографа: найдите тень ремешка и окно в одном виде.", "pw-house-camera-position", "ZoneHost/W03/W03World/H05PhotographerWitness", "Место фотографа"),
+                    ("Место фотографа", RuntimeBridge.HouseCameraActionCue, "pw-house-camera-position", "ZoneHost/W03/W03World/H05PhotographerWitness", "Место фотографа"),
                 ("urman.fullgame:scene/pw-house", "house-cloth") =>
                     ("Ткань на окне", "Снимите ткань с окна и положите её на полку.", "pw-house-cloth", null, "Ткань на окне"),
                 ("urman.fullgame:scene/pw-house", "house-frame") =>

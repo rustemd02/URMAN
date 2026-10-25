@@ -2,6 +2,7 @@ namespace Urman.Godot;
 
 public partial class RuntimeBridge
 {
+    internal const string HouseCameraActionCue = "Встаньте на место фотографа. Осмотрите тень ремешка на заборе, затем окно дома с этого места.";
     internal const string WaterEncounterActionCue = "Поднимите дощечку у конца дальних мостков, верните её на место и посмотрите на воду рядом.";
     internal const string ForestBackInspectionCue = "Выйдите из поворота и оглянитесь на три ствола.";
     internal sealed record PhotoWorldHintProjection(string Key, string Question, string Area, string Action);
@@ -158,6 +159,11 @@ public partial class RuntimeBridge
             selected.Key,
             ResolveText($"urman.fullgame:text/{selected.TextKey}-question"),
             ResolveText($"urman.fullgame:text/{selected.TextKey}-area"),
-            selected.Key == "river-encounter" ? WaterEncounterActionCue : ResolveText(selected.ActionTextId));
+            selected.Key switch
+            {
+                "river-encounter" => WaterEncounterActionCue,
+                "house-camera" => HouseCameraActionCue,
+                _ => ResolveText(selected.ActionTextId)
+            });
     }
 }

@@ -552,7 +552,7 @@ public partial class JournalUi
 
     private void RefreshPhotoBookPreparation()
     {
-        var text = PhotoBookPreparationObjectiveText(_bridge, _photoBookSelectedId);
+        var text = _bridge is { } bridge ? CurrentPlayerMission(bridge)?.Action : null;
         _photoBookPreparation.Text = text ?? string.Empty;
         _photoBookPreparation.Visible = text is not null;
     }
