@@ -2672,7 +2672,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-10-23",
+  "updated": "2026-10-25",
   "goal_key": "urman-photoworlds-finished-game",
   "goal_statement": "Довести единую очередь до готовой игры «За краем снимка»: обычная зимняя Кара-Урман, физическая книга Тукая, 13 снимков, пять полноценных фотомиров, пролог W01, реальные внешние подтверждения, домашний эпилог и свободные возвращения. Все применимые требования Visual Reset и PhotoWorlds, сохранённые бытовые системы и выпускная приёмка обязательны; готовность принимается REL-003 на конкретной поставляемой сборке, а не по числу закрытых карточек.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -104186,10 +104186,10 @@
       "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "Семантический граф сведён с каноническими производителями и проверен существующим protected smoke (routes A/B, финал без W05, возврат/ревизит, опциональное W05); ",
-        "Осталось: native/visual receipt исправленного контракта (или обоснованный NOT_RUN) и физические миры/обычный маршрут в PW-045–PW-069/PW-094."
+        "Понятный первый эпизод с причиной действовать и видимым результатом; источник/действие/разговор не подменяются абстрактными флагами.",
+        "Обычный проход всей кампании и финала, проходимость физических миров, отдельные внешние приёмки остаются обязательными."
       ],
-      "next_action": "Не расширять агрегат: следующий предметный шаг — физическая презентация миров (W02 первым) в своих карточках; native receipt собрать при первой станционной проверке исправленного графа.",
+      "next_action": "Сопоставить реальный первый сюжетный эпизод с авторской жалобой: чай/книга→полезная школьная копия→вход→действие/встреча→домашний результат→следующая зацепка. Устранить найденные разрывы в текущих owners; не закрывать кампанию по semantic route или отдельной подсказке.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -120413,7 +120413,7 @@
       "title": "Набрать текст книги и короткие реплики",
       "milestone": "PW-M2",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex",
       "owner": "narrative",
       "priority": "P0",
       "complexity": "medium",
@@ -120549,8 +120549,8 @@
       },
       "assigned_owner": "narrative",
       "activity": {
-        "state": "not_active",
-        "reason": "D04 source stage передан координатору и скомпилирован; runtime отдельно."
+        "state": "confirmed_active",
+        "reason": "Независимое ревью выявило всеведущую реакцию Гөлсинә и обещание названия места без ответа. Исправляем причинность существующего первого эпизода."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -120559,7 +120559,7 @@
         "Критические строки редактируются отдельно от изображения.",
         "Отсутствующая запись голоса не блокирует прохождение."
       ],
-      "next_action": "Первое исследование source принято в PW-013.first_investigation_2026_10_24: реальный школьный источник, ответ Гульсины и запись у снимка. Следующая приёмка — цельный эпизод и сохранение результата; не отдельная реплика. Остальные D00/D05 и внешняя литературная/языковая приёмка открыты.",
+      "next_action": "Принять цельный первый эпизод на Windows с изменёнными репликами и физическим результатом; отдельно сохранить авторскую/культурную/языковую/слуховую приёмку. Не объявлять всю кампанию понятной по одной переписанной реплике.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -120635,7 +120635,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "Source text corrected: home learns encounter from Aidar and reports only earned assistance (no unearned D07 quote); water talk no unanswered place-name promise; W01 question/payoff aligned. Existing fullgame content compilation exit0; changed keys have no existing voice assets. New native dialogue/story acceptance remains open.",
         "evidence_refs": [
           "tasks[id=PW-041].evidence"
         ],
@@ -121173,9 +121173,9 @@
       "title": "Перенести пролог внутрь W01",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex / prologue_repair",
       "owner": "narrative",
-      "priority": "P1",
+      "priority": "P0",
       "complexity": "complex",
       "depends_on": [
         "PW-003/GRAPH-SOURCE",
@@ -121405,7 +121405,8 @@
         "evidence/PW-043/interactive-20261016/frames/x21-porch-viewport.json",
         "evidence/PW-043/interactive-20261016/run22-status.json",
         "evidence/PW-043/interactive-20261016/run22-driver-live.log",
-        "evidence/PW-043/interactive-20261016/run22-game.log"
+        "evidence/PW-043/interactive-20261016/run22-game.log",
+        "evidence/PW-043/ordinary_783047ce14af49cb8868134e367da644/receipt.json"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-043",
       "source_requirements": [
@@ -121535,18 +121536,18 @@
       },
       "assigned_owner": "narrative",
       "activity": {
-        "state": "not_active",
-        "reason": "Two native processes and guard terminal0 with verified userdata restoration. Finite exit/Save/coldContinue semantic acceptance recorded; no active station or game process."
+        "state": "confirmed_active",
+        "reason": "Автор25.10 подтвердил сломанный путь и отсутствие поездки; Windows доступен. Восстанавливаем обычную PW-цепочку, legacy не подставляем."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "Вступление содержит управление и осмысленное действие, а не обязательную погоню.",
-        "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
-        "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
+        "Пройти F00–F03 обычным вводом и исправить доказанное препятствие маршрута.",
+        "Доставить короткую реальную поездку внутри действующего перехода в Ниву; Continue из прибытия не повторяет пролог.",
+        "Принять переход из Нивы в дом, разговор за чаем и получение книги; полная художественная/авторская приёмка остаётся открытой."
       ],
-      "next_action": "Accept finite fca ordinary book→school-copy→Save/MainMenu/Continue slice without closing full prologue/loop. Next native: changed F00–F03 visual path/opening, then forest-edge→W01 action→return and post-return continuation; keep full visual/external gates.",
+      "next_action": "После code/content compile и независимого ревью принять исправленный обычный NewGame→ветка→F03 без E→движущаяся Нива→D00→дом/книга на Windows. Baseline783047ce PASS/userdataRestored подтверждает запуск/ветку, но не целый пролог: участок~68,127 требует отдельного наблюдения, полный переход не достигнут. Не объявлять предполагаемую коллизию решённой.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121621,7 +121622,7 @@
         ],
         "verification": {
           "method": "targeted_runtime_scenario",
-          "question": "Перенести пролог внутрь W01",
+          "question": "Можно ли обычным NewGame пройти F00–F03, увидеть движущуюся Ниву, выйти и начать семейную сцену без debug/обхода сломанного пути?",
           "scenario": {
             "targets": [
               "game/scenes/photoworlds/W01/W01.tscn",
@@ -121648,7 +121649,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "Source: F03 natural endpoint dispatch+spatial wake; live PW Niva20s drive, pause/skip/Continue/session teardown; Game compile13.60s0/0 and content compile0. Native acceptance of changed source pending. Baseline783047ce ordinary F00→F01 branch action passed, end not reached; protected receiptPASS,userdataRestored=true.",
         "evidence_refs": [
           "tasks[id=PW-043].evidence"
         ],
@@ -160703,7 +160704,7 @@
       ]
     },
     "dispatch_policy": {
-      "source": "author/2026-10-17-visible-mvp-priority",
+      "source": "author/2026-10-25-story-campaign-and-prologue",
       "protocol": "docs/tasktracker/06_small_model_execution_2026-09-22.md",
       "max_implementers": "По реально доступным независимым исполнителям/слотам текущего запроса; старые3 не ограничение. Общие файлы и станция сериализованы.",
       "coordinator": "Выбирает готовые предметные этапы из разных parallel_blocks, задаёт точные файлы и интерфейсы, принимает уже готовые результаты и лично осматривает визуальный стиль. Один владелец станции сериализует импорт/сборки/захват; на общий файл один writer.",
@@ -160735,13 +160736,16 @@
       "integration": "Регулярный отдельный commit/push каждого проверенного этапа, не копить большой незакоммиченный пакет. Source/compile этап не выдавать за native acceptance; включать только свои проверенные файлы/хунки, сохранять чужие изменения.",
       "mvp_selection_rule": "Сначала законченные, сразу заметные игроку этапы: обычный запуск и Continue; цельный пролог и первая прогулка; фото → физическая книга → вход → содержательное действие → возврат → сохранённое продолжение; убедительная сцена деревни; самостоятельный релизный кандидат. Мелкие веточки, кусты, фактуры и локальная полировка идут после этих результатов, кроме доказанного блокера проходимости, читаемости, стабильности или производительности выбранного этапа.",
       "mvp_delivery_order": [
-        "ACT1-VILLAGE-BLOCKOUT",
-        "PW-097",
         "PW-043",
-        "PW-028",
-        "PW-019",
-        "PW-045",
+        "PW-003",
         "PW-041",
+        "PW-013",
+        "PW-020",
+        "PW-019",
+        "PW-028",
+        "PW-045",
+        "PW-097",
+        "ACT1-VILLAGE-BLOCKOUT",
         "ACT1-MECH-AUDIT.3",
         "FINISH-06/E01",
         "FINISH-06/E02",
@@ -160751,13 +160755,11 @@
         "ACT1-LEGS.2",
         "PW-046",
         "PW-047",
-        "PW-013",
         "PW-014",
         "PW-017",
         "PW-016",
         "PW-015",
         "PW-018",
-        "PW-020",
         "PW-021",
         "PW-022",
         "PW-023",
@@ -160813,7 +160815,8 @@
         },
         "preserved": "Unique original inputs/producer/rejected consumer patch, raw extracted receipt/logs/frames, pinned tools, userdata and latest f62 desktop package. One differing/unique archive retained."
       },
-      "player_experience_priority": "24.10 author ranking 1-3-2: first ordinary walking blockages, then meaningful exploration/action/result, then movement/camera feel. Prefer a complete playable episode over isolated hints, model polish or placement. A disproved hypothesis does not authorize speculative physics changes."
+      "player_experience_priority": "24.10 author ranking 1-3-2: first ordinary walking blockages, then meaningful exploration/action/result, then movement/camera feel. Prefer a complete playable episode over isolated hints, model polish or placement. A disproved hypothesis does not authorize speculative physics changes.",
+      "campaign_priority": "Сначала восстановить обычный целый пролог с Нивой; затем принять законченный первый эпизод с понятной мотивацией, поиском, действием, результатом и следующим сюжетным шагом. Одни подсказки/переписанные строки не заменяют проходимость и содержательный игровой цикл."
     }
   },
   "requirements_integration_2026_10_10": {

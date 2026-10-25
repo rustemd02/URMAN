@@ -651,8 +651,8 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         if (schoolPhoto is null)
         {
             return bridge.PhotoWorldFactObserved("school_copy_identified")
-                ? "В школе попросить у сотрудницы разрешение на копию найденного отпечатка с теми же людьми и узнаваемой стороной стволов."
-                : "Проверить школьный альбом: поискать снимок тех же людей у леса и спросить, можно ли получить копию.";
+                ? "В старой школе на Лесной, 12 попросить у сотрудницы копию найденного снимка — оригинал оставить в альбоме."
+                : "В старой школе на Лесной, 12 найти в альбоме тех же людей у леса: другой ракурс поможет определить, где стоял фотограф.";
         }
 
         const string enterForestInteractionId = "urman.fullgame:interaction/pw-enter-forest";

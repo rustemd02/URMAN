@@ -605,7 +605,7 @@ public partial class Act1DemoRoot
         }
     }
 
-    private void BuildPrologueOverlay(string skipText = "пропустить вступление")
+    private void BuildPrologueOverlay(string skipText = "пропустить вступление", string skipAction = "ui_cancel")
     {
         _prologueOverlay = new CanvasLayer { Layer = 99, Name = "Act1PrologueOverlay" };
         AddChild(_prologueOverlay);
@@ -639,7 +639,7 @@ public partial class Act1DemoRoot
         _prologueOverlay.AddChild(_prologueCaption);
         var skip = new Label
         {
-            Text = InputBindingService.ActionHint("ui_cancel", _player?.CurrentInputDevice == "gamepad") + " — " + skipText,
+            Text = InputBindingService.ActionHint(skipAction, _player?.CurrentInputDevice == "gamepad") + " — " + skipText,
             AnchorLeft = 1, AnchorRight = 1, OffsetLeft = -410, OffsetRight = -28,
             OffsetTop = 24, OffsetBottom = 64, HorizontalAlignment = HorizontalAlignment.Right,
             MouseFilter = Control.MouseFilterEnum.Ignore

@@ -276,6 +276,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         TryBindRuntimeBridge();
         ProcessForestWorldGuard();
+        ProcessPrologueExit();
         RefreshPrologueSkipButtonState();
         ProcessBagPresentation(delta);
         ProcessShuralePresentation(delta);
@@ -356,6 +357,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _rootPassageEnabled = false;
         ResetRootPassageTracking(null);
         ResetForestExitTracking(null);
+        ResetPrologueExitTracking(null);
         _forestExitFrame = null;
         _heroRootContactAtF12 = null;
         _heroRootContactAtF13 = null;

@@ -89,7 +89,8 @@ public partial class Act1DemoRoot
             try
             {
                 _ = bridge.RequireDialogue(PhotoNivaArrivalDialogue);
-                var offerLanguage = ReferenceEquals(session, _photoNivaPrologueSession) && !bridge.HasNivaLanguageResponse;
+                var droveFromPrologue = ReferenceEquals(session, _photoNivaPrologueSession);
+                var offerLanguage = droveFromPrologue && !bridge.HasNivaLanguageResponse;
                 if (offerLanguage) _ = bridge.RequireDialogue(PrologueRideDialogue);
                 if (GetTree().GetFirstNodeInGroup("dialogue_ui") is not DialogueUi dialogue || dialogue.IsOpen)
                     return;
@@ -130,7 +131,8 @@ public partial class Act1DemoRoot
                 player.SetProcessUnhandledInput(false);
                 _rideCamera.MakeCurrent();
                 DialogueUi.ChoiceAccepted += OnPhotoNivaArrivalChoice;
-                bridge.OpenDialogueUi(offerLanguage ? PrologueRideDialogue : PhotoNivaArrivalDialogue);
+                if (droveFromPrologue) BeginPhotoNivaDrive(visual);
+                else bridge.OpenDialogueUi(offerLanguage ? PrologueRideDialogue : PhotoNivaArrivalDialogue);
                 UpdateRouteCue();
             }
             catch (Exception error)
@@ -140,6 +142,12 @@ public partial class Act1DemoRoot
                 GD.PushWarning($"PhotoWorld Niva arrival presentation failed: {error.Message}");
                 player.NotifyTraversal("Не удалось открыть разговор в Ниве. Подойдите к машине, чтобы продолжить.");
             }
+        }
+
+        if (_photoNivaDriving)
+        {
+            UpdatePhotoNivaDrive((float)delta);
+            return;
         }
 
         if (_photoNivaLanguageActive && IsCurrentPhotoNivaArrival(session)
@@ -166,6 +174,16 @@ public partial class Act1DemoRoot
 
     private bool HandlePhotoNivaArrivalInput(InputEvent inputEvent)
     {
+        if (_photoNivaDriving && _photoNivaSession is { } driveSession && IsCurrentPhotoNivaArrival(driveSession)
+            && !PhotoNivaDrivePaused
+            && inputEvent is not InputEventKey { Echo: true }
+            && !inputEvent.IsActionPressed("pause") && inputEvent.IsActionPressed("skip_prologue"))
+        {
+            FinishPhotoNivaDrive();
+            GetViewport().SetInputAsHandled();
+            return true;
+        }
+        if (_photoNivaDriving) return false;
         if (_photoNivaSession is not { } session || !IsCurrentPhotoNivaArrival(session)
             || _photoNivaExitPending || _photoNivaPlayer?.ModalOpen != false
             || _pauseMenu?.IsOpen == true || inputEvent is InputEventKey { Echo: true }
@@ -243,6 +261,7 @@ public partial class Act1DemoRoot
     private void ReleasePhotoNivaArrival()
     {
         if (_photoNivaPresentation is not { } presentation) return;
+        ReleasePhotoNivaDrive();
         var player = _photoNivaPlayer;
         _photoNivaPresentation = null;
         _photoNivaSession = null;
@@ -745,7 +764,8 @@ public partial class Act1DemoRoot
             (GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi)?.CloseIfDialogue(PrologueRideDialogue);
         }
         if (restoreSessionTransition && _player is not null && IsInstanceValid(_player)) _player.SetSessionTransition(false);
-        if (_player?.GetNodeOrNull<Camera3D>("Head/Camera3D") is { } playerCamera
+        if (_player is { } player && IsInstanceValid(player)
+            && player.GetNodeOrNull<Camera3D>("Head/Camera3D") is { } playerCamera
             && GodotObject.IsInstanceValid(playerCamera))
         {
             playerCamera.MakeCurrent();

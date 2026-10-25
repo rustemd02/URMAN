@@ -2027,7 +2027,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private bool RouteCueBlockedByModal()
     {
-        if (_player?.ModalOpen == true || MainMenuVisible || _pauseMenu?.IsOpen == true) return true;
+        if (_player?.ModalOpen == true || MainMenuVisible || _pauseMenu?.IsOpen == true || _photoNivaDriving) return true;
         var tree = GetTree();
         if (tree.GetFirstNodeInGroup("journal_ui")?.GetNodeOrNull<Control>("Screen")?.Visible == true
             || tree.GetFirstNodeInGroup("dialogue_ui") is DialogueUi { IsOpen: true }
@@ -2117,7 +2117,10 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 : "Подойти к Ниве. Потом — в дом Гөлсинә и Мансура."),
         "urman.fullgame:scene/pw-home" => JournalUi.PhotoBookPreparationObjectiveText(bridge)
             ?? (bridge.CanShowFamilyBookOnTable
-                ? PhotoWorldAvailableCue(bridge, "pw-home-enter-house", "Войти в дом Гөлсинә и Мансура.")
+                ? bridge.CurrentZoneId == "house_old_pc"
+                    ? PhotoWorldAvailableCue(bridge, "pw-book-handoff", "Взять семейную книгу со стола — закончить подписи, которые начал Марат.")
+                        ?? PhotoWorldAvailableCue(bridge, "pw-arrival-tea-talk", "Поговорить с Гөлсинә за чайным столом.")
+                    : PhotoWorldAvailableCue(bridge, "pw-home-enter-house", "Войти в дом Гөлсинә и Мансура — они ждут к чаю.")
                 : null),
         _ => null
     };

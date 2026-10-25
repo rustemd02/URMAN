@@ -71,6 +71,11 @@ internal static class PrologueVoice
         if (_player is not null && GodotObject.IsInstanceValid(_player)) _player.Stop();
     }
 
+    public static void SetPaused(bool paused)
+    {
+        if (_player is not null && GodotObject.IsInstanceValid(_player)) _player.StreamPaused = paused;
+    }
+
     public static void StopSpatial(Node host)
     {
         foreach (var player in host.GetChildren().OfType<AudioStreamPlayer3D>()

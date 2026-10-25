@@ -5748,3 +5748,21 @@ H019 source fix принят: одна exact StreetStep опущена5см и �
 
 **Codex · Mac / native acceptance blocked · 24.10 02:39** → всем
 Следующая обычная приёмка остаётся недоступна в трёх последовательных goal-этапах: H019 repair→family closure→свежая проверка доступа. UnterPC offline(lastSeen21.10), desktop connector NOT_FOUND tunnel_client_not_seen; прежний CUA captured-look не заработал, повторять нечего. Независимые проверенные source этапы доставлены до a7243cb4, семейство проверено e0ccddc8; полного pleasant-play/release acceptance нет. PW095 next_action исправлен: frozen73fd НЕ содержит9c13 audio/7ba reader/c733 pad/a724 step. После доступа один current-source export и ordinary route, старый пакет сохраняется до проверки замены. Новых builds/game/tests/tempfiles нет. После доставки этой записи goal переводится blocked (не complete); объём сохранён. Монитор usage отдельный, reset не активируем, восстановление лимита не наблюдалось.
+
+**Codex · Mac / repo cleanup · 25.10 18:41** → всем
+Взял локальный diff на разбор. Трекнутые изменения включают перегенерированные graphify-отчёты и отдельную правку Blender-генератора; новые asset-файлы смешивают исходники, игровые текстуры и превью. Отделю однозначные локальные выходы, исходники и runtime не трогаю.
+
+**Codex · Mac / repo cleanup · 25.10 18:44** → всем
+Убрал текущие graphify-перегенерации из diff и добавил ignore для graphify, Blender review renders/views/previews, source GLB и сырьевых архивов. Проверил git diff --check и точечные git check-ignore. Генератор, .blend/рецепты, provenance, UID и runtime-ресурсы оставил видимыми. 433 новых project-файла остаются на ручной разбор исходников и ресурсов; blanket-ignore небезопасен. Сборки, игру, тесты, commit и push не запускал.
+
+**Codex · Mac / campaign recovery · 25.10 19:42** → всем
+Автор возобновил кампанию25.10 и отменил условие остановки по usage; автоматизация22 удалена, цель active. Windows doctor ready=true: desktop interactive, busy/recovery/orphan нет. Беру общий JSON, Act1DemoRoot.cs, интеграцию/станцию/Git. Sol исследует обычный PW-пролог и Ниву, Luna — причинную цепочку кампании, Astra — драматургию/естественность диалогов read-only. Сначала исправляем целый игровой отрезок, а не накапливаем подсказки. Чужие .gitignore/Blender-правки сохраняю.
+
+**Codex · Windows / ordinary prologue baseline · 25.10 20:03** → всем
+783047ce baseline: обычный NewGame, F00→F01 пройден движением. Прицелился на ветку, E отводит её и открывает тропу; после действия проход подтверждён текущими кадрами. Это не доказывает F02/F03: продолжаю до точного препятствия. Отсутствие Нивы source-confirmed: текущий PW arrival был stationary; новый короткий drive собран Game17.38s0/0, независимое ревью выявило2P2 lifecycle/settings и они исправлены. Контент первого эпизода очищен от всеведения/ложного обещания и ещё компилируется в итоговый snapshot.
+
+**Codex · Mac / prologue and story source delivery · 25.10 20:15** → всем
+Готовлю source этап: F03 больше не требует невидимую E-цель, есть единственный зов бабая и typed auto handoff; обычный PW arrival получил короткую20s поездку с pause/skip, Continue stationary. У семьи до книги есть конкретное действие, школьный lead указывает Лесную12; естественный домашний рассказ/полезный ответ о мостках и честная запись вместо всеведения/неуслышанной цитаты. D07 можно повторить существующим presentation repeat. Game13.60s0/0, ContentCli0, tracker/schema/diff PASS. Baseline783047ce завершёнPASS userdataRestored=true; ветка/проход приняты, F03 не достигнут. Новый snapshot и цельная сюжетная приёмка ещё pending; полную кампанию не закрываю.
+
+**Codex · Mac / commit source stage · 25.10 20:17** → всем
+Независимое Luna source review F03/drive/repeat/home/school: P1/P2 нет. Фиксирую отдельный source этап, Windows changed-source приёмка следующая; в коммит не входят чужие .gitignore/Blender, raw assets и прогоны. Baseline архив проверен CRC+побайтово: evidence/PW-043/ordinary_783047ce14af49cb8868134e367da644.zip, receipt оставлен рядом; удалены только подтверждённые извлечённые дубли и локальные screenshot-дубли. Станция idle/ready, protected userdata restored, новый run ещё не начат.

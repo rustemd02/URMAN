@@ -139,6 +139,12 @@ public partial class W01Controller
         target.ConfigureRayOnly();
         target.PresentationGate = IsShuraleInteractionGateOpen;
         target.AfterDispatch = () => Task.FromResult(IsShuraleInteractionGateOpen());
+        target.PresentationRepeatAvailable = CanRepeatShuraleResponse;
+        target.PresentationRepeat = () =>
+        {
+            if (CanRepeatShuraleResponse() && IsShuraleInteractionGateOpen())
+                _bridge!.OpenDialogueUi(BagDialogueId);
+        };
         target.AddChild(new CollisionShape3D
         {
             Name = "W01Shurale_InteractionRayShape",
@@ -681,10 +687,18 @@ public partial class W01Controller
             && projection is { ActiveSceneId: ForestSceneId } current
             && ReferenceEquals(current.SessionIdentity, _shuraleSessionIdentity)
             && !ShuraleModalOpen()
+            && GetShuraleDialogueUi() is not { IsOpen: true }
             && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
             && GodotObject.IsInstanceValid(player)
+            && player.GlobalPosition.DistanceSquaredTo(root.GlobalPosition) <= 3.5f * 3.5f
             && !player.VehicleControlled && !player.IsClimbingLadder;
     }
+
+    private bool CanRepeatShuraleResponse() =>
+        _shuraleBridgeIsCurrent() is { } bridge
+        && bridge.CurrentW01BranchProjection() is { ActiveSceneId: ForestSceneId } projection
+        && ReferenceEquals(projection.SessionIdentity, _shuraleSessionIdentity)
+        && bridge.PhotoWorldFactObserved(ShuraleEncounterFactId);
 
     private bool ShuraleModalOpen() =>
         MainMenuUi.AnyUndismissed(GetTree())
