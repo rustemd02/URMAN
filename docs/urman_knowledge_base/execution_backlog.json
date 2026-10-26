@@ -147624,7 +147624,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Keep frozen73fd5377 candidate as evidence for its own source snapshot; it excludes9c13cf15 Shurale audio,7ba54158 reader focus,c733cae8 UI gamepad bindings,a7243cb4 H019 support. Once ordinary native acceptance access is restored, export current verified source once before testing these newer changes, verify replacement before retiring old generated packages. Full native NewGame/Save/Continue,Windows-host/performance/rights/art/signing/external gates remain open.",
+      "next_action": "Использовать текущий Windows-кандидат6542c528; не проверять новые функции на старом73fd. Native host/кампания/Continue только после исправления процесса управления; без повторения такого же setup. Отдельно обновить Mac-пакет при необходимости финальной поставки; source/static export не закрывает игровые, художественные и внешние гейты.",
       "blocker": null,
       "external_gates": [
         {
@@ -148544,6 +148544,34 @@
         "evidence": "Fresh Tailscale BackendState Running; UnterPC Online=false,lastSeen2026-10-21T06:40:09.1Z. Fresh desktop connector read returns NOT_FOUND tunnel_client_not_seen (unseen300s). Available CUA absolute-pointer interface previously failed ordinary captured FPS look; no unchanged drag/input retry.",
         "remaining": "Whole first investigation/movement/SaveContinue/native controller and current source visuals cannot be accepted from source/compile/package metadata. Pending owner choice: connect desktop client, supply Windows station, or perform ordinary current-source playthrough.",
         "next_action": "Restore one usable ordinary native route, then one current-source export if testing standalone and the bounded player acceptance route. No repeated builds/static audits solely to fill the wait. Broader agreed campaign and external gates unchanged."
+      },
+      "current_export_2026_10_26": {
+        "job_id": "082f2f0e6bff4fe191b69b97c1b880cf",
+        "snapshot_id": "c2fc0fc9d39d606d408c7506fa16e1bc2e63382854492864b01604c28f0082ea",
+        "source_commit": "6542c528",
+        "production_stage": "7ea0490c",
+        "state": "windows_package_structural_pass_native_open",
+        "question": "Produce one current Windows standalone test candidate including new mission/book/story corrections; structural package receipt must match current snapshot.",
+        "scope": "Existing export-release on Windows, timeout1800, no interactiveplay. Built-in guarded main-pack headless bootstrap is package sanity only; Windows native host/wholecampaign/art/rights/performance/external gates stay open.",
+        "retention": "Keep old73fd standalone until replacement verified. No ordinary rawframe/archive addedtoGit; remove verified extractedduplicates, retaincurrentpackage/receipt/source recipe.",
+        "status": "PASS",
+        "exit_code": 0,
+        "directory": "build/releases/act1-20261026-6542c528",
+        "archive": "build/releases/act1-20261026-6542c528/URMAN-windows-x86_64.zip",
+        "archive_bytes": 554149774,
+        "archive_sha256": "177f5f85cea293ed843f390d101edc4eab0f92865d61d4e5a5d496b0bfb23198",
+        "artifact_receipt": "build/releases/act1-20261026-6542c528/desktop-artifact-receipt.json",
+        "artifact_receipt_sha256": "fbaee4b2e23da5e9ff880d2fb241ecc084938369c4feccfc4e5fe889bf1a2e76",
+        "station_receipt": "evidence/PW-095/export_082f2f0e6bff4fe191b69b97c1b880cf/receipt.json",
+        "raw_logs": "evidence/PW-095/export_082f2f0e6bff4fe191b69b97c1b880cf-logs.zip",
+        "transport_sha256": "c5ba3d5358b59fb965ddf7abab92b404a3dcaad6c79d3ca74e91db10d02ca7a0",
+        "verification": "Windows isolated export PASS; all steps0, userdataRestored=true, snapshotverified, engineerrors0. Artifact ZIP/EXE size+SHA and ZIP CRC verified locally. Producer sourceBefore/sourceAfter identical. Nine changed source files match local hashes; compiled fullgame matches exactly after LF→WindowsCRLF conversion (same b809690 content fingerprint). Actual current mission/book/debrief code included. Built-in guarded headless main-pack bootstrap is package sanity, not Windows EXE/native gameplay acceptance.",
+        "cleanup": "Removed1,065,344,036bytes verified transport/extractedduplicates; old73fd Windows ZIP+staging retired only after replacement verified and oldarchive/staging byte equality checked. Unique oldreceipt and macOS73fd ZIP retained; currentWindows ZIP/EXE/receipt retained.",
+        "not_proven": [
+          "Native Windows EXE host/NewGame/Save/Continue and wholecampaign/pleasantness",
+          "Current macOS package (Mac remains73fd)",
+          "Rights/art/signing/hardwareperformance and external gates"
+        ]
       }
     },
     {
