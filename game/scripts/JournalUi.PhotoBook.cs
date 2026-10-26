@@ -39,6 +39,7 @@ public partial class JournalUi
         };
     private VBoxContainer _photoBookPage = null!;
     private ItemList _photoBookList = null!;
+    private VBoxContainer _photoBookRightPane = null!;
     private ScrollContainer _photoBookScroll = null!;
     private VBoxContainer _photoBookSpread = null!;
     private Label _photoBookEmpty = null!;
@@ -122,6 +123,13 @@ public partial class JournalUi
         spread.AddChild(_photoBookList);
         _photoBookList.ItemSelected += SelectPhotoBookPhoto;
 
+        _photoBookRightPane = new VBoxContainer
+        {
+            Name = "PhotoBookRightPane",
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            SizeFlagsVertical = Control.SizeFlags.ExpandFill
+        };
+        spread.AddChild(_photoBookRightPane);
         _photoBookScroll = new ScrollContainer
         {
             Name = "PhotoSpreadScroll",
@@ -129,7 +137,7 @@ public partial class JournalUi
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
             SizeFlagsVertical = Control.SizeFlags.ExpandFill
         };
-        spread.AddChild(_photoBookScroll);
+        _photoBookRightPane.AddChild(_photoBookScroll);
         _photoBookSpread = new VBoxContainer
         {
             Name = "PhotoSpread",
@@ -190,7 +198,6 @@ public partial class JournalUi
             Disabled = true,
             FocusMode = Control.FocusModeEnum.All
         };
-        _photoBookSpread.AddChild(_photoBookEnterButton);
         _photoBookEnterButton.Pressed += () => _ = EnterSelectedPhotoBookAsync();
         _photoBookEntryHint = new Label
         {
@@ -198,7 +205,6 @@ public partial class JournalUi
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             Visible = false
         };
-        _photoBookSpread.AddChild(_photoBookEntryHint);
         // Match the pause shell's two-step confirmation inside the existing
         // book modal; a second modal would contend for the player input gate.
         _photoBookReturnConfirmation = new Label
@@ -208,7 +214,6 @@ public partial class JournalUi
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             Visible = false
         };
-        _photoBookSpread.AddChild(_photoBookReturnConfirmation);
         _photoBookReturnCancel = new Button
         {
             Name = "CancelReturn",
@@ -216,7 +221,6 @@ public partial class JournalUi
             Visible = false,
             FocusMode = Control.FocusModeEnum.All
         };
-        _photoBookSpread.AddChild(_photoBookReturnCancel);
         _photoBookReturnCancel.Pressed += () =>
         {
             ClearPhotoBookReturnConfirmation();
@@ -341,8 +345,23 @@ public partial class JournalUi
         };
         _photoBookSpread.AddChild(_photoBookCommonRelationsInspectButton);
         _photoBookCommonRelationsInspectButton.Pressed += OpenSelectedPhotoBookCommonRelationsReader;
-        var photoActions = new HBoxContainer { Name = "PhotoActions" };
-        _photoBookSpread.AddChild(photoActions);
+        var photoBookFooter = new VBoxContainer
+        {
+            Name = "PhotoBookActionFooter",
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            SizeFlagsVertical = Control.SizeFlags.ShrinkEnd
+        };
+        photoBookFooter.AddThemeConstantOverride("separation", 4);
+        _photoBookRightPane.AddChild(photoBookFooter);
+        photoBookFooter.AddChild(new HSeparator());
+        var photoActions = new HFlowContainer
+        {
+            Name = "PhotoActions",
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
+        };
+        photoBookFooter.AddChild(photoActions);
+        photoActions.AddChild(_photoBookEnterButton);
+        photoActions.AddChild(_photoBookReturnCancel);
         _photoBookReadBackButton = new Button
         {
             Name = "ReadBack",
@@ -360,8 +379,6 @@ public partial class JournalUi
         photoActions.AddChild(_photoBookMountButton);
         _photoBookMountButton.Pressed += () => _ = PerformPhotoBookActionAsync(readBack: false);
 
-        var photoBackActions = new HBoxContainer { Name = "PhotoBackActions" };
-        _photoBookSpread.AddChild(photoBackActions);
         _photoBookInspectBackButton = new Button
         {
             Name = "InspectPhotoBack",
@@ -370,11 +387,13 @@ public partial class JournalUi
             Disabled = true,
             FocusMode = Control.FocusModeEnum.All
         };
-        photoBackActions.AddChild(_photoBookInspectBackButton);
+        photoActions.AddChild(_photoBookInspectBackButton);
         _photoBookInspectBackButton.Pressed += OpenSelectedPhotoBookBackReader;
         _photoBookActionStatus = new Label { Name = "ActionStatus",
             AutowrapMode = TextServer.AutowrapMode.WordSmart };
-        _photoBookSpread.AddChild(_photoBookActionStatus);
+        photoBookFooter.AddChild(_photoBookEntryHint);
+        photoBookFooter.AddChild(_photoBookReturnConfirmation);
+        photoBookFooter.AddChild(_photoBookActionStatus);
 
         BuildBookInspection();
         BuildPhotoBookImageReader();
@@ -748,7 +767,7 @@ public partial class JournalUi
         if (_photoBookImageReaderTitle is { } titleLabel) titleLabel.Text = "Мои наброски к общему кадру";
         reader.SetImages(new[] { study });
         _photoBookImageReaderLaunchButton = _photoBookCommonRelationsInspectButton;
-        _photoBookSpread.Visible = false;
+        _photoBookRightPane.Visible = false;
         header.Visible = true;
         reader.ShowPicture(true);
     }
@@ -781,6 +800,8 @@ public partial class JournalUi
             _photoBookForestDiscovery,
             _photoBookCommonNote,
             _photoBookCommonRelationsCaption,
+            _photoBookEntryHint,
+            _photoBookReturnConfirmation,
             _photoBookActionStatus
         })
         {

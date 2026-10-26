@@ -311,6 +311,8 @@ public partial class Act1DemoRoot
         var lastSegment = insideYard ? route.Count - 2 : 1;
         var closestDistance = float.PositiveInfinity;
         var closestProgress = -1f;
+        var closestPoint = route[firstSegment];
+        var closestSegment = firstSegment;
         var next = firstSegment + 1;
         for (var index = firstSegment; index <= lastSegment; index++)
         {
@@ -323,6 +325,8 @@ public partial class Act1DemoRoot
             {
                 closestDistance = distance;
                 closestProgress = progress;
+                closestPoint = route[index] + leg * fraction;
+                closestSegment = index;
                 next = index + 1;
             }
         }
@@ -332,6 +336,18 @@ public partial class Act1DemoRoot
         if (position.DistanceSquaredTo(route[next]) <= .15f * .15f) next++;
         if (next >= route.Count || closestProgress >= route.Count - 1) return false;
         var point = route[next];
+        if (closestDistance > .5f * .5f)
+        {
+            // Recover onto the authored approach before aiming at its next corner through a fence.
+            point = closestPoint;
+            if (!insideYard && closestSegment == 1)
+            {
+                var approach = route[2] - route[1];
+                // Leave room outside the gate for the .35 m capsule to clear the fence end.
+                var lastRecoveryFraction = Mathf.Max(0f, 1f - .6f / approach.Dot(inward));
+                point = route[1] + approach * Mathf.Min(closestProgress - 1f, lastRecoveryFraction);
+            }
+        }
         waypoint = new Vector3(point.X, AgentBAct1HeightField.CollisionGround(point.X, point.Y) + .05f, point.Y);
         label = next <= 2 ? "Калитка" : next <= 4 ? "Проход во дворе" : "Вход в дом";
         return true;

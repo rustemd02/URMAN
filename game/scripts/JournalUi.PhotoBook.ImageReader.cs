@@ -122,7 +122,7 @@ public partial class JournalUi
             new DocumentImageContent(photo.PhotoId, path, description)
         });
         _photoBookImageReaderLaunchButton = _photoBookInspectFrontButton;
-        _photoBookSpread.Visible = false;
+        _photoBookRightPane.Visible = false;
         header.Visible = true;
         reader.ShowPicture(true);
     }
@@ -166,7 +166,7 @@ public partial class JournalUi
             new DocumentImageContent(photo.PhotoId, authoredBack.Path, authoredBack.Caption)
         });
         _photoBookImageReaderLaunchButton = _photoBookInspectBackButton;
-        _photoBookSpread.Visible = false;
+        _photoBookRightPane.Visible = false;
         header.Visible = true;
         reader.ShowPicture(true);
     }
@@ -186,6 +186,8 @@ public partial class JournalUi
 
     private void ClosePhotoBookImageReader(bool returnFocus = false)
     {
+        var readerWasOpen = _photoBookImageReaderHeader?.Visible == true
+            || _photoBookImageReaderBody?.Visible == true;
         if (_photoBookImageReader is { } reader && GodotObject.IsInstanceValid(reader))
             reader.SetImages(null);
         if (_photoBookImageReaderBody is { } body && GodotObject.IsInstanceValid(body))
@@ -197,8 +199,8 @@ public partial class JournalUi
             header.Visible = false;
         if (_photoBookImageReaderTitle is { } titleLabel && GodotObject.IsInstanceValid(titleLabel))
             titleLabel.Text = string.Empty;
-        if (_photoBookSpread is not null && GodotObject.IsInstanceValid(_photoBookSpread))
-            _photoBookSpread.Visible = true;
+        if (_photoBookRightPane is not null && GodotObject.IsInstanceValid(_photoBookRightPane))
+            _photoBookRightPane.Visible = true;
 
         var launchButton = _photoBookImageReaderLaunchButton;
         _photoBookImageReaderLaunchButton = null;
@@ -207,5 +209,8 @@ public partial class JournalUi
             && launchButton is { } button
             && GodotObject.IsInstanceValid(button) && button.IsVisibleInTree())
             button.GrabFocus();
+        else if (readerWasOpen && _screen.Visible && _photoBookPage.Visible
+            && _tabs.CurrentTab == PhotoBookTabIndex)
+            FocusPhotoBookPage();
     }
 }

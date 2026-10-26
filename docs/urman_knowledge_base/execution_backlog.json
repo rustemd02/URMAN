@@ -52473,6 +52473,17 @@
         ],
         "verification": "Root source review + independent Luna clean: exactbridge/session/load/draft/pan/fit/unknown-location gates. Existing fullgame ContentCLI exit0; affected Game17.63s0warnings0errors. Tracker/diffcheck below. No game/tests/probes.",
         "remaining": "Обычный W01 action→return→home и карта/движение на Windows не приняты; следующий необходимый игровой вопрос совместить с этим отрезком, setup presence не перепринимать."
+      },
+      "home_marker_recovery_defect_e244_2026_10_26": {
+        "state": "source_implemented_reviewed_compiled_native_not_run",
+        "job_id": "e244989dbfce471e80249f17806b1f17",
+        "snapshot_id": "9d45ec2e2cbf505ba5219c72509de53e3ab6c6f30eaf0072e81a28c27409e545",
+        "request_id": "7f2f0d3dbaeb48acbe0cb53c985dfc3f",
+        "actual": "Driver followed Калитка≈2м, feetXZ[-5.9411,-.7356], Wdisplacement0; actualslide child village-main-road/BabaiYardSideFenceCollision/UpperFence, pointXZ[-6.2608,-.5850], normalXZ[.9042,-.4270]. This is a local guidance/contact case; ordered fullWalkChain previously passed cb15.",
+        "source_cause": "TryGetHomeObjectiveWaypoint chooses closest segment but immediately targets its endpoint. Current outside-plane pose projects to second approach leg at fraction≈.52 / point≈[-4.99,.893], yet marker targets gate[-5.493,1.182] directly into UpperFence. Current safe approach point[-4.450,.579] remains reachable.",
+        "next_action": "Use source-ready recovery in a later necessary home approach, not another unchanged NewGame loop. General distant obstacle/pathfinding guarantee is not claimed.",
+        "result": "Existing closestsegment loop retains closestpoint. Offroute>.5m points back to authoredpolyline; outside secondapproachleg caps projection .6m beforegateplane to clear fencecorner. Onroute/inside branch/.15nodeadvance/ties/terminal/ground/physics unchanged.",
+        "verification": "Luna geometry/source review traced actualfeet to local[-24.788,.674], original directgate line mincornerdistance≈.383m < capsule.35+halfFence.06. Recovery q≈[-24.6,2.55] clears. Boundary at.5m mayjitter ifdeliberatelyhovered; no oscillation on reported recovery trajectory. AffectedGame17.51s0warnings0errors; no newgame/tests/probes."
       }
     },
     {
@@ -110578,7 +110589,7 @@
         "Вне якоря есть чтение без ложной кнопки входа.",
         "Первый якорь проверен до контекста, с нужным и чужим снимком и после визита: применимая причина отказа понятна без спойлера, пиксель-хантинга и выдачи знания. Недостаток подачи сначала подтверждён в обычном маршруте, затем исправлен существующим gate/hint owner."
       ],
-      "next_action": "Сначала закончить текущую подачу цели/действия/маркера и редактуру первого эпизода по исходникам. Не запускать игру ради текста/наличия школы; следующий Windows-вопрос только изменённый office/fence проход или фактический W01 action→return→home, без повторной приёмки setup.",
+      "next_action": "Не повторять тот же NewGame/setup. Source-ready fixed book actions и home marker recovery доставить/зафиксировать; следующий W01 action→return→home запуск только с доказанно иной безопасной подготовкой/эффективным обычным вводом или имеющимся Continue, без debug/seed/profilecopy. Полный эпизод и внешние гейты остаются открыты.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111100,6 +111111,14 @@
         ],
         "verification": "Root source review + Luna bounded implementation/source review + Astra independent review. Caught/fixed misleading F11 singlelandmark cue, missing literal schoolconfirm, W02-first generic home text. No game/tests/probes; compile pending. Final affected Game compile17.80s,0errors/0warnings; existing ContentCLI compiled only urman.fullgame. Source diff inspected12existingtext definitions/default=ru, dialogue graph/effects/conditions unchanged. Tracker render/validate PASS308/20/679; diffcheck clean.",
         "remaining": "Целый W01 action→return→home и удовольствие от игры не приняты; культурная/языковая/художественная/авторская приёмка остаётся отдельной."
+      },
+      "book_action_panel_remaining_2026_10_26": {
+        "source_fact": "BuildPhotoBookUi puts ReadBack/Mount/InspectBack/ActionStatus after the long photo/back/discovery body inside PhotoSpreadScroll. Enter/EntryHint also scroll. Source proves scroll dependence, not actual720p occlusion. Focus on photo list is conventional and is not itself a proven defect.",
+        "next_action": "Carry fixed footer into the next genuinely necessary ordinary gameplay segment; no separate presence capture/newGame rerun.",
+        "state": "source_implemented_reviewed_compiled_native_not_run",
+        "native_before": "e244 actualbook-handoff frame in raw archive: ReadBack/Mount belowvisible720p. Root personally inspected, no extra capture solely for this.",
+        "result": "Existing rightpane now expanding scroll +fixedfooter, same Enter/Cancel/ReadBack/Mount/InspectBack nodes and handlers in wrappingHFlow. Hints/returnconfirmation/status fixed. Three readers hide whole rightpane, close restores it before launchbuttonfocus; implicitclosefallback onlyifreaderwasopen. BookInspection remains in scroll.",
+        "verification": "Root+Luna caller/lifecycle/visibility/source read, affectedGame17.51s0warnings0errors. No content rebuild needed; no tests/native for newfooter. Maxtextscale/longstatus/layout and recovery movement unverified."
       }
     },
     {
@@ -124828,7 +124847,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Сначала закончить текущую подачу цели/действия/маркера и редактуру первого эпизода по исходникам. Не запускать игру ради текста/наличия школы; следующий Windows-вопрос только изменённый office/fence проход или фактический W01 action→return→home, без повторной приёмки setup.",
+      "next_action": "Не повторять тот же NewGame/setup. Source-ready fixed book actions и home marker recovery доставить/зафиксировать; следующий W01 action→return→home запуск только с доказанно иной безопасной подготовкой/эффективным обычным вводом или имеющимся Continue, без debug/seed/profilecopy. Полный эпизод и внешние гейты остаются открыты.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -125237,14 +125256,17 @@
         "verification": "Root actual frame+GLB node read+passport and exact observation condition. String-only diff; no compilation risk, no game/test/build rerun. Scoped diffcheck passed; no new Game compilation or tests for string-only change."
       },
       "current_native_question_2026_10_26": {
-        "question": "Earned F11→realF12/F13→sequential actualsubjectinspection→Shurale/bag physicalaction→F16→homeconversation and clear nextlead. Accepted home/school/F10 are setup only.",
-        "success": "Normalinput, selected currentframes + reducerlog prove the full action/return/home segment; normalQuit/restoreduserdata. No seeded facts/debug/teleport/profilecopy.",
-        "bounds": "One play-product3600 on frozen9aed/648gameplay. Luna sole nativeinput/capture. Stopmoving/startnormalQuit by07:00UTC (>=10minreserve); aftertwofailedhypotheseswithoutnewcause stopandreportconcreteblocker.",
-        "job_id": "35e882d3c2a74ed881154a56087e2590",
-        "snapshot_id": "981ebe693f547d11099e734030a62a181bfc70df071d1ec67315fa35a6b0497a",
-        "source_commit": "9aed1554",
+        "question": "Current9aa: use usefulmap/knownroute for setup only, then earn F11 realframing→F12/F13crossing→sequential3actualboleinspections withvisibleprogress→Shurale/bag action→F16→home recognition/confirmed written finding/clear nextmission.",
+        "success": "Normal UI, selected action/return/home frames and reducer logs; new map used if useful. NormalQuit beforedeadline and raw userdata restored. No new prologue/school presence acceptance.",
+        "bounds": "One protected play-product3600. Try normal Continue if useful/current; otherwise normalNewGame with previously-authorized testprologue skip onlysetup. No debug/seeding/teleport/profilecopy. Soleinput driver forest_inspection_target. Stopmoving and beginQuit by30min aftergame ready (>=10minreserve); twofailedattemptswithoutnewcause→stop/report.",
+        "source_commit": "9aa474fd",
+        "state": "terminal_partial_setup_only_full_episode_not_accepted",
         "input_lease": null,
-        "state": "terminal_partial_concrete_office_fence_pinch"
+        "job_id": "e244989dbfce471e80249f17806b1f17",
+        "snapshot_id": "9d45ec2e2cbf505ba5219c72509de53e3ab6c6f30eaf0072e81a28c27409e545",
+        "game_ready_utc": "2026-10-26T07:57:00Z",
+        "begin_quit_no_later_utc": "2026-10-26T08:27:00Z",
+        "terminal_result_ref": "tasks[id=PW-046].native_e244_result_2026_10_26"
       },
       "native_episode_result_2026_10_26": {
         "job_id": "a64a797c796f4224b0b1e2537997d748",
@@ -125419,6 +125441,24 @@
           "game/scripts/JournalUi.cs"
         ],
         "state": "source_only_native_not_run"
+      },
+      "native_e244_result_2026_10_26": {
+        "job_id": "e244989dbfce471e80249f17806b1f17",
+        "source_commit": "9aa474fd",
+        "snapshot_id": "9d45ec2e2cbf505ba5219c72509de53e3ab6c6f30eaf0072e81a28c27409e545",
+        "status": "PASS",
+        "game_exit_code": 0,
+        "userdata_restored": true,
+        "snapshot_hashes_verified": true,
+        "engine_errors": 0,
+        "station_ready": true,
+        "lease": null,
+        "archive": "evidence/PW-046/ordinary_e244989dbfce471e80249f17806b1f17.zip",
+        "archive_sha256": "55dbc005b9f151cf219e464a4f5d3875a000fcf646a0e32975d1f6aa0ee83557",
+        "receipt": "evidence/PW-046/ordinary_e244989dbfce471e80249f17806b1f17/receipt.json",
+        "observed": "NormalNewGame/authorized forestskip→Niva→home/tea/book→left home. Schoolcopy/F10/W01/action/return/homeconclusion NOT reached by30mincap; no full-episode acceptance. Oldsetup is not new progress. Root viewed actual bookhandoff1280x720: ReadBack/Mount below visible scroll area; header/currentmission present. Map not observed, new map appearance remains unverified. Actual UpperFence contact plus marker source exposed recovery defect; fullorderedroute subsequently entered home.",
+        "next_attempt_policy": "Do not repeat same NewGame/setup trial. First finish current source fixes. Before any later W01 run, establish a materially different safe starting method/efficient normal-input plan or a valid existing Continue through ordinary UI; no seeds/debug/profilecopy/ad-hoc guard changes. Final normal campaign acceptance stays mandatory.",
+        "cleanup": "ZIP45,146,108B CRC+124filesbyteverified;46,227,476Bextracts+55matchingPNG44,781,517B removed. Rawzip/receipt local outsideGit; stationfreed1,501,360,933B, idle/recoveryfalse/noorphans confirmed."
       }
     },
     {
@@ -151237,14 +151277,17 @@
               "remaining": "Run ordinary full route; source correction is not integration acceptance."
             },
             "current_native_question_2026_10_26": {
-              "question": "Earned F11→realF12/F13→sequential actualsubjectinspection→Shurale/bag physicalaction→F16→homeconversation and clear nextlead. Accepted home/school/F10 are setup only.",
-              "success": "Normalinput, selected currentframes + reducerlog prove the full action/return/home segment; normalQuit/restoreduserdata. No seeded facts/debug/teleport/profilecopy.",
-              "bounds": "One play-product3600 on frozen9aed/648gameplay. Luna sole nativeinput/capture. Stopmoving/startnormalQuit by07:00UTC (>=10minreserve); aftertwofailedhypotheseswithoutnewcause stopandreportconcreteblocker.",
-              "job_id": "35e882d3c2a74ed881154a56087e2590",
-              "snapshot_id": "981ebe693f547d11099e734030a62a181bfc70df071d1ec67315fa35a6b0497a",
-              "source_commit": "9aed1554",
+              "question": "Current9aa: use usefulmap/knownroute for setup only, then earn F11 realframing→F12/F13crossing→sequential3actualboleinspections withvisibleprogress→Shurale/bag action→F16→home recognition/confirmed written finding/clear nextmission.",
+              "success": "Normal UI, selected action/return/home frames and reducer logs; new map used if useful. NormalQuit beforedeadline and raw userdata restored. No new prologue/school presence acceptance.",
+              "bounds": "One protected play-product3600. Try normal Continue if useful/current; otherwise normalNewGame with previously-authorized testprologue skip onlysetup. No debug/seeding/teleport/profilecopy. Soleinput driver forest_inspection_target. Stopmoving and beginQuit by30min aftergame ready (>=10minreserve); twofailedattemptswithoutnewcause→stop/report.",
+              "source_commit": "9aa474fd",
+              "state": "terminal_partial_setup_only_full_episode_not_accepted",
               "input_lease": null,
-              "state": "terminal_partial_concrete_office_fence_pinch"
+              "job_id": "e244989dbfce471e80249f17806b1f17",
+              "snapshot_id": "9d45ec2e2cbf505ba5219c72509de53e3ab6c6f30eaf0072e81a28c27409e545",
+              "game_ready_utc": "2026-10-26T07:57:00Z",
+              "begin_quit_no_later_utc": "2026-10-26T08:27:00Z",
+              "terminal_result_ref": "tasks[id=PW-046].native_e244_result_2026_10_26"
             },
             "native_episode_result_2026_10_26": {
               "job_id": "a64a797c796f4224b0b1e2537997d748",
