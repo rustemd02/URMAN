@@ -464,6 +464,10 @@ public partial class Act1ConnectedWorld : Node3D
         ProfileWorldBuildStep("clear-open", ClearOpenPartOfLegacyPresentation);
         // Relayout v3 stage 5: the babai household moves whole onto the main street.
         ProfileWorldBuildStep("relocate-babai", RelocateBabaiHousehold);
+        ((StyleBenchmarkZone)_zoneInstances["village_day"]).FitHouseDoorToLeaf(
+            FindDescendants<MeshInstance3D>(GetNode<Node3D>(
+                "Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade"))
+                .Single(mesh => mesh.Name == "HeroHouse_StreetDoorClosed_LOD0"));
         BindYardSnagWithHollows(GetNode<Node3D>("Act1CoreWorldGreybox"));
         ProfileWorldBuildStep("storage", BuildCozyBabaiStorage);
         BuildShopUses();

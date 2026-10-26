@@ -2213,6 +2213,26 @@ public partial class StyleBenchmarkZone : Node3D
         SetMeta("oldPcTargets", $"power=tower {tower.GetCenter()} documents=screen {screen}");
     }
 
+    internal void FitHouseDoorToLeaf(MeshInstance3D leaf)
+    {
+        if (leaf.Mesh is null) return;
+        // The generated facade has full-size doors; the old .82 proxy missed its upper part.
+        var bounds = leaf.Mesh.GetAabb();
+        var scale = leaf.GlobalBasis.Scale.Abs();
+        var size = bounds.Size * scale;
+        foreach (var name in new[] { "HouseDoor", "ReturnToHouseRegister" })
+        {
+            if (GetNodeOrNull<InteractionTarget>(name) is not { } target) continue;
+            target.GlobalTransform = new Transform3D(leaf.GlobalBasis.Orthonormalized(),
+                leaf.GlobalTransform * bounds.GetCenter());
+            if (target.GetNodeOrNull<CollisionShape3D>("InteractionProxyCollisionShape") is { } shape)
+                shape.Shape = new BoxShape3D { Size = size };
+            if (target.GetNodeOrNull<MeshInstance3D>("HiddenInteractionProxyVisual/HiddenInteractionProxyMesh") is { } proxy)
+                proxy.Mesh = new BoxMesh { Size = size };
+            target.SetMeta("fittedToModel", true);
+        }
+    }
+
     internal InteractionTarget MakeInteractionBox(
         string name,
         Vector3 size,

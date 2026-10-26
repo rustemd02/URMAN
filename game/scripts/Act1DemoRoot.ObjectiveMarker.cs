@@ -11,8 +11,8 @@ public partial class Act1DemoRoot
     private const string ForestGroupObservationInteractionId = "urman.fullgame:interaction/pw-forest-group";
     private const string ForestBeyondFrameInteractionId = "urman.fullgame:interaction/pw-forest-photographer";
     private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
-    private static readonly Vector2[] ObjectiveDiamond = [new(0, -10), new(8, 0), new(0, 10), new(-8, 0)];
-    private static readonly Vector2[] ObjectiveArrow = [new(0, -12), new(10, 10), new(0, 5), new(-10, 10)];
+    private static readonly Vector2[] ObjectiveDiamond = [new(0, -14), new(11, 0), new(0, 14), new(-11, 0)];
+    private static readonly Vector2[] ObjectiveArrow = [new(0, -16), new(13, 13), new(0, 6), new(-13, 13)];
     private static readonly Lazy<IReadOnlyList<Vector2>> HomeObjectiveRoute = new(() => Array.AsReadOnly(
         new[]
         {
@@ -92,9 +92,13 @@ public partial class Act1DemoRoot
         {
             _objectiveMarkerSettings = settings;
             _objectiveMarker!.Theme = UrmanUiTheme.For(settings);
-            UrmanUiTheme.ApplyWorldText(_objectiveMarkerLabel!, settings, UrmanUiTheme.Size.Body);
-            _objectiveMarkerGlyph!.Color = UrmanUiTheme.Colours(settings).Focus;
-            _objectiveMarkerOutline!.Color = UrmanUiTheme.Colours(settings).InkSunken;
+            UrmanUiTheme.ApplyWorldText(_objectiveMarkerLabel!, settings, UrmanUiTheme.Size.WorldPrompt);
+            var colours = UrmanUiTheme.Colours(settings);
+            _objectiveMarkerLabel!.AddThemeFontOverride("font", UrmanUiTheme.BodyBoldFont);
+            _objectiveMarkerLabel.AddThemeStyleboxOverride("normal", UrmanUiTheme.PlateBox(
+                colours.Ink, colours.Focus, 1, marginX: UrmanUiTheme.Space.S, marginY: UrmanUiTheme.Space.Xs));
+            _objectiveMarkerGlyph!.Color = colours.Focus;
+            _objectiveMarkerOutline!.Color = colours.InkSunken;
         }
 
         var scale = Mathf.Clamp((float)settings.TextScale, .8f, 1.6f);
@@ -118,10 +122,16 @@ public partial class Act1DemoRoot
             name = routeLabel;
         }
         var distance = player.GlobalPosition.DistanceTo(destination);
-        label.Text = $"{name}\n{Mathf.RoundToInt(distance)} м";
+        var destinationText = $"{name} · {Mathf.CeilToInt(distance)} м";
+        label.Text = destinationText;
+        if (_routeCueDestination is { } destinationLabel)
+        {
+            if (destinationLabel.Text != destinationText) destinationLabel.Text = destinationText;
+            destinationLabel.Visible = true;
+        }
         var labelWidth = Mathf.Min(320f * scale, viewportSize.X - 48f);
-        label.Size = new Vector2(labelWidth, 48f * scale);
-        label.Position = new Vector2(-labelWidth / 2f, 18f * scale);
+        label.Size = new Vector2(labelWidth, 40f * scale);
+        label.Position = new Vector2(-labelWidth / 2f, 22f * scale);
 
         // Observation subjects already contain their exact sight point; route anchors describe feet-level destinations.
         var worldPoint = destination + Vector3.Up * (inspectionTarget ? 0f
@@ -321,6 +331,12 @@ public partial class Act1DemoRoot
 
         var route = HomeObjectiveRoute.Value;
         var position = new Vector2(playerPosition.X, playerPosition.Z);
+        var door = _objectiveMarkerTarget!.GlobalPosition;
+        var fromDoor = playerPosition - door;
+        // The gate's infinite plane also cuts through the porch. Once in the
+        // narrow front-door approach, the door is the destination, not the gate behind us.
+        if (fromDoor.X >= 0f && fromDoor.X <= 3f && Mathf.Abs(fromDoor.Z) <= 1f)
+            return false;
         var inward = (route[3] - route[2]).Normalized();
         // Once across the gate plane, never send the player back to the street approach.
         var insideYard = (position - route[2]).Dot(inward) >= 0f;
@@ -496,5 +512,6 @@ public partial class Act1DemoRoot
     private void HideObjectiveMarker()
     {
         if (_objectiveMarker is not null && GodotObject.IsInstanceValid(_objectiveMarker)) _objectiveMarker.Visible = false;
+        if (_routeCueDestination is not null) _routeCueDestination.Visible = false;
     }
 }

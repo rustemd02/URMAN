@@ -43,6 +43,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private Label? _routeCueHeader;
     private Label? _routeCueTitle;
     private Label? _routeCueShortcuts;
+    private Label? _routeCueDestination;
     private PlayerMission? _mission;
     private Vector2 _routeCueViewportSize;
     private Tween? _routeCueTween;
@@ -218,8 +219,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         foreach (var (label, size) in new[]
         {
             (_routeCueHeader, UrmanUiTheme.Size.Small),
-            (_routeCueTitle, UsesPhotoWorldsCampaign ? UrmanUiTheme.Size.Body : UrmanUiTheme.Size.Heading),
+            (_routeCueTitle, UrmanUiTheme.Size.Heading),
             (_routeCue, UrmanUiTheme.Size.Subtitle),
+            (_routeCueDestination, UrmanUiTheme.Size.Subtitle),
             (_routeCueShortcuts, UrmanUiTheme.Size.Small)
         })
         {
@@ -232,8 +234,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _routeCueHeader?.AddThemeColorOverride("font_color", settings.HighContrast ? colours.Text : colours.TextMuted);
         if (UsesPhotoWorldsCampaign)
         {
-            _routeCueTitle?.AddThemeColorOverride("font_color", colours.TextMuted);
+            _routeCueTitle?.AddThemeColorOverride("font_color", colours.Text);
             _routeCue?.AddThemeColorOverride("font_color", colours.Text);
+            _routeCueDestination?.AddThemeColorOverride("font_color", colours.Focus);
         }
         if (UsesPhotoWorldsCampaign && settings.ReducedMotion
             && _routeCueTween is { } cueTween && cueTween.IsValid())
@@ -1938,7 +1941,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _routeCueTitle = AddRouteCueLabel(stack, "MissionTitle", "",
             UsesPhotoWorldsCampaign ? UrmanUiTheme.Subtitle : UrmanUiTheme.Heading);
         _routeCue = AddRouteCueLabel(stack, "RoutePrompt", "", UrmanUiTheme.Subtitle);
-        if (UsesPhotoWorldsCampaign) _routeCue.AddThemeFontOverride("font", UrmanUiTheme.BodyBoldFont);
+        _routeCueDestination = AddRouteCueLabel(stack, "MissionDestination", "", UrmanUiTheme.Hint);
+        _routeCueDestination.Visible = false;
         _routeCueShortcuts = AddRouteCueLabel(stack, "MissionControls", "", UrmanUiTheme.Hint);
         _routeCueHeader.Visible = _routeCueTitle.Visible = _routeCueShortcuts.Visible = UsesPhotoWorldsCampaign;
         ApplyAccessibilitySettings(_player?.Accessibility ?? AccessibilitySettingsSnapshot.Default);
@@ -1974,7 +1978,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         var bookOnlyAction = canInspectPhotoBook && _mission.InteractionId is null && _mission.AnchorPath is null;
         var text = bookOnlyAction
             ? $"{journalHint}  Открыть книгу"
-            : $"{journalHint}  {(canInspectPhotoBook ? "Книга и задания" : "Задания")}";
+            : canInspectPhotoBook && _mission.BookPhotoId is not null
+                ? $"{journalHint}  Открыть снимок"
+                : $"{journalHint}  Задания";
         if (_bridge?.ActiveSceneId == "urman.fullgame:scene/pw-home"
             && _bridge.CurrentZoneId is "village_day" or "house_old_pc")
             text += $"    {InputBindingService.ActionHint("map", gamepad)}  Карта";
@@ -2005,7 +2011,10 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 _newMissionHeaderSeconds = NewMissionHeaderVisibleSeconds;
             _lastRouteCueMissionId = currentMission.Id;
             if (_routeCueHeader is not null)
+            {
                 _routeCueHeader.Text = _newMissionHeaderSeconds > 0 ? "НОВАЯ ЗАДАЧА" : "ТЕКУЩАЯ ЗАДАЧА";
+                _routeCueHeader.Visible = _newMissionHeaderSeconds > 0;
+            }
         }
         var routeText = UsesPhotoWorldsCampaign
             ? _mission?.Action
@@ -2068,7 +2077,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             || RouteCueBlockedByModal()) return;
         _newMissionHeaderSeconds = Math.Max(0, _newMissionHeaderSeconds - delta);
         if (_newMissionHeaderSeconds <= 0 && _routeCueHeader is not null)
-            _routeCueHeader.Text = "ТЕКУЩАЯ ЗАДАЧА";
+            _routeCueHeader.Visible = false;
     }
 
     private void FitRouteCuePlate(AccessibilitySettingsSnapshot settings)

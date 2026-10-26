@@ -131,15 +131,16 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             else if (FindPlayer() is not { ModalOpen: true }
                      && GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge bridge)
             {
-                if (bridge.ActiveSceneId == "urman.fullgame:scene/pw-prologue")
-                    _tabs.CurrentTab = 2;
                 var mission = CurrentPlayerMission(bridge);
                 if (bridge.CanInspectReceivedPhotoBook
                     && (mission?.BookPhotoId is not null
                         || mission is { InteractionId: null, AnchorPath: null }))
                     OpenPhotoBook(bridge, mission?.BookPhotoId);
                 else
+                {
+                    if (mission is not null) _tabs.CurrentTab = 2;
                     Open(bridge);
+                }
             }
 
             GetViewport().SetInputAsHandled();

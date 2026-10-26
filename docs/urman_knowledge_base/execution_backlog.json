@@ -54450,6 +54450,12 @@
         ],
         "verification": "Root source review + Luna bounded implementation/source review + Astra independent review. Caught/fixed misleading F11 singlelandmark cue, missing literal schoolconfirm, W02-first generic home text. No game/tests/probes; compile pending. Final affected Game compile17.80s,0errors/0warnings; existing ContentCLI compiled only urman.fullgame. Source diff inspected12existingtext definitions/default=ru, dialogue graph/effects/conditions unchanged. Tracker render/validate PASS308/20/679; diffcheck clean.",
         "remaining": "Целый W01 action→return→home и удовольствие от игры не приняты; культурная/языковая/художественная/авторская приёмка остаётся отдельной."
+      },
+      "current_clarity_delivery_2026_10_26": {
+        "state": "source_compile_verified_native_pending",
+        "result": "Существующий mission HUD: крупнее заголовок, постоянная строка текущей точки пути и расстояния, крупная контрастная метка с непрозрачной подложкой; служебный заголовок только при новой задаче. J открывает Задания для пространственного шага, конкретный снимок для BookPhotoId; подсказка клавиши соответствует действию. Книжные шаги короче, явное место входа и действие в книге сохранены. Нового progress state нет.",
+        "verification": "Existing prebuilt fullgame ContentCli exit0. Text-only structural comparison preserves IDs, registries, conditions, effects and dialogue node structure. Independent bounded Astra review. Final affected Game compile15.19s,0warnings,0errors; diff-check. Before final compile missing restore cache and incorrect GetScale API were corrected; no game/tests/probes after author STOP.",
+        "remaining": "Новое представление, крупный шрифт и удобство в игре не приняты. Автор запретил повторные бесполезные прогоны; source этап не закрывает внешний гейт."
       }
     },
     {
@@ -94146,7 +94152,21 @@
           "evidence_ref": "ACT1-PROGRESSION-DOORS.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "unassigned_explicit_not_active"
+      "assignment_state": "unassigned_explicit_not_active",
+      "visible_door_alignment_2026_10_26": {
+        "state": "source_compile_verified_native_pending",
+        "cause": "Actual generated door1.22×2.17 vs legacy1.02×1.84 and lower .82 center; top of old target0.3675m below visible leaf. Gate infinite plane classified observed porch stance outsideyard (dot−0.262m), sending marker behind player. These source mismatches are proved; exact missing prompt cause at that frame remains unproven.",
+        "result": "Existing HouseDoor and same-door legacy ReturnToHouseRegister align center/basis/size to actual leaf after final relocation and recipe refresh; narrow near-door corridor uses door destination before gate routing. Collision layers/masks, global interaction range, progression conditions unchanged.",
+        "evidence": [
+          "game/scripts/StyleBenchmarkZone.cs",
+          "game/scripts/Act1ConnectedWorld.cs",
+          "game/scripts/Act1ConnectedWorld.HeroRecipeRefresh.cs",
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "evidence/PW-046/ordinary_cd14c45bce0941ecb720baab92927783.zip"
+        ],
+        "verification": "Existing prebuilt fullgame ContentCli exit0. Text-only structural comparison preserves IDs, registries, conditions, effects and dialogue node structure. Independent bounded Astra review. Final affected Game compile15.19s,0warnings,0errors; diff-check. Before final compile missing restore cache and incorrect GetScale API were corrected; no game/tests/probes after author STOP.",
+        "remaining": "Native changed-door interaction/load and other named doors retain original acceptance criteria."
+      }
     },
     {
       "id": "ACT1-NOTEBOOK.DESIGN",
@@ -104756,7 +104776,24 @@
           "game/scripts/DocumentUi.cs"
         ],
         "verification": "Two independent bounded source reviews. Root read confirmation callback/current guards and all OpenSourcePhotoInspection callers. W01-first placeTold false/true and W02/W03-first inspected; no game/tests/probes. Affected Game compile exit0,0warnings,0errors,17.41s.",
-        "remaining": "Кодовая причина устранена; действительный полный первый эпизод и авторская приёмка ещё не подтверждены."
+        "remaining": "Кодовая причина устранена; действительный полный первый эпизод и авторская приёмка ещё не подтверждены.",
+        "dialogue_revision_2026_10_26": {
+          "state": "source_compile_verified_native_pending",
+          "result": "45 dialogue/choice text keys, Russian3736→2915characters (22%shorter): human family-book motivation, one school lead instead of competing school/bridge instructions, earned home payoff with next courtyard photo, shorter water/author/common/finale exchanges. No invented deaths/investigation/facts or state changes.",
+          "evidence": [
+            "content/modules/urman-fullgame/definitions.json",
+            "game/content/urman.fullgame.compiled.v1.json",
+            "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+          ],
+          "content_fingerprint": "319fd5302df4c4d03f7b56ab97385a46871e2f75e47b8c5f889a205752788c1c",
+          "compatible_exact_predecessors": [
+            "b809690b74181a9813e5e54034ebc57388b65e8d4b64f546be187dbb680380e9",
+            "b0b8a60bea20a44dc51dbdea24359a17a4819d37e5943f0b5c609ea07e5ef4b7",
+            "95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0"
+          ],
+          "verification": "Existing prebuilt fullgame ContentCli exit0. Text-only structural comparison preserves IDs, registries, conditions, effects and dialogue node structure. Independent bounded Astra review. Final affected Game compile15.19s,0warnings,0errors; diff-check. Before final compile missing restore cache and incorrect GetScale API were corrected; no game/tests/probes after author STOP.",
+          "remaining": "Story clarity/interest, cultural/language/listening/author acceptance remain open; no full campaign claim."
+        }
       }
     },
     {
@@ -109466,6 +109503,19 @@
           "result": "Конкретное действие стало главным в mission HUD; при смене mission ID заголовок НОВАЯ ЗАДАЧА виден4не-модальные секунды. На книжном этапе actual journal binding показывает Открыть книгу и действительно открывает existing фотоальбом, а не последнюю вкладку. Маркер больше не исчезает, если под mission panel нет места: правая граница/сокращённая подпись/один glyph. Короткие school/book/W01/home инструкции; D07 отвечает от интереса Шурале вместо объяснения устройства фотографии.",
           "verification": "Bounded independent source reviews; affected Gamecompile16.97s0warnings0errors (after restoring removed NuGet assets). Existing ContentCLI fullgame1.12s exit0. Compiled pack delta exactly2localizedD07values+moduleSHA+campaignFP; state/graph/effects identical. Exact one-way95c938→b0b8a6 compatibility pair follows existing whitelist; unknown versions strict. Final constants/pair addition checked by source review. No new tests/probes/game/captures.",
           "remaining": "Новый HUD/раскладка/тайминг и полная игровая приятность в движении не проверены; внешние гейты и первый полный W01→home→Continue открыты. По требованию автора не повторять очевидные прогоны; сначала следующая существенная source проблема кампании."
+        },
+        "current_delivery_2026_10_26": {
+          "state": "source_compile_verified_native_pending",
+          "result": "Существующий mission HUD: крупнее заголовок, постоянная строка текущей точки пути и расстояния, крупная контрастная метка с непрозрачной подложкой; служебный заголовок только при новой задаче. J открывает Задания для пространственного шага, конкретный снимок для BookPhotoId; подсказка клавиши соответствует действию. Книжные шаги короче, явное место входа и действие в книге сохранены. Нового progress state нет.",
+          "evidence": [
+            "game/scripts/Act1DemoRoot.cs",
+            "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+            "game/scripts/JournalUi.cs",
+            "game/scripts/JournalUi.Notebook.cs",
+            "game/scripts/JournalUi.Missions.cs"
+          ],
+          "verification": "Existing prebuilt fullgame ContentCli exit0. Text-only structural comparison preserves IDs, registries, conditions, effects and dialogue node structure. Independent bounded Astra review. Final affected Game compile15.19s,0warnings,0errors; diff-check. Before final compile missing restore cache and incorrect GetScale API were corrected; no game/tests/probes after author STOP.",
+          "remaining": "Новое представление, крупный шрифт и удобство в игре не приняты. Автор запретил повторные бесполезные прогоны; source этап не закрывает внешний гейт."
         }
       },
       "first_episode_continuity_2026_10_25": {
@@ -124874,34 +124924,36 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска.",
           "current_attempt": {
-            "job_id": "89ddd2055d624dd78f3e3ee53dc053e9",
-            "snapshot": "fc9d982d5c0551bf3dcbb54a867b2305ca9b0c0bbebcb45deb968391d3c3a0a3",
-            "source_commit": "7ea0490c",
-            "phase": "terminal_control_failure_no_episode_acceptance",
-            "input_owner": "whole_episode_driver sole native input/capture owner; root read-only results",
-            "question": "Complete earned W01 F11/real passage/sequential backside inspection/Shurale/bag→home family caption; Save/menuContinue only with exit reserve. Prior accepted prologue not retested.",
-            "bound": "Onefrozenplay3600; freshSol6.1High shortcontextcontroller usingacceptedordinaryprefix in sequentialbatches; no everyturncapture or repeatedcontextread. Quit starts no later14:17UTC26Oct (conservative30minfromsubmission); twofailedapproacheswithoutnewcause→normalQuit. No debug/seed/teleport/profilecopy/probes/VPN. Capture504pollsameownedrequest.",
-            "not_accepted": "No new acceptance until actual frames/reducer results/guard receipt.",
-            "status": "FAIL",
-            "game_exit_code": 124,
-            "started": 1793021113.5253797,
-            "finished": 1793024949.4657643,
+            "job_id": "cd14c45bce0941ecb720baab92927783",
+            "candidate_id": "f605121fd6df40e2d4a2f9e11f4e5aadc4d5a99038f49b61b6831c23bded8c0c",
+            "mode": "candidate-play",
+            "package": "build/releases/act1-20261026-6542c528",
+            "game_source": "7ea0490c",
+            "tool_source": "0c347385",
+            "phase": "terminal_author_stopped_after_native_street_no_episode_acceptance",
+            "input_owner": "whole_episode_luna; sole submit/readiness/input/capture/Quit owner; terminal, lease released",
+            "question": "Actual standalone Windows host plus complete W01 meaningful bag action→home earnedcaption; two normalEXE exits. Save/Continue onlyifreserve.",
+            "bound": "Onejob3600 total; beginQuit bynative+20min orjob+30min, preserve>=10minhardtimeoutreserve. Twofailedapproacheswithoutnewfact→Quit. ReuseprintedcaptureRID, no duplicatecaptures/debug/seed/profilecopy; production frozen.",
+            "status": "PASS",
+            "game_exit_code": 0,
             "userdata_restored": true,
-            "userdata_recovery_pending": false,
-            "snapshot_hashes_verified": true,
-            "engine_errors_bytes": 0,
-            "archive": "evidence/PW-046/ordinary_89ddd2055d624dd78f3e3ee53dc053e9.zip",
-            "archive_sha256": "325e938362fd247ca1876a17cb6fc137aa4cc1c51ff47ff26979bb144744df9c",
-            "receipt": "evidence/PW-046/ordinary_89ddd2055d624dd78f3e3ee53dc053e9/receipt.json",
+            "archive": "evidence/PW-046/ordinary_cd14c45bce0941ecb720baab92927783.zip",
+            "archive_sha256": "6b1a44e5d8e05729c16490bf1e7e63eaf46a3407ed1e36f2c723deb6c1844ad6",
+            "archive_bytes": 8458605,
             "observed": [
-              "Only main menu and ordinary NewGame forest opening captured; no meaningful new episode acceptance.",
-              "Inputs accepted: NewGame Enter, authorized forest skip Enter, later Escape. No confirmed Quit."
+              "Standalone native NewGame, authorized setup skip, Niva arrival and winter street reached. Root personally viewed street HUD/gate marker and ornate porch door frame.",
+              "Both candidate EXE lifetimes exit0, zero engine errors, GTX970. Phase1 normal Quit accepted; phase2 Enter refused ui_window_process_changed, subsequently process exited0.",
+              "Capture504 resumed with exact same predeclared RID; stable request replay observed."
             ],
-            "execution_failure": "Root submitted before a ready controller and incorrectly inferred submission UTC. First Sol controller hit capacity, Luna took over when native was already24.2min old. After STOP13:54, exit-needed capture remained unresolved; root failed to ensure exit before timeout. Actual server/process timestamps authoritative; no game defect or clock-skew inferred.",
-            "cleanup": "ZIP SHA/CRC and extracted member bytes verified. Removed5,441,794duplicate bytes including2matching temporary PNGs. Native terminal, doctor idle/ready/no orphan/no recovery. Agent pending cell25 not found after termination check.",
             "not_verified": [
-              "Full W01 physical action/return/home, latest changed UI/story, Save/Continue."
-            ]
+              "W01 physical sequence, home caption, Save/Continue, full campaign and enjoyment remain unaccepted.",
+              "This candidate predates the new319fd530 dialogue/HUD/door-fit changes."
+            ],
+            "stop_reason": "Author explicitly ordered stop of redundant runs. Driver stopped route and closed current candidate; no new play/export started.",
+            "cleanup": "ZIP CRC and all extracted member bytes verified. Ten temporary PNGs byte-matched archived members; extracted tree and matching PNGs removed. No unique source or user data deleted.",
+            "human_playtest": "pending",
+            "gameplay_acceptance": "not-assessed",
+            "not_accepted": "Full W01/home result/Continue/enjoyment and changes after this candidate remain unaccepted."
           },
           "previous_attempts": [
             {
@@ -124940,6 +124992,37 @@
               ],
               "process_failure": "Root missed its own >=10min exit reserve; timeout is failed acceptance organization, not evidence of game softlock.",
               "cleanup": "ZIP SHA/CRC and extracted bytes verified; removed45,495,520 duplicate bytes including30 matching own temporary PNGs. No active process data or user files removed."
+            },
+            {
+              "job_id": "89ddd2055d624dd78f3e3ee53dc053e9",
+              "snapshot": "fc9d982d5c0551bf3dcbb54a867b2305ca9b0c0bbebcb45deb968391d3c3a0a3",
+              "source_commit": "7ea0490c",
+              "phase": "terminal_control_failure_no_episode_acceptance",
+              "input_owner": "whole_episode_driver sole native input/capture owner; root read-only results",
+              "question": "Complete earned W01 F11/real passage/sequential backside inspection/Shurale/bag→home family caption; Save/menuContinue only with exit reserve. Prior accepted prologue not retested.",
+              "bound": "Onefrozenplay3600; freshSol6.1High shortcontextcontroller usingacceptedordinaryprefix in sequentialbatches; no everyturncapture or repeatedcontextread. Quit starts no later14:17UTC26Oct (conservative30minfromsubmission); twofailedapproacheswithoutnewcause→normalQuit. No debug/seed/teleport/profilecopy/probes/VPN. Capture504pollsameownedrequest.",
+              "not_accepted": "No new acceptance until actual frames/reducer results/guard receipt.",
+              "status": "FAIL",
+              "game_exit_code": 124,
+              "started": 1793021113.5253797,
+              "finished": 1793024949.4657643,
+              "userdata_restored": true,
+              "userdata_recovery_pending": false,
+              "snapshot_hashes_verified": true,
+              "engine_errors_bytes": 0,
+              "archive": "evidence/PW-046/ordinary_89ddd2055d624dd78f3e3ee53dc053e9.zip",
+              "archive_sha256": "325e938362fd247ca1876a17cb6fc137aa4cc1c51ff47ff26979bb144744df9c",
+              "receipt": "evidence/PW-046/ordinary_89ddd2055d624dd78f3e3ee53dc053e9/receipt.json",
+              "observed": [
+                "Only main menu and ordinary NewGame forest opening captured; no meaningful new episode acceptance.",
+                "Inputs accepted: NewGame Enter, authorized forest skip Enter, later Escape. No confirmed Quit."
+              ],
+              "execution_failure": "Root submitted before a ready controller and incorrectly inferred submission UTC. First Sol controller hit capacity, Luna took over when native was already24.2min old. After STOP13:54, exit-needed capture remained unresolved; root failed to ensure exit before timeout. Actual server/process timestamps authoritative; no game defect or clock-skew inferred.",
+              "cleanup": "ZIP SHA/CRC and extracted member bytes verified. Removed5,441,794duplicate bytes including2matching temporary PNGs. Native terminal, doctor idle/ready/no orphan/no recovery. Agent pending cell25 not found after termination check.",
+              "not_verified": [
+                "Full W01 physical action/return/home, latest changed UI/story, Save/Continue."
+              ],
+              "archive_followup": "Archive also contains completed Niva camera frame a582945d6ca444c2ad60f8b271c7f895, SHA40a2038d…; it was not received by prior controller. Repeated snow logs are guarded no-op bank scans after initial shaping, not proof of the full stall."
             }
           ]
         },
@@ -124988,7 +125071,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Не запускать ещё один такой же NewGame/setup. Продолжать содержательную source работу кампании. Прежде любой следующей необходимой Windows-приёмки водитель должен быть готов ДО создания job и владеть submit→native→Quit одним потоком; фактический elapsed брать из worker/native timestamp, не оценки root. Зависший кадр не должен поглощать выходной резерв.",
+      "next_action": "Продолжать реализацию понятной кампании и устранение доказанных препятствий по исходникам. Не повторять NewGame/setup ради зелёного прогона; W01/возврат/Continue остаются конкретной будущей приёмкой изменённого результата.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -147637,7 +147720,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Использовать текущий Windows-кандидат6542c528; не проверять новые функции на старом73fd. Native host/кампания/Continue только после исправления процесса управления; без повторения такого же setup. Отдельно обновить Mac-пакет при необходимости финальной поставки; source/static export не закрывает игровые, художественные и внешние гейты.",
+      "next_action": "Сохранённый Windows-кандидат6542c528 имеет два подтверждённых native запуска, но не включает текущие319fd530/HUD/door-fit правки. Обновить пакет только для предметной приёмки/поставки изменённого результата; сейчас не повторять экспорт и NewGame/setup. Save/Continue/кампания/Mac/права/внешние гейты остаются открыты.",
       "blocker": null,
       "external_gates": [
         {
@@ -148584,7 +148667,15 @@
           "Native Windows EXE host/NewGame/Save/Continue and wholecampaign/pleasantness",
           "Current macOS package (Mac remains73fd)",
           "Rights/art/signing/hardwareperformance and external gates"
-        ]
+        ],
+        "native_host_followup": {
+          "job_id": "cd14c45bce0941ecb720baab92927783",
+          "candidate_id": "f605121fd6df40e2d4a2f9e11f4e5aadc4d5a99038f49b61b6831c23bded8c0c",
+          "archive": "evidence/PW-046/ordinary_cd14c45bce0941ecb720baab92927783.zip",
+          "status": "PASS",
+          "scope": "Two guarded native standalone lifetimes exit0/engineerrors0, userdataRestoredtrue, actual NewGame/street reached. Fullcampaign/Save/Continue/art/performance/humanplaytest NOT accepted.",
+          "current_source_delta": "Candidate remains last retained Windows package but predates current319fd530 text/HUD/door-fit changes; do not call it the current release."
+        }
       }
     },
     {

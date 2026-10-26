@@ -36,7 +36,7 @@ public partial class JournalUi
         layout.AddChild(_notebookSection);
         layout.MoveChild(_notebookSection, _readerArea.GetIndex());
         _notebookSection.ItemSelected += _ => { ActiveEntryId = null; Refresh(); };
-        _tabs.SetTabTitle(2, "Дела и слова");
+        _tabs.SetTabTitle(2, "Задания");
         _tabs.AddTab("Карта " + InputBindingService.ActionHint("map", false));
         _tabs.AddTab("Мои заметки");
         _mapPage = new VBoxContainer { Name = "VillageMap", Visible = false,

@@ -35,6 +35,8 @@ public partial class RuntimeBridge
         "b0b8a60bea20a44dc51dbdea24359a17a4819d37e5943f0b5c609ea07e5ef4b7";
     private const string FullGameWaterHomeAccountFingerprint =
         "b809690b74181a9813e5e54034ebc57388b65e8d4b64f546be187dbb680380e9";
+    private const string FullGameNaturalDialogueFingerprint =
+        "319fd5302df4c4d03f7b56ab97385a46871e2f75e47b8c5f889a205752788c1c";
 
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
@@ -84,7 +86,12 @@ public partial class RuntimeBridge
         // Optional family account and dialogue only; saved catalog, quests, photos and world rules are unchanged.
         new(FullGameShuraleReplyTextFingerprint, FullGameWaterHomeAccountFingerprint),
         new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
-            FullGameWaterHomeAccountFingerprint)
+            FullGameWaterHomeAccountFingerprint),
+        // 45 dialogue/choice text values only; all saved-state definitions are identical.
+        new(FullGameWaterHomeAccountFingerprint, FullGameNaturalDialogueFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameNaturalDialogueFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameNaturalDialogueFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -100,7 +107,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameNivaArrivalFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameArrivalSkipTextFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameShuraleReplyTextFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameWaterHomeAccountFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameWaterHomeAccountFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameNaturalDialogueFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }
