@@ -1954,6 +1954,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         var gamepad = _player?.CurrentInputDevice == "gamepad";
         var text = $"{InputBindingService.ActionHint("journal", gamepad)}  "
             + (_bridge?.CanInspectReceivedPhotoBook == true ? "Книга и задания" : "Задания");
+        if (_bridge?.ActiveSceneId == "urman.fullgame:scene/pw-home"
+            && _bridge.CurrentZoneId is "village_day" or "house_old_pc")
+            text += $"    {InputBindingService.ActionHint("map", gamepad)}  Карта";
         if (_mission.InteractionId is { } interactionId && _player?.FocusedInteractionId == interactionId)
             text += $"    {InputBindingService.ActionHint("interact", gamepad)}  Взаимодействовать";
         if (_routeCueShortcuts.Text != text) _routeCueShortcuts.Text = text;

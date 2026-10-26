@@ -124684,7 +124684,7 @@
       "title": "W01: действия за рамкой и состояние ветки",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex / forest_inspection_target",
+      "active_owner": "Codex",
       "owner": "gameplay",
       "priority": "P1",
       "complexity": "complex",
@@ -124847,7 +124847,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Не повторять тот же NewGame/setup. Source-ready fixed book actions и home marker recovery доставить/зафиксировать; следующий W01 action→return→home запуск только с доказанно иной безопасной подготовкой/эффективным обычным вводом или имеющимся Continue, без debug/seed/profilecopy. Полный эпизод и внешние гейты остаются открыты.",
+      "next_action": "Не повторять NewGame/setup. Fixed book footer/home marker recovery уже доставлены6cc0370b; current HUD/map/short dialogue source followup принят технически, в игре не проверен. Следующий обязательный W01 action→return→home запуск только с конкретным оставшимся вопросом и доказанно иной эффективной обычной подготовкой либо валидным Continue; без debug/seed/profilecopy. До этого не запускать проверки ради очевидных source-правок и не полировать отложенный NPC.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -125420,7 +125420,8 @@
           "MissionInZone показывает только ближайший переход; школьный шаг сохраняет точную кнопку «Рассмотреть снимок».",
           "HUD СЕЙЧАС/акцент + короткие подписи управления; журнал отделяет текущую миссию от других дел, не дублирует общий objective активного photoworld.",
           "F11 passive marker из existing ±1.5m viewing zone на actual crossbar observation point; подпись всей группы. F13 marker показывает честный bitmask n/3 и сохраняет3/3 в dispatch. Условия прогресса/LOS/физики неизменны.",
-          "12 текстовых ключей первого эпизода: мотивация записей Марата, школьный адрес/альбом/копия, ясный фотограф, возвращение; generic return сохранён нейтральным для W02-first. Оба первых направления сохранены."
+          "12 текстовых ключей первого эпизода: мотивация записей Марата, школьный адрес/альбом/копия, ясный фотограф, возвращение; generic return сохранён нейтральным для W02-first. Оба первых направления сохранены.",
+          "Mission controls show the actual rebindable map action in pw-home village/house. First resolved forest home talk no longer asks whether Shurale was met after Aidar has just said so; two existing strings shortened, graph/effects/conditions unchanged."
         ],
         "sources": [
           "game/scripts/JournalUi.Missions.cs",
@@ -125430,7 +125431,7 @@
           "game/scripts/photoworlds/W01Controller.PassageObservation.cs",
           "content/modules/urman-fullgame/definitions.json"
         ],
-        "verification": "Root source review + Luna bounded implementation/source review + Astra independent review. Caught/fixed misleading F11 singlelandmark cue, missing literal schoolconfirm, W02-first generic home text. No game/tests/probes; compile pending. Final affected Game compile17.80s,0errors/0warnings; existing ContentCLI compiled only urman.fullgame. Source diff inspected12existingtext definitions/default=ru, dialogue graph/effects/conditions unchanged. Tracker render/validate PASS308/20/679; diffcheck clean.",
+        "verification": "Root source review + Luna bounded implementation/source review + Astra independent review. Caught/fixed misleading F11 singlelandmark cue, missing literal schoolconfirm, W02-first generic home text. No game/tests/probes; compile pending. Final affected Game compile17.80s,0errors/0warnings; existing ContentCLI compiled only urman.fullgame. Source diff inspected12existingtext definitions/default=ru, dialogue graph/effects/conditions unchanged. Tracker render/validate PASS308/20/679; diffcheck clean. Followup: two exact existing dialogue text keys only (default=ru); source comparison confirms all dialogue nodes/effects/conditions unchanged. Affected Game compile18.46s,0warnings/0errors. No game/test/probe.",
         "remaining": "Целый W01 action→return→home и удовольствие от игры не приняты; культурная/языковая/художественная/авторская приёмка остаётся отдельной."
       },
       "home_discovery_summary_2026_10_26": {
@@ -125459,6 +125460,36 @@
         "observed": "NormalNewGame/authorized forestskip→Niva→home/tea/book→left home. Schoolcopy/F10/W01/action/return/homeconclusion NOT reached by30mincap; no full-episode acceptance. Oldsetup is not new progress. Root viewed actual bookhandoff1280x720: ReadBack/Mount below visible scroll area; header/currentmission present. Map not observed, new map appearance remains unverified. Actual UpperFence contact plus marker source exposed recovery defect; fullorderedroute subsequently entered home.",
         "next_attempt_policy": "Do not repeat same NewGame/setup trial. First finish current source fixes. Before any later W01 run, establish a materially different safe starting method/efficient normal-input plan or a valid existing Continue through ordinary UI; no seeds/debug/profilecopy/ad-hoc guard changes. Final normal campaign acceptance stays mandatory.",
         "cleanup": "ZIP45,146,108B CRC+124filesbyteverified;46,227,476Bextracts+55matchingPNG44,781,517B removed. Rawzip/receipt local outsideGit; stationfreed1,501,360,933B, idle/recoveryfalse/noorphans confirmed."
+      },
+      "photographed_people_scene_2026_10_26": {
+        "state": "source_candidate_reviewed_archived_deferred_no_runtime_change",
+        "result": "Prepared anonymous bluecoat candidate only. Original photo_only exclusion was intentional; a static NPC has no required player action and would distract from campaign clarity. Root withdrew its own uncommitted W01 builder/preload/contact changes before integration; existing gameplay is unchanged.",
+        "owner": "Codex; asset_queue_next_family source preparation complete, no active asset generation",
+        "reference": "game/assets/textures/photobook/p-forest-front-v2.png; own anonymousfictional provenance",
+        "source_folder": "assets/source/blender/photoworlds/W01/photographed_people_v1/",
+        "budget": "actual550/4000spent,3450remaining/reserve0. One30+two5completed, no more paidoperations.",
+        "remaining": "Candidate stays deferred until a concrete scene/action requires it. No new generation, rig, retexture or iteration. Full W01 action/return/home and author/style/culture/rights acceptance remain open.",
+        "source_finding": "pforest_tableau.py already bakes anonymous Resident_Idle frame18 andcoat variants in PHOTO collection; onlyWORLD exported deliberately. Source pose/wardrobe is available, no namedcast reuse. Own source CC0Resident+projectmaterials.",
+        "reference_candidate": "assets/source/blender/photoworlds/W01/photographed_people_v1/photographed_people_reference_v1.png (1a46730a…1432d3), concept-only; not geometry source.",
+        "baked_trace_review": "Rejected helmet/barehands/robe source; no runtime. Original blend retained, rejected preview in main candidate archive. Historical extraction recipe+manifest stored only in /Users/unterlantas/.codex/local_asset_archive/URMAN-W01-rejected-baked-recipe-2026-10-26.zip; SHA256 4121b9a10d2ea5874beeb12a6fce66c8d220c1fa2bf05cea8487513de87a77d9;2members CRC/byteverified before duplicate removal.",
+        "api_task_id": "01a17788-e73a-75b6-aa85-8bed6809626e",
+        "actual_credit_cost": 40,
+        "remesh_task_ids": [
+          "01a1778c-1405-740a-8b75-875a92399427",
+          "01a1778c-4d77-72d4-b5c8-e64ae8f5d871"
+        ],
+        "candidate_manifest": "assets/source/blender/photoworlds/W01/photographed_people_v1/pforest-human-trace-meshy-v1.manifest.json",
+        "candidate_review": "Root inspected final near/mid front/side: coat, gloves, ushanka and felt boots coherent. 25927/8309 triangles, 1 shared PBR atlas2048x1024, common1.78m feet fit, GLB12353688B SHA f22539b5248f4615f80cb65e4e8a93ed410da6ad2021f4c47edd5fc9c5e650e5. Neutral views do not prove in-game style or movement.",
+        "local_archive": {
+          "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-W01-bluecoat-meshy-2026-10-26.zip",
+          "sha256": "ff5a9ed51c3aad3114acddd12695b21c9787300ce86691ea69609f50103972d1",
+          "verification": "32 members CRC and per-member size/SHA verified before duplicate removal. Unique original blend retained; raw/remesh/candidate GLBs, renders and receipts archived outside Git."
+        },
+        "cleanup": "Unintegrated game GLB and verified raw/remesh/render/receipt duplicates removed. Only selected ImageGen input PNGs, exact prompt provenance, recipes and sanitized manifests retained for Git."
+      },
+      "root_passage_group_identity_review_2026_10_26": {
+        "result": "Astra withdrew unsupported interpretation that F13 must observe PForest_SplitBirch/Crossbar/RootArch. Passport specifies distance between3groups and back of group; F12/F13 are copies of sameHeroRootTurn. DifferentF11vsF13mesh names do not prove a broken owner.",
+        "decision": "Preserve portal/observer/3earnedfacts. Actualvisualdistance-lawreadability remains unverified; do not add duplicates/rewrite validspace on mesh-name inference."
       }
     },
     {
@@ -165244,14 +165275,14 @@
     "credits": {
       "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 510,
-      "authorized_budget_remaining": 3490,
+      "agent_spent_after_purchase": 550,
+      "authorized_budget_remaining": 3450,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4100,
-      "balance_note": "PW093 actual510/4000 spent,3490remaining,reserve0; GET3770 monthly2620/permanent1150 rootconfirmed after raw30+remesh5. Onebirchfamily source+technicalintegration delivered; fullsceneart/motion/perf/rights remainopen. Existing coniferV2 reused, no coniferPOST.",
+      "balance_note": "550/4000 actual spent,3450remaining,reserve0. W01 bluecoat chain40actual(30+5+5), all3SUCCEEDED; root reviewed final twoLOD candidate. Archived/deferred, no runtime/art acceptance. No further paid operations; latestAPIbalance3770 is historical, not a fresh balance check.",
       "latest_api_balance_observed": 3770,
       "reserved_for_current_work": 0,
-      "unreserved_author_budget": 3490
+      "unreserved_author_budget": 3450
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
     "operations": [
@@ -165446,6 +165477,27 @@
         "cost_credits": 5,
         "output_sha256": "49d410e7b875455f5cb566da777018b245601c11ec63ce4e790187bf076ff06b",
         "result": "Downloaded48.68MB; aidar_body owns one sourcegeometry/semantic/rig adaptation. No canonicalbody or walking acceptance."
+      },
+      {
+        "task_id": "PW-046",
+        "operation": "W01 anonymous single bluecoat human trace: builtinImageGen ownreference→Meshy7.1standard4KPBR, onePOST",
+        "api_task_id": "01a17788-e73a-75b6-aa85-8bed6809626e",
+        "cost_credits": 30,
+        "result": "SUCCEEDED; actual30. RawGLB58d3e1c8a81e5213cfbbb154feb5a662dcd2d46123185ebaae04e4e245576576,864282tris/onePBRset. Rootfront/side/rear anatomy/style accepts LOD preparation, not runtime/art."
+      },
+      {
+        "task_id": "PW-046",
+        "operation": "W01 anonymousbluecoat 25000face near remesh",
+        "api_task_id": "01a1778c-1405-740a-8b75-875a92399427",
+        "cost_credits": 5,
+        "result": "SUCCEEDED, serverconsumed_credits5; onePOST, output source review before runtime, no more paid operations."
+      },
+      {
+        "task_id": "PW-046",
+        "operation": "W01 anonymousbluecoat 8000face mid remesh",
+        "api_task_id": "01a1778c-4d77-72d4-b5c8-e64ae8f5d871",
+        "cost_credits": 5,
+        "result": "SUCCEEDED, serverconsumed_credits5; onePOST, output source review before runtime, no more paid operations."
       }
     ],
     "next_large_static_candidate": {

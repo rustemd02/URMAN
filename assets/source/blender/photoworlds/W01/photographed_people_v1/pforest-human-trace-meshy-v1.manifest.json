@@ -1,0 +1,655 @@
+{
+  "asset_id": "pforest-human-trace-meshy-v1",
+  "status": "candidate_exported_deferred_by_gameplay_priority",
+  "runtime_candidate": null,
+  "runtime_integration": false,
+  "collision_or_interaction": false,
+  "story_identity": "one anonymous static photo-only trace; no new cast identity or backend fact",
+  "source": {
+    "imagegen_input": "assets/source/blender/photoworlds/W01/photographed_people_v1/photographed_bluecoat_single_reference_v1.png",
+    "imagegen_input_sha256": "89d4155d2db871495e72d68ea0c01c978a04bc1495865202fa50cabeeccb6a76",
+    "trio_concept": "assets/source/blender/photoworlds/W01/photographed_people_v1/photographed_people_reference_v1.png",
+    "trio_concept_sha256": "1a46730a0ece12c210e0424818802378e695ed2adc76c38077a612352c1432d3",
+    "imagegen_generation_id": "exec-4656abc4-63bd-4a96-ad91-d3c2e491c8f1",
+    "mesh_task": {
+      "id": "01a17788-e73a-75b6-aa85-8bed6809626e",
+      "actual_consumed_credits": 30,
+      "status": "SUCCEEDED",
+      "ai_model": "meshy-7.1",
+      "model_type": "standard",
+      "texture_resolution": "4k",
+      "enable_pbr": true
+    },
+    "remesh_tasks": {
+      "HumanTrace_LOD0": {
+        "task_id": "01a1778c-1405-740a-8b75-875a92399427",
+        "status": "SUCCEEDED",
+        "target_faces": 25000,
+        "actual_consumed_credits": 5
+      },
+      "HumanTrace_LOD1": {
+        "task_id": "01a1778c-4d77-72d4-b5c8-e64ae8f5d871",
+        "status": "SUCCEEDED",
+        "target_faces": 8000,
+        "actual_consumed_credits": 5
+      }
+    },
+    "raw_mesh_glb": "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-raw-v1.glb",
+    "raw_mesh_sha256": "58d3e1c8a81e5213cfbbb154feb5a662dcd2d46123185ebaae04e4e245576576",
+    "raw_mesh_bytes": 50847000,
+    "near_remesh_glb": "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-near-v1.glb",
+    "mid_remesh_glb": "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-mid-v1.glb",
+    "near_remesh_sha256": "93d3b5a4d04d09ce42b41480c99a41e7faa7f613103cd9f04a3ce88c27873dfd",
+    "mid_remesh_sha256": "888d0cb0ae4e808054970c0b2fbe8594b75b23b875340b4ecf5b209845d99849",
+    "actual_meshy_credits_total": 40,
+    "local_archive_name": "URMAN-W01-bluecoat-meshy-2026-10-26.zip",
+    "archived_receipts": [
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-single-request.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-single-status-3.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-single-download.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-near-remesh-request.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-near-remesh-status-4.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-near-remesh-download.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-mid-remesh-request.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-mid-remesh-status-4.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-mid-remesh-download.log"
+    ],
+    "local_archive_path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-W01-bluecoat-meshy-2026-10-26.zip",
+    "local_archive_sha256": "ff5a9ed51c3aad3114acddd12695b21c9787300ce86691ea69609f50103972d1",
+    "raw_mesh_archive_member": "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-raw-v1.glb",
+    "near_remesh_archive_member": "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-near-v1.glb",
+    "mid_remesh_archive_member": "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-mid-v1.glb"
+  },
+  "export_recipe": {
+    "script": "assets/source/blender/photoworlds/W01/photographed_people_v1/export_bluecoat_meshy_lods_v1.py",
+    "mesh_transform_baked": true,
+    "source_near_aabb_blender_z_up_m": {
+      "min": [
+        -0.40103399753570557,
+        -0.2972840666770935,
+        -0.9518610835075378
+      ],
+      "max": [
+        0.3993909955024719,
+        0.2990340292453766,
+        0.9503369331359863
+      ]
+    },
+    "source_mid_aabb_blender_z_up_m": {
+      "min": [
+        -0.4001910090446472,
+        -0.295646071434021,
+        -0.9517639875411987
+      ],
+      "max": [
+        0.3989650011062622,
+        0.2990340292453766,
+        0.9503369927406311
+      ]
+    },
+    "common_uniform_scale": 0.9357595709940095,
+    "common_translation_blender_xyz_m": [
+      0.0007687273900955915,
+      -0.0008187720668502152,
+      0.890713095664978
+    ],
+    "target_height_m": 1.78,
+    "near_uv_original": {
+      "active_uv_name": "UVMap",
+      "loop_count": 77781,
+      "min": [
+        3.000000106112566e-06,
+        2.0265579223632812e-06
+      ],
+      "max": [
+        0.999983012676239,
+        0.9999769926071167
+      ]
+    },
+    "mid_uv_original": {
+      "active_uv_name": "UVMap",
+      "loop_count": 24927,
+      "min": [
+        2.9999999242136255e-05,
+        3.600120544433594e-05
+      ],
+      "max": [
+        0.9984539747238159,
+        0.9999510049819946
+      ]
+    },
+    "uv_atlas_remap": {
+      "near": {
+        "source": {
+          "active_uv_name": "UVMap",
+          "loop_count": 77781,
+          "min": [
+            3.000000106112566e-06,
+            2.0265579223632812e-06
+          ],
+          "max": [
+            0.999983012676239,
+            0.9999769926071167
+          ]
+        },
+        "atlas": {
+          "active_uv_name": "UVMap",
+          "loop_count": 77781,
+          "min": [
+            0.001222195802256465,
+            0.00244342302903533
+          ],
+          "max": [
+            0.4987708330154419,
+            0.9975357055664062
+          ]
+        },
+        "tile": {
+          "x_px": 2,
+          "y_px": 2,
+          "size_px": [
+            1020,
+            1020
+          ]
+        }
+      },
+      "mid": {
+        "source": {
+          "active_uv_name": "UVMap",
+          "loop_count": 24927,
+          "min": [
+            2.9999999242136255e-05,
+            3.600120544433594e-05
+          ],
+          "max": [
+            0.9984539747238159,
+            0.9999510049819946
+          ]
+        },
+        "atlas": {
+          "active_uv_name": "UVMap",
+          "loop_count": 24927,
+          "min": [
+            0.5012356042861938,
+            0.0024772316683083773
+          ],
+          "max": [
+            0.9980100393295288,
+            0.9975098371505737
+          ]
+        },
+        "tile": {
+          "x_px": 1026,
+          "y_px": 2,
+          "size_px": [
+            1020,
+            1020
+          ]
+        }
+      }
+    },
+    "uv_method": "Each Meshy remesh keeps its own original UV islands; coordinates receive only a tile scale/offset into one shared atlas; no re-unwrap or cross-LOD surface reprojection.",
+    "textures": {
+      "base_color": {
+        "atlas_image": "HumanTrace_base_color_Atlas_2K",
+        "atlas_size_px": [
+          2048,
+          1024
+        ],
+        "colorspace": "sRGB",
+        "source_maps": [
+          {
+            "lod": "near",
+            "image": "texture_0",
+            "source_size_px": [
+              4096,
+              4096
+            ],
+            "source_png": {
+              "size_px": [
+                4096,
+                4096
+              ],
+              "bit_depth": 8,
+              "color_type": 2,
+              "channels": 3,
+              "mime_type": "image/png",
+              "bytes": 21948711,
+              "sha256": "bba574167dfadcfe87d2255c82abffb574770db9a0117c41d4c6aad05727cd41"
+            },
+            "blender_image_buffer_channels": 4,
+            "colorspace": "sRGB",
+            "material_node": "Image Texture"
+          },
+          {
+            "lod": "mid",
+            "image": "texture_0.001",
+            "source_size_px": [
+              4096,
+              4096
+            ],
+            "source_png": {
+              "size_px": [
+                4096,
+                4096
+              ],
+              "bit_depth": 8,
+              "color_type": 2,
+              "channels": 3,
+              "mime_type": "image/png",
+              "bytes": 21384063,
+              "sha256": "60b95144065782b77361ae85a0d68a554f9bfd5541619d3f3d66dbb38d46af93"
+            },
+            "blender_image_buffer_channels": 4,
+            "colorspace": "sRGB",
+            "material_node": "Image Texture"
+          }
+        ],
+        "tile_size_px": [
+          1020,
+          1020
+        ],
+        "tile_origins_bottom_left_px": {
+          "near": [
+            2,
+            2
+          ],
+          "mid": [
+            1026,
+            2
+          ]
+        },
+        "input_was_resized_only": true
+      },
+      "normal": {
+        "atlas_image": "HumanTrace_normal_Atlas_2K",
+        "atlas_size_px": [
+          2048,
+          1024
+        ],
+        "colorspace": "Non-Color",
+        "source_maps": [
+          {
+            "lod": "near",
+            "image": "normal",
+            "source_size_px": [
+              4096,
+              4096
+            ],
+            "source_png": {
+              "size_px": [
+                4096,
+                4096
+              ],
+              "bit_depth": 8,
+              "color_type": 2,
+              "channels": 3,
+              "mime_type": "image/png",
+              "bytes": 18436111,
+              "sha256": "baa7011c0c6e238c3d442659d00070ddae9029874ac3d8f3f925dfb299ff9e70"
+            },
+            "blender_image_buffer_channels": 4,
+            "colorspace": "Non-Color",
+            "material_node": "Image Texture.002"
+          },
+          {
+            "lod": "mid",
+            "image": "normal.001",
+            "source_size_px": [
+              4096,
+              4096
+            ],
+            "source_png": {
+              "size_px": [
+                4096,
+                4096
+              ],
+              "bit_depth": 8,
+              "color_type": 2,
+              "channels": 3,
+              "mime_type": "image/png",
+              "bytes": 18627004,
+              "sha256": "38675d3e18c7d71cfe98c1dd933e7306a858fe2d430b25f0464c2a0cc736914b"
+            },
+            "blender_image_buffer_channels": 4,
+            "colorspace": "Non-Color",
+            "material_node": "Image Texture.002"
+          }
+        ],
+        "tile_size_px": [
+          1020,
+          1020
+        ],
+        "tile_origins_bottom_left_px": {
+          "near": [
+            2,
+            2
+          ],
+          "mid": [
+            1026,
+            2
+          ]
+        },
+        "input_was_resized_only": true
+      },
+      "metallic_roughness": {
+        "atlas_image": "HumanTrace_metallic_roughness_Atlas_2K",
+        "atlas_size_px": [
+          2048,
+          1024
+        ],
+        "colorspace": "Non-Color",
+        "source_maps": [
+          {
+            "lod": "near",
+            "image": "texture_0_metallic_roughness",
+            "source_size_px": [
+              4096,
+              4096
+            ],
+            "source_png": {
+              "size_px": [
+                4096,
+                4096
+              ],
+              "bit_depth": 8,
+              "color_type": 2,
+              "channels": 3,
+              "mime_type": "image/png",
+              "bytes": 10311643,
+              "sha256": "9e1dab356ebe5e68fb36f292e72195c12d5325d5cdf963875287f955aef78290"
+            },
+            "blender_image_buffer_channels": 4,
+            "colorspace": "Non-Color",
+            "material_node": "Image Texture.001"
+          },
+          {
+            "lod": "mid",
+            "image": "texture_0_metallic_roughness.001",
+            "source_size_px": [
+              4096,
+              4096
+            ],
+            "source_png": {
+              "size_px": [
+                4096,
+                4096
+              ],
+              "bit_depth": 8,
+              "color_type": 2,
+              "channels": 3,
+              "mime_type": "image/png",
+              "bytes": 10145028,
+              "sha256": "87a86ac16e406d1d2709e8cbc9a079ee1540ef8bfc340ea85307caeed2e07f59"
+            },
+            "blender_image_buffer_channels": 4,
+            "colorspace": "Non-Color",
+            "material_node": "Image Texture.001"
+          }
+        ],
+        "tile_size_px": [
+          1020,
+          1020
+        ],
+        "tile_origins_bottom_left_px": {
+          "near": [
+            2,
+            2
+          ],
+          "mid": [
+            1026,
+            2
+          ]
+        },
+        "input_was_resized_only": true
+      }
+    },
+    "texture_policy": "One shared 2048x1024 PBR atlas with a native near tile and native mid tile; input PBR maps downscaled only, no repaint; original per-LOD UV layout is preserved by affine tile remap.",
+    "exported_texture_images": [
+      {
+        "name": "HumanTrace_normal_Atlas_2K",
+        "mime_type": "image/png",
+        "size_px": [
+          2048,
+          1024
+        ],
+        "bit_depth": 8,
+        "color_type": 6,
+        "bytes": 4099374,
+        "sha256": "2c99f76e3cabe1dfaaa71de60b47fbb30e4ff34f480584a174409f273136a3e1"
+      },
+      {
+        "name": "HumanTrace_base_color_Atlas_2K",
+        "mime_type": "image/png",
+        "size_px": [
+          2048,
+          1024
+        ],
+        "bit_depth": 8,
+        "color_type": 6,
+        "bytes": 4198069,
+        "sha256": "a3cdad84d99c02f6695c385253671fe07285b7abed966ce1efc4664d1b2f5869"
+      },
+      {
+        "name": "HumanTrace_metallic_roughness_Atlas_2K",
+        "mime_type": "image/png",
+        "size_px": [
+          2048,
+          1024
+        ],
+        "bit_depth": 8,
+        "color_type": 6,
+        "bytes": 2592542,
+        "sha256": "8d427d3753458d603c8d8ae9418fb01726bc926c4267eebee0ba93e572f9b899"
+      }
+    ],
+    "gltf_up_axis": "Y",
+    "gltf_forward_axis": "+Z (in Blender imported raw model front faces -Y; Blender Z-up to glTF Y-up maps glTF +Z to Blender -Y)",
+    "root_transform_gltf": {
+      "translation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "lod_node_transforms_gltf": {
+      "HumanTrace_LOD0": {
+        "translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_xyzw": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "HumanTrace_LOD1": {
+        "translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_xyzw": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    }
+  },
+  "lod": {
+    "HumanTrace_LOD0": {
+      "triangles": 25927,
+      "primitive_count": 1,
+      "material_names": [
+        "HumanTrace_SharedPBR_2K"
+      ],
+      "uv_sets": [
+        "TEXCOORD_0"
+      ],
+      "aabb_gltf_y_up_m": {
+        "min": [
+          -0.37450265884399414,
+          0,
+          -0.2790051996707916
+        ],
+        "max": [
+          0.37450265884399414,
+          1.7799999713897705,
+          0.2790051996707916
+        ]
+      },
+      "node_transform": {
+        "translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_xyzw": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "HumanTrace_LOD1": {
+      "triangles": 8309,
+      "primitive_count": 1,
+      "material_names": [
+        "HumanTrace_SharedPBR_2K"
+      ],
+      "uv_sets": [
+        "TEXCOORD_0"
+      ],
+      "aabb_gltf_y_up_m": {
+        "min": [
+          -0.37371382117271423,
+          9.085847705136985e-05,
+          -0.2790051996707916
+        ],
+        "max": [
+          0.37410402297973633,
+          1.7799999713897705,
+          0.2774724066257477
+        ]
+      },
+      "node_transform": {
+        "translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_xyzw": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    }
+  },
+  "preview": {
+    "near_front": "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-near-front.png",
+    "near_side": "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-near-side.png",
+    "mid_front": "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-mid-front.png",
+    "mid_side": "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-mid-side.png",
+    "local_archive_name": "URMAN-W01-bluecoat-meshy-2026-10-26.zip",
+    "purpose": "neutral mesh-only front/side views; not game evidence",
+    "local_archive_path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-W01-bluecoat-meshy-2026-10-26.zip",
+    "local_archive_sha256": "ff5a9ed51c3aad3114acddd12695b21c9787300ce86691ea69609f50103972d1",
+    "archive_member_paths": {
+      "near_front": "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-near-front.png",
+      "near_side": "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-near-side.png",
+      "mid_front": "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-mid-front.png",
+      "mid_side": "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-mid-side.png"
+    }
+  },
+  "output_sha256": "f22539b5248f4615f80cb65e4e8a93ed410da6ad2021f4c47edd5fc9c5e650e5",
+  "output_bytes": 12353688,
+  "limits": [
+    "Candidate only. No runtime placement, C# integration, collision, animation, or author/art acceptance is implied.",
+    "Both LODs use one shared PBR material, a 2K-wide atlas containing their own remesh texture tiles, and one common transform fit.",
+    "Raw task models, API receipts and review previews are kept in one local archive outside the repository; no further Meshy calls are authorized or made.",
+    "Blender glTF export logged a multiple-image-node warning; the candidate was re-imported and its PBR near/mid views were rendered from the exported GLB."
+  ],
+  "candidate_glb_original_path": "game/assets/photoworlds/forest_entry/pforest-human-trace-meshy-v1.glb",
+  "root_decision": "Defer the static photo-only figure while campaign clarity is the priority; no source-required interactive NPC has been established.",
+  "output_archive_member": "game/assets/photoworlds/forest_entry/pforest-human-trace-meshy-v1.glb",
+  "local_archive": {
+    "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-W01-bluecoat-meshy-2026-10-26.zip",
+    "sha256": "ff5a9ed51c3aad3114acddd12695b21c9787300ce86691ea69609f50103972d1",
+    "crc_verified": true,
+    "member_bytes_and_sha256_verified": true,
+    "member_count": 32,
+    "members": [
+      "assets/source/blender/photoworlds/W01/pforest-tableau-v1.blend",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-mid-front.png",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-mid-side.png",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-mid-v1.glb",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-near-front.png",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-near-side.png",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-near-v1.glb",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-raw-front.png",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-raw-rear.png",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-raw-side.png",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/bluecoat-human-meshy-raw-v1.glb",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/human-trace-front-side.png",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-candidate-export.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-mid-remesh-download.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-mid-remesh-request.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-mid-remesh-status-1.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-mid-remesh-status-2.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-mid-remesh-status-3.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-mid-remesh-status-4.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-near-remesh-download.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-near-remesh-request.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-near-remesh-status-1.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-near-remesh-status-2.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-near-remesh-status-3.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-near-remesh-status-4.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-single-download.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-single-request.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-single-review-render.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-single-status-1.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-single-status-2.log",
+      "assets/source/blender/photoworlds/W01/photographed_people_v1/meshy-bluecoat-single-status-3.log",
+      "game/assets/photoworlds/forest_entry/pforest-human-trace-meshy-v1.glb"
+    ]
+  }
+}
