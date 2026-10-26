@@ -104835,6 +104835,17 @@
         ],
         "verification": "Independent static review found conflicting NPC writer; removed its duplicate routing. Affected Game compile 14.49s, 0 warnings/errors; ContentCli compile, diff check and tracker validation passed. Existing test contract updated, test not run. Native play remains pending.",
         "remaining": "Ordinary play, presentation, saves/Continue and cultural/author acceptance remain open."
+      },
+      "forest_optional_response_account_2026_10_26": {
+        "result": "The W01 journal account no longer attributes Shurale’s optional D07 answer to the player: Escape may close that dialogue before the answer. It records only the required encounter and bag action. The existing Shurale target allows the conversation to be reopened, without replaying the action.",
+        "evidence": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/scripts/PhotoWorlds/W01Controller.Shurale.cs",
+          "game/scripts/PhotoWorlds/W01Controller.Bag.cs",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+        ],
+        "verification": "Two independent source reviews: bag action/return chain and optional-dialogue repeat; ContentCli succeeded, affected Game compile 17.07s zero warnings/errors. Current saved values unchanged and explicit fingerprint compatibility added. Game, physical movement and actual scene presentation remain unverified.",
+        "remaining": "Ordinary first episode, save/continue and external author/cultural acceptance."
       }
     },
     {
