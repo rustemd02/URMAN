@@ -6878,9 +6878,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-forest-shurale-d06-01",
     "value": {
-      "default": "Погоди. Сумка ремнём за корень зацепилась. Потянешь — затянется.",
+      "default": "Не тяни. Ремень за корень зацепился.",
       "translations": {
-        "ru": "Погоди. Сумка ремнём за корень зацепилась. Потянешь — затянется."
+        "ru": "Не тяни. Ремень за корень зацепился."
       }
     },
     "purpose": "dialogue"
@@ -6889,9 +6889,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-choice-forest-shurale-d06-02",
     "value": {
-      "default": "Давай помогу. Ремень снять?",
+      "default": "Я хотел пройти.",
       "translations": {
-        "ru": "Давай помогу. Ремень снять?"
+        "ru": "Я хотел пройти."
       }
     },
     "purpose": "dialogue"
@@ -6900,9 +6900,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-forest-shurale-d06-03",
     "value": {
-      "default": "Сними петлю с корня. Только сумку в сторону отложи, а то снова съедет.",
+      "default": "Сними петлю с корня. Сумку положи рядом.",
       "translations": {
-        "ru": "Сними петлю с корня. Только сумку в сторону отложи, а то снова съедет."
+        "ru": "Сними петлю с корня. Сумку положи рядом."
       }
     },
     "purpose": "dialogue"
@@ -6911,9 +6911,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-choice-forest-shurale-d06-04",
     "value": {
-      "default": "Твоя сумка?",
+      "default": "Она твоя?",
       "translations": {
-        "ru": "Твоя сумка?"
+        "ru": "Она твоя?"
       }
     },
     "purpose": "dialogue"
@@ -6922,9 +6922,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-forest-shurale-d06-05",
     "value": {
-      "default": "Нет, оставил кто-то. Снимай, я ветку подержу.",
+      "default": "Нет. Снимай, я ветку подержу.",
       "translations": {
-        "ru": "Нет, оставил кто-то. Снимай, я ветку подержу."
+        "ru": "Нет. Снимай, я ветку подержу."
       }
     },
     "purpose": "dialogue"
@@ -6990,9 +6990,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-forest-shurale-d07-01",
     "value": {
-      "default": "Вот так. Теперь можно пройти.",
+      "default": "Теперь не мешает.",
       "translations": {
-        "ru": "Вот так. Теперь можно пройти."
+        "ru": "Теперь не мешает."
       }
     },
     "purpose": "dialogue"
@@ -7001,9 +7001,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-choice-forest-shurale-d07-02",
     "value": {
-      "default": "На снимке все в эту сторону смотрят. Ты здесь был?",
+      "default": "На снимке тебя нет. Ты тогда здесь был?",
       "translations": {
-        "ru": "На снимке все в эту сторону смотрят. Ты здесь был?"
+        "ru": "На снимке тебя нет. Ты тогда здесь был?"
       }
     },
     "purpose": "dialogue"
@@ -7012,9 +7012,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-forest-shurale-d07-03",
     "value": {
-      "default": "Был. За спиной фотографа работал, потому и не попал.",
+      "default": "Был. Работал за спиной у фотографа.",
       "translations": {
-        "ru": "Был. За спиной фотографа работал, потому и не попал."
+        "ru": "Был. Работал за спиной у фотографа."
       }
     },
     "purpose": "dialogue"

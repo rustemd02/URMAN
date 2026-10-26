@@ -121,6 +121,11 @@ public partial class JournalUi
             return PhotoBookHouseMission(bridge);
         if (!selectedForestPhotoIsIncomplete && houseQuestStatus != "completed" && waterQuestStatus == "completed")
             return PhotoBookHouseMission(bridge);
+        // After the forest debrief, Gөлсинә points to the courtyard print.
+        // A water route already started by the player was handled above.
+        if (!selectedForestPhotoIsIncomplete && houseQuestStatus != "completed"
+            && forestQuestStatus == "completed" && bridge.PhotoWorldFactObserved("first_world_home_talk"))
+            return PhotoBookHouseMission(bridge);
         if (!selectedForestPhotoIsIncomplete && forestQuestStatus == "completed")
             return PhotoBookWaterMission(bridge);
         if (forestPhoto is null) return null;

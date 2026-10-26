@@ -104807,6 +104807,21 @@
           "fingerprint": "378d33f0f990a6b48495a81b936e2d1f81738b8f29a80e321c1e54c972c0b869",
           "verification": "Existing fullgame ContentCli exit0; compiled diff only two dialogue text entries and generated hashes. Affected Game compile17.62с 0warnings/0errors; afterwards four existing Label references added to existing book zoom list, inspected and diff-check. Astra source review: acquired/session/clear/single-photo/reader/save pairs examined; zoom omission corrected. No new game, Windows, tests or probes.",
           "remaining": "Сами новые страницы на минимальном разрешении и удовольствие/понятность в игре не приняты; общий W01→дом/Continue и внешняя художественная/языковая/авторская приёмка остаются открыты."
+        },
+        "post_forest_followthrough_2026_10_26": {
+          "state": "source_compile_verified_native_pending",
+          "result": "После завершённого W01 и рассказа дома при не начатой воде цель следует сказанному Гөлсинә: конверт со снимком двора, разрешение, книга, вход. Начатая W02 остаётся приоритетной, W02-first и resume не перехвачены; физических или сюжетных gates не добавлено. D06/D07: осторожнее Айдар, сдержанный Шурале, сумка больше не объявляется ключом к открытию прохода; сказанное о работе фотографа сохранено в фактической записи.",
+          "evidence": [
+            "game/scripts/JournalUi.Missions.cs",
+            "game/scripts/WaterChainHomePresence.cs",
+            "game/scripts/ArrivalPersonalProps.cs",
+            "content/modules/urman-fullgame/definitions.json",
+            "game/content/urman.fullgame.compiled.v1.json",
+            "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+          ],
+          "fingerprint": "15ca5c10b2c8104f938cfefb3ea09281257b99ad8311d5b3646ae3208b66278a",
+          "verification": "ContentCli fullgame exit0; affected Game compile19.04с0warnings0errors. Independent Luna source review W01-first, started water, W02-first, forest resume and physical house source/permission; Astra review D06/D07 against canon and staged movement. Another Luna initially proposed bag gate defect, but withdrew it after checking InteractionTarget.IsAvailable/RefreshAvailability; no bag code change. git diff-check, tracker validate/render. No game/tests/probes/station.",
+          "remaining": "Обычное прохождение/приятность первой главы, выразительность и визуал Шурале, крупный текст и внешние культурные/языковые/авторские гейты не приняты."
         }
       }
     },
@@ -126600,6 +126615,15 @@
         "result": "Require both gaze target and actor root IsInsideTree before global target reposition. Modifier deactivation still always occurs for valid head/neck; all five reset callers preserved.",
         "verification": "Affected Game build18.20s0warnings/0errors and independent five-caller review passed. Exported package bootstrap rerun required; no ordinary W01 motion/art claim.",
         "package_verification": "Canonical fresh export f62bf22b exited0; both built-in headless/Dummy package bootstraps passed with no prior off-tree gaze errors. evidence/PW-095/desktop_candidate_f62bf22b/export.log. Windows native W01 gaze motion still open."
+      },
+      "encounter_dialogue_followthrough_2026_10_26": {
+        "state": "source_compile_verified_native_pending",
+        "result": "Реплики D06/D07 сдержаннее и соответствуют физическому действию; не заменяют реализацию и художественную приёмку персонажа.",
+        "evidence": [
+          "content/modules/urman-fullgame/definitions.json"
+        ],
+        "verification": "ContentCli fullgame exit0; affected Game compile19.04с0warnings0errors. Independent Luna source review W01-first, started water, W02-first, forest resume and physical house source/permission; Astra review D06/D07 against canon and staged movement. Another Luna initially proposed bag gate defect, but withdrew it after checking InteractionTarget.IsAvailable/RefreshAvailability; no bag code change. git diff-check, tracker validate/render. No game/tests/probes/station.",
+        "remaining": "Обычное прохождение/приятность первой главы, выразительность и визуал Шурале, крупный текст и внешние культурные/языковые/авторские гейты не приняты."
       }
     },
     {
@@ -147757,7 +147781,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Сохранённый Windows-кандидат6542c528 имеет два подтверждённых native запуска, но не включает текущие378d33f0/HUD/door-fit/photo-comparison правки. Обновить пакет только для предметной приёмки/поставки изменённого результата; не повторять экспорт и NewGame/setup ради отчёта. Save/Continue/кампания/Mac/права/внешние гейты остаются открыты.",
+      "next_action": "Сохранённый Windows-кандидат6542c528 имеет два подтверждённых native запуска, но не включает текущие15ca5c10 и исправления интерфейса/двери/сравнения/целей. Обновить пакет только для предметной приёмки/поставки изменённого результата; не повторять экспорт и NewGame/setup ради отчёта. Save/Continue/кампания/Mac/права/внешние гейты остаются открыты.",
       "blocker": null,
       "external_gates": [
         {
@@ -148711,7 +148735,7 @@
           "archive": "evidence/PW-046/ordinary_cd14c45bce0941ecb720baab92927783.zip",
           "status": "PASS",
           "scope": "Two guarded native standalone lifetimes exit0/engineerrors0, userdataRestoredtrue, actual NewGame/street reached. Fullcampaign/Save/Continue/art/performance/humanplaytest NOT accepted.",
-          "current_source_delta": "Candidate6542 predates source changes through 378d33f0 text, mission HUD/door fit and photo comparison; retain as historical test package, not current release."
+          "current_source_delta": "Candidate6542 predates source changes through 15ca5c10 W01 dialogue, mission HUD/door fit, photo comparison and postforest goal; retain as historical test package, not current release."
         }
       }
     },
