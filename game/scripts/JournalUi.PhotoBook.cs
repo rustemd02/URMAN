@@ -514,6 +514,18 @@ public partial class JournalUi
         };
     }
 
+    internal static bool HasConfirmedBankEvidence(RuntimeBridge bridge) =>
+        bridge.IsPhotoWorldsCampaign && bridge.SessionIdentity is { } session
+        && MissionEvidenceConfirmed(session.SelectState(), "E-BANK-OUTSIDE");
+
+    internal void OpenBankEvidenceResult(RuntimeBridge bridge)
+    {
+        if (!HasConfirmedBankEvidence(bridge) || bridge.IsPhotoBookProjectionDeferred || _notesLoadInProgress) return;
+        OpenPhotoBook(bridge, "S-BANK");
+        if (_photoBookSelectedId == "S-BANK" && ReferenceEquals(_photoBookSession, bridge.SessionIdentity))
+            _photoBookScroll.ScrollVertical = 0;
+    }
+
     internal void OpenPhotoBook(RuntimeBridge bridge, string? photoId = null)
     {
         if (!IsInsideTree() || bridge.SessionIdentity is null || !bridge.IsPhotoWorldsCampaign) return;
@@ -736,6 +748,9 @@ public partial class JournalUi
                 "P-CELLAR" => "Итог: коробка возвращена на место.",
                 _ => placement
             };
+        if (photo.PhotoId is "P-WATER" or "S-BANK"
+            && _bridge is { } bridge && HasConfirmedBankEvidence(bridge))
+            placement += "\n\nСтарый подход к мосткам подтверждён. Сверил спуск из снимка со схемой и сваями на зимнем берегу.";
         _photoBookPlacement.Text = string.IsNullOrWhiteSpace(photo.OriginLabel)
             ? placement
             : $"{placement}\nПроисхождение: {photo.OriginLabel}.";

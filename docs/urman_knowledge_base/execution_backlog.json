@@ -129905,6 +129905,15 @@
         ],
         "verification": "Independent source reviews checked source availability, quest order and persisted-state use; iterative geometry review corrected wall cuts and approach-line oscillation. Affected Game compile 15.60s, 0 warnings/errors. No gameplay/tests; actual access, cue behavior and whole-episode satisfaction remain unverified.",
         "remaining": "Necessary protected Windows playthrough, route/movement/marker and Save/Continue validation; full Act I and external gates remain open."
+      },
+      "bank_comparison_feedback_2026_10_27": {
+        "result": "A successful E-BANK-OUTSIDE comparison opens the existing S-BANK page showing the confirmed conclusion; P-WATER and S-BANK retain the conclusion for rereading only when evidence is confirmed. Subsequent use at the witness opens the result without dispatching verification again.",
+        "evidence": [
+          "game/scripts/JournalUi.PhotoBook.cs",
+          "game/scripts/PhotoBankApproachPresence.cs"
+        ],
+        "verification": "Independent source review covered confirmed gate, prior successful dispatch, session/scene/menu/vehicle guards, no repeat dispatch and existing branch priority. Affected Game compile 17.83s 0 warnings/errors; no game/test run.",
+        "remaining": "Native presentation, actual encounter, player understanding and full first-episode acceptance remain open; no new facts or automatic progress."
       }
     },
     {

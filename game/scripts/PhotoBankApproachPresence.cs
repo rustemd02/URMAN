@@ -1,4 +1,5 @@
 using Godot;
+using System.Threading.Tasks;
 using Urman.Core.Narrative;
 
 namespace Urman.Godot;
@@ -101,8 +102,24 @@ public partial class PhotoBankApproachPresence : Node3D
             _winterPilesTarget = CreateTarget("WinterPilesTarget", WinterPilesInteractionId,
                 "urman.fullgame:text/pw-label-winter-piles-inspected", piles, .52f, .30f);
         if (_verifyBankTarget is null && _oldPilesWitness is { } verifyPiles)
+        {
             _verifyBankTarget = CreateTarget("VerifyBankEvidenceTarget", VerifyBankInteractionId,
                 "urman.fullgame:text/pw-label-verify-bank-evidence", verifyPiles, .52f, .30f);
+            if (_verifyBankTarget is { } verifyTarget)
+            {
+                verifyTarget.PresentationBeforeDispatch = () =>
+                {
+                    if (_bridge is not { } bridge || !JournalUi.HasConfirmedBankEvidence(bridge)) return true;
+                    OpenBankEvidenceResult();
+                    return false;
+                };
+                verifyTarget.AfterDispatch = () =>
+                {
+                    OpenBankEvidenceResult();
+                    return Task.FromResult(true);
+                };
+            }
+        }
         if (_bankReturnTarget is null && _bankReturnWitness is { } bankReturn)
             _bankReturnTarget = CreateTarget("BankReturnTarget", BankReturnInteractionId,
                 "urman.fullgame:text/pw-label-bank-return", bankReturn, .55f, .82f);
@@ -180,6 +197,17 @@ public partial class PhotoBankApproachPresence : Node3D
         return target;
     }
 
+    private void OpenBankEvidenceResult()
+    {
+        if (!IsInsideTree() || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || bridge.ActiveSceneId != BankSceneId || bridge.CurrentZoneId != "village_day"
+            || !JournalUi.HasConfirmedBankEvidence(bridge) || MainMenuUi.AnyUndismissed(GetTree())
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController { ModalOpen: false, VehicleControlled: false })
+            return;
+        if (GetTree().GetFirstNodeInGroup("journal_ui") is JournalUi journal)
+            journal.OpenBankEvidenceResult(bridge);
+    }
+
     private void ApplyProjection()
     {
         if (_bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
@@ -226,6 +254,8 @@ public partial class PhotoBankApproachPresence : Node3D
                 && IsInteractionReady(bridge, WinterPilesInteractionId));
         SetTarget(_verifyBankTarget, bridge, "urman.fullgame:text/pw-label-verify-bank-evidence",
             bankRouteActive && interactionWindowOpen && IsInteractionReady(bridge, VerifyBankInteractionId));
+        if (_verifyBankTarget is { } verifyTarget && JournalUi.HasConfirmedBankEvidence(bridge))
+            verifyTarget.Prompt = "Посмотреть результат сверки мостков";
         var epilogueReady = bankRouteActive && interactionWindowOpen
             && IsInteractionReady(bridge, BankToEpilogueInteractionId);
         SetTarget(_bankToEpilogueTarget, bridge, "urman.fullgame:text/pw-label-bank-to-epilogue", epilogueReady);
