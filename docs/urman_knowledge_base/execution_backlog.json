@@ -124506,7 +124506,9 @@
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-046/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
       "evidence": [
-        "game/scripts/Act1DemoRoot.ObjectiveMarker.cs"
+        "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+        "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748/receipt.json",
+        "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748.zip"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-046",
       "source_requirements": [
@@ -124628,8 +124630,8 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "not_active",
-        "reason": "String-only F11 source stage complete, existing F14 physical action source checked; native action/return remains a separate unperformed question."
+        "state": "idle",
+        "reason": "Native a64 terminal FAIL124; protected userdata restoration confirmed. Station/input lease released; partial W01 remains open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -124639,7 +124641,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Finish this bounded source stage, then retain only W01 encounter/action→return→home-talk as the native question. School and first entry352d accepted; do not repeat old e79 transport investigation or unchanged branch setup.",
+      "next_action": "Установить читаемый обычный ракурс после F13 с сохранением проверки трёх реальных стволов; текущий6м ракурс перекрыт. Затем довести встречу/сумку→F16→возврат→разговор дома. Не повторять пролог, школу или F10 ради наличия UI; не запускать тот же проход без изменённого входа/конкретного вопроса.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -125046,6 +125048,45 @@
           "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip!frames/interactive-e121da7da59347d4a25a61cc91e8f145.png"
         ],
         "verification": "Root actual frame+GLB node read+passport and exact observation condition. String-only diff; no compilation risk, no game/test/build rerun. Scoped diffcheck passed; no new Game compilation or tests for string-only change."
+      },
+      "current_native_question_2026_10_26": {
+        "question": "Can ordinary play complete earned F11 observation→realF12/F13 fold/lookback→Shurale conversation/bag→F16 return→first home talk/clear nextlead on current091f6b27?",
+        "success": "Actual normal inputs/visible consequences and earned facts/home continuation; normal Quit and verified restoreduserdata receipt. Existing accepted home/school/entry are setup only.",
+        "bounds": "One protected play-product3600; no seed/debug/teleport/profileimport/newtests. Source/model frozen, one input owner, normalQuit with>=5minreserve, stop on concrete blocker after2failedhypotheseswithoutnewcause.",
+        "job_id": "a64a797c796f4224b0b1e2537997d748",
+        "snapshot_id": "a6b6b41a42d13aceeb9087b19172b54497bbf86347cfd73429c90f221b66403a",
+        "source_commit": "091f6b27",
+        "input_lease": null,
+        "state": "terminal_partial_not_accepted",
+        "root_takeover": "Driver model capacity failure; root exclusively finished input.",
+        "result_receipt": "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748/receipt.json"
+      },
+      "native_episode_result_2026_10_26": {
+        "job_id": "a64a797c796f4224b0b1e2537997d748",
+        "source_commit": "091f6b27",
+        "snapshot_id": "a6b6b41a42d13aceeb9087b19172b54497bbf86347cfd73429c90f221b66403a",
+        "state": "terminal_partial_not_accepted",
+        "receipt": "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748/receipt.json",
+        "archive": "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748.zip",
+        "archive_sha256": "30bb7d27e854e3f29686709343c48f69fa58486cc5adb3252a52b22d90416771",
+        "status": "FAIL",
+        "game_exit_code": 124,
+        "userdata_restored": true,
+        "userdata_recovery_pending": false,
+        "observed": [
+          "Обычный школьный paired reader, явное подтверждение, копия и вход в W01 работали; это setup ранее принятого маршрута.",
+          "Наблюдение F11 засчиталось штатным взглядом; HUD переключился на проход у корней.",
+          "F12→F13 сработал обычным пересечением, marker переключился на три ствола за поворотом. Отказ первого пересечения не установлен как production-дефект.",
+          "Взгляд назад из camera (97.6165,5.38105,125.44099), yaw24.320055 оказался перекрыт корневой конструкцией/деревьями. Факт за краем снимка не подтверждён; один кадр не доказывает невозможность другого ракурса."
+        ],
+        "not_verified": [
+          "Полный пролог/поездка на Ниве: в setup использован разрешённый пропуск.",
+          "W01 наблюдение после прохода, разговор/сумка, возврат и домашнее продолжение.",
+          "Приятность, художественная и обязательная внешняя приёмка."
+        ],
+        "execution_issue": "Драйвер остановился по capacity модели; root принял исключительный ввод. Root слишком поздно начал обычный Quit: timeout наступил после первого нажатия «Выход — точно?», до подтверждения. PASS не заявляется, повтор без нового причинного входа не назначен.",
+        "source_review": "Luna: marker указывает центр F13, а не гарантированный ракурс; три lower-bole contacts должны быть одновременно видны. Source допускает отход дальше по тропе в пределах24м и боковой ракурс, но точка с чистой видимостью ещё не установлена. Не ослаблять rays/progress и не удалять коллизии вслепую.",
+        "cleanup": "ZIP CRC и82 извлечённых файла побайтово сверены; удалены38,009,830байт извлечённых/временных дублей. Receipt сохранён отдельно; raw вне Git."
       }
     },
     {
@@ -137124,6 +137165,14 @@
           "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip!frames/interactive-ff0411aeac5f44649d8a46764cce309b.png"
         ],
         "retention": "Original ZIP CRC and every extracted file byte-verified; duplicate extracts and matching temporary frames removed (50166005 bytes), receipt retained. Raw artifacts excluded from Git."
+      },
+      "paired_reader_layout_2026_10_26": {
+        "result": "На native a64 сравниваемые снимки оказались слишком мелкими в портретном листе. Только paired comparison расширяет существующий лист до min(92% viewport,1560*textScale); обычный документ при следующем открытии возвращает прежние72%/860. Picture/zoom/pan, explicit confirm, progress и save guards не меняются.",
+        "targets": [
+          "game/scripts/DocumentUi.cs",
+          "game/scripts/DocumentImageReader.cs"
+        ],
+        "verification": "Source review: comparison lifecycle SetImages→ClearComparison, refit on both open paths, resize/accessibility already call refit; viewport bounds retained. git diff --check. Новый игровой запуск ради layout не выполнялся; визуальная приёмка новой ширины открыта."
       }
     },
     {
@@ -150618,13 +150667,15 @@
             "evidence": [
               "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e.zip — только наблюдённый home/tea/book/Continue отрезок; общий receipt FAILtimeout, userdataRestored=true.",
               "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip",
-              "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3/receipt.json"
+              "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3/receipt.json",
+              "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748/receipt.json",
+              "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748.zip"
             ],
             "assigned_owner": "integration/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Конечный школьный отрезок и первый вход приняты; job штатно закрыт, station lease освобождён. Остаток W01 не выполнялся."
+              "state": "idle",
+              "reason": "Native a64 terminal FAIL124; protected userdata restoration confirmed. Station/input lease released; partial W01 remains open."
             },
             "task_type": "integration_check",
             "status": "in_progress",
@@ -150635,7 +150686,7 @@
               "Новое парное сравнение и школьный outbound marker не приняты визуально/в движении; учитывать в следующем содержательном эпизоде без отдельного повторного smoke.",
               "Авторская и новичковая оценка интереса/ясности остаётся отдельной обязательной приёмкой."
             ],
-            "next_action": "Продолжить реализацию завершённого первого расследования; при конкретной необходимости принять только оставшийся W01 action→return→home-talk вопрос. Не повторять обычный школьный контекст и домашний setup ради доказательств.",
+            "next_action": "Установить читаемый обычный ракурс после F13 с сохранением проверки трёх реальных стволов; текущий6м ракурс перекрыт. Затем довести встречу/сумку→F16→возврат→разговор дома. Не повторять пролог, школу или F10 ради наличия UI; не запускать тот же проход без изменённого входа/конкретного вопроса.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -150833,6 +150884,39 @@
               "producer": "PW-019.route_cue_2026_10_20",
               "state": "compiled_source_only_native_not_run",
               "remaining": "Run ordinary full route; source correction is not integration acceptance."
+            },
+            "current_native_question_2026_10_26": {
+              "state": "terminal_partial_not_accepted",
+              "input_lease": null,
+              "root_takeover": "Driver model capacity failure; root exclusively finished input.",
+              "result_receipt": "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748/receipt.json"
+            },
+            "native_episode_result_2026_10_26": {
+              "job_id": "a64a797c796f4224b0b1e2537997d748",
+              "source_commit": "091f6b27",
+              "snapshot_id": "a6b6b41a42d13aceeb9087b19172b54497bbf86347cfd73429c90f221b66403a",
+              "state": "terminal_partial_not_accepted",
+              "receipt": "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748/receipt.json",
+              "archive": "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748.zip",
+              "archive_sha256": "30bb7d27e854e3f29686709343c48f69fa58486cc5adb3252a52b22d90416771",
+              "status": "FAIL",
+              "game_exit_code": 124,
+              "userdata_restored": true,
+              "userdata_recovery_pending": false,
+              "observed": [
+                "Обычный школьный paired reader, явное подтверждение, копия и вход в W01 работали; это setup ранее принятого маршрута.",
+                "Наблюдение F11 засчиталось штатным взглядом; HUD переключился на проход у корней.",
+                "F12→F13 сработал обычным пересечением, marker переключился на три ствола за поворотом. Отказ первого пересечения не установлен как production-дефект.",
+                "Взгляд назад из camera (97.6165,5.38105,125.44099), yaw24.320055 оказался перекрыт корневой конструкцией/деревьями. Факт за краем снимка не подтверждён; один кадр не доказывает невозможность другого ракурса."
+              ],
+              "not_verified": [
+                "Полный пролог/поездка на Ниве: в setup использован разрешённый пропуск.",
+                "W01 наблюдение после прохода, разговор/сумка, возврат и домашнее продолжение.",
+                "Приятность, художественная и обязательная внешняя приёмка."
+              ],
+              "execution_issue": "Драйвер остановился по capacity модели; root принял исключительный ввод. Root слишком поздно начал обычный Quit: timeout наступил после первого нажатия «Выход — точно?», до подтверждения. PASS не заявляется, повтор без нового причинного входа не назначен.",
+              "source_review": "Luna: marker указывает центр F13, а не гарантированный ракурс; три lower-bole contacts должны быть одновременно видны. Source допускает отход дальше по тропе в пределах24м и боковой ракурс, но точка с чистой видимостью ещё не установлена. Не ослаблять rays/progress и не удалять коллизии вслепую.",
+              "cleanup": "ZIP CRC и82 извлечённых файла побайтово сверены; удалены38,009,830байт извлечённых/временных дублей. Receipt сохранён отдельно; raw вне Git."
             }
           },
           {

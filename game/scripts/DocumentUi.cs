@@ -137,6 +137,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _title.Text = document.Title;
         _body.Text = SourceExcerptSelection.FormatSourceText(document.BodyMarkdown);
         _images.SetImages(document.Images);
+        RefitToViewport();
         _excerpts.Bind(bridge, document.Id);
         _status.Text = "Документ найден в зоне · можно добавить в журнал";
         _save.Visible = true;
@@ -188,6 +189,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _body.Text = title == description ? title : title + "\n\n" + description;
         _images.SetImages([new DocumentImageContent(photoId, imagePath, description)]);
         if (comparison is not null) _images.CompareWith(comparison, comparisonCaption ?? title);
+        RefitToViewport();
         _status.Text = comparison is not null
             ? "Сверьте стволы и перекладину: откуда сделан семейный снимок? · Esc — вернуться"
             : confirm is null
@@ -312,8 +314,10 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
             return;
         }
 
+        var comparing = _images is { ComparingImages: true };
         var size = new Vector2(
-            Mathf.Max(1f, Mathf.Min(viewport.X * 0.72f, 860f * Mathf.Clamp((float)_accessibility.TextScale, 0.8f, 1.6f))),
+            Mathf.Max(1f, Mathf.Min(viewport.X * (comparing ? 0.92f : 0.72f),
+                (comparing ? 1560f : 860f) * Mathf.Clamp((float)_accessibility.TextScale, 0.8f, 1.6f))),
             Mathf.Max(1f, Mathf.Min(viewport.Y * 0.84f, viewport.Y - 24f)));
         _documentView.AnchorLeft = 0.5f;
         _documentView.AnchorTop = 0.5f;

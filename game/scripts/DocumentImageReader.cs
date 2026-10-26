@@ -36,6 +36,7 @@ public partial class DocumentImageReader : VBoxContainer
 
     public int ImageCount => _images.Count;
     public bool ShowingImage => Visible && _picturePage.Visible;
+    public bool ComparingImages => _comparing;
     public string? ActiveAssetId => _images.Count == 0 ? null : _images[_index].AssetId;
     public float ZoomFactor => _zoom;
     public Texture2D? DisplayedTexture => _picture.Texture;
