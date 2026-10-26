@@ -17,6 +17,8 @@ public partial class JournalUi
     private const string PWaterThumbnailPath = "res://assets/textures/photobook/p-water-front-v1-thumbnail.png";
     private const string PHouseFrontImagePath = "res://assets/textures/photobook/p-house-front-v1.png";
     private const string PHouseThumbnailPath = "res://assets/textures/photobook/p-house-front-v1-thumbnail.png";
+    private const string SPhotographerFrontImagePath = "res://assets/textures/photobook/s-photographer-front-v1.png";
+    private const string SPhotographerThumbnailPath = "res://assets/textures/photobook/s-photographer-front-v1-thumbnail.png";
     private const string SSchoolFrontImagePath = "res://assets/textures/photobook/s-school-front-v2.png";
     private const string SSchoolThumbnailPath = "res://assets/textures/photobook/s-school-front-v2-thumbnail.png";
     private const string ForestDiscoveryKnowledgeId = "urman.fullgame:knowledge/pw-forest-inside";
@@ -713,6 +715,7 @@ public partial class JournalUi
             "P-FOREST" => thumbnail ? PForestThumbnailPath : PForestFrontImagePath,
             "P-WATER" => thumbnail ? PWaterThumbnailPath : PWaterFrontImagePath,
             "P-HOUSE" => thumbnail ? PHouseThumbnailPath : PHouseFrontImagePath,
+            "S-PHOTOGRAPHER" => thumbnail ? SPhotographerThumbnailPath : SPhotographerFrontImagePath,
             "S-SCHOOL" => thumbnail ? SSchoolThumbnailPath : SSchoolFrontImagePath,
             _ => null
         };

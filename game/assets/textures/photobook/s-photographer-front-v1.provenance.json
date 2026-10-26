@@ -1,0 +1,69 @@
+{
+  "asset_id": "S-PHOTOGRAPHER",
+  "status": "generated_neighboring_print_runtime_and_author_acceptance_pending",
+  "created_date": "2026-10-27",
+  "tool": "image_gen.imagegen",
+  "generation_id": "exec-1f599353-d9a4-4c6f-9e2f-39cfd4ef4746",
+  "generation_count": 1,
+  "method": "Built-in ImageGen edit of the exact runtime P-HOUSE artwork; no new external imagery, Meshy or paid API fallback. Fictional painted contact print, not an archive photograph or game screenshot.",
+  "prompt": "Use case: historical-scene / precise-object-edit. Asset type: S-PHOTOGRAPHER front for the fictional URMAN in-game family album, one landscape 3:2 full-frame painted image, target 1800x1200. The input image is the exact existing project-owned P-HOUSE courtyard print and is the sole source of architecture, geography, props, era and visual treatment. Create a second photograph of THIS SAME COURTYARD from a modest neighboring viewpoint about half a metre to the camera's RIGHT and slightly closer; the result must clearly be a separate exposure, not an unrelated similar garden, and retain immediately recognizable identity. Preserve this exact low weathered horizontal-log house, the same roof and white pierced fascia, the same shallow open veranda at its left corner with ONE blue-painted entrance jamb and a dark doorway, the same projecting stacked log corner between doorway and front window, the SAME white carved window with its triangular crown and blue three-plank shutter with two crossrails and one diagonal brace on the RIGHT of the window. Keep these structures in their original plan and do not add openings. Keep the mature forked apple tree rooted in the LEFT foreground, the single brown garden chair just to its right/in front of it (two back boards, slatted seat, four legs), the same low picket fence behind the chair, the small distant shed roofs beyond it, the same curved bare-earth path toward the veranda steps, the bucket and plants on the veranda. The camera shift should show plausible modest parallax between the near tree/chair and the farther porch, with the front window and blue shutter more fully visible. No moved chair, moved tree, rearranged buildings or new geography. Same ordinary summer domestic moment and painterly material realism: lively coherent brushwork, natural wood, muted blue accents, ivory trim, moss/olive vegetation, pale-blue and lilac soft shadows, paper-warm daylight without sepia. This is a contact print by the still-unidentified photographer: neither photographer nor camera, strap, shadow, written name or any author-identifying clue is visible. Authorship remains exclusively on the separately authored reverse. No people, faces, magical effects, portals, creatures, text, captions, date stamps, logos, watermarks, photographic border, frame or surrounding table. No fancy cottage redesign, onion domes, ethnic costume or religious additions. Preserve the source's believable post-supported veranda and load-bearing log courses and roof. This is original fictional game art, not a documentary family photograph. Deliver one finished full-bleed neighboring print.",
+  "inputs": [
+    {
+      "path": "game/assets/textures/photobook/p-house-front-v1.png",
+      "sha256": "31950224adae5861f351fe8ee30091a04fd116d5cfa536ebda93f125981e4b5a",
+      "role": "sole image input; same courtyard architecture, domestic props, summer setting and painterly surface"
+    }
+  ],
+  "contract_inputs": [
+    "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json#S-PHOTOGRAPHER",
+    "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W03_Дом_на_просвет_RU.md#6",
+    "game/assets/textures/photobook/p-house-front-v1.provenance.json",
+    "game/assets/textures/photobook/backs-v1/s-photographer-back.svg",
+    "docs/URMAN_VISUAL_RESET_2026-10-07/REFERENCES_RU.md"
+  ],
+  "original_generated_source": {
+    "local_path": "/Users/unterlantas/.codex/generated_images/01a17a97-1ca2-75d1-80aa-deb15116e347/exec-1f599353-d9a4-4c6f-9e2f-39cfd4ef4746.png",
+    "sha256": "ddac2ca398a03ddb6067358bd3b38a6d2f01fd8c725f3224d1a35fc6e3041792",
+    "size_px": [
+      1536,
+      1024
+    ],
+    "preservation": "Unique original retained in built-in ImageGen output directory; runtime front is a mechanically resized selected copy."
+  },
+  "runtime_front": {
+    "path": "game/assets/textures/photobook/s-photographer-front-v1.png",
+    "sha256": "1f139ea5454e341b647feacb825df88fb7f71c1470aa7cfd6ccbc98d3d16a9dc",
+    "size_px": [
+      1800,
+      1200
+    ],
+    "bytes": 4257904,
+    "export": "sips -z 1200 1800; same 3:2 aspect, no crop or retouch"
+  },
+  "runtime_thumbnail": {
+    "path": "game/assets/textures/photobook/s-photographer-front-v1-thumbnail.png",
+    "sha256": "447f335f43adff7b1492d1925fc42426f34e7dc23532dd233dab6c25995b716a",
+    "size_px": [
+      256,
+      171
+    ],
+    "bytes": 107547,
+    "export": "sips -z 171 256 of runtime front"
+  },
+  "observed_review": [
+    "Personally inspected generated full image and exported thumbnail: same recognizable courtyard family as the input.",
+    "Forked mature apple tree remains left; one brown two-back-board garden chair in front/right of it; picket fence and low shed roofs remain beyond.",
+    "Open supported veranda has the same blue entrance jamb, dark doorway, bucket, steps and flower pots; projecting log corner separates it from the front window.",
+    "White carved triangular-crown window trim and blue plank shutter with crossrails and diagonal brace remain on the right.",
+    "New exposure has visibly different framing/parallax: near chair/tree shift left relative to house, window/shutter are more prominent. ImageGen interprets geometry; the exact half-metre camera move is not proven.",
+    "No people, photographer, camera, strap shadow, writing, names, date, portal or new evidence."
+  ],
+  "physical_representation": "Front layer is visible on the existing physical card after the source is found. Existing PhotoBack and its caption-read visibility gate remain intact and cover the front after reading. No new flip interaction or permission is invented.",
+  "evidence_limit": "Recognizable correspondence to the exact P-HOUSE illustration was visually inspected. P-HOUSE itself remains a generated candidate with unverified W03 F0-to-level geometry. This support print does not establish W03 camera position, authorship, a real date, documentary truth or any new quest fact. The existing reverse alone supplies the authored name after the ReadBack action.",
+  "rights": "Original project-generated fictional art derived only from project-generated P-HOUSE. No new third-party source or real-person likeness. Existing P-HOUSE reference limits and human art/cultural/rights gates remain open.",
+  "remaining_acceptance": [
+    "protected native book, full-image and thumbnail rendering/import",
+    "physical front/back visibility and depth in the actual scene",
+    "W03 F0-to-P-HOUSE correspondence and author artistic/cultural/rights acceptance"
+  ]
+}

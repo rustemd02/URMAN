@@ -128794,6 +128794,16 @@
         "behavior": "Ambient→Flowing atboardreturn; rings move+12X/-.5Z2.6s acrossfarpier, then settled1.1s afterauthoredresponse; load/revisitcalm/sessionreset/modal/reducedmotion preserved.",
         "verification": "Independentactualsource/piercoordinate review; integratedGame15.15s0/0; native NOT_RUN.",
         "evidence": "evidence/PW-065/cellar-source-20261020/affected-game-build-after-shelf-fix.log"
+      },
+      "river_exit_hint_2026_10_27": {
+        "result": "The post-print hint points to the exit on the summer bank next to the damp photograph instead of directing the player back to the old pier approach. Existing return target, gates and colliders unchanged.",
+        "evidence": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/scenes/photoworlds/W02/W02.tscn",
+          "game/scripts/photoworlds/W02Controller.cs",
+          "game/content/urman.fullgame.compiled.v1.json"
+        ],
+        "verification": "Source review compared hint selection, actual R08 return target, R05 old approach and journal mission. ContentCli build 0 warnings/errors; compiled urman.fullgame. Native wayfinding still unverified."
       }
     },
     {
@@ -132349,7 +132359,19 @@
           "evidence_ref": "PW-059.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "photographer_front_candidate_2026_10_27": {
+        "result": "Generated and bound a front and thumbnail for S-PHOTOGRAPHER using the existing P-HOUSE image as visual reference: same house, porch, tree, chair and yard with changed framing. The family card retains the back and its BackRead gate; book presents only acquired photos. No evidence/permission conditions changed.",
+        "evidence": [
+          "game/assets/textures/photobook/s-photographer-front-v1.png",
+          "game/assets/textures/photobook/s-photographer-front-v1-thumbnail.png",
+          "game/assets/textures/photobook/s-photographer-front-v1.provenance.json",
+          "game/scripts/ArrivalPersonalProps.Cellar.cs",
+          "game/scripts/JournalUi.PhotoBook.cs"
+        ],
+        "verification": "Root and independent source/image review: front matches key features in existing P-HOUSE, found/acquired/back-read gates preserved; affected Game build 16.35s 0 warnings/errors. Actual W03 match, card layering, in-game import/render, author and cultural acceptance not established.",
+        "remaining": "Native H05 → back read → family discussion → save/continue and author/cultural visual acceptance."
+      }
     },
     {
       "id": "PW-060",

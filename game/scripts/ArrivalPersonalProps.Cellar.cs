@@ -106,7 +106,28 @@ internal partial class ArrivalPersonalProps
         var photographerCard = BuildCellarBackCard(box, "PhotographerPhotoCard",
             new(0f, photographerCardY, -.010f),
             "res://assets/textures/photobook/backs-v1/s-photographer-back.svg",
-            "S-PHOTOGRAPHER", paper, "authored back face; front art is not produced");
+            "S-PHOTOGRAPHER", paper, "authored back; generated neighboring P-HOUSE front candidate, runtime and author acceptance pending");
+        const string photographerFrontPath = "res://assets/textures/photobook/s-photographer-front-v1.png";
+        var photographerFrontTexture = ResourceLoader.Load<Texture2D>(photographerFrontPath)
+            ?? throw new InvalidOperationException("The S-PHOTOGRAPHER front has not been packaged.");
+        // The existing gated back overlays the front only after its caption is read.
+        var photographerFront = new MeshInstance3D
+        {
+            Name = "PhotoFront",
+            Position = Vector3.Up * (CellarPhotoBackOffset - .0002f),
+            RotationDegrees = new(-90f, 0f, 180f),
+            Mesh = new QuadMesh { Size = new(.150f, .100f) },
+            MaterialOverride = new StandardMaterial3D
+            {
+                AlbedoTexture = photographerFrontTexture,
+                Roughness = 1f,
+                TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmaps
+            }
+        };
+        photographerFront.SetMeta("visualOnly", true);
+        photographerFront.SetMeta("assetSource", photographerFrontPath);
+        photographerCard.AddChild(photographerFront);
+        photographerCard.SetMeta("presentationRole", "physical S-PHOTOGRAPHER front; authored back presentation remains caption-gated");
         photographerCard.Visible = false;
         photographerCard.GetNode<MeshInstance3D>("PhotoBack").Visible = false;
 
