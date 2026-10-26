@@ -147345,6 +147345,15 @@
           "sha256": "c1bafdb7746f3bf39523caa738bafa2d383a5ea7ddc12279c06eb4b9ffb60f80",
           "verification": "8 files verified by CRC and SHA before removing originals; temporary renders removed."
         }
+      },
+      "residential_bc_material_review_2026_10_26": {
+        "source_result": "The existing VariantB/C return facades already use generated materials through RegradeAct1DaylightKitMaterials: W01 wood facade, W04v02 green painted wood (B), aged_plaster_v3 and weathered_wood_boards_v4. B and C plaster/colours intentionally differ from the accepted log house. No new Meshy operation.",
+        "evidence": [
+          "game/scripts/Act1ConnectedWorld.cs",
+          "game/scripts/PainterlyMaterialLibrary.cs"
+        ],
+        "limitation": "Source bindings do not prove scene coherence, construction, art or performance. VariantB prospective single-atlas UV hold affects 3 porch crowns, not the existing material coverage; no blanket PBR replacement or automatic claim of visual acceptance.",
+        "next": "Inspect specific B/C composition and log construction in the actual scene; fix demonstrated large discrepancies before paying for another texture."
       }
     },
     {
@@ -148838,6 +148847,16 @@
           "scope": "Two guarded native standalone lifetimes exit0/engineerrors0, userdataRestoredtrue, actual NewGame/street reached. Fullcampaign/Save/Continue/art/performance/humanplaytest NOT accepted.",
           "current_source_delta": "Candidate6542 predates source changes through 15ca5c10 W01 dialogue, mission HUD/door fit, photo comparison and postforest goal; retain as historical test package, not current release."
         }
+      },
+      "committed_station_source_2026_10_26": {
+        "result": "Opt-in --committed-head reads a frozen HEAD tree and streams Git blobs to existing incremental snapshot API, excluding worktree and untracked files without a second checkout. Default source mode is unchanged. Replace refs disabled; symlinks/submodules/LFS reject, source limits/hashes remain; missing incremental API fails closed.",
+        "evidence": [
+          "eng/remote-check.py",
+          "eng/remote_common.py",
+          "docs/production/README_WINDOWS_WORKER_FOR_AGENTS.md"
+        ],
+        "verification": "Independent static review and Python syntax/CLI help. No live station submission yet; first use must verify manifest, hashes and protected data restoration. Empty missing blobs are rejected because server API cannot upload them.",
+        "remaining": "Use only for a concrete necessary Windows verification; native import, first episode and release remain open."
       }
     },
     {

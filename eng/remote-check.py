@@ -8,6 +8,7 @@ from pathlib import Path, PurePosixPath
 import re
 import shutil
 import stat
+import subprocess
 import sys
 import tempfile
 import time
@@ -17,9 +18,10 @@ import urllib.request
 import uuid
 import zipfile
 from remote_common import (MAX_ARCHIVE, MAX_SOURCE, REPOSITORY, canonical, candidates,
-                           digest, git, make_candidate_upload, validate_candidate_guard_project,
-                           source_state, STUDIO_AUTHORING_FILES,
-                           studio_authoring_path, MAX_RESULT_BYTES, MAX_RESULT_FILES)
+                           committed_candidates,
+                           digest, git, git_no_replace, make_candidate_upload, validate_candidate_guard_project,
+                           source_state, STUDIO_AUTHORING_FILES, validate_manifest,
+                           stream_git_blob, studio_authoring_path, MAX_RESULT_BYTES, MAX_RESULT_FILES)
 
 STUDIO_SCENE = 'res://studio/studio_main.tscn'
 FULL_GAME_SCENE = 'res://scenes/full_game.tscn'
@@ -91,6 +93,25 @@ def build_manifest(root, *, studio_authoring=False):
     manifest['snapshot_id']=hashlib.sha256(canonical(manifest)).hexdigest()
     return manifest
 
+def build_committed_head_manifest(root, *, studio_authoring=False):
+    root=Path(root).resolve()
+    origin=git_no_replace(root,'remote','get-url','origin').decode().strip()
+    if origin not in (REPOSITORY,'git@github.com:rustemd02/URMAN.git','ssh://git@github.com/rustemd02/URMAN.git'):
+        raise ValueError('unexpected repository origin')
+    commit=git_no_replace(root,'rev-parse','--verify','HEAD^{commit}').decode().strip()
+    blobs=committed_candidates(root,commit,studio_authoring=studio_authoring)
+    manifest={'schema':1,'repository':REPOSITORY,'base_commit':commit,'dirty_paths':[],'files':{}}
+    total=0
+    for name,object_id in sorted(blobs.items()):
+        sha,size=stream_git_blob(root,object_id,name=name)
+        total+=size
+        if total>MAX_SOURCE:
+            raise ValueError('snapshot exceeds source limit')
+        manifest['files'][name]={'sha256':sha,'bytes':size}
+    manifest['snapshot_id']=hashlib.sha256(canonical(manifest)).hexdigest()
+    validate_manifest(manifest)
+    return manifest,blobs
+
 def write_archive(root, manifest, archive):
     """Write the archive for an already hashed manifest; every byte is verified again."""
     root=Path(root).resolve()
@@ -107,7 +128,7 @@ def write_archive(root, manifest, archive):
     if archive.stat().st_size>MAX_ARCHIVE:
         raise ValueError('snapshot exceeds upload limit')
 
-def publish_snapshot(client, root, manifest, log=print):
+def publish_snapshot(client, root, manifest, log=print, committed_blobs=None):
     """Send only the files the station lacks; fall back to the whole archive for a
     station that does not support incremental snapshots yet."""
     try:
@@ -117,6 +138,8 @@ def publish_snapshot(client, root, manifest, log=print):
             raise
         plan=None
     if plan is None:
+        if committed_blobs is not None:
+            raise ValueError('committed-head mode requires station incremental snapshot support')
         with tempfile.TemporaryDirectory(prefix='urman-snapshot-') as tmp:
             archive=Path(tmp)/'source.zip'
             write_archive(root,manifest,archive)
@@ -136,10 +159,29 @@ def publish_snapshot(client, root, manifest, log=print):
         f'of {len(manifest["files"])} files, sending {len(missing)} ({sent/1024**2:.1f} MB)')
     for index,sha in enumerate(missing,1):
         name=names[sha]; size=manifest['files'][name]['bytes']
+        if size == 0 and committed_blobs is not None:
+            raise ValueError('station incremental blob API cannot upload an empty source file: '+name)
         log(f'  [{index}/{len(missing)}] {name} ({size/1024**2:.2f} MB)')
-        path=studio_authoring_path(root,name) if name in STUDIO_AUTHORING_FILES else Path(root)/name
-        with path.open('rb') as stream:
-            stored=client.request('/blobs/'+sha,stream)
+        if committed_blobs is None:
+            path=studio_authoring_path(root,name) if name in STUDIO_AUTHORING_FILES else Path(root)/name
+            with path.open('rb') as stream:
+                stored=client.request('/blobs/'+sha,stream)
+        else:
+            object_id=committed_blobs[name]
+            process=subprocess.Popen(['git','--no-replace-objects','-C',str(Path(root).resolve()),
+                                      'cat-file','blob',object_id],
+                                     stdout=subprocess.PIPE)
+            try:
+                stored=client.request('/blobs/'+sha,process.stdout,content_length=size)
+            except BaseException:
+                if process.poll() is None:
+                    process.kill()
+                process.communicate()
+                raise
+            else:
+                process.stdout.close()
+                if process.wait()!=0:
+                    raise ValueError('could not stream committed Git blob: '+name)
         if stored.get('sha256')!=sha:
             raise ValueError('blob acknowledgement mismatch')
 
@@ -157,10 +199,15 @@ class Client:
             handlers.append(urllib.request.ProxyHandler({'http':self.proxy,'https':self.proxy}))
         self.opener=urllib.request.build_opener(*handlers)
 
-    def request(self,path,data=None,raw=False,timeout=None):
+    def request(self,path,data=None,raw=False,timeout=None,content_length=None):
         headers={'Authorization':'Bearer '+self.token}
         if hasattr(data,'read'):
-            headers.update({'Content-Type':'application/zip','Content-Length':str(os.fstat(data.fileno()).st_size)})
+            # Pipes from git cat-file have an exact manifest length but no useful fstat size.
+            if content_length is None:
+                content_length=os.fstat(data.fileno()).st_size
+            if type(content_length) is not int or content_length < 0:
+                raise ValueError('invalid request body length')
+            headers.update({'Content-Type':'application/zip','Content-Length':str(content_length)})
         elif data is not None:
             data=canonical(data);headers['Content-Type']='application/json'
         req=urllib.request.Request(self.url+path,data=data,headers=headers)
@@ -296,11 +343,16 @@ def main():
     p.add_argument('--dy',type=int,help='ui look only: relative vertical mouse delta, -300..300')
     p.add_argument('--studio-authoring',action='store_true',
                    help='include the two fixed house generator inputs in the source snapshot')
+    p.add_argument('--committed-head',action='store_true',
+                   help='source snapshot commands only: use committed HEAD files, excluding worktree changes and untracked files')
     p.add_argument('--studio-readiness',action='store_true',
                    help='doctor only: check redacted native Studio, Codex, and Blender readiness')
     p.add_argument('--studio-restarts',type=int,default=0,
                    help='studio only: reopen the same authored workspace 0..2 times after clean exits')
     args=p.parse_args()
+    source_snapshot_commands={'smoke','capture','studio','play','play-full','play-product','export-release'}
+    if args.committed_head and args.command not in source_snapshot_commands:
+        p.error('--committed-head requires a source-snapshot command')
     candidate_boot=args.command=='candidate-boot'
     candidate_play=args.command=='candidate-play'
     candidate_run=candidate_boot or candidate_play
@@ -534,8 +586,13 @@ def main():
     # those are uploaded, so a rebuild after a code change costs kilobytes, not the
     # whole tree. The identity is printed before POST: a lost reply is recovered with
     # status/fetch on this job_id instead of a second run.
-    manifest=build_manifest(args.root, studio_authoring=studio or args.studio_authoring)
-    publish_snapshot(c,args.root,manifest)
+    committed_blobs=None
+    if args.committed_head:
+        manifest,committed_blobs=build_committed_head_manifest(
+            args.root,studio_authoring=studio or args.studio_authoring)
+    else:
+        manifest=build_manifest(args.root, studio_authoring=studio or args.studio_authoring)
+    publish_snapshot(c,args.root,manifest,committed_blobs=committed_blobs)
     jid=args.job_id or uuid.uuid4().hex
     if export_release:
         spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':'export-release','timeout':timeout}
