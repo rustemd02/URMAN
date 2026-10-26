@@ -37,7 +37,7 @@ FULL_GAME_SCENE = 'res://scenes/full_game.tscn'
 ACT1_DEMO_SCENE = 'res://scenes/act1_demo.tscn'
 PHOTO_WORLDS_GAME_SCENE = 'res://scenes/photoworlds_game.tscn'
 APPROVED_PLAY_SCENES = (ACT1_DEMO_SCENE, FULL_GAME_SCENE, PHOTO_WORLDS_GAME_SCENE)
-NORMAL_UI_TRANSPORT_VERSION = 3
+NORMAL_UI_TRANSPORT_VERSION = 4
 UI_KEY_BASES = ('{ENTER}', '{ESC}', '{DOWN}', '{UP}', '{SPACE}', 'a', 'f', 'v', 'z')
 UI_KEY_ADDITIONS = ('c', 'j', '{TAB}', '+{TAB}', '{LEFT}', '{RIGHT}')
 UI_KEY_CHORDS = frozenset(
@@ -2713,8 +2713,13 @@ class Station:
     def capture_current(self, jid, principal, action):
         if not re.fullmatch('[a-f0-9]{32}', jid):
             return 404, {'error': 'unknown or unavailable running play job'}
-        if action != {'action': 'capture-current'}:
+        if (not isinstance(action, dict) or action.get('action') != 'capture-current'
+                or set(action) - {'action', 'requestId'}
+                or ('requestId' in action
+                    and (not isinstance(action['requestId'], str)
+                         or not re.fullmatch('[a-f0-9]{32}', action['requestId'])))):
             return 400, {'error': 'capture-current accepts no additional fields'}
+        requested_id = action.get('requestId')
         if sys.platform != 'win32':
             return 503, {'error': 'native game viewport capture is available only on the Windows station'}
 
@@ -2736,6 +2741,7 @@ class Station:
                 return 409, {'error': 'owned native game process is not ready for capture'}
 
             temporary = None
+            temporary_created = False
             request_published = False
             try:
                 frames = _studio_path(self.jobs, f'{jid}/artifacts/frames', kind='dir')
@@ -2749,6 +2755,7 @@ class Station:
                 result_path = None
                 image_path = None
                 pending_file = None
+                publish_request = False
                 for _ in range(3):
                     pending_paths = []
                     for name in (request_path.name, processing_path.name):
@@ -2789,37 +2796,61 @@ class Station:
                             or not re.fullmatch('[a-f0-9]{32}', pending['requestId'])):
                         return 409, {'error': 'pending interactive viewport request does not match this job'}
                     request_id = pending['requestId']
+                    if requested_id is not None and request_id != requested_id:
+                        return 409, {'error': 'a different interactive viewport request is already pending',
+                                     'jobId': jid, 'requestId': request_id}
                     request_published = True
                     break
 
                 if request_id is None:
-                    for _ in range(4):
-                        candidate = uuid.uuid4().hex
-                        result_candidate = f'interactive-{candidate}.json'
-                        image_candidate = f'interactive-{candidate}.png'
-                        temporary_candidate = f'interactive.request-{candidate}.tmp'
-                        if any(_studio_path(frames, name, missing=True) is not None
-                               for name in (result_candidate, image_candidate, temporary_candidate)):
-                            continue
-                        request_id = candidate
-                        result_path = frames / result_candidate
-                        image_path = frames / image_candidate
-                        temporary = frames / temporary_candidate
-                        break
-                    if request_id is None or result_path is None or image_path is None or temporary is None:
-                        return 409, {'error': 'cannot allocate a unique interactive viewport request'}
+                    if requested_id is not None:
+                        request_id = requested_id
+                        result_path = frames / f'interactive-{request_id}.json'
+                        image_path = frames / f'interactive-{request_id}.png'
+                        temporary = frames / f'interactive.request-{request_id}.tmp'
+                        result_exists = _studio_path(frames, result_path.name, missing=True) is not None
+                        image_exists = _studio_path(frames, image_path.name, missing=True) is not None
+                        temporary_exists = _studio_path(frames, temporary.name, missing=True) is not None
+                        if result_exists != image_exists or (temporary_exists and not (result_exists and image_exists)):
+                            return 409, {'error': 'interactive viewport request artifacts are incomplete',
+                                         'jobId': jid, 'requestId': request_id}
+                        # A completed request is replayed through the same validation below.
+                        publish_request = not result_exists
+                        if result_exists:
+                            temporary = None
+                            request_published = True
+                    else:
+                        for _ in range(4):
+                            candidate = uuid.uuid4().hex
+                            result_candidate = f'interactive-{candidate}.json'
+                            image_candidate = f'interactive-{candidate}.png'
+                            temporary_candidate = f'interactive.request-{candidate}.tmp'
+                            if any(_studio_path(frames, name, missing=True) is not None
+                                   for name in (result_candidate, image_candidate, temporary_candidate)):
+                                continue
+                            request_id = candidate
+                            result_path = frames / result_candidate
+                            image_path = frames / image_candidate
+                            temporary = frames / temporary_candidate
+                            break
+                        if request_id is None or result_path is None or image_path is None or temporary is None:
+                            return 409, {'error': 'cannot allocate a unique interactive viewport request'}
+                        publish_request = True
 
+                if publish_request:
                     payload = canonical({'version': 1, 'jobId': jid, 'requestId': request_id})
                     if len(payload) > INTERACTIVE_FRAME_REQUEST_LIMIT:
                         return 409, {'error': 'interactive viewport request exceeds its size bound'}
                     with temporary.open('xb') as stream:
+                        temporary_created = True
                         stream.write(payload)
                         stream.flush()
                         os.fsync(stream.fileno())
                     try:
                         os.rename(temporary, request_path)
                     except OSError:
-                        temporary.unlink(missing_ok=True)
+                        if temporary_created:
+                            temporary.unlink(missing_ok=True)
                         return 409, {'error': 'an interactive viewport request is already pending'}
                     request_published = True
 
@@ -2841,7 +2872,9 @@ class Station:
                         return 409, {'error': 'owned native game exited before the viewport was captured'}
                     remaining = deadline - time.monotonic()
                     if remaining <= 0:
-                        return 504, {'error': 'interactive viewport capture timed out; the request remains pending'}
+                        return 504, {'error': 'interactive viewport capture timed out; resume with the same requestId',
+                                     'jobId': jid, 'requestId': request_id,
+                                     'snapshotId': self.active_spec.get('snapshot_id'), 'nativePid': pid}
                     time.sleep(min(0.1, remaining))
 
                 result_info = result_file.lstat()
@@ -2884,9 +2917,10 @@ class Station:
                 if (png_width != report['width'] or png_height != report['height']
                         or png_hash != report['pngSha256']):
                     return 409, {'error': 'interactive viewport PNG does not match its receipt'}
-                return 200, (png, {'pngSha256': png_hash, 'width': png_width, 'height': png_height})
+                return 200, (png, {'pngSha256': png_hash, 'width': png_width, 'height': png_height,
+                                   'requestId': request_id})
             except (OSError, ValueError, KeyError, TypeError):
-                if temporary is not None and not request_published:
+                if temporary_created and temporary is not None and not request_published:
                     try:
                         temporary.unlink(missing_ok=True)
                     except OSError:
@@ -3527,6 +3561,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Content-Type', 'image/png')
         self.send_header('Content-Length', str(len(png)))
         self.send_header('X-URMAN-Frame-SHA256', metadata['pngSha256'])
+        self.send_header('X-URMAN-Frame-Request-Id', metadata['requestId'])
         self.send_header('Cache-Control', 'no-store')
         self.send_header('X-Content-Type-Options', 'nosniff')
         self.end_headers()

@@ -125632,6 +125632,19 @@
       "root_passage_group_identity_review_2026_10_26": {
         "result": "Astra withdrew unsupported interpretation that F13 must observe PForest_SplitBirch/Crossbar/RootArch. Passport specifies distance between3groups and back of group; F12/F13 are copies of sameHeroRootTurn. DifferentF11vsF13mesh names do not prove a broken owner.",
         "decision": "Preserve portal/observer/3earnedfacts. Actualvisualdistance-lawreadability remains unverified; do not add duplicates/rewrite validspace on mesh-name inference."
+      },
+      "native_capture_resume_2026_10_26": {
+        "state": "source_reviewed_installed_runtime_replay_pending",
+        "cause": "Existing capture request was server-generated; a lost reply left caller without its ID.504 omitted it, and fresh POST after pending marker removal could allocate another frame.30secondserverwait does not explain the whole prior no-response stall; lock/relay/driver cause remains unproven.",
+        "result": "Client generates/prints stable32hexRID beforePOST; --request-id reuses it. Server waits/replays exact owned pending/completed result through existing job/nativePID/scene/PNGSHA checks, rejects conflicting/partialartifacts without replacement.504includes job/RID/snapshot/nativePID, PNGheaderRID verifiedclient. Own-temp-only cleanup, legacy action-only serverpayload retained. UI/capture45s timeout; uploads unchanged300. Protocol4paired client/server.",
+        "verification": "Root/independent source review fixed P2cleanupofexistingtemp. Local client/serverAST andCLIhelp PASS. ExactstagedWindowsbytesAST PASS. Idle/oldSHA7cc4match→exclusivepipeline lock→atomicReplace→managedstop/start; installedworkerSHAcd2100e571088af5a27aa2d20140b89393f9e82714fef784f0602dd0093add51. Doctorready=true/transport4/busy=null/orphanfalse/recoveryfalse. No games/tests/probes/builds.",
+        "targets": [
+          "eng/remote-check.py",
+          "eng/windows_station_worker.py",
+          "docs/production/README_WINDOWS_WORKER_FOR_AGENTS.md"
+        ],
+        "cleanup": "Exactownedstaging consumed; oldsourcebackup removed only afterdoctor4 andoldGitSHA match. Macstage-pathmarker removed. OtherWindowsdirtyfiles/branch preserved; no fullpull/reset/VPN/cert changes.",
+        "remaining": "Live same-RID pending/replay, full control reliability, actual W01/Continue and full goal acceptance remain unproven. Do not claim full30minstall fixed; preparecontroller BEFOREjob, reserveexit basedactualnativeelapsed."
       }
     },
     {

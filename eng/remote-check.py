@@ -24,7 +24,7 @@ from remote_common import (MAX_ARCHIVE, MAX_SOURCE, REPOSITORY, canonical, candi
 STUDIO_SCENE = 'res://studio/studio_main.tscn'
 FULL_GAME_SCENE = 'res://scenes/full_game.tscn'
 PHOTO_WORLDS_GAME_SCENE = 'res://scenes/photoworlds_game.tscn'
-NORMAL_UI_TRANSPORT_VERSION = 3
+NORMAL_UI_TRANSPORT_VERSION = 4
 UI_KEY_BASES = ('{ENTER}', '{ESC}', '{DOWN}', '{UP}', '{SPACE}', 'a', 'f', 'v', 'z')
 UI_KEY_ADDITIONS = ('c', 'j', '{TAB}', '+{TAB}', '{LEFT}', '{RIGHT}')
 UI_KEY_CHORDS = frozenset(
@@ -157,24 +157,24 @@ class Client:
             handlers.append(urllib.request.ProxyHandler({'http':self.proxy,'https':self.proxy}))
         self.opener=urllib.request.build_opener(*handlers)
 
-    def request(self,path,data=None,raw=False):
+    def request(self,path,data=None,raw=False,timeout=None):
         headers={'Authorization':'Bearer '+self.token}
         if hasattr(data,'read'):
             headers.update({'Content-Type':'application/zip','Content-Length':str(os.fstat(data.fileno()).st_size)})
         elif data is not None:
             data=canonical(data);headers['Content-Type']='application/json'
         req=urllib.request.Request(self.url+path,data=data,headers=headers)
-        response=self.opener.open(req,timeout=300 if data is not None else 30)
+        response=self.opener.open(req,timeout=timeout if timeout is not None else (300 if data is not None else 30))
         if raw:
             return response
         with response:
             return json.load(response)
 
     def ui_action(self,jid,action):
-        return self.request('/jobs/'+jid+'/ui',action)
+        return self.request('/jobs/'+jid+'/ui',action,timeout=45)
 
-    def capture_current(self,jid):
-        return self.request('/jobs/'+jid+'/ui',{'action':'capture-current'},raw=True)
+    def capture_current(self,jid,request_id):
+        return self.request('/jobs/'+jid+'/ui',{'action':'capture-current','requestId':request_id},raw=True,timeout=45)
 
     def fetch(self,jid,dest):
         status=self.request('/jobs/'+jid)
@@ -286,6 +286,7 @@ def main():
     p.add_argument('--fov',help="capture only: 'player' (player camera FOV) or a number; default control views use 70")
     p.add_argument('--headless',action='store_true');p.add_argument('--wait',type=int)
     p.add_argument('--output',type=Path);p.add_argument('--submit-only',action='store_true')
+    p.add_argument('--request-id',help='capture-current only: resume the same 32-character capture ID after a lost response')
     p.add_argument('--candidate-dir',type=Path,help='one verified export directory directly under build/releases')
     p.add_argument('--ui-action',choices=['keys','move','look'])
     p.add_argument('--keys',help='ui keys only: one fixed key or key chord')
@@ -346,6 +347,8 @@ def main():
     native_interactive=native_full or native_product
     play=args.command in ('play','play-full','play-product')
     capture_current=args.command=='capture-current'
+    if args.request_id is not None and not capture_current:
+        p.error('--request-id requires capture-current')
     capture_destination=None
     if native_interactive and args.job_id is not None and not re.fullmatch('[a-f0-9]{32}',args.job_id):
         p.error('play job IDs must be 32 lowercase hexadecimal characters')
@@ -391,6 +394,8 @@ def main():
             p.error('capture-current requires a 32-character lowercase hexadecimal --job-id from your own native play or candidate-play job')
         if args.output is None:
             p.error('capture-current requires --output with an absolute file path')
+        if args.request_id is not None and not re.fullmatch('[a-f0-9]{32}',args.request_id):
+            p.error('capture-current --request-id must be 32 lowercase hexadecimal characters')
         if (args.scene is not None or args.points is not None or args.phase is not None
                 or args.fov is not None or args.headless or args.timeout is not None
                 or args.wait is not None or args.submit_only or args.studio_authoring
@@ -484,7 +489,10 @@ def main():
         return 0 if result.get('ok') is True else 1
     if capture_current:
         native_ui_readiness(c,require_idle_ready=False)
-        with c.capture_current(args.job_id) as response:
+        capture_request_id=args.request_id or uuid.uuid4().hex
+        print('Capture request:',capture_request_id,'Job:',args.job_id,flush=True)
+        print('If no verified PNG is saved, resume with the same --request-id; do not create another capture.',flush=True)
+        with c.capture_current(args.job_id,capture_request_id) as response:
             if response.headers.get_content_type()!='image/png':
                 raise ValueError('station did not return a verified PNG viewport')
             try:
@@ -493,6 +501,7 @@ def main():
                 raise ValueError('station viewport length is invalid') from error
             expected_hash=response.headers.get('X-URMAN-Frame-SHA256','')
             if (not 1<=content_length<=INTERACTIVE_FRAME_PNG_LIMIT
+                    or response.headers.get('X-URMAN-Frame-Request-Id')!=capture_request_id
                     or not re.fullmatch('[a-f0-9]{64}',expected_hash)):
                 raise ValueError('station viewport response is outside its verified bounds')
             png=response.read(INTERACTIVE_FRAME_PNG_LIMIT+1)
