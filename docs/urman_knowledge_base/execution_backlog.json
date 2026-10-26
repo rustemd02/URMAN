@@ -147283,12 +147283,22 @@
         "meshy_cost": 0
       },
       "village_retexture_2026_10_26": {
-        "state": "candidate_source_review_pending_scene",
+        "state": "runtime_source_integrated_native_pending",
         "task_id": "01a179a0-681b-7511-ba53-59866f70651c",
         "cost_credits": 10,
         "input": "assets/source/blender/act1/neighbor_outbuilding_b_pbr_v1/input-material-reference-v1.png",
-        "result": "VariantB repeated outbuilding retextured; source geometry and UV retained; generated maps require runtime integration and visual evaluation in village. Existing authored parcel count 17, not a visibility count.",
-        "remaining": "Existing source has an open rear gable and the candidate canopy is brown. Resolve the gable and integrate using existing material graft while retaining windows, snow, placement and collision; scene/style/performance and author acceptance remain pending."
+        "result": "Generated PBR replaces opaque VariantB outbuilding visual for addressed eligible parcels; original two windows, positions, original collisions and existing roof snow retained. A source-derived rear gable adds 8 triangles; original 444 opaque triangles and UV unchanged.",
+        "remaining": "Inspect native Godot import and village scene coherence/performance on Windows when this concrete acceptance is possible; author art acceptance and all other families remain open. Small canopy is brown in candidate.",
+        "candidate": "game/assets/models/act1/neighbor-outbuilding-b-pbr-v1.glb",
+        "candidate_sha256": "c45134633c1bce43ddbe691cff918bca78c3bcac29e96d1b0996959f2ec1dc45",
+        "runtime": "game/scripts/Act1ConnectedWorld.VariantBOutbuildingPbr.cs",
+        "source_receipt": "assets/source/blender/act1/neighbor_outbuilding_b_pbr_v1/closed-gable-receipt.json",
+        "verification": "Blender reimport geometry/UV and rear view reviewed; independent source and GLB review. Affected Game compile 16.67s, 0 warnings/errors. Godot import and actual scene, lighting, movement and performance not checked.",
+        "local_archive": {
+          "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-variantb-retexture-2026-10-26.zip",
+          "sha256": "a606d117365c085c1d0ac31873d50e272d9bb2da00562ead44253a62956b0369",
+          "verification": "9 members CRC and SHA checked before removing originals; re-creatable previews, cache and duplicate of runtime GLB removed."
+        }
       }
     },
     {

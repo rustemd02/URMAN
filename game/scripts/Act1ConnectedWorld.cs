@@ -544,6 +544,7 @@ public partial class Act1ConnectedWorld : Node3D
         // contact and collision pass, then graft their opaque PBR presentation.
         GraftPrivateVariantAPbrFamily();
         GraftH049OutbuildingPbr();
+        GraftPrivateVariantBOutbuildingPbrFamily();
         CallDeferred(nameof(DisableBlockersUnderHiddenPresentation));
         CallDeferred(nameof(ReapplyLogicalZonePresentationSuppressions));
         // Parcel facades are attached across several build steps, so the painted

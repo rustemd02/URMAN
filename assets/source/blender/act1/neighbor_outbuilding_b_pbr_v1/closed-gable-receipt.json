@@ -1,0 +1,56 @@
+{
+  "schema": "urman-variant-b-outbuilding-closed-gable/v1",
+  "source": "variant-b-outbuilding-generated-pbr-2k.glb",
+  "source_sha256": "441196e4669ccd489dd63a4acf304383e67475ffd6b0f63a5ec64d8322bbff23",
+  "output": "variant-b-outbuilding-generated-pbr-2k-closed-gable.glb",
+  "output_sha256": "c45134633c1bce43ddbe691cff918bca78c3bcac29e96d1b0996959f2ec1dc45",
+  "output_bytes": 10995356,
+  "confirmed_cause": "Existing author_variant_shed_b creates only GableFront; no rear gable. RearWindow is at1.14–1.70m, below this closure.",
+  "scope": "Added rear visual gable only; existing18opaque nodes and444triangles preserve paired world-position/UV signatures; no opening/collision/placement changes.",
+  "original_paired_triangle_comparison": {
+    "missing": 0,
+    "extra": 0,
+    "exact": true
+  },
+  "comparison_precision": {
+    "world_position_decimals": 5,
+    "uv_decimals": 7
+  },
+  "rear_gable_name": "VariantB_Banya_GableRear_LOD0",
+  "rear_gable_triangles": 8,
+  "rear_gable_bounds_blender": [
+    [
+      -1.849999,
+      1.22,
+      2.1337039
+    ],
+    [
+      1.849999,
+      1.42,
+      3.1327777
+    ]
+  ],
+  "whole_bounds_blender": [
+    [
+      -1.85,
+      -2.48,
+      0.02
+    ],
+    [
+      1.85,
+      1.64,
+      3.9450002
+    ]
+  ],
+  "total_mesh_nodes": 19,
+  "total_triangles": 452,
+  "material": "Existing generated front-gable atlas UV and PBR reused; no additional bitmap or Meshy spend.",
+  "runtime_integrated": false,
+  "remaining": "Root callsite and asset import; native scene/motion/art acceptance open.",
+  "runtime_asset": "game/assets/models/act1/neighbor-outbuilding-b-pbr-v1.glb",
+  "runtime_asset_sha256": "c45134633c1bce43ddbe691cff918bca78c3bcac29e96d1b0996959f2ec1dc45",
+  "visual_source_review": "Viewed actual post-fix rear-three-quarter: rear gable closes against skewed roof underside, no sky wedge. Full source bounds unchanged. Original windows and original444tri remained untouched.",
+  "integration_partial": "game/scripts/Act1ConnectedWorld.VariantBOutbuildingPbr.cs",
+  "callsite_needed": "Root must add GraftPrivateVariantBOutbuildingPbrFamily() after existing GraftH049OutbuildingPbr() in Act1ConnectedWorld.cs, after original collision and material regrade. Existing shared file was not edited by worker.",
+  "source_receipt_restore": "prepare_source.py was rerun during inspection, regenerating the byte-identical paid UV donor; its ImageGen/cost provenance was restored from original tool facts. No Meshy resubmission."
+}
