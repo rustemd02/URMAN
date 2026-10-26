@@ -4,13 +4,16 @@ using Urman.Core.Persistence;
 
 namespace Urman.Godot;
 
-/// <summary>Location typography and disk feedback; runtime remains the state owner.</summary>
+/// <summary>Location, photo-acquisition, and disk feedback; runtime remains the state owner.</summary>
 public partial class ExplorationFeedbackUi : CanvasLayer, IAccessibilitySettingsTarget
 {
     private sealed record Place(string Key, string Title, string Subtitle, string? Zone);
+    private sealed record AcquiredPhoto(string PhotoId, string Title);
     private readonly List<Place> _places = [];
     private readonly HashSet<string> _shown = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _shownPhotoIds = new(StringComparer.Ordinal);
     private readonly Queue<Place> _pendingTitles = new();
+    private readonly Queue<AcquiredPhoto> _pendingPhotoTitles = new();
     private RuntimeBridge _bridge = null!;
     private Control _screen = null!;
     private VBoxContainer _title = null!;
@@ -76,6 +79,7 @@ public partial class ExplorationFeedbackUi : CanvasLayer, IAccessibilitySettings
 
     public override void _Process(double delta)
     {
+        SynchronizeSession(_bridge.SessionIdentity);
         if (_writes == 0 && _saveRemaining > 0)
         {
             _saveRemaining -= delta;
@@ -88,38 +92,74 @@ public partial class ExplorationFeedbackUi : CanvasLayer, IAccessibilitySettings
             _title.Visible = playable;
             if (playable) _titleTween.Play(); else _titleTween.Pause();
         }
-        if (!playable || (_scan -= delta) > 0) return;
-        _scan = .35;
-        if (!ReferenceEquals(_session, _bridge.SessionIdentity))
+        if (!playable) return;
+
+        if ((_scan -= delta) <= 0)
         {
-            _session = _bridge.SessionIdentity;
-            _shown.Clear();
-            _pendingTitles.Clear();
-            _titleTween?.Kill();
-            _titleTween = null;
-            _title.Visible = false;
-        }
-        var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
-        if (player is null) return;
-        var registry = _bridge.NotebookSettlement;
-        foreach (var place in _places)
-        {
-            if (_shown.Contains(place.Key)) continue;
-            var reached = place.Zone is not null && _bridge.CurrentZoneId == place.Zone;
-            if (place.Zone is null && registry is not null && registry.CanonicalAddressId(place.Key) is { } addressId
-                && registry.Addresses.TryGetValue(addressId, out var address)
-                && registry.AccessPoints.TryGetValue(address.AccessId, out var access))
+            _scan = .35;
+            if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
             {
-                var at = new Vector3((float)access.Position.X, (float)access.Position.Y, (float)access.Position.Z);
-                reached = new Vector2(player.GlobalPosition.X - at.X, player.GlobalPosition.Z - at.Z).Length() < 9
-                    && Mathf.Abs(player.GlobalPosition.Y - at.Y) < 4;
+                var registry = _bridge.NotebookSettlement;
+                foreach (var place in _places)
+                {
+                    if (_shown.Contains(place.Key)) continue;
+                    var reached = place.Zone is not null && _bridge.CurrentZoneId == place.Zone;
+                    if (place.Zone is null && registry is not null && registry.CanonicalAddressId(place.Key) is { } addressId
+                        && registry.Addresses.TryGetValue(addressId, out var address)
+                        && registry.AccessPoints.TryGetValue(address.AccessId, out var access))
+                    {
+                        var at = new Vector3((float)access.Position.X, (float)access.Position.Y, (float)access.Position.Z);
+                        reached = new Vector2(player.GlobalPosition.X - at.X, player.GlobalPosition.Z - at.Z).Length() < 9
+                            && Mathf.Abs(player.GlobalPosition.Y - at.Y) < 4;
+                    }
+                    if (!reached) continue;
+                    _shown.Add(place.Key);
+                    _pendingTitles.Enqueue(place);
+                    break;
+                }
             }
-            if (!reached) continue;
-            _shown.Add(place.Key);
-            _pendingTitles.Enqueue(place);
-            break;
         }
-        if (_titleTween?.IsRunning() != true && _pendingTitles.TryDequeue(out var next)) Present(next);
+
+        if (_titleTween?.IsRunning() == true) return;
+        if (_pendingPhotoTitles.TryDequeue(out var acquiredPhoto))
+        {
+            PresentPhotoAcquired(acquiredPhoto);
+            return;
+        }
+        if (_pendingTitles.TryDequeue(out var next)) Present(next);
+    }
+
+    internal void QueuePhotoAcquired(object session, string photoId, string title)
+    {
+        if (session is null || string.IsNullOrWhiteSpace(photoId) || string.IsNullOrWhiteSpace(title)
+            || !IsInsideTree() || IsQueuedForDeletion() || _bridge is null
+            || !GodotObject.IsInstanceValid(_bridge) || _bridge.IsQueuedForDeletion()
+            || _bridge.IsPhotoBookProjectionDeferred || !ReferenceEquals(session, _bridge.SessionIdentity)) return;
+
+        SynchronizeSession(session);
+        if (_shownPhotoIds.Add(photoId)) _pendingPhotoTitles.Enqueue(new(photoId, title.Trim()));
+    }
+
+    private void SynchronizeSession(object? session)
+    {
+        if (ReferenceEquals(_session, session)) return;
+        _session = session;
+        _shown.Clear();
+        _shownPhotoIds.Clear();
+        _pendingTitles.Clear();
+        _pendingPhotoTitles.Clear();
+        _titleTween?.Kill();
+        _titleTween = null;
+        _title.Visible = false;
+    }
+
+    private void PresentPhotoAcquired(AcquiredPhoto photo)
+    {
+        var gamepad = GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
+            && player.CurrentInputDevice == "gamepad";
+        var journalHint = InputBindingService.ActionHint("journal", gamepad);
+        Present(new("photo-acquired:" + photo.PhotoId, photo.Title,
+            $"Снимок получен · {journalHint} Книга", null));
     }
 
     private void OnBoundary(string boundary)
@@ -128,6 +168,7 @@ public partial class ExplorationFeedbackUi : CanvasLayer, IAccessibilitySettings
         _titleTween?.Kill();
         _titleTween = null;
         _pendingTitles.Clear();
+        _pendingPhotoTitles.Clear();
         _title.Visible = false;
     }
 

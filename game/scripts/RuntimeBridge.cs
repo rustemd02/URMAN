@@ -1595,18 +1595,18 @@ public partial class RuntimeBridge : Node
 
     public async Task<bool> RecordJournalEntryAsync(string entryId, string sourceId)
     {
-        if (_kernel is null)
+        if (_kernel is not { } session)
         {
             return false;
         }
 
-        var result = await _kernel.DispatchAsync(new GameCommand(
+        var result = await session.DispatchAsync(new GameCommand(
             $"journal-record:{entryId}:{Interlocked.Increment(ref _interactionSequence):D8}",
             NarrativeCommandHandlers.JournalRecord,
             JsonSerializer.SerializeToElement(new { entryId, sourceId })));
         if (result.Status == CommandStatus.Committed)
         {
-            PresentRuntimeEvents(result.Events);
+            PresentRuntimeEvents(result.Events, session);
             QueueRuntimeStateChanged();
         }
 
@@ -1715,7 +1715,7 @@ public partial class RuntimeBridge : Node
 
     public async Task<JsonElement> HandleOldPcInputAsync(JsonElement input)
     {
-        if (_kernel is null || _capabilities is null)
+        if (_kernel is not { } session || _capabilities is null)
         {
             throw new InvalidOperationException("Old PC capability is unavailable.");
         }
@@ -1771,14 +1771,14 @@ public partial class RuntimeBridge : Node
             _ => throw new ArgumentException($"Unknown old PC input {inputType}.")
         };
         var command = new GameCommand($"{OldPcInstanceId}:oldpc.{inputType}:{sequence}", commandType, payload);
-        var result = await _kernel.DispatchAsync(command);
+        var result = await session.DispatchAsync(command);
         if (result.Status != CommandStatus.Committed)
         {
             throw new InvalidOperationException(result.Error?.Message ?? "Old PC command was rejected.");
         }
 
         await ReconcileQuestsAsync();
-        PresentRuntimeEvents(result.Events);
+        PresentRuntimeEvents(result.Events, session);
         QueueRuntimeStateChanged();
 
         return _capabilities.Handle(OldPcInstanceId, input);
@@ -1908,7 +1908,7 @@ public partial class RuntimeBridge : Node
             GD.Print($"vocabulary.observe: term={entry.Term} status={result.Status} error={result.Error?.Message}");
             if (result.Status == CommandStatus.Committed)
             {
-                PresentRuntimeEvents(result.Events);
+                PresentRuntimeEvents(result.Events, session);
                 if (!Current()) return;
                 QueueRuntimeStateChanged();
             }
@@ -2110,7 +2110,7 @@ public partial class RuntimeBridge : Node
             {
                 return SessionInvalidatedResult();
             }
-            PresentRuntimeEvents(result.Events);
+            PresentRuntimeEvents(result.Events, session);
             QueueRuntimeStateChanged();
         }
 
@@ -2451,18 +2451,27 @@ public partial class RuntimeBridge : Node
         _questCapabilities.Reconcile(runtime.State, runtime.Claims);
     }
 
-    private void PresentRuntimeEvents(IEnumerable<GameEvent> events)
+    private void PresentRuntimeEvents(IEnumerable<GameEvent> events, RuntimeKernel session)
     {
-        if (GetTree().GetFirstNodeInGroup("audio_cue_ui") is not AudioCueUi audioCueUi)
-        {
-            return;
-        }
+        if (!ReferenceEquals(session, SessionIdentity)) return;
+        var audioCueUi = GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
+        var exploration = GetNodeOrNull<ExplorationFeedbackUi>("ExplorationFeedback");
 
-        foreach (var gameEvent in events.Where(item => item.Type == "runtime.audio.requested"))
+        foreach (var gameEvent in events)
         {
-            var assetId = gameEvent.Payload.GetProperty("assetId").GetString()
-                ?? throw new InvalidOperationException("Audio request event is missing assetId.");
-            audioCueUi.Present(_content.ResolveAudio(assetId, $"runtime-event:{gameEvent.Sequence}"));
+            if (gameEvent.Type == "runtime.audio.requested" && audioCueUi is not null)
+            {
+                var assetId = gameEvent.Payload.GetProperty("assetId").GetString()
+                    ?? throw new InvalidOperationException("Audio request event is missing assetId.");
+                audioCueUi.Present(_content.ResolveAudio(assetId, $"runtime-event:{gameEvent.Sequence}"));
+            }
+            else if (gameEvent.Type == "photoworlds.photo.acquired" && exploration is not null
+                && !IsPhotoBookProjectionDeferred)
+            {
+                var photoId = gameEvent.Payload.GetProperty("photoId").GetString();
+                var photo = PhotoBookPhotos().FirstOrDefault(item => item.PhotoId == photoId);
+                if (photo is not null) exploration.QueuePhotoAcquired(session, photo.PhotoId, photo.Title);
+            }
         }
     }
 

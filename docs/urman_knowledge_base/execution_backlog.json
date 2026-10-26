@@ -108116,7 +108116,7 @@
         "Готово: 13 фото привязаны к sourceId/permissionId (compiled catalog); AcquirePhoto проверяет соответствие каталогу и provenance; повторное приобретение из другого источника отвергается. Редьюсер уже обрабатывает pw1.photo.acquire.",
         "Осталось: runtime-проверка различения 13 типов источников и что оригинал остаётся на месте там, где обещана копия (школьный/сельский альбом) — нужна обычная сессия/станция (PW-054 или targeted scenario)."
       ],
-      "next_action": "Accept the whole first investigation with corrected school destination (Лесная,12): directions→actual source album→permission/copy→W01 action→home reply→earned P-FOREST record→Save/Continue. Do not substitute an isolated hint check or internal full_game launch for the ordinary route.",
+      "next_action": "Принять целый первыйэпизод по обычному маршруту: направления→schoolsourceconfirm/permissioncopy→W01physicalaction→homefamilyrecord→earnedpage→Save/Continue. Source-story/receiptfeedback этап доставлен технически; не переписывать без нового дефекта. Сначала выяснить фактическую причину disabledContinue в protected247cf и эффективную обычную подготовку вместо следующего такого жеNewGame.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -108310,6 +108310,17 @@
         "remaining": "During next necessary protected ordinary investigation, use real E on әби→ask-name→permission→mount/read→river entry, preserving cancellation and save/Continue. Current source fix does not prove complete W02 play.",
         "adjacent_binding_review": "24.10 source comparison after f0dee74b found no further missing mandatory dialogue binding in tea/school/home-return/common-file/water-permission/Shurale/authorship/Alsu/pre-W04/epilogue. Bag intentionally opens dialogue through its physical-action commit/retry owner. No new production edits justified by this bounded review; direct-dialogue semantic smoke still does not prove physical reachability.",
         "acceptance_access": "24.10 01:41 MSK fresh Tailscale status: UnterPC online=false, lastSeen2026-10-21T06:40:09.1Z; desktop connector fresh NOT_FOUND tunnel_client_not_seen. Native Mac tool lacks captured relative look previously established. No game launched or speculative input workaround; whole ordinary investigation still requires usable native input or player-run acceptance."
+      },
+      "first_family_page_2026_10_26": {
+        "state": "source_implemented_reviewed_compiled_native_pending",
+        "result": "Six existing dialogue texts + pw-forest-inside.summary tie firstepisode to finishing Marat records together with abi: schoolcopy locates place, abi recognizes turn, player adds own note, nextphotos continue family work. D06 denies bagownership; summary no longer says hisbag. Shurale working behind photographer is attributed to his own account (D07), no new certainty/magic/identity/murderplot. Genericriver-first/partialreturns unchanged. Schoolconsent finalline now hands over the actualcopy.",
+        "verification": "Root exact7-record diff (only default/ru values/summary), whole graph/effects/conditions unchanged; Astra independent canon/flow/feedback review no blockers. Game17.86s0/0 and existing ContentCLI fullgame exit0; no game/tests/probes after this source change.",
+        "evidence": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/scripts/ExplorationFeedbackUi.cs",
+          "game/scripts/RuntimeBridge.cs"
+        ],
+        "remaining": "Normal whole firstepisode→earnedhomeentry→Save/Continue and all separate cultural/language/art/author acceptance remain unverified."
       }
     },
     {
@@ -109161,7 +109172,7 @@
         "После обычного получения снимка игрок находит фронт/оборот и вклейку в семейной книге; Continue сохраняет личные записи и состояния снимка. Карта/адреса/словарь/прежний инвентарь используют существующий источник состояния; открытие страницы не выдаёт непрочитанное знание или внешнее подтверждение.",
         "Обычное использование книги/вклейки/сравнения и сохранённое продолжение текущего first episode ещё не приняты."
       ],
-      "next_action": "Сопоставить первый эпизод с физическими affordance по исходникам; не повторять старые502 диагностики. GUI книги проверить в следующей необходимой цельной Windows приёмке.",
+      "next_action": "При следующей необходимой полной school→W01→home приёмке подтвердить реальное postmodal photoresult и дополненную семейнуюстраницу; unchangedsource не перепроверять. Перед новымrun выяснить обычный Continue/защищённую подготовку по фактам, не повторять247cfsetup.",
       "blocker": {
         "reason": "Old missing-uuid source defect identified and fixed by peer; root official UI2 endpoint still unverified. Configured root loopback proxy127.0.0.1:1055 currently refuses connection, so raw receipt fetch/official capture-current cannot be completed here. Clean delivered x11 viewport accepted only for its visible UI.",
         "release_condition": "Configured existing local proxy becomes reachable; station owner releases/coordinates a current protected run and current deployed worker SHA is confirmed. Get one official scoped capture-current receipt/PNG on that owned run, preserving guards. No repeated old502 or rawprobe bypass/new daemon/config changes.",
@@ -109459,7 +109470,7 @@
         "state": "source_compile_verified_native_pending",
         "cause": "Верх книги передавал автоматически выбранный P-FOREST в preparation и вытеснял текущую водную задачу. HomeMission для9mount/read действий навязывал возврат к столу, хотя существующие bridge gates позволяют эти действия на улице текущей сцены. Forest home fallback также стоял перед CanMount/CanReadBack.",
         "result": "Верх книги показывает тот же CurrentPlayerMission, что HUD/Дела; выбор карточки, подробности, entry/resume и причины disabled сохранены.9book действий больше не создают world destination/return-home; доступные forest mount/read проверяются до home fallback. Только presentation, authored facts/permissions/ownership/mount/read conditions и кнопочные guards не ослаблены.",
-        "verification": "2 bounded source reviews + root bridge route/condition/caller inspection; Astra выявила ранний forest fallback, исправлен. После последней правки Game14.48s0warnings0errors; diffcheck. В игре carried-book flow не проверен.",
+        "verification": "2 bounded source reviews + root bridge route/condition/caller inspection; Astra выявила ранний forest fallback, исправлен. После последней правки Game14.48s0warnings0errors; diffcheck. В игре carried-book flow не проверен. Followup26.10: raw campaign seeds PFOREST Mounted; SSCHOOL source-confirm+staff-copy supplies contextKnown, no second mount/back/homecompare required for first entry. Rejected proposal to restore selectedPhoto helper: it would repeat the documented automatic-PFOREST overriding river goal; no production change made.",
         "remaining": "Обычная полная книга/сохранённый Continue и внешняя приёмка открыты."
       },
       "ordinary_home_book_continue_2026_10_26": {
@@ -109478,13 +109489,16 @@
       },
       "earned_photo_outcomes_2026_10_26": {
         "state": "source_compile_verified_native_pending",
-        "cause": "Завершение первых миров отражалось сменойследующейзадачи/кнопкойВернутьсявснимок, но существующаястрокастраницы описывала лишьвклейку, анепонятныйрезультат.",
-        "result": "Для5entryphoto при WorldCompleted существующаястрокаразмещения показываеткраткий earnedитог: освобождённаясумка; найденныйспуск/возвращённаядощечка; местофотографа/открытыйвид; сохранённаяподпись; возвращённаякоробка. Происхождение, незавершённые/неизвестныеphotos иmanualselectionсохранены. ПервоеW02-onlyвозвращение вexistingmission показывает Старыйспускнайден, обаcompletedоставляютgenericтекст. НовыхHUDпанелей/events/journalfacts/progressнет.",
-        "verification": "Boundedисследованиеexistingowners/questcompletionclauses, workerреализация+rootточныйdiff. Gameaffectedcompile16.52s exit0,0warnings,0errors; diffcheck. Новыхgame/tests/probesнет.",
-        "remaining": "Новыйвидрезультатов/первыйW02return ещёневиделивигре; полнаякнига/Continue/внешниегейтыостаютсяоткрытыми.",
+        "cause": "Завершение первых миров отражалось сменойследующейзадачи/кнопкойВернутьсявснимок, но существующаястрокастраницы описывала лишьвклейку, анепонятныйрезультат. Получение SSCHOOL завершалось согласием сотрудницы, но committedphotoacquired не имел визуального результата после закрытия диалога.",
+        "result": "Existing completed-page outcomes for5entryphotos remain. Existing ExplorationFeedbackUi title overlay now receives committed photoworlds.photo.acquired through RuntimeBridge with explicit current-session identity and acquired-photo projection. After modal closes: actual photo title + «Снимок получен · [current journal binding] Книга». Priority over pending location titles, per-session photo dedup, load/session clears stale queue/active title. No automatic book opening/selection/mount/save, no new domain events/facts/rules/HUD framework. Audio presentation remains independent of photo feedback owner.",
+        "verification": "Boundedисследованиеexistingowners/questcompletionclauses, workerреализация+rootточныйdiff. Gameaffectedcompile16.52s exit0,0warnings,0errors; diffcheck. Новыхgame/tests/probesнет. Followup: root+Luna owner review and independent Astra review of bridge/queue/lifecycle/text. All4 event callers pass committing session, stale session ignored; session synchronized before modal scan. Affected Game17.86s0errors/0warnings; existing ContentCLI fullgame compileexit0. Exactly7textrecords/default=ru changed; every dialogue node/choice/condition/effect unchanged. No new game/tests/probes.",
+        "remaining": "Acquisition overlay after actual school dialogue and fullpage/home payoff have not been seen in game. Current247cf is earlier c48 and cannot prove these new changes. Full book/Continue/pleasantness/art/cultural/author gates remain open.",
         "evidence": [
           "game/scripts/JournalUi.PhotoBook.cs",
-          "game/scripts/JournalUi.Missions.cs"
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/ExplorationFeedbackUi.cs",
+          "game/scripts/RuntimeBridge.cs",
+          "content/modules/urman-fullgame/definitions.json"
         ]
       }
     },
@@ -124684,7 +124698,7 @@
       "title": "W01: действия за рамкой и состояние ветки",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex",
+      "active_owner": null,
       "owner": "gameplay",
       "priority": "P1",
       "complexity": "complex",
@@ -124800,7 +124814,28 @@
             "После возврата сохраняются правильное положение ветки и один набор знаний.",
             "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
           ],
-          "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
+          "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска.",
+          "current_attempt": {
+            "job_id": "247cf73939d64337a5aa2d162ea16a73",
+            "snapshot": "7f771d30420c0c02b5fc5c29dcfaf21c80da93ef53adc7cb3fc7a05e1e53975a",
+            "source_commit": "c48f0ebd",
+            "phase": "terminal_partial_episode_not_accepted",
+            "input_owner": null,
+            "question": "Can the current ordinary campaign reach schoolcopy→W01 earned inspection and physical bag→return→home meaning/nextlead, using the actual mission/marker/book rather than repeated setup?",
+            "success": "Actual SSCHOOL acquired, W01 camera_back/beyond_frame/physicalbag observed, return/home record and next actionable lead; source/engine PASS alone insufficient.",
+            "bound": "School≤8min after game-ready;W01≤12min. Two unsuccessful approaches without a new cause→normalQuit. Timeout2400s, reserve≥10min for orderly exit. No ReadBack/repeatMount/homecompare, seeds/debug/profilecopy/guardchanges.",
+            "status": "PASS",
+            "game_exit_code": 0,
+            "userdata_restored": true,
+            "snapshot_hashes_verified": true,
+            "engine_errors": 0,
+            "archive": "evidence/PW-046/ordinary_247cf73939d64337a5aa2d162ea16a73.zip",
+            "archive_sha256": "2a59f8a8d6e4a27c0bcbd366def5e9432ac296a90ca33ab3db2174ffe28e3358",
+            "receipt": "evidence/PW-046/ordinary_247cf73939d64337a5aa2d162ea16a73/receipt.json",
+            "observed": "Ordinary menu→NewGame→authorized forest skip→Niva opening→home street→normalPauseQuit. No schoolcopy/F10/W01. Root viewed current prologue and home-street HUD/marker; M map shortcut visible, map not opened. Niva frame is initial dark fade only, no ride-art/brightness/smoothness acceptance.",
+            "capture_delay": "One capture-current HTTP504 remained pending; same request9ce5f49cc5794042bd426b40b5a921c0 later returned statusok/matchingNivaPNG in samepid8884. No duplicate capture or job restart. Cause/duration not established; this alone proves neither scene-freeze nor transport-only defect. FirstESCduringride ignored, next ordinary gameplayESC openedPause; confirmed normalQuit.",
+            "cleanup": "Archive3941668B CRC+22membersbyteverified;4211781Bextracts and5matchingtempPNGs3649100B deleted. Receipt/request retained separately; raw outsideGit. Workerfreed1501715757B; finaldoctorready,busy=null,recoveryfalse,noorphans."
+          }
         },
         "stop_if": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
         "units": []
@@ -124847,7 +124882,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Не повторять NewGame/setup. Fixed book footer/home marker recovery уже доставлены6cc0370b; current HUD/map/short dialogue source followup принят технически, в игре не проверен. Следующий обязательный W01 action→return→home запуск только с конкретным оставшимся вопросом и доказанно иной эффективной обычной подготовкой либо валидным Continue; без debug/seed/profilecopy. До этого не запускать проверки ради очевидных source-правок и не полировать отложенный NPC.",
+      "next_action": "W01 action→return→home unaccepted. No identical NewGame/setup retry:247cf reached only arrival and capture504 latercompleted. Firststory/resultfeedback source stage delivered technically; next bounded step is source/read-only check of protected profile preparation and actual Continue eligibility (why disabled despite earlier user play), not assumed missing save. Then a concretely different efficient ordinary control/preparation route; no seeds/debug/profilecopy/ad-hocguard changes.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -125415,7 +125450,7 @@
       },
       "current_campaign_clarity_2026_10_26": {
         "author_request": "26.10: очевидные проблемы понятности исправлять по исходникам; ясная текущая цель, заметные маркеры и естественный текст; без бесполезных повторных прогонов.",
-        "state": "source_implemented_reviewed_compiled_native_not_run",
+        "state": "native_prologue_and_arrival_HUD_seen_full_W01_pending",
         "result": [
           "MissionInZone показывает только ближайший переход; школьный шаг сохраняет точную кнопку «Рассмотреть снимок».",
           "HUD СЕЙЧАС/акцент + короткие подписи управления; журнал отделяет текущую миссию от других дел, не дублирует общий objective активного photoworld.",
@@ -125431,7 +125466,7 @@
           "game/scripts/photoworlds/W01Controller.PassageObservation.cs",
           "content/modules/urman-fullgame/definitions.json"
         ],
-        "verification": "Root source review + Luna bounded implementation/source review + Astra independent review. Caught/fixed misleading F11 singlelandmark cue, missing literal schoolconfirm, W02-first generic home text. No game/tests/probes; compile pending. Final affected Game compile17.80s,0errors/0warnings; existing ContentCLI compiled only urman.fullgame. Source diff inspected12existingtext definitions/default=ru, dialogue graph/effects/conditions unchanged. Tracker render/validate PASS308/20/679; diffcheck clean. Followup: two exact existing dialogue text keys only (default=ru); source comparison confirms all dialogue nodes/effects/conditions unchanged. Affected Game compile18.46s,0warnings/0errors. No game/test/probe.",
+        "verification": "Root source review + Luna bounded implementation/source review + Astra independent review. Caught/fixed misleading F11 singlelandmark cue, missing literal schoolconfirm, W02-first generic home text. No game/tests/probes; compile pending. Final affected Game compile17.80s,0errors/0warnings; existing ContentCLI compiled only urman.fullgame. Source diff inspected12existingtext definitions/default=ru, dialogue graph/effects/conditions unchanged. Tracker render/validate PASS308/20/679; diffcheck clean. Followup: two exact existing dialogue text keys only (default=ru); source comparison confirms all dialogue nodes/effects/conditions unchanged. Affected Game compile18.46s,0warnings/0errors. No game/test/probe. Native247cf/c48: root inspected actual prologue task/marker and home-street task/marker/M shortcut. School/W01 not reached; map itself not opened. These frames prove presence/readability only at default720p, not fullflow/movement/pleasantness.",
         "remaining": "Целый W01 action→return→home и удовольствие от игры не приняты; культурная/языковая/художественная/авторская приёмка остаётся отдельной."
       },
       "home_discovery_summary_2026_10_26": {
