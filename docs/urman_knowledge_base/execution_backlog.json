@@ -133330,8 +133330,16 @@
       },
       "entry_gate_source_finding_2026_10_26": {
         "finding": "W04 entry checks quest active, but initial runtime quest status is active even before the meeting with Alsu; this can bypass the intended story gate.",
-        "next": "Design a narrow entry condition based on actual committed/returned W04 visit evidence, preserving legitimate revisits and existing saves; prepared visits and initial quest active are not evidence. Review before changing save conditions.",
-        "status": "open; source analysis only"
+        "next": "Verify the meeting and return in the ordinary game when a concrete W04 acceptance is required; preserve cultural and author gates.",
+        "status": "source_implemented_native_pending",
+        "result": "Interaction, scene entry and visit prepare now require the meeting, a previously saved W04 C00/C03 checkpoint, or completed quest; an automatically active quest alone no longer grants entry. Existing saved checkpoint and completed fallback retain revisits. Schema includes the condition; exact fingerprint pairs retain supported prior saves.",
+        "evidence": [
+          "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs",
+          "content/schemas/condition-effect.schema.json",
+          "content/modules/urman-fullgame/definitions.json",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+        ],
+        "verification": "Astra static review; ContentCli compile and Game affected compile 16.38s, 0 errors/warnings. No play or tests. An artificially formed valid checkpoint with no visit history is still trusted; ordinary runtime does not create it."
       }
     },
     {

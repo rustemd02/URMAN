@@ -2784,9 +2784,8 @@
                 "factId": "alsu_bank_meeting_planned"
               },
               {
-                "op": "quest.status",
-                "questId": "urman.fullgame:quest/pw-w04",
-                "status": "active"
+                "op": "photoworlds.world.visited",
+                "worldId": "W04"
               },
               {
                 "op": "quest.status",
@@ -3493,9 +3492,8 @@
             "factId": "alsu_bank_meeting_planned"
           },
           {
-            "op": "quest.status",
-            "questId": "urman.fullgame:quest/pw-w04",
-            "status": "active"
+            "op": "photoworlds.world.visited",
+            "worldId": "W04"
           },
           {
             "op": "quest.status",

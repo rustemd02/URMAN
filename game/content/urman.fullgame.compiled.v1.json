@@ -21750,9 +21750,8 @@
                 "factId": "alsu_bank_meeting_planned"
               },
               {
-                "op": "quest.status",
-                "questId": "urman.fullgame:quest/pw-w04",
-                "status": "active"
+                "op": "photoworlds.world.visited",
+                "worldId": "W04"
               },
               {
                 "op": "quest.status",
@@ -22993,9 +22992,8 @@
                     "factId": "alsu_bank_meeting_planned"
                   },
                   {
-                    "op": "quest.status",
-                    "questId": "urman.fullgame:quest/pw-w04",
-                    "status": "active"
+                    "op": "photoworlds.world.visited",
+                    "worldId": "W04"
                   },
                   {
                     "op": "quest.status",
@@ -33440,7 +33438,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "3f112067a24a162461337f61bc2433f807416dc666565c941bcdb78d8d0287e0"
+      "sha256": "0dcff13d7d807bc9afd65747e94c48a8039f8c05841c5e8ce2f22165ad2266e8"
     },
     {
       "moduleId": "urman.oldpc",
@@ -33448,5 +33446,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "bf01a8888a23b642a9c83f07ae0aa96c424b015f213c867b0288fae80c90d554"
+  "campaignFingerprint": "5b053ac4d7dbaf15c21df7cfa20bec960a3371e2afc8529c02f57fe570a6b49c"
 }

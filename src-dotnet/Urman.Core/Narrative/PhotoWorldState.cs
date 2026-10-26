@@ -30,7 +30,8 @@ public static class PhotoWorldState
         "photoworlds.fact.observed",
         "photoworlds.evidence.confirmed",
         "photoworlds.caption.prepared",
-        "photoworlds.prologue.completed"
+        "photoworlds.prologue.completed",
+        "photoworlds.world.visited"
     };
 
     private static readonly HashSet<string> EffectOperations = new(StringComparer.Ordinal)
@@ -166,7 +167,7 @@ public static class PhotoWorldState
                 && HasEvidence(world, "E-BANK-OUTSIDE") && HasEvidence(world, "E-PHOTOGRAPHER-OUTSIDE")
                 && CaptionPrepared(world, "P-COMMON", "urman.chapter1:character/marat")
                 && PhotoStateIs(world, "P-COMMON", "mounted")
-                && (HasFact(world, "alsu_bank_meeting_planned") || Quest("pw-w04", "active") || Quest("pw-w04")),
+                && (HasFact(world, "alsu_bank_meeting_planned") || HasVisitedWorld(world, "W04") || Quest("pw-w04")),
             "W05" => Book() && PhotoStateIs(world, "P-CELLAR", "mounted") && PhotoStateIs(world, "S-HAND", "acquired"),
             _ => false
         };
@@ -889,6 +890,7 @@ public static class PhotoWorldState
             "photoworlds.caption.prepared" => CaptionPrepared(world, RequiredString(condition, "photoId"),
                 condition.TryGetProperty("sourceAuthorId", out var author) ? author.GetString() : null),
             "photoworlds.prologue.completed" => world.GetProperty("prologue").GetProperty("completed").GetBoolean(),
+            "photoworlds.world.visited" => HasVisitedWorld(world, RequiredString(condition, "worldId")),
             _ => throw new ArgumentException($"Unknown PhotoWorlds condition operation {operation}.")
         };
     }
@@ -1312,6 +1314,17 @@ public static class PhotoWorldState
         world.GetProperty("facts").TryGetProperty(id, out var fact)
         && fact.TryGetProperty("sources", out var sources)
         && sources.ValueKind == JsonValueKind.Array && sources.GetArrayLength() > 0;
+
+    private static bool HasVisitedWorld(JsonElement world, string worldId)
+    {
+        if (!TryGetVisitRoute(worldId, out _, out _)
+            || !world.GetProperty("worlds").TryGetProperty(worldId, out var savedWorld)
+            || RequiredString(savedWorld, "worldId") != worldId
+            || NullableString(savedWorld, "safeNodeId") is not { } safeNodeId)
+            return false;
+
+        return IsVisitSafeNode(worldId, safeNodeId);
+    }
 
     private static bool HasEvidence(JsonElement world, string id) =>
         world.GetProperty("evidence").TryGetProperty(id, out var evidence)
