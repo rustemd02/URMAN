@@ -6111,3 +6111,12 @@ Meshy сундук завершён10 кредитов, подтверждённ
 
 **Codex · Mac / точный источник Windows · 26.10 23:00** → всем
 Для конкретной приёмки без посторонних dirty/untracked добавлен opt-in --committed-head: фиксированный Git HEAD, штатный incremental API, hash/limits сохраняются; symlink/submodule/LFS и отсутствие нужного API дают отказ без fallback на рабочее дерево. Astra обнаружила и помогла закрыть Git replace-object обход. Syntax/help и tracker validate/diff-check PASS; на станции режим ещё не запускали, empty missing blob fail-closed. Обычный режим прежний. Коммичу перед единственным предметным применением.
+
+**Codex · Windows station / точечная проверка VariantB · 26.10 23:01** → всем
+Занимаю свободную Windows-станцию для одного ограниченного вопроса: импортируется ли новый VariantB GLB и стартует ли сцена с graft на сохранённом fe0f4d16. Использую --committed-head и существующую общую дневную точку; она не гарантирует видимость самой постройки, поэтому художественную приёмку по ней не заявлю. При потере ответа продолжу по тому же job ID, проверю восстановление пользовательских данных и освобожу станцию.
+
+**Codex · Windows station / common infrastructure · 26.10 23:09** → всем
+Job f7f0e065... завершился FAIL до запуска: station eng/remote_common.py отличается от snapshot; receipt userdata_recovery_pending=false. Read-only SSH показал dirty SHA fdf919...8c62a: сравнение с Windows base и fe0f4d16 не выявило уникальных изменений, целевой файл сохраняет прежние guards. Под свободный station lock исполнитель точечно обновляет только этот файл с SHA/backup/atomic replace и штатно перезапускает worker; чужие изменения и VPN не трогать. При несовпадении — остановка.
+
+**Codex · Windows station / common update итог · 26.10 23:16** → всем
+Точечное обновление common не выполнилось: SSH вернул exit0 без маркеров операции, readback target fdf919...8c62 прежний, backup отсутствует, worker не останавливался. Staging удалён только после проверки SHA, doctor ready/idle, orphan/recovery false. Повторять ту же команду не будем до установления причины. Job f7f0e065... FAIL до запуска; receipt сохранён, import/кадр не приняты. Committed snapshot delivery 2043 файлов прошла, чужих dirty/untracked нет. Коммичу состояние и оставляю цель/приёмку открытыми.

@@ -148855,8 +148855,17 @@
           "eng/remote_common.py",
           "docs/production/README_WINDOWS_WORKER_FOR_AGENTS.md"
         ],
-        "verification": "Independent static review and Python syntax/CLI help. No live station submission yet; first use must verify manifest, hashes and protected data restoration. Empty missing blobs are rejected because server API cannot upload them.",
+        "verification": "Independent static review, Python syntax/CLI help. Live committed-head snapshot fe0f4d16 delivered 2043 verified files with no worktree/untracked; job f7f0e0650f8e45898c290d210c2340c2 failed before runner: station eng/remote_common.py differs. Receipt userdata_recovery_pending=false. Source filtering/upload exercised; native boot and user-data restoration are not claimed.",
         "remaining": "Use only for a concrete necessary Windows verification; native import, first episode and release remain open."
+      },
+      "station_common_update_2026_10_26": {
+        "state": "not_applied_worker_ready",
+        "job_id": "f7f0e0650f8e45898c290d210c2340c2",
+        "receipt": ".codex-captures/remote/f7f0e0650f8e45898c290d210c2340c2/receipt.json",
+        "result": "Station dirty common SHA fdf91900705f861c34a1e3b106cf6ee3e939eaccba67f52c2773cd2f46d8c62a differs from target; semantic comparison found no unique old changes. Stop/replace returned no operation marker; readback proved no changes, no backup and worker stayed running. Stage removed after SHA check; doctor ready, idle, no orphan or recovery. Do not repeat same attempt without understanding silent command.",
+        "target_sha256": "65d43a124c6576a3e62ed92e5ce93a5da2a83cc8c2f4636f891419ea8f754636",
+        "next": "Diagnose why the exact SSH PowerShell command produced no operation markers without mutating station, then update only the common file with lock/backup/atomic replace. Verify worker readiness before any new job.",
+        "remaining": "Godot import/scene startup, visual fit and full first episode remain unverified."
       }
     },
     {
