@@ -16,6 +16,7 @@ public partial class FirstPersonController
     private float _stepEyeDrop;
     internal int StepsClimbed { get; private set; }
     internal string LastStepRejection { get; private set; } = string.Empty;
+    internal ulong LastStepAttemptFrame { get; private set; }
 
     private void InitializeStepMotion()
     {
@@ -31,6 +32,7 @@ public partial class FirstPersonController
         _lastStepFrame = 0;
         _stepEyeDrop = 0;
         LastStepRejection = string.Empty;
+        LastStepAttemptFrame = 0;
     }
 
     private bool TryWalkUpStep(float delta)
@@ -53,6 +55,7 @@ public partial class FirstPersonController
             if (normal.Y < floorNormalY && normal.Dot(direction) < -.05f) { riser = index; break; }
         }
         if (riser < 0) return false;
+        LastStepAttemptFrame = Engine.GetPhysicsFrames();
         LastStepRejection = "no walkable tread within step height";
         var edge = _stepObstacle.GetPosition(riser);
         // Sample inside the riser face: an input-aligned side ray can fall in

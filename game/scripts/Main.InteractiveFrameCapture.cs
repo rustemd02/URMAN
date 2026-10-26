@@ -12,6 +12,11 @@ public partial class Main
     private SceneTree? _interactiveFrameTree;
     private long _interactiveFrameNextPoll;
     private bool _interactiveFrameBusy;
+    private FirstPersonController? _interactiveMovementPlayer;
+    private Vector3 _interactiveMovementBefore;
+    private Vector2 _interactiveMovementInput;
+    private bool _interactiveMovementEligible;
+    private JsonObject? _interactiveMovementSample;
 
     // A protected native play job may export its current viewport on demand.
     // This never moves the camera/player, applies input, changes saves or quits.
@@ -67,6 +72,7 @@ public partial class Main
             _interactiveFrameJob = job;
             _interactiveFrameTree = GetTree();
             _interactiveFrameTree.ProcessFrame += PollInteractiveFrameRequest;
+            _interactiveFrameTree.PhysicsFrame += ObserveInteractiveMovement;
             TreeExiting += ReleaseInteractiveFrameCapture;
         }
         catch (Exception error)
@@ -78,10 +84,71 @@ public partial class Main
     private void ReleaseInteractiveFrameCapture()
     {
         if (_interactiveFrameTree is { } tree && GodotObject.IsInstanceValid(tree))
+        {
             tree.ProcessFrame -= PollInteractiveFrameRequest;
+            tree.PhysicsFrame -= ObserveInteractiveMovement;
+        }
         _interactiveFrameTree = null;
         _interactiveFrameDirectory = null;
         _interactiveFrameJob = null;
+        _interactiveMovementPlayer = null;
+        _interactiveMovementSample = null;
+        _interactiveMovementEligible = false;
+    }
+
+    private void ObserveInteractiveMovement()
+    {
+        var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        if (player is null || !GodotObject.IsInstanceValid(player))
+        {
+            _interactiveMovementPlayer = null;
+            _interactiveMovementSample = null;
+            _interactiveMovementEligible = false;
+            return;
+        }
+
+        // PhysicsFrame precedes node physics: these contacts and travel belong to the preceding tick.
+        var frame = Engine.GetPhysicsFrames();
+        var eligible = player.IsPhysicsProcessing() && !player.ModalOpen
+            && !player.VehicleControlled && !player.SessionTransitionActive;
+        if (!ReferenceEquals(player, _interactiveMovementPlayer)) _interactiveMovementSample = null;
+        if (ReferenceEquals(player, _interactiveMovementPlayer) && _interactiveMovementEligible && eligible
+            && _interactiveMovementInput.LengthSquared() > .01f && frame % 6 == 0)
+        {
+            static JsonArray Vector(Vector3 value) => new(value.X, value.Y, value.Z);
+            var movementFrame = frame == 0 ? 0 : frame - 1;
+            var contacts = new JsonArray();
+            for (var index = 0; index < Math.Min(player.GetSlideCollisionCount(), 8); index++)
+            {
+                using var hit = player.GetSlideCollision(index);
+                var body = hit.GetCollider() as CollisionObject3D;
+                if (body is null || !GodotObject.IsInstanceValid(body)) continue;
+                var owner = body.ShapeFindOwner(hit.GetColliderShapeIndex());
+                var shape = owner < 0 ? null : body.ShapeOwnerGetOwner(owner) as Node;
+                contacts.Add(new JsonObject
+                {
+                    ["collider"] = body.GetPath().ToString(), ["shape"] = shape?.GetPath().ToString(),
+                    ["authoredSourceMesh"] = shape is { } source && source.HasMeta("authoredSourceMesh")
+                        ? source.GetMeta("authoredSourceMesh").AsString() : null,
+                    ["point"] = Vector(hit.GetPosition()), ["normal"] = Vector(hit.GetNormal())
+                });
+            }
+            _interactiveMovementSample = new JsonObject
+            {
+                ["physicsFrame"] = movementFrame,
+                ["playerPath"] = player.GetPath().ToString(),
+                ["feetBefore"] = Vector(_interactiveMovementBefore), ["feetAfter"] = Vector(player.GlobalPosition),
+                ["input"] = new JsonArray(_interactiveMovementInput.X, _interactiveMovementInput.Y),
+                ["displacement"] = Vector(player.GlobalPosition - _interactiveMovementBefore),
+                ["stepAttemptFrame"] = player.LastStepAttemptFrame,
+                ["stepRejection"] = player.LastStepAttemptFrame == movementFrame ? player.LastStepRejection : null,
+                ["contacts"] = contacts
+            };
+        }
+        _interactiveMovementPlayer = player;
+        _interactiveMovementBefore = player.GlobalPosition;
+        _interactiveMovementInput = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
+        _interactiveMovementEligible = eligible;
     }
 
     private void PollInteractiveFrameRequest()
@@ -165,6 +232,12 @@ public partial class Main
                 ["interactionId"] = target?.InteractionId,
                 ["interactionAvailable"] = target is null ? null : JsonValue.Create(target.IsAvailable())
             });
+            // Keep the worker's strict frame schema unchanged; join this passive sample by requestId.
+            GD.Print("interactive-movement-sample: " + new JsonObject
+            {
+                ["jobId"] = job, ["requestId"] = id, ["capturePhysicsFrame"] = Engine.GetPhysicsFrames(),
+                ["lastMovingSample"] = _interactiveMovementSample?.DeepClone()
+            }.ToJsonString());
         }
         catch (Exception error)
         {

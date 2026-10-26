@@ -121729,7 +121729,9 @@
         "evidence/PW-043/ordinary_3c51121af8d04923953c4234b8401e6d/receipt.json",
         "evidence/PW-043/ordinary_3c51121af8d04923953c4234b8401e6d.zip",
         "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e/receipt.json",
-        "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e.zip"
+        "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e.zip",
+        "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92/receipt.json",
+        "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92.zip"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-043",
       "source_requirements": [
@@ -122669,6 +122671,33 @@
         ],
         "scope_limit": "Принят наблюдённый конечный отрезок и сохранённая задача после Continue; полный пролог/кампания/культурная/языковая/художественная/новичковая приёмка этим не закрываются. Старый P у створки не воспроизводился и recovery не объявлен решённым.",
         "cleanup": "Archive CRC+every extracted byte comparison passed; original result.zip moved, receipt retained.32272431bytes extracted/local duplicate frames/logs removed; nothing raw committed."
+      },
+      "ordinary_prologue_home_7df_2026_10_26": {
+        "job_id": "7df64b43af054e0981f1166ed98f2a92",
+        "source_commit": "f42521a0",
+        "snapshot_id": "34813e146046e8c3a41b835398f7f9645afdd49d46f115d4a94afbcd7f21cc96",
+        "receipt": "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92/receipt.json",
+        "archive": "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92.zip",
+        "archive_sha256": "1b3afdb51c994a9ed0adcfbc7c1c646952431deb88bd95d66c019b3359462f9e",
+        "status": "PASS",
+        "game_exit_code": 0,
+        "userdata_restored": true,
+        "station_after": "doctor ready=true, busy=null, orphan_game=false, userdata_recovery_pending=false",
+        "accepted_slice": "Обычный NewGame безskip: physical W01 F00→действие E на F01 и сдвинутая ветка→пешком F02/F03→салон Нивы/языковой диалог/D00→выход на улицуhome с задачей чая. Лог подтверждает prologue_branch_moved, prologue.completed и scene.entered по pw-niva-stop.",
+        "not_accepted": [
+          "Качество реального20секдвижения: переход строил деревню, первый capture timed out/pending, root не поймал промежуточные moving camera кадры. Была показана кабина и разговор безskip, но движение отдельно не заявлено проверенным.",
+          "Tea/book/school/W01 changed marker/action/return/home: не достигнуты в этомrun.",
+          "Полная проходимость крыльца/всех входов и релизная приятность."
+        ],
+        "approach_observation": {
+          "initial": "По вычисленному HomeObjectiveRoute root не дошёл до прежнего принятого door endpoint; camera(-6.62385,1.45586,-1.81830),yaw89.92.",
+          "forward": "W1000 дал(-6.90908,1.46142,-2.42222), E без target; движение вдоль-X соскользнуло по-Z.",
+          "wrong_input": "D550 был ошибкой root по направлению; его результат не доказательство дефекта. После него W900 дал(-7.36634,1.47401,-3.38237), ray AuthoredKitCollisionProxy на BabaiApproachDwellingFacade.",
+          "corrected": "A1100+W850 дал(-6.92552,1.46205,-2.46002), E без target.",
+          "boundary": "Подход не пройден, но ни один конкретный blocking shape пока не установлен; прежний успешный endpoint(-8.49,-1.46) не достигнут. Не объявлять все двери непроходимыми и не ослаблять коллизии вслепую."
+        },
+        "cleanup": "ZIP12,307,568байт CRC и40 извлечённых файлов побайтово проверены;13,310,480байт извлечённых дублей и13временныхPNG/11,124,116байт удалены после проверкиSHAвZIP. Receipt отдельно, raw внеGit.",
+        "termination": "Штатный Pause→Quit→confirm заранее; terminalPASS/exit0, не timeout. Native input lease освобождён."
       }
     },
     {
@@ -124508,7 +124537,9 @@
       "evidence": [
         "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
         "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748/receipt.json",
-        "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748.zip"
+        "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748.zip",
+        "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92/receipt.json",
+        "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92.zip"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-046",
       "source_requirements": [
@@ -124631,7 +124662,7 @@
       "assigned_owner": "gameplay",
       "activity": {
         "state": "idle",
-        "reason": "Native a64 terminal FAIL124; protected userdata restoration confirmed. Station/input lease released; partial W01 remains open."
+        "reason": "7df terminalPASS/exit0 and confirmed restoration; root released sole native lease. Source review of concrete approach observation continues separately."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -124641,7 +124672,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "На изменённом W01 проверить конкретный результат: после реального F13-crossing marker ведёт по3оставшимся actualcontacts, последовательный осмотр→встреча/сумка→F16→возврат→дом. Не повторять прежний smoke школы/F10; setup не считать новой приёмкой. Отдельный обязательный остаток — непро́пущенный нормальный пролог/20секНива до дома. Геометрическая видимость/приятность и обязательные внешние гейты ещё открыты.",
+      "next_action": "Получить один actual walking contact на обычном подходе к калитке/крыльцу через existing protectedcapture (новый sample уже реализован). Следовать полному маршруту, не гадать по rayhit фасада. Затем исправить только установленного владельца и довести changed W01осмотр→встреча/сумка→возврат→дом. Пролог route→Ниваразговор→улица принят; качество движенияНивы и обязательные внешние гейты открыты.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -125050,16 +125081,15 @@
         "verification": "Root actual frame+GLB node read+passport and exact observation condition. String-only diff; no compilation risk, no game/test/build rerun. Scoped diffcheck passed; no new Game compilation or tests for string-only change."
       },
       "current_native_question_2026_10_26": {
-        "question": "Can ordinary play complete earned F11 observation→realF12/F13 fold/lookback→Shurale conversation/bag→F16 return→first home talk/clear nextlead on current091f6b27?",
-        "success": "Actual normal inputs/visible consequences and earned facts/home continuation; normal Quit and verified restoreduserdata receipt. Existing accepted home/school/entry are setup only.",
-        "bounds": "One protected play-product3600; no seed/debug/teleport/profileimport/newtests. Source/model frozen, one input owner, normalQuit with>=5minreserve, stop on concrete blocker after2failedhypotheseswithoutnewcause.",
-        "job_id": "a64a797c796f4224b0b1e2537997d748",
-        "snapshot_id": "a6b6b41a42d13aceeb9087b19172b54497bbf86347cfd73429c90f221b66403a",
-        "source_commit": "091f6b27",
+        "question": "Непропущенный ordinary F01/F03→видимая20секНива→home; затем actual-subject marker/последовательный W01осмотр→встреча/сумка→возврат/дом.",
+        "success": "Фактический normalinput/видимые действия и reducer facts, штатныйQuit и confirmeduserdataRestored. Старые дом/школа/F10 считаются толькоsetup.",
+        "bounds": "Один protectedplay-product3600, rootsoleinput, безseed/debug/profilecopy/newtests/probes. Stop movement04:58UTC и normalQuitзаранее, sourcefrozen.",
+        "job_id": "7df64b43af054e0981f1166ed98f2a92",
+        "snapshot_id": "34813e146046e8c3a41b835398f7f9645afdd49d46f115d4a94afbcd7f21cc96",
+        "source_commit": "f42521a0",
         "input_lease": null,
-        "state": "terminal_partial_not_accepted",
-        "root_takeover": "Driver model capacity failure; root exclusively finished input.",
-        "result_receipt": "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748/receipt.json"
+        "state": "terminal_partial_prologue_to_home_accepted",
+        "result_receipt": "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92/receipt.json"
       },
       "native_episode_result_2026_10_26": {
         "job_id": "a64a797c796f4224b0b1e2537997d748",
@@ -125138,6 +125168,33 @@
           "game/scripts/photoworlds/W01Controller.PrologueExit.cs",
           "game/scripts/Main.cs"
         ]
+      },
+      "ordinary_prologue_home_7df_2026_10_26": {
+        "job_id": "7df64b43af054e0981f1166ed98f2a92",
+        "source_commit": "f42521a0",
+        "snapshot_id": "34813e146046e8c3a41b835398f7f9645afdd49d46f115d4a94afbcd7f21cc96",
+        "receipt": "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92/receipt.json",
+        "archive": "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92.zip",
+        "archive_sha256": "1b3afdb51c994a9ed0adcfbc7c1c646952431deb88bd95d66c019b3359462f9e",
+        "status": "PASS",
+        "game_exit_code": 0,
+        "userdata_restored": true,
+        "station_after": "doctor ready=true, busy=null, orphan_game=false, userdata_recovery_pending=false",
+        "accepted_slice": "Обычный NewGame безskip: physical W01 F00→действие E на F01 и сдвинутая ветка→пешком F02/F03→салон Нивы/языковой диалог/D00→выход на улицуhome с задачей чая. Лог подтверждает prologue_branch_moved, prologue.completed и scene.entered по pw-niva-stop.",
+        "not_accepted": [
+          "Качество реального20секдвижения: переход строил деревню, первый capture timed out/pending, root не поймал промежуточные moving camera кадры. Была показана кабина и разговор безskip, но движение отдельно не заявлено проверенным.",
+          "Tea/book/school/W01 changed marker/action/return/home: не достигнуты в этомrun.",
+          "Полная проходимость крыльца/всех входов и релизная приятность."
+        ],
+        "approach_observation": {
+          "initial": "По вычисленному HomeObjectiveRoute root не дошёл до прежнего принятого door endpoint; camera(-6.62385,1.45586,-1.81830),yaw89.92.",
+          "forward": "W1000 дал(-6.90908,1.46142,-2.42222), E без target; движение вдоль-X соскользнуло по-Z.",
+          "wrong_input": "D550 был ошибкой root по направлению; его результат не доказательство дефекта. После него W900 дал(-7.36634,1.47401,-3.38237), ray AuthoredKitCollisionProxy на BabaiApproachDwellingFacade.",
+          "corrected": "A1100+W850 дал(-6.92552,1.46205,-2.46002), E без target.",
+          "boundary": "Подход не пройден, но ни один конкретный blocking shape пока не установлен; прежний успешный endpoint(-8.49,-1.46) не достигнут. Не объявлять все двери непроходимыми и не ослаблять коллизии вслепую."
+        },
+        "cleanup": "ZIP12,307,568байт CRC и40 извлечённых файлов побайтово проверены;13,310,480байт извлечённых дублей и13временныхPNG/11,124,116байт удалены после проверкиSHAвZIP. Receipt отдельно, raw внеGit.",
+        "termination": "Штатный Pause→Quit→confirm заранее; terminalPASS/exit0, не timeout. Native input lease освобождён."
       }
     },
     {
@@ -146578,6 +146635,15 @@
         "removed_files": 34,
         "removed_bytes": 67386879,
         "verification": "Independent read-only inventory plus root exact embedded byte comparison, ignored/generated import classification, tracked/symlink guards, absence and canonical-GLB-presence checks. No Godot/import/game launched."
+      },
+      "snow_bookkeeping_review_2026_10_26": {
+        "result": "7df: после первого bank shaping50 идут91 no-op reworked=0/vertices0->0; perroute вызов рано пропускает помеченные banks. Это лишний bookkeeping, но не доказанная причина >40с village load; в том же окне строятся actualpaths и86heaps.",
+        "decision": "Не тратить текущий этап на микрооптимизацию и не заявлять скорость без профиля; физическая проходимость/первый эпизод приоритетнее.",
+        "source": [
+          "game/scripts/Act1ConnectedWorld.WinterRoads.cs",
+          "game/scripts/Act1ConnectedWorld.SnowRelief.cs",
+          "game/scripts/Act1ConnectedWorld.Addresses.cs"
+        ]
       }
     },
     {
@@ -150720,13 +150786,15 @@
               "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip",
               "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3/receipt.json",
               "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748/receipt.json",
-              "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748.zip"
+              "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748.zip",
+              "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92/receipt.json",
+              "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92.zip"
             ],
             "assigned_owner": "integration/qa",
             "active_owner": null,
             "activity": {
               "state": "idle",
-              "reason": "Native a64 terminal FAIL124; protected userdata restoration confirmed. Station/input lease released; partial W01 remains open."
+              "reason": "7df terminalPASS/exit0 and confirmed restoration; root released sole native lease. Source review of concrete approach observation continues separately."
             },
             "task_type": "integration_check",
             "status": "in_progress",
@@ -150737,7 +150805,7 @@
               "Новое парное сравнение и школьный outbound marker не приняты визуально/в движении; учитывать в следующем содержательном эпизоде без отдельного повторного smoke.",
               "Авторская и новичковая оценка интереса/ясности остаётся отдельной обязательной приёмкой."
             ],
-            "next_action": "На изменённом W01 проверить конкретный результат: после реального F13-crossing marker ведёт по3оставшимся actualcontacts, последовательный осмотр→встреча/сумка→F16→возврат→дом. Не повторять прежний smoke школы/F10; setup не считать новой приёмкой. Отдельный обязательный остаток — непро́пущенный нормальный пролог/20секНива до дома. Геометрическая видимость/приятность и обязательные внешние гейты ещё открыты.",
+            "next_action": "Получить один actual walking contact на обычном подходе к калитке/крыльцу через existing protectedcapture (новый sample уже реализован). Следовать полному маршруту, не гадать по rayhit фасада. Затем исправить только установленного владельца и довести changed W01осмотр→встреча/сумка→возврат→дом. Пролог route→Ниваразговор→улица принят; качество движенияНивы и обязательные внешние гейты открыты.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -150937,10 +151005,15 @@
               "remaining": "Run ordinary full route; source correction is not integration acceptance."
             },
             "current_native_question_2026_10_26": {
-              "state": "terminal_partial_not_accepted",
+              "question": "Непропущенный ordinary F01/F03→видимая20секНива→home; затем actual-subject marker/последовательный W01осмотр→встреча/сумка→возврат/дом.",
+              "success": "Фактический normalinput/видимые действия и reducer facts, штатныйQuit и confirmeduserdataRestored. Старые дом/школа/F10 считаются толькоsetup.",
+              "bounds": "Один protectedplay-product3600, rootsoleinput, безseed/debug/profilecopy/newtests/probes. Stop movement04:58UTC и normalQuitзаранее, sourcefrozen.",
+              "job_id": "7df64b43af054e0981f1166ed98f2a92",
+              "snapshot_id": "34813e146046e8c3a41b835398f7f9645afdd49d46f115d4a94afbcd7f21cc96",
+              "source_commit": "f42521a0",
               "input_lease": null,
-              "root_takeover": "Driver model capacity failure; root exclusively finished input.",
-              "result_receipt": "evidence/PW-046/ordinary_a64a797c796f4224b0b1e2537997d748/receipt.json"
+              "state": "terminal_partial_prologue_to_home_accepted",
+              "result_receipt": "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92/receipt.json"
             },
             "native_episode_result_2026_10_26": {
               "job_id": "a64a797c796f4224b0b1e2537997d748",
@@ -151019,6 +151092,50 @@
                 "game/scripts/photoworlds/W01Controller.PrologueExit.cs",
                 "game/scripts/Main.cs"
               ]
+            },
+            "ordinary_prologue_home_7df_2026_10_26": {
+              "job_id": "7df64b43af054e0981f1166ed98f2a92",
+              "source_commit": "f42521a0",
+              "snapshot_id": "34813e146046e8c3a41b835398f7f9645afdd49d46f115d4a94afbcd7f21cc96",
+              "receipt": "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92/receipt.json",
+              "archive": "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92.zip",
+              "archive_sha256": "1b3afdb51c994a9ed0adcfbc7c1c646952431deb88bd95d66c019b3359462f9e",
+              "status": "PASS",
+              "game_exit_code": 0,
+              "userdata_restored": true,
+              "station_after": "doctor ready=true, busy=null, orphan_game=false, userdata_recovery_pending=false",
+              "accepted_slice": "Обычный NewGame безskip: physical W01 F00→действие E на F01 и сдвинутая ветка→пешком F02/F03→салон Нивы/языковой диалог/D00→выход на улицуhome с задачей чая. Лог подтверждает prologue_branch_moved, prologue.completed и scene.entered по pw-niva-stop.",
+              "not_accepted": [
+                "Качество реального20секдвижения: переход строил деревню, первый capture timed out/pending, root не поймал промежуточные moving camera кадры. Была показана кабина и разговор безskip, но движение отдельно не заявлено проверенным.",
+                "Tea/book/school/W01 changed marker/action/return/home: не достигнуты в этомrun.",
+                "Полная проходимость крыльца/всех входов и релизная приятность."
+              ],
+              "approach_observation": {
+                "initial": "По вычисленному HomeObjectiveRoute root не дошёл до прежнего принятого door endpoint; camera(-6.62385,1.45586,-1.81830),yaw89.92.",
+                "forward": "W1000 дал(-6.90908,1.46142,-2.42222), E без target; движение вдоль-X соскользнуло по-Z.",
+                "wrong_input": "D550 был ошибкой root по направлению; его результат не доказательство дефекта. После него W900 дал(-7.36634,1.47401,-3.38237), ray AuthoredKitCollisionProxy на BabaiApproachDwellingFacade.",
+                "corrected": "A1100+W850 дал(-6.92552,1.46205,-2.46002), E без target.",
+                "boundary": "Подход не пройден, но ни один конкретный blocking shape пока не установлен; прежний успешный endpoint(-8.49,-1.46) не достигнут. Не объявлять все двери непроходимыми и не ослаблять коллизии вслепую."
+              },
+              "cleanup": "ZIP12,307,568байт CRC и40 извлечённых файлов побайтово проверены;13,310,480байт извлечённых дублей и13временныхPNG/11,124,116байт удалены после проверкиSHAвZIP. Receipt отдельно, raw внеGit.",
+              "termination": "Штатный Pause→Quit→confirm заранее; terminalPASS/exit0, не timeout. Native input lease освобождён."
+            },
+            "movement_discriminator_2026_10_26": {
+              "result": "Существующий protected interactive capture теперь пассивно сохраняет последний moving physics sample и печатает его по запросу кадра в существующий stdout/game.log, с job/requestId и capturePhysicsFrame. Строгая workerframe schema не меняется, новый harness/файлы/progress API не добавлены.",
+              "necessity": "7df показал неудачный подход к крыльцу, но имеющийся metadata ray относится к взгляду. Astra по recipe/GLB/placement сузил: Street_LogCrown и проверенные facade meshes слишком далеко от капсулы в этой позе; их нельзя объявлять walkingblocker. Нужен фактический collider/child контакта движущейся капсулы, не снятие коллизии по догадке.",
+              "targets": [
+                "game/scripts/Main.InteractiveFrameCapture.cs",
+                "game/scripts/FirstPersonController.Steps.cs"
+              ],
+              "bounds": "Sampler подключается только после уже существующей полной Windows protected-run/path/job валидации, отписывается вместе с capture. Один sample на6physicsframes, ≤8уже существующих slide contacts, без rays/sweeps/input/statewrites. Обычный продукт sampler не включает. Только одна JSONстрока на successfulrequestedcapture.",
+              "evidence_fields": [
+                "physicsFrame/playerPath/feetBefore/feetAfter/rawinput/displacement",
+                "actual slide collider/shape/authoredSourceMesh/contactpoint/normal",
+                "stepAttemptFrame; stepRejection только при совпадении кадра recognizedriser attempt, иначеnull",
+                "capturePhysicsFrame показывает возраст последнего moving sample, в том числе после паузы"
+              ],
+              "verification": "Luna bounded lifecycle/disposal/gating review; APIтип GetColliderShape исправлен на GetColliderShapeIndex по pinned GodotSharp4.7.1 XML. Affected Game compile13.69s,0warnings0errors; затем тривиальное freshness условие проверено source/diff-check. Успех step уже очищает LastStepRejection в существующем owner, отдельный successфикс не понадобился. Tracker validate PASS. Новой игры/tests/probes нет.",
+              "remaining": "Самpler не выдаёт runtimeдоказательство сам по себе. В следующем необходимом обычном подходе получить actual walking contact и чинить конкретного владельца, если blocker подтверждён. Текущая гипотеза фасада не доказана."
             }
           },
           {
