@@ -5185,9 +5185,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-label-bank-return",
     "value": {
-      "default": "Вернуться к дому",
+      "default": "Продолжить путь",
       "translations": {
-        "ru": "Вернуться к дому"
+        "ru": "Продолжить путь"
       }
     },
     "purpose": "ui"

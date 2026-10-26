@@ -51,6 +51,8 @@ public partial class RuntimeBridge
         "4f6637ef1dfa32ca3901ff203df239f2372438788a7a59741c147d50adbea3f8";
     private const string FullGameFamilyPurposeFingerprint =
         "eaf6dfe0f2e40408ad62d5a0c690b86abcd771136818f91fd5af4b923939a236";
+    private const string FullGameBankPathLabelFingerprint =
+        "9964e2bab600dc89687f59ce4d954eb4a20be0306fdc0ae29bfc83ecd34970a7";
 
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
@@ -168,7 +170,20 @@ public partial class RuntimeBridge
         new(FullGameWaterHomeAccountFingerprint, FullGameFamilyPurposeFingerprint),
         new(FullGameShuraleReplyTextFingerprint, FullGameFamilyPurposeFingerprint),
         new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
-            FullGameFamilyPurposeFingerprint)
+            FullGameFamilyPurposeFingerprint),
+        // The bank exit label describes the existing transition; saved state is unchanged.
+        new(FullGameFamilyPurposeFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameBankPathLabelFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameBankPathLabelFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -192,7 +207,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameCommonVisitGateFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAlsuMeetingGateFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameForestAccountFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameFamilyPurposeFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameFamilyPurposeFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameBankPathLabelFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }

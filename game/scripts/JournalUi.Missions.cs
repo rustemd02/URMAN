@@ -352,7 +352,7 @@ public partial class JournalUi
             return FinaleMission(bridge);
         if (!MissionEvidenceConfirmed(bridge.SelectRuntimeState(), "E-BANK-OUTSIDE"))
             return BankEvidenceMission(bridge);
-        return StreetMission(bridge, "bank-return", "Вернуться домой", "Вернитесь домой с берега. Там нужно сверить семейные снимки.", "pw-bank-return", "Дорога домой");
+        return StreetMission(bridge, "bank-return", "Вернуться на тропу", "Подойдите к тропе у берега и продолжите путь.", "pw-bank-return", "Тропа у берега");
     }
 
     private static PlayerMission? FinaleMission(RuntimeBridge bridge)

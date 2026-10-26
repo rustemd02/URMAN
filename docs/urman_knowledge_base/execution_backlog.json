@@ -129914,6 +129914,16 @@
         ],
         "verification": "Independent source review covered confirmed gate, prior successful dispatch, session/scene/menu/vehicle guards, no repeat dispatch and existing branch priority. Affected Game compile 17.83s 0 warnings/errors; no game/test run.",
         "remaining": "Native presentation, actual encounter, player understanding and full first-episode acceptance remain open; no new facts or automatic progress."
+      },
+      "bank_return_path_wording_2026_10_27": {
+        "result": "After evidence comparison, the task and target now describe returning to the path and continuing, rather than falsely promising arrival at home or a fixed photo-comparison next step. Existing scene transition, world position, evidence and dynamic branch selection are unchanged.",
+        "evidence": [
+          "game/scripts/JournalUi.Missions.cs",
+          "content/modules/urman-fullgame/definitions.json",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+        ],
+        "verification": "Independent source review traced pw-bank-return and player position; ContentCli and affected Game compile 17.71s with no errors/warnings. Exact old save fingerprint pairs retained. No game or tests.",
+        "remaining": "Runtime marker and ordinary route acceptance remain open."
       }
     },
     {

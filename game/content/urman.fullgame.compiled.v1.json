@@ -31055,9 +31055,9 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-label-bank-return",
         "value": {
-          "default": "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F \u043A \u0434\u043E\u043C\u0443",
+          "default": "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C \u043F\u0443\u0442\u044C",
           "translations": {
-            "ru": "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F \u043A \u0434\u043E\u043C\u0443"
+            "ru": "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C \u043F\u0443\u0442\u044C"
           }
         },
         "purpose": "ui"
@@ -33437,7 +33437,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "935970bcd5a1128db9038bcd05417f25133468244187d0b342a6e79edfe91844"
+      "sha256": "ffc95ce9a7c92ed6a6af92c72ed8a35b83b5094efe9f0be1b1a328086096f4e1"
     },
     {
       "moduleId": "urman.oldpc",
@@ -33445,5 +33445,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "eaf6dfe0f2e40408ad62d5a0c690b86abcd771136818f91fd5af4b923939a236"
+  "campaignFingerprint": "9964e2bab600dc89687f59ce4d954eb4a20be0306fdc0ae29bfc83ecd34970a7"
 }
