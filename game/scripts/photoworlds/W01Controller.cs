@@ -694,7 +694,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         _forestVisual = new Node3D { Name = "F00F03ForestVisual", Visible = false };
         _forestVisual.SetMeta("presentationOnly", true);
-        _forestVisual.SetMeta("sourceAssets", "urman.act1.agentb.foliage_kit; winter.pine.v1");
+        _forestVisual.SetMeta("sourceAssets", "urman.act1.agentb.foliage_kit; winter.pine.v1; winter.birch.meshy.v2");
         _forestVisual.SetMeta("routeClearance", "2.1 m standing lane retained from measured lower-2m triangles for every pine tier; presentation only");
         AddChild(_forestVisual);
 
@@ -702,11 +702,18 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         ArrayMesh pineMesh;
         ArrayMesh lightPineMesh;
         ArrayMesh farPineMesh;
+        ArrayMesh[] birchMeshes;
         try
         {
             pineMesh = pineProvider.FoliageMesh("WinterPine", "kara");
             lightPineMesh = pineProvider.FoliageMesh("WinterLightPine", "kara");
             farPineMesh = pineProvider.FoliageMesh("WinterFarPine", "kara");
+            birchMeshes = new[]
+            {
+                pineProvider.FoliageMesh("WinterBirch", "kara"),
+                pineProvider.FoliageMesh("WinterLightBirch", "kara"),
+                pineProvider.FoliageMesh("WinterFarBirch", "kara")
+            };
         }
         finally
         {
@@ -725,6 +732,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var roots = Descendants<Node3D>(kit)
             .Where(node => node.Name.ToString().EndsWith("_Root", StringComparison.Ordinal))
             .ToDictionary(node => node.Name.ToString(), StringComparer.Ordinal);
+        var birchFits = new Dictionary<string, (Vector3 Scale, float Height)>(StringComparer.Ordinal);
         var groundMesh = Descendants<MeshInstance3D>(_groundVisual!)
             .FirstOrDefault(node => node.Mesh is not null)
             ?? throw new InvalidOperationException("W01 prologue ground mesh is missing.");
@@ -892,7 +900,37 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             if (!roots.TryGetValue(rootName, out var template))
                 throw new InvalidOperationException($"Registered foliage kit is missing native root: {rootName}");
 
-            var tree = (Node3D)template.Duplicate();
+            var generatedBirch = variant.StartsWith("WinterBirch_", StringComparison.Ordinal);
+            Node3D tree;
+            if (generatedBirch)
+            {
+                if (!birchFits.TryGetValue(variant, out var fit))
+                {
+                    Aabb? envelope = null;
+                    var toRoot = template.GlobalTransform.AffineInverse();
+                    foreach (var mesh in Descendants<MeshInstance3D>(template))
+                    {
+                        if (mesh.Mesh is null) continue;
+                        var bounds = (toRoot * mesh.GlobalTransform) * mesh.Mesh.GetAabb();
+                        envelope = envelope is { } previous ? previous.Merge(bounds) : bounds;
+                    }
+                    if (envelope is not { } nativeBounds || nativeBounds.Size.Y <= 0f)
+                        throw new InvalidOperationException($"Missing native birch envelope: {variant}");
+                    fit = (AgentBAct1ExteriorLayer.RootedFoliageFitScale(birchMeshes[0].GetAabb(), nativeBounds),
+                        nativeBounds.Size.Y);
+                    birchFits.Add(variant, fit);
+                }
+                tree = new Node3D();
+                for (var lod = 0; lod < birchMeshes.Length; lod++)
+                {
+                    var mesh = new MeshInstance3D { Name = $"WinterBirch_LOD{lod}", Mesh = birchMeshes[lod], Scale = fit.Scale };
+                    if (lod == 2) mesh.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
+                    tree.AddChild(mesh);
+                    AgentBAct1ExteriorLayer.ConfigureFoliageRange(mesh, lod, false, fit.Height);
+                }
+                tree.SetMeta("sourceAsset", "winter.birch.meshy.v2");
+            }
+            else tree = (Node3D)template.Duplicate();
             tree.Name = $"PrologueForest_{layer}_{variant}_{index + 1:00}";
             tree.Position = new Vector3(position.X, groundY, position.Y);
             tree.RotationDegrees = new Vector3(0f, yawDegrees, 0f);

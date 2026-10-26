@@ -4815,6 +4815,32 @@
       "provenance": "game/assets/textures/photobook/p-water-front-v1.provenance.json",
       "sourceSha256": "4639cb04a15eff0bd98f9b63298e5d849d44e30eceba1b7621326311e12823b1",
       "derivedSha256": "9dab3cf3c3be43565310eb4443896bad43701102339409f0bc48c94e02fbec76"
+    },
+    {
+      "id": "winter.birch.meshy.v2",
+      "source": "assets/source/blender/act1/winter_birch_meshy_v2/winter-birch-v2.manifest.json",
+      "derived": "game/assets/models/act1/urman_winter_birch_meshy_v2.glb",
+      "generator": "Own-game reference → built-in image_gen targetedthreequarter → Meshy7.1/PBR+25Kremesh → Blender4.5.12 normalized sharedLOD+farimpostor",
+      "license": "Owner generated from own-game/ImageGen inputs under paid Meshy plan; subject to applicable Meshy terms, not CC0 or free-plan CCBY. Final rights acceptance remains open.",
+      "scale": 1.0,
+      "triangleBudget": 24730,
+      "textureBudget": 2048,
+      "materials": [
+        "Shared imported PBR OPAQUE, 2Kbase/1KnormalORM",
+        "Lit two-view faratlas MASK,1024x512; no emission/BLEND"
+      ],
+      "collision": "Visual family only; native rooted Geometry/LowVertices/stem collision and authored placements remain authoritative. One near-derived root-preserving fit for all3LODs.",
+      "lod": "LOD0 24730,LOD1 7999,LOD2 4 crosscards fromsamepreparednear; nativealiases1/2 and normalizedW01 sharedfamily.",
+      "status": "Sourcefront/side/threequarter and preparednear/mid/far rootreviewed. Game16.43s0/0, independentcode review noP1/P2; native de8 import/scene capturePASS exit0/userdataRestored. Motion/fullscale/art/performance pending.",
+      "releaseDisposition": "technical-integration-verified-full-art-motion-performance-rights-pending",
+      "provenanceGate": "Paid generated-output provenance recorded; VIS107 checker is FOSS-only, so paid licence coverage not verified and no external-provenance PASS claimed.",
+      "consumerPaths": [
+        "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+        "game/scripts/Act1ConnectedWorld.cs",
+        "game/scripts/photoworlds/W01Controller.cs"
+      ],
+      "sourceSha256": "3125fae0159fc410a639168a1d72db11e5d9121a824eb729408b732a50a96efc",
+      "derivedSha256": "b10cc1900d89a5259d55547e82641d7a443e125c5ed482c10ba056546889a28c"
     }
   ]
 }

@@ -93472,7 +93472,7 @@
       "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Контекстное обучение адресам, сравнению и языку по мере нужды",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -93603,13 +93603,13 @@
         "reason": "Живое исполнение этой единицы при миграции не подтверждено."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Новичок получает доступный следующий шаг из игры; подсказка не решает расследование за него, учитывает действующий binding и исчезает после освоения. Пропуск обучения не ломает маршрут.",
         "После skip, отвлечения и Continue после перерыва новый игрок восстанавливает текущий вопрос, известный источник и разумное место проверки без ответа разработчика. Ранний якорь различает декорацию/нехватку контекста/доступное действие; сначала проверить существующие hints и книгу, переделывать только подтверждённый тупик."
       ],
-      "next_action": "Контекстное обучение адресам, сравнению и языку по мере нужды.",
+      "next_action": "Использовать существующие mission/book/marker интерфейсы в оставшемся первом эпизоде и отдельной UXA-002 новичковой приёмке. Разрабатывать только установленный пробел, не создавать второй tutorial/цель поверх текущей projection.",
       "blocker": null,
       "external_gates": [
         {
@@ -93766,7 +93766,21 @@
           "evidence_ref": "ACT1-TUTORIAL.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "unassigned_explicit_not_active"
+      "assignment_state": "unassigned_explicit_not_active",
+      "current_mission_learning_2026_10_26": {
+        "state": "source_partial_existing_route_evidence",
+        "result": "Единая текущая задача/HUD/журнал/навигационный marker и реальные bindings реализованы; адрес школы/учительская и явная кнопка осмотра названы. Книжные действия указывают Журнал→Фотоальбом; школьное сравнение использует два реальных источника без новой викторины.",
+        "evidence": [
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/Act1DemoRoot.cs",
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/DocumentUi.cs",
+          "game/scripts/DocumentImageReader.cs",
+          "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e.zip",
+          "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip"
+        ],
+        "limits": "6832 подтверждает восстановленную школьную задачу после Continue;352d обычный school→copy→firstW01 наcd12. Более новый парныйreader/markers в игре не приняты; язык/освоение новичком/скрытие послеосвоения и полный DoD не доказаны. Не дублировать новую UI разработку или уже принятый setup ради проверки наличия текста."
+      }
     },
     {
       "id": "ACT1-PROGRESSION-DOORS",
@@ -117260,7 +117274,7 @@
         "Не создаются сотни уникальных текстур одинаковых досок.",
         "Уточнение автора 09.10.2026: материалы и растительные формы наружной деревни проверены в составе домов и окружения по выбранным автором скриншотам. Сопоставимы масштаб фактур, материальность дерева/земли/снега, объём и плотность растительности, свет и цветовые отношения. Новые текстуры поверх примитивных форм и отдельный образец материала не доказывают соответствие целой игровой сцены."
       ],
-      "next_action": "Deliver first whole generated conifer family matching owner-selected current housefront via dedicated source→image_gen→Meshy worker; then neighboring houses/outbuildings and fences/gates. Preserve useful current house, physics and performance. Full visual asset coverage remains PW093.",
+      "next_action": "Reuse deployed coniferV2 and newbirchV2 wholefamilies. Prioritize completed first-episode gameplay; next native movement may cover pending familyLOD/performance/style without repeating staticstill. Continue existing neighboring-house/outbuilding/fence queue only with named source gap and authorcap3490 remaining; do not regenerate accepted inputs blindly.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -145856,13 +145870,13 @@
         ],
         "budget": {
           "author_cap": 4000,
-          "actual_consumed": 505,
-          "remaining_author_cap": 3495,
+          "actual_consumed": 510,
+          "remaining_author_cap": 3490,
           "first_family_cap": 90,
           "first_family_consumed": 40,
           "active_task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
           "active_task_state": "SUCCEEDED, actual30credits",
-          "live_balance_observed": 3805,
+          "live_balance_observed": 3770,
           "balance_is_not_author_budget": true,
           "active_remesh_task_id": "01a153a5-6669-7608-af5d-4ac72650653d",
           "active_remesh_task_state": "SUCCEEDED, actual5credits",
@@ -145921,10 +145935,11 @@
           "prologue_branch_task_state": "SUCCEEDED100 actual10; root terminalreceipt and balance3805 verified; PBRsourceHOLD pale stone-like bark, no runtimepromotion",
           "prologue_branch_task_id": "01a16a54-4ed5-72da-9272-9bc8ef087354",
           "winter_birch_v2_cap": 35,
-          "winter_birch_v2_reserved": 5,
-          "winter_birch_v2_consumed": 30,
+          "winter_birch_v2_reserved": 0,
+          "winter_birch_v2_consumed": 35,
           "winter_birch_v2_task_id": "01a175ad-5bc0-7560-a1e0-1fcfbb0c46e5",
-          "winter_birch_v2_task_state": "IN_PROGRESS74; actual consumed30 confirmed status01; no remesh."
+          "winter_birch_v2_task_state": "RawSUCCEEDED30, remeshSUCCEEDED5 actual24730tri; prepared24730/7999/4 source accepted, runtimeintegration/nativepending.",
+          "winter_birch_v2_remesh_task_id": "01a175b9-840c-7357-bd85-03fb0586f8c1"
         },
         "current_artifact": "Babai side-gate literal8part96tri/2KgeneratedPBR integrated; sourceart+import/worldconstructionstrictbounds accepted, action/sceneview blocked byseparateglobalgorgeaudit. AS05birch frozenHOLD remainsno runtime; existing generatedconifers/hero house preserved.",
         "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
@@ -145942,12 +145957,12 @@
           "cleanup": "Removed four closed recreatable rejected binary intermediates, 20625548 bytes. Exact paths/hashes recorded in existing receipts; producer, both receipts, four actual renders and unique original Meshy GLB/ZIP retained. Raw prep stdout only exists in tool transcript, no fabricated logfile."
         },
         "winter_birch_family_2026_10_23": {
-          "state": "frozen_structural_hold_no_runtime_promotion",
+          "state": "v1_frozen_structural_hold; v2_integrated_native_context_technical_passed",
           "owner": "Sol6.1High dedicated Meshy asset worker; root ledger/runtime/Git",
           "scope": "One whole winter birch family candidate from existing WinterBirch_1/2 source with near/mid/far preparation; built-in image_gen reference, one Meshy7.1 textured model30 and only if needed inspected remesh5. Existing conifer/hero house preserved; no raw runtime promotion.",
           "budget_reconciliation": "GETbalance3855 monthly2705/permanent1150; preserved3975→3930 willow+neighbor45→3920fence10→3890H049single30→3855H049multiview+remesh35. Actual425/4000, remaining3575 before35reserve. Accountbalance does not expand ownercap. Old API tasks now404/listempty; receipts authoritative, do not repost.",
           "reason": "A complete visible winter tree family extends generated environment coverage; avoid spending this stage on H002 degenerate UV/normal microthreshold or repeat rejected H049/fence geometry.",
-          "next_action": "Do not retry AS05 without a new causal input. Dedicated Meshy pipeline may prepare another existing visible family; root chooses bounded source/consumer before new spend. Continue ordinary ActI gameplay work independently.",
+          "next_action": "Reuse current generated v2 birch, not planar v1. Next meaningful first-episode Windows movement can cover W01 birch/LOD/rooting, author style and sustainedcost; no standalone repeated still or newMeshyPOST without new defect.",
           "acceptance": "Source silhouette/root/trunk/finebranch suitability and materialfamily; then preparedLOD sizes/geometry. Actual native scene/motion/performance and fullPW093 author art gate remain mandatory/open.",
           "reference": "archived member input-winter-birch-v1.png in assets/source/blender/act1/winter_birch_meshy_v1/local-as05-source-attempts.tar.xz",
           "reference_sha256": "209a3868d6e551c8d0eb871a280b32ba78d7d2813edde28ca1114247f302e106",
@@ -145972,11 +145987,11 @@
             "total_net_bytes_reclaimed_including_archive_consolidation": 25162130
           },
           "new_attempt_2026_10_26": {
-            "state": "single_image_to_3d_in_progress",
+            "state": "finite_family_source_and_technical_integration_delivered",
             "owner": "/root/forest_asset_pipeline; root budget/Git/runtime",
             "cap": 35,
-            "spent": 30,
-            "reserved": 5,
+            "spent": 35,
+            "reserved": 0,
             "reason": "Verified raw crown depth/width .196; source lacks true3D form and cannot be repaired by decimation. Existing conifer V2 reused, no conifer POST.",
             "scope": "One own ImageGen reference from existing birch+accepted house style, one Meshy7.1 textured source30, at most one remesh5 only if useful; no blind retries. Candidate must show believable whole rounded airy crown in side/threequarter, trunk/base/scale and LOD readiness. No runtime promotion before root scene/source review.",
             "task_id": "01a175ad-5bc0-7560-a1e0-1fcfbb0c46e5",
@@ -145985,7 +146000,52 @@
             "root_reference_review": "Personally viewed base and targeted edit. Base remained front-like HOLD; one edited reference has foreshortened front fork and branches occluded by trunk, whole crown/top/base visible, compatible pale bark/thin snow. Approved one30credit geometry/PBR source only; true3D crown still to measure. No further image iterations.",
             "actual_cost_pending_terminal": false,
             "actual_cost": 30,
-            "status_receipt": "assets/source/blender/act1/winter_birch_meshy_v2/status-01.json"
+            "status_receipt": "assets/source/blender/act1/winter_birch_meshy_v2/status-01.json",
+            "source": "assets/source/blender/act1/winter_birch_meshy_v2/meshy71-birch-original.glb",
+            "source_sha256": "3618cb70c9bbe1e8568d014ea6429698e3d774a6bb75500ee64039b9e657349a",
+            "triangles": 2494420,
+            "crown_principal_extent_ratio": 0.677913,
+            "crown_PCA_sigma_ratio": 0.509235,
+            "exact_position_weld_component_fraction": 1.0,
+            "limits": "Static crown/trunk depth and connected source proven; anatomy/style/performance not proven. One necessary source front/side/3quarter preview allowed; remesh5 still conditional, no runtime promotion.",
+            "remesh_task_id": "01a175b9-840c-7357-bd85-03fb0586f8c1",
+            "derived": "game/assets/models/act1/urman_winter_birch_meshy_v2.glb",
+            "derived_sha256": "b10cc1900d89a5259d55547e82641d7a443e125c5ed482c10ba056546889a28c",
+            "lod_triangles": [
+              24730,
+              7999,
+              4
+            ],
+            "runtime_integration": "Existing AgentB provider all6nativealiases/sharednearfit and importedPBR; old Geometry/lowvertices/physicalcontacts remain authoritative. W01 uses same normalizedfamily/root-preserving nearfit and shared3LOD; oldplacement/phototableau/progress untouched.",
+            "source_gate": "Root personally viewed rawfront/side/threequarter and preparednear/midfront/side/faratlas; volume/root/materialcoherenceaccepted for one runtimecandidate. Thinendsangular, fullgameart/motion/performanceunaccepted.",
+            "verification": "AffectedGame16.43s0warnings/0errors; limitedindependentsourceprovider/W01reviewnoP1/P2. No tests/newfixtures. Nativeimportandscene notyetverified.",
+            "native_scene_question": {
+              "question": "Does new generated birch import and render at rooted authored dimensions in existing village composition, without provider/runtime errors?",
+              "success": "One existing protected Windows capture at known EastStreetSideClosureBirch(35,-1); verify importedmaterials/family/canonical placement and restored receipt. No claim of ordinary movement/performance/wholeActI.",
+              "points": "birch-family:Ground@46,4,7>Ground@35,3,-1",
+              "bounds": "One frame existing capture mode timeout300; no new probe/test/scene, no school/prologue replay; code/model frozen until result.",
+              "state": "completed_technical_frame_scope_only",
+              "job_id": "de8bcb03f2f14fca9ed5583db5fc3f4e",
+              "snapshot_id": "ccc635267e691fb89ad5f361865e2c790544436454596f06e2f95540e49ecabb",
+              "result": "PASS/exit0/userdataRestored=true/snapshot_hashes_verified; engine-errors empty. Root viewed one existing village composition; birches visible beside/behind houses, exacttarget partlyoccluded. Import/providerconstruction proven; not a full-tree/allLOD/ordinarymovement proof.",
+              "evidence": [
+                "evidence/PW-093/native_birch_de8bcb03f2f14fca9ed5583db5fc3f4e.zip",
+                "evidence/PW-093/native_birch_de8bcb03f2f14fca9ed5583db5fc3f4e/receipt.json"
+              ],
+              "single_frame_metrics": "Medium1920x1080 scale.90/MSAA2X/FOV75, drawCalls22724/frameMs48.3; individual capture sample, not sustainedperformance/comparablebeforeafter; finalperformance gate remains open.",
+              "shutdown_warning": "Same7TextureRIDwarning as prior352d; not proved a runtime leak and not repaired outsidethisscope."
+            },
+            "source_manifest": "assets/source/blender/act1/winter_birch_meshy_v2/winter-birch-v2.manifest.json",
+            "source_manifest_sha256": "3125fae0159fc410a639168a1d72db11e5d9121a824eb729408b732a50a96efc",
+            "raw_archive": {
+              "path": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+              "sha256": "732ac8bb1b80eca77f9dff0dfdd9568043209746f148a44631a955c5693fe552",
+              "bytes": 149456355,
+              "members": 33,
+              "verification": "Worker CRC+fullmemberSHA+bytecompare before deleting33extracted/duplicatefiles191913252bytes; canonicalb10 retained. Net freed≈42.46MB, unique sources preserved; archive kept local/untracked. Root removed verifiednativeextractduplicates2929923bytes; original nativeZIP+receipt retained."
+            },
+            "remaining": "ActualW01 route/motion/LOD, sustained performance, author style and paid-generated externallicence gate. Scope of full AS05 family (linden/rowan/willow) remains unchanged. No other paidcalls/sourcepolish.",
+            "source_verified": "Root actualfivepreparedviews+3rawviews, exactcanonicalSHA; provider/W01root/nearfit/collisionownership diffreview and independentboundedreview noP1/P2; Game16.43s0/0; exactoneWindowsimport/contextcapture. No newtests/fixtures/repeatedordinarysetup."
           }
         },
         "babai_side_gate_family_2026_10_23": {
@@ -164567,13 +164627,13 @@
     "credits": {
       "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 505,
-      "authorized_budget_remaining": 3495,
+      "agent_spent_after_purchase": 510,
+      "authorized_budget_remaining": 3490,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4100,
-      "balance_note": "PW093 actual505/4000 spent,3495 unspent,5 reserved for conditional AS05v2 remesh. New single task01a175ad-5bc0-7560-a1e0-1fcfbb0c46e5 statusIN_PROGRESS74 consumed30 confirmed. Latest accountGET3805 was before this task, do not treat as fresh after spend. No additionalPOST authorized before structural review.",
-      "latest_api_balance_observed": 3805,
-      "reserved_for_current_work": 5,
+      "balance_note": "PW093 actual510/4000 spent,3490remaining,reserve0; GET3770 monthly2620/permanent1150 rootconfirmed after raw30+remesh5. Onebirchfamily source+technicalintegration delivered; fullsceneart/motion/perf/rights remainopen. Existing coniferV2 reused, no coniferPOST.",
+      "latest_api_balance_observed": 3770,
+      "reserved_for_current_work": 0,
       "unreserved_author_budget": 3490
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
