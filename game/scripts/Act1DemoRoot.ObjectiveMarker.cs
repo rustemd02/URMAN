@@ -104,7 +104,8 @@ public partial class Act1DemoRoot
         var label = _objectiveMarkerLabel!;
         var name = string.IsNullOrWhiteSpace(mission.TargetLabel) ? mission.Title : mission.TargetLabel;
         var destination = target.GlobalPosition;
-        var waypoint = TryGetRootPassageObjectiveWaypoint(mission, bridge, player.GlobalPosition, out var routePoint, out var routeLabel)
+        var waypoint = TryGetRootPassageObjectiveWaypoint(mission, bridge, player.GlobalPosition,
+                out var routePoint, out var routeLabel, out var inspectionTarget)
             || TryGetSchoolObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel)
             || TryGetHomeObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel);
         if (waypoint)
@@ -118,8 +119,9 @@ public partial class Act1DemoRoot
         label.Size = new Vector2(labelWidth, 48f * scale);
         label.Position = new Vector2(-labelWidth / 2f, 18f * scale);
 
-        // Anchors describe feet-level destinations; interaction bodies already own their centre.
-        var worldPoint = destination + Vector3.Up * (!waypoint && target is InteractionTarget ? .65f : 1.5f);
+        // Observation subjects already contain their exact sight point; route anchors describe feet-level destinations.
+        var worldPoint = destination + Vector3.Up * (inspectionTarget ? 0f
+            : !waypoint && target is InteractionTarget ? .65f : 1.5f);
         var screenPoint = camera.UnprojectPosition(worldPoint);
         var centre = viewportSize / 2f;
         var inset = new Vector2(labelWidth / 2f + 24f, 64f * scale);
@@ -163,21 +165,29 @@ public partial class Act1DemoRoot
     }
 
     private bool TryGetRootPassageObjectiveWaypoint(PlayerMission mission, RuntimeBridge bridge, Vector3 playerPosition,
-        out Vector3 waypoint, out string label)
+        out Vector3 waypoint, out string label, out bool inspectionTarget)
     {
         waypoint = default;
         label = string.Empty;
+        inspectionTarget = false;
         if (mission.InteractionId != "urman.fullgame:interaction/pw-forest-photographer"
             || bridge.ActiveSceneId != "urman.fullgame:scene/pw-forest"
             || _main.GetNodeOrNull<W01Controller>("ZoneHost/W01") is not { } forest
             || !GodotObject.IsInstanceValid(forest) || !forest.IsInsideTree() || forest.IsQueuedForDeletion())
             return false;
 
-        var lookBack = forest.HasPendingRootPassageInspection(bridge.PhotoWorldPresentationIdentity);
+        var lookBack = forest.TryGetRootPassageInspectionTarget(bridge.PhotoWorldPresentationIdentity, out var subject);
         var anchor = forest.GetNodeOrNull<Node3D>(lookBack ? "Anchors/F13" : "Anchors/F12");
         if (!ObjectiveMarkerTargetAvailable(anchor, mission, endpoint: true)) return false;
-        label = lookBack ? "Три ствола за поворотом" : "Проход у корней";
-        if (!lookBack && forest.GetNodeOrNull<Node3D>("Anchors/F13") is { } returnAnchor
+        if (lookBack)
+        {
+            waypoint = subject;
+            label = "Осмотрите ствол";
+            inspectionTarget = true;
+            return true;
+        }
+        label = "Проход у корней";
+        if (forest.GetNodeOrNull<Node3D>("Anchors/F13") is { } returnAnchor
             && ObjectiveMarkerTargetAvailable(returnAnchor, mission, endpoint: true))
         {
             var position = new Vector2(playerPosition.X, playerPosition.Z);

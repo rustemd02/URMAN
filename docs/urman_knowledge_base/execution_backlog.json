@@ -124641,7 +124641,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Довести полный первый эпизод на изменённом sequential-inspection пути: после реального F13-crossing осмотреть3ствола обычными разными взглядами, затем встреча/сумка→F16→возврат→разговор дома. При следующей необходимой Windows-проверке проверять именно это изменение/результат, не наличие старых HUD/школы/F10; geometric visibility ещё не подтверждена, физику/факты вслепую не ослаблять.",
+      "next_action": "На изменённом W01 проверить конкретный результат: после реального F13-crossing marker ведёт по3оставшимся actualcontacts, последовательный осмотр→встреча/сумка→F16→возврат→дом. Не повторять прежний smoke школы/F10; setup не считать новой приёмкой. Отдельный обязательный остаток — непро́пущенный нормальный пролог/20секНива до дома. Геометрическая видимость/приятность и обязательные внешние гейты ещё открыты.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -125104,6 +125104,40 @@
         ],
         "verification": "Root review соседних callers/Arm/reset/reducer и независимый Luna source review. Условный committed-without-fact риск проверен по authored+compiled effect и синхронному ObserveFact reducer: текущий успешный контракт записывает fact в той же session, отдельный fallback не нужен. Affected Game compile16.52s,0warnings0errors. Новых tests/probes/игрового прогона нет.",
         "remaining": "Последовательный осмотр в движении, чистая видимость каждого ствола и полный W01→возврат→дом ещё не приняты. Новый код не является доказательством игровой приятности или релиза."
+      },
+      "readable_forest_result_2026_10_26": {
+        "result": "Существующий marker осмотра после F13 указывает на первый ещё не увиденный реальный lower-bole contact. После sighting переносится на следующий; новая панель/счётчик не добавлены. Три точные реплики связывают помощь с действующими предметами и завершают дома исходный поиск места.",
+        "cause": "F13 — seam SpatialLinkFrame, не центр группы. GLB direct children: frame[-5,0,0], реальные lower-bole bounds в среднем около8.1м от seam. Импортированные координаты берутся только через существующие runtime mesh.ToGlobal points, без ручного предположения о знаке Godot axes. Старый marker направлял взгляд в другое место.",
+        "targets": [
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/photoworlds/W01Controller.PassageObservation.cs",
+          "content/modules/urman-fullgame/definitions.json",
+          "game/content/urman.fullgame.compiled.v1.json"
+        ],
+        "invariants": [
+          "TryGetRootPassageInspectionTarget — passive provider из текущих earned-crossing/session/subjects/seen-bits; он не меняет прогресс и не вызывает dispatch.",
+          "F13 anchor availability и обычный F12/послеContinue reverse routing сохранены. Exact inspection point не получает обычный1.5м подъём наземного waypoint.",
+          "Во время active pending после всех3 marker держит последний subject до reducer. Reverse crossing очищает pending, поэтому возвращает обычный маршрут, уже earned reducer не отзывается.",
+          "Физика, тропа, availability/facts/reducer и порядок W01/W02 не меняются. Нет утверждения о новом свободном ракурсе или новом физическом затворе."
+        ],
+        "story_delta": {
+          "pw-dialogue-forest-shurale-d06-05": "Убрано ложное обещание непроходимой тропы. Итог просит снять ремень с неподвижного корня, пока Шурале держит отдельную рабочую ветку. Astra поймал первоначальное смешение двух props; исправлено до доставки.",
+          "pw-choice-first-world-home-forest-discovery": "Айдар отвечает на исходный поиск: берёза и перекладина найдены, затем рассказывает о помощи.",
+          "pw-dialogue-first-world-home-caption": "Әби узнаёт ту самую тропу/уже известный поворот, затем просит отметить встречу. Не добавлены новая семейная история, факт или безусловный следующий снимок."
+        },
+        "verification": "Root source/GLB/caller review, отдельный Luna geometry+projection review без defects, Astra bounded experience+canon review; найденное смешениеprops исправлено. Affected Game compile16.91s,0warnings0errors. ContentCli compile urman.fullgame exit0; diff содержит только3textkeys и необходимые module/fingerprint hashes. git diff --check и tracker validate. Новых game/tests/probes нет.",
+        "remaining": "Marker в движении и фактическая видимость каждого contact, полный W01→встреча/сумка→F16→возврат→дом остаются непроверенными. Никакого PASS всего эпизода или художественной/культурной/языковой/слуховой/новичковой приёмки."
+      },
+      "prologue_source_followup_2026_10_26": {
+        "result": "Luna bounded source review обычного F01→F03→arrival→20сек passenger drive→D00 exit→home не установил production-разрыв. PhotoWorld route использует UpdatePhotoNivaArrival, не legacy ride; same-session arrival starts drive, диалоги идут после поездки, reducer stop возвращает Home.",
+        "bounds": "Автор требует саму поездку и целый пролог, но не задавал перестановку диалога перед поездкой. Поэтому отличие fullgame/legacy порядка не объявлено дефектом. Delta clamp гипотеза ранее исключена.",
+        "remaining": "Непропущенное движение Нивы и actual normal F01/F03 route→home остаются runtime-вопросом. Последние setup skip не заменяют такую приёмку.",
+        "targets": [
+          "game/scripts/Act1DemoRoot.PrologueNivaRide.cs",
+          "game/scripts/Act1DemoRoot.PhotoNivaDrive.cs",
+          "game/scripts/photoworlds/W01Controller.PrologueExit.cs",
+          "game/scripts/Main.cs"
+        ]
       }
     },
     {
@@ -150703,7 +150737,7 @@
               "Новое парное сравнение и школьный outbound marker не приняты визуально/в движении; учитывать в следующем содержательном эпизоде без отдельного повторного smoke.",
               "Авторская и новичковая оценка интереса/ясности остаётся отдельной обязательной приёмкой."
             ],
-            "next_action": "Довести полный первый эпизод на изменённом sequential-inspection пути: после реального F13-crossing осмотреть3ствола обычными разными взглядами, затем встреча/сумка→F16→возврат→разговор дома. При следующей необходимой Windows-проверке проверять именно это изменение/результат, не наличие старых HUD/школы/F10; geometric visibility ещё не подтверждена, физику/факты вслепую не ослаблять.",
+            "next_action": "На изменённом W01 проверить конкретный результат: после реального F13-crossing marker ведёт по3оставшимся actualcontacts, последовательный осмотр→встреча/сумка→F16→возврат→дом. Не повторять прежний smoke школы/F10; setup не считать новой приёмкой. Отдельный обязательный остаток — непро́пущенный нормальный пролог/20секНива до дома. Геометрическая видимость/приятность и обязательные внешние гейты ещё открыты.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -150951,6 +150985,40 @@
               ],
               "verification": "Root review соседних callers/Arm/reset/reducer и независимый Luna source review. Условный committed-without-fact риск проверен по authored+compiled effect и синхронному ObserveFact reducer: текущий успешный контракт записывает fact в той же session, отдельный fallback не нужен. Affected Game compile16.52s,0warnings0errors. Новых tests/probes/игрового прогона нет.",
               "remaining": "Последовательный осмотр в движении, чистая видимость каждого ствола и полный W01→возврат→дом ещё не приняты. Новый код не является доказательством игровой приятности или релиза."
+            },
+            "readable_forest_result_2026_10_26": {
+              "result": "Существующий marker осмотра после F13 указывает на первый ещё не увиденный реальный lower-bole contact. После sighting переносится на следующий; новая панель/счётчик не добавлены. Три точные реплики связывают помощь с действующими предметами и завершают дома исходный поиск места.",
+              "cause": "F13 — seam SpatialLinkFrame, не центр группы. GLB direct children: frame[-5,0,0], реальные lower-bole bounds в среднем около8.1м от seam. Импортированные координаты берутся только через существующие runtime mesh.ToGlobal points, без ручного предположения о знаке Godot axes. Старый marker направлял взгляд в другое место.",
+              "targets": [
+                "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+                "game/scripts/photoworlds/W01Controller.PassageObservation.cs",
+                "content/modules/urman-fullgame/definitions.json",
+                "game/content/urman.fullgame.compiled.v1.json"
+              ],
+              "invariants": [
+                "TryGetRootPassageInspectionTarget — passive provider из текущих earned-crossing/session/subjects/seen-bits; он не меняет прогресс и не вызывает dispatch.",
+                "F13 anchor availability и обычный F12/послеContinue reverse routing сохранены. Exact inspection point не получает обычный1.5м подъём наземного waypoint.",
+                "Во время active pending после всех3 marker держит последний subject до reducer. Reverse crossing очищает pending, поэтому возвращает обычный маршрут, уже earned reducer не отзывается.",
+                "Физика, тропа, availability/facts/reducer и порядок W01/W02 не меняются. Нет утверждения о новом свободном ракурсе или новом физическом затворе."
+              ],
+              "story_delta": {
+                "pw-dialogue-forest-shurale-d06-05": "Убрано ложное обещание непроходимой тропы. Итог просит снять ремень с неподвижного корня, пока Шурале держит отдельную рабочую ветку. Astra поймал первоначальное смешение двух props; исправлено до доставки.",
+                "pw-choice-first-world-home-forest-discovery": "Айдар отвечает на исходный поиск: берёза и перекладина найдены, затем рассказывает о помощи.",
+                "pw-dialogue-first-world-home-caption": "Әби узнаёт ту самую тропу/уже известный поворот, затем просит отметить встречу. Не добавлены новая семейная история, факт или безусловный следующий снимок."
+              },
+              "verification": "Root source/GLB/caller review, отдельный Luna geometry+projection review без defects, Astra bounded experience+canon review; найденное смешениеprops исправлено. Affected Game compile16.91s,0warnings0errors. ContentCli compile urman.fullgame exit0; diff содержит только3textkeys и необходимые module/fingerprint hashes. git diff --check и tracker validate. Новых game/tests/probes нет.",
+              "remaining": "Marker в движении и фактическая видимость каждого contact, полный W01→встреча/сумка→F16→возврат→дом остаются непроверенными. Никакого PASS всего эпизода или художественной/культурной/языковой/слуховой/новичковой приёмки."
+            },
+            "prologue_source_followup_2026_10_26": {
+              "result": "Luna bounded source review обычного F01→F03→arrival→20сек passenger drive→D00 exit→home не установил production-разрыв. PhotoWorld route использует UpdatePhotoNivaArrival, не legacy ride; same-session arrival starts drive, диалоги идут после поездки, reducer stop возвращает Home.",
+              "bounds": "Автор требует саму поездку и целый пролог, но не задавал перестановку диалога перед поездкой. Поэтому отличие fullgame/legacy порядка не объявлено дефектом. Delta clamp гипотеза ранее исключена.",
+              "remaining": "Непропущенное движение Нивы и actual normal F01/F03 route→home остаются runtime-вопросом. Последние setup skip не заменяют такую приёмку.",
+              "targets": [
+                "game/scripts/Act1DemoRoot.PrologueNivaRide.cs",
+                "game/scripts/Act1DemoRoot.PhotoNivaDrive.cs",
+                "game/scripts/photoworlds/W01Controller.PrologueExit.cs",
+                "game/scripts/Main.cs"
+              ]
             }
           },
           {

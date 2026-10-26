@@ -18,13 +18,28 @@ public partial class W01Controller
     private Vector3 _rootPassageObservationFailedPosition;
     private Vector3 _rootPassageObservationFailedForward;
 
-    /// <summary>Reads the live traversal proof; it never records campaign progress.</summary>
-    internal bool HasPendingRootPassageInspection(object? identity) =>
-        identity is not null && _rootPassageEnabled && _rootPassageObservedExitSide != 0f
-        && ReferenceEquals(_rootPassageSessionIdentity, identity)
-        && _bridge is { } bridge && IsValidCurrentBridge(bridge)
-        && bridge.ActiveSceneId == ForestSceneId
-        && ReferenceEquals(bridge.PhotoWorldPresentationIdentity, identity);
+    /// <summary>Projects the next real subject from live traversal proof without recording progress.</summary>
+    internal bool TryGetRootPassageInspectionTarget(object? identity, out Vector3 point)
+    {
+        point = default;
+        if (identity is null || !_rootPassageEnabled || _rootPassageObservedExitSide == 0f
+            || !ReferenceEquals(_rootPassageSessionIdentity, identity)
+            || _bridge is not { } bridge || !IsValidCurrentBridge(bridge)
+            || bridge.ActiveSceneId != ForestSceneId
+            || !ReferenceEquals(bridge.PhotoWorldPresentationIdentity, identity)
+            || _rootPassageObservationSubjects.Length != 3)
+            return false;
+
+        // Keep the last subject while its earned dispatch finishes, rather than pointing back into the passage.
+        point = _rootPassageObservationSubjects[^1].Point;
+        for (var index = 0; index < _rootPassageObservationSubjects.Length; index++)
+        {
+            if ((_rootPassageSeenSubjects & (1 << index)) != 0) continue;
+            point = _rootPassageObservationSubjects[index].Point;
+            break;
+        }
+        return true;
+    }
 
     private void BuildRootPassageObservationSubjects()
     {
