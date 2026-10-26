@@ -104846,6 +104846,16 @@
         ],
         "verification": "Two independent source reviews: bag action/return chain and optional-dialogue repeat; ContentCli succeeded, affected Game compile 17.07s zero warnings/errors. Current saved values unchanged and explicit fingerprint compatibility added. Game, physical movement and actual scene presentation remain unverified.",
         "remaining": "Ordinary first episode, save/continue and external author/cultural acceptance."
+      },
+      "first_episode_family_purpose_2026_10_26": {
+        "result": "The tea conversation makes the first excursion’s family purpose explicit: compare the school copy, find the place, show it to abi and complete the caption. At school Aidar states why he wants the copy. Three existing dialogue texts only; no new story facts, gates, effects or forced branch order.",
+        "evidence": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/content/urman.fullgame.compiled.v1.json",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+        ],
+        "verification": "Independent narrative review confirms the promised home result exists and the lines agree with canon. ContentCli succeeded, affected Game compile 18.36s zero warnings/errors, exact prior save fingerprint pairs included; no game/test run.",
+        "remaining": "Ordinary first episode, delivery of the lines and full Act I gameplay/cultural/author acceptance remain unverified."
       }
     },
     {

@@ -49,6 +49,8 @@ public partial class RuntimeBridge
         "69cd30fe6a3bd2175deca4eb08910047df79ddac38637d9b05c6997984f156b0";
     private const string FullGameForestAccountFingerprint =
         "4f6637ef1dfa32ca3901ff203df239f2372438788a7a59741c147d50adbea3f8";
+    private const string FullGameFamilyPurposeFingerprint =
+        "eaf6dfe0f2e40408ad62d5a0c690b86abcd771136818f91fd5af4b923939a236";
 
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
@@ -154,7 +156,19 @@ public partial class RuntimeBridge
         new(FullGameWaterHomeAccountFingerprint, FullGameForestAccountFingerprint),
         new(FullGameShuraleReplyTextFingerprint, FullGameForestAccountFingerprint),
         new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
-            FullGameForestAccountFingerprint)
+            FullGameForestAccountFingerprint),
+        // Three dialogue texts clarify the existing family objective; saved state is unchanged.
+        new(FullGameForestAccountFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameFamilyPurposeFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameFamilyPurposeFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -177,7 +191,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGamePhotographerReadingFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameCommonVisitGateFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAlsuMeetingGateFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameForestAccountFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameForestAccountFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameFamilyPurposeFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }
