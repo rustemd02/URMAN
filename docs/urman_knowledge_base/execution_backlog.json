@@ -108465,6 +108465,16 @@
           "game/content/urman.fullgame.compiled.v1.json"
         ],
         "verification": "Two independent source audits of W01 return and home dialogue; ContentCli build 0 warnings/errors and targeted urman.fullgame content compile. Native dialogue and complete first episode remain unverified."
+      },
+      "first_episode_family_motive_2026_10_27": {
+        "result": "Existing family, school, W01 and home dialogue now share a concrete motive: help Gөлсинә recognise the place on a family photograph; the school image shows the same people from another side; recognised trees, crossing the edge of the image, encounter and a remembered place lead back to a family record. The grandmother reacts to the mention of Shurale before suggesting the courtyard photo. No new facts, gates, dialogue graph or state migration; home lines do not assume the optional D07 response was heard.",
+        "evidence": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/content/urman.fullgame.compiled.v1.json",
+          "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json"
+        ],
+        "verification": "Independent Astra source review of canon, gates and optional D07, separate text implementation review; ContentCli build 0 warnings/errors and compile urman.fullgame. Actual pacing, performance and authored/cultural acceptance remain open.",
+        "remaining": "Ordinary school → W01 → home full gameplay and author/cultural acceptance."
       }
     },
     {
