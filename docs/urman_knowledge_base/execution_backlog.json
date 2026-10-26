@@ -104856,6 +104856,10 @@
         ],
         "verification": "Independent narrative review confirms the promised home result exists and the lines agree with canon. ContentCli succeeded, affected Game compile 18.36s zero warnings/errors, exact prior save fingerprint pairs included; no game/test run.",
         "remaining": "Ordinary first episode, delivery of the lines and full Act I gameplay/cultural/author acceptance remain unverified."
+      },
+      "water_first_branch_2026_10_26": {
+        "result": "W02-first now proposes the existing present-day bank comparison after the home account, without overriding genuinely started other photo routes or auto-confirming evidence. See PW-054.water_home_outside_followup_2026_10_26.",
+        "remaining": "Runtime first episode and author/cultural acceptance remain open."
       }
     },
     {
@@ -129889,6 +129893,18 @@
         "result": "W02 encounter instruction теперь полная: поднять/вернуть дощечку и посмотреть на воду. HUD и3уровень добровольной подсказки используют одну константу. После отключения target marker держится на видимой FarPierLooseBoard у настоящего конца(33.4,83.9), не R06(48,83) дальше8мотфигуры. Девять инструкций вклейки/оборота называют реальную выбранную карточку черезphoto.Title и точную существующую кнопку, не изменяют ручной выбор/прогресс.",
         "verification": "Два bounded source исследования, root проверил W02 phase/board visibility/8m observation и кнопки/обработчики/guards книги. Game affected compile17.83s exit0,0warnings,0errors. Новых тестов/probes не создавали; W02 runtime не наблюдался.",
         "remaining": "Обычный W02 и физическая книга/авторское ощущение ещё не приняты."
+      },
+      "water_home_outside_followup_2026_10_26": {
+        "result": "After a water-first W02 and its home account, the HUD offers existing outside bank evidence immediately (shore → council plan → winter piles → comparison), then returns to the existing next photo choice. No evidence or actions are granted automatically. School-copy/visited W01 and found/acquired/visited W03 preserve already-started routes; completed W01/W03 and the promised courtyard photographer retain prior priority.",
+        "navigation": "For the bank plan/copy, the HUD can show the council destination before the interaction is physically enabled; it routes through authored entrance and office doors with collision-shape/player-radius derived wall clearance. Missing route geometry suppresses the arrow instead of pointing through a wall. Physical interaction, LOS and distance gates are unchanged.",
+        "evidence": [
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/Act1ConnectedWorld.PublicBuildings.cs",
+          "game/scripts/CouncilPhotoCopyPresence.cs"
+        ],
+        "verification": "Independent source reviews checked source availability, quest order and persisted-state use; iterative geometry review corrected wall cuts and approach-line oscillation. Affected Game compile 15.60s, 0 warnings/errors. No gameplay/tests; actual access, cue behavior and whole-episode satisfaction remain unverified.",
+        "remaining": "Necessary protected Windows playthrough, route/movement/marker and Save/Continue validation; full Act I and external gates remain open."
       }
     },
     {
@@ -148887,7 +148903,8 @@
         "target_sha256": "65d43a124c6576a3e62ed92e5ce93a5da2a83cc8c2f4636f891419ea8f754636",
         "next": "For the next necessary Windows acceptance, use an explicitly verified installation route accounting for Task Scheduler Ready and enforce markers/rollback; do not repeat the silent heredoc. Prioritize independent game implementation in the meantime.",
         "remaining": "Godot import/scene startup, visual fit and full first episode remain unverified.",
-        "followup": "Read-only analysis found the planned script incorrectly expected Task Scheduler Stopped instead of Ready; silent heredoc cause not established. Encoded-command alternative was not sent; preparation stopped, local and remote staging removed after exact SHA, worker/target unchanged, doctor ready idle no orphan/recovery."
+        "followup": "Read-only analysis found the planned script incorrectly expected Task Scheduler Stopped instead of Ready; silent heredoc cause not established. Encoded-command alternative was not sent; preparation stopped, local and remote staging removed after exact SHA, worker/target unchanged, doctor ready idle no orphan/recovery.",
+        "later_preflight": "Alternate encoded-command was not sent: proposed command was 13824 characters, exceeding Windows cmd.exe 8191 limit. Both staged copies were SHA-verified and deleted; target and worker unchanged; doctor ready/idle, no orphan/recovery. Do not retry the oversized command."
       }
     },
     {

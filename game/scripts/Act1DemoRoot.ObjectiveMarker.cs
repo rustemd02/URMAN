@@ -11,6 +11,10 @@ public partial class Act1DemoRoot
     private const string ForestGroupObservationInteractionId = "urman.fullgame:interaction/pw-forest-group";
     private const string ForestBeyondFrameInteractionId = "urman.fullgame:interaction/pw-forest-photographer";
     private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
+    private const string BankSceneId = "urman.fullgame:scene/pw-bank-approach";
+    private const string BankCopySourceInteractionId = "urman.fullgame:interaction/pw-bank-copy-source";
+    private const string BankCopyPermissionInteractionId = "urman.fullgame:interaction/pw-bank-copy-permission";
+    private const string CouncilOfficeDoorInteractionId = "urman.chapter1:local/council/office";
     private static readonly Vector2[] ObjectiveDiamond = [new(0, -14), new(11, 0), new(0, 14), new(-11, 0)];
     private static readonly Vector2[] ObjectiveArrow = [new(0, -16), new(13, 13), new(0, 6), new(-13, 13)];
     private static readonly Lazy<IReadOnlyList<Vector2>> HomeObjectiveRoute = new(() => Array.AsReadOnly(
@@ -113,9 +117,23 @@ public partial class Act1DemoRoot
         var name = string.IsNullOrWhiteSpace(mission.TargetLabel) ? mission.Title : mission.TargetLabel;
         var destination = target.GlobalPosition;
         var waypoint = TryGetRootPassageObjectiveWaypoint(mission, bridge, player.GlobalPosition,
-                out var routePoint, out var routeLabel, out var inspectionTarget)
-            || TryGetSchoolObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel)
-            || TryGetHomeObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel);
+            out var routePoint, out var routeLabel, out var inspectionTarget);
+        if (!waypoint)
+        {
+            waypoint = TryGetPublicBuildingObjectiveWaypoint(mission, player.GlobalPosition, player.BodyRadius,
+                out routePoint, out routeLabel);
+            if (!waypoint && mission.InteractionId is BankCopySourceInteractionId or BankCopyPermissionInteractionId
+                && bridge.ActiveSceneId == BankSceneId && bridge.CurrentZoneId == "village_day")
+            {
+                // Never fall back to a straight marker through the council walls
+                // if an authored approach or office waypoint cannot be resolved.
+                HideObjectiveMarker();
+                return;
+            }
+            waypoint = waypoint
+                || TryGetSchoolObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel)
+                || TryGetHomeObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel);
+        }
         if (waypoint)
         {
             destination = routePoint;
@@ -320,6 +338,170 @@ public partial class Act1DemoRoot
         return true;
     }
 
+    private bool TryGetPublicBuildingObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition,
+        float playerRadius, out Vector3 waypoint, out string label)
+    {
+        waypoint = default;
+        label = string.Empty;
+        if (mission.InteractionId is not (BankCopySourceInteractionId or BankCopyPermissionInteractionId)
+            || _bridge is not { } bridge || bridge.ActiveSceneId != BankSceneId || bridge.CurrentZoneId != "village_day"
+            || _objectiveMarkerTarget is not { } target || !IsCouncilBankNavigationTarget(target, mission)
+            || _main.ConnectedWorld is not { } world)
+            return false;
+
+        Act1ConnectedWorld.PublicBuildingRoom? council = null;
+        foreach (var room in world.PublicBuildingRooms)
+        {
+            if (room.Id != "council") continue;
+            council = room;
+            break;
+        }
+        if (council is null || !world.IsAncestorOf(council.Building)) return false;
+
+        var playerPlanar = new Vector2(playerPosition.X, playerPosition.Z);
+        var interior = world.PublicInteriorAt(playerPosition);
+        if (interior != council.Id)
+        {
+            var approach = new Vector2(council.Outside.X, council.Outside.Z);
+            var entrance = new Vector2(council.Entrance.X, council.Entrance.Z);
+            var approachDistance = approach.DistanceTo(entrance);
+            if (playerPlanar.DistanceTo(approach) > approachDistance)
+            {
+                waypoint = council.Outside;
+                label = "Сельсовет";
+            }
+            else
+            {
+                waypoint = council.OuterDoor.GlobalPosition;
+                label = "Вход в сельсовет";
+            }
+            return true;
+        }
+
+        if (council.SeniVolume.HasPoint(council.Metric.ToLocal(playerPosition)))
+        {
+            var vestibule = new Vector2(council.Vestibule.X, council.Vestibule.Z);
+            var inside = new Vector2(council.Inside.X, council.Inside.Z);
+            if (playerPlanar.DistanceTo(vestibule) > vestibule.DistanceTo(inside))
+            {
+                waypoint = council.Vestibule;
+                label = "Входной проход";
+            }
+            else
+            {
+                waypoint = council.InnerDoor.GlobalPosition;
+                label = "Дверь в зал";
+            }
+            return true;
+        }
+
+        if (_objectiveMarkerTarget is InteractionTarget { PresentationEnabled: false })
+        {
+            var sidePartition = council.Room.GetNodeOrNull<StaticBody3D>("OfficeSidePartitionBody");
+            var sideShape = sidePartition?.GetNodeOrNull<CollisionShape3D>("Contact");
+            StaticBody3D? frontPier = null;
+            CollisionShape3D? frontShape = null;
+            var doorFrame = council.Room.GetNodeOrNull<Node3D>("CouncilOfficeFrame");
+            if (doorFrame is null) return false;
+            var frameRoomX = council.Room.ToLocal(doorFrame.GlobalPosition).X;
+            var openingLeft = float.NegativeInfinity;
+            var openingRight = float.PositiveInfinity;
+            var foundLeftPier = false;
+            var foundRightPier = false;
+            foreach (var child in council.Room.GetChildren())
+            {
+                if (child is StaticBody3D body
+                    && body.Name.ToString().StartsWith("OfficeFrontPier", StringComparison.Ordinal))
+                {
+                    var contact = body.GetNodeOrNull<CollisionShape3D>("Contact");
+                    if (contact?.Shape is not BoxShape3D pierBox) return false;
+                    frontPier ??= body;
+                    frontShape ??= contact;
+                    var pierCenterX = council.Room.ToLocal(contact.GlobalPosition).X;
+                    var pierHalfWidth = pierBox.Size.X * .5f;
+                    var pierLeft = pierCenterX - pierHalfWidth;
+                    var pierRight = pierCenterX + pierHalfWidth;
+                    if (pierRight <= frameRoomX)
+                    {
+                        openingLeft = Mathf.Max(openingLeft, pierRight);
+                        foundLeftPier = true;
+                    }
+                    else if (pierLeft >= frameRoomX)
+                    {
+                        openingRight = Mathf.Min(openingRight, pierLeft);
+                        foundRightPier = true;
+                    }
+                }
+            }
+            var desk = council.Room.GetNodeOrNull<Node3D>("CouncilDesk");
+            if (sidePartition is null || sideShape is null || sideShape.Shape is not BoxShape3D sideBox
+                || frontPier is null || frontShape is null || frontShape.Shape is not BoxShape3D frontBox
+                || !foundLeftPier || !foundRightPier || openingLeft >= frameRoomX || openingRight <= frameRoomX
+                || desk is null)
+                return false;
+
+            var sidePlayer = sideShape.ToLocal(playerPosition);
+            var sideDesk = sideShape.ToLocal(desk.GlobalPosition);
+            var frontPlayer = frontShape.ToLocal(playerPosition);
+            var frontDesk = frontShape.ToLocal(desk.GlobalPosition);
+            if (Mathf.IsZeroApprox(sideDesk.X) || Mathf.IsZeroApprox(frontDesk.Z)) return false;
+            var insideOffice = sidePlayer.X * Mathf.Sign(sideDesk.X) > sideBox.Size.X * .5f
+                && frontPlayer.Z * Mathf.Sign(frontDesk.Z) > frontBox.Size.Z * .5f;
+            if (!insideOffice)
+            {
+                var officeDoor = world.GetZoneInstance("village_day")?.GetNodeOrNull<InteractionTarget>("CouncilOfficeDoorUse");
+                if (officeDoor is null || !GodotObject.IsInstanceValid(officeDoor) || !officeDoor.IsInsideTree()
+                    || officeDoor.IsQueuedForDeletion() || officeDoor.InteractionId != CouncilOfficeDoorInteractionId
+                    || !ObjectiveMarkerTargetVisible(officeDoor))
+                    return false;
+
+                var hallSideX = -Mathf.Sign(sideDesk.X);
+                var hallSideZ = -Mathf.Sign(frontDesk.Z);
+                var frontEndZ = sideShape.ToLocal(frontPier.GlobalPosition).Z;
+                const float routeMargin = .05f;
+                var frontWallClearance = frontBox.Size.Z * .5f + playerRadius + routeMargin;
+                var behindPartitionEnd = (sidePlayer.Z - frontEndZ) * hallSideZ < frontWallClearance - .02f;
+                var onHallSide = sidePlayer.X * hallSideX > sideBox.Size.X * .5f;
+                if (onHallSide && behindPartitionEnd)
+                {
+                    var detour = sideShape.ToGlobal(new Vector3(
+                        hallSideX * (sideBox.Size.X * .5f + playerRadius + routeMargin), 0,
+                        frontEndZ + hallSideZ * frontWallClearance));
+                    var roomPoint = council.Room.ToLocal(detour);
+                    roomPoint.Y = council.Room.ToLocal(council.Inside).Y;
+                    waypoint = council.Room.ToGlobal(roomPoint);
+                    label = "Обойдите перегородку";
+                    return true;
+                }
+
+                var frameInFrontWall = frontShape.ToLocal(doorFrame.GlobalPosition);
+                var insideHeightInFrontWall = frontShape.ToLocal(council.Inside).Y;
+                var doorwayApproach = frontShape.ToGlobal(new Vector3(frameInFrontWall.X, insideHeightInFrontWall,
+                    hallSideZ * frontWallClearance));
+                var safeStripLeft = openingLeft + playerRadius + routeMargin;
+                var safeStripRight = openingRight - playerRadius - routeMargin;
+                if (safeStripLeft >= safeStripRight) return false;
+                var playerInRoom = council.Room.ToLocal(playerPosition);
+                var inSafeDoorwayStrip = playerInRoom.X >= safeStripLeft && playerInRoom.X <= safeStripRight;
+                var approachSideDistance = (frontPlayer.Z - hallSideZ * frontWallClearance) * hallSideZ;
+                if (!inSafeDoorwayStrip || approachSideDistance > -.02f)
+                {
+                    waypoint = doorwayApproach;
+                    label = "Подойдите к проёму";
+                    return true;
+                }
+
+                waypoint = officeDoor.GlobalPosition;
+                label = "Дверь в кабинет";
+                return true;
+            }
+        }
+
+        waypoint = target.GlobalPosition;
+        label = string.IsNullOrWhiteSpace(mission.TargetLabel) ? "Схема на столе" : mission.TargetLabel;
+        return true;
+    }
+
     private bool TryGetHomeObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition,
         out Vector3 waypoint, out string label)
     {
@@ -451,10 +633,27 @@ public partial class Act1DemoRoot
     {
         if (target is null || !GodotObject.IsInstanceValid(target) || target.IsQueuedForDeletion()
             || !target.IsInsideTree() || !ObjectiveMarkerTargetVisible(target) || !_main.IsAncestorOf(target)) return false;
-        if (target is InteractionTarget { PresentationEnabled: false }) return false;
+        if (target is InteractionTarget { PresentationEnabled: false }
+            && !IsCouncilBankNavigationTarget(target, mission)) return false;
         // The mission owns semantic unlocks; proximity/aim gates must not hide a known destination.
         return endpoint || string.IsNullOrWhiteSpace(mission.InteractionId)
             || target is InteractionTarget interaction && interaction.InteractionId == mission.InteractionId;
+    }
+
+    private bool IsCouncilBankNavigationTarget(Node3D target, PlayerMission mission)
+    {
+        if (target is not InteractionTarget interaction || !GodotObject.IsInstanceValid(interaction)
+            || interaction.InteractionId != mission.InteractionId
+            || mission.InteractionId is not (BankCopySourceInteractionId or BankCopyPermissionInteractionId)
+            || !interaction.IsInsideTree() || interaction.IsQueuedForDeletion()
+            || _bridge is not { } bridge || bridge.ActiveSceneId != BankSceneId || bridge.CurrentZoneId != "village_day"
+            || !GodotObject.IsInstanceValid(_main) || !_main.IsInsideTree()
+            || _main.ConnectedWorld is not { } world || !world.IsAncestorOf(interaction))
+            return false;
+
+        foreach (var room in world.PublicBuildingRooms)
+            if (room.Id == "council" && room.Building.IsAncestorOf(interaction)) return true;
+        return false;
     }
 
     private static bool ObjectiveMarkerTargetVisible(Node3D target)

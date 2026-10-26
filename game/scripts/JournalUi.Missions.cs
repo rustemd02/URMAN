@@ -111,6 +111,17 @@ public partial class JournalUi
             return PhotoBookWaterMission(bridge, requireFirstWorldHomeTalk: forestQuestStatus == "completed");
         if (selectedForestPhotoCanResume || (!selectedForestPhotoIsIncomplete && forestObjectiveIsActive))
             return ForestEntryMission(bridge, forestPhoto?.HasResumePoint == true);
+        // The family forest print is present from the beginning; only the
+        // school copy or an actual visit means the player started this route.
+        var forestStarted = forestQuestStatus == "completed" || forestObjectiveIsActive
+            || bridge.PhotoWorldFactObserved("school_copy_identified") || schoolPhoto is not null
+            || MissionWorldVisited(state, "W01");
+        var houseStarted = houseQuestStatus == "completed" || houseObjectiveIsActive
+            || bridge.PhotoWorldFactObserved("house_print_found")
+            || photos.Any(photo => photo.PhotoId == "P-HOUSE") || MissionWorldVisited(state, "W03");
+        if (!selectedForestPhotoIsIncomplete && waterQuestStatus == "completed" && !houseStarted
+            && forestQuestStatus != "completed" && forestStarted)
+            return PhotoBookForestMission(bridge);
         // The courtyard visit ends with a question about its photographer.
         // Complete that question while it is fresh, unless the player has
         // already begun checking the river or its outside evidence.
@@ -122,6 +133,12 @@ public partial class JournalUi
             && (waterQuestStatus == "completed" || (!waterObjectiveIsActive && !waterRouteHasProgress))
             && (!bankEvidenceStarted || MissionEvidenceConfirmed(state, "E-BANK-OUTSIDE")))
             return PhotographerEvidenceMission(bridge);
+        // After the water-first home account, verify the old bank in today's
+        // village before suggesting a new photograph. Other started routes keep priority.
+        if (!selectedForestPhotoIsIncomplete && waterQuestStatus == "completed"
+            && MissionKnowledgeConfirmed(state, "urman.fullgame:knowledge/pw-water-home-account")
+            && !forestStarted && !houseStarted && !MissionEvidenceConfirmed(state, "E-BANK-OUTSIDE"))
+            return BankEvidenceMission(bridge);
         if (!selectedForestPhotoIsIncomplete && houseQuestStatus == "completed"
             && forestQuestStatus == "completed" && waterQuestStatus == "completed")
             return LaterCampaignMission(bridge);
@@ -139,6 +156,14 @@ public partial class JournalUi
             return PhotoBookHouseMission(bridge);
         if (!selectedForestPhotoIsIncomplete && forestQuestStatus == "completed")
             return PhotoBookWaterMission(bridge);
+        return PhotoBookForestMission(bridge);
+    }
+
+    private static PlayerMission? PhotoBookForestMission(RuntimeBridge bridge)
+    {
+        var photos = bridge.PhotoBookPhotos();
+        var forestPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-FOREST");
+        var schoolPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "S-SCHOOL");
         if (forestPhoto is null) return null;
         if (schoolPhoto is null)
             return bridge.PhotoWorldFactObserved("school_copy_identified")
@@ -374,6 +399,9 @@ public partial class JournalUi
 
     private static bool MissionEvidenceConfirmed(JsonElement state, string evidenceId) =>
         PhotoWorldState.EvaluateCondition(JsonSerializer.SerializeToElement(new { op = "photoworlds.evidence.confirmed", evidenceId }), state);
+
+    private static bool MissionWorldVisited(JsonElement state, string worldId) =>
+        PhotoWorldState.EvaluateCondition(JsonSerializer.SerializeToElement(new { op = "photoworlds.world.visited", worldId }), state);
 
     private static bool MissionCommonCaptionPrepared(JsonElement state) => PhotoWorldState.EvaluateCondition(
         JsonSerializer.SerializeToElement(new { op = "photoworlds.caption.prepared", photoId = "P-COMMON", sourceAuthorId = "urman.chapter1:character/marat" }), state);
