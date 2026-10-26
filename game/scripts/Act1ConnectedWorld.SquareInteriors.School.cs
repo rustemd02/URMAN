@@ -7,6 +7,7 @@ public partial class Act1ConnectedWorld
     private const string SchoolPhotoCopySourceInteraction = "urman.fullgame:interaction/pw-school-copy-source";
     private const string SchoolPhotoCopyPermissionInteraction = "urman.fullgame:interaction/pw-school-copy-permission";
     private const string SchoolPhotoCopyFront = "res://assets/textures/photobook/s-school-front-v2.png";
+    private const string SchoolFamilyPhotoFront = "res://assets/textures/photobook/p-forest-front-v2.png";
 
     // Compact village school: one storey, 20 x 11 m. A clear front corridor serves
     // the staff room, two small combined classes and the relocated school museum.
@@ -235,9 +236,15 @@ public partial class Act1ConnectedWorld
                 return await inspectionBridge.DispatchInteractionAsync(SchoolPhotoCopySourceInteraction);
             }
             var sourceTitle = inspectionBridge.ResolveText("urman.fullgame:text/pw-label-school-copy-source");
+            var familyPhoto = inspectionBridge.CanInspectReceivedPhotoBook
+                ? inspectionBridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-FOREST") : null;
+            var comparison = familyPhoto is null ? null
+                : new DocumentImageContent("P-FOREST", SchoolFamilyPhotoFront, "Из семейной книги");
             sourceInspection = InspectionCurrent;
-            reader.OpenSourcePhotoInspection(inspectionBridge, "S-SCHOOL", SchoolPhotoCopyFront, sourceTitle, sourceTitle,
-                sourceInspection, inspectionBridge.PhotoWorldFactObserved("school_copy_identified") ? null : ConfirmInspection);
+            reader.OpenSourcePhotoInspection(inspectionBridge, "S-SCHOOL", SchoolPhotoCopyFront, sourceTitle,
+                "Сверьте три ствола и низкую перекладину. Откуда сделан снимок из семейной книги?",
+                sourceInspection, inspectionBridge.PhotoWorldFactObserved("school_copy_identified") ? null : ConfirmInspection,
+                comparison, "Школьный оригинал");
             return false;
         };
         sourceFolder.AddChild(new Act1FacilityPresentation

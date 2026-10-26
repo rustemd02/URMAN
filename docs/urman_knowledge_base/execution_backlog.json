@@ -121031,15 +121031,17 @@
       },
       "first_investigation_clarity_2026_10_26": {
         "state": "source_verified_native_pending",
-        "result": "Первый разговор задаёт конкретный вопрос о месте съёмки; школьная копия больше не отправляет домой вопреки доступному маршруту к опушке. Задание называет учительскую. HUD показывает реальный путь Журнал → Фотоальбом; обычная задача без красной тревожной рамки, high contrast сохранён. Школьный маркер навигационно ведёт через главный вход, коридор и дверь учительской, затем к исходной цели; факты, gates и физика не изменены.",
-        "verification": "Ограниченная проверка текста и геометрии двумя исполнителями, root diff/caller review; независимое source review школьных веток без P1/P2; ContentCli urman.fullgame exit0, affected Game build17.17s/0warnings/0errors. Новых тестов и игровых запусков для этой правки нет.",
+        "result": "Первый разговор задаёт конкретный вопрос о месте съёмки; школьная копия больше не отправляет домой вопреки доступному маршруту к опушке. Задание называет учительскую. HUD показывает реальный путь Журнал → Фотоальбом; обычная задача без красной тревожной рамки, high contrast сохранён. Школьный маркер навигационно ведёт через главный вход, коридор и дверь учительской, затем к исходной цели; факты, gates и физика не изменены. При переходе к следующей уличной задаче школьный helper также ведёт через дверь текущей комнаты и главный выход; исходная дальняя цель возвращается после очистки дверного проёма.",
+        "verification": "Ограниченная проверка текста и геометрии двумя исполнителями, root diff/caller review; независимое source review школьных веток без P1/P2; ContentCli urman.fullgame exit0, affected Game build17.17s/0warnings/0errors. Новых тестов и игровых запусков для этой правки нет. После наблюдённого на cd12 выхода-через-стену добавлен конечный outbound путь; root сверил переключение у порога и существующие проёмы, affected Game16.70s/0warnings/0errors. Новый игровой запуск не создавался.",
         "evidence": [
           "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
           "game/scripts/Act1DemoRoot.cs",
           "game/scripts/JournalUi.Missions.cs",
           "content/modules/urman-fullgame/definitions.json"
         ],
-        "remaining": "Новый школьный waypoint и оформление ещё не приняты в движении. Текущий защищённый job352d705638054f4d8a4b07af93055eb3 проверяет прежний cd12bb62, а не эту правку; его результат записать отдельно. Авторская естественность/интерес и обязательные внешние гейты открыты."
+        "remaining": "Новый школьный waypoint и оформление ещё не приняты в движении. Текущий защищённый job352d705638054f4d8a4b07af93055eb3 проверяет прежний cd12bb62, а не эту правку; его результат записать отдельно. Авторская естественность/интерес и обязательные внешние гейты открыты.",
+        "pair_comparison": "Существующий DocumentImageReader показывает рядом семейный снимок и школьный оригинал с отдельными подписями, общими zoom/fit/pan. Только если семейный снимок уже доступен в полученной книге; оригинал не присваивается. SetImages/Close сбрасывают пару; prologue/другие документы сохраняют одиночный режим. Нет новых facts/quiz/gates. Реальные PNG просмотрены: близкие фронтальные кадры, не противоположная сторона.",
+        "pair_verification": "Root asset/caller/lifecycle review и независимое ограниченное review без P1/P2; affected Game13.75s/0warnings/0errors. UI пары в игре не принимался; нового игрового запуска не было."
       }
     },
     {
@@ -126690,7 +126692,30 @@
           "evidence_ref": "PW-049.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "ordinary_school_first_entry_2026_10_26": {
+        "state": "accepted_school_and_first_entry_slice",
+        "candidate_commit": "cd12bb62afd51a78ce2d5b7f98e874a04d8ad8f7",
+        "snapshot_id": "36c553cc7276db8d6c66e000d72d7d6b0014a47938c20fbbfa3015030f929aba",
+        "job_id": "352d705638054f4d8a4b07af93055eb3",
+        "result": "Ordinary input: doors→staffroom→real album reader→explicit Рассмотреть снимок→staff dialogue→S-SCHOOL copy→forest mission→ordinary street walk→book active entry→W01 F10. Root personally viewed relevant current frames. No debug/seed/profile import; accepted home setup was not reaccepted.",
+        "limits": "W01 actions, return, home talk, full episode enjoyment and new comparison/outbound marker UI not covered. Prologue was explicitly skipped; this run does not verify Niva motion or full prologue.",
+        "receipt": {
+          "status": "PASS",
+          "gameExitCode": 0,
+          "userdataRestored": true,
+          "snapshot_hashes_verified": true,
+          "result_sha256": "19a4cd36e85d42a5159a6149d74a098ba9d8813d8a0c542a9d86e8115b641488"
+        },
+        "warning": "7 Texture RIDs leaked at shutdown; engine-errors.log empty. Preserved as shutdown warning, not proof of runtime leak or release readiness.",
+        "evidence": [
+          "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip",
+          "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3/receipt.json",
+          "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip!game.log:671-673",
+          "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip!frames/interactive-ff0411aeac5f44649d8a46764cce309b.png"
+        ],
+        "retention": "Original ZIP CRC and every extracted file byte-verified; duplicate extracts and matching temporary frames removed (50166005 bytes), receipt retained. Raw artifacts excluded from Git."
+      }
     },
     {
       "id": "PW-050",
@@ -136673,8 +136698,8 @@
       "id": "PW-072",
       "title": "Сделать школьный контекст лесной фотографии",
       "milestone": "PW-M3",
-      "status": "in_progress",
-      "active_owner": "Codex / prologue_repair",
+      "status": "completed",
+      "active_owner": null,
       "owner": "integration",
       "priority": "P1",
       "complexity": "medium",
@@ -136696,7 +136721,12 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-072/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip",
+        "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3/receipt.json",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+        "content/modules/urman-fullgame/definitions.json"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-072",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -136709,7 +136739,7 @@
       "reference_ids": [
         "REQ"
       ],
-      "runtime_evidence": "NOT_RUN",
+      "runtime_evidence": "PASS_352d_school_context_and_first_W01_entry_only",
       "author_acceptance": "PENDING",
       "mvp_priority": 40,
       "mvp_packet": "PW3",
@@ -136811,17 +136841,14 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "One current-source protected ordinary school/W01 acceptance; root coordinates, one child owns native input after explicit lease. Ready/idle doctor confirmed."
+        "state": "not_active",
+        "reason": "Инженерный школьный контекст принят по собственному конечному DoD: осмотр, разрешённая копия, понятная причина и реальный первый вход. Native lease освобождён, пользовательские данные восстановлены."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
-      "technical_verification_state": "not_run",
-      "remaining": [
-        "Первый вход W01 имеет понятную причину.",
-        "Школа не становится экспозицией секретного общества."
-      ],
-      "next_action": "Закончить текущий ограниченный ordinary school→W01 сценарий на cd12bb62; зафиксировать факты без повторного домашнего smoke. Навигационный source-этап школы проверен отдельно, его native удобство не заявлять.",
+      "technical_verification_state": "passed",
+      "remaining": [],
+      "next_action": "Использовать принятый школьный контекст в UXA-001/ROUTE без повторения setup. Новые парное сравнение/выходной marker в движении и авторская ясность/интерес остаются частью следующего содержательного UXA эпизода и внешней приёмки; полный продукт не объявлен готовым.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -136844,19 +136871,19 @@
             "task_id": "PW-008",
             "artifact": "Разделить впечатление и доказанное знание",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-041",
             "artifact": "Набрать текст книги и короткие реплики",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-071",
             "artifact": "Поставить находки и копии в реальные места деревни",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           }
         ],
         "scope_in": [
@@ -136903,7 +136930,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "Собственный инженерный DoD принят: семья даёт причину поиска; школьный оригинал сохраняется, явный осмотр и разговор выдают разрешённую копию; после копии next mission ведёт к опушке, обычный первый вход W01 выполнен. Нового тайного общества/личностей/лор-фактов нет. Native352d cd12 PASS/exit0/userdataRestored=true; последующие copy/парный reader/marker source reviewed and Game compiled, их внешний вид в игре ещё не принят.",
         "evidence_refs": [
           "tasks[id=PW-072].evidence"
         ],
@@ -136942,21 +136969,21 @@
           },
           {
             "task_id": "PW-008",
-            "artifact": "Разделить впечатление и доказанное знание",
+            "artifact": "Разделить впечатление и доказанное знание — конкретный школьный source/explicit inspection/permission/dialogue input реализован и использован в ordinary352d; полного завершения parent не требуется.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-041",
-            "artifact": "Набрать текст книги и короткие реплики",
+            "artifact": "Набрать текст книги и короткие реплики — конкретный школьный source/explicit inspection/permission/dialogue input реализован и использован в ordinary352d; полного завершения parent не требуется.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-071",
-            "artifact": "Поставить находки и копии в реальные места деревни",
+            "artifact": "Поставить находки и копии в реальные места деревни — конкретный школьный source/explicit inspection/permission/dialogue input реализован и использован в ordinary352d; полного завершения parent не требуется.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           }
         ],
         "verification": [],
@@ -136967,14 +136994,14 @@
           "criterion": "Первый вход W01 имеет понятную причину.",
           "technical_owner": "PW-072",
           "external_gate_ids": [],
-          "assessment": "not_confirmed_current_result",
+          "assessment": "technical_result_confirmed; player_understanding_external_UXA-002_pending",
           "evidence_ref": "PW-072.evidence and named history progress; source_review shows available/missing inputs"
         },
         {
           "criterion": "Школа не становится экспозицией секретного общества.",
           "technical_owner": "PW-072",
           "external_gate_ids": [],
-          "assessment": "not_confirmed_current_result",
+          "assessment": "technical_result_confirmed; player_understanding_external_UXA-002_pending",
           "evidence_ref": "PW-072.evidence and named history progress; source_review shows available/missing inputs"
         },
         {
@@ -137008,7 +137035,7 @@
       ],
       "assignment_state": "preserved_person_or_existing_role; activity separate",
       "current_source_review_2026_10_20": {
-        "state": "source_present_native_pending",
+        "state": "source_present; native_school_context_accepted_352d_2026_10_26",
         "result": "ApprovedPFOREST3trunks/lowcrossbar+SSCHOOLshootingside context alreadyinordinaryschooldialogue/source/permission; originalstays, copy/contextknown granted, Journalhint andentryprereq present. Noextraidentitiesorplotfactsadded.",
         "evidence": [
           "content/modules/urman-fullgame/definitions.json:1995",
@@ -137021,19 +137048,46 @@
       "current_native_question_2026_10_26": {
         "question": "Can an ordinary player reach OldSchool via manual doors, confirm the real album, obtain S-SCHOOL from staff, then continue the first W01 investigation without wrong marker/gate?",
         "success": "Actual UI/physical actions and resulting facts/owned photo; preserve original userdata and capture final restored receipt. Home/book already accepted6832: setup only, no repeat evidence requirement.",
-        "bounds": "One play-product3600s, no debug/seed/teleports/newtestscene. Code frozen, source maps read-only, one station controller. Stop on confirmed obstacle after bounded hypotheses; retain same handle on observation timeout."
+        "bounds": "One play-product3600s, no debug/seed/teleports/newtestscene. Code frozen, source maps read-only, one station controller. Stop on confirmed obstacle after bounded hypotheses; retain same handle on observation timeout.",
+        "observed_so_far": "Terminal PASS/exit0/userdataRestored=true; ordinary doors→staffroom→explicit source inspection→permitted copy→forest mission→real W01 F10 entry. W01 actions/return/home talk not performed. See ordinary_school_first_entry_2026_10_26.",
+        "state": "completed_school_and_first_entry_slice"
       },
       "school_wayfinding_2026_10_26": {
         "state": "source_verified_native_pending",
-        "result": "Первый разговор задаёт конкретный вопрос о месте съёмки; школьная копия больше не отправляет домой вопреки доступному маршруту к опушке. Задание называет учительскую. HUD показывает реальный путь Журнал → Фотоальбом; обычная задача без красной тревожной рамки, high contrast сохранён. Школьный маркер навигационно ведёт через главный вход, коридор и дверь учительской, затем к исходной цели; факты, gates и физика не изменены.",
-        "verification": "Ограниченная проверка текста и геометрии двумя исполнителями, root diff/caller review; независимое source review школьных веток без P1/P2; ContentCli urman.fullgame exit0, affected Game build17.17s/0warnings/0errors. Новых тестов и игровых запусков для этой правки нет.",
+        "result": "Первый разговор задаёт конкретный вопрос о месте съёмки; школьная копия больше не отправляет домой вопреки доступному маршруту к опушке. Задание называет учительскую. HUD показывает реальный путь Журнал → Фотоальбом; обычная задача без красной тревожной рамки, high contrast сохранён. Школьный маркер навигационно ведёт через главный вход, коридор и дверь учительской, затем к исходной цели; факты, gates и физика не изменены. При переходе к следующей уличной задаче школьный helper также ведёт через дверь текущей комнаты и главный выход; исходная дальняя цель возвращается после очистки дверного проёма.",
+        "verification": "Ограниченная проверка текста и геометрии двумя исполнителями, root diff/caller review; независимое source review школьных веток без P1/P2; ContentCli urman.fullgame exit0, affected Game build17.17s/0warnings/0errors. Новых тестов и игровых запусков для этой правки нет. После наблюдённого на cd12 выхода-через-стену добавлен конечный outbound путь; root сверил переключение у порога и существующие проёмы, affected Game16.70s/0warnings/0errors. Новый игровой запуск не создавался.",
         "evidence": [
           "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
           "game/scripts/Act1DemoRoot.cs",
           "game/scripts/JournalUi.Missions.cs",
           "content/modules/urman-fullgame/definitions.json"
         ],
-        "remaining": "Новый школьный waypoint и оформление ещё не приняты в движении. Текущий защищённый job352d705638054f4d8a4b07af93055eb3 проверяет прежний cd12bb62, а не эту правку; его результат записать отдельно. Авторская естественность/интерес и обязательные внешние гейты открыты."
+        "remaining": "Новый школьный waypoint и оформление ещё не приняты в движении. Текущий защищённый job352d705638054f4d8a4b07af93055eb3 проверяет прежний cd12bb62, а не эту правку; его результат записать отдельно. Авторская естественность/интерес и обязательные внешние гейты открыты.",
+        "pair_comparison": "Существующий DocumentImageReader показывает рядом семейный снимок и школьный оригинал с отдельными подписями, общими zoom/fit/pan. Только если семейный снимок уже доступен в полученной книге; оригинал не присваивается. SetImages/Close сбрасывают пару; prologue/другие документы сохраняют одиночный режим. Нет новых facts/quiz/gates. Реальные PNG просмотрены: близкие фронтальные кадры, не противоположная сторона.",
+        "pair_verification": "Root asset/caller/lifecycle review и независимое ограниченное review без P1/P2; affected Game13.75s/0warnings/0errors. UI пары в игре не принимался; нового игрового запуска не было."
+      },
+      "ordinary_school_first_entry_2026_10_26": {
+        "state": "accepted_school_and_first_entry_slice",
+        "candidate_commit": "cd12bb62afd51a78ce2d5b7f98e874a04d8ad8f7",
+        "snapshot_id": "36c553cc7276db8d6c66e000d72d7d6b0014a47938c20fbbfa3015030f929aba",
+        "job_id": "352d705638054f4d8a4b07af93055eb3",
+        "result": "Ordinary input: doors→staffroom→real album reader→explicit Рассмотреть снимок→staff dialogue→S-SCHOOL copy→forest mission→ordinary street walk→book active entry→W01 F10. Root personally viewed relevant current frames. No debug/seed/profile import; accepted home setup was not reaccepted.",
+        "limits": "W01 actions, return, home talk, full episode enjoyment and new comparison/outbound marker UI not covered. Prologue was explicitly skipped; this run does not verify Niva motion or full prologue.",
+        "receipt": {
+          "status": "PASS",
+          "gameExitCode": 0,
+          "userdataRestored": true,
+          "snapshot_hashes_verified": true,
+          "result_sha256": "19a4cd36e85d42a5159a6149d74a098ba9d8813d8a0c542a9d86e8115b641488"
+        },
+        "warning": "7 Texture RIDs leaked at shutdown; engine-errors.log empty. Preserved as shutdown warning, not proof of runtime leak or release readiness.",
+        "evidence": [
+          "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip",
+          "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3/receipt.json",
+          "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip!game.log:671-673",
+          "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip!frames/interactive-ff0411aeac5f44649d8a46764cce309b.png"
+        ],
+        "retention": "Original ZIP CRC and every extracted file byte-verified; duplicate extracts and matching temporary frames removed (50166005 bytes), receipt retained. Raw artifacts excluded from Git."
       }
     },
     {
@@ -150459,23 +150513,26 @@
             "result": "Пройти E обычным вводом: фото→книга→вход→действие→возврат→следующий шаг",
             "owner": "integration/qa",
             "evidence": [
-              "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e.zip — только наблюдённый home/tea/book/Continue отрезок; общий receipt FAILtimeout, userdataRestored=true."
+              "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e.zip — только наблюдённый home/tea/book/Continue отрезок; общий receipt FAILtimeout, userdataRestored=true.",
+              "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip",
+              "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3/receipt.json"
             ],
             "assigned_owner": "integration/qa",
-            "active_owner": "Codex / prologue_repair",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Подтверждённый exclusive native input lease job352d705638054f4d8a4b07af93055eb3; школа и W01, без повторной приёмки домашнего setup."
+              "state": "not_active",
+              "reason": "Конечный школьный отрезок и первый вход приняты; job штатно закрыт, station lease освобождён. Остаток W01 не выполнялся."
             },
             "task_type": "integration_check",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Текущая школа → первый вход W01 → содержательное действие → возврат → следующий сюжетный шаг ещё не приняты в обычном прохождении.",
-              "Авторская/новый игрок приёмка интереса и ясности сохраняется отдельно."
+              "Действие внутри W01 → возврат → разговор дома → следующий шаг ещё не приняты обычным прохождением.",
+              "Новое парное сравнение и школьный outbound marker не приняты визуально/в движении; учитывать в следующем содержательном эпизоде без отдельного повторного smoke.",
+              "Авторская и новичковая оценка интереса/ясности остаётся отдельной обязательной приёмкой."
             ],
-            "next_action": "Довести ограниченный текущий native сценарий до результата либо конкретного препятствия; штатно выйти, подтвердить восстановление userdata, записать реальный покрытый отрезок. Не повторять пройденный home/book setup ради evidence.",
+            "next_action": "Продолжить реализацию завершённого первого расследования; при конкретной необходимости принять только оставшийся W01 action→return→home-talk вопрос. Не повторять обычный школьный контекст и домашний setup ради доказательств.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -151093,7 +151150,30 @@
           "evidence_ref": "UXA-001.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "ordinary_school_first_entry_2026_10_26": {
+        "state": "accepted_school_and_first_entry_slice",
+        "candidate_commit": "cd12bb62afd51a78ce2d5b7f98e874a04d8ad8f7",
+        "snapshot_id": "36c553cc7276db8d6c66e000d72d7d6b0014a47938c20fbbfa3015030f929aba",
+        "job_id": "352d705638054f4d8a4b07af93055eb3",
+        "result": "Ordinary input: doors→staffroom→real album reader→explicit Рассмотреть снимок→staff dialogue→S-SCHOOL copy→forest mission→ordinary street walk→book active entry→W01 F10. Root personally viewed relevant current frames. No debug/seed/profile import; accepted home setup was not reaccepted.",
+        "limits": "W01 actions, return, home talk, full episode enjoyment and new comparison/outbound marker UI not covered. Prologue was explicitly skipped; this run does not verify Niva motion or full prologue.",
+        "receipt": {
+          "status": "PASS",
+          "gameExitCode": 0,
+          "userdataRestored": true,
+          "snapshot_hashes_verified": true,
+          "result_sha256": "19a4cd36e85d42a5159a6149d74a098ba9d8813d8a0c542a9d86e8115b641488"
+        },
+        "warning": "7 Texture RIDs leaked at shutdown; engine-errors.log empty. Preserved as shutdown warning, not proof of runtime leak or release readiness.",
+        "evidence": [
+          "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip",
+          "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3/receipt.json",
+          "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip!game.log:671-673",
+          "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip!frames/interactive-ff0411aeac5f44649d8a46764cce309b.png"
+        ],
+        "retention": "Original ZIP CRC and every extracted file byte-verified; duplicate extracts and matching temporary frames removed (50166005 bytes), receipt retained. Raw artifacts excluded from Git."
+      }
     },
     {
       "id": "UXA-002",

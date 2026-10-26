@@ -199,8 +199,9 @@ public partial class Act1DemoRoot
     {
         waypoint = default;
         label = "Учительская";
-        if (_bridge?.CurrentZoneId != "village_day" || mission.InteractionId is not
-            ("urman.fullgame:interaction/pw-school-copy-source" or "urman.fullgame:interaction/pw-school-copy-permission"))
+        var schoolCopyGoal = mission.InteractionId is
+            "urman.fullgame:interaction/pw-school-copy-source" or "urman.fullgame:interaction/pw-school-copy-permission";
+        if (_bridge?.CurrentZoneId != "village_day" || (!schoolCopyGoal && mission.TargetZoneId != "village_day"))
             return false;
 
         if (_objectiveMarkerSchool is null || !GodotObject.IsInstanceValid(_objectiveMarkerSchool)
@@ -215,8 +216,14 @@ public partial class Act1DemoRoot
         const float corridorZ = 4.2f, staffX = -7.8f, roomSideZ = 2.35f;
         var inside = Mathf.Abs(local.X) < 9.65f && Mathf.Abs(local.Z) < 5.15f
             && local.Y > -.2f && local.Y < 3.4f;
+        var clearingEntrance = Mathf.Abs(local.X) <= .4f && local.Z >= 5.15f && local.Z < 6.3f
+            && local.Y > -.2f && local.Y < 3.4f;
+        if (!schoolCopyGoal && !inside && !clearingEntrance) return false;
+        if (!schoolCopyGoal) label = "Выход из школы";
         Vector3 destination;
-        if (!inside)
+        if (!schoolCopyGoal && clearingEntrance)
+            destination = new(0, .05f, 6.3f);
+        else if (!inside)
         {
             label = "Вход в школу";
             var side = local.X < 0f ? -1f : 1f;
@@ -233,7 +240,7 @@ public partial class Act1DemoRoot
         }
         else if (local.Z < 2.82f)
         {
-            if (local.X < -6.28f)
+            if (schoolCopyGoal && local.X < -6.28f)
             {
                 if (local.Z <= 2.4f) return false;
                 destination = new(staffX, .05f, roomSideZ);
@@ -241,19 +248,22 @@ public partial class Act1DemoRoot
             else
             {
                 // Leave the current class/museum through its own opening, never through a partition.
-                var doorX = local.X < -.5f ? -2.5f : local.X < 5.2f ? 2.5f : 6.4f;
+                var doorX = local.X < -6.28f ? staffX : local.X < -.5f ? -2.5f : local.X < 5.2f ? 2.5f : 6.4f;
                 destination = Mathf.Abs(local.X - doorX) > .1f
                     ? new(doorX, .05f, Mathf.Min(local.Z, roomSideZ))
                     : new(doorX, .05f, corridorZ);
             }
         }
-        else if (Mathf.Abs(local.X - staffX) <= .1f)
+        else if (!schoolCopyGoal && Mathf.Abs(local.X) <= .1f)
+            // Clear the doorway before resuming the distant street destination.
+            destination = new(0, .05f, 6.3f);
+        else if (schoolCopyGoal && Mathf.Abs(local.X - staffX) <= .1f)
             destination = new(staffX, .05f, roomSideZ);
         else if (Mathf.Abs(local.Z - corridorZ) > .12f)
             // Align in the hall before walking along it; the cloakroom bench ends at Z3.61.
             destination = new(local.X, .05f, corridorZ);
         else
-            destination = new(staffX, .05f, corridorZ);
+            destination = new(schoolCopyGoal ? staffX : 0f, .05f, corridorZ);
 
         waypoint = school.ToGlobal(destination);
         return true;

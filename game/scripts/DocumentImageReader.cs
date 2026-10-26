@@ -14,6 +14,13 @@ public partial class DocumentImageReader : VBoxContainer
     private VBoxContainer _picturePage = null!;
     private Control _canvas = null!;
     private TextureRect _picture = null!;
+    private Control _referenceCanvas = null!;
+    private Control _currentCanvas = null!;
+    private TextureRect _referencePicture = null!;
+    private HBoxContainer _comparisonCaptions = null!;
+    private Label _referenceCaption = null!;
+    private Label _currentCaption = null!;
+    private bool _comparing;
     private Button _textTab = null!;
     private Button _imageTab = null!;
     private Button _previous = null!;
@@ -68,6 +75,16 @@ public partial class DocumentImageReader : VBoxContainer
         ButtonIn(tools, "ZoomOut", "−", () => Zoom(1 / 1.4f));
         ButtonIn(tools, "Fit", "Уместить", ResetView);
         ButtonIn(tools, "ZoomIn", "+", () => Zoom(1.4f));
+        _comparisonCaptions = new HBoxContainer { Name = "ComparisonCaptions", Visible = false,
+            MouseFilter = MouseFilterEnum.Ignore };
+        _comparisonCaptions.AddThemeConstantOverride("separation", 12);
+        _referenceCaption = new Label { Name = "ReferenceCaption", AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            SizeFlagsHorizontal = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore };
+        _currentCaption = new Label { Name = "CurrentCaption", AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            SizeFlagsHorizontal = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore };
+        _comparisonCaptions.AddChild(_referenceCaption);
+        _comparisonCaptions.AddChild(_currentCaption);
+        _picturePage.AddChild(_comparisonCaptions);
         _canvas = new Control { Name = "ImageCanvas", ClipContents = true,
             SizeFlagsVertical = SizeFlags.ExpandFill, SizeFlagsHorizontal = SizeFlags.ExpandFill,
             CustomMinimumSize = new Vector2(0, 80), MouseFilter = MouseFilterEnum.Stop,
@@ -77,7 +94,17 @@ public partial class DocumentImageReader : VBoxContainer
         _picture = new TextureRect { Name = "Image", ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
             StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered, MouseFilter = MouseFilterEnum.Ignore,
             TextureFilter = TextureFilterEnum.LinearWithMipmaps };
-        _canvas.AddChild(_picture);
+        _referenceCanvas = new Control { Name = "ReferenceCanvas", ClipContents = true, Visible = false,
+            MouseFilter = MouseFilterEnum.Ignore };
+        _currentCanvas = new Control { Name = "CurrentCanvas", ClipContents = true,
+            MouseFilter = MouseFilterEnum.Ignore };
+        _canvas.AddChild(_referenceCanvas);
+        _canvas.AddChild(_currentCanvas);
+        _referencePicture = new TextureRect { Name = "ReferenceImage", ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered, MouseFilter = MouseFilterEnum.Ignore,
+            TextureFilter = TextureFilterEnum.LinearWithMipmaps };
+        _referenceCanvas.AddChild(_referencePicture);
+        _currentCanvas.AddChild(_picture);
         _canvas.Resized += LayoutPicture;
         _canvas.GuiInput += CanvasInput;
         _descriptionToggle = ButtonIn(_picturePage, "Describe", "Описание изображения", () =>
@@ -94,6 +121,7 @@ public partial class DocumentImageReader : VBoxContainer
     {
         _images = images ?? [];
         _dragging = false;
+        ClearComparison();
         _picture.Texture = null;
         _description.Text = string.Empty;
         _description.Visible = false;
@@ -105,6 +133,34 @@ public partial class DocumentImageReader : VBoxContainer
         _textTab.Disabled = true;
         _imageTab.Disabled = false;
         if (_images.Count > 0) SelectImage(0);
+    }
+
+    public void CompareWith(DocumentImageContent reference, string currentCaption)
+    {
+        if (_images.Count != 1 || _picture.Texture is null) return;
+        ClearComparison();
+        if (!ResourceLoader.Exists(reference.ResourcePath)
+            || ResourceLoader.Load<Texture2D>(reference.ResourcePath) is not { } texture)
+        {
+            GD.PushWarning($"Comparison image is missing from the game: {reference.AssetId} ({reference.ResourcePath})");
+            LayoutPicture();
+            return;
+        }
+        _referencePicture.Texture = texture;
+        _referenceCaption.Text = reference.Description;
+        _currentCaption.Text = currentCaption;
+        _comparing = true;
+        _referenceCanvas.Visible = _comparisonCaptions.Visible = true;
+        ResetView();
+    }
+
+    private void ClearComparison()
+    {
+        _comparing = false;
+        _referencePicture.Texture = null;
+        _referenceCanvas.Visible = false;
+        _comparisonCaptions.Visible = false;
+        _referenceCaption.Text = _currentCaption.Text = string.Empty;
     }
 
     public void ShowPicture(bool visible)
@@ -158,6 +214,13 @@ public partial class DocumentImageReader : VBoxContainer
     private void LayoutPicture()
     {
         if (_picture.Texture is not { } texture || _canvas.Size.X <= 0 || _canvas.Size.Y <= 0) return;
+        if (_comparing && _referencePicture.Texture is { } reference)
+        {
+            LayoutComparisonPictures(texture, reference);
+            return;
+        }
+        _currentCanvas.Position = Vector2.Zero;
+        _currentCanvas.Size = _canvas.Size;
         var natural = texture.GetSize();
         var fit = Mathf.Min(_canvas.Size.X / natural.X, _canvas.Size.Y / natural.Y);
         var size = natural * fit * _zoom;
@@ -166,6 +229,30 @@ public partial class DocumentImageReader : VBoxContainer
         _pan = new Vector2(Mathf.Clamp(_pan.X, -limit.X, limit.X), Mathf.Clamp(_pan.Y, -limit.Y, limit.Y));
         _picture.Size = size;
         _picture.Position = (_canvas.Size - size) * .5f + _pan;
+    }
+
+    private void LayoutComparisonPictures(Texture2D current, Texture2D reference)
+    {
+        var viewport = new Vector2(Mathf.Max(1, (_canvas.Size.X - 12f) * .5f), _canvas.Size.Y);
+        _referenceCanvas.Size = _currentCanvas.Size = viewport;
+        _referenceCanvas.Position = Vector2.Zero;
+        _currentCanvas.Position = new Vector2(viewport.X + 12f, 0);
+        var currentNatural = current.GetSize();
+        var referenceNatural = reference.GetSize();
+        var currentSize = currentNatural * Mathf.Min(viewport.X / currentNatural.X, viewport.Y / currentNatural.Y) * _zoom;
+        var referenceSize = referenceNatural * Mathf.Min(viewport.X / referenceNatural.X, viewport.Y / referenceNatural.Y) * _zoom;
+        var currentLimit = new Vector2(Mathf.Max(0, (currentSize.X - viewport.X) * .5f),
+            Mathf.Max(0, (currentSize.Y - viewport.Y) * .5f));
+        var referenceLimit = new Vector2(Mathf.Max(0, (referenceSize.X - viewport.X) * .5f),
+            Mathf.Max(0, (referenceSize.Y - viewport.Y) * .5f));
+        var limit = new Vector2(Mathf.Max(currentLimit.X, referenceLimit.X), Mathf.Max(currentLimit.Y, referenceLimit.Y));
+        _pan = new Vector2(Mathf.Clamp(_pan.X, -limit.X, limit.X), Mathf.Clamp(_pan.Y, -limit.Y, limit.Y));
+        // Shared fractional pan keeps both edges reachable even when the two prints have different proportions.
+        var fraction = new Vector2(limit.X > 0 ? _pan.X / limit.X : 0, limit.Y > 0 ? _pan.Y / limit.Y : 0);
+        _picture.Size = currentSize;
+        _picture.Position = (viewport - currentSize) * .5f + fraction * currentLimit;
+        _referencePicture.Size = referenceSize;
+        _referencePicture.Position = (viewport - referenceSize) * .5f + fraction * referenceLimit;
     }
 
     private void CanvasInput(InputEvent input)

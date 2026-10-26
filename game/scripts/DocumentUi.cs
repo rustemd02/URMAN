@@ -165,7 +165,8 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
 
     /// <summary>Inspects an original in place; only an explicit optional confirmation may publish its existing source action.</summary>
     internal bool OpenSourcePhotoInspection(RuntimeBridge bridge, string photoId, string imagePath,
-        string title, string description, Func<bool> current, Func<Task<bool>>? confirm = null)
+        string title, string description, Func<bool> current, Func<Task<bool>>? confirm = null,
+        DocumentImageContent? comparison = null, string? comparisonCaption = null)
     {
         if (!IsInsideTree() || !GodotObject.IsInstanceValid(bridge) || bridge.IsQueuedForDeletion()
             || !bridge.IsPhotoWorldsCampaign || bridge.SessionIdentity is not { } session || !current())
@@ -186,7 +187,10 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _title.Text = title;
         _body.Text = title == description ? title : title + "\n\n" + description;
         _images.SetImages([new DocumentImageContent(photoId, imagePath, description)]);
-        _status.Text = confirm is null
+        if (comparison is not null) _images.CompareWith(comparison, comparisonCaption ?? title);
+        _status.Text = comparison is not null
+            ? "Сверьте стволы и перекладину: откуда сделан семейный снимок? · Esc — вернуться"
+            : confirm is null
             ? "Осмотр снимка · Esc — вернуться к месту"
             : "Нажмите «Рассмотреть снимок», чтобы отметить находку · Esc — уйти без записи";
         _save.Visible = confirm is not null;
