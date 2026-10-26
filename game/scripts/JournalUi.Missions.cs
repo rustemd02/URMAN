@@ -365,7 +365,7 @@ public partial class JournalUi
                 ("urman.fullgame:scene/pw-forest", "camera") =>
                     ("Ракурс лесного снимка", "Обойдите три ствола и оглянитесь на берёзу, низкую перекладину и дугу корня.", "pw-forest-group", "ZoneHost/W01/Anchors/F11", "За тремя стволами"),
                 ("urman.fullgame:scene/pw-forest", "path") =>
-                    ("За краем снимка", "Обойдите корни по тропе. Затем оглянитесь на три ствола.", "pw-forest-photographer", "ZoneHost/W01/Anchors/F13", "Поворот у корней"),
+                    ("За краем снимка", "Пройдите за корни и оглянитесь. Осмотрите каждый из трёх стволов с обратной стороны.", "pw-forest-photographer", "ZoneHost/W01/Anchors/F13", "Поворот у корней"),
                 ("urman.fullgame:scene/pw-forest", "talk") =>
                     ("Незнакомец у корней", "Подойдите к тому, кто работает у корня.", "pw-forest-shurale", "ZoneHost/W01/Anchors/F14/ShuraleRoot", "Незнакомец у корней"),
                 ("urman.fullgame:scene/pw-forest", "bag") =>

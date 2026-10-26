@@ -13,6 +13,7 @@ public partial class W01Controller
     private long _rootPassageObservationGeneration;
     private float _rootPassageObservedExitSide;
     private (Vector3 Point, CollisionShape3D Contact)[] _rootPassageObservationSubjects = [];
+    private int _rootPassageSeenSubjects;
     private bool _rootPassageObservationFailed;
     private Vector3 _rootPassageObservationFailedPosition;
     private Vector3 _rootPassageObservationFailedForward;
@@ -48,6 +49,7 @@ public partial class W01Controller
     private void ArmRootPassageObservation(float exitSide, FirstPersonController player)
     {
         _rootPassageObservedExitSide = exitSide;
+        _rootPassageSeenSubjects = 0;
         _rootPassageObservationFailed = false;
         if (exitSide != 0f && _bridge is { } bridge
             && bridge.PhotoWorldFactObserved(ForestCameraBackFactId)
@@ -105,10 +107,17 @@ public partial class W01Controller
             _forestObservationRayExclusions.Add(player.GetRid());
         }
         var space = GetWorld3D().DirectSpaceState;
-        foreach (var subject in _rootPassageObservationSubjects)
-            if (!ForestLandmarkFramedAndVisible(camera, camera.GlobalPosition, subject.Point,
+        // Inspect the group by walking and looking around, as with W03's separate subjects.
+        for (var index = 0; index < _rootPassageObservationSubjects.Length; index++)
+        {
+            var bit = 1 << index;
+            if ((_rootPassageSeenSubjects & bit) != 0) continue;
+            var subject = _rootPassageObservationSubjects[index];
+            if (ForestLandmarkFramedAndVisible(camera, camera.GlobalPosition, subject.Point,
                     subject.Contact, contact, space))
-                return;
+                _rootPassageSeenSubjects |= bit;
+        }
+        if (_rootPassageSeenSubjects != (1 << _rootPassageObservationSubjects.Length) - 1) return;
 
         var generation = _rootPassageObservationGeneration;
         _rootPassageObservationDispatching = true;
@@ -125,6 +134,7 @@ public partial class W01Controller
 
         _rootPassageObservationDispatching = false;
         _rootPassageObservedExitSide = 0f;
+        _rootPassageSeenSubjects = 0;
         _rootPassageObservationFailed = false;
     }
 
@@ -154,6 +164,7 @@ public partial class W01Controller
         if (!IsCurrentRootPassageObservation(bridge, session, generation)) return;
         if (!committed)
         {
+            _rootPassageSeenSubjects = 0;
             _rootPassageObservationFailed = true;
             _rootPassageObservationFailedPosition = position;
             _rootPassageObservationFailedForward = forward;
