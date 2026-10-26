@@ -1,0 +1,381 @@
+{
+  "schema": "urman-variant-c-outbuilding-art-source/v1",
+  "status": "SOURCE_CANDIDATE_NOT_SCENE_OR_CULTURE_ACCEPTED",
+  "source": "game/assets/models/act1/urman_village_exterior_kit.glb",
+  "source_sha256": "fdc69de9f580276f6a9c831bde60a0dad1728acdc533f00320e8a9009c233bf8",
+  "rights": "Project-original URMAN kit per assets/asset_registry.json",
+  "component": "VillageParcel_VariantC_BanyaYard_Outbuilding",
+  "source_meshes": 10,
+  "source_triangles": 248,
+  "wall_top_contacts": [
+    {
+      "vertex": 6,
+      "before": [
+        -2.1059999465942383,
+        -1.0529999732971191,
+        1.9600000381469727
+      ],
+      "after": [
+        -2.1059999465942383,
+        -1.0529999732971191,
+        2.090670585632324
+      ],
+      "actual_roof_underside": [
+        -2.1059999465942383,
+        -1.0529999732971191,
+        2.090670585632324
+      ]
+    },
+    {
+      "vertex": 7,
+      "before": [
+        -2.1059999465942383,
+        -1.0529999732971191,
+        1.9600000381469727
+      ],
+      "after": [
+        -2.1059999465942383,
+        -1.0529999732971191,
+        2.090670585632324
+      ],
+      "actual_roof_underside": [
+        -2.1059999465942383,
+        -1.0529999732971191,
+        2.090670585632324
+      ]
+    },
+    {
+      "vertex": 8,
+      "before": [
+        2.125499963760376,
+        -1.0529999732971191,
+        1.9600000381469727
+      ],
+      "after": [
+        2.125499963760376,
+        -1.0529999732971191,
+        2.090670585632324
+      ],
+      "actual_roof_underside": [
+        2.125499963760376,
+        -1.0529999732971191,
+        2.090670585632324
+      ]
+    },
+    {
+      "vertex": 9,
+      "before": [
+        2.125499963760376,
+        -1.0529999732971191,
+        1.9600000381469727
+      ],
+      "after": [
+        2.125499963760376,
+        -1.0529999732971191,
+        2.090670585632324
+      ],
+      "actual_roof_underside": [
+        2.125499963760376,
+        -1.0529999732971191,
+        2.090670585632324
+      ]
+    },
+    {
+      "vertex": 10,
+      "before": [
+        2.047499895095825,
+        1.0140000581741333,
+        1.9600000381469727
+      ],
+      "after": [
+        2.047499895095825,
+        1.0140000581741333,
+        2.3115720748901367
+      ],
+      "actual_roof_underside": [
+        2.047499895095825,
+        1.0140000581741333,
+        2.3115720748901367
+      ]
+    },
+    {
+      "vertex": 11,
+      "before": [
+        -1.9889999628067017,
+        1.0920000076293945,
+        1.9600000381469727
+      ],
+      "after": [
+        -1.9889999628067017,
+        1.0920000076293945,
+        2.3199081420898438
+      ],
+      "actual_roof_underside": [
+        -1.9889999628067017,
+        1.0920000076293945,
+        2.3199081420898438
+      ]
+    },
+    {
+      "vertex": 18,
+      "before": [
+        -2.1059999465942383,
+        -1.0529999732971191,
+        1.9600000381469727
+      ],
+      "after": [
+        -2.1059999465942383,
+        -1.0529999732971191,
+        2.090670585632324
+      ],
+      "actual_roof_underside": [
+        -2.1059999465942383,
+        -1.0529999732971191,
+        2.090670585632324
+      ]
+    },
+    {
+      "vertex": 19,
+      "before": [
+        2.125499963760376,
+        -1.0529999732971191,
+        1.9600000381469727
+      ],
+      "after": [
+        2.125499963760376,
+        -1.0529999732971191,
+        2.090670585632324
+      ],
+      "actual_roof_underside": [
+        2.125499963760376,
+        -1.0529999732971191,
+        2.090670585632324
+      ]
+    },
+    {
+      "vertex": 20,
+      "before": [
+        2.047499895095825,
+        1.0140000581741333,
+        1.9600000381469727
+      ],
+      "after": [
+        2.047499895095825,
+        1.0140000581741333,
+        2.3115720748901367
+      ],
+      "actual_roof_underside": [
+        2.047499895095825,
+        1.0140000581741333,
+        2.3115720748901367
+      ]
+    },
+    {
+      "vertex": 21,
+      "before": [
+        2.047499895095825,
+        1.0140000581741333,
+        1.9600000381469727
+      ],
+      "after": [
+        2.047499895095825,
+        1.0140000581741333,
+        2.3115720748901367
+      ],
+      "actual_roof_underside": [
+        2.047499895095825,
+        1.0140000581741333,
+        2.3115720748901367
+      ]
+    },
+    {
+      "vertex": 22,
+      "before": [
+        -1.9889999628067017,
+        1.0920000076293945,
+        1.9600000381469727
+      ],
+      "after": [
+        -1.9889999628067017,
+        1.0920000076293945,
+        2.3199081420898438
+      ],
+      "actual_roof_underside": [
+        -1.9889999628067017,
+        1.0920000076293945,
+        2.3199081420898438
+      ]
+    },
+    {
+      "vertex": 23,
+      "before": [
+        -1.9889999628067017,
+        1.0920000076293945,
+        1.9600000381469727
+      ],
+      "after": [
+        -1.9889999628067017,
+        1.0920000076293945,
+        2.3199081420898438
+      ],
+      "actual_roof_underside": [
+        -1.9889999628067017,
+        1.0920000076293945,
+        2.3199081420898438
+      ]
+    }
+  ],
+  "wall_lower_vertices_preserved": 12,
+  "unaffected_meshes_exact": [
+    "VariantC_Utility_Door_LOD0",
+    "VariantC_Utility_Foundation_LOD0",
+    "VariantC_Utility_OpenBay_LOD0",
+    "VariantC_Utility_Post_00_LOD0",
+    "VariantC_Utility_Post_01_LOD0",
+    "VariantC_Utility_RearBatten_LOD0",
+    "VariantC_Utility_Roof_LOD0",
+    "VariantC_Utility_SideBatten_LOD0",
+    "VariantC_Utility_Threshold_LOD0"
+  ],
+  "all_transforms_preserved": true,
+  "whole_bounds_blender": [
+    [
+      -2.3399999,
+      -1.53,
+      0.015
+    ],
+    [
+      2.3599999,
+      1.28,
+      2.48
+    ]
+  ],
+  "UV_overlap_faces": {},
+  "scope": "Separate art candidate only. Original kit, source Blend, runtime, original collision meshes, OpenBay, door, threshold, repairbench and bypass untouched. No claim about engine LOD/ShadowMesh preservation or native acceptance.",
+  "canon": "Current Kara-Urman,Tatarstan,winter2026; ordinary working utility lean-to, not a documented ethnic antique. No invented carving/script/religious motifs.",
+  "family_consumers": "10addressed VariantC parcels in act1_open_part plus existing connective kit. Source node names stay exact; root owns all future integration.",
+  "output": "variant-c-support-fixed-uv.glb",
+  "output_sha256": "18b82d05fcc8ebc806a1b5111eb79a567cd2e6af85a8d7a818b50b4a8601c238",
+  "actual_reimport_geometry_equal": true,
+  "actual_reimport_nodes": 10,
+  "material_reference": {
+    "path": "assets/source/blender/act1/neighbor_outbuilding_c_pbr_v1/input-material-reference-v1.png",
+    "sha256": "f5e82dac0aa7144d26a3f02f6a57d36b01f6bc2fc94e2fe11bb2ea67dbb101cc",
+    "tool": "built-in image_gen",
+    "original": "/Users/unterlantas/.codex/generated_images/01a1799b-bfd6-75c0-a6fe-f42d5065d715/exec-f59cc321-6d6b-4b14-8f7c-cc357d2a9833.png",
+    "prompt": "Use case: stylized-concept. Asset type: material-only reference for Meshy texturing of the exact existing URMAN long low VariantC utility outbuilding. Image1 is the actual prepared game geometry and camera; preserve its plain wide low lean-to roof, full wall volume, left offset rectangular plank door, existing wider boarded front bay panel to the right, two plain front posts, one side batten, low stone footing and existing doorstep. Keep every outline, dimension and placement unchanged. Image2 is the owner-accepted actual URMAN house: use its restrained low-contrast weathered grey-brown timber character, broad calm pigment and matte materiality, not its architecture or ornament. Current setting: a lived-in household utility shed in fictional Kara-Urman, Tatarstan, winter2026; contemporary village with kept older construction. This is a work building, not a museum or a claim of documented historical regional typology. Apply quiet cool grey-brown weathered unvarnished timber board surfaces, predominantly vertical broad grain, subtle age variation and limited damp darkening near the foot; separate door and panel remain legible. Roofing is matte dull dark neutral grey sheet metal with very restrained seams down the roof slope and slight muted brown oxidation. Footing and doorstep are muted natural grey stone. The roof sits on the prepared closed wall top: preserve contact, do not create a light gap. Match the accepted house's sober coarse painterly material realism. Do not make the wood yellow/orange, varnished, glossy, highly saturated, intensely scratched, rotten or uniformly grimy. Do not add windows, openings, handles, hinges, braces, beams, carvings, ornamental patterns, flowers, script, religious symbols, signs, snow, vegetation, people or scenery. Existing front bay stays a solid boarded panel: no painted black opening or extra doorway. Soft even studio lighting, neutral grey background, same whole-object three-quarter composition, all edges/base visible; no collage, labels or watermark.",
+    "rights": "Project-original exact prepared geometry and own accepted game frame; no third-party reference bitmap.",
+    "review": "Exact broad low silhouette retained, cool weathered unvarnished boards and dull roof; front bay stays solid, no new ethnic ornament/hardware. Coarse calm material reference only; actual Meshy output still requires review."
+  },
+  "accepted_reference": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/frames/babai_shape_front_high.png",
+  "read_canon": [
+    "docs/urman_knowledge_base/canon.md current PW-002/08.10 authority",
+    "docs/URMAN_VISUAL_RESET_2026-10-07/REFERENCES_RU.md T1–T4 and accepted current-house constraint"
+  ],
+  "budget_before_submit": {
+    "author_cap": 4000,
+    "spent": 570,
+    "remaining": 3430,
+    "reserve": 0,
+    "api_balance": 3710,
+    "monthly": 2560,
+    "permanent": 1150,
+    "operation": "One4K PBR keepUV retexture",
+    "confirmed_cost": 10,
+    "cost_source": "https://docs.meshy.ai/en/api/pricing",
+    "existing_result_check": "No existing VariantC outbuilding Meshy model/PBR atlas found. A/H049 and B family candidates are separate geometry and were not regenerated."
+  },
+  "cost_after_success": {
+    "task_id": "01a17a56-47d1-7382-bbea-c68e05f08856",
+    "status": "SUCCEEDED",
+    "consumed_credits": 10,
+    "POST_count": 1,
+    "author_cap": 4000,
+    "total_spent": 580,
+    "remaining": 3420,
+    "reserve": 0,
+    "api_balance": 3700,
+    "monthly": 2550,
+    "permanent": 1150,
+    "terminal_receipt": "status-01.json",
+    "balance_receipt": "balance-after.json"
+  },
+  "art_result": {
+    "view": "candidate-front-right.png",
+    "result": "Root inspected: restrained timber, but structure remains very boxy and roof smooth. Separate render does not prove scene/style or cultural authenticity. Preserve as source candidate only; no runtime promotion.",
+    "construction": "Source wall top contacts actual existing roof underside; bottom vertices, other nine meshes, original transforms and entire bounds retained. This source/DCC proof does not prove engine LOD/ShadowMesh/collision integration.",
+    "canon": "Ordinary fictional Kara-Urman,Tatarstan,winter2026. No invented ethnic ornament/script; no claim of measured/historically authenticated regional shed type."
+  },
+  "local_source_archive": {
+    "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-variantc-pbr-2026-10-27.zip",
+    "bytes": 16230954,
+    "sha256": "1849e61d32bdc907f58e0a319d2c24996efc96c534ba30dbdde0a8ed0711aa35",
+    "members": [
+      {
+        "member": "meshy-retexture-returned.glb",
+        "bytes": 14016420,
+        "sha256": "a36f4bf0981fde180ba6b315a009a4d109454bdeb1c3af0a9b9edb9bec2d61f8"
+      },
+      {
+        "member": "variant-c-support-fixed-uv.glb",
+        "bytes": 27316,
+        "sha256": "18b82d05fcc8ebc806a1b5111eb79a567cd2e6af85a8d7a818b50b4a8601c238"
+      },
+      {
+        "member": "prepare-source.log",
+        "bytes": 136236,
+        "sha256": "dcf074374e747aa721134146a3ebfa376dd5a5d9daf8ce28cfe0a6c27a197eb4"
+      },
+      {
+        "member": "attach-generated-material.log",
+        "bytes": 10800,
+        "sha256": "1e5aa9d0c77f9dca8f8a38a9580d7fc4028abb876708eaadc279fa287b15ce3e"
+      },
+      {
+        "member": "source-front-right.png",
+        "bytes": 1213836,
+        "sha256": "204b8b74237248eaa8c375b113412153514dcdb6c4ab3fd1c9402d75e703859f"
+      },
+      {
+        "member": "candidate-front-right.png",
+        "bytes": 1391744,
+        "sha256": "8277c72d337a46dd4a9eddd227a3bea9b5fe2d97f63828734863521826a2ae81"
+      },
+      {
+        "member": "submit-retexture.json",
+        "bytes": 83,
+        "sha256": "b62e8a065727fb6bfe251b72029e6528635f1616514d0c8662773e4e6152a77f"
+      },
+      {
+        "member": "status-01.json",
+        "bytes": 335,
+        "sha256": "706b64a463fdab5241b1297cc8b4476df96464295c7647912eb542084e63cb5a"
+      },
+      {
+        "member": "download-retexture.json",
+        "bytes": 245,
+        "sha256": "f77240b027448de75e7b373e4bd6f06bfe1c599496eec496b3a4b5315a74880f"
+      },
+      {
+        "member": "balance-before.json",
+        "bytes": 116,
+        "sha256": "4a642f2c1ce89fda4c7b2dfa1387e6500247792eef506f9000160c39c2252a7f"
+      },
+      {
+        "member": "balance-after.json",
+        "bytes": 116,
+        "sha256": "d7444f0f8c7696f0cf272a4381e7c3ad49f6dc2ac60287e1d3df09d698669d61"
+      }
+    ],
+    "verification": "Every decompressed archive member matched original bytes and SHA256 before unlink. Only own stopped pipeline files; final GLB, selected reference, recipes/provenance preserved.",
+    "loose_bytes_removed": 16797247
+  },
+  "archive_notice": "Named loose paid-source/receipt/log/view paths are now archive members; extract exact member and verify recorded SHA before reuse.",
+  "own_imagegen_duplicate_cleanup": {
+    "removed": "/Users/unterlantas/.codex/generated_images/01a1799b-bfd6-75c0-a6fe-f42d5065d715/exec-f59cc321-6d6b-4b14-8f7c-cc357d2a9833.png",
+    "retained": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_outbuilding_c_pbr_v1/input-material-reference-v1.png",
+    "bytes": 1857661,
+    "sha256": "f5e82dac0aa7144d26a3f02f6a57d36b01f6bc2fc94e2fe11bb2ea67dbb101cc",
+    "verified": "Byte equality checked before removing only this own source duplicate."
+  }
+}

@@ -111335,6 +111335,14 @@
           "game/scripts/ArrivalPersonalProps.Cellar.cs"
         ],
         "verification": "Independent source review; affected Game compile 17.92s 0 warnings/errors. Changes not in running frozen snapshot; native acceptance remains pending."
+      },
+      "live_first_episode_windows_2026_10_27": {
+        "source_commit": "339ff9cb16220d34cb861de894c5187c9a6c7220",
+        "job_id": "b1dce201aaf74f5f85400b33b18fefa1",
+        "result": "FAIL: game exited 124; protected userdataRestored=true and doctor ready, no busy/orphan/recovery. Ordinary New Game reached moved branch, F03 exit, arrival dialogue in Niva, house, tea conversation and family book. Save UI confirmed; school copy and first photo world not reached. Niva motion was not observed and remains unverified. Navigation at branch obstructed and bypassed with strafe; exact collider unconfirmed. Gate waypoint and NPC aiming findings led to 27dd9baf, which was not included in this frozen run.",
+        "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-firstepisode-b1dce201-2026-10-27.zip",
+        "archive_sha256": "2c182de9fcd18177bdc5cac25ed50c8e02ac6f8b194e76f859704f312240129c",
+        "remaining": "Playability of full first episode, new fixes, Niva motion and author acceptance remain open."
       }
     },
     {
@@ -147435,6 +147443,18 @@
         "result": "Existing VariantC utility outbuilding source has wall top 1.96m and roof underside >=2.06m with no supporting post or plate reaching it; generator is author_variant_shed_c in assets/source/blender/act1/urman_village_exterior_kit.py. OpenBay is used by existing repair bench and bypass. No paid retexture or runtime modification was made.",
         "remaining": "Before replacement, resolve constructively with preserved OpenBay, materials, existing collision, imported LOD/shadow mesh and normals; compare in scene. Do not treat a texture as a structural repair.",
         "cost_credits": 0
+      },
+      "variant_c_generated_candidate_2026_10_27": {
+        "status": "source_candidate_not_scene_or_culture_accepted",
+        "asset": "assets/source/blender/act1/neighbor_outbuilding_c_pbr_v1/variant-c-outbuilding-generated-pbr-2k.glb",
+        "reference": "assets/source/blender/act1/neighbor_outbuilding_c_pbr_v1/input-material-reference-v1.png",
+        "task_id": "01a17a56-47d1-7382-bbea-c68e05f08856",
+        "credits": 10,
+        "cumulative_credits": 580,
+        "budget": 4000,
+        "result": "ImageGen reference and Meshy retexture of repeated VariantC prepared against Tatar village canon. Roof support corrected in isolated source, UV coverage and reimport geometry checked; runtime unchanged. Root reviewed isolated rendering: restrained timber, but boxy form and smooth roof remain concerns. Scene appearance, construction context and cultural acceptance not established.",
+        "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-variantc-pbr-2026-10-27.zip",
+        "archive_sha256": "1849e61d32bdc907f58e0a319d2c24996efc96c534ba30dbdde0a8ed0711aa35"
       }
     },
     {
