@@ -109492,7 +109492,25 @@
         "result": "Верх книги показывает тот же CurrentPlayerMission, что HUD/Дела; выбор карточки, подробности, entry/resume и причины disabled сохранены.9book действий больше не создают world destination/return-home; доступные forest mount/read проверяются до home fallback. Только presentation, authored facts/permissions/ownership/mount/read conditions и кнопочные guards не ослаблены.",
         "verification": "2 bounded source reviews + root bridge route/condition/caller inspection; Astra выявила ранний forest fallback, исправлен. После последней правки Game14.48s0warnings0errors; diffcheck. В игре carried-book flow не проверен. Followup26.10: raw campaign seeds PFOREST Mounted; SSCHOOL source-confirm+staff-copy supplies contextKnown, no second mount/back/homecompare required for first entry. Rejected proposal to restore selectedPhoto helper: it would repeat the documented automatic-PFOREST overriding river goal; no production change made.",
         "remaining": "Обычная полная книга/сохранённый Continue и внешняя приёмка открыты.",
-        "native_partial": "07e7 on0dd81117: fixed footer visible at1280x720; no repeated mount/read was needed for seeded PFOREST. Save/Continue and complete carried-book route remain unaccepted."
+        "native_partial": "07e7 on0dd81117: fixed footer visible at1280x720; no repeated mount/read was needed for seeded PFOREST. Save/Continue and complete carried-book route remain unaccepted.",
+        "task_photo_selection": {
+          "state": "source_reviewed_compiled_native_pending",
+          "result": "Existing PlayerMission.BookPhotoId links all9 book-only mount/back actions and5 entry-photo routes to the earned acquired photo. J opens the photoalbum on that row once; manual browsing and explicit book opens without photoId preserve selection. The current mission row has a textual Сейчас prefix, independent of current selection. Home/street door detours omit photoId.",
+          "verification": "Root caller/redirect/acquired-projection review and independent review found no remaining blocker. One affected Gamecompile16.57s:0errors/0warnings. No content/graph/state/save schema changes, no new tests/probes/game/captures.",
+          "targets": [
+            "game/scripts/PlayerMission.cs",
+            "game/scripts/JournalUi.Missions.cs",
+            "game/scripts/JournalUi.cs",
+            "game/scripts/JournalUi.PhotoBook.cs"
+          ],
+          "invariants": [
+            "Mission chooses the suggested page; selected page never chooses campaign progress.",
+            "Only owned photo in same session projection may be selected; load/deferred guards stay intact.",
+            "No auto mount/read/entry/acquisition or invented knowledge.",
+            "The one-time open selection does not reselect during later refreshes or manual browsing."
+          ],
+          "remaining": "Runtime presentation, full first episode, Save/Continue and external gates remain unaccepted."
+        }
       },
       "ordinary_home_book_continue_2026_10_26": {
         "run_id": "6832013599f54d24b6588ff7626a247e",
@@ -125507,7 +125525,8 @@
           "content/modules/urman-fullgame/definitions.json"
         ],
         "verification": "Root source review + Luna bounded implementation/source review + Astra independent review. Caught/fixed misleading F11 singlelandmark cue, missing literal schoolconfirm, W02-first generic home text. No game/tests/probes; compile pending. Final affected Game compile17.80s,0errors/0warnings; existing ContentCLI compiled only urman.fullgame. Source diff inspected12existingtext definitions/default=ru, dialogue graph/effects/conditions unchanged. Tracker render/validate PASS308/20/679; diffcheck clean. Followup: two exact existing dialogue text keys only (default=ru); source comparison confirms all dialogue nodes/effects/conditions unchanged. Affected Game compile18.46s,0warnings/0errors. No game/test/probe. Native247cf/c48: root inspected actual prologue task/marker and home-street task/marker/M shortcut. School/W01 not reached; map itself not opened. These frames prove presence/readability only at default720p, not fullflow/movement/pleasantness.",
-        "remaining": "Целый W01 action→return→home и удовольствие от игры не приняты; культурная/языковая/художественная/авторская приёмка остаётся отдельной."
+        "remaining": "Целый W01 action→return→home и удовольствие от игры не приняты; культурная/языковая/художественная/авторская приёмка остаётся отдельной.",
+        "bounded_review_followup": "26.10 source: actual product NewGame uses pw-prologue/W01/F00, branch→F03→pw-niva-arrival→20sride→D00exit→pw-home. Legacy PrologueForest is not this route. No proven source deadend/premature skip; do not rewrite legacy opening based on its filename. Actual ordinary prologue motion remains unaccepted. F13 busywork proposal not implemented: current sequential3-sighting owner was already changed today from simultaneous3 with prior occlusion evidence; no new causal finding warrants another blind gate change."
       },
       "home_discovery_summary_2026_10_26": {
         "result": "Confirmed pw-forest-inside теперь сохраняет смысл встречи: Шурале работал за спиной фотографа и поэтому отсутствует в кадре; әби узнала поворот. Existing knowledge.set-status+journal.record после полного resolved home dialogue сохранены; нет новых наград/фактов/автоподписей. Book completedForest показывает найденное место, не только сумку. Overview держит личную цель закончить записи Марата, не убийство.",

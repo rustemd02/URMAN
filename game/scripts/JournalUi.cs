@@ -133,9 +133,11 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             {
                 if (bridge.ActiveSceneId == "urman.fullgame:scene/pw-prologue")
                     _tabs.CurrentTab = 2;
+                var mission = CurrentPlayerMission(bridge);
                 if (bridge.CanInspectReceivedPhotoBook
-                    && CurrentPlayerMission(bridge) is { InteractionId: null, AnchorPath: null })
-                    OpenPhotoBook(bridge);
+                    && (mission?.BookPhotoId is not null
+                        || mission is { InteractionId: null, AnchorPath: null }))
+                    OpenPhotoBook(bridge, mission?.BookPhotoId);
                 else
                     Open(bridge);
             }
@@ -155,7 +157,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         if (_bookInspectionView is not null) RefreshBookInspection();
     }
 
-    public void Open(RuntimeBridge bridge, string? selectedEntryId = null)
+    public void Open(RuntimeBridge bridge, string? selectedEntryId = null, string? selectedPhotoId = null)
     {
         RefreshCloseHint();
         RefreshQuickAccessLabels();
@@ -170,6 +172,28 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             _tabs.CurrentTab = 0;
         }
         Refresh();
+        if (selectedPhotoId is { } requestedPhotoId
+            && !_notesLoadInProgress
+            && !bridge.IsPhotoBookProjectionDeferred
+            && bridge.SessionIdentity is { } session
+            && ReferenceEquals(_photoBookSession, session))
+        {
+            var matchingPhotoIndex = -1;
+            for (var index = 0; index < _photoBookProjection.Count; index++)
+            {
+                if (_photoBookProjection[index].PhotoId != requestedPhotoId) continue;
+                matchingPhotoIndex = index;
+                break;
+            }
+            if (matchingPhotoIndex >= 0 && _photoBookSelectedId != requestedPhotoId)
+            {
+                _photoBookRefreshing = true;
+                _photoBookList.Select(matchingPhotoIndex);
+                _photoBookList.EnsureCurrentIsVisible();
+                _photoBookRefreshing = false;
+                SelectPhotoBookPhoto(matchingPhotoIndex);
+            }
+        }
         if (_projection.Count == 0 && _tabs.CurrentTab == 0) _tabs.CurrentTab = 2;
         UiFoley.Play(_foley, "paper_open");
         _screen.Visible = true;

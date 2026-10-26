@@ -8,4 +8,5 @@ internal sealed record PlayerMission(
     string? InteractionId = null,
     string? AnchorPath = null,
     string? TargetZoneId = null,
-    string? TargetLabel = null);
+    string? TargetLabel = null,
+    string? BookPhotoId = null);

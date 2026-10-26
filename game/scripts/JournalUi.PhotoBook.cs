@@ -433,10 +433,10 @@ public partial class JournalUi
         };
     }
 
-    internal void OpenPhotoBook(RuntimeBridge bridge)
+    internal void OpenPhotoBook(RuntimeBridge bridge, string? photoId = null)
     {
         if (!IsInsideTree() || bridge.SessionIdentity is null || !bridge.IsPhotoWorldsCampaign) return;
-        Open(bridge);
+        Open(bridge, selectedPhotoId: photoId);
         if (bridge.SessionIdentity is null || !bridge.IsPhotoWorldsCampaign) return;
         _tabs.CurrentTab = PhotoBookTabIndex;
         FocusCurrentPage();
@@ -473,6 +473,8 @@ public partial class JournalUi
         }
 
         _photoBookProjection = bridge.PhotoBookPhotos();
+        var mission = CurrentPlayerMission(bridge);
+        var missionPhotoId = mission?.BookPhotoId;
         var previousSelectedId = _photoBookSelectedId;
         var selectedIndex = _photoBookProjection.ToList()
             .FindIndex(photo => photo.PhotoId == _photoBookSelectedId);
@@ -490,7 +492,8 @@ public partial class JournalUi
         for (var index = 0; index < _photoBookProjection.Count; index++)
         {
             var photo = _photoBookProjection[index];
-            _photoBookList.AddItem($"{index + 1:D2} · {photo.Title}", PhotoBookFrontTexture(photo.PhotoId, thumbnail: true));
+            var rowTitle = photo.PhotoId == missionPhotoId ? $"Сейчас · {photo.Title}" : photo.Title;
+            _photoBookList.AddItem($"{index + 1:D2} · {rowTitle}", PhotoBookFrontTexture(photo.PhotoId, thumbnail: true));
             _photoBookList.SetItemTooltip(index, photo.Title);
         }
 
@@ -523,7 +526,7 @@ public partial class JournalUi
         }
 
         _photoBookRefreshing = false;
-        RefreshPhotoBookPreparation();
+        RefreshPhotoBookPreparation(mission);
         RefreshPhotoBookActionButtons();
         RefreshBookInspection();
     }
@@ -569,9 +572,9 @@ public partial class JournalUi
         RefreshPhotoBookActionButtons();
     }
 
-    private void RefreshPhotoBookPreparation()
+    private void RefreshPhotoBookPreparation(PlayerMission? mission)
     {
-        var text = _bridge is { } bridge ? CurrentPlayerMission(bridge)?.Action : null;
+        var text = mission?.Action;
         _photoBookPreparation.Text = text ?? string.Empty;
         _photoBookPreparation.Visible = text is not null;
     }
@@ -588,7 +591,7 @@ public partial class JournalUi
         }
         _photoBookSelectedId = selected.PhotoId;
         ShowPhotoBookPhoto(selected);
-        RefreshPhotoBookPreparation();
+        RefreshPhotoBookPreparation(_bridge is { } bridge ? CurrentPlayerMission(bridge) : null);
         RefreshPhotoBookActionButtons();
         RefreshBookInspection();
     }
