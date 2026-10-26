@@ -414,10 +414,19 @@ try {
         }
     }
     if ($Mode -in @('play', 'smoke', 'capture')) {
-        $baseArguments = @($guard, '--clean', '--timeout', "$TimeoutSeconds", $godot, '--path', "$Root/game")
+        $ordinaryPhotoWorldsPlay = $Mode -eq 'play' -and $Scene -eq 'res://scenes/photoworlds_game.tscn'
+        $baseArguments = @($guard)
+        if ($ordinaryPhotoWorldsPlay) {
+            # The guard uses a disposable copy and restores the original; Continue needs that copy.
+            $receipt.userdataPreparation = 'guard-default-copy-if-present'
+        } else {
+            $baseArguments += '--clean'
+            $receipt.userdataPreparation = 'guard-clean'
+        }
+        $baseArguments += @('--timeout', "$TimeoutSeconds", $godot, '--path', "$Root/game")
         # Ordinary PhotoWorlds play uses the same window settings as the shipped
         # project. A forced desktop-sized client can put its caption off-screen.
-        if ($Mode -eq 'play' -and $Scene -eq 'res://scenes/photoworlds_game.tscn') {
+        if ($ordinaryPhotoWorldsPlay) {
             $receipt.nativeWindowSizePolicy = 'project-default'
         } else {
             $baseArguments += @('--resolution', '1920x1080')
@@ -478,7 +487,8 @@ try {
             $runRecord = [ordered]@{ run = $runIndex + 1; step = $stepName; log = "$stepName.log";
                 startedUtc = $runStarted; finishedUtc = $null; exitCode = $null; status = 'RUNNING'; engineErrors = @() }
             $runArguments = @($baseArguments)
-            $runArguments[3] = "$runTimeout"
+            $timeoutValueIndex = [Array]::IndexOf($runArguments, '--timeout') + 1
+            $runArguments[$timeoutValueIndex] = "$runTimeout"
             $receipt.userdataRestored = $false
             try {
                 Invoke-Logged $stepName $Python $runArguments ($runTimeout + 30) -DeferEngineErrors:($studioPlay -and $StudioRestarts -gt 0)

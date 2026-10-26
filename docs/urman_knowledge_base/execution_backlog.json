@@ -25884,7 +25884,7 @@
             "remaining": [
               "Подключить Continue самого свежего совместимого save с unknown-version refusal; собственного целевого receipt пока нет."
             ],
-            "next_action": "После authoritative e79 terminal/restoration проверить cold Continue: актуальная позиция/состояние и совместимый backup при неподдерживаемой вложенной версии primary, оба неподдерживаемых кандидата безопасно отклоняются. Принятый source/callback не переписывать без нового дефекта.",
+            "next_action": "Caller preparation repair installed; no more profile/compatibility guesses for absentWindowsuserdata. Next necessary whole firstepisode earns schoolcopy→W01 action→home record in one frozen ordinary protected product session, then Save/menu/Continue; use efficient direct single-owner input and wait actualscene-readiness before captures. Preserve full backup/version recovery contract.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -25948,6 +25948,20 @@
               "final_compile": "evidence/FINISH-06/menu-session-20261020/game-build-final.log",
               "compile_result": "One affected Game/Core build15.99s,0warnings/0errors; no Godot/import/runtime/native.",
               "independent_review": "Runtime-confirmed personal luna_fast /root/continue_backup_review finaltwofile source pass clean; backup mtime/label use selected backup, schema1 memory migration/unknown refusal/cancellation preserved."
+            },
+            "protected_product_profile_2026_10_26": {
+              "state": "source_reviewed_windows_parser_pass_installed_native_not_run",
+              "cause": "run-windows-check.ps1 Modeplay passed --clean even for exact ordinary photoworlds_game scene. protected_run default already makes a disposable copy of existing userdata and restores original by rename/fingerprint; engREADME documents this supported behavior. Thus247cf disabledContinue cannot diagnose user save compatibility.",
+              "result": "Only Modeplay+res://scenes/photoworlds_game.tscn uses guard default copy-if-present; smoke/capture/Studio/internalplay-full remain clean. Guard/restore/lock/parser/storecompatibility unchanged. Receipt userdataPreparation states policy, not save existence. Timeout value selected by --timeout position so omitted --clean cannot overwrite Godot executable.",
+              "verification": "Root source chain + independent fresh Luna contract/finaldiff review; caught fixed-index regression before deployment and changed to named --timeout lookup. Windows PowerShell AST parser0errors on SHA71a858f0741a09d0095c3ec39ac4f767ca4df14d94c3aa09b835f7e04b547470; no game/build/tests/probes. Installed runner beforechange SHAebc433bf81119ad4daaa792ffb3757ea60c4205367252b3f0923e82be1dbfc67 matched MacHEAD exactly despite other dirty stationfiles. Idle doctor then same exclusive station filelock, exactold/newSHA checks, atomicFile.Replace; installedSHA71a858…, staging/verifiedbackup removed. No blindgitpull, no otherdirtyfiles overwritten, no workerrestart required for per-job PS runner.",
+              "actual_profile_metadata": "Read-only SSH after terminal and idle doctor: userDataExists=false,namespaceExists=false,candidates[]. No save bytes copied or changed. No current compatible Continue is claimed; fingerprint-policy hypothesis is not the cause of this absent profile.",
+              "evidence": [
+                "eng/run-windows-check.ps1",
+                "eng/protected_run.py:396",
+                "eng/README.md:45",
+                "docs/production/WINDOWS_TEST_STATION_RU.md"
+              ],
+              "remaining": "No Windows userprofile exists now, so this does not enable Continue there. Copy-existing behavior not exercised natively in this slice; guard code and fingerprint/schema compatibility unchanged. Full earned Save/Continue and backup/version/physical recovery acceptance remain mandatory."
             }
           },
           {
@@ -108116,7 +108130,7 @@
         "Готово: 13 фото привязаны к sourceId/permissionId (compiled catalog); AcquirePhoto проверяет соответствие каталогу и provenance; повторное приобретение из другого источника отвергается. Редьюсер уже обрабатывает pw1.photo.acquire.",
         "Осталось: runtime-проверка различения 13 типов источников и что оригинал остаётся на месте там, где обещана копия (школьный/сельский альбом) — нужна обычная сессия/станция (PW-054 или targeted scenario)."
       ],
-      "next_action": "Принять целый первыйэпизод по обычному маршруту: направления→schoolsourceconfirm/permissioncopy→W01physicalaction→homefamilyrecord→earnedpage→Save/Continue. Source-story/receiptfeedback этап доставлен технически; не переписывать без нового дефекта. Сначала выяснить фактическую причину disabledContinue в protected247cf и эффективную обычную подготовку вместо следующего такого жеNewGame.",
+      "next_action": "Source story/receiptfeedback and tracked compiledpack synchronized. Windowsprofile actually absent, caller nowguardcopyifpresent; no compatible Continue to start from. Next necessary wholeepisode in one frozen ordinary session: directions→schoolsourceconfirm/permissioncopy→W01physicalaction→homefamilyrecord→earnedpage→Save/menu/Continue; direct single-owner input and scene-readiness beforemilestonecaptures, no repeat30minsetup pattern.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -108314,11 +108328,12 @@
       "first_family_page_2026_10_26": {
         "state": "source_implemented_reviewed_compiled_native_pending",
         "result": "Six existing dialogue texts + pw-forest-inside.summary tie firstepisode to finishing Marat records together with abi: schoolcopy locates place, abi recognizes turn, player adds own note, nextphotos continue family work. D06 denies bagownership; summary no longer says hisbag. Shurale working behind photographer is attributed to his own account (D07), no new certainty/magic/identity/murderplot. Genericriver-first/partialreturns unchanged. Schoolconsent finalline now hands over the actualcopy.",
-        "verification": "Root exact7-record diff (only default/ru values/summary), whole graph/effects/conditions unchanged; Astra independent canon/flow/feedback review no blockers. Game17.86s0/0 and existing ContentCLI fullgame exit0; no game/tests/probes after this source change.",
+        "verification": "Root exact7-record diff (only default/ru values/summary), whole graph/effects/conditions unchanged; Astra independent canon/flow/feedback review no blockers. Game17.86s0/0 and existing ContentCLI fullgame exit0; no game/tests/probes after this source change. Followup: tracked derived fullgame pack synchronized to the already-compiled source; exact14localizedscalars + moduleSHA/campaignFingerprint only, no graph/schema/state contract changes. Current fingerprint95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0; no unproved compatibility pairs added.",
         "evidence": [
           "content/modules/urman-fullgame/definitions.json",
           "game/scripts/ExplorationFeedbackUi.cs",
-          "game/scripts/RuntimeBridge.cs"
+          "game/scripts/RuntimeBridge.cs",
+          "game/content/urman.fullgame.compiled.v1.json"
         ],
         "remaining": "Normal whole firstepisode→earnedhomeentry→Save/Continue and all separate cultural/language/art/author acceptance remain unverified."
       }
@@ -124882,7 +124897,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "W01 action→return→home unaccepted. No identical NewGame/setup retry:247cf reached only arrival and capture504 latercompleted. Firststory/resultfeedback source stage delivered technically; next bounded step is source/read-only check of protected profile preparation and actual Continue eligibility (why disabled despite earlier user play), not assumed missing save. Then a concretely different efficient ordinary control/preparation route; no seeds/debug/profilecopy/ad-hocguard changes.",
+      "next_action": "Continue diagnosis and canonical caller repair complete (FINISH-06/E02); Windowsuserdata actuallyabsent. No seeded/copied save or compatibilityloosening. Next required native is one frozen ordinary whole firstepisode with efficient direct single-owner input, scene-ready waits/milestone captures, earning schoolcopy→W01physicalaction→homeentry→Save/menu/Continue. Do not repeat previous30minsetup/control pattern.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
