@@ -121042,6 +121042,17 @@
         "remaining": "Новый школьный waypoint и оформление ещё не приняты в движении. Текущий защищённый job352d705638054f4d8a4b07af93055eb3 проверяет прежний cd12bb62, а не эту правку; его результат записать отдельно. Авторская естественность/интерес и обязательные внешние гейты открыты.",
         "pair_comparison": "Существующий DocumentImageReader показывает рядом семейный снимок и школьный оригинал с отдельными подписями, общими zoom/fit/pan. Только если семейный снимок уже доступен в полученной книге; оригинал не присваивается. SetImages/Close сбрасывают пару; prologue/другие документы сохраняют одиночный режим. Нет новых facts/quiz/gates. Реальные PNG просмотрены: близкие фронтальные кадры, не противоположная сторона.",
         "pair_verification": "Root asset/caller/lifecycle review и независимое ограниченное review без P1/P2; affected Game13.75s/0warnings/0errors. UI пары в игре не принимался; нового игрового запуска не было."
+      },
+      "first_return_route_copy_2026_10_26": {
+        "state": "content_compile_verified",
+        "cause": "First-home forest caption selection depends on forest facts, not W01/W02 route order; unconditional instruction to inspect house print contradicted W01-first current water mission.",
+        "result": "Earned family reaction and request to record remain; removed wrong forced next location. Remaining photos to inspect together, actual next mission still selected by existing progress. No new lore/state/gates.",
+        "evidence": [
+          "content/modules/urman-fullgame/definitions.json#urman.fullgame:text/pw-dialogue-first-world-home-caption",
+          "game/scripts/JournalUi.Missions.cs",
+          "game/content/urman.fullgame.compiled.v1.json"
+        ],
+        "verification": "Bounded independent branch/caller read and root exact field edit; targeted ContentCli compile exit0. No game/new tests/affected Game build for copy-only source."
       }
     },
     {
@@ -124604,7 +124615,7 @@
       "assigned_owner": "gameplay",
       "activity": {
         "state": "not_active",
-        "reason": "Bounded first-action/grip/stale-collider stage delivered and nativewalk verified aff33. FullW01/art/otheractions remainopen; root moves to PW028 pause-priority slice."
+        "reason": "String-only F11 source stage complete, existing F14 physical action source checked; native action/return remains a separate unperformed question."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -124614,7 +124625,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Reuse aff33 accepted firstaction+12.9m walk proof and source branch projection. Remaining W01 encounter/bag/F16/art gates need actual ordinary route after authoritative e79 terminal/userdata restoration. Direct protected prologue-skip authorization has been received and persists; it has not been performed during transport outage. No unchanged F01 replay.",
+      "next_action": "Finish this bounded source stage, then retain only W01 encounter/action→return→home-talk as the native question. School and first entry352d accepted; do not repeat old e79 transport investigation or unchanged branch setup.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -125010,6 +125021,17 @@
           "game/scripts/photoworlds/W01Controller.PassageObservation.cs"
         ],
         "cleanup": "Послевыходакомпиляции/lsof(noopenfiles)/exactpath/no-symlink/emptygit-ls-files удалёнтолькоignoredreproduciblegame/.godot/mono48457945bytes; sources/release/userdataнетронуты."
+      },
+      "current_F11_affordance_2026_10_26": {
+        "state": "copy_fixed_source_review",
+        "cause": "Current native352d F10 shows no people atF11; actual pforest-tableau-v1 GLB has only photographed landmarks. Passport names F11 empty place behind group. Current HUD/marker said Встаньте у людей / Люди со снимка, promising a nonexistent target.",
+        "result": "Task now asks to go around trunks and look back at birch/crossbar/rootarch; marker says За тремя стволами. Existing actual F11 zone/LOS/facts unchanged.",
+        "evidence": [
+          "game/scripts/JournalUi.Missions.cs",
+          "game/assets/photoworlds/forest_entry/pforest-tableau-v1.glb",
+          "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip!frames/interactive-e121da7da59347d4a25a61cc91e8f145.png"
+        ],
+        "verification": "Root actual frame+GLB node read+passport and exact observation condition. String-only diff; no compilation risk, no game/test/build rerun. Scoped diffcheck passed; no new Game compilation or tests for string-only change."
       }
     },
     {
@@ -145834,8 +145856,8 @@
         ],
         "budget": {
           "author_cap": 4000,
-          "actual_consumed": 475,
-          "remaining_author_cap": 3525,
+          "actual_consumed": 505,
+          "remaining_author_cap": 3495,
           "first_family_cap": 90,
           "first_family_consumed": 40,
           "active_task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
@@ -145897,7 +145919,12 @@
           "prologue_branch_family_reserved": 0,
           "prologue_branch_family_consumed": 10,
           "prologue_branch_task_state": "SUCCEEDED100 actual10; root terminalreceipt and balance3805 verified; PBRsourceHOLD pale stone-like bark, no runtimepromotion",
-          "prologue_branch_task_id": "01a16a54-4ed5-72da-9272-9bc8ef087354"
+          "prologue_branch_task_id": "01a16a54-4ed5-72da-9272-9bc8ef087354",
+          "winter_birch_v2_cap": 35,
+          "winter_birch_v2_reserved": 5,
+          "winter_birch_v2_consumed": 30,
+          "winter_birch_v2_task_id": "01a175ad-5bc0-7560-a1e0-1fcfbb0c46e5",
+          "winter_birch_v2_task_state": "IN_PROGRESS74; actual consumed30 confirmed status01; no remesh."
         },
         "current_artifact": "Babai side-gate literal8part96tri/2KgeneratedPBR integrated; sourceart+import/worldconstructionstrictbounds accepted, action/sceneview blocked byseparateglobalgorgeaudit. AS05birch frozenHOLD remainsno runtime; existing generatedconifers/hero house preserved.",
         "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
@@ -145943,6 +145970,22 @@
             "scope": "Only3 own rejected ImageGen builtin original duplicates; every bytehash matched retained archive input member before deletion. Other generated_images/assets untouched.",
             "bytes_removed": 5464426,
             "total_net_bytes_reclaimed_including_archive_consolidation": 25162130
+          },
+          "new_attempt_2026_10_26": {
+            "state": "single_image_to_3d_in_progress",
+            "owner": "/root/forest_asset_pipeline; root budget/Git/runtime",
+            "cap": 35,
+            "spent": 30,
+            "reserved": 5,
+            "reason": "Verified raw crown depth/width .196; source lacks true3D form and cannot be repaired by decimation. Existing conifer V2 reused, no conifer POST.",
+            "scope": "One own ImageGen reference from existing birch+accepted house style, one Meshy7.1 textured source30, at most one remesh5 only if useful; no blind retries. Candidate must show believable whole rounded airy crown in side/threequarter, trunk/base/scale and LOD readiness. No runtime promotion before root scene/source review.",
+            "task_id": "01a175ad-5bc0-7560-a1e0-1fcfbb0c46e5",
+            "reference": "assets/source/blender/act1/winter_birch_meshy_v2/input-winter-birch-v2-threequarter.png",
+            "reference_sha256": "965d8fa3b1ed0c9402de464ec70998006900ed82db9b4cf722104fbabde9cf24",
+            "root_reference_review": "Personally viewed base and targeted edit. Base remained front-like HOLD; one edited reference has foreshortened front fork and branches occluded by trunk, whole crown/top/base visible, compatible pale bark/thin snow. Approved one30credit geometry/PBR source only; true3D crown still to measure. No further image iterations.",
+            "actual_cost_pending_terminal": false,
+            "actual_cost": 30,
+            "status_receipt": "assets/source/blender/act1/winter_birch_meshy_v2/status-01.json"
           }
         },
         "babai_side_gate_family_2026_10_23": {
@@ -145951,8 +145994,8 @@
           "source_owner": "game/scripts/Act1ConnectedWorld.BabaiYardSideGate.cs:LooseBoardHinge",
           "scope": "One complete8partwoodleaf exactexistinggeometry/PBRretexture; separatehardware/hinge/collision/statepreserved. No newgeometry/remesh orfencebatchingchange.",
           "cap": 10,
-          "actual_cost": 0,
-          "reserved": 10,
+          "actual_cost": 10,
+          "reserved": 0,
           "next_action": "Reuse compile/import/strictdonorvalidation. Nextdistinctordinaryclosed/open gate or existingcaptureafterseparateknownauditrepair; do notclaimblockedframespassed orrerununchanged. Finalart/movement/performance/authorgateopen.",
           "donor": "assets/source/blender/act1/babai_side_gate_meshy_v1/babai-side-gate-wood-donor.glb",
           "donor_sha256": "aba31f8f9c832cca4e0d6924ba489d2660efc8592d8806e51ca62fb2d9685d34",
@@ -164524,12 +164567,14 @@
     "credits": {
       "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 455,
-      "authorized_budget_remaining": 3545,
+      "agent_spent_after_purchase": 505,
+      "authorized_budget_remaining": 3495,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4100,
-      "balance_note": "Current authoritative PW093budget:455/4000 spent,3545 remaining,0AS05reserved. Actual Meshy task01a16967-667a-7619-ade5-9241cdf9bbb0 SUCCEEDED30credits; GET3825 monthly2675/permanent1150. AS05rawstructuralHOLD; secondreferencepair rejected beforePOST, no further paidcalls. Accountbalance does not expand authorcap.",
-      "latest_api_balance_observed": 3825
+      "balance_note": "PW093 actual505/4000 spent,3495 unspent,5 reserved for conditional AS05v2 remesh. New single task01a175ad-5bc0-7560-a1e0-1fcfbb0c46e5 statusIN_PROGRESS74 consumed30 confirmed. Latest accountGET3805 was before this task, do not treat as fresh after spend. No additionalPOST authorized before structural review.",
+      "latest_api_balance_observed": 3805,
+      "reserved_for_current_work": 5,
+      "unreserved_author_budget": 3490
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
     "operations": [

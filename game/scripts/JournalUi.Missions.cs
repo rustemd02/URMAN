@@ -363,7 +363,7 @@ public partial class JournalUi
                 ("urman.fullgame:scene/pw-prologue", "prologue-exit") =>
                     ("Выход из леса", "Идите по тропе к светлой поляне.", "pw-prologue-f03-end", "ZoneHost/W01/Anchors/F03", "Светлая поляна"),
                 ("urman.fullgame:scene/pw-forest", "camera") =>
-                    ("Место фотографа", "Встаньте у людей со снимка и оглянитесь на три ствола.", "pw-forest-group", "ZoneHost/W01/Anchors/F11", "Люди со снимка"),
+                    ("Ракурс лесного снимка", "Обойдите три ствола и оглянитесь на берёзу, низкую перекладину и дугу корня.", "pw-forest-group", "ZoneHost/W01/Anchors/F11", "За тремя стволами"),
                 ("urman.fullgame:scene/pw-forest", "path") =>
                     ("За краем снимка", "Обойдите корни по тропе. Затем оглянитесь на три ствола.", "pw-forest-photographer", "ZoneHost/W01/Anchors/F13", "Поворот у корней"),
                 ("urman.fullgame:scene/pw-forest", "talk") =>
