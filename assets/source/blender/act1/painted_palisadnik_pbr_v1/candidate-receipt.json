@@ -1,0 +1,248 @@
+{
+  "schema": "urman-painted-palisadnik-literal-pbr/v1",
+  "status": "SOURCE_CANDIDATE_NOT_SCENE_OR_CULTURE_ACCEPTED",
+  "task_id": "01a17a75-f06d-72b4-801e-27e80073bdb8",
+  "consumed_credits": 10,
+  "source": "painted-palisadnik-uv.glb",
+  "source_sha256": "b7eda17d8f0ba43635d7ef8a5f36c891a39218db925032d06c630501f75c0f15",
+  "image_donor": "painted-palisadnik-generated-pbr-2k.glb",
+  "image_donor_sha256": "1a3f6df8289a058d23ae5d9df38bbac9ccb70918b2bc8c2a4f47c2e71757b974",
+  "image_donor_geometry_incorporated": false,
+  "literal_byte_proof": {
+    "literal_source_bin_bytes": 29520,
+    "literal_source_bin_sha256": "6b5b237ed723c8e1f40db3eb00458aa474a29ba19ae5a5aa26d5a6a284156be7",
+    "candidate_original_bin_prefix_sha256": "6b5b237ed723c8e1f40db3eb00458aa474a29ba19ae5a5aa26d5a6a284156be7",
+    "source_mesh_json_material_assignments_identical": true,
+    "source_nodes_accessors_transforms_indices_normals_uv_literal_identical": true,
+    "all_source_material_names_and_indices_retained": [
+      {
+        "index": 0,
+        "name": "Source_7f9a74_wood_painted_trim",
+        "old_pbr_factors": {
+          "baseColorFactor": [
+            0.21223075687885284,
+            0.32314321398735046,
+            0.17464740574359894,
+            1
+          ],
+          "metallicFactor": 0,
+          "roughnessFactor": 0.8500000238418579
+        },
+        "new_pbr_factors_and_bindings": {
+          "baseColorTexture": {
+            "index": 1
+          },
+          "metallicRoughnessTexture": {
+            "index": 2
+          }
+        }
+      },
+      {
+        "index": 1,
+        "name": "Source_e3d6b8_wood_painted_trim",
+        "old_pbr_factors": {
+          "baseColorFactor": [
+            0.7681511640548706,
+            0.672443151473999,
+            0.4793201684951782,
+            1
+          ],
+          "metallicFactor": 0,
+          "roughnessFactor": 0.8500000238418579
+        },
+        "new_pbr_factors_and_bindings": {
+          "baseColorTexture": {
+            "index": 1
+          },
+          "metallicRoughnessTexture": {
+            "index": 2
+          }
+        }
+      },
+      {
+        "index": 2,
+        "name": "Source_e6dfc6_wood_painted_trim",
+        "old_pbr_factors": {
+          "baseColorFactor": [
+            0.7912979125976562,
+            0.7379103899002075,
+            0.5647115111351013,
+            1
+          ],
+          "metallicFactor": 0,
+          "roughnessFactor": 0.8500000238418579
+        },
+        "new_pbr_factors_and_bindings": {
+          "baseColorTexture": {
+            "index": 1
+          },
+          "metallicRoughnessTexture": {
+            "index": 2
+          }
+        }
+      }
+    ],
+    "returned_image_bytes_identical": [
+      {
+        "returned_image_index": 0,
+        "output_buffer_view": 59,
+        "mime_type": "image/png",
+        "bytes": 3242001,
+        "sha256": "1271ea3c24653438c3c604231ab8f5bbdddda0dc0d3a9b11751dda7275709732"
+      },
+      {
+        "returned_image_index": 1,
+        "output_buffer_view": 60,
+        "mime_type": "image/png",
+        "bytes": 4123470,
+        "sha256": "0d54b3b8078ad8947938f1f0f359b7f7d6149ae5769c5bc5fec8bff639f971fd"
+      },
+      {
+        "returned_image_index": 2,
+        "output_buffer_view": 61,
+        "mime_type": "image/png",
+        "bytes": 664021,
+        "sha256": "7c4b25bbf796441b206f4170132504483ba3b6f2980afa765706dd7de2e641ef"
+      }
+    ],
+    "returned_geometry_incorporated": false,
+    "changed_json_scope": "Append2K/1K generatedimage data and texture bindings to existing three named source materials; source nodes/meshes/accessors/normal/UV/index bytes remain literal."
+  },
+  "output": "painted-palisadnik-literal-pbr-2k.glb",
+  "output_sha256": "c22936292504bf5c94e31153348ba7d8e434d5cee2010b19564bfa676583b27a",
+  "output_bytes": 8076152,
+  "runtime_integrated": false,
+  "scope": "Nominal painted-palisadnik complete bay only. No gate/iron/interaction/boundary/collision/runtime modifications; scene/style/cultural/performance acceptance remains open.",
+  "remaining": "Separate source candidate retained. All game integration, current fence batching/terrain/passage/gate/collision preservation, scene/style/culture/performance acceptance remain open. No new POST.",
+  "actual_import_nodes": 19,
+  "actual_import_triangles": 532,
+  "bounds_blender": [
+    [
+      -0.0575805,
+      -0.075,
+      -0.0157679
+    ],
+    [
+      2.1924195,
+      0.075,
+      1.255
+    ]
+  ],
+  "actual_candidate_view": "candidate-front-right.png",
+  "candidate_embedded_images": [
+    {
+      "size": [
+        2048,
+        2048
+      ],
+      "sha256": "1271ea3c24653438c3c604231ab8f5bbdddda0dc0d3a9b11751dda7275709732",
+      "bytes": 3242001,
+      "mode": "RGB"
+    },
+    {
+      "size": [
+        2048,
+        2048
+      ],
+      "sha256": "0d54b3b8078ad8947938f1f0f359b7f7d6149ae5769c5bc5fec8bff639f971fd",
+      "bytes": 4123470,
+      "mode": "RGB"
+    },
+    {
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "7c4b25bbf796441b206f4170132504483ba3b6f2980afa765706dd7de2e641ef",
+      "bytes": 664021,
+      "mode": "RGB"
+    }
+  ],
+  "art_review": {
+    "root_result": "Calm texture, but a standalone bay does not prove village fit or coherence with current gates/parcels. No runtime, scene/style or cultural acceptance.",
+    "worker_source_result": "Muted green and cream role separation, twelve boards and80mm through-gaps retained; no invented ornament/hardware. Source-only lower-board105mm extension is disclosed in source receipt.",
+    "current_limit": "Nominal flat2.10m bay, not runtime run/terrain/batching replacement or gate-family acceptance."
+  },
+  "intermediate_map_donor_cleanup": {
+    "path": "painted-palisadnik-generated-pbr-2k.glb",
+    "bytes": 8075908,
+    "sha256": "1a3f6df8289a058d23ae5d9df38bbac9ccb70918b2bc8c2a4f47c2e71757b974",
+    "proof": "All three embedded resized PBR image bytes match final literal candidate images exactly; Blender-exported donor geometry failed the rounded comparison and was never incorporated. Intermediate can be recreated from archived raw return and recipe; retain no loose duplicate."
+  },
+  "recreate_intermediate_note": "Restore paidUVsource/rawMeshy from checkedarchive. attach_generated_material.py emits2Kmapdonor before its deliberately strict geometry comparison rejects Blenderbasisdrift; prepare_literal_candidate.py accepts only mapbytes and copies originalsource nodes/BIN unchanged.",
+  "local_source_archive": {
+    "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-painted-palisadnik-2026-10-27.zip",
+    "bytes": 18344923,
+    "sha256": "b6c328a880a91a314e38087f1132dfac407840ab6036573f45dfc331977ad7e5",
+    "members": [
+      {
+        "member": "painted-palisadnik-uv.glb",
+        "bytes": 46276,
+        "sha256": "b7eda17d8f0ba43635d7ef8a5f36c891a39218db925032d06c630501f75c0f15"
+      },
+      {
+        "member": "meshy-retexture-returned.glb",
+        "bytes": 16071056,
+        "sha256": "756062bafe01bd06b390cef9605ad07e7fff0c842e83e68f3a8c03ff2c32221b"
+      },
+      {
+        "member": "prepare-source.log",
+        "bytes": 11387,
+        "sha256": "213cfbb42dace24d52da11d089a763a38e4e227d7d451fbf02c8d921d90d6f93"
+      },
+      {
+        "member": "attach-generated-material.log",
+        "bytes": 5859,
+        "sha256": "4599c8e532653f504a206fc6fb5c84e27cf340bb1370b315fbc2737a28ea0b4a"
+      },
+      {
+        "member": "prepare-literal-candidate.log",
+        "bytes": 9585,
+        "sha256": "1b3ecd255da0de5a9fdab65d45fb0e0cff2de58df13a5220e1251e30422a23d3"
+      },
+      {
+        "member": "source-front-right.png",
+        "bytes": 1342752,
+        "sha256": "ee0f94548de9058ea605a78e5a80fb179af77725becb050154eebc6d3e3eda41"
+      },
+      {
+        "member": "candidate-front-right.png",
+        "bytes": 1420352,
+        "sha256": "8edf1394b98cb11ec2a49df9b5828e544d3594077b04f97119135b495652c660"
+      },
+      {
+        "member": "source-preflight-hold.json",
+        "bytes": 4705,
+        "sha256": "33814c6bd3e07fe8050ee90e68f12c4bfc40c39df9ff9bee6550ad08ab78ac4a"
+      },
+      {
+        "member": "submit-retexture.json",
+        "bytes": 83,
+        "sha256": "9186bb0f6703a26f7bbb6b93d0a281b4dd0cdba6e4a5419ce6b0edc54fcfaff2"
+      },
+      {
+        "member": "status-01.json",
+        "bytes": 335,
+        "sha256": "7f7e99ff016651f69ba4b6d82478561530c1129dc54d6ec687e8233023b37c5c"
+      },
+      {
+        "member": "download-retexture.json",
+        "bytes": 241,
+        "sha256": "900e1745f58f59b3e1f0f00b6cce5de8905448fec25d3afdff44d8eb7d6520da"
+      },
+      {
+        "member": "balance-before.json",
+        "bytes": 116,
+        "sha256": "d7444f0f8c7696f0cf272a4381e7c3ad49f6dc2ac60287e1d3df09d698669d61"
+      },
+      {
+        "member": "balance-after.json",
+        "bytes": 116,
+        "sha256": "bac13638d44799428c248b1dbf9282fffb02ee4d0d1d68a15cf737026f15be80"
+      }
+    ],
+    "loose_bytes_removed": 18912863,
+    "verification": "All13decompressedmembers matched original bytes/SHA before removal; own stopped pipeline only. No runtime/shared files changed."
+  },
+  "archive_notice": "Former loose paid-source/raw-return/log/receipt/view paths refer to exact archived members; restore and verify recorded SHA before reuse."
+}

@@ -26630,6 +26630,14 @@
         ],
         "verification": "Independent source review checked bridge/world visibility, endpoint position/yaw, ground height and lifecycle; affected Game build 18.14s 0 warnings/errors. Full route, comfort, camera and continuity not yet checked in Windows game.",
         "remaining": "Ordinary Windows visual and motion acceptance; first episode and Save/Continue still open."
+      },
+      "photo_niva_2889_windows_2026_10_27": {
+        "job_id": "2889dcfb3993496996ccb51622e4e882",
+        "source_commit": "45cb1b217ba7ba0f8ea714e5f8440d41cb026cf3",
+        "result": "PASS exit 0, userdataRestored=true, engine-errors empty, station ready. Normal New Game, explicitly authorised skip of forest prologue, no skip of Niva ride. Cabin/arrival language dialogue, arrival dialogue and ordinary exit to street observed; after exit objective Дорожка к дому visible. Capture-current after transition timed out twice, therefore motion, bridge crossing and visual continuity were not captured and remain unverified.",
+        "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-niva-2889dcfb-2026-10-27.zip",
+        "archive_sha256": "901cb7f03f151bc1442e84d387bda5a890cc4db4cce63f391d29ffa6fc4737ec",
+        "remaining": "Motion and route comfort, full first episode, Save/Continue and author acceptance remain open; do not repeat run solely to collect a still."
       }
     },
     {
@@ -147474,6 +147482,18 @@
         "result": "ImageGen reference and Meshy retexture of repeated VariantC prepared against Tatar village canon. Roof support corrected in isolated source, UV coverage and reimport geometry checked; runtime unchanged. Root reviewed isolated rendering: restrained timber, but boxy form and smooth roof remain concerns. Scene appearance, construction context and cultural acceptance not established.",
         "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-variantc-pbr-2026-10-27.zip",
         "archive_sha256": "1849e61d32bdc907f58e0a319d2c24996efc96c534ba30dbdde0a8ed0711aa35"
+      },
+      "painted_palisadnik_candidate_2026_10_27": {
+        "status": "source_candidate_not_scene_or_culture_accepted",
+        "asset": "assets/source/blender/act1/painted_palisadnik_pbr_v1/painted-palisadnik-literal-pbr-2k.glb",
+        "reference": "assets/source/blender/act1/painted_palisadnik_pbr_v1/input-material-reference-v1.png",
+        "task_id": "01a17a75-f06d-72b4-801e-27e80073bdb8",
+        "credits": 10,
+        "cumulative_credits": 590,
+        "budget": 4000,
+        "result": "One repeated painted fence span based on existing village design and Tatar village visual context. Actual import 19 meshes/532 triangles, generated maps preserve source geometry and UV; short pickets extended to meet lower rail in isolated source only. Isolated render reviewed; terrain, full run, gates, collision, scene style and cultural acceptance remain unverified, runtime unchanged.",
+        "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-painted-palisadnik-2026-10-27.zip",
+        "archive_sha256": "b6c328a880a91a314e38087f1132dfac407840ab6036573f45dfc331977ad7e5"
       }
     },
     {
