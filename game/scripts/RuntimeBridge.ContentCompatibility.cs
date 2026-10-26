@@ -31,6 +31,8 @@ public partial class RuntimeBridge
 
     private const string FullGameArrivalSkipTextFingerprint =
         "616285e8447ea98c3ac0cdc06c6b79bc2234342952f4327f9f7b33c4e97f37c9";
+    private const string FullGameShuraleReplyTextFingerprint =
+        "b0b8a60bea20a44dc51dbdea24359a17a4819d37e5943f0b5c609ea07e5ef4b7";
 
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
@@ -73,7 +75,10 @@ public partial class RuntimeBridge
         new(FullGameEntryPromptTextFingerprint, FullGameArrivalSkipTextFingerprint),
         new(FullGamePhotoReturnTextFingerprint, FullGameArrivalSkipTextFingerprint),
         new("d10e86231a472351cbbcf5ffaa46f18820269037acecaf17678e6472c0b8e710",
-            FullGameArrivalSkipTextFingerprint)
+            FullGameArrivalSkipTextFingerprint),
+        // D07 reply only: two localized values and generated hashes; state definitions are identical.
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameShuraleReplyTextFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -87,7 +92,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGamePhotoReturnTextFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEntryPromptTextFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameNivaArrivalFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameArrivalSkipTextFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameArrivalSkipTextFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameShuraleReplyTextFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }

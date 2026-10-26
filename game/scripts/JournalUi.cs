@@ -133,7 +133,11 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             {
                 if (bridge.ActiveSceneId == "urman.fullgame:scene/pw-prologue")
                     _tabs.CurrentTab = 2;
-                Open(bridge);
+                if (bridge.CanInspectReceivedPhotoBook
+                    && CurrentPlayerMission(bridge) is { InteractionId: null, AnchorPath: null })
+                    OpenPhotoBook(bridge);
+                else
+                    Open(bridge);
             }
 
             GetViewport().SetInputAsHandled();

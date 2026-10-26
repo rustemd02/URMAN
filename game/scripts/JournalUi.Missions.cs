@@ -95,24 +95,24 @@ public partial class JournalUi
         if (forestPhoto is null) return null;
         if (schoolPhoto is null)
             return bridge.PhotoWorldFactObserved("school_copy_identified")
-                ? StreetMission(bridge, "forest-school-copy", "Получить копию снимка", "Попросите сотрудницу в учительской сделать копию.", "pw-school-copy-permission", "Сотрудница школы")
-                : StreetMission(bridge, "forest-school-album", "Найти школьный альбом", "Старая школа, Лесная, 12. В учительской: лесной снимок → «Рассмотреть снимок».", "pw-school-copy-source", "Школьный альбом");
+                ? StreetMission(bridge, "forest-school-copy", "Получить копию снимка", "В учительской попросите у сотрудницы копию лесного снимка.", "pw-school-copy-permission", "Сотрудница школы")
+                : StreetMission(bridge, "forest-school-album", "Открыть школьный альбом", "Откройте альбом в учительской старой школы: Лесная, 12.", "pw-school-copy-source", "Школьный альбом");
         var canEnterForest = bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-forest");
         if (forestPhoto.Mounted && canEnterForest) return ForestEntryMission(bridge, forestPhoto.HasResumePoint);
         if (!forestPhoto.Mounted && forestPhoto.CanMount)
-            return new("forest-mount", "Лесной снимок в книге", $"В книге выберите «{forestPhoto.Title}» → «Вклеить снимок».");
+            return new("forest-mount", "Вклеить лесной снимок", $"Вклейте в книгу «{forestPhoto.Title}».");
         if (!forestPhoto.BackRead && forestPhoto.CanReadBack)
-            return new("forest-back", "Помета на обороте", $"В книге выберите «{forestPhoto.Title}» → «Прочитать оборот».");
+            return new("forest-back", "Прочитать оборот", $"Прочитайте оборот снимка «{forestPhoto.Title}».");
         if (bridge.CurrentZoneId != MissionHomeZone)
-            return HomeMission(bridge, "forest-compare", "Сверить два снимка", "Откройте дома книгу и сравните школьную копию с лесным снимком.", anchor: MissionBookAnchor);
+            return HomeMission(bridge, "forest-compare", "Сверить два снимка", "Дома сравните школьную копию с лесным снимком в семейном альбоме.", anchor: MissionBookAnchor);
         if (!forestPhoto.Mounted) return null;
         return canEnterForest ? ForestEntryMission(bridge, forestPhoto.HasResumePoint)
-            : HomeMission(bridge, "forest-compare", "Сверить два снимка", "Сравните школьную копию с лесным снимком в семейной книге.", anchor: MissionBookAnchor);
+            : HomeMission(bridge, "forest-compare", "Сверить два снимка", "Сравните школьную копию с лесным снимком в семейном альбоме.", anchor: MissionBookAnchor);
     }
 
     private static PlayerMission ForestEntryMission(RuntimeBridge bridge, bool resume) =>
         StreetMission(bridge, "forest-enter", "Люди у леса",
-            $"У трёх стволов на опушке откройте «Люди у леса» в книге и нажмите «{(resume ? "Продолжить снимок" : "Войти в снимок")}».",
+            $"У трёх стволов откройте книгу: «Люди у леса» → «{(resume ? "Продолжить снимок" : "Войти в снимок")}».",
             "pw-enter-forest", "Три ствола на опушке",
             "ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/PhotoForestEntry/ForestPhotoEntryAnchor");
 
@@ -132,7 +132,7 @@ public partial class JournalUi
         var atHome = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home" && bridge.CurrentZoneId == MissionHomeZone;
         if (requireFirstWorldHomeTalk && !bridge.PhotoWorldFactObserved("first_world_home_talk"))
             return !atHome || bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-first-world-home-talk")
-                ? HomeMission(bridge, "first-return-talk", "Рассказать о снимке", "Расскажите Гөлсинә о возвращении из лесного снимка.", "pw-first-world-home-talk", "Гөлсинә") : null;
+                ? HomeMission(bridge, "first-return-talk", "Рассказать о лесном снимке", "Дома поговорите с Гөлсинә о том, что удалось увидеть в лесном снимке.", "pw-first-world-home-talk", "Гөлсинә") : null;
         var photos = bridge.PhotoBookPhotos();
         var waterPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-WATER");
         var housePhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-HOUSE");
@@ -178,9 +178,9 @@ public partial class JournalUi
             var waterOnlyCompleted = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w02") == "completed"
                 && PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w01") != "completed";
             return !atHome || bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-first-world-home-talk")
-                ? HomeMission(bridge, "first-return-talk", waterOnlyCompleted ? "Старый спуск найден" : "Рассказать о снимке",
+                ? HomeMission(bridge, "first-return-talk", waterOnlyCompleted ? "Старый спуск найден" : "Рассказать о лесном снимке",
                     waterOnlyCompleted ? "Найден старый спуск за мостками. Расскажите Гөлсинә, что удалось увидеть."
-                        : "Расскажите Гөлсинә о возвращении из снимка.", "pw-first-world-home-talk", "Гөлсинә") : null;
+                        : "Дома поговорите с Гөлсинә о том, что удалось увидеть в лесном снимке.", "pw-first-world-home-talk", "Гөлсинә") : null;
         }
         var photo = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-HOUSE");
         if (!bridge.PhotoWorldFactObserved("house_print_found"))
@@ -364,15 +364,15 @@ public partial class JournalUi
                 ("urman.fullgame:scene/pw-prologue", "prologue-exit") =>
                     ("Выход из леса", "Идите по тропе к светлой поляне.", "pw-prologue-f03-end", "ZoneHost/W01/Anchors/F03", "Светлая поляна"),
                 ("urman.fullgame:scene/pw-forest", "camera") =>
-                    ("Ракурс лесного снимка", "Обойдите три ствола и оглянитесь на берёзу, низкую перекладину и дугу корня.", "pw-forest-group", "ZoneHost/W01/Anchors/F11", "За тремя стволами"),
+                    ("Осмотреть группу у опушки", "У трёх стволов на опушке повернитесь так, чтобы одновременно видеть берёзу, перекладину и дугу корня.", "pw-forest-group", "ZoneHost/W01/Anchors/F11", "За тремя стволами"),
                 ("urman.fullgame:scene/pw-forest", "path") =>
-                    ("За краем снимка", "Пройдите за корни и оглянитесь. Осмотрите каждый из трёх стволов с обратной стороны.", "pw-forest-photographer", "ZoneHost/W01/Anchors/F13", "Поворот у корней"),
+                    ("Осмотреть проход с другой стороны", "Пройдите под корнем. Обернитесь и осмотрите три ствола по очереди.", "pw-forest-photographer", "ZoneHost/W01/Anchors/F13", "Поворот у корней"),
                 ("urman.fullgame:scene/pw-forest", "talk") =>
-                    ("Незнакомец у корней", "Подойдите к тому, кто работает у корня.", "pw-forest-shurale", "ZoneHost/W01/Anchors/F14/ShuraleRoot", "Незнакомец у корней"),
+                    ("Поговорить у корней", "Поговорите с незнакомцем у корня.", "pw-forest-shurale", "ZoneHost/W01/Anchors/F14/ShuraleRoot", "Незнакомец у корней"),
                 ("urman.fullgame:scene/pw-forest", "bag") =>
-                    ("Освободить сумку", "Снимите сумку с корня и поставьте её на землю.", "pw-forest-bag-release", "ZoneHost/W01/Anchors/F14/BagSnagContact", "Застрявшая сумка"),
+                    ("Освободить сумку", "Снимите ремень с корня и поставьте сумку на землю.", "pw-forest-bag-release", "ZoneHost/W01/Anchors/F14/BagSnagContact", "Застрявшая сумка"),
                 ("urman.fullgame:scene/pw-forest", "exit") =>
-                    ("Вернуться к семье", "Пройдите к выходу из снимка и вернитесь домой.", "pw-forest-return", "ZoneHost/W01/Anchors/F16", "Выход из снимка"),
+                    ("Вернуться к семье", "Идите по тропе к выходу из снимка.", "pw-forest-return", "ZoneHost/W01/Anchors/F16", "Выход из снимка"),
                 ("urman.fullgame:scene/pw-river", "river-reflection") =>
                     ("Отражение у мостков", "Посмотрите с берега на отражение мостков.", "pw-water-reflection", "ZoneHost/W02/Anchors/R03", "Окно отражения"),
                 ("urman.fullgame:scene/pw-river", "river-reed") =>

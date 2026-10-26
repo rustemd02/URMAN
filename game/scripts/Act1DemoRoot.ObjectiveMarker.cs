@@ -105,6 +105,7 @@ public partial class Act1DemoRoot
             return;
         }
         var label = _objectiveMarkerLabel!;
+        label.Visible = true;
         var name = string.IsNullOrWhiteSpace(mission.TargetLabel) ? mission.Title : mission.TargetLabel;
         var destination = target.GlobalPosition;
         var waypoint = TryGetRootPassageObjectiveWaypoint(mission, bridge, player.GlobalPosition,
@@ -154,11 +155,27 @@ public partial class Act1DemoRoot
             edge.Y = Mathf.Clamp(edge.Y, inset.Y, bottom);
             if (ObjectiveMarkerOverlapsMission(edge, labelWidth, scale))
             {
-                edge.Y = _routeCuePanel!.GetGlobalRect().End.Y + 28f * scale;
-                if (edge.Y > bottom)
+                var panel = _routeCuePanel!.GetGlobalRect();
+                var below = panel.End.Y + 28f * scale;
+                if (below <= bottom)
+                    edge.Y = below;
+                else
                 {
-                    HideObjectiveMarker();
-                    return;
+                    // Large task text must not erase the only direction cue.
+                    // Use the free right edge, shrinking the caption before dropping it.
+                    var availableWidth = viewportSize.X - panel.End.X - 48f * scale;
+                    if (availableWidth >= 96f * scale)
+                    {
+                        labelWidth = Mathf.Min(labelWidth, availableWidth);
+                        label.Size = new Vector2(labelWidth, label.Size.Y);
+                        label.Position = new Vector2(-labelWidth / 2f, label.Position.Y);
+                        edge.X = viewportSize.X - labelWidth / 2f - 24f * scale;
+                    }
+                    else
+                    {
+                        label.Visible = false;
+                        edge.X = viewportSize.X - 24f * scale;
+                    }
                 }
             }
             SetObjectiveMarkerGlyph(true, direction.Angle() + Mathf.Pi / 2f, scale);
