@@ -17,11 +17,11 @@ import urllib.parse
 import urllib.request
 import uuid
 import zipfile
-from remote_common import (MAX_ARCHIVE, MAX_SOURCE, REPOSITORY, canonical, candidates,
-                           committed_candidates,
-                           digest, git, git_no_replace, make_candidate_upload, validate_candidate_guard_project,
-                           source_state, STUDIO_AUTHORING_FILES, validate_manifest,
-                           stream_git_blob, studio_authoring_path, MAX_RESULT_BYTES, MAX_RESULT_FILES)
+from remote_common import (MAX_ARCHIVE, MAX_BLOB, MAX_SOURCE, REPOSITORY, allowed, canonical,
+                           candidates, digest, git, make_candidate_upload,
+                           source_state, STUDIO_AUTHORING_FILES, studio_authoring_path,
+                           validate_candidate_guard_project, validate_manifest,
+                           MAX_RESULT_BYTES, MAX_RESULT_FILES)
 
 STUDIO_SCENE = 'res://studio/studio_main.tscn'
 FULL_GAME_SCENE = 'res://scenes/full_game.tscn'
@@ -36,6 +36,7 @@ UI_KEY_CHORDS = frozenset(
 UI_MOVE_KEYS = frozenset(('w', 'a', 's', 'd', 'e'))
 UI_LOOK_DELTA_LIMIT = 300
 INTERACTIVE_FRAME_PNG_LIMIT = 16 * 1024**2
+GIT_LFS_POINTER_HEADER = b'version https://git-lfs.github.com/spec/v1\n'
 
 def check_result_destination(path):
     try:
@@ -92,6 +93,85 @@ def build_manifest(root, *, studio_authoring=False):
         raise ValueError('checkout changed during packaging; retry after edits stop')
     manifest['snapshot_id']=hashlib.sha256(canonical(manifest)).hexdigest()
     return manifest
+
+def git_no_replace(root, *args):
+    return subprocess.check_output(['git', '--no-replace-objects', '-C', str(root), *args])
+
+# Keep this committed-tree filter aligned with remote_common.candidates; the station worker loads that shared module.
+def is_source_candidate(name, *, studio_authoring=False):
+    if not allowed(name):
+        return False
+    authoring_file = studio_authoring and name in STUDIO_AUTHORING_FILES
+    parts = PurePosixPath(name).parts
+    if len(parts) == 1 and parts[0] not in {'global.json','Directory.Build.props','Directory.Build.targets',
+            'Directory.Packages.props','NuGet.Config','nuget.config','Urman.slnx','AGENTS.md'}:
+        return False
+    if len(parts) > 1 and parts[0] not in {'content','game','src-dotnet','tools-dotnet','eng'} and not authoring_file:
+        return False
+    if PurePosixPath(name).suffix.lower() in {'.blend', '.blend1', '.blend2'} and not authoring_file:
+        return False
+    return True
+
+def committed_candidates(root, commit, *, studio_authoring=False):
+    result = {}
+    records = git_no_replace(root, 'ls-tree', '-r', '-z', '--full-tree', commit).split(b'\0')
+    for record in records:
+        if not record:
+            continue
+        metadata, separator, path = record.partition(b'\t')
+        if not separator:
+            raise ValueError('invalid committed source tree entry')
+        try:
+            name = path.decode('utf-8')
+            mode, kind, object_id = metadata.decode('ascii').split()
+        except (UnicodeDecodeError, ValueError) as error:
+            raise ValueError('invalid committed source tree entry') from error
+        if not is_source_candidate(name, studio_authoring=studio_authoring):
+            continue
+        if mode == '120000':
+            raise ValueError('source links are unsupported: ' + name)
+        if mode == '160000' or kind != 'blob':
+            raise ValueError('source submodules or non-file Git entries are unsupported: ' + name)
+        if mode not in {'100644', '100755'}:
+            raise ValueError('unsupported committed source mode: ' + name)
+        result[name] = object_id
+    if studio_authoring:
+        missing = sorted(STUDIO_AUTHORING_FILES.difference(result))
+        if missing:
+            raise ValueError('missing required Studio authoring source(s): ' + ', '.join(missing))
+    return result
+
+def stream_git_blob(root, object_id, *, name):
+    process = subprocess.Popen(
+        ['git', '--no-replace-objects', '-C', str(Path(root).resolve()), 'cat-file', 'blob', object_id],
+        stdout=subprocess.PIPE)
+    digest = hashlib.sha256()
+    size = 0
+    try:
+        prefix = process.stdout.read(len(GIT_LFS_POINTER_HEADER))
+        if prefix == GIT_LFS_POINTER_HEADER:
+            raise ValueError('Git LFS pointer cannot be used as a runtime source: ' + name)
+        size += len(prefix)
+        if size > MAX_BLOB:
+            raise ValueError('source file exceeds blob size limit: ' + name)
+        digest.update(prefix)
+        for chunk in iter(lambda: process.stdout.read(1024**2), b''):
+            size += len(chunk)
+            if size > MAX_BLOB:
+                raise ValueError('source file exceeds blob size limit: ' + name)
+            digest.update(chunk)
+        if process.wait() != 0:
+            raise ValueError('could not read committed Git blob: ' + name)
+        actual_sha = digest.hexdigest()
+        return actual_sha, size
+    except BaseException:
+        if process.poll() is None:
+            process.kill()
+        process.communicate()
+        raise
+    finally:
+        if process.stdout is not None and not process.stdout.closed:
+            process.stdout.close()
 
 def build_committed_head_manifest(root, *, studio_authoring=False):
     root=Path(root).resolve()

@@ -148905,6 +148905,12 @@
         "remaining": "Godot import/scene startup, visual fit and full first episode remain unverified.",
         "followup": "Read-only analysis found the planned script incorrectly expected Task Scheduler Stopped instead of Ready; silent heredoc cause not established. Encoded-command alternative was not sent; preparation stopped, local and remote staging removed after exact SHA, worker/target unchanged, doctor ready idle no orphan/recovery.",
         "later_preflight": "Alternate encoded-command was not sent: proposed command was 13824 characters, exceeding Windows cmd.exe 8191 limit. Both staged copies were SHA-verified and deleted; target and worker unchanged; doctor ready/idle, no orphan/recovery. Do not retry the oversized command."
+      },
+      "committed_station_client_split_2026_10_27": {
+        "result": "The committed-source helpers are now client-only; shared remote_common is restored byte-for-byte to prior project version 2001dcd9, matching the read-only station SHA fdf91900705f861c34a1e3b106cf6ee3e939eaccba67f52c2773cd2f46d8c62a. No station file was changed or worker restarted.",
+        "verification": "Independent static review confirms original default, exact Git objects/no replacement, allowlist/size/hash and symlink/submodule/LFS rejection. Python AST and CLI help pass; live run remains pending.",
+        "next": "For the next specific Windows question, first verify station is idle and current shared file hash, then run the committed-source mode once; preserve userdata and inspect receipt.",
+        "remaining": "Import, scene runtime, first-episode play, Continue and release gates remain open."
       }
     },
     {

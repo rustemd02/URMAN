@@ -23,7 +23,6 @@ STUDIO_AUTHORING_FILES = frozenset({
     'assets/source/blender/act1/urman_village_exterior_kit.py',
     'assets/source/blender/act1/urman_village_exterior_kit.blend',
 })
-GIT_LFS_POINTER_HEADER = b'version https://git-lfs.github.com/spec/v1\n'
 
 def canonical(value):
     return json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
@@ -51,88 +50,6 @@ def allowed(name):
 
 def git(root, *args):
     return subprocess.check_output(['git', '-C', str(root), *args])
-
-
-def git_no_replace(root, *args):
-    return subprocess.check_output(['git', '--no-replace-objects', '-C', str(root), *args])
-
-
-def is_source_candidate(name, *, studio_authoring=False):
-    if not allowed(name):
-        return False
-    authoring_file = studio_authoring and name in STUDIO_AUTHORING_FILES
-    parts = PurePosixPath(name).parts
-    if len(parts) == 1 and parts[0] not in {'global.json','Directory.Build.props','Directory.Build.targets',
-            'Directory.Packages.props','NuGet.Config','nuget.config','Urman.slnx','AGENTS.md'}:
-        return False
-    if len(parts) > 1 and parts[0] not in {'content','game','src-dotnet','tools-dotnet','eng'} and not authoring_file:
-        return False
-    if PurePosixPath(name).suffix.lower() in {'.blend', '.blend1', '.blend2'} and not authoring_file:
-        return False
-    return True
-
-
-def committed_candidates(root, commit, *, studio_authoring=False):
-    result = {}
-    records = git_no_replace(root, 'ls-tree', '-r', '-z', '--full-tree', commit).split(b'\0')
-    for record in records:
-        if not record:
-            continue
-        metadata, separator, path = record.partition(b'\t')
-        if not separator:
-            raise ValueError('invalid committed source tree entry')
-        try:
-            name = path.decode('utf-8')
-            mode, kind, object_id = metadata.decode('ascii').split()
-        except (UnicodeDecodeError, ValueError) as error:
-            raise ValueError('invalid committed source tree entry') from error
-        if not is_source_candidate(name, studio_authoring=studio_authoring):
-            continue
-        if mode == '120000':
-            raise ValueError('source links are unsupported: ' + name)
-        if mode == '160000' or kind != 'blob':
-            raise ValueError('source submodules or non-file Git entries are unsupported: ' + name)
-        if mode not in {'100644', '100755'}:
-            raise ValueError('unsupported committed source mode: ' + name)
-        result[name] = object_id
-    if studio_authoring:
-        missing = sorted(STUDIO_AUTHORING_FILES.difference(result))
-        if missing:
-            raise ValueError('missing required Studio authoring source(s): ' + ', '.join(missing))
-    return result
-
-
-def stream_git_blob(root, object_id, *, name):
-    process = subprocess.Popen(
-        ['git', '--no-replace-objects', '-C', str(Path(root).resolve()), 'cat-file', 'blob', object_id],
-        stdout=subprocess.PIPE)
-    digest = hashlib.sha256()
-    size = 0
-    try:
-        prefix = process.stdout.read(len(GIT_LFS_POINTER_HEADER))
-        if prefix == GIT_LFS_POINTER_HEADER:
-            raise ValueError('Git LFS pointer cannot be used as a runtime source: ' + name)
-        size += len(prefix)
-        if size > MAX_BLOB:
-            raise ValueError('source file exceeds blob size limit: ' + name)
-        digest.update(prefix)
-        for chunk in iter(lambda: process.stdout.read(1024**2), b''):
-            size += len(chunk)
-            if size > MAX_BLOB:
-                raise ValueError('source file exceeds blob size limit: ' + name)
-            digest.update(chunk)
-        if process.wait() != 0:
-            raise ValueError('could not read committed Git blob: ' + name)
-        actual_sha = digest.hexdigest()
-        return actual_sha, size
-    except BaseException:
-        if process.poll() is None:
-            process.kill()
-        process.communicate()
-        raise
-    finally:
-        if process.stdout is not None and not process.stdout.closed:
-            process.stdout.close()
 
 
 def studio_authoring_path(root, name):
@@ -166,11 +83,20 @@ def candidates(root, *, studio_authoring=False):
     names = git(root, 'ls-files', '-z', '--cached', '--others', '--exclude-standard').decode('utf-8').split('\0')
     result = []
     for name in sorted(set(names)):
+        if not allowed(name):
+            continue
         authoring_file = studio_authoring and name in STUDIO_AUTHORING_FILES
-        if not is_source_candidate(name, studio_authoring=studio_authoring):
+        parts = PurePosixPath(name).parts
+        if len(parts) == 1 and parts[0] not in {'global.json','Directory.Build.props','Directory.Build.targets',
+                'Directory.Packages.props','NuGet.Config','nuget.config','Urman.slnx','AGENTS.md'}:
+            continue
+        if (len(parts) > 1 and parts[0] not in {'content','game','src-dotnet','tools-dotnet','eng'}
+                and not authoring_file):
             continue
         path = root / name
         # Runtime GLB is authoritative for execution; authoring sources are not imported.
+        if path.suffix.lower() in {'.blend', '.blend1', '.blend2'} and not authoring_file:
+            continue
         if authoring_file:
             studio_authoring_path(root, name)
             result.append(name)
