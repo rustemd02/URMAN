@@ -147299,6 +147299,20 @@
           "sha256": "a606d117365c085c1d0ac31873d50e272d9bb2da00562ead44253a62956b0369",
           "verification": "9 members CRC and SHA checked before removing originals; re-creatable previews, cache and duplicate of runtime GLB removed."
         }
+      },
+      "home_cupboard_retexture_2026_10_26": {
+        "status": "hold_source_uv_overlap_no_paid_submission",
+        "consumer": "StyleBenchmarkInteriorFactory.AttachFurniture → GeneratedHouseInteriorAct1",
+        "source": "game/assets/generated/urman_modular_kit.glb",
+        "reference": "assets/source/blender/act1/home_cupboard_pbr_v1/input-material-reference-v1.png",
+        "receipt": "assets/source/blender/act1/home_cupboard_pbr_v1/source-receipt.json",
+        "finding": "3 source meshes, 352 triangles; global UV repack still shows 20 overlapping faces. No Meshy POST or runtime replacement.",
+        "next": "Resolve identified UV overlap using an appropriate source method before submitting, or select another ready large interior family; no blind retry.",
+        "local_archive": {
+          "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-home-cupboard-preflight-2026-10-26.zip",
+          "sha256": "44b2db0d1d63bb2767b344841f1f1e53058ed5873703a81145e404c7c8650d9c",
+          "verification": "3 members CRC and SHA checked before source duplicates removed; ordinary source render removed."
+        }
       }
     },
     {

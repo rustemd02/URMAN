@@ -1,0 +1,103 @@
+{
+  "schema": "urman-home-cupboard-pbr-source/v1",
+  "source": "game/assets/generated/urman_modular_kit.glb",
+  "source_sha256": "402f9d7dc6b9c0ad8b4fdf39b2ef550b625cedb56bd9f179ee24d9ca1a07fea4",
+  "rights": "Project-original URMAN modular kit, assets/asset_registry.json",
+  "source_nodes": [
+    "HouseInterior_CupboardBody_LOD0",
+    "HouseInterior_CupboardDoor_LOD0",
+    "HouseInterior_CupboardPull_LOD0"
+  ],
+  "triangles": 352,
+  "geometry_unchanged_during_UV": true,
+  "anchor_blender": [
+    -4.820000171661377,
+    3.880000114440918,
+    0.0
+  ],
+  "bounds_blender": [
+    [
+      -0.7875026,
+      -0.4250001,
+      0.0
+    ],
+    [
+      0.7875026,
+      0.4086368,
+      2.4200001
+    ]
+  ],
+  "output": "source-cupboard-uv.glb",
+  "output_sha256": "414ee0213ad46f276b055bd536a02cc50bcf288c027336e43740ae2c6a7238da",
+  "consumer": "StyleBenchmarkInteriorFactory.AttachFurniture→GeneratedHouseInteriorAct1; named Cupboard group source(-4.82,0,-3.88)→destination(3.52,0,-2.40),yaw-90; existing collision owner unchanged.",
+  "remaining": "Only selected ImageGen reference and original source preparation delivered. No generated 3D material, runtime integration, LOD1 replacement or art/game acceptance.",
+  "status": "HOLD_UV_OVERLAP_NO_PAID_SUBMISSION",
+  "last_preflight": {
+    "overlap_count": 20,
+    "details": [
+      {
+        "node": "HouseInterior_CupboardBody_LOD0",
+        "overlapping_faces": 2,
+        "minimum_face_area": 0.6852982044219971,
+        "indices": [
+          38,
+          39
+        ]
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "overlapping_faces": 16,
+        "minimum_face_area": 9.769335514164812e-12,
+        "indices": [
+          170,
+          171,
+          174,
+          175,
+          176,
+          177,
+          180,
+          181,
+          254,
+          255,
+          256,
+          257,
+          258,
+          259,
+          262,
+          263
+        ]
+      },
+      {
+        "node": "HouseInterior_CupboardPull_LOD0",
+        "overlapping_faces": 2,
+        "minimum_face_area": 0.0008819999638944864,
+        "indices": [
+          32,
+          33
+        ]
+      }
+    ]
+  },
+  "source_suitability": "Not suitable for keepUV retexture yet: final explicit global select/pack reduced overlaps304→20, but zero-overlap gate still fails. Body2,Door16,Pull2. No geometry/normals or runtime changes were used to hide this. Existing first UV donor is an earlier unaccepted artifact, not a paid-ready input.",
+  "material_reference": {
+    "path": "assets/source/blender/act1/home_cupboard_pbr_v1/input-material-reference-v1.png",
+    "sha256": "14ee1b989b75c9f7b8b802d20014fa1b5d3d84ee27c8f3ed6ddc6427f4202357",
+    "tool": "built-in image_gen",
+    "original": "/Users/unterlantas/.codex/generated_images/01a1799b-bfd6-75c0-a6fe-f42d5065d715/exec-6dd4e261-8efb-4f0d-8f5e-1aae20c3cdec.png",
+    "prompt": "Use case: stylized-concept. Asset type: exact material reference for Meshy retexturing of an existing URMAN home cupboard model. Image1 is the actual source geometry: retain its whole silhouette, tapered 2.42m tall rectangular body, single tall recessed panel door, existing four plain rails and single small dark iron pull in precisely the same positions. Image2 is the accepted game house, for restrained village material character only. Make image1 a finished, cared-for old home cupboard: warm muted medium brown pine/softwood with vertical natural grain on body, sides and door panel, horizontal grain on top/bottom rails, soft low-sheen worn varnish, limited rubbed edges and very few small knots. Cabinet interior is not visible. The small existing pull is dull dark iron, not shiny brass. The body/door surface remains quiet and readable from normal room distance. Keep coarse painterly game realism and modest material contrast matching the accepted URMAN house. This is maintained domestic furniture, not abandoned salvaged barn planks; no heavy grunge, rot, scratched graffiti, chipped paint, decorative carving, ornaments, extra doors, hinges, legs, panels or handles. Preserve image1 camera, perspective, object shape and all geometry, only change surface finish. Neutral gray background, soft even illumination, whole cabinet visible. No labels, text, symbols, logo, watermark, collage, room scene or hard cast shadows baked into the surface.",
+    "rights": "Original URMAN cupboard and own accepted home frame; no third-party input.",
+    "review": "Same tapered source body and single recessed door, quiet warm domestic timber and existing dark pull; material reference only, no new geometry."
+  },
+  "existing_result_check": "No cupboard-specific Meshy PBR or UV atlas found in current source/registry/tracker. Existing W08 generic albedo remains for other finished furniture; no existing cupboard Meshy result was duplicated.",
+  "budget": {
+    "author_cap": 4000,
+    "actual_consumed": 560,
+    "remaining": 3440,
+    "reserve": 0,
+    "attempt_consumed": 0,
+    "Meshy_POST_count": 0,
+    "API_balance_before": 3720,
+    "balance_receipt": "balance-before.json"
+  },
+  "next_action": "HOLD. Do not send Meshy or continue UV attempts in this unit. If resumed with a new source contract, inspect the20 identified UV faces and their tiny bevel geometry before choosing a bounded UV-only correction; original geometry/door pivot/collision remain authoritative."
+}
