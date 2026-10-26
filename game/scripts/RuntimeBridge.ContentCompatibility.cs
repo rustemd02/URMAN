@@ -33,6 +33,8 @@ public partial class RuntimeBridge
         "616285e8447ea98c3ac0cdc06c6b79bc2234342952f4327f9f7b33c4e97f37c9";
     private const string FullGameShuraleReplyTextFingerprint =
         "b0b8a60bea20a44dc51dbdea24359a17a4819d37e5943f0b5c609ea07e5ef4b7";
+    private const string FullGameWaterHomeAccountFingerprint =
+        "b809690b74181a9813e5e54034ebc57388b65e8d4b64f546be187dbb680380e9";
 
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
@@ -78,7 +80,11 @@ public partial class RuntimeBridge
             FullGameArrivalSkipTextFingerprint),
         // D07 reply only: two localized values and generated hashes; state definitions are identical.
         new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
-            FullGameShuraleReplyTextFingerprint)
+            FullGameShuraleReplyTextFingerprint),
+        // Optional family account and dialogue only; saved catalog, quests, photos and world rules are unchanged.
+        new(FullGameShuraleReplyTextFingerprint, FullGameWaterHomeAccountFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameWaterHomeAccountFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -93,7 +99,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEntryPromptTextFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameNivaArrivalFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameArrivalSkipTextFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameShuraleReplyTextFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameShuraleReplyTextFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameWaterHomeAccountFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }

@@ -121241,6 +121241,24 @@
           "game/content/urman.fullgame.compiled.v1.json"
         ],
         "verification": "Bounded independent branch/caller read and root exact field edit; targeted ContentCli compile exit0. No game/new tests/affected Game build for copy-only source."
+      },
+      "campaign_payoffs_2026_10_26": {
+        "state": "source_reviewed_compiled_native_pending",
+        "result": [
+          "Добавлен содержательный W02 возврат: әби узнаёт найденный спуск, игрок сохраняет семейный рассказ как отдельную journal knowledge запись. Работает при обоих порядках W01/W02; новый catalog fact не добавлялся.",
+          "Устранён first_world_home_talk singleton bug: лесной результат после W02 больше не теряет итоговую запись; каждый earned result закрывается по собственному confirmed knowledge. При двух ожидающих результатах лес затем река, без конкурирующих NPC targets.",
+          "W03 разговор живого фотографа связывает найденные ставню и ткань с домашними действиями; убрана новая неподдержанная тревожная зацепка про Марата.",
+          "Финал оценивает совместно законченные снимки и сегодняшний семейный кадр; явное ограничение знания о смерти Марата сохраняется в прежней итоговой knowledge записи."
+        ],
+        "targets": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/WaterChainHomePresence.cs",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs",
+          "game/content/urman.fullgame.compiled.v1.json"
+        ],
+        "verification": "Astra bounded narrative/order/provenance/compatibility review; root exact compiled delta: campaign incl saved catalog unchanged, existing quest/photo/scene registries unchanged. New initialhidden knowledge is created lazily by existing SetStatus; existing first_world_home_talk uses same idempotent source. Existing content CLI exit0, final affected compile result recorded in agent chat. No new tests/probes/game/captures. W04-completed excludes new pending; no new world/evidence gate or false E-BANK confirmation. Exact one-way b0b8a6/95c938→b809690 compatibility only; unknown pairs strict.",
+        "remaining": "Обычная полная кампания, оба порядка миров/Continue, интерес, естественность речи и обязательная авторская/культурная/языковая/слуховая приёмка не подтверждены."
       }
     },
     {
@@ -125431,7 +125449,7 @@
       "prologue_source_followup_2026_10_26": {
         "result": "Luna bounded source review обычного F01→F03→arrival→20сек passenger drive→D00 exit→home не установил production-разрыв. PhotoWorld route использует UpdatePhotoNivaArrival, не legacy ride; same-session arrival starts drive, диалоги идут после поездки, reducer stop возвращает Home.",
         "bounds": "Автор требует саму поездку и целый пролог, но не задавал перестановку диалога перед поездкой. Поэтому отличие fullgame/legacy порядка не объявлено дефектом. Delta clamp гипотеза ранее исключена.",
-        "remaining": "Непропущенное движение Нивы и actual normal F01/F03 route→home остаются runtime-вопросом. Последние setup skip не заменяют такую приёмку.",
+        "remaining": "7df уже подтверждает обычный F00/F01/F03→Нива→дом без skip, PW043 инженерно completed. Реальное20секдвижение и художественная/слуховая/авторская приёмка отдельно не подтверждены; не повторять unchanged route ради наличия кадра.",
         "targets": [
           "game/scripts/Act1DemoRoot.PrologueNivaRide.cs",
           "game/scripts/Act1DemoRoot.PhotoNivaDrive.cs",

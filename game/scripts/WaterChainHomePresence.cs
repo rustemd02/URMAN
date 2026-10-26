@@ -118,9 +118,14 @@ internal partial class WaterChainHomePresence : Node3D
         var photographerVerifyLive = homeActive && !photographerVerified
             && bridge.IsInteractionAvailable(photographerVerifyId);
 
-        var homeReturnLive = bookReceived && !firstHomeTalk
+        // Both completed first-world results reuse the first return's authored
+        // talk target; JournalUi owns the shared saved-state predicates.
+        var forestHomeResultLive = homeActive && JournalUi.ForestHomeResultPending(bridge);
+        var waterHomeResultLive = homeActive && JournalUi.WaterHomeResultPending(bridge);
+        var homeReturnLive = homeActive && bookReceived
+            && (!firstHomeTalk || forestHomeResultLive || waterHomeResultLive)
             && bridge.IsInteractionAvailable(HomeReturnTarget.InteractionId);
-        var housePermissionLive = bookReceived && firstHomeTalk && housePrintFound && !houseAcquired
+        var housePermissionLive = bookReceived && firstHomeTalk && !homeReturnLive && housePrintFound && !houseAcquired
             && bridge.IsInteractionAvailable(HousePhotoPermissionTarget.InteractionId);
         var talkLive = bookReceived && !told && !homeReturnLive && !housePermissionLive;
         var permissionLive = bookReceived && told && found && !acquired && !homeReturnLive && !housePermissionLive;

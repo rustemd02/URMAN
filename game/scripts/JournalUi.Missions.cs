@@ -29,6 +29,27 @@ public partial class JournalUi
     internal static string? PhotoBookPreparationObjectiveText(RuntimeBridge? bridge, string? selectedPhotoId = null) =>
         bridge is null ? null : PhotoBookPreparationMission(bridge, selectedPhotoId)?.Action;
 
+    internal static bool WaterHomeResultPending(RuntimeBridge bridge)
+        => HomeWorldResultPending(bridge, "urman.fullgame:quest/pw-w02",
+            "urman.fullgame:knowledge/pw-water-home-account");
+
+    internal static bool ForestHomeResultPending(RuntimeBridge bridge)
+        => HomeWorldResultPending(bridge, "urman.fullgame:quest/pw-w01",
+            "urman.fullgame:knowledge/pw-forest-inside");
+
+    private static bool HomeWorldResultPending(RuntimeBridge bridge, string questId, string knowledgeId)
+    {
+        if (!bridge.IsPhotoWorldsCampaign || !bridge.CanInspectReceivedPhotoBook
+            || bridge.SessionIdentity is not { } session)
+            return false;
+
+        var state = session.SelectState();
+        var pending = PhotoWorldQuestStatus(state, questId) == "completed"
+            && PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w04") != "completed"
+            && !MissionKnowledgeConfirmed(state, knowledgeId);
+        return pending && ReferenceEquals(session, bridge.SessionIdentity);
+    }
+
     private static PlayerMission? ArrivalMission(RuntimeBridge bridge)
     {
         if (bridge.ActiveSceneId == "urman.chapter1:scene/arrival_vehicle_dusk")
@@ -54,6 +75,16 @@ public partial class JournalUi
             || (activeSceneId.StartsWith("urman.fullgame:scene/pw-", StringComparison.Ordinal)
                 && activeSceneId is not ("urman.fullgame:scene/pw-home" or "urman.fullgame:scene/pw-niva-arrival")))
             return null;
+
+        if (ForestHomeResultPending(bridge))
+            return HomeMission(bridge, "first-return-talk", "Рассказать о лесном снимке",
+                "Расскажите Гөлсинә, что нашли за корнями.",
+                "pw-first-world-home-talk", "Гөлсинә");
+
+        if (WaterHomeResultPending(bridge))
+            return HomeMission(bridge, "water-return-talk", "Рассказать о старом спуске",
+                "Расскажите Гөлсинә, где нашли старый спуск к мосткам.",
+                "pw-first-world-home-talk", "Гөлсинә");
 
         var state = bridge.SelectRuntimeState();
         var forestQuestStatus = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w01");

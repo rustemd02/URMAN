@@ -4467,9 +4467,56 @@
           {
             "op": "photoworlds.fact.observed",
             "factId": "forest_encounter_resolved"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w01",
+            "status": "completed"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "quest.status",
+              "questId": "urman.fullgame:quest/pw-w04",
+              "status": "completed"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "knowledge.status",
+              "knowledgeId": "urman.fullgame:knowledge/pw-forest-inside",
+              "status": "confirmed"
+            }
           }
         ],
         "nodeId": "forest-return-resolved"
+      },
+      {
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w02",
+            "status": "completed"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "quest.status",
+              "questId": "urman.fullgame:quest/pw-w04",
+              "status": "completed"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "knowledge.status",
+              "knowledgeId": "urman.fullgame:knowledge/pw-water-home-account",
+              "status": "confirmed"
+            }
+          }
+        ],
+        "nodeId": "water-return"
       },
       {
         "conditions": [
@@ -4568,6 +4615,54 @@
                 "op": "journal.record",
                 "entryId": "urman.fullgame:knowledge/pw-forest-inside",
                 "sourceId": "urman.fullgame:knowledge/pw-forest-inside"
+              }
+            ],
+            "nextNodeId": null
+          }
+        ]
+      },
+      {
+        "id": "water-return",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-water-return-question",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "describe-water-descent",
+            "textId": "urman.fullgame:text/pw-choice-water-return-discovery",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "water-return-account"
+          }
+        ]
+      },
+      {
+        "id": "water-return-account",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-water-return-account",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "record-water-account",
+            "textId": "urman.fullgame:text/pw-choice-water-return-record",
+            "conditions": [],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "first_world_home_talk",
+                "sourceId": "urman.fullgame:interaction/pw-first-world-home-talk"
+              },
+              {
+                "op": "knowledge.set-status",
+                "knowledgeId": "urman.fullgame:knowledge/pw-water-home-account",
+                "status": "confirmed"
+              },
+              {
+                "op": "journal.record",
+                "entryId": "urman.fullgame:knowledge/pw-water-home-account",
+                "sourceId": "urman.fullgame:knowledge/pw-water-home-account"
               }
             ],
             "nextNodeId": null
@@ -4712,9 +4807,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-gulsina-author-author",
     "value": {
-      "default": "Это я снимала. Встала у окна, чтобы весь двор вошёл. Марат рядом стоял, всё оглядывался: что там за нами осталось? А я просила его в кадр не лезть.",
+      "default": "Это я снимала. Встала у окна, чтобы весь двор вошёл. Ставню открыли, чтобы свет не заслоняла. А ткань я потом так и забыла убрать. Меня на снимке нет — кто-то же должен был нажать.",
       "translations": {
-        "ru": "Это я снимала. Встала у окна, чтобы весь двор вошёл. Марат рядом стоял, всё оглядывался: что там за нами осталось? А я просила его в кадр не лезть."
+        "ru": "Это я снимала. Встала у окна, чтобы весь двор вошёл. Ставню открыли, чтобы свет не заслоняла. А ткань я потом так и забыла убрать. Меня на снимке нет — кто-то же должен был нажать."
       }
     },
     "purpose": "dialogue"
@@ -5537,9 +5632,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-home-epilogue-reflection",
     "value": {
-      "default": "Спасибо тебе, Айдар. Марат хотел подписать эти снимки, и теперь они не лежат безымянной стопкой. Только о его смерти мы так ничего нового и не узнали. Давай ещё чаю? И для новых снимков место оставим.",
+      "default": "Вот и наш сегодняшний снимок в книге. Спасибо, Айдар. Я всё откладывала эту стопку: одной тяжело было за неё браться. Хорошо, что вместе разобрали. Чаю ещё?",
       "translations": {
-        "ru": "Спасибо тебе, Айдар. Марат хотел подписать эти снимки, и теперь они не лежат безымянной стопкой. Только о его смерти мы так ничего нового и не узнали. Давай ещё чаю? И для новых снимков место оставим."
+        "ru": "Вот и наш сегодняшний снимок в книге. Спасибо, Айдар. Я всё откладывала эту стопку: одной тяжело было за неё браться. Хорошо, что вместе разобрали. Чаю ещё?"
       }
     },
     "purpose": "dialogue"
@@ -5548,9 +5643,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-choice-home-epilogue-leave-open",
     "value": {
-      "default": "Оставить запись: снимки не объяснили смерть Марата",
+      "default": "Добавить итоговую запись в книгу",
       "translations": {
-        "ru": "Оставить запись: снимки не объяснили смерть Марата"
+        "ru": "Добавить итоговую запись в книгу"
       }
     },
     "purpose": "dialogue"
@@ -7717,5 +7812,73 @@
       }
     },
     "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-water-return-question",
+    "value": {
+      "default": "Ну что, нашёл, откуда мы к мосткам ходили?",
+      "translations": {
+        "ru": "Ну что, нашёл, откуда мы к мосткам ходили?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-water-return-discovery",
+    "value": {
+      "default": "Нашёл. Спуск за камышом, с другой стороны мостков. На снимке его не видно.",
+      "translations": {
+        "ru": "Нашёл. Спуск за камышом, с другой стороны мостков. На снимке его не видно."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-water-return-account",
+    "value": {
+      "default": "Мы оттуда и спускались. Смотришь на мостки — а тропа за ними теряется. Только берег теперь другой, по старым доскам уже не ходят.",
+      "translations": {
+        "ru": "Мы оттуда и спускались. Смотришь на мостки — а тропа за ними теряется. Только берег теперь другой, по старым доскам уже не ходят."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-water-return-record",
+    "value": {
+      "default": "Записать, где был старый спуск",
+      "translations": {
+        "ru": "Записать, где был старый спуск"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:knowledge/pw-water-home-account",
+    "kind": "fact",
+    "title": {
+      "default": "Как подходили к старым мосткам",
+      "translations": {
+        "ru": "Как подходили к старым мосткам"
+      }
+    },
+    "summary": {
+      "default": "Внутри речного снимка нашёл спуск за камышом. Гөлсинә узнала место: с этой стороны они подходили к мосткам. Её воспоминание относится к прежнему берегу; сохранившиеся зимние сваи — отдельный источник.",
+      "translations": {
+        "ru": "Внутри речного снимка нашёл спуск за камышом. Гөлсинә узнала место: с этой стороны они подходили к мосткам. Её воспоминание относится к прежнему берегу; сохранившиеся зимние сваи — отдельный источник."
+      }
+    },
+    "initialStatus": "hidden",
+    "sourceIds": [
+      "urman.fullgame:dialogue/pw-first-world-home"
+    ],
+    "reveals": [],
+    "contradicts": [],
+    "unlocks": []
   }
 ]
