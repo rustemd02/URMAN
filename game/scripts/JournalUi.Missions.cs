@@ -113,7 +113,8 @@ public partial class JournalUi
     private static PlayerMission ForestEntryMission(RuntimeBridge bridge, bool resume) =>
         StreetMission(bridge, "forest-enter", "Люди у леса",
             $"У трёх стволов на опушке откройте «Люди у леса» в книге и нажмите «{(resume ? "Продолжить снимок" : "Войти в снимок")}».",
-            "pw-enter-forest", "Три ствола на опушке");
+            "pw-enter-forest", "Три ствола на опушке",
+            "ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/PhotoForestEntry/ForestPhotoEntryAnchor");
 
     private static PlayerMission EntryMission(RuntimeBridge bridge, string id, string title,
         RuntimeBridge.PhotoBookPhoto photo, string interaction, string destination) =>

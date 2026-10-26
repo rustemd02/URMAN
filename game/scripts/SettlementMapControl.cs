@@ -3,8 +3,9 @@ using Urman.Core.Persistence;
 
 namespace Urman.Godot;
 
-/// <summary>Notebook sketch of physically located addresses. Geometry and the
-/// knowledge filter belong to SettlementRegistry; no player or quest route is drawn.</summary>
+/// <summary>Notebook sketch of known settlement details with passive player and
+/// objective markers. Geometry and the knowledge filter belong to SettlementRegistry;
+/// the map never draws a route.</summary>
 public partial class SettlementMapControl : Control, IAccessibilitySettingsTarget
 {
     private SettlementRegistry? _registry;
@@ -14,6 +15,11 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
     private readonly HashSet<Vector2I> _exploredCells = [];
     private readonly HashSet<Vector2I> _pendingExplorationCells = [];
     private Vector2? _photoForestEntryMapPosition;
+    private Vector2? _navigationPlayerPosition;
+    private Vector2? _navigationPlayerForward;
+    private Vector2? _navigationObjectivePosition;
+    private string? _navigationObjectiveLabel;
+    private bool _navigationNeedsInitialFit = true;
     private ulong _explorationRetryAfterMsec;
     private float _textScale = 1;
     private float _screenScale = 1;
@@ -33,7 +39,8 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
     private readonly Dictionary<string, Vector2> _drawnStreetAnchors = new(StringComparer.Ordinal);
     public int DisplayedAddressCount { get; private set; }
     public bool EmptyPageVisible => DisplayedAddressCount == 0 && _exploredCells.Count == 0
-        && _photoForestEntryMapPosition is null;
+        && _photoForestEntryMapPosition is null && _navigationPlayerPosition is null
+        && _navigationObjectivePosition is null;
     internal float ViewZoom => _zoom;
     internal Vector2 ViewCenter => _center;
     internal IReadOnlyList<(string AddressId, Rect2 Bounds)> DrawnAddressLabels => _drawnLabels;
@@ -78,7 +85,7 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         _canvas.Resized += () => _canvas.QueueRedraw();
         _canvas.VisibilityChanged += () => { _dragging = false; _canvas.QueueRedraw(); };
         _layout.AddChild(_canvas);
-        _legend = new Label { Text = "Линии — пройденные улицы · контуры — увиденные дома · подписи — прочитанные адреса",
+        _legend = new Label { Text = "Стрелка — вы · ромб — цель\nЛинии — пройденные улицы · контуры — увиденные дома · подписи — прочитанные адреса",
             AutowrapMode = TextServer.AutowrapMode.WordSmart };
         _layout.AddChild(_legend);
         Resized += ResizeLayout;
@@ -91,6 +98,12 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         IEnumerable<Vector2I>? exploredCells = null, object? sessionIdentity = null,
         Vector2? photoForestEntryMapPosition = null)
     {
+        var sessionChanged = !ReferenceEquals(_sessionIdentity, sessionIdentity);
+        if (sessionChanged)
+        {
+            ClearNavigation();
+            _navigationNeedsInitialFit = true;
+        }
         var located = locatedAddressIds.Select(registry.CanonicalAddressId).Where(id => id is not null)
             .Cast<string>().Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
         var explored = new HashSet<Vector2I>(exploredCells ?? []);
@@ -98,7 +111,7 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
             if (registry.Addresses.TryGetValue(id, out var address)
                 && registry.Buildings.TryGetValue(address.BuildingId, out var building))
                 explored.Add(RuntimeBridge.MapExplorationCell(new Vector3((float)building.Position.X, 0, (float)building.Position.Z)));
-        var changed = !ReferenceEquals(_registry, registry) || !ReferenceEquals(_sessionIdentity, sessionIdentity)
+        var changed = !ReferenceEquals(_registry, registry) || sessionChanged
             || !_located.SequenceEqual(located) || !_exploredCells.SetEquals(explored)
             || _photoForestEntryMapPosition != photoForestEntryMapPosition;
         _registry = registry;
@@ -112,6 +125,61 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         if (changed) { _fitBounds = FitKnownArea(); _center = _fitBounds.GetCenter(); _zoom = 1; _dragging = false; }
         RefreshControls();
     }
+
+    /// <summary>Projects the current player and objective without persisting or revealing map data.</summary>
+    internal void SetNavigation(Vector2? playerPosition, Vector2? playerForward,
+        Vector2? objectivePosition, string? objectiveLabel)
+    {
+        playerPosition = IsFinite(playerPosition) ? playerPosition : null;
+        playerForward = IsFinite(playerForward) && playerForward!.Value.LengthSquared() > .0001f
+            ? playerForward!.Value.Normalized() : null;
+        objectivePosition = IsFinite(objectivePosition) ? objectivePosition : null;
+        objectiveLabel = objectivePosition is not null && !string.IsNullOrWhiteSpace(objectiveLabel)
+            ? objectiveLabel.Trim() : null;
+        if (objectiveLabel is null) objectivePosition = null;
+
+        var objectiveLocationChanged = _navigationObjectivePosition != objectivePosition;
+        var targetChanged = objectiveLocationChanged
+            || !StringComparer.Ordinal.Equals(_navigationObjectiveLabel, objectiveLabel);
+        var changed = _navigationPlayerPosition != playerPosition || _navigationPlayerForward != playerForward
+            || targetChanged;
+        if (!changed) return;
+        var navigationPointRemoved = (_navigationPlayerPosition is not null && playerPosition is null)
+            || (_navigationObjectivePosition is not null && objectivePosition is null);
+
+        _navigationPlayerPosition = playerPosition;
+        _navigationPlayerForward = playerForward;
+        _navigationObjectivePosition = objectivePosition;
+        _navigationObjectiveLabel = objectiveLabel;
+
+        var initialFit = _navigationNeedsInitialFit && (playerPosition is not null || objectivePosition is not null);
+        var fitNewObjective = objectivePosition is not null && objectiveLocationChanged;
+        var pointsOutsideFit = (playerPosition is { } player && !_fitBounds.HasPoint(player))
+            || (objectivePosition is { } objective && !_fitBounds.HasPoint(objective));
+        if (initialFit || fitNewObjective || navigationPointRemoved || pointsOutsideFit)
+        {
+            _fitBounds = FitKnownArea();
+            if (initialFit || fitNewObjective)
+            {
+                _center = _fitBounds.GetCenter();
+                _zoom = 1;
+                _dragging = false;
+            }
+        }
+        if (initialFit) _navigationNeedsInitialFit = false;
+        RefreshControls();
+    }
+
+    private void ClearNavigation()
+    {
+        _navigationPlayerPosition = null;
+        _navigationPlayerForward = null;
+        _navigationObjectivePosition = null;
+        _navigationObjectiveLabel = null;
+    }
+
+    private static bool IsFinite(Vector2? point) => point is { } value
+        && float.IsFinite(value.X) && float.IsFinite(value.Y);
 
     internal void TrackExploration()
     {
@@ -265,6 +333,8 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
             building.Footprint.Count > 0 ? building.Footprint.Select(Xz) : new[] { Xz(building.Position) }));
         points.AddRange(_registry.AccessPoints.Values.Where(access => IsExplored(access.Position)).Select(access => Xz(access.Position)));
         if (_photoForestEntryMapPosition is { } forestEntry) points.Add(forestEntry);
+        if (_navigationPlayerPosition is { } playerPosition) points.Add(playerPosition);
+        if (_navigationObjectivePosition is { } objectivePosition) points.Add(objectivePosition);
         if (points.Count == 0) return new(-10, -10, 20, 20);
         var min = new Vector2(points.Min(p => p.X), points.Min(p => p.Y));
         var max = new Vector2(points.Max(p => p.X), points.Max(p => p.Y));
@@ -303,6 +373,7 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
     private bool IsExplored(SettlementPoint position) => _exploredCells.Contains(
         RuntimeBridge.MapExplorationCell(new Vector3((float)position.X, 0, (float)position.Z)));
     private float PixelsPerMetre => Math.Max(.001f, Math.Min(_canvas.Size.X / Math.Max(1, _fitBounds.Size.X), _canvas.Size.Y / Math.Max(1, _fitBounds.Size.Y)) * _zoom);
+    private Vector2 Screen(Vector2 point) => (point - _center) * PixelsPerMetre + _canvas.Size * .5f;
     private Vector2 Screen(SettlementPoint p) => (Xz(p) - _center) * PixelsPerMetre + _canvas.Size * .5f;
     private void ResetView() { _center = _fitBounds.GetCenter(); _zoom = 1; RefreshControls(); }
     private void ZoomAt(float factor, Vector2 anchor)
@@ -382,6 +453,17 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         }
         var occupied = new List<Rect2> { new(_canvas.Size.X - 38 * _textScale, 0, 38 * _textScale, 52 * _textScale),
             new(0, _canvas.Size.Y - 32 * _textScale, 125 * _textScale, 32 * _textScale) };
+        var navigationMarkerRadius = 10 * _textScale;
+        var objectiveScreenPosition = _navigationObjectivePosition is { } objectivePosition
+            ? Screen(objectivePosition) : (Vector2?)null;
+        var playerScreenPosition = _navigationPlayerPosition is { } playerPosition
+            ? Screen(playerPosition) : (Vector2?)null;
+        foreach (var markerPosition in new[] { objectiveScreenPosition, playerScreenPosition })
+        {
+            if (markerPosition is { } point && viewport.Grow(-navigationMarkerRadius).HasPoint(point))
+                occupied.Add(new Rect2(point - Vector2.One * navigationMarkerRadius,
+                    Vector2.One * navigationMarkerRadius * 2).Grow(2));
+        }
         foreach (var building in map.Buildings.Where(IsPrimary))
         {
             if (!IsExplored(building.Position)) continue;
@@ -412,7 +494,10 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
             DrawLabel(lines, box.Value, text, ink, paper); occupied.Add(box.Value.Grow(3)); _drawnStreetLabels.Add(street.Id);
             _drawnStreetAnchors[street.Id] = anchor.Value;
         }
-        if (_photoForestEntryMapPosition is { } forestEntry)
+        var forestEntryIsCurrentObjective = _photoForestEntryMapPosition is { } forestEntryPosition
+            && _navigationObjectivePosition is { } currentObjective
+            && currentObjective.DistanceTo(forestEntryPosition) <= 1;
+        if (!forestEntryIsCurrentObjective && _photoForestEntryMapPosition is { } forestEntry)
         {
             var point = (forestEntry - _center) * PixelsPerMetre + _canvas.Size * .5f;
             if (viewport.Grow(-2).HasPoint(point))
@@ -421,9 +506,14 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
                 _canvas.DrawArc(point, 6 * _textScale, 0, Mathf.Tau, 24, ink, 2, true);
                 var lines = new[] { "Три ствола у опушки" };
                 if (PlaceLabel(point, lines, occupied, text) is { } box)
+                {
                     DrawLabel(lines, box, text, ink, paper);
+                    occupied.Add(box.Grow(3));
+                }
             }
         }
+        DrawNavigationMarkers(viewport, occupied, ink, paper, text,
+            playerScreenPosition, objectiveScreenPosition, navigationMarkerRadius);
         var north = new Vector2(_canvas.Size.X - 22 * _textScale, 25 * _textScale);
         _canvas.DrawLine(north + Vector2.Down * 15 * _textScale, north, ink, 2, true);
         _canvas.DrawLine(north, north + new Vector2(-4, 6) * _textScale, ink, 2, true);
@@ -436,6 +526,53 @@ public partial class SettlementMapControl : Control, IAccessibilitySettingsTarge
         _canvas.DrawLine(start + Vector2.Up * 4, start + Vector2.Down * 2, ink, 2);
         _canvas.DrawLine(end + Vector2.Up * 4, end + Vector2.Down * 2, ink, 2);
         _canvas.DrawString(font, start + Vector2.Up * 7, metres.ToString(System.Globalization.CultureInfo.InvariantCulture) + " м", fontSize: text, modulate: ink);
+    }
+
+    private void DrawNavigationMarkers(Rect2 viewport, List<Rect2> occupied, Color ink, Color paper, int textSize,
+        Vector2? playerPosition, Vector2? objectivePosition, float radius)
+    {
+        if (objectivePosition is { } target && viewport.Grow(-radius).HasPoint(target))
+        {
+            var targetFill = _highContrast ? paper : Color.FromHtml("91352d");
+            var diamond = new[] { target + Vector2.Up * radius, target + Vector2.Right * radius,
+                target + Vector2.Down * radius, target + Vector2.Left * radius };
+            _canvas.DrawColoredPolygon(diamond, targetFill);
+            _canvas.DrawPolyline(diamond.Append(diamond[0]).ToArray(), ink, Math.Max(2, 2 * _textScale), true);
+            _canvas.DrawCircle(target, 2.2f * _textScale, ink);
+            if (_navigationObjectiveLabel is { } label
+                && PlaceLabel(target, new[] { label }, occupied, textSize) is { } labelBox)
+            {
+                DrawLabel(new[] { label }, labelBox, textSize, ink, paper);
+                occupied.Add(labelBox.Grow(3));
+            }
+        }
+
+        if (playerPosition is not { } player || !viewport.Grow(-radius).HasPoint(player)) return;
+        var playerFill = _highContrast ? ink : Color.FromHtml("075b66");
+        if (_navigationPlayerForward is { } forward)
+        {
+            var side = new Vector2(-forward.Y, forward.X);
+            var tip = player + forward * (radius * .95f);
+            var basePoint = player - forward * (radius * .62f);
+            var arrow = new[] { tip, basePoint + side * (radius * .66f), basePoint - side * (radius * .66f) };
+            _canvas.DrawPolyline(arrow.Append(arrow[0]).ToArray(), paper,
+                Math.Max(4, 4 * _textScale), true);
+            _canvas.DrawColoredPolygon(arrow, playerFill);
+            _canvas.DrawPolyline(arrow.Append(arrow[0]).ToArray(), ink,
+                Math.Max(2, 2 * _textScale), true);
+        }
+        else
+        {
+            _canvas.DrawCircle(player, 7 * _textScale, paper);
+            _canvas.DrawArc(player, 7 * _textScale, 0, Mathf.Tau, 24, ink, 2 * _textScale, true);
+            _canvas.DrawCircle(player, 3 * _textScale, playerFill);
+        }
+
+        if (PlaceLabel(player, new[] { "Вы здесь" }, occupied, textSize) is { } playerLabelBox)
+        {
+            DrawLabel(new[] { "Вы здесь" }, playerLabelBox, textSize, ink, paper);
+            occupied.Add(playerLabelBox.Grow(3));
+        }
     }
 
     private Vector2? StreetLabelAnchor(SettlementMap map, string streetId)

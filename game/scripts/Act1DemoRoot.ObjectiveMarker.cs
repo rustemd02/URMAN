@@ -77,7 +77,7 @@ public partial class Act1DemoRoot
             if (_objectiveMarkerRetry <= 0)
             {
                 _objectiveMarkerRetry = .75;
-                _objectiveMarkerTarget = ResolveObjectiveMarkerTarget(mission);
+                _objectiveMarkerTarget = ResolveObjectiveMarkerTarget(mission, out _objectiveMarkerUsingAnchor);
             }
         }
         if (_objectiveMarkerTarget is not { } target)
@@ -342,12 +342,45 @@ public partial class Act1DemoRoot
         && panel.GetGlobalRect().Grow(12f * scale).Intersects(new Rect2(
             position - new Vector2(labelWidth / 2f, 16f * scale), new Vector2(labelWidth, 82f * scale)));
 
-    private Node3D? ResolveObjectiveMarkerTarget(PlayerMission mission)
+    internal bool TryGetVillageMapNavigation(RuntimeBridge bridge, out Vector2 position, out Vector2 forward,
+        out Vector2? objective, out string? label)
     {
-        _objectiveMarkerUsingAnchor = false;
+        position = forward = default;
+        objective = null;
+        label = null;
+        if (!ReferenceEquals(_bridge, bridge) || !bridge.IsPhotoWorldsCampaign
+            || bridge.SessionIdentity is null || bridge.IsPhotoWorldPresentationDeferred
+            || bridge.ActiveSceneId != "urman.fullgame:scene/pw-home"
+            || bridge.CurrentZoneId is not ("village_day" or "house_old_pc")
+            || !GodotObject.IsInstanceValid(_main) || !_main.IsInsideTree()
+            || _player is not { } player || !GodotObject.IsInstanceValid(player)
+            || !player.IsInsideTree() || player.IsQueuedForDeletion() || player.SessionTransitionActive
+            || player.GetNodeOrNull<Camera3D>("Head/Camera3D") is not { } camera)
+            return false;
+
+        position = new Vector2(player.GlobalPosition.X, player.GlobalPosition.Z);
+        var direction = -camera.GlobalBasis.Z;
+        forward = new Vector2(direction.X, direction.Z).Normalized();
+        if (JournalUi.CurrentPlayerMission(bridge) is not { } mission
+            || (!string.IsNullOrWhiteSpace(mission.TargetZoneId) && mission.TargetZoneId != bridge.CurrentZoneId))
+            return true;
+
+        // A map marks the authored approach stance; the world cue may point at its facing witness.
+        var anchor = string.IsNullOrWhiteSpace(mission.AnchorPath) ? null : _main.GetNodeOrNull<Node3D>(mission.AnchorPath);
+        var target = ObjectiveMarkerTargetAvailable(anchor, mission, endpoint: true)
+            ? anchor : ResolveObjectiveMarkerTarget(mission, out _);
+        if (target is null) return true;
+        objective = new Vector2(target.GlobalPosition.X, target.GlobalPosition.Z);
+        label = string.IsNullOrWhiteSpace(mission.TargetLabel) ? mission.Title : mission.TargetLabel;
+        return true;
+    }
+
+    private Node3D? ResolveObjectiveMarkerTarget(PlayerMission mission, out bool usingAnchor)
+    {
+        usingAnchor = false;
         if (!string.IsNullOrWhiteSpace(mission.InteractionId))
         {
-            // No public interaction index exists. Search only while unresolved, at most once per .75 s.
+            // The HUD caches this lookup; the map resolves once when its notebook projection refreshes.
             var pending = new Stack<Node>();
             pending.Push(_main);
             while (pending.TryPop(out var node))
@@ -361,7 +394,7 @@ public partial class Act1DemoRoot
         if (string.IsNullOrWhiteSpace(mission.AnchorPath)) return null;
         var anchor = _main.GetNodeOrNull<Node3D>(mission.AnchorPath);
         if (!ObjectiveMarkerTargetAvailable(anchor, mission, endpoint: true)) return null;
-        _objectiveMarkerUsingAnchor = true;
+        usingAnchor = true;
         return anchor;
     }
 

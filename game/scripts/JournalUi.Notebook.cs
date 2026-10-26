@@ -184,7 +184,15 @@ public partial class JournalUi
             }
             _map.Bind(registry, bridge.LocatedAddressIds(), bridge.ExploredMapCells(), bridge.SessionIdentity,
                 forestEntryMapPosition);
+            if (GetTree().GetFirstNodeInGroup("act1_demo_root") is Act1DemoRoot campaign
+                && campaign.TryGetVillageMapNavigation(bridge, out var position, out var forward,
+                    out var objective, out var label))
+                _map.SetNavigation(position, forward, objective, label);
+            else
+                _map.SetNavigation(null, null, null, null);
         }
+        else
+            _map.SetNavigation(null, null, null, null);
         RefreshInventoryPage();
         var sessionChanged = !ReferenceEquals(_notesSession, bridge.SessionIdentity);
         if (sessionChanged)
@@ -264,6 +272,7 @@ public partial class JournalUi
     {
         if (_notesBoundaryBridge is { } bridge) bridge.PlayTimeBoundary -= OnNotebookLoadBoundary;
         _notesBoundaryBridge = null;
+        _map?.SetNavigation(null, null, null, null);
         _notesLoadDraft = null;
         _notesLoadInProgress = false;
     }
@@ -274,6 +283,7 @@ public partial class JournalUi
         if (boundary == "load-start")
         {
             _notesLoadInProgress = true;
+            _map?.SetNavigation(null, null, null, null);
             ClearPhotoBookPage(resetSession: false);
             // Keep the original copy across a double failure and later retry.
             // Recovery New Game will explicitly discard it at load-restored.
@@ -300,7 +310,11 @@ public partial class JournalUi
         if (bridge.SessionIdentity is not { } session) return;
         var draft = _notesLoadDraft;
         _notesLoadDraft = null;
-        if (ReferenceEquals(_bridge, bridge)) RefreshPhotoBookPage();
+        if (ReferenceEquals(_bridge, bridge))
+        {
+            RefreshNotebookPages();
+            RefreshPhotoBookPage();
+        }
         if (draft is null || !ReferenceEquals(_bridge, bridge)) return;
         _notesSession = session;
         _notesBaseline = draft.Baseline;

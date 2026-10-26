@@ -52344,7 +52344,7 @@
       "remaining": [
         "На обязательном пути понятны текущая цель и следующий ориентир; маркер указывает реальное доступное место/действие, адресные источники покрывают все цели. Автопрохождения и выдачи незаработанных фактов нет."
       ],
-      "next_action": "Свести текущие mission/marker-правки первого эпизода; затем по исходникам сверить остальные обязательные цели, не удалять полезные маркеры по старому запрету.",
+      "next_action": "Использовать source-ready карту в следующем необходимом обычном эпизоде W01 action→return→home. Проверять новый результат/читаемость, не повторять пролог/школу ради presence. Остальные адресные цели и внешняя приёмка остаются открыты.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -52354,7 +52354,9 @@
         "targets": [
           "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
           "game/scripts/JournalUi.Missions.cs",
-          "game/scripts/SettlementRegistry.cs"
+          "game/scripts/SettlementRegistry.cs",
+          "game/scripts/SettlementMapControl.cs",
+          "game/scripts/JournalUi.Notebook.cs"
         ],
         "required_inputs": [
           {
@@ -52458,6 +52460,19 @@
         ],
         "verification": "Root source review + Luna bounded implementation/source review + Astra independent review. Caught/fixed misleading F11 singlelandmark cue, missing literal schoolconfirm, W02-first generic home text. No game/tests/probes; compile pending. Final affected Game compile17.80s,0errors/0warnings; existing ContentCLI compiled only urman.fullgame. Source diff inspected12existingtext definitions/default=ru, dialogue graph/effects/conditions unchanged. Tracker render/validate PASS308/20/679; diffcheck clean.",
         "remaining": "Целый W01 action→return→home и удовольствие от игры не приняты; культурная/языковая/художественная/авторская приёмка остаётся отдельной."
+      },
+      "current_player_map_2026_10_26": {
+        "state": "source_implemented_reviewed_compiled_native_not_run",
+        "result": "В существующей карте player arrow+Вы здесь, currentmission diamond+label. Тот же CurrentPlayerMission/marker resolver; map предпочитает authored approach AnchorPath, world cue сохраняет facingwitness. ForestMission получил существующий road stance AnchorPath; oldforesthint дедуплицируется по общей позиции. Все прочие дома/имена по прежним located/explored gates; новых writes/автопути/фактов нет.",
+        "lifecycle": "Exact bridge/session/!deferred/pw-home/street|house/liveplayer. Bind new session clearsnav; notebook binds then projects. Loadstart/unbind clears, failed/restoredload reprojects after boundary; personal draft restoration preserved. Finitecoords/emptyfit/firstfit/newgoalfit; repeated movement/text refresh preserves manualpan.",
+        "sources": [
+          "game/scripts/SettlementMapControl.cs",
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/JournalUi.Notebook.cs",
+          "game/scripts/JournalUi.Missions.cs"
+        ],
+        "verification": "Root source review + independent Luna clean: exactbridge/session/load/draft/pan/fit/unknown-location gates. Existing fullgame ContentCLI exit0; affected Game17.63s0warnings0errors. Tracker/diffcheck below. No game/tests/probes.",
+        "remaining": "Обычный W01 action→return→home и карта/движение на Windows не приняты; следующий необходимый игровой вопрос совместить с этим отрезком, setup presence не перепринимать."
       }
     },
     {
@@ -125395,6 +125410,15 @@
         ],
         "verification": "Root source review + Luna bounded implementation/source review + Astra independent review. Caught/fixed misleading F11 singlelandmark cue, missing literal schoolconfirm, W02-first generic home text. No game/tests/probes; compile pending. Final affected Game compile17.80s,0errors/0warnings; existing ContentCLI compiled only urman.fullgame. Source diff inspected12existingtext definitions/default=ru, dialogue graph/effects/conditions unchanged. Tracker render/validate PASS308/20/679; diffcheck clean.",
         "remaining": "Целый W01 action→return→home и удовольствие от игры не приняты; культурная/языковая/художественная/авторская приёмка остаётся отдельной."
+      },
+      "home_discovery_summary_2026_10_26": {
+        "result": "Confirmed pw-forest-inside теперь сохраняет смысл встречи: Шурале работал за спиной фотографа и поэтому отсутствует в кадре; әби узнала поворот. Existing knowledge.set-status+journal.record после полного resolved home dialogue сохранены; нет новых наград/фактов/автоподписей. Book completedForest показывает найденное место, не только сумку. Overview держит личную цель закончить записи Марата, не убийство.",
+        "sources": [
+          "content/modules/urman-fullgame/definitions.json#urman.fullgame:knowledge/pw-forest-inside",
+          "game/scripts/JournalUi.PhotoBook.cs",
+          "game/scripts/JournalUi.cs"
+        ],
+        "state": "source_only_native_not_run"
       }
     },
     {

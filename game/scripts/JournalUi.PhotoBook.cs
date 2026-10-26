@@ -97,7 +97,7 @@ public partial class JournalUi
         _photoBookPage = new VBoxContainer { Name = "PhotoBookPage", Visible = false,
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
             SizeFlagsVertical = Control.SizeFlags.ExpandFill };
-        _photoBookPage.AddChild(new Label { Text = "Найденные снимки и записи на обороте",
+        _photoBookPage.AddChild(new Label { Text = "Семейная книга · Места и люди на снимках",
             AutowrapMode = TextServer.AutowrapMode.WordSmart });
         _photoBookPreparation = new Label
         {
@@ -612,7 +612,7 @@ public partial class JournalUi
         if (photo.WorldCompleted)
             placement = photo.PhotoId switch
             {
-                "P-FOREST" => "Итог: сумка освобождена.",
+                "P-FOREST" => "Место съёмки найдено. За корневым поворотом освобождена сумка.",
                 "P-WATER" => "Итог: старый спуск найден, дощечка возвращена.",
                 "P-HOUSE" => "Итог: место фотографа найдено, вид из окна открыт.",
                 "P-COMMON" => "Итог: подпись к общему снимку сохранена.",
