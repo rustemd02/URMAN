@@ -147416,6 +147416,12 @@
         ],
         "limitation": "Source bindings do not prove scene coherence, construction, art or performance. VariantB prospective single-atlas UV hold affects 3 porch crowns, not the existing material coverage; no blanket PBR replacement or automatic claim of visual acceptance.",
         "next": "Inspect specific B/C composition and log construction in the actual scene; fix demonstrated large discrepancies before paying for another texture."
+      },
+      "variant_c_roof_support_2026_10_27": {
+        "status": "source_hold_no_generation",
+        "result": "Existing VariantC utility outbuilding source has wall top 1.96m and roof underside >=2.06m with no supporting post or plate reaching it; generator is author_variant_shed_c in assets/source/blender/act1/urman_village_exterior_kit.py. OpenBay is used by existing repair bench and bypass. No paid retexture or runtime modification was made.",
+        "remaining": "Before replacement, resolve constructively with preserved OpenBay, materials, existing collision, imported LOD/shadow mesh and normals; compare in scene. Do not treat a texture as a structural repair.",
+        "cost_credits": 0
       }
     },
     {
