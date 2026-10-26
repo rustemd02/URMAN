@@ -26621,6 +26621,15 @@
           "previous_sha256": "92ccc5a4bc33be97ad426ecd49ff7d5e816de76a49e77776886d6f63b44cd7f8",
           "result": "Idle after7b03 normalquit/userdataRestored. Exactsinglefile SFTP+backup/SHAguards/WindowsAST/managedstop-start; unrelateddirtymerge/docs preserved. Doctorreadytrue/no recovery. SourceFastreviewclean; actual focuscausality/native232b0ded pending."
         }
+      },
+      "photo_niva_village_leg_2026_10_27": {
+        "result": "Active photo-world New Game continues from its existing 20s approach onto the real bridge and village street, stopping at the home without the former concealed relocation or the legacy square detour. The short arrival route follows the existing road path and ends at the parked vehicle pose; player position, Continue, pause, skip and session cleanup remain under existing owners.",
+        "evidence": [
+          "game/scripts/Act1DemoRoot.PhotoNivaDrive.cs",
+          "game/scripts/Act1DemoRoot.PrologueNivaRide.cs"
+        ],
+        "verification": "Independent source review checked bridge/world visibility, endpoint position/yaw, ground height and lifecycle; affected Game build 18.14s 0 warnings/errors. Full route, comfort, camera and continuity not yet checked in Windows game.",
+        "remaining": "Ordinary Windows visual and motion acceptance; first episode and Save/Continue still open."
       }
     },
     {
@@ -111343,6 +111352,16 @@
         "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-firstepisode-b1dce201-2026-10-27.zip",
         "archive_sha256": "2c182de9fcd18177bdc5cac25ed50c8e02ac6f8b194e76f859704f312240129c",
         "remaining": "Playability of full first episode, new fixes, Niva motion and author acceptance remain open."
+      },
+      "school_to_forest_goal_2026_10_27": {
+        "result": "After acquired S-SCHOOL and mounted P-FOREST, the active objective directs the player to the existing three-trunk forest anchor, then to the book entry action. It no longer requires an untracked comparison or back reading; those remain available without inventing a new gate. From home and school existing exit routing remains in use.",
+        "evidence": [
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/RuntimeBridge.PhotoBook.cs",
+          "content/modules/urman-fullgame/definitions.json"
+        ],
+        "verification": "Independent source review: acquired copy and mounted photo gates, home/school exit and book focus checked. Visual marker and walkability remain native-pending.",
+        "remaining": "Windows ordinary school-copy → entry → W01 action → home and Save/Continue acceptance."
       }
     },
     {

@@ -690,27 +690,28 @@ public partial class Act1DemoRoot
     // Distance-parameterised placement over the authored polyline with
     // smooth ends; the car banks its yaw toward the active segment and the
     // body rests on the terrain like the parked runtime vehicles.
-    private void PlaceRideAt(float progress, bool eased = true)
+    private void PlaceRideAt(float progress, bool eased = true, IReadOnlyList<Vector3>? route = null)
     {
         if (_rideNiva is null) return;
+        route ??= PrologueRidePath;
         var shaped = eased ? progress * progress * (3f - 2f * progress) : progress;
         var total = 0f;
-        for (var index = 1; index < PrologueRidePath.Length; index++)
+        for (var index = 1; index < route.Count; index++)
         {
-            total += PrologueRidePath[index - 1].DistanceTo(PrologueRidePath[index]);
+            total += route[index - 1].DistanceTo(route[index]);
         }
         var target = shaped * total;
         var walked = 0f;
-        var position = PrologueRidePath[0];
-        var forward = PrologueRidePath[1] - PrologueRidePath[0];
-        for (var index = 1; index < PrologueRidePath.Length; index++)
+        var position = route[0];
+        var forward = route[1] - route[0];
+        for (var index = 1; index < route.Count; index++)
         {
-            var segment = PrologueRidePath[index] - PrologueRidePath[index - 1];
+            var segment = route[index] - route[index - 1];
             var length = segment.Length();
-            if (walked + length >= target || index == PrologueRidePath.Length - 1)
+            if (walked + length >= target || index == route.Count - 1)
             {
                 var local = Mathf.Clamp((target - walked) / MathF.Max(length, .0001f), 0f, 1f);
-                position = PrologueRidePath[index - 1] + segment * local;
+                position = route[index - 1] + segment * local;
                 forward = segment;
                 break;
             }

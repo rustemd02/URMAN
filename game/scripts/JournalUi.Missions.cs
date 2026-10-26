@@ -169,24 +169,17 @@ public partial class JournalUi
             return bridge.PhotoWorldFactObserved("school_copy_identified")
                 ? StreetMission(bridge, "forest-school-copy", "Получить копию снимка", "В учительской попросите у сотрудницы копию лесного снимка.", "pw-school-copy-permission", "Сотрудница школы")
                 : StreetMission(bridge, "forest-school-album", "Открыть школьный альбом", "Откройте альбом в учительской старой школы: Лесная, 12.", "pw-school-copy-source", "Школьный альбом");
-        var canEnterForest = bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-forest");
-        if (forestPhoto.Mounted && canEnterForest) return ForestEntryMission(bridge, forestPhoto.HasResumePoint);
+        if (forestPhoto.Mounted) return ForestEntryMission(bridge, forestPhoto.HasResumePoint);
         if (!forestPhoto.Mounted && forestPhoto.CanMount)
             return new("forest-mount", "Лесной снимок", "Вклейте снимок в книгу.", BookPhotoId: forestPhoto.PhotoId, BookAction: PlayerBookAction.Mount);
-        if (!forestPhoto.BackRead && forestPhoto.CanReadBack)
-            return new("forest-back", "Оборот лесного снимка", "Прочитайте оборот снимка.", BookPhotoId: forestPhoto.PhotoId, BookAction: PlayerBookAction.ReadBack);
-        if (bridge.CurrentZoneId != MissionHomeZone)
-            return HomeMission(bridge, "forest-compare", "Сверить два снимка", "Дома сравните школьную копию с лесным снимком в семейном альбоме.", anchor: MissionBookAnchor);
-        if (!forestPhoto.Mounted) return null;
-        return canEnterForest ? ForestEntryMission(bridge, forestPhoto.HasResumePoint)
-            : HomeMission(bridge, "forest-compare", "Сверить два снимка", "Сравните школьную копию с лесным снимком в семейном альбоме.", anchor: MissionBookAnchor);
+        return null;
     }
 
     private static PlayerMission ForestEntryMission(RuntimeBridge bridge, bool resume) =>
         StreetMission(bridge, "forest-enter", "Лесной снимок",
             resume
                 ? "У трёх стволов в книге выберите «Продолжить снимок»."
-                : "Сравните снимки в книге. У трёх стволов выберите «Войти в снимок».",
+                : "Идите к трём стволам на опушке. В книге выберите «Войти в снимок».",
             "pw-enter-forest", "Три ствола на опушке",
             "ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/PhotoForestEntry/ForestPhotoEntryAnchor",
             bookPhotoId: "P-FOREST");
