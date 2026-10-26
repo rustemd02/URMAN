@@ -51760,7 +51760,7 @@
       "progress_2026_10_04": "2026-10-04: направление разобрано по данным и коду: docs/production/act1_quest_address_audit_2026-10-04.md. Структурно маркеров нет по построению: табличка ставит мета notQuestMarker=true (AddressSignVisualComponent.cs:18), поиск по коду не находит questmarker/autopath, цели всех трёх квестов стартуют по knowledge.status, а «waypoint» в адресном коде — авторские точки подхода для физического верификатора (Addresses.cs:49), не навигация. Таблица «цель → источник адреса → маркер → вердикт» собрана: ADR-BABAI через записку мамы и правило «улица на табличке, затем номер», ADR-FAP через реплику про Наилю и «Урман = Лесная», ADR-MOSQUE через возврат к источнику, ADR-SHOP/SCHOOL/COUNCIL через бытовые реплики. В реестре 27 зданий с addressId и 10 улиц; шаблон {address:…} используется для шести адресов. Осталось: добровольные неадресные цели и evidence прохода на текущей сборке (прогон).",
       "execution": {
         "kind": "aggregate",
-        "unit": "Ориентирование только через адресную систему: адрес узнаваем со слов NPC, из записной книжки или из файлов ПК бабая; игрок сам находит цель по табличкам и номерам. На обязательном пути нет GPS-маркеров и автопути.",
+        "unit": "Краткая текущая цель и заметный маркер помогают найти известное место; адреса из NPC/книжки/ПК и физические таблички сохраняются. Игрок управляет сам; маркер не раскрывает незаработанное знание.",
         "children": [
           "ACT1-QUEST-ADDR.1",
           "ACT1-QUEST-ADDR.2",
@@ -51787,7 +51787,7 @@
         "acceptance": "Ограниченный work_contract.done_when; source acceptance_requirements и external_gates сохраняют полный продукт.",
         "verification": {
           "method": "targeted_runtime_scenario",
-          "question": "Квесты ведутся адресной системой (без маркеров и автопути)",
+          "question": "Понятная цель, адрес и маркер без автопрохождения",
           "scenario": "DOC",
           "success": "Наблюдаемый результат этой единицы и обратное действие/восстановление там, где меняются данные. Для ассета — импорт выбранного файла и целевой вид/движение; для кода — узкая компиляция только затронутого модуля, затем указанный пользовательский сценарий. Компиляция не доказывает изображение или GUI.",
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
@@ -51799,7 +51799,7 @@
         ],
         "units": []
       },
-      "title": "Квесты ведутся адресной системой (без маркеров и автопути)",
+      "title": "Понятная цель, адрес и маркер без автопрохождения",
       "milestone": "M5",
       "status": "todo",
       "complexity": "umbrella",
@@ -51881,7 +51881,7 @@
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
       "execution_mode": "production_paused_during_tracker_migration",
       "work_contract": {
-        "result": "Ориентирование только через адресную систему: адрес узнаваем со слов NPC, из записной книжки или из файлов ПК бабая; игрок сам находит цель по табличкам и номерам. На обязательном пути нет GPS-маркеров и автопути.",
+        "result": "Краткая текущая цель и заметный маркер помогают найти известное место; адреса из NPC/книжки/ПК и физические таблички сохраняются. Игрок управляет сам; маркер не раскрывает незаработанное знание.",
         "targets": [
           "game/scripts/SettlementRegistry.cs"
         ],
@@ -51905,7 +51905,7 @@
         ],
         "verification": {
           "method": "targeted_runtime_scenario",
-          "question": "Квесты ведутся адресной системой (без маркеров и автопути)",
+          "question": "Понятная цель, адрес и маркер без автопрохождения",
           "scenario": "DOC",
           "success": "Наблюдаемый результат этой единицы и обратное действие/восстановление там, где меняются данные. Для ассета — импорт выбранного файла и целевой вид/движение; для кода — узкая компиляция только затронутого модуля, затем указанный пользовательский сценарий. Компиляция не доказывает изображение или GUI.",
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
@@ -51996,7 +51996,12 @@
           "evidence_ref": "ACT1-QUEST-ADDR.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "author_navigation_override_2026_10_26": {
+        "source": "Live author request 26.10.2026; AGENTS.md current clarification",
+        "decision": "Historical blanket marker ban superseded. Preserve addresses/signs, earned knowledge, manual controls and external gates. Use current mission/marker owners; no new navigation system or automatic runs.",
+        "state": "contract_updated_not_full_task_completed"
+      }
     },
     {
       "id": "ACT1-QUEST-ADDR.1",
@@ -52218,6 +52223,11 @@
           "content/modules/urman-fullgame/definitions.json"
         ],
         "remaining": "Native journal human-findability schoolfolder→staff/outdoor3trunks, afterreturn Gulsina firstworldtalk nottea, saved outsideorigin. Source match does not prove visibility/collision/100%questgoalcoverage."
+      },
+      "author_navigation_override_2026_10_26": {
+        "source": "Live author request 26.10.2026; AGENTS.md current clarification",
+        "decision": "Historical blanket marker ban superseded. Preserve addresses/signs, earned knowledge, manual controls and external gates. Use current mission/marker owners; no new navigation system or automatic runs.",
+        "state": "contract_updated_not_full_task_completed"
       }
     },
     {
@@ -52225,7 +52235,7 @@
       "progress_2026_10_04": "2026-10-04: маркеров и автопути на обязательном пути нет, и это подтверждено структурно, а не на словах: табличка несёт notQuestMarker=true (AddressSignVisualComponent.cs:18); поиск по scripts не находит ни questmarker, ни autopath; цели квестов стартуют по knowledge.status, а не по близости; word «waypoint» встречается только как авторские точки подхода к физическому верификатору (Addresses.cs:49). Критерий «игрок не может потеряться намертво» опирается на то, что каждая обязательная цель имеет источник адреса — разобрано в таблице: docs/production/act1_quest_address_audit_2026-10-04.md",
       "execution": {
         "kind": "engineering",
-        "unit": "Удаление маркеров/автопути с обязательного пути по итогам аудита.",
+        "unit": "Согласовать существующие маркеры с ближайшим заработанным действием и адресными источниками.",
         "steps": [
           {
             "id": "ACT1-QUEST-ADDR.2/S0",
@@ -52239,19 +52249,19 @@
           },
           {
             "id": "ACT1-QUEST-ADDR.2/S2",
-            "action": "Удалить только запрещённую подсказку пути, сохранив текст цели и доступный адрес.",
+            "action": "Исправить существующий маркер и краткое действие выбранной цели; сохранить адрес и authored-условия прогресса.",
             "record_type": "procedure_step"
           },
           {
             "id": "ACT1-QUEST-ADDR.2/S3",
-            "action": "Пройти от источника до таблички/входа; если адрес не обеспечен, сначала .3.",
+            "action": "Статически сверить источник/адрес/реальный endpoint. Windows только для конкретного оставшегося вопроса проходимости/читаемости, без повторной проверки наличия текста.",
             "record_type": "procedure_step"
           }
         ],
         "acceptance": "Ограниченный work_contract.done_when; source acceptance_requirements и external_gates сохраняют полный продукт.",
         "verification": {
           "method": "targeted_runtime_scenario",
-          "question": "Убрать маркеры и автопуть с обязательного пути",
+          "question": "Понятные маркеры текущей цели без автопрохождения",
           "scenario": "ADDRESS",
           "success": "Наблюдаемый результат этой единицы и обратное действие/восстановление там, где меняются данные. Для ассета — импорт выбранного файла и целевой вид/движение; для кода — узкая компиляция только затронутого модуля, затем указанный пользовательский сценарий. Компиляция не доказывает изображение или GUI.",
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
@@ -52264,9 +52274,9 @@
         ],
         "units": []
       },
-      "title": "Убрать маркеры и автопуть с обязательного пути",
+      "title": "Понятные маркеры текущей цели без автопрохождения",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "finished-act1",
@@ -52283,7 +52293,7 @@
       ],
       "deliverable": "Удаление маркеров/автопути с обязательного пути по итогам аудита.",
       "done_when": [
-        "На обязательном пути нет маркеров/автопути; игрок не может «потеряться намертво» — источники адресов покрывают все цели."
+        "На обязательном пути понятны текущая цель и следующий ориентир; маркер указывает реальное доступное место/действие, адресные источники покрывают все цели. Автопрохождения и выдачи незаработанных фактов нет."
       ],
       "evidence": [
         "docs/production/act1_quest_address_audit_2026-10-04.md"
@@ -52332,17 +52342,19 @@
       "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "На обязательном пути нет маркеров/автопути; игрок не может «потеряться намертво» — источники адресов покрывают все цели."
+        "На обязательном пути понятны текущая цель и следующий ориентир; маркер указывает реальное доступное место/действие, адресные источники покрывают все цели. Автопрохождения и выдачи незаработанных фактов нет."
       ],
-      "next_action": "Найти фактический код/данные маркера выбранной цели и действующий источник адреса.",
+      "next_action": "Свести текущие mission/marker-правки первого эпизода; затем по исходникам сверить остальные обязательные цели, не удалять полезные маркеры по старому запрету.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
       "execution_mode": "production_paused_during_tracker_migration",
       "work_contract": {
-        "result": "Удаление маркеров/автопути с обязательного пути по итогам аудита.",
+        "result": "Согласовать существующие маркеры с ближайшим заработанным действием и адресными источниками.",
         "targets": [
-          "game/scripts/Act1ConnectedWorld.Addresses.cs"
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/SettlementRegistry.cs"
         ],
         "required_inputs": [
           {
@@ -52353,8 +52365,7 @@
           }
         ],
         "scope_in": [
-          "game/scripts/Act1ConnectedWorld.Addresses.cs",
-          "content/"
+          "Существующий mission/marker текущего шага; реальные адресные источники и endpoint; сохранение earned conditions и ручного управления."
         ],
         "scope_out": [
           "Контент соседнего блока, кроме указанного артефакта-входа.",
@@ -52363,15 +52374,15 @@
         ],
         "steps": [
           "Найти фактический код/данные маркера выбранной цели и действующий источник адреса.",
-          "Удалить только запрещённую подсказку пути, сохранив текст цели и доступный адрес.",
-          "Пройти от источника до таблички/входа; если адрес не обеспечен, сначала .3."
+          "Исправить существующий маркер и краткое действие выбранной цели; сохранить адрес и authored-условия прогресса.",
+          "Статически сверить источник/адрес/реальный endpoint. Windows только для конкретного оставшегося вопроса проходимости/читаемости, без повторной проверки наличия текста."
         ],
         "done_when": [
-          "На обязательном пути нет маркеров/автопути; игрок не может «потеряться намертво» — источники адресов покрывают все цели."
+          "На обязательном пути понятны текущая цель и следующий ориентир; маркер указывает реальное доступное место/действие, адресные источники покрывают все цели. Автопрохождения и выдачи незаработанных фактов нет."
         ],
         "verification": {
           "method": "targeted_runtime_scenario",
-          "question": "Убрать маркеры и автопуть с обязательного пути",
+          "question": "Понятные маркеры текущей цели без автопрохождения",
           "scenario": "ADDRESS",
           "success": "Наблюдаемый результат этой единицы и обратное действие/восстановление там, где меняются данные. Для ассета — импорт выбранного файла и целевой вид/движение; для кода — узкая компиляция только затронутого модуля, затем указанный пользовательский сценарий. Компиляция не доказывает изображение или GUI.",
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
@@ -52415,14 +52426,39 @@
       },
       "acceptance_requirements": [
         {
-          "criterion": "На обязательном пути нет маркеров/автопути; игрок не может «потеряться намертво» — источники адресов покрывают все цели.",
+          "criterion": "На обязательном пути понятны текущая цель и следующий ориентир; маркер указывает реальное доступное место/действие, адресные источники покрывают все цели. Автопрохождения и выдачи незаработанных фактов нет.",
           "technical_owner": "ACT1-QUEST-ADDR.2",
           "external_gate_ids": [],
           "assessment": "not_confirmed_current_result",
           "evidence_ref": "ACT1-QUEST-ADDR.2.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "author_navigation_override_2026_10_26": {
+        "source": "Live author request 26.10.2026; AGENTS.md current clarification",
+        "decision": "Historical blanket marker ban superseded. Preserve addresses/signs, earned knowledge, manual controls and external gates. Use current mission/marker owners; no new navigation system or automatic runs.",
+        "state": "contract_updated_not_full_task_completed"
+      },
+      "current_campaign_clarity_2026_10_26": {
+        "author_request": "26.10: очевидные проблемы понятности исправлять по исходникам; ясная текущая цель, заметные маркеры и естественный текст; без бесполезных повторных прогонов.",
+        "state": "source_implemented_reviewed_compiled_native_not_run",
+        "result": [
+          "MissionInZone показывает только ближайший переход; школьный шаг сохраняет точную кнопку «Рассмотреть снимок».",
+          "HUD СЕЙЧАС/акцент + короткие подписи управления; журнал отделяет текущую миссию от других дел, не дублирует общий objective активного photoworld.",
+          "F11 passive marker из existing ±1.5m viewing zone на actual crossbar observation point; подпись всей группы. F13 marker показывает честный bitmask n/3 и сохраняет3/3 в dispatch. Условия прогресса/LOS/физики неизменны.",
+          "12 текстовых ключей первого эпизода: мотивация записей Марата, школьный адрес/альбом/копия, ясный фотограф, возвращение; generic return сохранён нейтральным для W02-first. Оба первых направления сохранены."
+        ],
+        "sources": [
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/JournalUi.cs",
+          "game/scripts/Act1DemoRoot.cs",
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/photoworlds/W01Controller.PassageObservation.cs",
+          "content/modules/urman-fullgame/definitions.json"
+        ],
+        "verification": "Root source review + Luna bounded implementation/source review + Astra independent review. Caught/fixed misleading F11 singlelandmark cue, missing literal schoolconfirm, W02-first generic home text. No game/tests/probes; compile pending. Final affected Game compile17.80s,0errors/0warnings; existing ContentCLI compiled only urman.fullgame. Source diff inspected12existingtext definitions/default=ru, dialogue graph/effects/conditions unchanged. Tracker render/validate PASS308/20/679; diffcheck clean.",
+        "remaining": "Целый W01 action→return→home и удовольствие от игры не приняты; культурная/языковая/художественная/авторская приёмка остаётся отдельной."
+      }
     },
     {
       "id": "ACT1-QUEST-ADDR.3",
@@ -52448,7 +52484,7 @@
           },
           {
             "id": "ACT1-QUEST-ADDR.3/S3",
-            "action": "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, нет маркера/автопути.",
+            "action": "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, маркер соответствует текущей цели и не выдаёт незаработанное знание; нет автопрохождения.",
             "record_type": "procedure_step"
           }
         ],
@@ -52463,15 +52499,15 @@
             ],
             "actions": [
               "Живой краткий адрес в реплике, запись источника и физическая табличка.",
-              "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, нет маркера/автопути."
+              "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, маркер соответствует текущей цели и не выдаёт незаработанное знание; нет автопрохождения."
             ],
             "observations": [
-              "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, нет маркера/автопути."
+              "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, маркер соответствует текущей цели и не выдаёт незаработанное знание; нет автопрохождения."
             ],
             "bound": "Только этот объект/контракт на одном named candidate; asset import или affected compile лишь при изменении соответствующего источника, human approval отдельно."
           },
           "success": [
-            "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, нет маркера/автопути."
+            "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, маркер соответствует текущей цели и не выдаёт незаработанное знание; нет автопрохождения."
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
@@ -52508,7 +52544,7 @@
       ],
       "deliverable": "Живой краткий адрес в реплике, запись источника и физическая табличка.",
       "done_when": [
-        "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, нет маркера/автопути."
+        "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, маркер соответствует текущей цели и не выдаёт незаработанное знание; нет автопрохождения."
       ],
       "evidence": [
         {
@@ -52620,7 +52656,7 @@
       "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, нет маркера/автопути."
+        "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, маркер соответствует текущей цели и не выдаёт незаработанное знание; нет автопрохождения."
       ],
       "next_action": "Живой краткий адрес в реплике, запись источника и физическая табличка.",
       "blocker": null,
@@ -52653,10 +52689,10 @@
         ],
         "steps": [
           "Живой краткий адрес в реплике, запись источника и физическая табличка.",
-          "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, нет маркера/автопути."
+          "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, маркер соответствует текущей цели и не выдаёт незаработанное знание; нет автопрохождения."
         ],
         "done_when": [
-          "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, нет маркера/автопути."
+          "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, маркер соответствует текущей цели и не выдаёт незаработанное знание; нет автопрохождения."
         ],
         "verification": {
           "method": "targeted_runtime_scenario",
@@ -52668,15 +52704,15 @@
             ],
             "actions": [
               "Живой краткий адрес в реплике, запись источника и физическая табличка.",
-              "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, нет маркера/автопути."
+              "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, маркер соответствует текущей цели и не выдаёт незаработанное знание; нет автопрохождения."
             ],
             "observations": [
-              "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, нет маркера/автопути."
+              "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, маркер соответствует текущей цели и не выдаёт незаработанное знание; нет автопрохождения."
             ],
             "bound": "Только этот объект/контракт на одном named candidate; asset import или affected compile лишь при изменении соответствующего источника, human approval отдельно."
           },
           "success": [
-            "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, нет маркера/автопути."
+            "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, маркер соответствует текущей цели и не выдаёт незаработанное знание; нет автопрохождения."
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
@@ -52724,7 +52760,7 @@
       },
       "acceptance_requirements": [
         {
-          "criterion": "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, нет маркера/автопути.",
+          "criterion": "Первое объяснение связывает адрес с улицей/домом; последующие реплики не повторяют инструкцию. Не потеряны источники ни одного обязательного адреса, маркер соответствует текущей цели и не выдаёт незаработанное знание; нет автопрохождения.",
           "technical_owner": "ACT1-QUEST-ADDR.3",
           "external_gate_ids": [],
           "assessment": "not_confirmed_current_result",
@@ -52738,14 +52774,19 @@
           "evidence_ref": "ACT1-QUEST-ADDR.3.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "author_navigation_override_2026_10_26": {
+        "source": "Live author request 26.10.2026; AGENTS.md current clarification",
+        "decision": "Historical blanket marker ban superseded. Preserve addresses/signs, earned knowledge, manual controls and external gates. Use current mission/marker owners; no new navigation system or automatic runs.",
+        "state": "contract_updated_not_full_task_completed"
+      }
     },
     {
       "id": "ACT1-QUEST-ADDR.4",
       "progress_2026_10_04": "2026-10-04: механизм прохода существует: AddressAccessVerifier — «bounded read-only standing-body route audit against the real world; it neither moves the player nor opens doors or advances runtime progress» (AddressAccessVerifier.cs:8-10), то есть маршрут «источник адреса → поиск по табличкам» проверяется автоматизированно и не подсказывает игроку. Осталось ровно то, что требует критерий: evidence на текущей сборке — это прогон, и здесь он не заявляется. Разбор: docs/production/act1_quest_address_audit_2026-10-04.md",
       "execution": {
         "kind": "integration_check",
-        "unit": "Каждый обязательный маршрут проходится цепочкой «источник адреса → самостоятельный поиск по табличкам».",
+        "unit": "Каждый обязательный маршрут понятен через источник цели → адрес/таблички + заметный маркер → реальный вход/действие; управление ручное.",
         "steps": [
           {
             "id": "ACT1-QUEST-ADDR.4/S0",
@@ -52759,7 +52800,7 @@
           },
           {
             "id": "ACT1-QUEST-ADDR.4/S2",
-            "action": "Пройти источник→книжка→таблички→вход без GPS/debug, фиксируя конкретный маршрут.",
+            "action": "Использовать актуальные доказательства источника/книжки/табличек/маркера/входа. Новый обычный проход только для конкретного изменённого или неподтверждённого участка; без debug и выдачи фактов.",
             "record_type": "procedure_step"
           },
           {
@@ -52801,7 +52842,7 @@
       ],
       "deliverable": "Каждый обязательный маршрут проходится цепочкой «источник адреса → самостоятельный поиск по табличкам».",
       "done_when": [
-        "Проход воспроизводим и автоматизирован; evidence зафиксирован на текущей сборке."
+        "Обязательные маршруты понятны и воспроизводимы обычным управлением; evidence относится к изменённому участку текущей сборки, неизменённые принятые доказательства переиспользуются."
       ],
       "evidence": [
         "docs/production/act1_quest_address_audit_2026-10-04.md"
@@ -52859,7 +52900,7 @@
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
       "execution_mode": "production_paused_during_tracker_migration",
       "work_contract": {
-        "result": "Каждый обязательный маршрут проходится цепочкой «источник адреса → самостоятельный поиск по табличкам».",
+        "result": "Каждый обязательный маршрут понятен через источник цели → адрес/таблички + заметный маркер → реальный вход/действие; управление ручное.",
         "targets": [
           "content/campaigns/urman.fullgame/campaign.json",
           "game/scripts/Act1DemoRoot.cs",
@@ -52868,7 +52909,7 @@
         "required_inputs": [
           {
             "task_id": "ACT1-QUEST-ADDR.2",
-            "artifact": "Удаление маркеров/автопути с обязательного пути по итогам аудита.",
+            "artifact": "Согласовать существующие маркеры с ближайшим заработанным действием и адресными источниками.",
             "requires": "relevant_artifact_not_full_parent",
             "availability": "not_confirmed"
           },
@@ -52890,11 +52931,11 @@
         ],
         "steps": [
           "Указать старт без знания адреса и его законный источник.",
-          "Пройти источник→книжка→таблички→вход без GPS/debug, фиксируя конкретный маршрут.",
+          "Использовать актуальные доказательства источника/книжки/табличек/маркера/входа. Новый обычный проход только для конкретного изменённого или неподтверждённого участка; без debug и выдачи фактов.",
           "Сверить автоматизированный адресный check и отдельно человеческое ориентирование; не смешивать два вида evidence."
         ],
         "done_when": [
-          "Проход воспроизводим и автоматизирован; evidence зафиксирован на текущей сборке."
+          "Обязательные маршруты понятны и воспроизводимы обычным управлением; evidence относится к изменённому участку текущей сборки, неизменённые принятые доказательства переиспользуются."
         ],
         "verification": {
           "method": "targeted_runtime_scenario",
@@ -52958,14 +52999,19 @@
       },
       "acceptance_requirements": [
         {
-          "criterion": "Проход воспроизводим и автоматизирован; evidence зафиксирован на текущей сборке.",
+          "criterion": "Обязательные маршруты понятны и воспроизводимы обычным управлением; evidence относится к изменённому участку текущей сборки, неизменённые принятые доказательства переиспользуются.",
           "technical_owner": "ACT1-QUEST-ADDR.4",
           "external_gate_ids": [],
           "assessment": "not_confirmed_current_result",
           "evidence_ref": "ACT1-QUEST-ADDR.4.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "author_navigation_override_2026_10_26": {
+        "source": "Live author request 26.10.2026; AGENTS.md current clarification",
+        "decision": "Historical blanket marker ban superseded. Preserve addresses/signs, earned knowledge, manual controls and external gates. Use current mission/marker owners; no new navigation system or automatic runs.",
+        "state": "contract_updated_not_full_task_completed"
+      }
     },
     {
       "id": "ACT1-UI",
@@ -54344,6 +54390,26 @@
           "game/scripts/photoworlds/W01Controller.PassageObservation.cs"
         ],
         "cleanup": "Послевыходакомпиляции/lsof(noopenfiles)/exactpath/no-symlink/emptygit-ls-files удалёнтолькоignoredreproduciblegame/.godot/mono48457945bytes; sources/release/userdataнетронуты."
+      },
+      "current_campaign_clarity_2026_10_26": {
+        "author_request": "26.10: очевидные проблемы понятности исправлять по исходникам; ясная текущая цель, заметные маркеры и естественный текст; без бесполезных повторных прогонов.",
+        "state": "source_implemented_reviewed_compiled_native_not_run",
+        "result": [
+          "MissionInZone показывает только ближайший переход; школьный шаг сохраняет точную кнопку «Рассмотреть снимок».",
+          "HUD СЕЙЧАС/акцент + короткие подписи управления; журнал отделяет текущую миссию от других дел, не дублирует общий objective активного photoworld.",
+          "F11 passive marker из existing ±1.5m viewing zone на actual crossbar observation point; подпись всей группы. F13 marker показывает честный bitmask n/3 и сохраняет3/3 в dispatch. Условия прогресса/LOS/физики неизменны.",
+          "12 текстовых ключей первого эпизода: мотивация записей Марата, школьный адрес/альбом/копия, ясный фотограф, возвращение; generic return сохранён нейтральным для W02-first. Оба первых направления сохранены."
+        ],
+        "sources": [
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/JournalUi.cs",
+          "game/scripts/Act1DemoRoot.cs",
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/photoworlds/W01Controller.PassageObservation.cs",
+          "content/modules/urman-fullgame/definitions.json"
+        ],
+        "verification": "Root source review + Luna bounded implementation/source review + Astra independent review. Caught/fixed misleading F11 singlelandmark cue, missing literal schoolconfirm, W02-first generic home text. No game/tests/probes; compile pending. Final affected Game compile17.80s,0errors/0warnings; existing ContentCLI compiled only urman.fullgame. Source diff inspected12existingtext definitions/default=ru, dialogue graph/effects/conditions unchanged. Tracker render/validate PASS308/20/679; diffcheck clean.",
+        "remaining": "Целый W01 action→return→home и удовольствие от игры не приняты; культурная/языковая/художественная/авторская приёмка остаётся отдельной."
       }
     },
     {
@@ -110497,7 +110563,7 @@
         "Вне якоря есть чтение без ложной кнопки входа.",
         "Первый якорь проверен до контекста, с нужным и чужим снимком и после визита: применимая причина отказа понятна без спойлера, пиксель-хантинга и выдачи знания. Недостаток подачи сначала подтверждён в обычном маршруте, затем исправлен существующим gate/hint owner."
       ],
-      "next_action": "After authoritative e79 terminal/restoration: protected skip→Niva→house/tea/book→school permittedcopy→preparebook→ordinary forestedge→W01 meaningfulaction→originaledge return→save/MainMenu/Continue. Then firstW02shore/W03window/W04commonbank and optionalW05seny with actual support/framing and completedhome revisit; no unchanged old home-first scenario.",
+      "next_action": "Сначала закончить текущую подачу цели/действия/маркера и редактуру первого эпизода по исходникам. Не запускать игру ради текста/наличия школы; следующий Windows-вопрос только изменённый office/fence проход или фактический W01 action→return→home, без повторной приёмки setup.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -110999,6 +111065,26 @@
         "verification": "Scoped independent Core causal read and root source read of ready/unready and unread/read branches; fresh scoped git diff --check exit0. One boolean condition only, no compilation-risk addition: no repeated build, tests, probes or Godot/native launch. Does not establish full native route.",
         "tdd_route": "off: author prohibits new tests/probes; no existing test contract changes required for this objective predicate.",
         "remaining": "Native after genuine school permission/book preparation with P-FOREST back unread: current goal should name real daylight forest edge; then physical entry/action/return/Save/Continue. Read-back optional and other source/cultural/art/whole PW019 gates remain open."
+      },
+      "current_campaign_clarity_2026_10_26": {
+        "author_request": "26.10: очевидные проблемы понятности исправлять по исходникам; ясная текущая цель, заметные маркеры и естественный текст; без бесполезных повторных прогонов.",
+        "state": "source_implemented_reviewed_compiled_native_not_run",
+        "result": [
+          "MissionInZone показывает только ближайший переход; школьный шаг сохраняет точную кнопку «Рассмотреть снимок».",
+          "HUD СЕЙЧАС/акцент + короткие подписи управления; журнал отделяет текущую миссию от других дел, не дублирует общий objective активного photoworld.",
+          "F11 passive marker из existing ±1.5m viewing zone на actual crossbar observation point; подпись всей группы. F13 marker показывает честный bitmask n/3 и сохраняет3/3 в dispatch. Условия прогресса/LOS/физики неизменны.",
+          "12 текстовых ключей первого эпизода: мотивация записей Марата, школьный адрес/альбом/копия, ясный фотограф, возвращение; generic return сохранён нейтральным для W02-first. Оба первых направления сохранены."
+        ],
+        "sources": [
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/JournalUi.cs",
+          "game/scripts/Act1DemoRoot.cs",
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/photoworlds/W01Controller.PassageObservation.cs",
+          "content/modules/urman-fullgame/definitions.json"
+        ],
+        "verification": "Root source review + Luna bounded implementation/source review + Astra independent review. Caught/fixed misleading F11 singlelandmark cue, missing literal schoolconfirm, W02-first generic home text. No game/tests/probes; compile pending. Final affected Game compile17.80s,0errors/0warnings; existing ContentCLI compiled only urman.fullgame. Source diff inspected12existingtext definitions/default=ru, dialogue graph/effects/conditions unchanged. Tracker render/validate PASS308/20/679; diffcheck clean.",
+        "remaining": "Целый W01 action→return→home и удовольствие от игры не приняты; культурная/языковая/художественная/авторская приёмка остаётся отдельной."
       }
     },
     {
@@ -124564,7 +124650,7 @@
       "title": "W01: действия за рамкой и состояние ветки",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex / forest_inspection_target",
       "owner": "gameplay",
       "priority": "P1",
       "complexity": "complex",
@@ -124716,8 +124802,8 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "idle",
-        "reason": "cb15 terminalPASS/exit0, restoration/idle station confirmed. Full corrected gate→door entered home; no evidence to weaken physics. Native input lease released."
+        "state": "confirmed_active",
+        "reason": "Luna ack1916; sole ordinary UI/capture owner for live35e. Root handles JSON/Git/acceptance, read-only source investigations independent."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -124727,7 +124813,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Довести изменённый W01осмотр поactual-subjectmarker→встреча/сумка→F16→возврат→разговор дома. Калитка/вход прошли corrected ordinary routecb15, прежняя гипотеза стены не подтверждена: не повторять тот же поиск и не ослаблять физику. Setupдом/школа не объявлять новойприёмкой; обязательные внешние гейты открыты.",
+      "next_action": "Сначала закончить текущую подачу цели/действия/маркера и редактуру первого эпизода по исходникам. Не запускать игру ради текста/наличия школы; следующий Windows-вопрос только изменённый office/fence проход или фактический W01 action→return→home, без повторной приёмки setup.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -125136,15 +125222,14 @@
         "verification": "Root actual frame+GLB node read+passport and exact observation condition. String-only diff; no compilation risk, no game/test/build rerun. Scoped diffcheck passed; no new Game compilation or tests for string-only change."
       },
       "current_native_question_2026_10_26": {
-        "question": "На полном обычном WalkChain2..7 какой actualslide child/normal/stepoutcome останавливает подход к двери, либо проходитлиполныймаршрутбезблокера?",
-        "success": "Фактическая поза у gate4/5 и остановки; existinginteractive movement sample различает walkingcontact и ray; ordinarydoorE или точный blocker, затем штатныйQuit/restoreduserdata.",
-        "bounds": "Одинprotectedplay-product1800, sourcefrozen648529e5; разрешённыйtestskipпролога, никакихseed/debug/profilecopy/tests/newprobes. Rootsoleinput. Stopmoving05:47UTC, штатныйQuitзаранее.",
-        "job_id": "cb15f14baf8e4f62857487c8d8d9fde5",
-        "snapshot_id": "cafea582e756e1a5585053ef7ba216f79a724883bb705db81483b3631f35801d",
-        "source_commit": "648529e5",
+        "question": "Earned F11→realF12/F13→sequential actualsubjectinspection→Shurale/bag physicalaction→F16→homeconversation and clear nextlead. Accepted home/school/F10 are setup only.",
+        "success": "Normalinput, selected currentframes + reducerlog prove the full action/return/home segment; normalQuit/restoreduserdata. No seeded facts/debug/teleport/profilecopy.",
+        "bounds": "One play-product3600 on frozen9aed/648gameplay. Luna sole nativeinput/capture. Stopmoving/startnormalQuit by07:00UTC (>=10minreserve); aftertwofailedhypotheseswithoutnewcause stopandreportconcreteblocker.",
+        "job_id": "35e882d3c2a74ed881154a56087e2590",
+        "snapshot_id": "981ebe693f547d11099e734030a62a181bfc70df071d1ec67315fa35a6b0497a",
+        "source_commit": "9aed1554",
         "input_lease": null,
-        "state": "terminal_corrected_ordinary_home_entry_accepted",
-        "result_receipt": "evidence/PW-043/ordinary_cb15f14baf8e4f62857487c8d8d9fde5/receipt.json"
+        "state": "terminal_partial_concrete_office_fence_pinch"
       },
       "native_episode_result_2026_10_26": {
         "job_id": "a64a797c796f4224b0b1e2537997d748",
@@ -125273,6 +125358,43 @@
         ],
         "cleanup": "ZIP6,798,689bytes CRC+28extractedfilesbyteverified;14,304,395bytes extracted/tempduplicates including8PNGs removed. Receipt separate, raw outsideGit.",
         "termination": "NormalPause→Quit→confirm beforetimeout, terminalPASS/exit0; sole inputlease released."
+      },
+      "native_episode_followup_35e_2026_10_26": {
+        "job_id": "35e882d3c2a74ed881154a56087e2590",
+        "source_commit": "9aed1554",
+        "state": "terminal_partial_episode_not_accepted",
+        "status": "PASS",
+        "game_exit_code": 0,
+        "userdata_restored": true,
+        "snapshot_hashes_verified": true,
+        "engine_errors": 0,
+        "input_lease": null,
+        "archive": "evidence/PW-046/ordinary_35e882d3c2a74ed881154a56087e2590.zip",
+        "archive_sha256": "7e8ca5e29ab2b844ba6161cf14f17fcc2977a8f1bdfce3a04e1295285c8b88ea",
+        "receipt": "evidence/PW-046/ordinary_35e882d3c2a74ed881154a56087e2590/receipt.json",
+        "observed": "Ordinary house/tea/book setup reached; wrong-side school approach met actual SovkhozOffice/PlinthShape + YardFenceBody/FenceBay_1201 contacts. Opposing planes ~0.697m versus .70m capsule. This proves local pinch, not intended school route blockage or irreversible trapping. School/W01/action/return/home not reached.",
+        "source_fix": "Act1ConnectedWorld.YardFences.cs: only OpenPartPlotPath/ADR-H020/side-plus .55m setback; same samples generate visible wood + collider, unchanged interaction/knowledge. Existing corner post separation ~1→1.14m; static review only, appearance/movement unverified.",
+        "cleanup": "CRC +142 extracted files byte-verified against ZIP. Removed48,512,827B extracted duplicates and65 matching temporary PNGs47,062,550B. ZIP47,421,953B preserved locally outside Git; receipt retained. Idle station/recoveryfalse confirmed after terminal."
+      },
+      "current_campaign_clarity_2026_10_26": {
+        "author_request": "26.10: очевидные проблемы понятности исправлять по исходникам; ясная текущая цель, заметные маркеры и естественный текст; без бесполезных повторных прогонов.",
+        "state": "source_implemented_reviewed_compiled_native_not_run",
+        "result": [
+          "MissionInZone показывает только ближайший переход; школьный шаг сохраняет точную кнопку «Рассмотреть снимок».",
+          "HUD СЕЙЧАС/акцент + короткие подписи управления; журнал отделяет текущую миссию от других дел, не дублирует общий objective активного photoworld.",
+          "F11 passive marker из existing ±1.5m viewing zone на actual crossbar observation point; подпись всей группы. F13 marker показывает честный bitmask n/3 и сохраняет3/3 в dispatch. Условия прогресса/LOS/физики неизменны.",
+          "12 текстовых ключей первого эпизода: мотивация записей Марата, школьный адрес/альбом/копия, ясный фотограф, возвращение; generic return сохранён нейтральным для W02-first. Оба первых направления сохранены."
+        ],
+        "sources": [
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/JournalUi.cs",
+          "game/scripts/Act1DemoRoot.cs",
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/photoworlds/W01Controller.PassageObservation.cs",
+          "content/modules/urman-fullgame/definitions.json"
+        ],
+        "verification": "Root source review + Luna bounded implementation/source review + Astra independent review. Caught/fixed misleading F11 singlelandmark cue, missing literal schoolconfirm, W02-first generic home text. No game/tests/probes; compile pending. Final affected Game compile17.80s,0errors/0warnings; existing ContentCLI compiled only urman.fullgame. Source diff inspected12existingtext definitions/default=ru, dialogue graph/effects/conditions unchanged. Tracker render/validate PASS308/20/679; diffcheck clean.",
+        "remaining": "Целый W01 action→return→home и удовольствие от игры не приняты; культурная/языковая/художественная/авторская приёмка остаётся отдельной."
       }
     },
     {
@@ -146722,6 +146844,12 @@
           "game/scripts/Act1ConnectedWorld.SnowRelief.cs",
           "game/scripts/Act1ConnectedWorld.Addresses.cs"
         ]
+      },
+      "prologue_pine_rollout_hold_2026_10_26": {
+        "state": "uncommitted_swap_reverted_no_runtime_change",
+        "cause": "ApproachRoad far group selected by lateral road distance22m, not camera distance. Generated far LOD2 has4tris versus old1323, shadows defaultOn; blind swap risks close cross cards/shadows. Near5999 versus3309tris. LegacyDeepForest outside current canonical Niva scope.",
+        "next_action": "Later reuse already-paid family only with proper distance/shadow policy and a necessary whole-scene question; campaign clarity comes first. No new generation/API spend.",
+        "meshy_cost": 0
       }
     },
     {
@@ -150871,10 +150999,10 @@
               "evidence/PW-043/ordinary_cb15f14baf8e4f62857487c8d8d9fde5.zip"
             ],
             "assigned_owner": "integration/qa",
-            "active_owner": null,
+            "active_owner": "Codex / forest_inspection_target",
             "activity": {
-              "state": "idle",
-              "reason": "cb15 terminalPASS/exit0, restoration/idle station confirmed. Full corrected gate→door entered home; no evidence to weaken physics. Native input lease released."
+              "state": "confirmed_active",
+              "reason": "Luna ack1916; sole ordinary UI/capture owner for live35e. Root handles JSON/Git/acceptance, read-only source investigations independent."
             },
             "task_type": "integration_check",
             "status": "in_progress",
@@ -150885,7 +151013,7 @@
               "Новое парное сравнение и школьный outbound marker не приняты визуально/в движении; учитывать в следующем содержательном эпизоде без отдельного повторного smoke.",
               "Авторская и новичковая оценка интереса/ясности остаётся отдельной обязательной приёмкой."
             ],
-            "next_action": "Довести изменённый W01осмотр поactual-subjectmarker→встреча/сумка→F16→возврат→разговор дома. Калитка/вход прошли corrected ordinary routecb15, прежняя гипотеза стены не подтверждена: не повторять тот же поиск и не ослаблять физику. Setupдом/школа не объявлять новойприёмкой; обязательные внешние гейты открыты.",
+            "next_action": "Сначала закончить текущую подачу цели/действия/маркера и редактуру первого эпизода по исходникам. Не запускать игру ради текста/наличия школы; следующий Windows-вопрос только изменённый office/fence проход или фактический W01 action→return→home, без повторной приёмки setup.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -151085,15 +151213,14 @@
               "remaining": "Run ordinary full route; source correction is not integration acceptance."
             },
             "current_native_question_2026_10_26": {
-              "question": "На полном обычном WalkChain2..7 какой actualslide child/normal/stepoutcome останавливает подход к двери, либо проходитлиполныймаршрутбезблокера?",
-              "success": "Фактическая поза у gate4/5 и остановки; existinginteractive movement sample различает walkingcontact и ray; ordinarydoorE или точный blocker, затем штатныйQuit/restoreduserdata.",
-              "bounds": "Одинprotectedplay-product1800, sourcefrozen648529e5; разрешённыйtestskipпролога, никакихseed/debug/profilecopy/tests/newprobes. Rootsoleinput. Stopmoving05:47UTC, штатныйQuitзаранее.",
-              "job_id": "cb15f14baf8e4f62857487c8d8d9fde5",
-              "snapshot_id": "cafea582e756e1a5585053ef7ba216f79a724883bb705db81483b3631f35801d",
-              "source_commit": "648529e5",
+              "question": "Earned F11→realF12/F13→sequential actualsubjectinspection→Shurale/bag physicalaction→F16→homeconversation and clear nextlead. Accepted home/school/F10 are setup only.",
+              "success": "Normalinput, selected currentframes + reducerlog prove the full action/return/home segment; normalQuit/restoreduserdata. No seeded facts/debug/teleport/profilecopy.",
+              "bounds": "One play-product3600 on frozen9aed/648gameplay. Luna sole nativeinput/capture. Stopmoving/startnormalQuit by07:00UTC (>=10minreserve); aftertwofailedhypotheseswithoutnewcause stopandreportconcreteblocker.",
+              "job_id": "35e882d3c2a74ed881154a56087e2590",
+              "snapshot_id": "981ebe693f547d11099e734030a62a181bfc70df071d1ec67315fa35a6b0497a",
+              "source_commit": "9aed1554",
               "input_lease": null,
-              "state": "terminal_corrected_ordinary_home_entry_accepted",
-              "result_receipt": "evidence/PW-043/ordinary_cb15f14baf8e4f62857487c8d8d9fde5/receipt.json"
+              "state": "terminal_partial_concrete_office_fence_pinch"
             },
             "native_episode_result_2026_10_26": {
               "job_id": "a64a797c796f4224b0b1e2537997d748",
@@ -151239,6 +151366,23 @@
               ],
               "cleanup": "ZIP6,798,689bytes CRC+28extractedfilesbyteverified;14,304,395bytes extracted/tempduplicates including8PNGs removed. Receipt separate, raw outsideGit.",
               "termination": "NormalPause→Quit→confirm beforetimeout, terminalPASS/exit0; sole inputlease released."
+            },
+            "native_episode_followup_35e_2026_10_26": {
+              "job_id": "35e882d3c2a74ed881154a56087e2590",
+              "source_commit": "9aed1554",
+              "state": "terminal_partial_episode_not_accepted",
+              "status": "PASS",
+              "game_exit_code": 0,
+              "userdata_restored": true,
+              "snapshot_hashes_verified": true,
+              "engine_errors": 0,
+              "input_lease": null,
+              "archive": "evidence/PW-046/ordinary_35e882d3c2a74ed881154a56087e2590.zip",
+              "archive_sha256": "7e8ca5e29ab2b844ba6161cf14f17fcc2977a8f1bdfce3a04e1295285c8b88ea",
+              "receipt": "evidence/PW-046/ordinary_35e882d3c2a74ed881154a56087e2590/receipt.json",
+              "observed": "Ordinary house/tea/book setup reached; wrong-side school approach met actual SovkhozOffice/PlinthShape + YardFenceBody/FenceBay_1201 contacts. Opposing planes ~0.697m versus .70m capsule. This proves local pinch, not intended school route blockage or irreversible trapping. School/W01/action/return/home not reached.",
+              "source_fix": "Act1ConnectedWorld.YardFences.cs: only OpenPartPlotPath/ADR-H020/side-plus .55m setback; same samples generate visible wood + collider, unchanged interaction/knowledge. Existing corner post separation ~1→1.14m; static review only, appearance/movement unverified.",
+              "cleanup": "CRC +142 extracted files byte-verified against ZIP. Removed48,512,827B extracted duplicates and65 matching temporary PNGs47,062,550B. ZIP47,421,953B preserved locally outside Git; receipt retained. Idle station/recoveryfalse confirmed after terminal."
             }
           },
           {

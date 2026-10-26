@@ -95,8 +95,8 @@ public partial class JournalUi
         if (forestPhoto is null) return null;
         if (schoolPhoto is null)
             return bridge.PhotoWorldFactObserved("school_copy_identified")
-                ? StreetMission(bridge, "forest-school-copy", "Копия из школьного альбома", "Попросите сотрудницу старой школы на Лесной, 12 сделать копию снимка.", "pw-school-copy-permission", "Сотрудница школы")
-                : StreetMission(bridge, "forest-school-album", "Найти место лесного снимка", "В старой школе на Лесной, 12 найдите альбом в учительской. Откройте снимок людей у леса → «Рассмотреть снимок».", "pw-school-copy-source", "Школьный альбом");
+                ? StreetMission(bridge, "forest-school-copy", "Получить копию снимка", "Попросите сотрудницу в учительской сделать копию.", "pw-school-copy-permission", "Сотрудница школы")
+                : StreetMission(bridge, "forest-school-album", "Найти школьный альбом", "Старая школа, Лесная, 12. В учительской: лесной снимок → «Рассмотреть снимок».", "pw-school-copy-source", "Школьный альбом");
         var canEnterForest = bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-forest");
         if (forestPhoto.Mounted && canEnterForest) return ForestEntryMission(bridge, forestPhoto.HasResumePoint);
         if (!forestPhoto.Mounted && forestPhoto.CanMount)
@@ -112,7 +112,7 @@ public partial class JournalUi
 
     private static PlayerMission ForestEntryMission(RuntimeBridge bridge, bool resume) =>
         StreetMission(bridge, "forest-enter", "Люди у леса",
-            $"Дойдите до трёх стволов на опушке. В книге выберите «Люди у леса» → «{(resume ? "Продолжить снимок" : "Войти в снимок")}».",
+            $"У трёх стволов на опушке откройте «Люди у леса» в книге и нажмите «{(resume ? "Продолжить снимок" : "Войти в снимок")}».",
             "pw-enter-forest", "Три ствола на опушке");
 
     private static PlayerMission EntryMission(RuntimeBridge bridge, string id, string title,
@@ -341,10 +341,10 @@ public partial class JournalUi
         string zone, string? interaction, string? label, string? anchor = null)
     {
         if (bridge.CurrentZoneId == MissionHomeZone && zone == MissionStreetZone)
-            return new(id, title, "Выйдите из дома. " + action, "urman.fullgame:interaction/pw-home-exit-house",
+            return new(id, title, "Выйдите во двор через входную дверь.", "urman.fullgame:interaction/pw-home-exit-house",
                 TargetZoneId: bridge.CurrentZoneId, TargetLabel: "Выход во двор");
         if (bridge.CurrentZoneId != MissionHomeZone && zone == MissionHomeZone)
-            return new(id, title, "Вернитесь в дом Гөлсинә и Мансура. " + action,
+            return new(id, title, "Вернитесь в дом Гөлсинә и Мансура.",
                 "urman.fullgame:interaction/pw-home-enter-house", TargetZoneId: bridge.CurrentZoneId, TargetLabel: "Дом Гөлсинә и Мансура");
         return new(id, title, action, interaction is null ? null : "urman.fullgame:interaction/" + interaction,
             anchor, zone, label ?? title);

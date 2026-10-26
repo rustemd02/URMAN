@@ -8,6 +8,9 @@ namespace Urman.Godot;
 
 public partial class Act1DemoRoot
 {
+    private const string ForestGroupObservationInteractionId = "urman.fullgame:interaction/pw-forest-group";
+    private const string ForestBeyondFrameInteractionId = "urman.fullgame:interaction/pw-forest-photographer";
+    private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
     private static readonly Vector2[] ObjectiveDiamond = [new(0, -10), new(8, 0), new(0, 10), new(-8, 0)];
     private static readonly Vector2[] ObjectiveArrow = [new(0, -12), new(10, 10), new(0, 5), new(-10, 10)];
     private static readonly Lazy<IReadOnlyList<Vector2>> HomeObjectiveRoute = new(() => Array.AsReadOnly(
@@ -170,19 +173,30 @@ public partial class Act1DemoRoot
         waypoint = default;
         label = string.Empty;
         inspectionTarget = false;
-        if (mission.InteractionId != "urman.fullgame:interaction/pw-forest-photographer"
-            || bridge.ActiveSceneId != "urman.fullgame:scene/pw-forest"
+        if (mission.InteractionId == ForestGroupObservationInteractionId
+            && bridge.ActiveSceneId == ForestSceneId
+            && _main.GetNodeOrNull<W01Controller>("ZoneHost/W01") is { } cameraForest
+            && GodotObject.IsInstanceValid(cameraForest) && cameraForest.IsInsideTree() && !cameraForest.IsQueuedForDeletion())
+        {
+            return cameraForest.TryGetForestCameraBackObjectiveTarget(
+                bridge.PhotoWorldPresentationIdentity, playerPosition,
+                out waypoint, out label, out inspectionTarget);
+        }
+
+        if (mission.InteractionId != ForestBeyondFrameInteractionId
+            || bridge.ActiveSceneId != ForestSceneId
             || _main.GetNodeOrNull<W01Controller>("ZoneHost/W01") is not { } forest
             || !GodotObject.IsInstanceValid(forest) || !forest.IsInsideTree() || forest.IsQueuedForDeletion())
             return false;
 
-        var lookBack = forest.TryGetRootPassageInspectionTarget(bridge.PhotoWorldPresentationIdentity, out var subject);
+        var lookBack = forest.TryGetRootPassageInspectionTarget(
+            bridge.PhotoWorldPresentationIdentity, out var subject, out var seenCount);
         var anchor = forest.GetNodeOrNull<Node3D>(lookBack ? "Anchors/F13" : "Anchors/F12");
         if (!ObjectiveMarkerTargetAvailable(anchor, mission, endpoint: true)) return false;
         if (lookBack)
         {
             waypoint = subject;
-            label = "Осмотрите ствол";
+            label = $"Осмотрите стволы: {seenCount}/3";
             inspectionTarget = true;
             return true;
         }

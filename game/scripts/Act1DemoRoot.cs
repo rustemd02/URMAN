@@ -206,9 +206,11 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         var colours = UrmanUiTheme.Colours(settings);
         if (UsesPhotoWorldsCampaign)
         {
-            _routeCuePanel.AddThemeStyleboxOverride("panel", UrmanUiTheme.PlateBox(
-                colours.Ink with { A = 1f }, colours.Line, settings.HighContrast ? 3 : 0,
-                marginX: UrmanUiTheme.Space.L, marginY: UrmanUiTheme.Space.M));
+            var plate = UrmanUiTheme.PlateBox(
+                colours.Ink with { A = 1f }, settings.HighContrast ? colours.Line : colours.Accent,
+                settings.HighContrast ? 3 : 0, marginX: UrmanUiTheme.Space.L, marginY: UrmanUiTheme.Space.M);
+            plate.BorderWidthLeft = settings.HighContrast ? 6 : 4;
+            _routeCuePanel.AddThemeStyleboxOverride("panel", plate);
         }
         foreach (var (label, size) in new[]
         {
@@ -1917,7 +1919,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         var stack = new VBoxContainer { MouseFilter = Control.MouseFilterEnum.Ignore };
         stack.AddThemeConstantOverride("separation", UrmanUiTheme.Space.S);
         _routeCuePanel.AddChild(stack);
-        _routeCueHeader = AddRouteCueLabel(stack, "MissionHeader", "ТЕКУЩАЯ ЗАДАЧА", UrmanUiTheme.Hint);
+        _routeCueHeader = AddRouteCueLabel(stack, "MissionHeader", "СЕЙЧАС", UrmanUiTheme.Hint);
         _routeCueTitle = AddRouteCueLabel(stack, "MissionTitle", "", UrmanUiTheme.Heading);
         _routeCue = AddRouteCueLabel(stack, "RoutePrompt", "", UrmanUiTheme.Subtitle);
         _routeCueShortcuts = AddRouteCueLabel(stack, "MissionControls", "", UrmanUiTheme.Hint);
@@ -1950,8 +1952,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     {
         if (_routeCueShortcuts is null || _mission is null) return;
         var gamepad = _player?.CurrentInputDevice == "gamepad";
-        var text = $"{InputBindingService.ActionHint("journal", gamepad)}  Журнал";
-        if (_bridge?.CanInspectReceivedPhotoBook == true) text += " → Фотоальбом";
+        var text = $"{InputBindingService.ActionHint("journal", gamepad)}  "
+            + (_bridge?.CanInspectReceivedPhotoBook == true ? "Книга и задания" : "Задания");
         if (_mission.InteractionId is { } interactionId && _player?.FocusedInteractionId == interactionId)
             text += $"    {InputBindingService.ActionHint("interact", gamepad)}  Взаимодействовать";
         if (_routeCueShortcuts.Text != text) _routeCueShortcuts.Text = text;

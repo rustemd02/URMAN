@@ -354,6 +354,14 @@ public partial class Act1ConnectedWorld
             {
                 var length = a.DistanceTo(b);
                 var dir = (b - a) / length;
+                // The H020 side-plus lot line nearly touches the Sovkhoz office plinth.
+                // Keep a 1.25 m pedestrian clearance there by setting this one fence
+                // run back into its parcel; its visible carpentry and collider are both
+                // generated from the same shifted sample points below.
+                var fenceSetback = lot.SourcePath == AgentBAct1Layout.OpenPartPlotPath
+                    && lot.Id == "ADR-H020" && edgeRole == "side-plus"
+                    ? -s * .55f
+                    : Vector2.Zero;
                 // A cart gate needs two leaves and the room for a cart; anything
                 // narrower gets a wicket. Both are real entrances, never a hole.
                 var openHalf = length > 5f ? 1.8f : .62f;
@@ -399,7 +407,7 @@ public partial class Act1ConnectedWorld
                 }
                 for (var t = 0f; t <= length + .01f; t += .5f)
                 {
-                    var p = a + dir * Mathf.Min(t, length);
+                    var p = a + dir * Mathf.Min(t, length) + fenceSetback;
                     var inGate = gateAt is { } g && Mathf.Abs(t - Mathf.Clamp(g, 2f, length - 2f)) < openHalf;
                     if (inGate || Blocked(p) || !Claim(p)) { if (inGate && run.Count > 0) openings++; Flush(); continue; }
                     run.Add(p);

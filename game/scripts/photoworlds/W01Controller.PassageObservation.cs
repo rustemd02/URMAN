@@ -18,10 +18,54 @@ public partial class W01Controller
     private Vector3 _rootPassageObservationFailedPosition;
     private Vector3 _rootPassageObservationFailedForward;
 
-    /// <summary>Projects the next real subject from live traversal proof without recording progress.</summary>
-    internal bool TryGetRootPassageInspectionTarget(object? identity, out Vector3 point)
+    /// <summary>Projects the F11 observation route from the live W01 presentation without recording progress.</summary>
+    internal bool TryGetForestCameraBackObjectiveTarget(
+        object? identity,
+        Vector3 playerPosition,
+        out Vector3 point,
+        out string label,
+        out bool inspectionPoint)
     {
         point = default;
+        label = string.Empty;
+        inspectionPoint = false;
+        if (identity is null
+            || _bridge is not { } bridge || !IsValidCurrentBridge(bridge)
+            || !ReferenceEquals(bridge.PhotoWorldPresentationIdentity, identity)
+            || bridge.CurrentW01BranchProjection() is not { ActiveSceneId: ForestSceneId } projection
+            || !ReferenceEquals(projection.SessionIdentity, identity)
+            || !ReferenceEquals(bridge.SessionIdentity, identity)
+            || GetNodeOrNull<Marker3D>("Anchors/F11") is not { } frame
+            || !GodotObject.IsInstanceValid(frame))
+            return false;
+
+        // Preserve the observation owner's existing ±1.5 m square around F11.
+        // Outside it, keep the route cue at F11; inside it, point at the real
+        // crossbar observation surface from the active tableau.
+        point = frame.GlobalPosition;
+        label = "За тремя стволами";
+        var offset = playerPosition - frame.GlobalPosition;
+        if (Math.Abs(offset.X) > 1.5f || Math.Abs(offset.Z) > 1.5f)
+            return true;
+
+        if (_photoTableauVisual is not { Visible: true } tableau
+            || !GodotObject.IsInstanceValid(tableau) || !tableau.IsVisibleInTree()
+            || _forestSplitBirchContact is not { } splitBirch || !GodotObject.IsInstanceValid(splitBirch)
+            || _forestCrossbarContact is not { } crossbar || !GodotObject.IsInstanceValid(crossbar)
+            || _forestRootArchContact is not { } rootArch || !GodotObject.IsInstanceValid(rootArch))
+            return true;
+
+        point = _forestCrossbarObservationPoint;
+        label = "Посмотрите на всю группу";
+        inspectionPoint = true;
+        return true;
+    }
+
+    /// <summary>Projects the next real subject from live traversal proof without recording progress.</summary>
+    internal bool TryGetRootPassageInspectionTarget(object? identity, out Vector3 point, out int seenCount)
+    {
+        point = default;
+        seenCount = 0;
         if (identity is null || !_rootPassageEnabled || _rootPassageObservedExitSide == 0f
             || !ReferenceEquals(_rootPassageSessionIdentity, identity)
             || _bridge is not { } bridge || !IsValidCurrentBridge(bridge)
@@ -32,6 +76,9 @@ public partial class W01Controller
 
         // Keep the last subject while its earned dispatch finishes, rather than pointing back into the passage.
         point = _rootPassageObservationSubjects[^1].Point;
+        var unseenMask = (1 << _rootPassageObservationSubjects.Length) - 1;
+        for (var bits = _rootPassageSeenSubjects & unseenMask; bits != 0; bits &= bits - 1)
+            seenCount++;
         for (var index = 0; index < _rootPassageObservationSubjects.Length; index++)
         {
             if ((_rootPassageSeenSubjects & (1 << index)) != 0) continue;

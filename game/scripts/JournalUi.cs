@@ -212,10 +212,13 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         var photoWorldHint = _bridge?.CurrentPhotoWorldHint();
         var photoWorldHintContextKey = PhotoWorldHintContextKey(
             _bridge, photoWorldObjective, photoWorldHint?.Key);
+        var mission = _bridge is { } missionBridge ? CurrentPlayerMission(missionBridge) : null;
         // An active investigation is not yet an actionable source comparison.
         // Use the same readiness gate as the comparison tab, including both sources.
         var canCompareRecords = (_bridge?.JournalActions([AlsuAccountId, MaratNoticeId]).Count ?? 0) > 0;
-        var objectiveTitles = objectives.Select(objective =>
+        var objectiveTitles = objectives
+            .Where(objective => mission is null || objective.QuestId != photoWorldQuestId)
+            .Select(objective =>
             objective.QuestId == "urman.chapter1:quest/quest_marat_first_contradiction"
                 && objective.ObjectiveId == "find-contradiction" && !canCompareRecords
                 ? "Выяснить, что случилось с Маратом."
@@ -233,7 +236,6 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         }
         // The arrival is still a personal scene. Present its authored next action
         // before the investigation objective, without creating another quest state.
-        var mission = _bridge is { } missionBridge ? CurrentPlayerMission(missionBridge) : null;
         if (mission is not null)
         {
             if (_bridge?.CanInspectReceivedPhotoBook != true)
@@ -247,7 +249,8 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             objectiveTitles,
             _bridge?.TamaraFenceSnapshotNow(),
             photoWorldHint,
-            photoWorldHintContextKey);
+            photoWorldHintContextKey,
+            mission);
         RefreshVocabularyPage();
         _vocabularySummary.Text = BuildWordSummary();
         _entries.Clear();
@@ -296,7 +299,8 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         IReadOnlyList<string> titles,
         RuntimeBridge.TamaraFenceSnapshot? fence,
         RuntimeBridge.PhotoWorldHintProjection? photoWorldHint,
-        string? photoWorldHintContextKey)
+        string? photoWorldHintContextKey,
+        PlayerMission? mission)
     {
         var gamepad = GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
             && player.CurrentInputDevice == "gamepad";
@@ -315,8 +319,13 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             AddTaskRow("—", "Пока никаких дел.", new Color(.62f, .58f, .48f), 18);
         }
 
+        var colours = UrmanUiTheme.Colours(_accessibility);
+        if (mission is not null)
+            AddTaskRow("", "СЕЙЧАС · " + mission.Title, colours.Text, 22);
         for (var index = 0; index < titles.Count; index++)
         {
+            if (index == 1 && mission is not null)
+                AddTaskRow("", "ДРУГИЕ ДЕЛА", colours.TextMuted, 16);
             var current = index == 0;
             AddTaskRow(current ? "●" : "•", titles[index].Replace("[J]", journalHint, StringComparison.Ordinal),
                 current ? new Color(.95f, .83f, .56f) : new Color(.86f, .82f, .72f),
