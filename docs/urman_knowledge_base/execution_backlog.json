@@ -147313,6 +147313,11 @@
           "sha256": "44b2db0d1d63bb2767b344841f1f1e53058ed5873703a81145e404c7c8650d9c",
           "verification": "3 members CRC and SHA checked before source duplicates removed; ordinary source render removed."
         }
+      },
+      "tatar_village_authenticity_2026_10_26": {
+        "author_instruction": "Generated village assets should fit the realities of a Tatar village, including homes and household details.",
+        "practice": "Check each major family against the established game setting, period and locality and the existing cultural/architectural sources; choose plausible construction, materials and use, avoid invented generic motifs. Record uncertainty when evidence is missing and retain separate cultural and author acceptance.",
+        "scope": "All generated village families and interior assets; cupboard ImageGen reference remains an unaccepted candidate, not evidence of cultural authenticity."
       }
     },
     {
