@@ -147355,6 +147355,12 @@
           "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-variantb-retexture-2026-10-26.zip",
           "sha256": "a606d117365c085c1d0ac31873d50e272d9bb2da00562ead44253a62956b0369",
           "verification": "9 members CRC and SHA checked before removing originals; re-creatable previews, cache and duplicate of runtime GLB removed."
+        },
+        "windows_import_2026_10_27": {
+          "job_id": "a375c4b1aeb8497ab774ed1f94f50941",
+          "result": "GLB import step and scene boot succeeded; no direct identification of the building in general frame.",
+          "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-windows-variantb-a375c4b1-2026-10-27.zip",
+          "remaining": "Check the specific building in contextual scene and movement, preserve art/performance acceptance."
         }
       },
       "home_cupboard_retexture_2026_10_26": {
@@ -148920,6 +148926,19 @@
         "verification": "Independent static review confirms original default, exact Git objects/no replacement, allowlist/size/hash and symlink/submodule/LFS rejection. Python AST and CLI help pass; live run remains pending.",
         "next": "For the next specific Windows question, first verify station is idle and current shared file hash, then run the committed-source mode once; preserve userdata and inspect receipt.",
         "remaining": "Import, scene runtime, first-episode play, Continue and release gates remain open."
+      },
+      "committed_station_capture_2026_10_27": {
+        "job_id": "a375c4b1aeb8497ab774ed1f94f50941",
+        "commit": "d952c82e016d432e2f76794093a700acdbc59080",
+        "snapshot_id": "ae1ee7bf489731b7e806ef576ba52a12008e6f65c28631554ed62a2a3d7f4717",
+        "result": "PASS; content and Game build, Godot import and capture scene exit 0; VariantB GLB present in import log; engine-errors.log empty, game log 10 warnings and 0 ERROR lines. Guard-clean, userdataRestored=true; post-run doctor ready, idle, no orphan/recovery. General overcast village frame viewed by root, but the VariantB building is not reliably identifiable.",
+        "archive": {
+          "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-windows-variantb-a375c4b1-2026-10-27.zip",
+          "sha256": "e382196fdad53a09ebbb3ddf647ae2ac7a8d94d548609b753f4ed2980782ab05",
+          "verification": "15 members CRC and per-file SHA verified before removing extracted duplicates; includes raw receipt/logs/frame."
+        },
+        "limitations": "Scene capture is not ordinary campaign gameplay, interaction, Save/Continue, performance or artistic acceptance. The sample does not prove individual VariantB visibility or graft presence; targeted accepted scene/movement remains open.",
+        "duration": "worker 409.89 s; do not repeat unchanged run."
       }
     },
     {
