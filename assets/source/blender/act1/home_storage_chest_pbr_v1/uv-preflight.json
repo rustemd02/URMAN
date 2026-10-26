@@ -1,0 +1,23 @@
+{
+  "overlap_count": 0,
+  "details": [
+    {
+      "node": "HouseInterior_StorageChestBody_LOD0",
+      "overlapping_faces": 0,
+      "minimum_face_area": null,
+      "indices": []
+    },
+    {
+      "node": "HouseInterior_StorageChestFront_LOD0",
+      "overlapping_faces": 0,
+      "minimum_face_area": null,
+      "indices": []
+    },
+    {
+      "node": "HouseInterior_StorageChestLid_LOD0",
+      "overlapping_faces": 0,
+      "minimum_face_area": null,
+      "indices": []
+    }
+  ]
+}

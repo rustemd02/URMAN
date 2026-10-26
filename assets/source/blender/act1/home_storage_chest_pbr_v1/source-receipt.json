@@ -1,0 +1,66 @@
+{
+  "schema": "urman-home-storage-chest-pbr-source/v1",
+  "source": "game/assets/generated/urman_modular_kit.glb",
+  "source_sha256": "402f9d7dc6b9c0ad8b4fdf39b2ef550b625cedb56bd9f179ee24d9ca1a07fea4",
+  "rights": "Project-original URMAN modular kit, assets/asset_registry.json",
+  "source_nodes": [
+    "HouseInterior_StorageChestBody_LOD0",
+    "HouseInterior_StorageChestFront_LOD0",
+    "HouseInterior_StorageChestLid_LOD0"
+  ],
+  "triangles": 132,
+  "geometry_unchanged_during_UV": true,
+  "actual_blender_uv_overlap_faces": 0,
+  "anchor_blender": [
+    3.9800000190734863,
+    4.199999809265137,
+    0.0
+  ],
+  "bounds_blender": [
+    [
+      -0.96,
+      -0.5349998,
+      0.02
+    ],
+    [
+      0.96,
+      0.4907596,
+      0.8810804
+    ]
+  ],
+  "output": "source-storage-chest-uv.glb",
+  "output_sha256": "816dfdb93366ce08ff058382d5514fe42330c46bd95464e01b388255571673c8",
+  "consumer": "StyleBenchmarkInteriorFactory.AttachFurniture→GeneratedHouseInteriorAct1; StorageChest source(3.98,0,-4.20)→ChestAnchor(-.75,-.02,2.85),yaw180. Existing lid, storage interactions and collision owner remain unchanged.",
+  "remaining": "Generated source candidate only. Original LOD1 and actual game import/motion/art acceptance remain open.",
+  "cultural_basis": {
+    "current_authority": "docs/urman_knowledge_base/canon.md current PW-002/08.10 section: Kara-Urman,Tatarstan,winter2026,ordinary inhabited family household.",
+    "locality_limit": "Research02_region_and_time.md UpperIya/Arsk and2015±1 are marked proposals; period superseded by current2026canon. Exact realdistrict/carpentrytradition notasserted.",
+    "household_requirement": "docs/tasktracker/review_2026-09-28/04_interiors_culture.md I2: function,householdusers,materials/support/limitedwear; no ethnographic museum or invented A033/pseudoscript.",
+    "asset_specific_evidence": "Existing project authored StorageChestBody/Lid/Front and live room consumer; supports storage function and inherited geometry only, no claim of historically documented regional type.",
+    "constraints": "No invented ornament,ethnicpattern,religioussymbol,script,ironbands,hinges,locks or new furniture geometry."
+  },
+  "material_reference": {
+    "path": "assets/source/blender/act1/home_storage_chest_pbr_v1/input-material-reference-v1.png",
+    "sha256": "6032e3a9d56846caef01ec48291688974e0326dd55885def6c918563e8122dd2",
+    "tool": "built-in image_gen",
+    "original": "/Users/unterlantas/.codex/generated_images/01a1799b-bfd6-75c0-a6fe-f42d5065d715/exec-99e7bbf0-5e15-43d7-a1aa-8a4a512bc01d.png",
+    "prompt": "Use case: stylized-concept. Asset type: exact material-only reference for Meshy retexturing of an existing URMAN household storage chest. Image1 is the actual current game geometry and camera: preserve its wide low tapered box, separate thick overhanging flat lid, one plain raised front rail/panel, exact dimensions and all edges. Image2 is the accepted URMAN home, a material/art-language reference only. Context from current project canon: an inhabited household of Mansur and Golsina in fictional Kara-Urman, Tatarstan, winter 2026; ordinary present-day family life with kept older objects. This is not claimed to be a documented regional antique or traditional ethnic chest. Change only the material of image1: medium-dark warm brown well-kept pine/softwood, a quiet worn low-sheen clear finish, readable long horizontal grain along the broad front and lid, short faces grain along their boards, limited small knots and slight rubbing at handled edges. Keep the chest functional and cared-for, with modest age, not a ruin, barn scrap or museum display. Simple solid timber structure; do not invent carving, painted folk patterns, tulips, embroidery, religious symbols, script, labels, iron bands, hinges, locks, handles, feet or other new geometry. Do not add cloth, contents, people or a room. Coarse calm painterly material realism consistent with the accepted game house, no photorealistic fine noise or high-gloss showroom rendering. Soft even studio lighting and neutral gray background, same whole-object three-quarter view as image1, no texture collage, watermark or strong shadows baked into the wood color.",
+    "rights": "Own project source and accepted own game frame, no external bitmap.",
+    "review": "Preserves source silhouette and plain front rail. Warm maintained timber, no invented ornament/hardware/text. Material reference only."
+  },
+  "paid_preflight": {
+    "existing_result": "No storage-chest-specific Meshy model/PBR atlas in source/registry/tracker; original runtime uses generic wood_furniture_interior. Existing unrelated cupboard HOLD is not reused as a paid input.",
+    "UV_overlap_faces": 0,
+    "source_shape_unchanged": true,
+    "price": 10,
+    "price_source": "https://docs.meshy.ai/en/api/pricing",
+    "operation": "OnekeepUV4KPBRretexture",
+    "owner_cap": 4000,
+    "spent_before": 560,
+    "remaining_before": 3440,
+    "reserve": 10,
+    "APIbalance": 3720,
+    "monthly": 2570,
+    "permanent": 1150
+  }
+}

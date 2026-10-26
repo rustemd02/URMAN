@@ -147331,12 +147331,20 @@
         "scope": "All generated village families and interior assets; cupboard ImageGen reference remains an unaccepted candidate, not evidence of cultural authenticity."
       },
       "home_storage_chest_2026_10_26": {
-        "status": "submitted_pending_confirmation",
+        "status": "style_hold_no_runtime_integration",
         "api_task_id": "01a179b9-992b-7756-aeb7-67f13903b564",
-        "reserve": 10,
+        "reserve": 0,
         "source": "assets/source/blender/act1/home_storage_chest_pbr_v1/",
         "evidence": "UV preflight zero overlap for three source meshes/132 triangles; existing home storage chest, no invented ethnic ornaments.",
-        "remaining": "Await terminal receipt and charge; inspect resulting maps and in-game style before acceptance."
+        "remaining": "Review material against actual home scene and existing furniture owner; cultural and author acceptance and safe lid/seat behavior remain open. No blind paid retry.",
+        "consumed_credits": 10,
+        "result": "Source geometry/UV/AABB preserved; candidate neutral render appears warm orange and glossy compared to existing matte furniture. Lid is a physical seat support; no separate overlay or speculative shader introduced.",
+        "candidate_receipt": "assets/source/blender/act1/home_storage_chest_pbr_v1/candidate-receipt.json",
+        "local_archive": {
+          "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-home-storage-chest-2026-10-26.zip",
+          "sha256": "c1bafdb7746f3bf39523caa738bafa2d383a5ea7ddc12279c06eb4b9ffb60f80",
+          "verification": "8 files verified by CRC and SHA before removing originals; temporary renders removed."
+        }
       }
     },
     {
@@ -165703,13 +165711,13 @@
     "credits": {
       "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 560,
-      "authorized_budget_remaining": 3440,
+      "agent_spent_after_purchase": 570,
+      "authorized_budget_remaining": 3430,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4100,
-      "balance_note": "560/4000 confirmed, 3440 remaining including reserve10. Single submitted storage-chest retexture 01a179b9-992b-7756-aeb7-67f13903b564 costs10 pending server confirmation; no repeated POST. Last observed API balance3720 before submission.",
-      "latest_api_balance_observed": 3720,
-      "reserved_for_current_work": 10,
+      "balance_note": "570/4000 consumed, 3430 remain, reserve0. Chest retexture 01a179b9-992b-7756-aeb7-67f13903b564 SUCCEEDED, server charged10; API balance3720→3710. Candidate on STYLE_HOLD; no repeated POST.",
+      "latest_api_balance_observed": 3710,
+      "reserved_for_current_work": 0,
       "unreserved_author_budget": 3430
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
@@ -165934,6 +165942,14 @@
         "cost_credits": 10,
         "result": "SUCCEEDED, API balance 3730→3720. Generated maps-only candidate retains original 18 meshes/444 triangles and UV; scene/style and performance acceptance pending.",
         "source": "assets/source/blender/act1/neighbor_outbuilding_b_pbr_v1/"
+      },
+      {
+        "task_id": "PW-093",
+        "api_task_id": "01a179b9-992b-7756-aeb7-67f13903b564",
+        "operation": "One keepUV 4K PBR retexture of existing home storage chest",
+        "cost_credits": 10,
+        "result": "SUCCEEDED server consumed10; source UV preflight passed, generated result awaits assessment and integration.",
+        "source": "assets/source/blender/act1/home_storage_chest_pbr_v1/"
       }
     ],
     "next_large_static_candidate": {
