@@ -131,9 +131,9 @@ public partial class JournalUi
         var canEnterForest = bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-forest");
         if (forestPhoto.Mounted && canEnterForest) return ForestEntryMission(bridge, forestPhoto.HasResumePoint);
         if (!forestPhoto.Mounted && forestPhoto.CanMount)
-            return new("forest-mount", "Лесной снимок", "Вклейте снимок в книгу.", BookPhotoId: forestPhoto.PhotoId);
+            return new("forest-mount", "Лесной снимок", "Вклейте снимок в книгу.", BookPhotoId: forestPhoto.PhotoId, BookAction: PlayerBookAction.Mount);
         if (!forestPhoto.BackRead && forestPhoto.CanReadBack)
-            return new("forest-back", "Оборот лесного снимка", "Прочитайте оборот снимка.", BookPhotoId: forestPhoto.PhotoId);
+            return new("forest-back", "Оборот лесного снимка", "Прочитайте оборот снимка.", BookPhotoId: forestPhoto.PhotoId, BookAction: PlayerBookAction.ReadBack);
         if (bridge.CurrentZoneId != MissionHomeZone)
             return HomeMission(bridge, "forest-compare", "Сверить два снимка", "Дома сравните школьную копию с лесным снимком в семейном альбоме.", anchor: MissionBookAnchor);
         if (!forestPhoto.Mounted) return null;
@@ -177,8 +177,8 @@ public partial class JournalUi
         PlayerMission WaterSource() => HomeMission(bridge, "water-source", "Снимок у мостков", "Найдите снимок у мостков в семейном конверте на столе.", "pw-water-photo-source", "Семейный конверт");
         PlayerMission PlaceTalk() => HomeMission(bridge, "water-place", "Где были мостки", "Спросите Гөлсинә, где находились старые мостки.", "pw-water-place-talk", "Гөлсинә");
         PlayerMission WaterPermission() => HomeMission(bridge, "water-permission", "Копия снимка у мостков", "Попросите у Гөлсинә разрешение на копию снимка у мостков.", "pw-water-photo-permission", "Гөлсинә");
-        PlayerMission Mount() => new("water-mount", "Снимок у мостков", "Вклейте снимок в книгу.", BookPhotoId: waterPhoto!.PhotoId);
-        PlayerMission Back() => new("water-back", "Оборот снимка у мостков", "Прочитайте оборот снимка.", BookPhotoId: waterPhoto!.PhotoId);
+        PlayerMission Mount() => new("water-mount", "Снимок у мостков", "Вклейте снимок в книгу.", BookPhotoId: waterPhoto!.PhotoId, BookAction: PlayerBookAction.Mount);
+        PlayerMission Back() => new("water-back", "Оборот снимка у мостков", "Прочитайте оборот снимка.", BookPhotoId: waterPhoto!.PhotoId, BookAction: PlayerBookAction.ReadBack);
         if (placeTold && waterPhoto is { Mounted: true, BackRead: true })
             return EntryMission(bridge, "water-enter", "Старые мостки", waterPhoto, "pw-enter-river", "старому подходу к мосткам на берегу");
         if (!atHome)
@@ -223,9 +223,9 @@ public partial class JournalUi
                 ? HomeMission(bridge, "house-permission", "Семейная копия", "Попросите у Гөлсинә копию снимка двора.", "pw-house-photo-permission", "Гөлсинә") : null;
         if (!photo.Mounted)
             return !atHome || photo.CanMount
-                ? new("house-mount", "Снимок двора", "Вклейте снимок в книгу.", BookPhotoId: photo.PhotoId) : null;
+                ? new("house-mount", "Снимок двора", "Вклейте снимок в книгу.", BookPhotoId: photo.PhotoId, BookAction: PlayerBookAction.Mount) : null;
         if (!photo.BackRead)
-            return photo.CanReadBack ? new("house-back", "Оборот снимка двора", "Прочитайте оборот снимка.", BookPhotoId: photo.PhotoId) : null;
+            return photo.CanReadBack ? new("house-back", "Оборот снимка двора", "Прочитайте оборот снимка.", BookPhotoId: photo.PhotoId, BookAction: PlayerBookAction.ReadBack) : null;
         return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-house")
             ? EntryMission(bridge, "house-enter", "Двор на старом снимке", photo, "pw-enter-house", "наружному окну семейного дома") : null;
     }
@@ -250,7 +250,7 @@ public partial class JournalUi
                 return HomeMission(bridge, "photographer-permission", "Копия из альбома", "Попросите у Гөлсинә копию снимка с подписью фотографа.", "pw-photographer-photo-permission", "Гөлсинә");
             if (!photographer.BackRead)
                 return photographer.CanReadBack
-                    ? new("photographer-back", "Подпись фотографа", "Прочитайте оборот снимка.", BookPhotoId: photographer.PhotoId) : null;
+                    ? new("photographer-back", "Подпись фотографа", "Прочитайте оборот снимка.", BookPhotoId: photographer.PhotoId, BookAction: PlayerBookAction.ReadBack) : null;
             if (!bridge.PhotoWorldFactObserved("golsina_author_conversation"))
                 return HomeMission(bridge, "photographer-talk", "Кто стоял за камерой", "Спросите Гөлсинә, кто снимал семейный двор.", "pw-gulsina-author-talk", "Гөлсинә");
             return HomeMission(bridge, "photographer-verify", "Сверить рассказ и снимок", "Сверьте рассказ Гөлсинә с подписью фотографа на снимке.", "pw-verify-photographer-evidence", "Семейный альбом");
@@ -273,7 +273,7 @@ public partial class JournalUi
             if (!bridge.HasPrintedCommonPhoto)
                 return HomeMission(bridge, "common-print", "Бумажный снимок", "В «Блокноте» на ПК нажмите «Напечатать подписанный снимок для книги».", "pw-print-common-photo", "Домашний ПК", MissionPcAnchor);
             if (bridge.CurrentZoneId != MissionHomeZone || common.CanMount)
-                return new("common-mount", "Общий снимок", "Вклейте снимок в книгу.", BookPhotoId: common.PhotoId);
+                return new("common-mount", "Общий снимок", "Вклейте снимок в книгу.", BookPhotoId: common.PhotoId, BookAction: PlayerBookAction.Mount);
             return null;
         }
         if (!bridge.PhotoWorldFactObserved("alsu_bank_meeting_planned")
@@ -346,7 +346,7 @@ public partial class JournalUi
         if (photo is null)
             return HomeMission(bridge, "cellar-permission", "Копия снимка сеней", "Попросите у Гөлсинә копию снимка сеней.", "pw-cellar-photo-permission", "Гөлсинә");
         if (!photo.Mounted)
-            return bridge.CurrentZoneId != MissionHomeZone || photo.CanMount ? new("cellar-mount", "Снимок сеней", "Вклейте снимок в книгу.", BookPhotoId: photo.PhotoId) : null;
+            return bridge.CurrentZoneId != MissionHomeZone || photo.CanMount ? new("cellar-mount", "Снимок сеней", "Вклейте снимок в книгу.", BookPhotoId: photo.PhotoId, BookAction: PlayerBookAction.Mount) : null;
         return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-cellar")
             ? EntryMission(bridge, "cellar-enter", "Сухие сени", photo, "pw-enter-cellar", "двери сухих сеней семейного дома") : null;
     }
@@ -382,7 +382,8 @@ public partial class JournalUi
                     : "Вернитесь в дом Гөлсинә и Мансура.",
                 "urman.fullgame:interaction/pw-home-enter-house", TargetZoneId: bridge.CurrentZoneId, TargetLabel: "Дом Гөлсинә и Мансура");
         return new(id, title, action, interaction is null ? null : "urman.fullgame:interaction/" + interaction,
-            anchor, zone, label ?? title, bookPhotoId);
+            anchor, zone, label ?? title, bookPhotoId,
+            bookPhotoId is null ? PlayerBookAction.None : PlayerBookAction.Enter);
     }
 
     private static PlayerMission? PhotoWorldMission(RuntimeBridge bridge)

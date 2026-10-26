@@ -109516,6 +109516,17 @@
           ],
           "verification": "Existing prebuilt fullgame ContentCli exit0. Text-only structural comparison preserves IDs, registries, conditions, effects and dialogue node structure. Independent bounded Astra review. Final affected Game compile15.19s,0warnings,0errors; diff-check. Before final compile missing restore cache and incorrect GetScale API were corrected; no game/tests/probes after author STOP.",
           "remaining": "Новое представление, крупный шрифт и удобство в игре не приняты. Автор запретил повторные бесполезные прогоны; source этап не закрывает внешний гейт."
+        },
+        "mission_photo_focus_2026_10_26": {
+          "state": "source_compile_verified_native_pending",
+          "result": "При адресном открытии J по текущей задаче сохраняется выбранный снимок и клавиатурный фокус переходит на разрешённую кнопку Вклеить, Прочитать оборот или Войти. У недоступной кнопки остаётся фокус списка; ручное открытие физической книги и смена вкладок сохраняют свободный выбор. Никакого автоматического действия или изменения сюжетных gates.",
+          "evidence": [
+            "game/scripts/PlayerMission.cs",
+            "game/scripts/JournalUi.Missions.cs",
+            "game/scripts/JournalUi.PhotoBook.cs"
+          ],
+          "verification": "Affected Game compile17.75с:0warnings,0errors; source review Astra: все текущие миссии сопоставлены, redirects/ручное открытие/disabled gates сохранены; diff-check. Игры/тесты/probes не запускались.",
+          "remaining": "Расположение, читаемость и удобство в Windows для нового интерфейса ещё не приняты."
         }
       },
       "first_episode_continuity_2026_10_25": {

@@ -440,6 +440,18 @@ public partial class JournalUi
         if (bridge.SessionIdentity is null || !bridge.IsPhotoWorldsCampaign) return;
         _tabs.CurrentTab = PhotoBookTabIndex;
         FocusCurrentPage();
+        // Only an explicit mission request directs focus; opening the physical
+        // book or switching tabs still lets the player browse freely.
+        if (photoId is null || CurrentPlayerMission(bridge) is not { } mission
+            || mission.BookPhotoId != photoId || _photoBookSelectedId != photoId) return;
+        var button = mission.BookAction switch
+        {
+            PlayerBookAction.Mount => _photoBookMountButton,
+            PlayerBookAction.ReadBack => _photoBookReadBackButton,
+            PlayerBookAction.Enter => _photoBookEnterButton,
+            _ => null
+        };
+        if (button is { Disabled: false } && button.IsVisibleInTree()) button.GrabFocus();
     }
 
     private void RefreshPhotoBookPage()
