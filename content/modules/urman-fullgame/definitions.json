@@ -2144,9 +2144,8 @@
           {
             "op": "not",
             "condition": {
-              "op": "quest.status",
-              "questId": "urman.fullgame:quest/pw-w04",
-              "status": "active"
+              "op": "photoworlds.world.visited",
+              "worldId": "W04"
             }
           },
           {

@@ -22352,9 +22352,8 @@
               {
                 "op": "not",
                 "condition": {
-                  "op": "quest.status",
-                  "questId": "urman.fullgame:quest/pw-w04",
-                  "status": "active"
+                  "op": "photoworlds.world.visited",
+                  "worldId": "W04"
                 }
               },
               {
@@ -33438,7 +33437,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "0dcff13d7d807bc9afd65747e94c48a8039f8c05841c5e8ce2f22165ad2266e8"
+      "sha256": "159fe966cc564e862f94d745e5457226f087cb39e91295b2f7cc7f72721d5a27"
     },
     {
       "moduleId": "urman.oldpc",
@@ -33446,5 +33445,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "5b053ac4d7dbaf15c21df7cfa20bec960a3371e2afc8529c02f57fe570a6b49c"
+  "campaignFingerprint": "69cd30fe6a3bd2175deca4eb08910047df79ddac38637d9b05c6997984f156b0"
 }

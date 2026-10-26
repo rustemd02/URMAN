@@ -45,6 +45,8 @@ public partial class RuntimeBridge
         "bf01a8888a23b642a9c83f07ae0aa96c424b015f213c867b0288fae80c90d554";
     private const string FullGameCommonVisitGateFingerprint =
         "5b053ac4d7dbaf15c21df7cfa20bec960a3371e2afc8529c02f57fe570a6b49c";
+    private const string FullGameAlsuMeetingGateFingerprint =
+        "69cd30fe6a3bd2175deca4eb08910047df79ddac38637d9b05c6997984f156b0";
 
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
@@ -129,7 +131,17 @@ public partial class RuntimeBridge
         new(FullGameWaterHomeAccountFingerprint, FullGameCommonVisitGateFingerprint),
         new(FullGameShuraleReplyTextFingerprint, FullGameCommonVisitGateFingerprint),
         new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
-            FullGameCommonVisitGateFingerprint)
+            FullGameCommonVisitGateFingerprint),
+        // Meeting eligibility changes; existing quest and visit state are retained.
+        new(FullGameCommonVisitGateFingerprint, FullGameAlsuMeetingGateFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameAlsuMeetingGateFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameAlsuMeetingGateFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameAlsuMeetingGateFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameAlsuMeetingGateFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameAlsuMeetingGateFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameAlsuMeetingGateFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameAlsuMeetingGateFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -150,7 +162,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameForestPhotoComparisonFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameForestEncounterDialogueFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGamePhotographerReadingFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameCommonVisitGateFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameCommonVisitGateFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAlsuMeetingGateFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }

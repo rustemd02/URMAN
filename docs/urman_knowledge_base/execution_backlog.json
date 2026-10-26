@@ -133340,6 +133340,17 @@
           "game/scripts/RuntimeBridge.ContentCompatibility.cs"
         ],
         "verification": "Astra static review; ContentCli compile and Game affected compile 16.38s, 0 errors/warnings. No play or tests. An artificially formed valid checkpoint with no visit history is still trusted; ordinary runtime does not create it."
+      },
+      "alsu_meeting_gate_2026_10_26": {
+        "result": "Repaired regression after 70ad96e5: the meeting interaction no longer rejects the initial W04 active quest; it instead rejects an existing W04 checkpoint, while completed quest and planned meeting remain separate exclusions. The authored entrance and VisitPrepare retain the meeting or saved revisit conditions.",
+        "evidence": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/content/urman.fullgame.compiled.v1.json",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+        ],
+        "fingerprint": "69cd30fe6a3bd2175deca4eb08910047df79ddac38637d9b05c6997984f156b0",
+        "verification": "Independent source review confirms NPC owner, mission priority and meeting fact are consistent; ContentCli compile succeeded, affected Game compile 18.02s 0 errors/0 warnings. No game/tests.",
+        "remaining": "Ordinary gameplay and Save/Continue verification remain open; no claim that the final world or Act I is accepted."
       }
     },
     {
@@ -147318,6 +147329,14 @@
         "author_instruction": "Generated village assets should fit the realities of a Tatar village, including homes and household details.",
         "practice": "Check each major family against the established game setting, period and locality and the existing cultural/architectural sources; choose plausible construction, materials and use, avoid invented generic motifs. Record uncertainty when evidence is missing and retain separate cultural and author acceptance.",
         "scope": "All generated village families and interior assets; cupboard ImageGen reference remains an unaccepted candidate, not evidence of cultural authenticity."
+      },
+      "home_storage_chest_2026_10_26": {
+        "status": "submitted_pending_confirmation",
+        "api_task_id": "01a179b9-992b-7756-aeb7-67f13903b564",
+        "reserve": 10,
+        "source": "assets/source/blender/act1/home_storage_chest_pbr_v1/",
+        "evidence": "UV preflight zero overlap for three source meshes/132 triangles; existing home storage chest, no invented ethnic ornaments.",
+        "remaining": "Await terminal receipt and charge; inspect resulting maps and in-game style before acceptance."
       }
     },
     {
@@ -165688,10 +165707,10 @@
       "authorized_budget_remaining": 3440,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4100,
-      "balance_note": "560/4000 consumed; 3440 remain; reserve 0. API balance 3730 before and 3720 after the single 10-credit retexture; task 01a179a0-681b-7511-ba53-59866f70651c SUCCEEDED. Generated candidate awaits runtime integration and scene acceptance.",
+      "balance_note": "560/4000 confirmed, 3440 remaining including reserve10. Single submitted storage-chest retexture 01a179b9-992b-7756-aeb7-67f13903b564 costs10 pending server confirmation; no repeated POST. Last observed API balance3720 before submission.",
       "latest_api_balance_observed": 3720,
-      "reserved_for_current_work": 0,
-      "unreserved_author_budget": 3440
+      "reserved_for_current_work": 10,
+      "unreserved_author_budget": 3430
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
     "operations": [
