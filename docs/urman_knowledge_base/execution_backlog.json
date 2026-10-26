@@ -108456,6 +108456,15 @@
           "game/content/urman.fullgame.compiled.v1.json"
         ],
         "remaining": "Normal whole firstepisode→earnedhomeentry→Save/Continue and all separate cultural/language/art/author acceptance remain unverified."
+      },
+      "first_home_debrief_wording_2026_10_27": {
+        "result": "Two home dialogue variants no longer promise captions on P-FOREST or P-HOUSE, whose catalogue has captionable=false. The forest debrief asks for the actual journal record of the place and encounter, then directs to the courtyard photograph in the envelope. No quest gates, facts or invented caption state changed.",
+        "evidence": [
+          "content/modules/urman-fullgame/definitions.json",
+          "content/campaigns/urman.fullgame/campaign.json",
+          "game/content/urman.fullgame.compiled.v1.json"
+        ],
+        "verification": "Two independent source audits of W01 return and home dialogue; ContentCli build 0 warnings/errors and targeted urman.fullgame content compile. Native dialogue and complete first episode remain unverified."
       }
     },
     {
@@ -165900,14 +165909,14 @@
     "credits": {
       "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 570,
-      "authorized_budget_remaining": 3430,
+      "agent_spent_after_purchase": 590,
+      "authorized_budget_remaining": 3410,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4100,
-      "balance_note": "570/4000 consumed, 3430 remain, reserve0. Chest retexture 01a179b9-992b-7756-aeb7-67f13903b564 SUCCEEDED, server charged10; API balance3720→3710. Candidate on STYLE_HOLD; no repeated POST.",
-      "latest_api_balance_observed": 3710,
+      "balance_note": "590/4000 consumed, 3410 remain, reserve 0. VariantC retexture 01a17a56-47d1-7382-bbea-c68e05f08856 and painted palisadnik retexture 01a17a75-f06d-72b4-801e-27e80073bdb8 SUCCEEDED, server charged 10 each; API balance 3710→3700→3690. Both are source-only candidates; no scene or cultural acceptance.",
+      "latest_api_balance_observed": 3690,
       "reserved_for_current_work": 0,
-      "unreserved_author_budget": 3430
+      "unreserved_author_budget": 3410
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
     "operations": [
