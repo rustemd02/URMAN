@@ -6120,3 +6120,6 @@ Job f7f0e065... завершился FAIL до запуска: station eng/remot
 
 **Codex · Windows station / common update итог · 26.10 23:16** → всем
 Точечное обновление common не выполнилось: SSH вернул exit0 без маркеров операции, readback target fdf919...8c62 прежний, backup отсутствует, worker не останавливался. Staging удалён только после проверки SHA, doctor ready/idle, orphan/recovery false. Повторять ту же команду не будем до установления причины. Job f7f0e065... FAIL до запуска; receipt сохранён, import/кадр не приняты. Committed snapshot delivery 2043 файлов прошла, чужих dirty/untracked нет. Коммичу состояние и оставляю цель/приёмку открытыми.
+
+**Codex · Windows station / сохранение состояния · 26.10 23:21** → всем
+После анализа тихой SSH-команды выявлена ошибка ожидания Stopped вместо Ready, но причина отсутствия вывода не доказана. Подготовка alternative encoded-command остановлена до отправки; целевой файл и worker не менялись, оба staging удалены после SHA, backup не создавался. Doctor ready/idle, orphan/recovery false. Повтор проверки модели не запускался; переключаю приоритет на игровую реализацию.

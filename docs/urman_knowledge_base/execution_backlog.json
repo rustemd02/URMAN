@@ -148864,8 +148864,9 @@
         "receipt": ".codex-captures/remote/f7f0e0650f8e45898c290d210c2340c2/receipt.json",
         "result": "Station dirty common SHA fdf91900705f861c34a1e3b106cf6ee3e939eaccba67f52c2773cd2f46d8c62a differs from target; semantic comparison found no unique old changes. Stop/replace returned no operation marker; readback proved no changes, no backup and worker stayed running. Stage removed after SHA check; doctor ready, idle, no orphan or recovery. Do not repeat same attempt without understanding silent command.",
         "target_sha256": "65d43a124c6576a3e62ed92e5ce93a5da2a83cc8c2f4636f891419ea8f754636",
-        "next": "Diagnose why the exact SSH PowerShell command produced no operation markers without mutating station, then update only the common file with lock/backup/atomic replace. Verify worker readiness before any new job.",
-        "remaining": "Godot import/scene startup, visual fit and full first episode remain unverified."
+        "next": "For the next necessary Windows acceptance, use an explicitly verified installation route accounting for Task Scheduler Ready and enforce markers/rollback; do not repeat the silent heredoc. Prioritize independent game implementation in the meantime.",
+        "remaining": "Godot import/scene startup, visual fit and full first episode remain unverified.",
+        "followup": "Read-only analysis found the planned script incorrectly expected Task Scheduler Stopped instead of Ready; silent heredoc cause not established. Encoded-command alternative was not sent; preparation stopped, local and remote staging removed after exact SHA, worker/target unchanged, doctor ready idle no orphan/recovery."
       }
     },
     {
