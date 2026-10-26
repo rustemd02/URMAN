@@ -41,6 +41,8 @@ public partial class RuntimeBridge
         "378d33f0f990a6b48495a81b936e2d1f81738b8f29a80e321c1e54c972c0b869";
     private const string FullGameForestEncounterDialogueFingerprint =
         "15ca5c10b2c8104f938cfefb3ea09281257b99ad8311d5b3646ae3208b66278a";
+    private const string FullGamePhotographerReadingFingerprint =
+        "bf01a8888a23b642a9c83f07ae0aa96c424b015f213c867b0288fae80c90d554";
 
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
@@ -108,7 +110,15 @@ public partial class RuntimeBridge
         new(FullGameWaterHomeAccountFingerprint, FullGameForestEncounterDialogueFingerprint),
         new(FullGameShuraleReplyTextFingerprint, FullGameForestEncounterDialogueFingerprint),
         new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
-            FullGameForestEncounterDialogueFingerprint)
+            FullGameForestEncounterDialogueFingerprint),
+        // Existing saves retain their earned back-read flag; new copies are read explicitly.
+        new(FullGameForestEncounterDialogueFingerprint, FullGamePhotographerReadingFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGamePhotographerReadingFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGamePhotographerReadingFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGamePhotographerReadingFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGamePhotographerReadingFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGamePhotographerReadingFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -127,7 +137,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameWaterHomeAccountFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameNaturalDialogueFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameForestPhotoComparisonFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameForestEncounterDialogueFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameForestEncounterDialogueFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGamePhotographerReadingFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }

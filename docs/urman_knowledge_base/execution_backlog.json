@@ -104823,6 +104823,18 @@
           "verification": "ContentCli fullgame exit0; affected Game compile19.04с0warnings0errors. Independent Luna source review W01-first, started water, W02-first, forest resume and physical house source/permission; Astra review D06/D07 against canon and staged movement. Another Luna initially proposed bag gate defect, but withdrew it after checking InteractionTarget.IsAvailable/RefreshAvailability; no bag code change. git diff-check, tracker validate/render. No game/tests/probes/station.",
           "remaining": "Обычное прохождение/приятность первой главы, выразительность и визуал Шурале, крупный текст и внешние культурные/языковые/авторские гейты не приняты."
         }
+      },
+      "photographer_followup_2026_10_26": {
+        "result": "After W03, active objective leads from family box and permission to manually reading S-PHOTOGRAPHER, asking Gulsina and verifying the result; existing water and bank progress retain priority. One owner selects the NPC dialogue.",
+        "evidence": [
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/WaterChainHomePresence.cs",
+          "game/scripts/Act1ConnectedWorld.cs",
+          "game/scripts/ArrivalPersonalProps.Cellar.cs",
+          "content/modules/urman-fullgame/definitions.json"
+        ],
+        "verification": "Independent static review found conflicting NPC writer; removed its duplicate routing. Affected Game compile 14.49s, 0 warnings/errors; ContentCli compile, diff check and tracker validation passed. Existing test contract updated, test not run. Native play remains pending.",
+        "remaining": "Ordinary play, presentation, saves/Continue and cultural/author acceptance remain open."
       }
     },
     {
@@ -109642,6 +109654,16 @@
           "content/modules/urman-fullgame/definitions.json"
         ],
         "native_partial": "07e7 on0dd81117: actual S-SCHOOL acquisition overlay and next forest mission personally viewed; complete-world outcomes/Continue remain unaccepted."
+      },
+      "house_photo_image_2026_10_26": {
+        "result": "ImageGen P-HOUSE front and thumbnail mapped to book; candidate visual based on existing house and W03 source, exact scene match not established.",
+        "evidence": [
+          "game/assets/textures/photobook/p-house-front-v1.png",
+          "game/assets/textures/photobook/p-house-front-v1-thumbnail.png",
+          "game/assets/textures/photobook/p-house-front-v1.provenance.json",
+          "game/scripts/JournalUi.PhotoBook.cs"
+        ],
+        "remaining": "Native book view, W03 comparison and author/art acceptance."
       }
     },
     {
@@ -133305,6 +133327,11 @@
         "result": "Exact saved common_three_relations_seen/source now projects one earned three-study SVG into existing knowledge entry. Selected acquired P-COMMON album spread shows responsive preview/short caption and keyboard reader button; existing reader supplies fit/zoom/pan/description/return focus. Missing source/resource, other/none/changed session/loading clear/hide and close owned study reader, ordinary same-session refresh preserves reader. Fresh successful C03 callback alone shows one journal-binding remark when current visible/unblocked/session-owned; skips without pending retry. No new state/fact/mask/tab/reader or auto-open/camera/input lock/reward.",
         "compile_log": "evidence/PW-061/common-relations-book-source-20261020/affected-game-build.log",
         "preview_sha256": "58b3d1645276f488f04b1aefc89b7bf2833d25a3a3ea9b0d27c42f52761e26a3"
+      },
+      "entry_gate_source_finding_2026_10_26": {
+        "finding": "W04 entry checks quest active, but initial runtime quest status is active even before the meeting with Alsu; this can bypass the intended story gate.",
+        "next": "Design a narrow entry condition based on actual committed/returned W04 visit evidence, preserving legitimate revisits and existing saves; prepared visits and initial quest active are not evidence. Review before changing save conditions.",
+        "status": "open; source analysis only"
       }
     },
     {
@@ -146614,10 +146641,12 @@
         "dedicated_agent": "/root/sol_meshy_asset_pipeline",
         "pipeline": "Actual existing runtime asset as example → built-in image_gen reference → existing MeshyAPI CLI → source candidate/LOD/PBR/provenance → root runtime integration/native acceptance. No browser or Meshy image generation.",
         "family_order": [
-          "Conifer whole family near/mid/far",
-          "Neighboring houses and outbuildings, preserve successful hero house and log construction",
-          "Fences/gates with existing boundaries/openings",
-          "Remaining existing visual asset inventory"
+          "Large residential house families VariantA/B/C: correct existing source holds and preserve accepted hero house and credible log construction",
+          "Complete home interior: stove, furniture, walls and curtains as one scene",
+          "Repeated outbuildings VariantB/C/A, preserving existing geometry, openings and collisions",
+          "Fences and gates with intact passage boundaries",
+          "Major interactive objects: book, photographs, furniture and tools",
+          "Remaining vegetation, ground, snow, public interiors and visual inventory; reuse suitable generated families"
         ],
         "budget": {
           "author_cap": 4000,
@@ -147244,6 +147273,14 @@
         "cause": "ApproachRoad far group selected by lateral road distance22m, not camera distance. Generated far LOD2 has4tris versus old1323, shadows defaultOn; blind swap risks close cross cards/shadows. Near5999 versus3309tris. LegacyDeepForest outside current canonical Niva scope.",
         "next_action": "Later reuse already-paid family only with proper distance/shadow policy and a necessary whole-scene question; campaign clarity comes first. No new generation/API spend.",
         "meshy_cost": 0
+      },
+      "village_retexture_2026_10_26": {
+        "state": "candidate_source_review_pending_scene",
+        "task_id": "01a179a0-681b-7511-ba53-59866f70651c",
+        "cost_credits": 10,
+        "input": "assets/source/blender/act1/neighbor_outbuilding_b_pbr_v1/input-material-reference-v1.png",
+        "result": "VariantB repeated outbuilding retextured; source geometry and UV retained; generated maps require runtime integration and visual evaluation in village. Existing authored parcel count 17, not a visibility count.",
+        "remaining": "Existing source has an open rear gable and the candidate canopy is brown. Resolve the gable and integrate using existing material graft while retaining windows, snow, placement and collision; scene/style/performance and author acceptance remain pending."
       }
     },
     {
@@ -165610,14 +165647,14 @@
     "credits": {
       "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 550,
-      "authorized_budget_remaining": 3450,
+      "agent_spent_after_purchase": 560,
+      "authorized_budget_remaining": 3440,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4100,
-      "balance_note": "550/4000 actual spent,3450remaining,reserve0. W01 bluecoat chain40actual(30+5+5), all3SUCCEEDED; root reviewed final twoLOD candidate. Archived/deferred, no runtime/art acceptance. No further paid operations; latestAPIbalance3770 is historical, not a fresh balance check.",
-      "latest_api_balance_observed": 3770,
+      "balance_note": "560/4000 consumed; 3440 remain; reserve 0. API balance 3730 before and 3720 after the single 10-credit retexture; task 01a179a0-681b-7511-ba53-59866f70651c SUCCEEDED. Generated candidate awaits runtime integration and scene acceptance.",
+      "latest_api_balance_observed": 3720,
       "reserved_for_current_work": 0,
-      "unreserved_author_budget": 3450
+      "unreserved_author_budget": 3440
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
     "operations": [
@@ -165833,6 +165870,14 @@
         "api_task_id": "01a1778c-4d77-72d4-b5c8-e64ae8f5d871",
         "cost_credits": 5,
         "result": "SUCCEEDED, serverconsumed_credits5; onePOST, output source review before runtime, no more paid operations."
+      },
+      {
+        "task_id": "PW-093",
+        "api_task_id": "01a179a0-681b-7511-ba53-59866f70651c",
+        "operation": "One Meshy retexture of existing VillageParcel VariantB outbuilding, preserving source geometry and UV",
+        "cost_credits": 10,
+        "result": "SUCCEEDED, API balance 3730→3720. Generated maps-only candidate retains original 18 meshes/444 triangles and UV; scene/style and performance acceptance pending.",
+        "source": "assets/source/blender/act1/neighbor_outbuilding_b_pbr_v1/"
       }
     ],
     "next_large_static_candidate": {
@@ -165857,6 +165902,16 @@
       "cost_boundary": "Total authorizedcap4000 includingweb/API; actualspent305, remaining3695 as2026-10-19. Limitedkey2999/month unchanged; no newpurchase. Exactcurrentfamilyledger tasks[PW-093].author_asset_replacement_2026_10_19.budget.",
       "authority": "Owner explicit action-time reply authorized creating and connecting API key.",
       "client": "eng/meshy_assets.py: sanitizedbalance/list/status; pricedimage/retexture/remesh/rig POST; SUCCEEDED-onlyGLB/rigFBXdownload. RealAPIrig and bothdownloads exercised; rig24/no-finger limitation documented. No Meshyimagegeneration."
+    },
+    "current_operation_2026_10_26": {
+      "task_id": "01a179a0-681b-7511-ba53-59866f70651c",
+      "kind": "retexture",
+      "cost_charged": 10,
+      "state": "IN_PROGRESS",
+      "target": "VillageParcel_VariantB_PlasterAnnex_Outbuilding",
+      "source_reference": "assets/source/blender/act1/neighbor_outbuilding_b_pbr_v1/input-material-reference-v1.png",
+      "receipts": "assets/source/blender/act1/neighbor_outbuilding_b_pbr_v1/",
+      "remaining": "Ожидать результат того же task ID, без повторного POST; проверить UV/материалы/права и сцену до принятия/интеграции."
     }
   },
   "artifact_cleanup_2026_10_20": {

@@ -379,7 +379,7 @@ internal partial class ArrivalPersonalProps : Node3D
         };
         envelope.SetMeta("geometryOwner", nameof(ArrivalPersonalProps));
         envelope.SetMeta("presentationRole", "family envelope with the authored P-HOUSE back print");
-        envelope.SetMeta("assetStatus", "project-original envelope; P-HOUSE front remains specified, not produced");
+        envelope.SetMeta("assetStatus", "project-original envelope; P-HOUSE generated front candidate is available in the book; world print remains back-up");
         things.AddChild(envelope);
 
         var envelopePaper = paper.Duplicate() as ShaderMaterial ?? throw new InvalidOperationException(
@@ -432,7 +432,7 @@ internal partial class ArrivalPersonalProps : Node3D
         };
         back.SetMeta("visualOnly", true);
         back.SetMeta("assetSource", backPath);
-        back.SetMeta("assetStatus", "authored back face only; P-HOUSE front remains specified, not produced");
+        back.SetMeta("assetStatus", "authored back-up print; generated P-HOUSE book front awaits W03 correspondence and author acceptance");
         print.AddChild(back);
 
         var entryTargetPosition = things.Transform * envelope.Transform

@@ -1,0 +1,15 @@
+{
+  "available_formats": [
+    "glb"
+  ],
+  "consumed_credits": 10,
+  "created_at": 1793041920033,
+  "expires_at": 1793301160819,
+  "finished_at": 1793041960819,
+  "id": "01a179a0-681b-7511-ba53-59866f70651c",
+  "progress": 100,
+  "started_at": 1793041920044,
+  "status": "SUCCEEDED",
+  "texture_set_count": 1,
+  "type": "retexture"
+}

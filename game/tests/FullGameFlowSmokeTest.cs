@@ -377,6 +377,8 @@ public partial class FullGameFlowSmokeTest : Node
         await InteractAsync(bridge, "pw-photographer-photo-source");
         await InteractAsync(bridge, "pw-photographer-photo-permission");
         await ExpectBlockedAsync(bridge, "pw-verify-photographer-evidence");
+        Require(await bridge.ReadPhotoBookBackAsync("S-PHOTOGRAPHER"),
+            "The photographer's signed photo back could not be read.");
         await DialogueAsync(bridge, "pw-gulsina-author-talk", "pw-gulsina-author", "author", "record-authorship");
         await InteractAsync(bridge, "pw-verify-photographer-evidence");
         Require(EvidenceConfirmed(bridge.SelectRuntimeState(), "E-PHOTOGRAPHER-OUTSIDE"),

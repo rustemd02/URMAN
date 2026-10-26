@@ -111,6 +111,17 @@ public partial class JournalUi
             return PhotoBookWaterMission(bridge, requireFirstWorldHomeTalk: forestQuestStatus == "completed");
         if (selectedForestPhotoCanResume || (!selectedForestPhotoIsIncomplete && forestObjectiveIsActive))
             return ForestEntryMission(bridge, forestPhoto?.HasResumePoint == true);
+        // The courtyard visit ends with a question about its photographer.
+        // Complete that question while it is fresh, unless the player has
+        // already begun checking the river or its outside evidence.
+        var bankEvidenceStarted = bridge.PhotoWorldFactObserved("bank_copy_found")
+            || bridge.PhotoWorldFactObserved("winter_piles_inspected")
+            || photos.Any(photo => photo.PhotoId == "S-BANK");
+        if (!selectedForestPhotoIsIncomplete && houseQuestStatus == "completed"
+            && !MissionEvidenceConfirmed(state, "E-PHOTOGRAPHER-OUTSIDE")
+            && (waterQuestStatus == "completed" || (!waterObjectiveIsActive && !waterRouteHasProgress))
+            && (!bankEvidenceStarted || MissionEvidenceConfirmed(state, "E-BANK-OUTSIDE")))
+            return PhotographerEvidenceMission(bridge);
         if (!selectedForestPhotoIsIncomplete && houseQuestStatus == "completed"
             && forestQuestStatus == "completed" && waterQuestStatus == "completed")
             return LaterCampaignMission(bridge);
@@ -249,19 +260,7 @@ public partial class JournalUi
         if (!MissionEvidenceConfirmed(state, "E-BANK-OUTSIDE"))
             return BankEvidenceMission(bridge);
         if (!MissionEvidenceConfirmed(state, "E-PHOTOGRAPHER-OUTSIDE"))
-        {
-            var photographer = photos.FirstOrDefault(photo => photo.PhotoId == "S-PHOTOGRAPHER");
-            if (!bridge.PhotoWorldFactObserved("photographer_copy_found"))
-                return HomeMission(bridge, "photographer-source", "Кто снимал двор", "Найдите снимок с подписью фотографа в семейном альбоме.", "pw-photographer-photo-source", "Семейный альбом");
-            if (photographer is null)
-                return HomeMission(bridge, "photographer-permission", "Копия из альбома", "Попросите у Гөлсинә копию снимка с подписью фотографа.", "pw-photographer-photo-permission", "Гөлсинә");
-            if (!photographer.BackRead)
-                return photographer.CanReadBack
-                    ? new("photographer-back", "Подпись фотографа", "Прочитайте оборот снимка.", BookPhotoId: photographer.PhotoId, BookAction: PlayerBookAction.ReadBack) : null;
-            if (!bridge.PhotoWorldFactObserved("golsina_author_conversation"))
-                return HomeMission(bridge, "photographer-talk", "Кто стоял за камерой", "Спросите Гөлсинә, кто снимал семейный двор.", "pw-gulsina-author-talk", "Гөлсинә");
-            return HomeMission(bridge, "photographer-verify", "Сверить рассказ и снимок", "Сверьте рассказ Гөлсинә с подписью фотографа на снимке.", "pw-verify-photographer-evidence", "Семейный альбом");
-        }
+            return PhotographerEvidenceMission(bridge);
         if (!photos.Any(photo => photo.PhotoId == "S-PRINT"))
         {
             if (!bridge.PhotoWorldFactObserved("contact_sheet_found"))
@@ -288,6 +287,21 @@ public partial class JournalUi
             return StreetMission(bridge, "common-alsu", "Встреча с Алсу", "Поговорите с Алсу перед входом в общий снимок.", "pw-alsu-before-w04-talk", "Алсу");
         return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-common")
             ? EntryMission(bridge, "common-enter", "Общий снимок", common, "pw-enter-common", "месту общего снимка у берега") : null;
+    }
+
+    private static PlayerMission? PhotographerEvidenceMission(RuntimeBridge bridge)
+    {
+        var photographer = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "S-PHOTOGRAPHER");
+        if (!bridge.PhotoWorldFactObserved("photographer_copy_found"))
+            return HomeMission(bridge, "photographer-source", "Кто снимал двор", "Найдите снимок с подписью фотографа в семейном альбоме.", "pw-photographer-photo-source", "Семейный альбом");
+        if (photographer is null)
+            return HomeMission(bridge, "photographer-permission", "Копия из альбома", "Попросите у Гөлсинә копию снимка с подписью фотографа.", "pw-photographer-photo-permission", "Гөлсинә");
+        if (!photographer.BackRead)
+            return photographer.CanReadBack
+                ? new("photographer-back", "Подпись фотографа", "Прочитайте оборот снимка.", BookPhotoId: photographer.PhotoId, BookAction: PlayerBookAction.ReadBack) : null;
+        if (!bridge.PhotoWorldFactObserved("golsina_author_conversation"))
+            return HomeMission(bridge, "photographer-talk", "Кто стоял за камерой", "Спросите Гөлсинә, кто снимал семейный двор.", "pw-gulsina-author-talk", "Гөлсинә");
+        return HomeMission(bridge, "photographer-verify", "Сверить рассказ и снимок", "Сверьте рассказ Гөлсинә с подписью фотографа на снимке.", "pw-verify-photographer-evidence", "Семейный альбом");
     }
 
     private static PlayerMission? BankEvidenceMission(RuntimeBridge bridge)

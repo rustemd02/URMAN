@@ -22599,10 +22599,6 @@
                 "photoId": "S-PHOTOGRAPHER",
                 "sourceId": "urman.fullgame:interaction/pw-photographer-photo-source",
                 "permissionId": "urman.fullgame:interaction/pw-photographer-photo-permission"
-              },
-              {
-                "op": "photoworlds.photo.back-read",
-                "photoId": "S-PHOTOGRAPHER"
               }
             ]
           },
@@ -33444,7 +33440,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "3e61f71ac3e65e8ecbd0f7370e0dd9e71fc612ccd8f89982c8c08ed8dae578c0"
+      "sha256": "3f112067a24a162461337f61bc2433f807416dc666565c941bcdb78d8d0287e0"
     },
     {
       "moduleId": "urman.oldpc",
@@ -33452,5 +33448,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "15ca5c10b2c8104f938cfefb3ea09281257b99ad8311d5b3646ae3208b66278a"
+  "campaignFingerprint": "bf01a8888a23b642a9c83f07ae0aa96c424b015f213c867b0288fae80c90d554"
 }

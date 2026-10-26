@@ -33,6 +33,7 @@ internal partial class WaterChainHomePresence : Node3D
     internal Node3D? FamilyBoxLid;
     internal Node3D? HandPhotoCard;
     internal Node3D? CellarPhotoCard;
+    internal Node3D? PhotographerPhotoCard;
     internal float PrintInLocalZ = .024f;
     internal float PrintOutLocalZ = .085f;
     internal float CellarPhotoInLocalZ = .055f;
@@ -107,7 +108,10 @@ internal partial class WaterChainHomePresence : Node3D
         const string photographerVerifyId = "urman.fullgame:interaction/pw-verify-photographer-evidence";
         var homeActive = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home";
         var photographerFound = bridge.PhotoWorldFactObserved("photographer_copy_found");
-        var photographerAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-PHOTOGRAPHER");
+        var photographerPhoto = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "S-PHOTOGRAPHER");
+        var photographerAcquired = photographerPhoto is not null;
+        var photographerCaptionRead = photographerPhoto is { BackRead: true };
+        var photographerAuthorConversation = bridge.PhotoWorldFactObserved("golsina_author_conversation");
         var photographerVerified = bridge.SessionIdentity is { } photographerSession
             && PhotoWorldState.EvaluateCondition(JsonSerializer.SerializeToElement(new
             {
@@ -117,6 +121,9 @@ internal partial class WaterChainHomePresence : Node3D
             && bridge.IsInteractionAvailable(photographerSourceId);
         var photographerVerifyLive = homeActive && !photographerVerified
             && bridge.IsInteractionAvailable(photographerVerifyId);
+        const string photographerAuthorInteractionId = "urman.fullgame:interaction/pw-gulsina-author-talk";
+        var photographerAuthorAvailable = !photographerAuthorConversation
+            && bridge.IsInteractionAvailable(photographerAuthorInteractionId);
 
         // Both completed first-world results reuse the first return's authored
         // talk target; JournalUi owns the shared saved-state predicates.
@@ -127,8 +134,18 @@ internal partial class WaterChainHomePresence : Node3D
             && bridge.IsInteractionAvailable(HomeReturnTarget.InteractionId);
         var housePermissionLive = bookReceived && firstHomeTalk && !homeReturnLive && housePrintFound && !houseAcquired
             && bridge.IsInteractionAvailable(HousePhotoPermissionTarget.InteractionId);
-        var talkLive = bookReceived && !told && !homeReturnLive && !housePermissionLive;
+        var filePermissionLive = fileFound && !commonAcquired && !homeReturnLive && !housePermissionLive;
         var permissionLive = bookReceived && told && found && !acquired && !homeReturnLive && !housePermissionLive;
+        var photographerWorldComplete = bridge.SessionIdentity is { } photographerWorldSession
+            && PhotoWorldState.IsWorldCompleted(photographerWorldSession.SelectState(), "W03");
+        var photographerPermissionAvailable = photographerFound && !photographerAcquired
+            && bridge.IsInteractionAvailable(photographerPermissionId);
+        var photographerCanTakeHomeTalk = homeActive && photographerWorldComplete && !photographerVerified
+            && !told && !found && water is null
+            && !homeReturnLive && !housePermissionLive && !permissionLive && !filePermissionLive
+            && (photographerPermissionAvailable || photographerAuthorAvailable);
+        var talkLive = bookReceived && !told && !homeReturnLive && !housePermissionLive
+            && !photographerCanTakeHomeTalk;
         var sourceLive = bookReceived && !found;
         // Unfinished visits begin at the real bank. Only the completed world
         // keeps its home convenience; acquisition and permission stay here.
@@ -137,7 +154,6 @@ internal partial class WaterChainHomePresence : Node3D
         var riverLive = told && mountedAndRead && waterCompleted;
         // The family file question only exists once the file was found on the
         // PC and the family copy is not saved yet.
-        var filePermissionLive = fileFound && !commonAcquired && !homeReturnLive && !housePermissionLive;
         var houseSourceLive = bookReceived && firstHomeTalk && !housePrintFound
             && bridge.IsInteractionAvailable(HousePhotoSourceTarget.InteractionId);
 
@@ -149,8 +165,7 @@ internal partial class WaterChainHomePresence : Node3D
             && photographerFound && !photographerAcquired
             && bridge.IsInteractionAvailable(photographerPermissionId);
         var photographerAuthorLive = homeActive && !otherHomeWindowLive
-            && !bridge.PhotoWorldFactObserved("golsina_author_conversation")
-            && bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-gulsina-author-talk");
+            && photographerAuthorAvailable;
         var photographerWindowLive = photographerSourceLive || photographerPermissionLive
             || photographerAuthorLive || photographerVerifyLive;
         var cellarHomeActive = homeActive && !photographerWindowLive;
@@ -221,7 +236,17 @@ internal partial class WaterChainHomePresence : Node3D
         var teaLive = !bookReceived || (!homeReturnLive && !talkLive
             && !permissionLive && !filePermissionLive && !housePermissionLive
             && !familyBoxPermissionLive && !cellarPhotoPermissionLive);
-        TeaTarget?.SetPresentationEnabled(photographerAuthorLive || (!photographerWindowLive && teaLive));
+        if (TeaTarget is { } teaTarget)
+        {
+            // The same physical NPC owns the tea greeting and the earned author conversation.
+            teaTarget.SetAuthoredBinding(
+                photographerAuthorLive ? photographerAuthorInteractionId : "urman.fullgame:interaction/pw-arrival-tea-talk",
+                photographerAuthorLive ? bridge.ResolveText("urman.fullgame:text/pw-label-gulsina-author-talk")
+                    : "Поприветствовать әби и остаться на чай",
+                photographerAuthorLive ? "urman.fullgame:dialogue/pw-gulsina-author"
+                    : "urman.fullgame:dialogue/pw-arrival-tea");
+            teaTarget.SetPresentationEnabled(photographerAuthorLive || (!photographerWindowLive && teaLive));
+        }
 
         if (HousePhotoEnvelope is { } houseEnvelope)
             houseEnvelope.Visible = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home"
@@ -285,6 +310,13 @@ internal partial class WaterChainHomePresence : Node3D
                 tween.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
                 tween.TweenProperty(cellarCard, "position:z", goal, .9f);
             }
+        }
+
+        if (PhotographerPhotoCard is { } photographerCard)
+        {
+            photographerCard.Visible = homeActive && photographerFound;
+            if (photographerCard.GetNodeOrNull<MeshInstance3D>("PhotoBack") is { } photographerBack)
+                photographerBack.Visible = photographerCaptionRead;
         }
 
         _appliedOnce = true;

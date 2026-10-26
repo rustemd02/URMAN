@@ -1,0 +1,167 @@
+{
+  "schema": "urman-neighbor-outbuilding-b-pbr-candidate/v1",
+  "status": "source_candidate_maps_attached",
+  "task_id": "01a179a0-681b-7511-ba53-59866f70651c",
+  "consumed_credits": 10,
+  "source_triangles": 444,
+  "returned_triangles": 444,
+  "uv_comparison": {
+    "missing": 0,
+    "extra": 0,
+    "exact": true
+  },
+  "source": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_outbuilding_b_pbr_v1/source-opaque-uv.glb",
+  "source_sha256": "8f0ef5140a434954d76a6754627eb96e8fab4d633b39b1590a353279d42268c6",
+  "returned_sha256": "87c504f742629bcd19c46c6b1ba156a5b615d505b3dba0222a39ee3abf805b36",
+  "runtime_integrated": false,
+  "material": {
+    "name": "URMAN_VariantB_Outbuilding_GeneratedPBR",
+    "principled_bsdf": true,
+    "image_bindings": {
+      "Base Color": [
+        {
+          "name": "Image_0",
+          "size": [
+            4096,
+            4096
+          ],
+          "colorspace": "sRGB",
+          "channels": 4
+        }
+      ],
+      "Metallic": [
+        {
+          "name": "Image_1",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "Non-Color",
+          "channels": 4
+        }
+      ],
+      "Roughness": [
+        {
+          "name": "Image_1",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "Non-Color",
+          "channels": 4
+        }
+      ],
+      "Normal": [
+        {
+          "name": "Image_2",
+          "size": [
+            4096,
+            4096
+          ],
+          "colorspace": "Non-Color",
+          "channels": 4
+        }
+      ]
+    },
+    "images": [
+      {
+        "name": "Image_0",
+        "size": [
+          4096,
+          4096
+        ],
+        "colorspace": "sRGB",
+        "channels": 4
+      },
+      {
+        "name": "Image_1",
+        "size": [
+          2048,
+          2048
+        ],
+        "colorspace": "Non-Color",
+        "channels": 4
+      },
+      {
+        "name": "Image_2",
+        "size": [
+          4096,
+          4096
+        ],
+        "colorspace": "Non-Color",
+        "channels": 4
+      }
+    ]
+  },
+  "candidate_geometry_comparison": {
+    "missing": 0,
+    "extra": 0,
+    "exact": true
+  },
+  "candidate_paired_uv_comparison": {
+    "missing": 0,
+    "extra": 0,
+    "exact": true
+  },
+  "candidate": "variant-b-outbuilding-generated-pbr-2k.glb",
+  "candidate_sha256": "441196e4669ccd489dd63a4acf304383e67475ffd6b0f63a5ec64d8322bbff23",
+  "candidate_bytes": 10993680,
+  "candidate_nodes": 18,
+  "candidate_triangles": 444,
+  "bounds_blender": [
+    [
+      -1.85,
+      -2.48,
+      0.02
+    ],
+    [
+      1.85,
+      1.64,
+      3.9450002
+    ]
+  ],
+  "source_semantic_nodes_preserved": true,
+  "remaining": "Root must inspect four actual candidate views and integrate only opaque VariantB_Outbuilding visual nodes at original local transforms; retain original separate glass, collision, root placement and snow. No game/native/motion/art acceptance claimed.",
+  "candidate_embedded_images": [
+    {
+      "name": "Image_2",
+      "size": [
+        2048,
+        2048
+      ],
+      "mode": "RGB",
+      "sha256": "b8c78d60efee843742e72d8424661f7f16bb99ed2a9ba26293f12c403ea7c205"
+    },
+    {
+      "name": "Image_0",
+      "size": [
+        2048,
+        2048
+      ],
+      "mode": "RGB",
+      "sha256": "5722993af389a821342433be36f43a12829d731afb19abd81d3168bc55b2cc4f"
+    },
+    {
+      "name": "Image_1",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGB",
+      "sha256": "324e6e91792f0540a6a7d09a3543e81e77af0c394ac1712b68d45f41c8f54055"
+    }
+  ],
+  "geometry_comparison_precision": {
+    "world_positions_decimal_places": 5,
+    "uv_decimal_places": 7,
+    "method": "Existing hero_house_pbr_v1 triangle_signatures helper; Counter equality of every world triangle and paired position/UV corner, no vertex-byte identity claim."
+  },
+  "source_review": {
+    "front": "candidate-front.png",
+    "threequarter": "candidate-front-right.png",
+    "side": "candidate-side.png",
+    "rear": "candidate-rear-left.png",
+    "observed": "Matched coherent wood grain, repaired panel, dull roof and stone base. Source silhouette unchanged. Canopy is brown/wood-like despite requested metal, chimneycap top is pale. No gameplay, native rendering, performance or author art approval.",
+    "additional_inherited_geometry_limit": "Rear three-quarter view reveals an open/dark rear gable strip below the roof. Candidate geometry matches source at declared precision, so this was inherited from the existing kit; material work does not close it. Root must assess/fix the finite source gap before claiming complete whole-family art acceptance."
+  }
+}

@@ -2390,10 +2390,6 @@
             "photoId": "S-PHOTOGRAPHER",
             "sourceId": "urman.fullgame:interaction/pw-photographer-photo-source",
             "permissionId": "urman.fullgame:interaction/pw-photographer-photo-permission"
-          },
-          {
-            "op": "photoworlds.photo.back-read",
-            "photoId": "S-PHOTOGRAPHER"
           }
         ]
       },

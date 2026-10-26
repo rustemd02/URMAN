@@ -6,6 +6,10 @@ namespace Urman.Godot;
 
 internal partial class ArrivalPersonalProps
 {
+    private const float CellarPhotoStockThickness = .0014f;
+    private const float CellarPhotoBackOffset = .0012f;
+    private const float CellarPhotoStackGap = .001f;
+
     private static void BuildCellarPhotoChain(StyleBenchmarkZone house, ArrivalPersonalProps things,
         Material paper, WaterChainHomePresence presence)
     {
@@ -86,16 +90,25 @@ internal partial class ArrivalPersonalProps
         RuralPropGeometry.Block(lidPivot, "BoxLid", new(boxWidth, boxLidThickness, boxDepth),
             new(0f, boxLidThickness * .5f, boxDepth * .5f - .004f), wood, .002f);
 
+        var photographerCardY = boxBottomThickness + .001f;
+        var handCardY = photographerCardY + CellarPhotoStockThickness + CellarPhotoBackOffset + CellarPhotoStackGap;
+        var cellarCardY = handCardY + CellarPhotoStockThickness + CellarPhotoBackOffset + CellarPhotoStackGap;
         var handCard = BuildCellarBackCard(box, "HandPhotoCard",
-            new(0f, boxBottomThickness + .001f, -.054f),
+            new(0f, handCardY, -.054f),
             "res://assets/textures/photobook/backs-v1/s-hand-back.svg",
             "S-HAND", paper, "authored back face; front art is not produced");
         handCard.Visible = false;
         var cellarCard = BuildCellarBackCard(box, "CellarPhotoCard",
-            new(0f, boxBottomThickness + .001f, .055f),
+            new(0f, cellarCardY, .055f),
             "res://assets/textures/photobook/backs-v1/p-cellar-back.svg",
             "P-CELLAR", paper, "authored back face; front art is not produced");
         cellarCard.Visible = false;
+        var photographerCard = BuildCellarBackCard(box, "PhotographerPhotoCard",
+            new(0f, photographerCardY, -.010f),
+            "res://assets/textures/photobook/backs-v1/s-photographer-back.svg",
+            "S-PHOTOGRAPHER", paper, "authored back face; front art is not produced");
+        photographerCard.Visible = false;
+        photographerCard.GetNode<MeshInstance3D>("PhotoBack").Visible = false;
 
         var familySource = house.MakeInteractionBox("FamilyBoxSourceTarget", new(.27f, .20f, .29f),
             box.Position + new Vector3(0f, .060f, 0f), "765842",
@@ -123,6 +136,7 @@ internal partial class ArrivalPersonalProps
         presence.FamilyBoxLid = lidPivot;
         presence.HandPhotoCard = handCard;
         presence.CellarPhotoCard = cellarCard;
+        presence.PhotographerPhotoCard = photographerCard;
     }
 
     private static Node3D BuildCellarBackCard(Node3D parent, string name, Vector3 position,
@@ -136,12 +150,12 @@ internal partial class ArrivalPersonalProps
         card.SetMeta("photoId", photoId);
         parent.AddChild(card);
         var stock = RuralPropGeometry.Part(card, "PhotoStock",
-            RuralPropGeometry.BevelBox(new(.150f, .0014f, .100f), .0004f), Vector3.Zero, paper);
+            RuralPropGeometry.BevelBox(new(.150f, CellarPhotoStockThickness, .100f), .0004f), Vector3.Zero, paper);
         stock.SetMeta("visualOnly", true);
         var back = new MeshInstance3D
         {
             Name = "PhotoBack",
-            Position = Vector3.Up * .0012f,
+            Position = Vector3.Up * CellarPhotoBackOffset,
             RotationDegrees = new(-90f, 0f, 180f),
             Mesh = new QuadMesh { Size = new(.150f, .100f) },
             MaterialOverride = new StandardMaterial3D
