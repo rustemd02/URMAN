@@ -124874,32 +124874,34 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска.",
           "current_attempt": {
-            "job_id": "07e7e88bb57e4353aada6c2639b798e4",
-            "snapshot": "bb72024f5bc4ecbb6bbebaa77f6efaa25b78a3bbfdc1bc6f0d33a4fa1587fdd2",
-            "source_commit": "0dd81117",
-            "phase": "terminal_timeout_partial_acceptance",
-            "input_owner": "Codex root directly; no delegated inputs",
-            "question": "Whole ordinary firstepisode: schoolcopy acquisition/new feedback→W01 physical observation and bag→return→home family record→Save/menuContinue; current source story/feedback and bookfooter/markers together.",
-            "bound": "One frozen ordinary protected product session. No repeatMount/ReadBack/homecompare, seeds/debug/profilecopy. Source-based navigation with actual current viewport/metadata; capture only after ready transitions/milestones. Capture504 means poll same request, never duplicate input/restart. Two failed approaches without new cause→normalQuit; reserve≥10min before3600s limit.",
+            "job_id": "89ddd2055d624dd78f3e3ee53dc053e9",
+            "snapshot": "fc9d982d5c0551bf3dcbb54a867b2305ca9b0c0bbebcb45deb968391d3c3a0a3",
+            "source_commit": "7ea0490c",
+            "phase": "terminal_control_failure_no_episode_acceptance",
+            "input_owner": "whole_episode_driver sole native input/capture owner; root read-only results",
+            "question": "Complete earned W01 F11/real passage/sequential backside inspection/Shurale/bag→home family caption; Save/menuContinue only with exit reserve. Prior accepted prologue not retested.",
+            "bound": "Onefrozenplay3600; freshSol6.1High shortcontextcontroller usingacceptedordinaryprefix in sequentialbatches; no everyturncapture or repeatedcontextread. Quit starts no later14:17UTC26Oct (conservative30minfromsubmission); twofailedapproacheswithoutnewcause→normalQuit. No debug/seed/teleport/profilecopy/probes/VPN. Capture504pollsameownedrequest.",
+            "not_accepted": "No new acceptance until actual frames/reducer results/guard receipt.",
             "status": "FAIL",
             "game_exit_code": 124,
+            "started": 1793021113.5253797,
+            "finished": 1793024949.4657643,
             "userdata_restored": true,
             "userdata_recovery_pending": false,
             "snapshot_hashes_verified": true,
             "engine_errors_bytes": 0,
-            "archive": "evidence/PW-046/ordinary_07e7e88bb57e4353aada6c2639b798e4.zip",
-            "archive_sha256": "71c042f140a71aa2d1c33dd4d675a78d7cc2813d933d22ac486f02134acdd992",
-            "receipt": "evidence/PW-046/ordinary_07e7e88bb57e4353aada6c2639b798e4/receipt.json",
+            "archive": "evidence/PW-046/ordinary_89ddd2055d624dd78f3e3ee53dc053e9.zip",
+            "archive_sha256": "325e938362fd247ca1876a17cb6fc137aa4cc1c51ff47ff26979bb144744df9c",
+            "receipt": "evidence/PW-046/ordinary_89ddd2055d624dd78f3e3ee53dc053e9/receipt.json",
             "observed": [
-              "Ordinary home gate/porch route traversed both ways; school reached and album explicitly inspected.",
-              "Book footer visible at1280x720. D04 completed: S-SCHOOL acquired overlay visible after dialogue; HUD advances to forest entry."
+              "Only main menu and ordinary NewGame forest opening captured; no meaningful new episode acceptance.",
+              "Inputs accepted: NewGame Enter, authorized forest skip Enter, later Escape. No confirmed Quit."
             ],
+            "execution_failure": "Root submitted before a ready controller and incorrectly inferred submission UTC. First Sol controller hit capacity, Luna took over when native was already24.2min old. After STOP13:54, exit-needed capture remained unresolved; root failed to ensure exit before timeout. Actual server/process timestamps authoritative; no game defect or clock-skew inferred.",
+            "cleanup": "ZIP SHA/CRC and extracted member bytes verified. Removed5,441,794duplicate bytes including2matching temporary PNGs. Native terminal, doctor idle/ready/no orphan/no recovery. Agent pending cell25 not found after termination check.",
             "not_verified": [
-              "W01 entry/action/return and family ending not reached.",
-              "Save/menu/Continue not accepted; timeout interrupted the pause sequence."
-            ],
-            "process_failure": "Root missed its own >=10min exit reserve; timeout is failed acceptance organization, not evidence of game softlock.",
-            "cleanup": "ZIP SHA/CRC and extracted bytes verified; removed45,495,520 duplicate bytes including30 matching own temporary PNGs. No active process data or user files removed."
+              "Full W01 physical action/return/home, latest changed UI/story, Save/Continue."
+            ]
           },
           "previous_attempts": [
             {
@@ -124910,6 +124912,34 @@
               "archive_sha256": "2a59f8a8d6e4a27c0bcbd366def5e9432ac296a90ca33ab3db2174ffe28e3358",
               "receipt": "evidence/PW-046/ordinary_247cf73939d64337a5aa2d162ea16a73/receipt.json",
               "observed": "Ordinary menu→NewGame→authorized forest skip→Niva opening→home street→normalPauseQuit. No schoolcopy/F10/W01. Root viewed current prologue and home-street HUD/marker; M map shortcut visible, map not opened. Niva frame is initial dark fade only, no ride-art/brightness/smoothness acceptance."
+            },
+            {
+              "job_id": "07e7e88bb57e4353aada6c2639b798e4",
+              "snapshot": "bb72024f5bc4ecbb6bbebaa77f6efaa25b78a3bbfdc1bc6f0d33a4fa1587fdd2",
+              "source_commit": "0dd81117",
+              "phase": "terminal_timeout_partial_acceptance",
+              "input_owner": "Codex root directly; no delegated inputs",
+              "question": "Whole ordinary firstepisode: schoolcopy acquisition/new feedback→W01 physical observation and bag→return→home family record→Save/menuContinue; current source story/feedback and bookfooter/markers together.",
+              "bound": "One frozen ordinary protected product session. No repeatMount/ReadBack/homecompare, seeds/debug/profilecopy. Source-based navigation with actual current viewport/metadata; capture only after ready transitions/milestones. Capture504 means poll same request, never duplicate input/restart. Two failed approaches without new cause→normalQuit; reserve≥10min before3600s limit.",
+              "status": "FAIL",
+              "game_exit_code": 124,
+              "userdata_restored": true,
+              "userdata_recovery_pending": false,
+              "snapshot_hashes_verified": true,
+              "engine_errors_bytes": 0,
+              "archive": "evidence/PW-046/ordinary_07e7e88bb57e4353aada6c2639b798e4.zip",
+              "archive_sha256": "71c042f140a71aa2d1c33dd4d675a78d7cc2813d933d22ac486f02134acdd992",
+              "receipt": "evidence/PW-046/ordinary_07e7e88bb57e4353aada6c2639b798e4/receipt.json",
+              "observed": [
+                "Ordinary home gate/porch route traversed both ways; school reached and album explicitly inspected.",
+                "Book footer visible at1280x720. D04 completed: S-SCHOOL acquired overlay visible after dialogue; HUD advances to forest entry."
+              ],
+              "not_verified": [
+                "W01 entry/action/return and family ending not reached.",
+                "Save/menu/Continue not accepted; timeout interrupted the pause sequence."
+              ],
+              "process_failure": "Root missed its own >=10min exit reserve; timeout is failed acceptance organization, not evidence of game softlock.",
+              "cleanup": "ZIP SHA/CRC and extracted bytes verified; removed45,495,520 duplicate bytes including30 matching own temporary PNGs. No active process data or user files removed."
             }
           ]
         },
@@ -124958,7 +124988,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Исправить очевидные проблемы читаемости текущей цели/книжного действия/маркера по source; новый игровой прогон не запускать без отдельного конкретного вопроса.",
+      "next_action": "Не запускать ещё один такой же NewGame/setup. Продолжать содержательную source работу кампании. Прежде любой следующей необходимой Windows-приёмки водитель должен быть готов ДО создания job и владеть submit→native→Quit одним потоком; фактический elapsed брать из worker/native timestamp, не оценки root. Зависший кадр не должен поглощать выходной резерв.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
