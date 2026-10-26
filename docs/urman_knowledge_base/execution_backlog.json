@@ -104793,6 +104793,20 @@
           ],
           "verification": "Existing prebuilt fullgame ContentCli exit0. Text-only structural comparison preserves IDs, registries, conditions, effects and dialogue node structure. Independent bounded Astra review. Final affected Game compile15.19s,0warnings,0errors; diff-check. Before final compile missing restore cache and incorrect GetScale API were corrected; no game/tests/probes after author STOP.",
           "remaining": "Story clarity/interest, cultural/language/listening/author acceptance remain open; no full campaign claim."
+        },
+        "forest_photo_comparison_2026_10_26": {
+          "state": "source_compile_verified_native_pending",
+          "result": "После получения школьной копии два полученных снимка P-FOREST и S-SCHOOL показываются рядом на выбранной странице книги с подписями; обозначен видимый общий ствол. До получения копии остаётся одиночный снимок. При первом поиске цель предлагает сравнить снимки и идти к трём стволам; при возобновлении не требует повторять сравнение. Гөлсинә больше не обещает обязательного домашнего сравнения, а сотрудница школы не утверждает, что почти одинаковые кадры сняты с разных сторон. Факты, переходы и условия не менялись.",
+          "evidence": [
+            "game/scripts/JournalUi.PhotoBook.cs",
+            "game/scripts/JournalUi.Missions.cs",
+            "content/modules/urman-fullgame/definitions.json",
+            "game/content/urman.fullgame.compiled.v1.json",
+            "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+          ],
+          "fingerprint": "378d33f0f990a6b48495a81b936e2d1f81738b8f29a80e321c1e54c972c0b869",
+          "verification": "Existing fullgame ContentCli exit0; compiled diff only two dialogue text entries and generated hashes. Affected Game compile17.62с 0warnings/0errors; afterwards four existing Label references added to existing book zoom list, inspected and diff-check. Astra source review: acquired/session/clear/single-photo/reader/save pairs examined; zoom omission corrected. No new game, Windows, tests or probes.",
+          "remaining": "Сами новые страницы на минимальном разрешении и удовольствие/понятность в игре не приняты; общий W01→дом/Continue и внешняя художественная/языковая/авторская приёмка остаются открыты."
         }
       }
     },
@@ -109527,6 +109541,18 @@
           ],
           "verification": "Affected Game compile17.75с:0warnings,0errors; source review Astra: все текущие миссии сопоставлены, redirects/ручное открытие/disabled gates сохранены; diff-check. Игры/тесты/probes не запускались.",
           "remaining": "Расположение, читаемость и удобство в Windows для нового интерфейса ещё не приняты."
+        },
+        "forest_photo_comparison_2026_10_26": {
+          "state": "source_compile_verified_native_pending",
+          "result": "Сравнение семейного и школьного снимка в существующей книге без нового сюжетного гейта; подробности в PW-003.",
+          "evidence": [
+            "game/scripts/JournalUi.PhotoBook.cs",
+            "game/scripts/JournalUi.Missions.cs",
+            "content/modules/urman-fullgame/definitions.json",
+            "game/content/urman.fullgame.compiled.v1.json",
+            "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+          ],
+          "remaining": "Сами новые страницы на минимальном разрешении и удовольствие/понятность в игре не приняты; общий W01→дом/Continue и внешняя художественная/языковая/авторская приёмка остаются открыты."
         }
       },
       "first_episode_continuity_2026_10_25": {
@@ -147731,7 +147757,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Сохранённый Windows-кандидат6542c528 имеет два подтверждённых native запуска, но не включает текущие319fd530/HUD/door-fit правки. Обновить пакет только для предметной приёмки/поставки изменённого результата; сейчас не повторять экспорт и NewGame/setup. Save/Continue/кампания/Mac/права/внешние гейты остаются открыты.",
+      "next_action": "Сохранённый Windows-кандидат6542c528 имеет два подтверждённых native запуска, но не включает текущие378d33f0/HUD/door-fit/photo-comparison правки. Обновить пакет только для предметной приёмки/поставки изменённого результата; не повторять экспорт и NewGame/setup ради отчёта. Save/Continue/кампания/Mac/права/внешние гейты остаются открыты.",
       "blocker": null,
       "external_gates": [
         {
@@ -148685,7 +148711,7 @@
           "archive": "evidence/PW-046/ordinary_cd14c45bce0941ecb720baab92927783.zip",
           "status": "PASS",
           "scope": "Two guarded native standalone lifetimes exit0/engineerrors0, userdataRestoredtrue, actual NewGame/street reached. Fullcampaign/Save/Continue/art/performance/humanplaytest NOT accepted.",
-          "current_source_delta": "Candidate remains last retained Windows package but predates current319fd530 text/HUD/door-fit changes; do not call it the current release."
+          "current_source_delta": "Candidate6542 predates source changes through 378d33f0 text, mission HUD/door fit and photo comparison; retain as historical test package, not current release."
         }
       }
     },

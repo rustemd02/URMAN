@@ -53,6 +53,13 @@ public partial class JournalUi
     private PanelContainer _photoBookFrontCard = null!;
     private Label _photoBookFrontHeading = null!;
     private TextureRect _photoBookFrontImage = null!;
+    private Label _photoBookComparisonHeading = null!;
+    private HBoxContainer _photoBookComparisonRow = null!;
+    private Label _photoBookSelectedPhotoLabel = null!;
+    private VBoxContainer _photoBookComparisonPhotoColumn = null!;
+    private Label _photoBookComparisonPhotoLabel = null!;
+    private TextureRect _photoBookComparisonImage = null!;
+    private Label _photoBookSharedLandmark = null!;
     private Label _photoBookFrontBrief = null!;
     private Label _photoBookFoldMarker = null!;
     private HSeparator _photoBookSeparator = null!;
@@ -272,7 +279,79 @@ public partial class JournalUi
             MouseFilter = Control.MouseFilterEnum.Ignore,
             Visible = false
         };
-        frontCardContent.AddChild(_photoBookFrontImage);
+        _photoBookComparisonHeading = new Label
+        {
+            Name = "PhotoComparisonHeading",
+            Text = "Сравните снимки",
+            ThemeTypeVariation = UrmanUiTheme.Heading,
+            Visible = false
+        };
+        frontCardContent.AddChild(_photoBookComparisonHeading);
+        _photoBookComparisonRow = new HBoxContainer
+        {
+            Name = "PhotoComparisonRow",
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            Visible = false
+        };
+        _photoBookComparisonRow.AddThemeConstantOverride("separation", 12);
+        frontCardContent.AddChild(_photoBookComparisonRow);
+        var selectedPhotoColumn = new VBoxContainer
+        {
+            Name = "SelectedPhotoColumn",
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
+        };
+        selectedPhotoColumn.AddThemeConstantOverride("separation", 4);
+        _photoBookComparisonRow.AddChild(selectedPhotoColumn);
+        _photoBookSelectedPhotoLabel = new Label
+        {
+            Name = "SelectedPhotoLabel",
+            ThemeTypeVariation = UrmanUiTheme.Tag,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
+        };
+        selectedPhotoColumn.AddChild(_photoBookSelectedPhotoLabel);
+        selectedPhotoColumn.AddChild(_photoBookFrontImage);
+        _photoBookComparisonPhotoColumn = new VBoxContainer
+        {
+            Name = "ComparisonPhotoColumn",
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            Visible = false
+        };
+        _photoBookComparisonPhotoColumn.AddThemeConstantOverride("separation", 4);
+        _photoBookComparisonRow.AddChild(_photoBookComparisonPhotoColumn);
+        _photoBookComparisonPhotoLabel = new Label
+        {
+            Name = "ComparisonPhotoLabel",
+            ThemeTypeVariation = UrmanUiTheme.Tag,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
+        };
+        _photoBookComparisonPhotoColumn.AddChild(_photoBookComparisonPhotoLabel);
+        _photoBookComparisonImage = new TextureRect
+        {
+            Name = "ComparisonPhotoImage",
+            CustomMinimumSize = new Vector2(0f, 230f),
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            SizeFlagsVertical = Control.SizeFlags.ShrinkBegin,
+            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Visible = false
+        };
+        _photoBookComparisonPhotoColumn.AddChild(_photoBookComparisonImage);
+        _photoBookSharedLandmark = new Label
+        {
+            Name = "SharedPhotoLandmark",
+            Text = "Общий ориентир: согнутый ствол справа виден на обоих снимках.",
+            ThemeTypeVariation = UrmanUiTheme.Tag,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            FocusMode = Control.FocusModeEnum.All,
+            Visible = false
+        };
+        frontCardContent.AddChild(_photoBookSharedLandmark);
         _photoBookFrontBrief = new Label { Name = "FrontDescription",
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
@@ -638,6 +717,7 @@ public partial class JournalUi
         {
             _photoBookFrontImage.Texture = frontImage;
             _photoBookFrontImage.Visible = true;
+            _photoBookComparisonRow.Visible = true;
         }
         _photoBookTitle.Text = photo.Title;
         var placement = photo.Mounted
@@ -659,6 +739,7 @@ public partial class JournalUi
         _photoBookFrontBrief.Text = string.IsNullOrWhiteSpace(photo.FrontBrief)
             ? "Описание снимка пока не добавлено."
             : photo.FrontBrief;
+        RefreshPhotoBookComparison(photo);
         _photoBookBackText.Text = !photo.BackRead
             ? "Оборот ещё не прочитан."
             : string.IsNullOrWhiteSpace(photo.BackTextRu)
@@ -687,6 +768,7 @@ public partial class JournalUi
 
     private void ClearPhotoBookImages()
     {
+        ClearPhotoBookComparison();
         if (GodotObject.IsInstanceValid(_photoBookForestDiscovery))
         {
             _photoBookForestDiscovery.Text = string.Empty;
@@ -716,6 +798,67 @@ public partial class JournalUi
             _photoBookBackImage.Texture = null;
             _photoBookBackImage.Visible = false;
         }
+    }
+
+    private void RefreshPhotoBookComparison(RuntimeBridge.PhotoBookPhoto selected)
+    {
+        if (_photoBookSession is null || _bridge is not { } bridge
+            || !ReferenceEquals(_photoBookSession, bridge.SessionIdentity)
+            || selected.PhotoId is not ("P-FOREST" or "S-SCHOOL"))
+        {
+            return;
+        }
+
+        var hasForestPhoto = _photoBookProjection.Any(photo => photo.PhotoId == "P-FOREST");
+        var hasSchoolPhoto = _photoBookProjection.Any(photo => photo.PhotoId == "S-SCHOOL");
+        if (!hasForestPhoto || !hasSchoolPhoto || _photoBookFrontImage.Texture is null)
+            return;
+
+        var comparisonPhotoId = selected.PhotoId == "P-FOREST" ? "S-SCHOOL" : "P-FOREST";
+        var comparisonImage = PhotoBookFrontTexture(comparisonPhotoId);
+        if (comparisonImage is null)
+            return;
+
+        _photoBookSelectedPhotoLabel.Text = selected.PhotoId == "P-FOREST"
+            ? "Семейный снимок"
+            : "Школьная копия";
+        _photoBookComparisonPhotoLabel.Text = comparisonPhotoId == "P-FOREST"
+            ? "Семейный снимок"
+            : "Школьная копия";
+        _photoBookComparisonPhotoLabel.Visible = true;
+        _photoBookComparisonImage.Texture = comparisonImage;
+        _photoBookComparisonImage.Visible = true;
+        _photoBookComparisonPhotoColumn.Visible = true;
+        _photoBookComparisonHeading.Visible = true;
+        _photoBookSelectedPhotoLabel.Visible = true;
+        _photoBookSharedLandmark.Visible = true;
+    }
+
+    private void ClearPhotoBookComparison()
+    {
+        if (GodotObject.IsInstanceValid(_photoBookComparisonHeading))
+            _photoBookComparisonHeading.Visible = false;
+        if (GodotObject.IsInstanceValid(_photoBookComparisonRow))
+            _photoBookComparisonRow.Visible = false;
+        if (GodotObject.IsInstanceValid(_photoBookSelectedPhotoLabel))
+        {
+            _photoBookSelectedPhotoLabel.Text = string.Empty;
+            _photoBookSelectedPhotoLabel.Visible = false;
+        }
+        if (GodotObject.IsInstanceValid(_photoBookComparisonPhotoColumn))
+            _photoBookComparisonPhotoColumn.Visible = false;
+        if (GodotObject.IsInstanceValid(_photoBookComparisonPhotoLabel))
+        {
+            _photoBookComparisonPhotoLabel.Text = string.Empty;
+            _photoBookComparisonPhotoLabel.Visible = false;
+        }
+        if (GodotObject.IsInstanceValid(_photoBookComparisonImage))
+        {
+            _photoBookComparisonImage.Texture = null;
+            _photoBookComparisonImage.Visible = false;
+        }
+        if (GodotObject.IsInstanceValid(_photoBookSharedLandmark))
+            _photoBookSharedLandmark.Visible = false;
     }
 
     private ResolvedJournalEntry? CurrentForestDiscovery()
@@ -809,6 +952,10 @@ public partial class JournalUi
             _photoBookTitle,
             _photoBookPlacement,
             _photoBookFrontHeading,
+            _photoBookComparisonHeading,
+            _photoBookSelectedPhotoLabel,
+            _photoBookComparisonPhotoLabel,
+            _photoBookSharedLandmark,
             _photoBookFrontBrief,
             _photoBookBackHeading,
             _photoBookBackText,
