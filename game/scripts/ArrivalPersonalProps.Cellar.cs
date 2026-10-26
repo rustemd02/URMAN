@@ -119,12 +119,12 @@ internal partial class ArrivalPersonalProps
             "urman.fullgame:interaction/pw-cellar-photo-source", "Найти снимок перед уборкой", rayOnly: true);
         cellarSource.SetPresentationEnabled(false);
 
-        var npcAnchor = StyleBenchmarkInteriorFactory.GulsinaAnchor + Vector3.Up * .84f;
-        var familyPermission = house.MakeInteractionBox("FamilyBoxPermissionTarget", new(.62f, 1.68f, .46f),
+        var npcAnchor = StyleBenchmarkInteriorFactory.GulsinaAnchor + Vector3.Up * .95f;
+        var familyPermission = house.MakeInteractionBox("FamilyBoxPermissionTarget", new(.62f, 1.90f, .46f),
             npcAnchor, "6f6257", "urman.fullgame:interaction/pw-family-box-permission",
             "Попросить разрешение сохранить семейный снимок", rayOnly: true);
         familyPermission.SetPresentationEnabled(false);
-        var cellarPermission = house.MakeInteractionBox("CellarPhotoPermissionTarget", new(.62f, 1.68f, .46f),
+        var cellarPermission = house.MakeInteractionBox("CellarPhotoPermissionTarget", new(.62f, 1.90f, .46f),
             npcAnchor, "6f6257", "urman.fullgame:interaction/pw-cellar-photo-permission",
             "Попросить разрешение на снимок перед уборкой", rayOnly: true);
         cellarPermission.SetPresentationEnabled(false);

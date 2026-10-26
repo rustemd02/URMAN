@@ -511,6 +511,12 @@ public partial class Act1DemoRoot
             ("urman.fullgame:interaction/pw-home-enter-house" or "urman.chapter1:interaction/arrival-enter-house"))
             return false;
 
+        // If the player can already aim at the actual door, do not send them
+        // back to an intermediate gate waypoint on the other side of the yard.
+        if (_player is { } player && player.FocusedInteractionId == mission.InteractionId
+            && _objectiveMarkerTarget is InteractionTarget doorTarget && doorTarget.IsAvailable())
+            return false;
+
         var route = HomeObjectiveRoute.Value;
         var position = new Vector2(playerPosition.X, playerPosition.Z);
         var door = _objectiveMarkerTarget!.GlobalPosition;
@@ -551,7 +557,8 @@ public partial class Act1DemoRoot
         if (position.DistanceSquaredTo(route[next]) <= .15f * .15f) next++;
         if (next >= route.Count || closestProgress >= route.Count - 1) return false;
         var point = route[next];
-        if (closestDistance > .5f * .5f)
+        var recovering = closestDistance > .5f * .5f;
+        if (recovering)
         {
             // Recover onto the authored approach before aiming at its next corner through a fence.
             point = closestPoint;
@@ -564,7 +571,8 @@ public partial class Act1DemoRoot
             }
         }
         waypoint = new Vector3(point.X, AgentBAct1HeightField.CollisionGround(point.X, point.Y) + .05f, point.Y);
-        label = next <= 2 ? "Калитка" : next <= 4 ? "Проход во дворе" : "Вход в дом";
+        label = recovering ? "Дорожка к дому" : next == 1 ? "Подход к дому"
+            : next == 2 ? "Калитка" : next <= 4 ? "Проход во дворе" : "Вход в дом";
         return true;
     }
 

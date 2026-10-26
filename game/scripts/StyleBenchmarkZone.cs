@@ -584,8 +584,8 @@ public partial class StyleBenchmarkZone : Node3D
             yawDegrees: 28f);
         MakeInteractionBox(
             "GulsinaNpc",
-            new(0.62f, 1.68f, 0.46f),
-            StyleBenchmarkInteriorFactory.GulsinaAnchor + Vector3.Up * .84f,
+            new(0.62f, 1.90f, 0.46f),
+            StyleBenchmarkInteriorFactory.GulsinaAnchor + Vector3.Up * .95f,
             "6f6257",
             photoWorlds
                 ? "urman.fullgame:interaction/pw-arrival-tea-talk"

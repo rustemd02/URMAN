@@ -111322,6 +111322,19 @@
         "native_before": "e244 actualbook-handoff frame in raw archive: ReadBack/Mount belowvisible720p. Root personally inspected, no extra capture solely for this.",
         "result": "Existing rightpane now expanding scroll +fixedfooter, same Enter/Cancel/ReadBack/Mount/InspectBack nodes and handlers in wrappingHFlow. Hints/returnconfirmation/status fixed. Three readers hide whole rightpane, close restores it before launchbuttonfocus; implicitclosefallback onlyifreaderwasopen. BookInspection remains in scroll.",
         "verification": "Root+Luna caller/lifecycle/visibility/source read, affectedGame17.51s0warnings0errors. No content rebuild needed; no tests/native for newfooter. Maxtextscale/longstatus/layout and recovery movement unverified."
+      },
+      "live_first_episode_aim_and_waypoint_2026_10_27": {
+        "source_commit": "339ff9cb",
+        "job_id": "b1dce201aaf74f5f85400b33b18fefa1",
+        "observed": "Ordinary New Game: branch moved, F03 exit, arrival and home entered. Gate route recovery was labelled Калитка at a road waypoint; actual door was accessible after aiming at its leaf. Tea prompt appeared only after lowering aim from head to torso: player camera height 1.70m, original interaction top 1.68m. Current game continues on frozen source; do not claim a whole-episode pass.",
+        "fix": "Recovery waypoint labelled Дорожка к дому / Подход к дому; focus on actually available door bypasses gate waypoint. Gulsina conversation targets height 1.90m, centre .95m; ground footprint, interaction conditions and action ownership retained.",
+        "evidence": [
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+          "game/scripts/StyleBenchmarkZone.cs",
+          "game/scripts/ArrivalPersonalProps.cs",
+          "game/scripts/ArrivalPersonalProps.Cellar.cs"
+        ],
+        "verification": "Independent source review; affected Game compile 17.92s 0 warnings/errors. Changes not in running frozen snapshot; native acceptance remains pending."
       }
     },
     {
