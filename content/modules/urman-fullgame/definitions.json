@@ -2202,14 +2202,8 @@
             "factId": "house_print_found"
           }
         ],
-        "effects": [
-          {
-            "op": "photoworlds.photo.acquire",
-            "photoId": "P-HOUSE",
-            "sourceId": "urman.fullgame:interaction/pw-house-photo-source",
-            "permissionId": "urman.fullgame:interaction/pw-house-photo-permission"
-          }
-        ]
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/pw-house-photo-permission"
       },
       {
         "id": "urman.fullgame:interaction/pw-mount-house-photo",
@@ -4690,6 +4684,99 @@
       }
     },
     "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-house-permission-offer",
+    "value": {
+      "default": "Узнал наш двор?",
+      "translations": {
+        "ru": "Узнал наш двор?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-house-permission-ask-copy",
+    "value": {
+      "default": "Да. Можно взять копию для книги?",
+      "translations": {
+        "ru": "Да. Можно взять копию для книги?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-house-permission-copy",
+    "value": {
+      "default": "Бери. Вклей в книгу и прочитай оборот.",
+      "translations": {
+        "ru": "Бери. Вклей в книгу и прочитай оборот."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-house-photo-permission",
+    "participantRoles": [
+      "aidar",
+      "gulsina"
+    ],
+    "startNodeId": "offer",
+    "nodes": [
+      {
+        "id": "offer",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-house-permission-offer",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "first_world_home_talk"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "house_print_found"
+          }
+        ],
+        "effects": [],
+        "choices": [
+          {
+            "id": "ask-copy",
+            "textId": "urman.fullgame:text/pw-choice-house-permission-ask-copy",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "copy"
+          }
+        ]
+      },
+      {
+        "id": "copy",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-house-permission-copy",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "first_world_home_talk"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "house_print_found"
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.photo.acquire",
+            "photoId": "P-HOUSE",
+            "sourceId": "urman.fullgame:interaction/pw-house-photo-source",
+            "permissionId": "urman.fullgame:interaction/pw-house-photo-permission"
+          }
+        ],
+        "choices": []
+      }
+    ]
   },
   {
     "schemaVersion": 1,

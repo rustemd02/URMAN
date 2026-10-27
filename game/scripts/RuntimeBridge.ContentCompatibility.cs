@@ -61,6 +61,8 @@ public partial class RuntimeBridge
         "2f926961623352380d14ea65967d819d3654678b193dbf071759b2dcee978e48";
     private const string FullGameAlsuMountedPhotoGateFingerprint =
         "e43f1b40b2789894b5ce349d10ebd8e50643e26f7584a53d812d355cc92f3dba";
+    private const string FullGameHousePhotoDialogueFingerprint =
+        "cdbeb28dd3f267a7b2e43248b7e040f46deb98dd40ff2d0609744ee6e3b84be3";
 
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
@@ -208,7 +210,25 @@ public partial class RuntimeBridge
         new(FullGameWaterHomeAccountFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
         new(FullGameShuraleReplyTextFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
         new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
-            FullGameAlsuMountedPhotoGateFingerprint)
+            FullGameAlsuMountedPhotoGateFingerprint),
+        // Existing acquired photos and story state remain valid after adding the permission dialogue.
+        new(FullGameAlsuMountedPhotoGateFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameRiverExitHintFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameHousePhotoDialogueFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -234,7 +254,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameForestAccountFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameFamilyPurposeFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameBankPathLabelFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAlsuMountedPhotoGateFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAlsuMountedPhotoGateFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameHousePhotoDialogueFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }

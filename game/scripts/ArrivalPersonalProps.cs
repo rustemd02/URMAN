@@ -454,7 +454,8 @@ internal partial class ArrivalPersonalProps : Node3D
         homeTalk.SetPresentationEnabled(false);
         var permission = house.MakeInteractionBox("HousePhotoPermissionTarget", new(.62f, 1.90f, .46f),
             npcAnchor, "6f6257", "urman.fullgame:interaction/pw-house-photo-permission",
-            "Попросить семейную копию снимка двора", rayOnly: true);
+            "Попросить семейную копию снимка двора",
+            dialogueId: "urman.fullgame:dialogue/pw-house-photo-permission", rayOnly: true);
         permission.SetPresentationEnabled(false);
 
         presence.HomeReturnTarget = homeTalk;

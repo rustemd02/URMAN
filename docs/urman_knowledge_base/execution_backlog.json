@@ -108475,6 +108475,17 @@
         ],
         "verification": "Independent Astra source review of canon, gates and optional D07, separate text implementation review; ContentCli build 0 warnings/errors and compile urman.fullgame. Actual pacing, performance and authored/cultural acceptance remain open.",
         "remaining": "Ordinary school → W01 → home full gameplay and author/cultural acceptance."
+      },
+      "house_photo_permission_dialogue_2026_10_27": {
+        "result": "P-HOUSE permission target opens a short family dialogue; the existing acquisition is committed only after the player asks for a copy. Source/permission provenance and earned gates are retained.",
+        "sources": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/scripts/ArrivalPersonalProps.cs",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+        ],
+        "verification": "ContentCli compile and affected Game build 0 errors/warnings; independent source review of dialogue cancellation, acquired saves and direct fingerprint compatibility. Native conversation and save reload are not verified.",
+        "fingerprint": "cdbeb28dd3f267a7b2e43248b7e040f46deb98dd40ff2d0609744ee6e3b84be3",
+        "remaining": "Confirm natural delivery and photo acquisition in the protected ordinary episode, then W03 and full Save/Continue."
       }
     },
     {
