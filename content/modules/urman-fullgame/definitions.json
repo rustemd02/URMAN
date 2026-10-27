@@ -1952,6 +1952,14 @@
             "op": "beat.state",
             "beatId": "urman.fullgame:beat/pw-b01-niva-arrival",
             "state": "completed"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "beat.state",
+              "beatId": "urman.fullgame:beat/pw-b01-warm-arrival",
+              "state": "completed"
+            }
           }
         ],
         "effects": [],

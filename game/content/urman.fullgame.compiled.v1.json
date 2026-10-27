@@ -22265,6 +22265,14 @@
                 "op": "beat.state",
                 "beatId": "urman.fullgame:beat/pw-b01-niva-arrival",
                 "state": "completed"
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "beat.state",
+                  "beatId": "urman.fullgame:beat/pw-b01-warm-arrival",
+                  "state": "completed"
+                }
               }
             ],
             "effects": [],
@@ -33618,7 +33626,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "c62790df4eafa2081ac570bb5591a104589c61842f9d3ad06f0225831916b748"
+      "sha256": "4cf17d9f4f54b123974ab8b374a6b6929218566ef5e2afc8c0ab06e0c00b4439"
     },
     {
       "moduleId": "urman.oldpc",
@@ -33626,5 +33634,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "2e2b6ed2af43e5fede13491fa26e70c6f83f08d59cc9ea149d30eed44990860d"
+  "campaignFingerprint": "b0896377883d7ca17d35d84a3e318021df9c870c092f83a249c7998642c67f54"
 }

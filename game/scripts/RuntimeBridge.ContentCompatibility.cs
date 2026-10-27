@@ -65,6 +65,8 @@ public partial class RuntimeBridge
         "cdbeb28dd3f267a7b2e43248b7e040f46deb98dd40ff2d0609744ee6e3b84be3";
     private const string FullGameAlsuLeafDialogueFingerprint =
         "2e2b6ed2af43e5fede13491fa26e70c6f83f08d59cc9ea149d30eed44990860d";
+    private const string FullGameTeaCompletionGateFingerprint =
+        "b0896377883d7ca17d35d84a3e318021df9c870c092f83a249c7998642c67f54";
 
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
@@ -249,7 +251,27 @@ public partial class RuntimeBridge
         new(FullGameWaterHomeAccountFingerprint, FullGameAlsuLeafDialogueFingerprint),
         new(FullGameShuraleReplyTextFingerprint, FullGameAlsuLeafDialogueFingerprint),
         new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
-            FullGameAlsuLeafDialogueFingerprint)
+            FullGameAlsuLeafDialogueFingerprint),
+        // The completed arrival beat already exists in saved progress.
+        new(FullGameAlsuLeafDialogueFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameHousePhotoDialogueFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameAlsuMountedPhotoGateFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameRiverExitHintFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameTeaCompletionGateFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameTeaCompletionGateFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -277,7 +299,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameBankPathLabelFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAlsuMountedPhotoGateFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameHousePhotoDialogueFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAlsuLeafDialogueFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAlsuLeafDialogueFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTeaCompletionGateFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }

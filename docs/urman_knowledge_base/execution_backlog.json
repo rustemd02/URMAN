@@ -104883,6 +104883,15 @@
       "water_first_branch_2026_10_26": {
         "result": "W02-first now proposes the existing present-day bank comparison after the home account, without overriding genuinely started other photo routes or auto-confirming evidence. See PW-054.water_home_outside_followup_2026_10_26.",
         "remaining": "Runtime first episode and author/cultural acceptance remain open."
+      },
+      "arrival_tea_repeat_gate_2026_10_27": {
+        "result": "After pw-b01-warm-arrival completes, the initial tea interaction no longer reopens the entire introduction; incomplete tea can still be resumed and book-handoff keeps the same prerequisites.",
+        "sources": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+        ],
+        "fingerprint": "b0896377883d7ca17d35d84a3e318021df9c870c092f83a249c7998642c67f54",
+        "verification": "ContentCli compile and Game build0/0; independent source review of completion, cancellation, target availability and predecessor fingerprint mappings. Normal in-game tea/handoff and old-save Continue remain unverified."
       }
     },
     {
