@@ -2137,6 +2137,11 @@
         "labelTextId": "urman.fullgame:text/pw-label-alsu-before-w04-talk",
         "conditions": [
           {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-COMMON",
+            "state": "mounted"
+          },
+          {
             "op": "quest.status",
             "questId": "urman.fullgame:quest/pw-w03",
             "status": "completed"

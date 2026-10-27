@@ -22345,6 +22345,11 @@
             "labelTextId": "urman.fullgame:text/pw-label-alsu-before-w04-talk",
             "conditions": [
               {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-COMMON",
+                "state": "mounted"
+              },
+              {
                 "op": "quest.status",
                 "questId": "urman.fullgame:quest/pw-w03",
                 "status": "completed"
@@ -33437,7 +33442,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "3c48a9b0fc01dd44e84782e723f62dc861645df5406f5032ad47215da6dd02bb"
+      "sha256": "79c07d23dfa103e8788e5a77292991653dce73cc0a79ff8236c5582c745ad2a8"
     },
     {
       "moduleId": "urman.oldpc",
@@ -33445,5 +33450,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "2f926961623352380d14ea65967d819d3654678b193dbf071759b2dcee978e48"
+  "campaignFingerprint": "e43f1b40b2789894b5ce349d10ebd8e50643e26f7584a53d812d355cc92f3dba"
 }

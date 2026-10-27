@@ -136016,6 +136016,12 @@
         "integration": "PW-065.source_stage_2026_10_20",
         "state": "source_checked_response_pending",
         "runtime": "NOT_RUN"
+      },
+      "bichura_v3_review_2026_10_27": {
+        "result": "One ImageGen reference reviewed and rejected as an ordinary small human; no Meshy request or cost. Real W05 character, rig, fingers, carry/place clips and cultural acceptance still absent. A source model and individually authored hand/contact clips remain necessary; no automatic fact or fabricated response added.",
+        "archive": "/Users/unterlantas/Documents/URMAN_local_archive/rejected-concepts/2026-10-27-bichura-v3-review-only.zip",
+        "archive_sha256": "4efcfddd8103abfb65a963cc2becda22acad16a91bab593e7901b2b4b873f052",
+        "remaining": "Culturally and artistically appropriate original concept, full character/rig/clips and real W05 response before completion."
       }
     },
     {
@@ -139568,6 +139574,16 @@
         "verification": "Existing ContentCli fullgame compilation succeeded; affected Game build15.73s,0errors/0warnings. Independent bounded D17 state/actor/source review; root fixed target lifecycle and legacy-target suppression independent of input modal.",
         "remaining": "Ordinary native D17→W04→meeting→leaf→home/Continue and artistic/human acceptance unproved; authored homeward actor route remains open.",
         "discoverability_followup": "Existing JournalUi.PhotoBookPreparationObjectiveText now directs player to soleAlsu beforeW04 while D17 available; village/home phrasing uses currentzone. AffectedGamecompilePASS16.68s/0errors/0warnings. Nativeordinaryflow remainsopen."
+      },
+      "alsu_common_photo_and_save_compat_2026_10_27": {
+        "result": "D17 interaction now requires P-COMMON mounted, matching the existing journal ordering and preventing dialogue from describing an unacquired photo. W04 visited/completed and existing meeting facts are unchanged. Added explicit one-way fingerprint pairs from the previously supported 9964 target set and the three intervening text-only packs to new pack e43f; unknown fingerprints remain strict.",
+        "evidence": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/content/urman.fullgame.compiled.v1.json",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+        ],
+        "verification": "Two independent source audits: D17 preparation is non-circular; old recorded meeting/visited progress preserved; exact non-transitive fingerprint pairs compared to prior supported set. ContentCli and Game builds 0 warnings/errors, compile urman.fullgame; native load/Continue and dialogue remain unverified.",
+        "remaining": "Ordinary W03→common preparation→D17→W04 and actual old-save/Continue acceptance."
       }
     },
     {
