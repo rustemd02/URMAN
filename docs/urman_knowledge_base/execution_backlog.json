@@ -104909,7 +104909,7 @@
           "game/scripts/JournalUi.Missions.cs"
         ],
         "verification": "Affected Game build 0/0; independent source review caught and fixed shared water-first mission ID, checked earned facts and session guards. Windows UI readability and full first-episode experience remain unverified.",
-        "known_boundary": "If W04 is completed without the forest home account, existing progression suppresses that account and this forest context is no longer displayed outside its route; no unearned result is invented."
+        "known_boundary": "Source audit: in the current ordinary route ForestHomeResultPending enables the household debrief and disables P-COMMON permission, which is needed before W04; thus the earlier alleged regular-route skip is not confirmed. An old/external W04-completed state without confirmed forest account could lose access to that result, but no such user save is evidenced. No extra gate or epilogue change made."
       }
     },
     {
