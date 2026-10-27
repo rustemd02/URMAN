@@ -125003,6 +125003,14 @@
         "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-forest-composition-2026-10-27.zip",
         "archive_sha256": "ae00346335dea6924951b53bf5bb8341b896f843de0997c85e8ee69ab17b6832",
         "remaining": "Inspect actual changed scene and walk at authored F02/F03 with comparable views; monitor horizon seams/LOD, off-route Continue and target FPS, retain artistic/cultural review."
+      },
+      "forest_composition_native_d3beb9_2026_10_27": {
+        "job_id": "d3beb9d8324c4513b197f1148fe2a630",
+        "source_commit": "4aaa76ab717619d909000ecb4fbfbd63f1358782",
+        "result": "PASS exit0, userdataRestored=true, engine-errors0, station ready. Ordinary New Game → branch → approach to F03 and automatic transition, no skip/debug. Player traversed the route. Root viewed frames near F02 and 6m from F03: pronounced snow banks and denser forest masses are visible; a straight blue distant band remains. This is partial native visual/route evidence, not full art, movement, performance or author acceptance.",
+        "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-forest-composed-d3beb9d8-2026-10-27.zip",
+        "archive_sha256": "6830c54cb73f0210b7bc352e389d727d2bacada68a9e1f198eaa8b2765807cfd",
+        "followup": "The remaining stripe was source-reviewed as likely differing upper/lower procedural sky horizons exposed beyond camera far plane, not proven pixel attribution. W01 sky horizon colors now match; visual outcome and possible ambient lighting change remain unverified in native scene. No repeated run solely for this change."
       }
     },
     {

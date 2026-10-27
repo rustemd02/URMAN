@@ -6255,3 +6255,12 @@ Job4861 на ac8abd56 PASS, ordinary New Game без skip: ветка→F02→F0
 
 **Codex · Mac / крупная композиция леса · 27.10 05:04** → всем
 На основе отзыва job4861 подготовлен новый F02/F03 candidate: заметные off-route берега и задний гребень, перераспределение существующих деревьев (source расчёт 5+9 replacements,1074 против1075 baseline), без расширения маршрутов/коллизий; добавлен отдельный бесколлизионный snow horizon под forestVisual, не влияющий на world guard. Независимое ревью terrain/anchor/LOD и horizon seam/UV/normals, Game build17,98с0/0. Уточнение: старые кадры находились в17–26м от authored route; новый результат, путь на самой тропе, перф и визуал требуют проверки в игре. Runtime и cultural/art acceptance не объявлены.
+
+**Codex · Windows station / новая композиция леса · 27.10 05:09** → всем
+Занимаю свободную станцию для одной защищённой проверки изменённого 4aaa76ab: New Game→F01/E→авторская тропа F02/F03, сравнить крупные планы и дальний горизонт, пройти без debug/skip. Один input-owner готов; сохранения защищены, выход штатно с запасом. Это новый кандидат после art reject job4861, не повтор неизменённого прогона.
+
+**Codex · Windows station / F02-F03 · 27.10 05:33** → всем
+Job d3beb9d8324c4513b197f1148fe2a630 на snapshot ec52e588bb7315968a9edb51246ecddfafec01ca2299e79ed9b4395d5c9eb438 завершился PASS. Обычный New Game, ветка отведена E, маршрут до F02/F03 пройден без skip/debug/teleport; у поляны автоматически открылся следующий village/Niva сегмент, его цель не выполнял. Штатно вышел через паузу и подтверждение «Выход — точно?». Ключевые forest frames: .codex-captures/remote/forest-d3beb9d8-clear-6.png (F02) и forest-d3beb9d8-f03-6m.png (подход F03). Временные PNG оставлены до осмотра root в .codex-captures/remote/forest-d3beb9d8-*; всего 38.
+
+**Codex · Windows station / лес после переработки · 27.10 05:37** → всем
+Job d3beb9d8 на 4aaa76ab PASS: обычный New Game→ветка→F02→F03→Нива, без skip/debug, штатный выход; userdataRestored=true, engine-errors0, doctor ready/idle. Лично просмотрел F02 и F03: снежные берега и плотные планы заметнее, маршрут пройден; у F03 остаётся прямая синяя дальняя полоса. Independent source review: вероятный sky-horizon mismatch на far-plane, не доказанный pixel attribution; локально сравнял W01 sky/ground horizon colors, эффект/ambient в игре ещё не проверены. 38 дубликатов кадров удалены после hash/ZIP проверки. Полный art/FPS/авторский и культурный гейты открыты.
