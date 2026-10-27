@@ -26638,6 +26638,12 @@
         "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-niva-2889dcfb-2026-10-27.zip",
         "archive_sha256": "901cb7f03f151bc1442e84d387bda5a890cc4db4cce63f391d29ffa6fc4737ec",
         "remaining": "Motion and route comfort, full first episode, Save/Continue and author acceptance remain open; do not repeat run solely to collect a still."
+      },
+      "foreground_owner_diagnostic_2026_10_27": {
+        "job": "6f2c0e6cc896436691c0005ae027cce5",
+        "result": "Archived UI refusal shows valid game HWND/PID, a different foreground PID, two unsuccessful SetForegroundWindow calls and a safe refusal before input. Later read-only Windows process listing identifies that PID as an existing VPN application process started before the job. This does not establish why Windows refused activation. VPN and windows were not changed.",
+        "next_action": "Before the next necessary protected session, ensure the owned game window actually has foreground; preserve the guard and do not alter VPN. Do not rerun the same action blindly.",
+        "evidence": "/Users/unterlantas/.codex/local_asset_archive/URMAN-variantc-6f2c0e6c-2026-10-27/ui-first-refusal.json"
       }
     },
     {
@@ -133935,6 +133941,11 @@
         ],
         "fingerprint": "2e2b6ed2af43e5fede13491fa26e70c6f83f08d59cc9ea149d30eed44990860d",
         "verification": "ContentCli compile and affected Game build passed; independent source review of story gates, history, repeat and direct old-save fingerprints. Scene, natural dialogue and Save/Continue not yet accepted in game."
+      },
+      "leaf_waypoint_2026_10_27": {
+        "result": "The final leaf mission now resolves its existing LeafWitness anchor: this is an automatically observed event, not an InteractionTarget. The event gating and hidden leaf model are unchanged.",
+        "source": "game/scripts/JournalUi.Missions.cs",
+        "verification": "Independent source review traced Main/ZoneHost/core/PhotoBankApproach/LeafWitness and marker resolver; git diff check. Native waypoint appearance and event remain unverified."
       }
     },
     {

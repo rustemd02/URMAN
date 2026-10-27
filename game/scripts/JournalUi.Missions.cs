@@ -365,7 +365,8 @@ public partial class JournalUi
         if (bridge.ActiveSceneId != "urman.fullgame:scene/pw-bank-approach")
             return StreetMission(bridge, "finale-bank", "Встреча у берега", "Вернитесь к месту общего снимка на берегу.", "pw-enter-bank-approach", "Берег у мостков");
         if (!bridge.PhotoWorldFactObserved("outside_leaf_witnessed"))
-            return StreetMission(bridge, "finale-leaf", "Летний лист на берегу", "Осмотрите летний лист на зимнем берегу.", "pw-witness-summer-leaf", "Летний лист");
+            return StreetMission(bridge, "finale-leaf", "Летний лист на берегу", "Осмотрите летний лист на зимнем берегу.", "pw-witness-summer-leaf", "Летний лист",
+                "ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/PhotoBankApproach/LeafWitness");
         if (!bridge.PhotoWorldFactObserved("alsu_meeting_agreed"))
             return StreetMission(bridge, "finale-alsu", "Разговор об увиденном", "Поговорите с Алсу о листе и договоритесь вернуться домой вместе.", "pw-alsu-leaf-talk", "Алсу");
         return StreetMission(bridge, "finale-home", "Дом после возвращения", "Вернитесь домой с берега, чтобы сделать новый семейный снимок.", "pw-bank-to-epilogue", "Дорога домой");
