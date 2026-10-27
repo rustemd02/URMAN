@@ -147614,6 +147614,14 @@
         "result": "One repeated painted fence span based on existing village design and Tatar village visual context. Actual import 19 meshes/532 triangles, generated maps preserve source geometry and UV; short pickets extended to meet lower rail in isolated source only. Isolated render reviewed; terrain, full run, gates, collision, scene style and cultural acceptance remain unverified, runtime unchanged.",
         "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-painted-palisadnik-2026-10-27.zip",
         "archive_sha256": "b6c328a880a91a314e38087f1132dfac407840ab6036573f45dfc331977ad7e5"
+      },
+      "variant_c_runtime_candidate_2026_10_27": {
+        "result": "Existing paid generated VariantC outbuilding candidate is attached as a late visual graft to default addressed VariantC parcels and the connective parcel. Original semantic nodes, OpenBay/bench anchors and collision owners retained.",
+        "asset": "game/assets/models/act1/neighbor-outbuilding-c-pbr-v1.glb",
+        "source": "game/scripts/Act1ConnectedWorld.VariantCPbr.cs",
+        "candidate_sha256": "0e07cd4f7ce41201b63ece3a68dd9b3e3deb315c987f2ffbacb1410c4c192aa0",
+        "verification": "Paid receipt, archive/source and candidate hashes checked; affected Game build 0 warnings/errors. Native engine import, scene, movement, lower LOD/ShadowMesh, performance and author/cultural acceptance remain open.",
+        "meshy_spend": "No new generation or credits; existing total 590/4000."
       }
     },
     {

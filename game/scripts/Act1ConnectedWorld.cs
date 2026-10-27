@@ -545,6 +545,7 @@ public partial class Act1ConnectedWorld : Node3D
         GraftPrivateVariantAPbrFamily();
         GraftH049OutbuildingPbr();
         GraftPrivateVariantBOutbuildingPbrFamily();
+        GraftPrivateVariantCOutbuildingPbrFamily();
         CallDeferred(nameof(DisableBlockersUnderHiddenPresentation));
         CallDeferred(nameof(ReapplyLogicalZonePresentationSuppressions));
         // Parcel facades are attached across several build steps, so the painted

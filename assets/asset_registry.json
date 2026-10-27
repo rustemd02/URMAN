@@ -4841,6 +4841,26 @@
       ],
       "sourceSha256": "3125fae0159fc410a639168a1d72db11e5d9121a824eb729408b732a50a96efc",
       "derivedSha256": "b10cc1900d89a5259d55547e82641d7a443e125c5ed482c10ba056546889a28c"
+    },
+    {
+      "id": "village.neighbor.variant-c.outbuilding.meshy-pbr.v1",
+      "source": "assets/source/blender/act1/neighbor_outbuilding_c_pbr_v1/variant-c-outbuilding-generated-pbr-2k.glb",
+      "derived": "game/assets/models/act1/neighbor-outbuilding-c-pbr-v1.glb",
+      "generator": "Existing own-game VariantC utility shed with source wall-top roof contact repair and unique UV atlas → built-in image_gen material reference → existing paid Meshy retexture10 → source-semantic PBR attachment; runtime copy is byte-identical to retained final candidate",
+      "license": "Owner-authorized own-game/ImageGen inputs and paid Meshy generation; applicable Meshy terms and final rights/author acceptance remain PW-093. Not CC0 or free-plan CCBY.",
+      "scale": 1.0,
+      "triangleBudget": 248,
+      "textureBudget": 2048,
+      "materials": [
+        "One shared OPAQUE double-sided PBR: embedded2048color/normal and1024packedMR. Roof alone uses existing snow NextPass on a local material copy."
+      ],
+      "collision": "Late visual-only graft on visible default addressed VariantC outbuildings and exact connective parcel; original kit nodes, OpenBay/repairbench/bypass anchors, source colliders and live transforms retained. Explicit Studio model overrides retain their own model.",
+      "lod": "Ten semantic mesh nodes,248triangles. Engine-imported lower LOD/ShadowMesh and native performance are unverified; original per-mesh CastShadow setting is copied.",
+      "status": "Archived paid receipt and all11 archive members checked by SHA256; current canonical kit input matches source receipt. Final candidate copied by exact SHA. Graft source reviewed; compilation, actual engine import, scene/art/construction/cultural/movement/performance acceptance remain pending.",
+      "releaseDisposition": "source-integration-native-art-culture-performance-pending",
+      "provenance": "assets/source/blender/act1/neighbor_outbuilding_c_pbr_v1/candidate-receipt.json",
+      "sourceSha256": "0e07cd4f7ce41201b63ece3a68dd9b3e3deb315c987f2ffbacb1410c4c192aa0",
+      "derivedSha256": "0e07cd4f7ce41201b63ece3a68dd9b3e3deb315c987f2ffbacb1410c4c192aa0"
     }
   ]
 }
