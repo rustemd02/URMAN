@@ -135773,6 +135773,13 @@
         "archive": "/Users/unterlantas/Documents/URMAN_local_archive/rejected-concepts/2026-10-27-bichura-v3-review-only.zip",
         "archive_sha256": "4efcfddd8103abfb65a963cc2becda22acad16a91bab593e7901b2b4b873f052",
         "remaining": "Подходящий оригинальный образ, риг/реальный контакт рук и шесть клипов; W05 response остаётся закрытым. Meshy расход на v3 0."
+      },
+      "bichura_concept_v4_2026_10_27": {
+        "result": "One internal imagegen concept, grounded muted household wood and cloth, deliberately nonhuman; no Meshy task or credit spend.",
+        "local_reference": "/Users/unterlantas/.codex/local_asset_archive/URMAN-W05-concepts/bichura-v4-2026-10-27.png",
+        "sha256": "d7c1245bd8ea6a2590e12e6e4f3eed40be6c78abffa9970ec7f6b71945d4c3fc",
+        "review": "Independent visual review: improves on ordinary human/cartoon goblin but reads as a wooden masked doll; microtexture, layered textile and face may conflict with W05 style and quiet presence. Hands/shoulders/back and cup grip cannot be verified from one view. Pattern/mask are original art, not documented Tatar folklore. Candidate not accepted or uploaded.",
+        "remaining": "Need art/cultural review and a riggable character with real cup contact/animations before enabling cellar response. Maintain main-campaign priority; avoid repeated concept loops."
       }
     },
     {
