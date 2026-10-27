@@ -135492,7 +135492,7 @@
         "Деформация рига подтверждена отдельной проверкой поз.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W05_Тёплое_подполье_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "После явного согласия на exact v2 PNG получить один Meshy rigged кандидат и передать реальные hand/clip пути runtime-владельцу.",
+      "next_action": "Разработать и оценить в масштабе сцены оригинальный, не похожий на обычного маленького человека или мультяшного гоблина образ Бичуры; проверить возможность контакта рук с чашкой и направить на художественное и культурное ревью. Без Meshy POST до пригодного входа и с соблюдением применимых ограничений.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -135673,6 +135673,12 @@
           "paid_post_authorization": "Still awaiting human exactv2PNGconsent afterautomaticapprovalreviewrejection; no upload/model/rig/animation tasks created."
         },
         "input_readback": "23.10 read-only: reuse exact v2 PNG SHA ed0c13d6ff1a742a06bf48582116a510d35e7abacb8ed2239e9faed65a8850d4; no third reference. Actual imported Bichura/rig absent. Mount(3.6,.2,42.5), cup(2.30,.86,40.10)→(2.79,.86,40.40), cup .17×.178×.17m; tabletop .66m above ground makes hand reach a real rig gate. Two prior upload review rejections/pending consent preserved; no new POST or spend, current ledger475/4000."
+      },
+      "direction_audit_2026_10_27": {
+        "result": "V1 выглядел обычным человеком, v2 — мультяшным гоблином; v3 root отклонил как обычного маленького человека. Доступных модели, рига и клипов нет. Точная этнографическая внешность не установлена: новый оригинальный силуэт остаётся художественным вариантом, требующим культурной приёмки.",
+        "archive": "/Users/unterlantas/Documents/URMAN_local_archive/rejected-concepts/2026-10-27-bichura-v3-review-only.zip",
+        "archive_sha256": "4efcfddd8103abfb65a963cc2becda22acad16a91bab593e7901b2b4b873f052",
+        "remaining": "Подходящий оригинальный образ, риг/реальный контакт рук и шесть клипов; W05 response остаётся закрытым. Meshy расход на v3 0."
       }
     },
     {
@@ -152606,6 +152612,13 @@
           "evidence/PW-043/ordinary_352d705638054f4d8a4b07af93055eb3.zip!frames/interactive-ff0411aeac5f44649d8a46764cce309b.png"
         ],
         "retention": "Original ZIP CRC and every extracted file byte-verified; duplicate extracts and matching temporary frames removed (50166005 bytes), receipt retained. Raw artifacts excluded from Git."
+      },
+      "sprint_modal_release_2026_10_27": {
+        "result": "Continuous sprint no longer holds the neutral interaction gate after a modal, door or vehicle transition. One-shot interaction, carry, crouch and jump actions still require a release and neutral frame; overlapping bindings remain protected by their corresponding action.",
+        "evidence": [
+          "game/scripts/FirstPersonController.cs"
+        ],
+        "verification": "Independent source review of gate callers, default inputs and remapping; diff check. Actual feel, physical movement and full early episode still require native acceptance."
       }
     },
     {

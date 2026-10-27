@@ -42,10 +42,10 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private bool _modalOpen;
     private bool _sessionTransition;
     private bool _worldInteractionNeedsRelease;
-    // The neutral-frame gate runs on consecutive frames after a modal closes, and it
-    // allocates the action list on each of them; the names are constants.
+    // One-shot actions must be released after a modal; continuous movement
+    // modifiers such as sprint must not keep the whole interaction gate closed.
     private static readonly string[] ReleaseRequiredActions =
-        { InteractionAction, "carry_use", "carry_place", "carry_rotate", "crouch", "jump", "sprint" };
+        { InteractionAction, "carry_use", "carry_place", "carry_rotate", "crouch", "jump" };
     private bool _motionBlur;
     private bool _headBob;
     private string _graphicsPreset = GraphicsQuality.DefaultPreset();
