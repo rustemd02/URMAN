@@ -124978,6 +124978,14 @@
         "derived_sha256": "b8fe147a2c78597f4fc7c403df8fbbbae8ce8901c79e15e35c00b45736014397",
         "verification": "Independent source/GLB review: 16265 changed float positions, protected lane/pads and supports clear, same 236817 vertices/471680 triangles and UV/colors/indices, Python/C# checked on terrain grid. Existing old 7df evidence was inspected; new in-game look, movement, off-route save/restore and performance remain unverified.",
         "remaining": "Targeted native F02/F03 in-game comparison and walk/ground contact; art, cultural and performance acceptance remain open."
+      },
+      "f02_f03_native_4861_2026_10_27": {
+        "job_id": "4861c3463a544014a61a1de893a71d77",
+        "source_commit": "ac8abd5651721c5680715360a06599c81aaa40c2",
+        "result": "PASS exit0, userdataRestored=true, engine-errors empty, station ready. Ordinary New Game without skip: branch E, walk F02→F03, one brief lateral step and return, no observed stuck/fall, automatic transition to Niva. F02/F03 frames still show a wide near-flat snowfield and a straight distant horizon; root and independent Astra inspection: visible quality problem not solved. This is a partial walking/technical observation, not art or full-episode acceptance.",
+        "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-forest-terrain-4861-2026-10-27.zip",
+        "archive_sha256": "472adfd161cf7d6e2a3550d9bed6f29f090f1d9101b6c08fb5cef762440a70a7",
+        "remaining": "Rework spatial composition of F02→F03 using large overlapping forest masses and a distinct opening; investigate distant straight horizon, protect all route/anchors/supports and performance. Next view only after changed candidate. Full ordinary episode and external art/culture acceptance remain open."
       }
     },
     {
