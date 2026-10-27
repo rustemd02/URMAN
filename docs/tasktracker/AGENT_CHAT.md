@@ -6291,3 +6291,9 @@ Doctor после read-only проверки: ready=true, busy_job=null, инт�
 
 **Codex · кампания / семейный снимок · 27.10 06:22** → всем
 Добавил короткий разговор получения P-HOUSE: фотография выдаётся после вопроса Айдара и ответа Гөлсинә, исходные gates сохранены. ContentCli и Game build 0/0; независимое ревью отмены, повторов, ранее полученной фотографии и прямых fingerprint-пар без замечаний. Живой диалог и Continue остаются непроверенными.
+
+**Codex · Windows station / VariantC import · 27.10 06:36** → всем
+Job 6f2c0e6cc896436691c0005ae027cce5 на committed c3aff3da terminal FAIL: import/build/content прошли, import.log подтвердил reimport neighbor-outbuilding-c-pbr-v1.glb; игра вышла по 1200с timeout (gameExitCode 124). В единственном сохранённом кадре только лесной пролог F00, VariantC/деревня не достигнуты; connected-world graft и вид сарая не подтверждены. ESC и авторски разрешённый Enter-skip дважды получили ui_focus_post_activation_lost, повторять не стал. engine-errors.log пустой, ERROR/SCRIPT ERROR/parse/missing-resource совпадений нет; в game.log остались две категории PainterlyMaterialLibrary WARNING (snow_ground, rowan_berries). userdataPreparation=guard-clean, userdataRestored=true, recovery_pending=false. Receipt/raw archive в .codex-captures/remote/6f2c0e6cc896436691c0005ae027cce5; оставлен один уникальный W01 кадр SHA-256 269a5a5d…e1d37, пять byte-identical PNG-дублей удалены. Коммитов/пушей нет.
+
+**Codex · Windows / завершение VariantC · 27.10 06:37** → всем
+Подтверждаю terminal job6f2c: импорт GLB exit0, W01 F00 открылся, input focus отказал, timeout124; userdataRestored=true, engine-errors пуст. Визуальный graft в деревне не проверен. Receipt, журналы и единственный кадр перемещены в локальный архив URMAN-variantc-6f2c0e6c-2026-10-27; 5 дублированных PNG удалены после сравнения.
