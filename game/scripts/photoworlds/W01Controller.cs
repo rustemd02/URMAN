@@ -257,6 +257,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         BuildRootPassage();
         BuildF14OldRootSupport();
         BuildForest();
+        BuildForestHorizon();
         BuildBranch();
         BuildPhotoTableau();
         BuildProloguePhotoSource();
@@ -1147,12 +1148,12 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         }
 
         // Compose only selected local clusters, after the unchanged global seed/stride.
-        // F01 frames the approach; F02/F03 open the canopy. Authored trees stay put.
+        // F01 frames the approach; taller western masses frame the F02/F03 opening. Authored trees stay put.
         var compositionStandingRadius = Mathf.Max(
             MeasurePineStandingFootprintRadius(lightPineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f),
             MeasurePineStandingFootprintRadius(farPineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f));
-        // Transparent far-card corners are not wood; F01 spacing measures the opaque near/mid tree.
-        var f01StandingRadius = Mathf.Max(
+        // Separate opaque near/mid wood spacing from the conservative all-LOD route envelope.
+        var compositionWoodRadius = Mathf.Max(
             MeasurePineStandingFootprintRadius(pineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f, opaqueOnly: true),
             MeasurePineStandingFootprintRadius(lightPineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f, opaqueOnly: true));
         static float HorizontalRadius(Aabb bounds) => Mathf.Max(
@@ -1176,17 +1177,17 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                 || NearHint(MainSpawnRouteF11, ForestCrossbarObservationHint)
                 || NearHint(MainSpawnRouteF11, ForestRootArchObservationHint);
         }
-        var compositions = new (string Name, Vector2 Center, Vector2 Previous, float Radius, float OpeningRadius)[]
+        var compositions = new (string Name, Vector2 Center, float Radius, float OpeningRadius)[]
         {
-            ("F01", new Vector2(BranchF01.X, BranchF01.Z), Vector2.Zero, 26f, 0f),
-            ("F02", new Vector2(PrologueF02.X, PrologueF02.Z), new Vector2(BranchF01.X, BranchF01.Z), 26f, 7.5f),
-            ("F03", new Vector2(PrologueF03.X, PrologueF03.Z), new Vector2(PrologueF02.X, PrologueF02.Z), 30f, 7.5f)
+            ("F01", new Vector2(BranchF01.X, BranchF01.Z), 26f, 0f),
+            ("F02", new Vector2(PrologueF02.X, PrologueF02.Z), 35f, 7.5f),
+            ("F03", new Vector2(PrologueF03.X, PrologueF03.Z), 39f, 10f)
         };
         var compositionSummary = string.Empty;
         foreach (var composition in compositions)
         {
             var protectPhoto = composition.Name == "F01";
-            var standingRadius = protectPhoto ? f01StandingRadius : compositionStandingRadius;
+            var standingRadius = compositionWoodRadius;
             float CompositionRootRadius(Transform3D transform) => standingRadius * transform.Basis.X.Length();
             bool CompositionRootsOverlap(Vector2 point, float radius,
                 (Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand) other) =>
@@ -1198,21 +1199,33 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                     && (!protectPhoto || !TouchesPhotoSightline(selectedClusterCandidates[index].Position,
                         compositionStandingRadius * selectedClusterCandidates[index].Transform.Basis.X.Length()))).ToArray();
             var localSet = localIndices.ToHashSet();
-            var forward = (composition.Center - composition.Previous).Normalized();
-            var side = new Vector2(-forward.Y, forward.X);
             var placements = protectPhoto
                 ? new (Vector2 Position, float Height, float YawDegrees, float Girth)[]
                 {
                     (new(0f, 29f), 16.4f, 34f, .78f),
                     (new(16.7f, 37f), 18f, 211f, .80f)
                 }
-                : new (Vector2 Position, float Height, float YawDegrees, float Girth)[]
-                {
-                    (composition.Center + forward * 8f + side * 22f, 19.2f, 34f, .82f),
-                    (composition.Center + forward * 8f - side * 22f, 17.8f, 221f, .78f),
-                    (composition.Center - forward * 8f - side * 22f, 20.2f, 128f, .85f),
-                    (composition.Center - forward * 8f + side * 22f, 18.4f, 303f, .80f)
-                };
+                : composition.Name == "F02"
+                    ? new (Vector2 Position, float Height, float YawDegrees, float Girth)[]
+                    {
+                        (new(21f, 99f), 22f, 34f, .78f),
+                        (new(24f, 116f), 21.4f, 128f, .80f),
+                        (new(30f, 119f), 23.6f, 303f, .76f),
+                        (new(38f, 115f), 22.8f, 256f, .74f),
+                        (new(63f, 103f), 18.6f, 143f, .74f)
+                    }
+                    : new (Vector2 Position, float Height, float YawDegrees, float Girth)[]
+                    {
+                        (new(48f, 139f), 22.6f, 34f, .78f),
+                        (new(49f, 149f), 23.6f, 221f, .76f),
+                        (new(50f, 158f), 22.4f, 128f, .80f),
+                        (new(61f, 163f), 22.6f, 79f, .78f),
+                        (new(69f, 171f), 20.8f, 256f, .78f),
+                        (new(76f, 166f), 19f, 143f, .74f),
+                        (new(98f, 157f), 18f, 17f, .74f),
+                        (new(104f, 162f), 19.2f, 194f, .74f),
+                        (new(107f, 151f), 18.4f, 52f, .74f)
+                    };
             var replacements = new Dictionary<int,
                 (Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand)>();
             var removed = new HashSet<int>();
@@ -1229,7 +1242,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                     || (composition.OpeningRadius > 0f && position.DistanceTo(composition.Center)
                         < composition.OpeningRadius + compositionCanopyRadius * horizontalScale)
                     || (protectPhoto && TouchesPhotoSightline(position, compositionStandingRadius * horizontalScale))
-                    || RouteDistance(position) < radius + standingLaneHalfWidth
+                    || RouteDistance(position) < compositionStandingRadius * horizontalScale + standingLaneHalfWidth
                     || NearExistingTree(position, radius + minimumExistingPineSpacing)
                     || replacements.Values.Any(other => CompositionRootsOverlap(position, radius, other))
                     || selectedClusterCandidates.Where((_, index) => !localSet.Contains(index))
@@ -1255,7 +1268,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                 var canopyRadius = compositionCanopyRadius * candidate.Transform.Basis.X.Length();
                 if ((composition.OpeningRadius > 0f && candidate.Position.DistanceTo(composition.Center)
                         < composition.OpeningRadius + canopyRadius)
-                    || (!protectPhoto && RouteDistance(candidate.Position) < radius + standingLaneHalfWidth)
+                    || (!protectPhoto && RouteDistance(candidate.Position)
+                        < compositionStandingRadius * candidate.Transform.Basis.X.Length() + standingLaneHalfWidth)
                     || replacements.Values.Any(other => CompositionRootsOverlap(candidate.Position, radius, other)))
                     removed.Add(index);
             }
@@ -2214,7 +2228,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
     private static float TerrainVistaRelief(float x, float z)
     {
-        if (x <= 10f || x >= 84f || z <= 82f || z >= 144f) return 0f;
+        if (x <= 10f || x >= 84f || z <= 82f || z >= 178f) return 0f;
         // Matches the terrain producer: compact bounds protect fixed roots;
         // 3 m protects the 2 m anchor pads plus a 0.5 m grid-triangle diagonal.
         var point = new Vector2(x, z);
@@ -2228,15 +2242,17 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             var t = Mathf.Clamp((point - start).Dot(segment) / segment.LengthSquared(), 0f, 1f);
             nearest = Mathf.Min(nearest, point.DistanceTo(start + segment * t));
         }
-        var clearance = TerrainSmoothStep(3f, 10f, nearest);
+        var clearance = TerrainSmoothStep(3f, 14f, nearest);
         if (clearance == 0f) return 0f;
-        var window = TerrainSmoothStep(10f, 20f, x) * (1f - TerrainSmoothStep(80f, 84f, x))
-            * TerrainSmoothStep(82f, 92f, z) * (1f - TerrainSmoothStep(138f, 144f, z));
+        var window = TerrainSmoothStep(10f, 20f, x) * (1f - TerrainSmoothStep(72f, 84f, x))
+            * TerrainSmoothStep(82f, 92f, z) * (1f - TerrainSmoothStep(166f, 178f, z));
         var left = MathF.Pow((x - 39f) / 13f, 2f) + MathF.Pow((z - 116f) / 16f, 2f);
         var right = MathF.Pow((x - 72f) / 10f, 2f) + MathF.Pow((z - 103f) / 12f, 2f);
         var hollow = MathF.Pow((x - 59f) / 9f, 2f) + MathF.Pow((z - 131f) / 10f, 2f);
-        return window * clearance * (1.4f * MathF.Exp(-left * 0.5f)
-            + 1.0f * MathF.Exp(-right * 0.5f) - 0.4f * MathF.Exp(-hollow * 0.5f));
+        var ridge = MathF.Pow((x - 66f) / 18f, 2f) + MathF.Pow((z - 159f) / 12f, 2f);
+        return window * clearance * (3.4f * MathF.Exp(-left * 0.5f)
+            + 2.5f * MathF.Exp(-right * 0.5f) - 0.6f * MathF.Exp(-hollow * 0.5f)
+            + 3.1f * MathF.Exp(-ridge * 0.5f));
     }
 
     private static float F15HollowRelief(float x, float z)

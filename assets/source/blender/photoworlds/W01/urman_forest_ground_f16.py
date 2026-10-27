@@ -41,13 +41,14 @@ MACRO_RELIEF_FEATURES = (
 MACRO_RELIEF_WINDOW_Z_M = (0.0, 6.0, 24.0, 32.0)
 MACRO_RELIEF_ROUTE_CLEARANCE_M = (1.8, 8.0)
 VISTA_RELIEF_FEATURES = (
-    {"name": "f02_left_wooded_bank", "center_xz_m": (39.0, 116.0), "amplitude_m": 1.4, "sigma_xz_m": (13.0, 16.0)},
-    {"name": "f02_right_snow_shoulder", "center_xz_m": (72.0, 103.0), "amplitude_m": 1.0, "sigma_xz_m": (10.0, 12.0)},
-    {"name": "f03_left_side_hollow", "center_xz_m": (59.0, 131.0), "amplitude_m": -0.4, "sigma_xz_m": (9.0, 10.0)},
+    {"name": "f02_left_wooded_bank", "center_xz_m": (39.0, 116.0), "amplitude_m": 3.4, "sigma_xz_m": (13.0, 16.0)},
+    {"name": "f02_right_snow_shoulder", "center_xz_m": (72.0, 103.0), "amplitude_m": 2.5, "sigma_xz_m": (10.0, 12.0)},
+    {"name": "f03_left_side_hollow", "center_xz_m": (59.0, 131.0), "amplitude_m": -0.6, "sigma_xz_m": (9.0, 10.0)},
+    {"name": "f03_rear_wooded_ridge", "center_xz_m": (66.0, 159.0), "amplitude_m": 3.1, "sigma_xz_m": (18.0, 12.0)},
 )
-VISTA_RELIEF_WINDOW_X_M = (10.0, 20.0, 80.0, 84.0)
-VISTA_RELIEF_WINDOW_Z_M = (82.0, 92.0, 138.0, 144.0)
-VISTA_RELIEF_ROUTE_CLEARANCE_M = (3.0, 10.0)
+VISTA_RELIEF_WINDOW_X_M = (10.0, 20.0, 72.0, 84.0)
+VISTA_RELIEF_WINDOW_Z_M = (82.0, 92.0, 166.0, 178.0)
+VISTA_RELIEF_ROUTE_CLEARANCE_M = (3.0, 14.0)
 F15_HOLLOW_CENTER_XZ_M = (144.0, 163.0)
 F15_HOLLOW_RADII_XZ_M = (10.0, 11.0)
 F15_HOLLOW_AMPLITUDE_M = -1.4

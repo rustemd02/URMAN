@@ -124985,7 +124985,24 @@
         "result": "PASS exit0, userdataRestored=true, engine-errors empty, station ready. Ordinary New Game without skip: branch E, walk F02→F03, one brief lateral step and return, no observed stuck/fall, automatic transition to Niva. F02/F03 frames still show a wide near-flat snowfield and a straight distant horizon; root and independent Astra inspection: visible quality problem not solved. This is a partial walking/technical observation, not art or full-episode acceptance.",
         "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-forest-terrain-4861-2026-10-27.zip",
         "archive_sha256": "472adfd161cf7d6e2a3550d9bed6f29f090f1d9101b6c08fb5cef762440a70a7",
-        "remaining": "Rework spatial composition of F02→F03 using large overlapping forest masses and a distinct opening; investigate distant straight horizon, protect all route/anchors/supports and performance. Next view only after changed candidate. Full ordinary episode and external art/culture acceptance remain open."
+        "remaining": "Rework spatial composition of F02→F03 using large overlapping forest masses and a distinct opening; investigate distant straight horizon, protect all route/anchors/supports and performance. Next view only after changed candidate. Full ordinary episode and external art/culture acceptance remain open.",
+        "interpretation_correction": "Archived screenshot positions commonly labelled F02 and F03 were respectively about 25.6 m and 17.1 m away from authored route; the user could explore them, but they do not prove the exact route view. F01→F03 direct segment passes within ~0.8 m of F02. Next comparison should include actual route positions."
+      },
+      "forest_composition_horizon_2026_10_27": {
+        "result": "After 4861 art rejection, F02/F03 reuses selected pine clusters as overlapping asymmetric forest masses: 5 F02 and 9 F03 source-calculated replacement positions pass existing safety checks; 1074 total clusters vs 1075 before, no tree budget increase. Terrain adds stronger off-route banks and a rear ridge; existing terrain grid and protected routes/anchors/root assemblies remain. A separate shadowless visual-only snow horizon uses the ground edge heights/UV2/colors/normals without entering ground collision, world guard or saved state.",
+        "evidence": [
+          "game/scripts/photoworlds/W01Controller.cs",
+          "game/scripts/photoworlds/W01Controller.Horizon.cs",
+          "assets/source/blender/photoworlds/W01/urman_forest_ground_f16.py",
+          "assets/source/blender/photoworlds/W01/prologue-ground-f00-f16-v1/prologue-ground-f00-f16-v1.manifest.json",
+          "game/assets/photoworlds/forest_ground/prologue-ground-f00-f16-v1.glb",
+          "assets/asset_registry.json"
+        ],
+        "derived_sha256": "efde9960f215cb8ddbc1f287d5175b6c1818b29f27f3aafb4be9785b071da66b",
+        "verification": "Independent terrain and horizon source review; authored route triangle/pad/root geometry preserved, Python/C# height fields agree, GLB topology/UV/colors unchanged; horizon seam normals/UV/colors and no collision confirmed. Affected Game build 17.98s 0 warnings/errors. Source calculation 5/9 not a native runtime receipt. Horizon far-clip guarantee is limited to Far<=160, FOV<=90 and aspect<=32:9. New visual result, movement and performance not yet observed.",
+        "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-forest-composition-2026-10-27.zip",
+        "archive_sha256": "ae00346335dea6924951b53bf5bb8341b896f843de0997c85e8ee69ab17b6832",
+        "remaining": "Inspect actual changed scene and walk at authored F02/F03 with comparable views; monitor horizon seams/LOD, off-route Continue and target FPS, retain artistic/cultural review."
       }
     },
     {

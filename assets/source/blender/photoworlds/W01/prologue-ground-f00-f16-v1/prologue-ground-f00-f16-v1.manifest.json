@@ -6,7 +6,7 @@
   "native_or_godot_import_verified": false,
   "collision_surface_generated_or_verified": false,
   "source_script": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/urman_forest_ground_f16.py",
-  "source_script_sha256": "305d79fae420d5887b2e4cd587d455414bdce361e9be34d37048392053f86100",
+  "source_script_sha256": "7b719c61b546bdf4e55ded3a4bebd960ee650b2f4001a32a17de5317d25087d2",
   "input_specs": {
     "asset_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json",
     "asset_spec_sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
@@ -27,7 +27,7 @@
     "z": 268.0,
     "height_range": [
       -0.05560200288891792,
-      4.896500319801808
+      7.101868629455566
     ]
   },
   "coordinate_mapping": {
@@ -56,7 +56,7 @@
     ],
     "y": [
       -0.05560200288891792,
-      4.896500319801808
+      7.101868629455566
     ],
     "z": [
       -64.0,
@@ -79,7 +79,7 @@
       ],
       "y": [
         -9.242998103009548e-10,
-        0.8965003196429153
+        3.101868629296674
       ],
       "z": [
         0.0,
@@ -108,8 +108,8 @@
     },
     "visual_and_collision_surface_candidate": "same single terrain mesh; no separate height/normal-only relief",
     "collision_note": "candidate geometry only; no Godot collision resource or engine contact check in this stage",
-    "file_blend_sha256": "9e42c736c0cd30951f2e9b5d7248d7689b3c92b31a442d0ea7252457489ea590",
-    "file_glb_sha256": "b8fe147a2c78597f4fc7c403df8fbbbae8ce8901c79e15e35c00b45736014397",
+    "file_blend_sha256": "dcf7f1ae67a248789fb86538b16cee0453946771af5c7df11fdda3c3c0015b37",
+    "file_glb_sha256": "efde9960f215cb8ddbc1f287d5175b6c1818b29f27f3aafb4be9785b071da66b",
     "file_blend_bytes": 54298037,
     "file_glb_bytes": 20849876
   },
@@ -328,7 +328,7 @@
           39.0,
           116.0
         ],
-        "amplitude_m": 1.4,
+        "amplitude_m": 3.4,
         "sigma_xz_m": [
           13.0,
           16.0
@@ -340,7 +340,7 @@
           72.0,
           103.0
         ],
-        "amplitude_m": 1.0,
+        "amplitude_m": 2.5,
         "sigma_xz_m": [
           10.0,
           12.0
@@ -352,48 +352,127 @@
           59.0,
           131.0
         ],
-        "amplitude_m": -0.4,
+        "amplitude_m": -0.6,
         "sigma_xz_m": [
           9.0,
           10.0
+        ]
+      },
+      {
+        "name": "f03_rear_wooded_ridge",
+        "center_xz_m": [
+          66.0,
+          159.0
+        ],
+        "amplitude_m": 3.1,
+        "sigma_xz_m": [
+          18.0,
+          12.0
         ]
       }
     ],
     "window_x_m": [
       10.0,
       20.0,
-      80.0,
+      72.0,
       84.0
     ],
     "window_z_m": [
       82.0,
       92.0,
-      138.0,
-      144.0
+      166.0,
+      178.0
     ],
     "route_clearance_m": {
-      "zero_through": 3.0,
-      "full_from": 10.0
+      "zero_through": 3,
+      "full_from": 14
     },
     "recorded_review": {
-      "sampled_triangle_gradients": {
-        "max_relief_grade": 0.2663010100103012,
-        "max_final_surface_grade_in_changed_zone": 0.2707604302342938,
-        "max_final_surface_angle_degrees": 15.15017638960671
+      "sample_count": 236817,
+      "changed_vertex_count": 26271,
+      "new_field_minimum_m": 0.0,
+      "new_field_maximum_m": 3.3911511205604046,
+      "maximum_final_surface_grade_in_changed_triangles": 0.4653438957633087,
+      "maximum_final_surface_angle_degrees": 24.954626290542446,
+      "routes": {
+        "F00↔F01": {
+          "max_abs_changed_vertex_delta_over_2m_padded_route_triangles_m": 0.0,
+          "minimum_changed_vertex_distance_to_route_m": 32.5
+        },
+        "F01↔F02": {
+          "max_abs_changed_vertex_delta_over_2m_padded_route_triangles_m": 0.0,
+          "minimum_changed_vertex_distance_to_route_m": 3.0105786511946317
+        },
+        "F02↔F03": {
+          "max_abs_changed_vertex_delta_over_2m_padded_route_triangles_m": 0.0,
+          "minimum_changed_vertex_distance_to_route_m": 3.025850166609248
+        },
+        "F10↔F11": {
+          "max_abs_changed_vertex_delta_over_2m_padded_route_triangles_m": 0.0,
+          "minimum_changed_vertex_distance_to_route_m": 34.5
+        },
+        "F11↔WalkEntry": {
+          "max_abs_changed_vertex_delta_over_2m_padded_route_triangles_m": 0.0,
+          "minimum_changed_vertex_distance_to_route_m": 21.90999097489356
+        },
+        "WalkExit↔F14": {
+          "max_abs_changed_vertex_delta_over_2m_padded_route_triangles_m": 0.0,
+          "minimum_changed_vertex_distance_to_route_m": 19.65988237539527
+        },
+        "F14↔F15": {
+          "max_abs_changed_vertex_delta_over_2m_padded_route_triangles_m": 0.0,
+          "minimum_changed_vertex_distance_to_route_m": 28.5
+        },
+        "F15↔F16": {
+          "max_abs_changed_vertex_delta_over_2m_padded_route_triangles_m": 0.0,
+          "minimum_changed_vertex_distance_to_route_m": 48.5
+        }
       },
-      "other_route_bbox_separation_m": {
-        "F10↔F11": 34.0,
-        "F11↔WalkEntry": 21.409226973300463,
-        "WalkExit↔F14": 19.158453204189485,
-        "F14↔F15": 28.0,
-        "F15↔F16": 48.0
+      "complete_transformed_fixed_supports": {
+        "F12": {
+          "transformed_xz_bounds_m": [
+            [
+              22.57140366,
+              38.25199306
+            ],
+            [
+              56.20054436,
+              76.04872133
+            ]
+          ],
+          "max_abs_vertex_delta_over_support_and_grid_triangle_margin_m": 0.0,
+          "minimum_changed_vertex_distance_m": 6.4512786699999936
+        },
+        "F13": {
+          "transformed_xz_bounds_m": [
+            [
+              93.57140366,
+              109.25199306
+            ],
+            [
+              106.20054436,
+              126.04872133
+            ]
+          ],
+          "max_abs_vertex_delta_over_support_and_grid_triangle_margin_m": 0.0,
+          "minimum_changed_vertex_distance_m": 10.071403660000001
+        },
+        "F14": {
+          "transformed_xz_bounds_m": [
+            [
+              112.56705995,
+              114.1466028
+            ],
+            [
+              145.96898594,
+              148.24815626
+            ]
+          ],
+          "max_abs_vertex_delta_over_support_and_grid_triangle_margin_m": 0.0,
+          "minimum_changed_vertex_distance_m": 29.06705995
+        }
       },
-      "fixed_support_bbox_separation_m": {
-        "F12": 2.076424410142934,
-        "F13": 5.120113218875574,
-        "F14": 28.35248831359239
-      },
-      "protected_anchor_field_deltas_m": {
+      "max_abs_delta_in_all_2m_anchor_pad_triangles_m": {
         "F00": 0.0,
         "F01": 0.0,
         "F02": 0.0,
@@ -406,39 +485,61 @@
         "F15": 0.0,
         "F16": 0.0
       },
-      "sampled_grid_delta_m": {
-        "sample_count": 236817,
-        "minimum": -0.18962878004481298,
-        "maximum": 1.3916397598248043,
-        "nonzero_double_field_sample_count": 16275
-      },
+      "grid_triangle_diagonal_m": 0.7071067811865476,
       "engine_collision_contact_verified": false,
-      "csharp_formula_verification": {
-        "controller": "game/scripts/photoworlds/W01Controller.cs",
-        "actual_methods": [
-          "TerrainVistaRelief",
-          "TerrainSmoothStep"
-        ],
-        "compiler": ".NET 10.0.10 / installed GodotSharp reference",
-        "sample_count": 236817,
-        "maximum_absolute_float_vs_python_double_error_m": 8.818540807031816e-07,
-        "zero_vertex_classification_mismatches": 0,
-        "scope": "Actual extracted C# methods compiled and evaluated at every terrain grid coordinate; no full Game build or native runtime acceptance."
-      },
-      "reviewed_route_clearance_metrics_m": {
-        "required_for_2m_anchor_pad_triangles": 2.7071067811865475,
-        "maximum_grid_triangle_diameter": 0.7071067811865476,
-        "max_abs_vertex_delta_inside_zero_radius": 0.0
-      },
-      "review_rationale": "Distance to the route union is 1-Lipschitz; 3 m exceeds the 2 m pad radius plus triangle diagonal. Other route and complete transformed fixed-support bounds are separated from compact relief by more than their required triangle margin.",
+      "source_and_export_maximum_height_error_m": 4.7234909672511094e-07,
+      "scope": "Source and exported geometry review; no native movement, collision contact or artistic acceptance. Temporary review code was removed after the finite export.",
       "inputs": {
-        "reviewed_producer_source_sha256": "ecb4381bde15af605a25835e5afa9067ad8753bed8170265aec1d7a4c4061dc3",
-        "producer_formula_sha256": "ba3c77d663998b764560a1997c367dae2125987d9300e40303a209982acc2f16",
-        "csharp_methods_sha256": "0408a8b32c6e66ccf9f05c1ab0385a81a858b123e2be62d19d1fd19f529a26f4",
-        "runtime_glb_sha256": "b8fe147a2c78597f4fc7c403df8fbbbae8ce8901c79e15e35c00b45736014397",
-        "source_blend_sha256": "9e42c736c0cd30951f2e9b5d7248d7689b3c92b31a442d0ea7252457489ea590"
+        "producer_source_sha256": "7b719c61b546bdf4e55ded3a4bebd960ee650b2f4001a32a17de5317d25087d2",
+        "runtime_glb_sha256": "efde9960f215cb8ddbc1f287d5175b6c1818b29f27f3aafb4be9785b071da66b",
+        "source_blend_sha256": "dcf7f1ae67a248789fb86538b16cee0453946771af5c7df11fdda3c3c0015b37",
+        "root_glb_sha256": "dbdfb18788a2b0d1202b7caa1bce68646f2a30f44267fb4e9615533c08494761",
+        "f14_support_glb_sha256": "139fa50058d51dcf27a441b9fef2f7a2d6566b2c8de7f55f4dcd8456e144397b"
       },
-      "scope": "Recorded source review and numerical/export comparisons for the exact inputs above; native visual/collision acceptance remains pending. The temporary verification logic was removed after review; these are recorded results, not an automatically re-executed proof."
+      "local_forest_composition_source_review": {
+        "scope": "Finite calculation using the exact current generated/physical pine GLBs and controller placements; baseline matches job4861 counters. These are source-calculated counts, not a new native runtime receipt.",
+        "controller_sha256": "f6583eee5a0a6d31961df112487f13b18c266eb149dd5a0304efdde969a3f0a2",
+        "generated_pine_glb_sha256": "8c5a9e19f9b4c379f3e30a1a33e88c5c02017224dafdcd487837917ba2cc7755",
+        "physical_pine_glb_sha256": "1c38f7ea2e5788576a8ee3e9270191fd505933b73f3e8f6646af2ec6fe16f91f",
+        "source_material_modes": {
+          "LOD0": "OPAQUE: URMAN_WinterPine_Meshy_v2_PBR_0",
+          "LOD1": "OPAQUE: URMAN_WinterPine_Meshy_v2_PBR_0",
+          "LOD2": "MASK: URMAN_WinterPine_Meshy_v2_FarMask"
+        },
+        "normalized_2_15m_standing_radius_at_12m_tree_height": {
+          "opaque_near_mid_union": 0.11828497797250748,
+          "all_lod_route_envelope": 0.2504325211048126
+        },
+        "baseline": {
+          "F02": {
+            "relocated": 0,
+            "removed": 6
+          },
+          "F03": {
+            "relocated": 1,
+            "removed": 10
+          },
+          "total_clusters": 1075
+        },
+        "new": {
+          "F02": {
+            "relocated": 5,
+            "removed": 7
+          },
+          "F03": {
+            "relocated": 9,
+            "removed": 10
+          },
+          "total_clusters": 1074
+        },
+        "all_new_layout_positions_accepted": true,
+        "minimum_all_route_margin_after_all_lod_radius_and_1_05m_lane_m": 1.3710626874821725,
+        "minimum_complete_root_bbox_margin_after_all_lod_radius_m": 2.8001671898261264,
+        "minimum_1_2m_safe_node_pad_margin_m": 1.2210626874821726,
+        "native_visual_movement_lod_performance_acceptance": "pending",
+        "controller_after_horizon_call_sha256": "7e4b67070bc9942180d8d5ce5f2169b84f7b8739a52cbaf2a3ddb6a40813736e",
+        "post_review_change": "Exactly one BuildForestHorizon() call after BuildForest; removing that line restores controller_sha256 used for source review."
+      }
     }
   },
   "authored_nodes": {
@@ -1053,16 +1154,16 @@
     "authored_node_heights_checked": true,
     "textures_written_and_hashed": true,
     "blender_rendered_overview_and_f11_f16_route_view": false,
-    "route_preview_scope": "Existing offline preview images predate F02/F03 relief; no current render or native acceptance claimed.",
+    "route_preview_scope": "Existing offline overview/route PNGs predate stronger F02/F03 banks and rear ridge; no current render or native acceptance claimed.",
     "godot_import": "not run",
     "walk_and_collision_contact": "not run",
     "art_author_review": "pending"
   },
   "incremental_geometry_export": {
-    "method": "Existing producer surface_height_and_masks updates the original terrain mesh; original UVs, vertex masks, indices, embedded image bytes and all zero-delta vertex bytes retained; source blend and runtime GLB updated together.",
-    "baseline_glb_sha256": "d787194398914ceca7412663e4b614b2190158f49ab4a85b8765c2f3ac6c2619",
-    "baseline_reference": "HEAD:game/assets/photoworlds/forest_ground/prologue-ground-f00-f16-v1.glb and HEAD:assets/source/blender/photoworlds/W01/urman_forest_ground_f16.py",
-    "baseline_blend_sha256": "00852b5c8cdcfd713555ae46be2ccc0f17cf64b6e7cfc20072e19d1e2c9e1f81",
+    "method": "Producer height field updates the existing terrain mesh. Reuses topology, original UVs, vertex masks and packed material images. Source blend and runtime GLB are updated together.",
+    "baseline_glb_sha256": "b8fe147a2c78597f4fc7c403df8fbbbae8ce8901c79e15e35c00b45736014397",
+    "baseline_reference": "Previous tracked F02/F03 terrain candidate (before stronger banks and rear ridge).",
+    "baseline_blend_sha256": "9e42c736c0cd30951f2e9b5d7248d7689b3c92b31a442d0ea7252457489ea590",
     "unchanged_export_arrays": [
       "TEXCOORD_0",
       "TEXCOORD_1",
@@ -1073,8 +1174,8 @@
     "protected_export_vertex_delta_m": 0.0,
     "runtime_collision_owner": "Unchanged W01Controller.BuildGround constructs AuthoredSurfaceContact from this same terrain mesh.",
     "native_visual_collision_and_performance_acceptance": "pending",
-    "source_blend_max_abs_previous_candidate_height_error_m": 2.384130830535014e-07,
-    "changed_float_position_vertex_count": 16265,
-    "nonzero_double_field_sample_count": 16275
+    "source_blend_max_abs_previous_candidate_height_error_m": 4.7234909672511094e-07,
+    "changed_float_position_vertex_count": 26259,
+    "nonzero_double_field_sample_count": 26271
   }
 }
