@@ -6,7 +6,7 @@
   "native_or_godot_import_verified": false,
   "collision_surface_generated_or_verified": false,
   "source_script": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/urman_forest_ground_f16.py",
-  "source_script_sha256": "d6e972fbf0f4cfcee916541f248e6d4f9f641aeb62b590296de04f95e7ca49ab",
+  "source_script_sha256": "305d79fae420d5887b2e4cd587d455414bdce361e9be34d37048392053f86100",
   "input_specs": {
     "asset_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json",
     "asset_spec_sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
@@ -26,8 +26,8 @@
     "x": 220.0,
     "z": 268.0,
     "height_range": [
-      -0.05560200196461811,
-      4.0000000001588925
+      -0.05560200288891792,
+      4.896500319801808
     ]
   },
   "coordinate_mapping": {
@@ -55,8 +55,8 @@
       156.0
     ],
     "y": [
-      -0.05560200196461811,
-      4.0000000001588925
+      -0.05560200288891792,
+      4.896500319801808
     ],
     "z": [
       -64.0,
@@ -78,8 +78,8 @@
         12.0
       ],
       "y": [
-        0.0,
-        0.0
+        -9.242998103009548e-10,
+        0.8965003196429153
       ],
       "z": [
         0.0,
@@ -108,14 +108,14 @@
     },
     "visual_and_collision_surface_candidate": "same single terrain mesh; no separate height/normal-only relief",
     "collision_note": "candidate geometry only; no Godot collision resource or engine contact check in this stage",
-    "file_blend_sha256": "00852b5c8cdcfd713555ae46be2ccc0f17cf64b6e7cfc20072e19d1e2c9e1f81",
-    "file_glb_sha256": "d787194398914ceca7412663e4b614b2190158f49ab4a85b8765c2f3ac6c2619",
-    "file_blend_bytes": 54297717,
-    "file_glb_bytes": 20849860
+    "file_blend_sha256": "9e42c736c0cd30951f2e9b5d7248d7689b3c92b31a442d0ea7252457489ea590",
+    "file_glb_sha256": "b8fe147a2c78597f4fc7c403df8fbbbae8ce8901c79e15e35c00b45736014397",
+    "file_blend_bytes": 54298037,
+    "file_glb_bytes": 20849876
   },
   "coverage_scope": "authored F00→F01→F02→F03 prologue route; F10→F11→transformed WalkEntry approach; transformed WalkExit→F14→F15→F16 reversible forest route; the F12↔F13 opaque bent passage is a separate hero-root asset",
   "unproduced_authored_nodes": [],
-  "terrain_anchor_height_note": "All produced anchor terrain heights remain equal to the pre-relief profile; the bounded F00 macro relief has zero field delta at F00–F03, F10–F16 and zero delta over every grid vertex within its 1.8 m F00→F01 lane clearance. F10–F16 Y values are design-local, so the markers use sampled ground heights (F10=0.656942903 m, F11=0.968182076 m, F12=1.890062531 m, F13=3.555555556 m, F14=4.000000000 m, F15=4.000000000 m, F16=4.000000000 m). The F15 hollow also has zero delta on every produced anchor and its protected exit lane. Explicit field, lane-triangle and anchor deltas are recorded in the two relief contracts.",
+  "terrain_anchor_height_note": "All produced anchor terrain heights remain equal to the pre-relief profile; the bounded F00 macro relief has zero field delta at F00–F03, F10–F16 and zero delta over every grid vertex within its 1.8 m F00→F01 lane clearance. F10–F16 Y values are design-local, so the markers use sampled ground heights (F10=0.656942904 m, F11=0.968182087 m, F12=1.890062571 m, F13=3.555555582 m, F14=4.000000000 m, F15=4.000000000 m, F16=4.000000000 m). The F15 hollow also has zero delta on every produced anchor and its protected exit lane. The compact F02/F03 relief preserves every route, anchor pad and fixed root support; The F02/F03 source-review results are recorded separately in this manifest.",
   "terrain_relief_contract": {
     "formula": "bounded Gaussian shoulder/hollow sum multiplied by a Z window and F00→F01 segment clearance",
     "equation": "W(z) * C(d_F00F01(x,z)) * sum_i(A_i * exp(-0.5 * (((x-x_i)/sigma_x_i)^2 + ((z-z_i)/sigma_z_i)^2)))",
@@ -208,26 +208,26 @@
       },
       "F10": {
         "baseline_y_m": 0.6569429025655424,
-        "current_y_m": 0.6569429025655424,
-        "height_delta_m": 0.0,
+        "current_y_m": 0.6569429039955139,
+        "height_delta_m": 1.4299714745646952e-09,
         "macro_relief_delta_m": -0.0
       },
       "F11": {
         "baseline_y_m": 0.9681820758217896,
-        "current_y_m": 0.9681820758217896,
-        "height_delta_m": 0.0,
+        "current_y_m": 0.9681820869445801,
+        "height_delta_m": 1.1122790466444599e-08,
         "macro_relief_delta_m": 0.0
       },
       "F12": {
         "baseline_y_m": 1.8900625310535752,
-        "current_y_m": 1.8900625310535752,
-        "height_delta_m": 0.0,
+        "current_y_m": 1.8900625705718994,
+        "height_delta_m": 3.951832416859702e-08,
         "macro_relief_delta_m": 0.0
       },
       "F13": {
         "baseline_y_m": 3.5555555555555554,
-        "current_y_m": 3.5555555555555554,
-        "height_delta_m": 0.0,
+        "current_y_m": 3.555555582046509,
+        "height_delta_m": 2.6490953430879927e-08,
         "macro_relief_delta_m": 0.0
       },
       "F14": {
@@ -319,6 +319,128 @@
     },
     "engine_collision_contact_verified": false
   },
+  "f02_f03_relief_contract": {
+    "formula": "compact C1 X/Z window * prologue-route clearance * asymmetric Gaussian bank/shoulder/hollow sum",
+    "features": [
+      {
+        "name": "f02_left_wooded_bank",
+        "center_xz_m": [
+          39.0,
+          116.0
+        ],
+        "amplitude_m": 1.4,
+        "sigma_xz_m": [
+          13.0,
+          16.0
+        ]
+      },
+      {
+        "name": "f02_right_snow_shoulder",
+        "center_xz_m": [
+          72.0,
+          103.0
+        ],
+        "amplitude_m": 1.0,
+        "sigma_xz_m": [
+          10.0,
+          12.0
+        ]
+      },
+      {
+        "name": "f03_left_side_hollow",
+        "center_xz_m": [
+          59.0,
+          131.0
+        ],
+        "amplitude_m": -0.4,
+        "sigma_xz_m": [
+          9.0,
+          10.0
+        ]
+      }
+    ],
+    "window_x_m": [
+      10.0,
+      20.0,
+      80.0,
+      84.0
+    ],
+    "window_z_m": [
+      82.0,
+      92.0,
+      138.0,
+      144.0
+    ],
+    "route_clearance_m": {
+      "zero_through": 3.0,
+      "full_from": 10.0
+    },
+    "recorded_review": {
+      "sampled_triangle_gradients": {
+        "max_relief_grade": 0.2663010100103012,
+        "max_final_surface_grade_in_changed_zone": 0.2707604302342938,
+        "max_final_surface_angle_degrees": 15.15017638960671
+      },
+      "other_route_bbox_separation_m": {
+        "F10↔F11": 34.0,
+        "F11↔WalkEntry": 21.409226973300463,
+        "WalkExit↔F14": 19.158453204189485,
+        "F14↔F15": 28.0,
+        "F15↔F16": 48.0
+      },
+      "fixed_support_bbox_separation_m": {
+        "F12": 2.076424410142934,
+        "F13": 5.120113218875574,
+        "F14": 28.35248831359239
+      },
+      "protected_anchor_field_deltas_m": {
+        "F00": 0.0,
+        "F01": 0.0,
+        "F02": 0.0,
+        "F03": 0.0,
+        "F10": 0.0,
+        "F11": 0.0,
+        "F12": 0.0,
+        "F13": 0.0,
+        "F14": 0.0,
+        "F15": 0.0,
+        "F16": 0.0
+      },
+      "sampled_grid_delta_m": {
+        "sample_count": 236817,
+        "minimum": -0.18962878004481298,
+        "maximum": 1.3916397598248043,
+        "nonzero_double_field_sample_count": 16275
+      },
+      "engine_collision_contact_verified": false,
+      "csharp_formula_verification": {
+        "controller": "game/scripts/photoworlds/W01Controller.cs",
+        "actual_methods": [
+          "TerrainVistaRelief",
+          "TerrainSmoothStep"
+        ],
+        "compiler": ".NET 10.0.10 / installed GodotSharp reference",
+        "sample_count": 236817,
+        "maximum_absolute_float_vs_python_double_error_m": 8.818540807031816e-07,
+        "zero_vertex_classification_mismatches": 0,
+        "scope": "Actual extracted C# methods compiled and evaluated at every terrain grid coordinate; no full Game build or native runtime acceptance."
+      },
+      "reviewed_route_clearance_metrics_m": {
+        "required_for_2m_anchor_pad_triangles": 2.7071067811865475,
+        "maximum_grid_triangle_diameter": 0.7071067811865476,
+        "max_abs_vertex_delta_inside_zero_radius": 0.0
+      },
+      "review_rationale": "Distance to the route union is 1-Lipschitz; 3 m exceeds the 2 m pad radius plus triangle diagonal. Other route and complete transformed fixed-support bounds are separated from compact relief by more than their required triangle margin.",
+      "inputs": {
+        "reviewed_producer_source_sha256": "ecb4381bde15af605a25835e5afa9067ad8753bed8170265aec1d7a4c4061dc3",
+        "producer_formula_sha256": "ba3c77d663998b764560a1997c367dae2125987d9300e40303a209982acc2f16",
+        "csharp_methods_sha256": "0408a8b32c6e66ccf9f05c1ab0385a81a858b123e2be62d19d1fd19f529a26f4",
+        "runtime_glb_sha256": "b8fe147a2c78597f4fc7c403df8fbbbae8ce8901c79e15e35c00b45736014397",
+        "source_blend_sha256": "9e42c736c0cd30951f2e9b5d7248d7689b3c92b31a442d0ea7252457489ea590"
+      },
+      "scope": "Recorded source review and numerical/export comparisons for the exact inputs above; native visual/collision acceptance remains pending. The temporary verification logic was removed after review; these are recorded results, not an automatically re-executed proof."
+    }
+  },
   "authored_nodes": {
     "F00": {
       "label": "Тропа пролога",
@@ -380,7 +502,7 @@
         0.0,
         35.0
       ],
-      "terrain_vertex_y_m": 0.6569429025655424,
+      "terrain_vertex_y_m": 0.6569429039955139,
       "height_matches_author": false,
       "walkable_pad_mask_radius_m": 1.2,
       "spatial_frame_not_ground_route": false
@@ -393,7 +515,7 @@
         0.0,
         48.0
       ],
-      "terrain_vertex_y_m": 0.9681820758217896,
+      "terrain_vertex_y_m": 0.9681820869445801,
       "height_matches_author": false,
       "walkable_pad_mask_radius_m": 1.2,
       "spatial_frame_not_ground_route": false
@@ -406,7 +528,7 @@
         1.0,
         70.0
       ],
-      "terrain_vertex_y_m": 1.8900625310535752,
+      "terrain_vertex_y_m": 1.8900625705718994,
       "height_matches_author": false,
       "walkable_pad_mask_radius_m": 0.0,
       "spatial_frame_not_ground_route": true
@@ -419,7 +541,7 @@
         6.0,
         120.0
       ],
-      "terrain_vertex_y_m": 3.5555555555555554,
+      "terrain_vertex_y_m": 3.555555582046509,
       "height_matches_author": false,
       "walkable_pad_mask_radius_m": 0.0,
       "spatial_frame_not_ground_route": true
@@ -920,32 +1042,39 @@
   "production_defaults": [
     "A continuous surface follows the exact authored F00→F01→F02→F03 profile and includes bounded asymmetric snow shoulders beside the first 32 m; the F00→F01 lane and every produced anchor height are protected.",
     "A 2.1 m readable ground track connects F10→F11→transformed WalkEntry, transformed WalkExit→F14, and F14→F15→F16 on the same continuous surface; the original F00 macro relief ends at z=32 m, and a separate compact F15 hollow preserves the exit-lane triangles.",
+    "Compact asymmetric banks and a side hollow beside F02→F03 preserve all existing route triangles, anchor pads and fixed root assemblies.",
     "F12↔F13 uses a separate opaque, walk-through paired hero-root asset with one mid-bend SpatialLinkFrame and distinct WalkEntry/WalkExit endpoints.",
     "Leaf and root fields are terrain materials/masks; no separate debris, fence, tree, or gameplay prop is included."
   ],
-  "offline_previews": [
-    "W01_ForestGround_F00_to_F16_Overview.png",
-    "W01_ForestGround_F11_to_F16_Routes.png"
-  ],
+  "offline_previews": [],
   "verification_scope": {
     "source_generated": true,
     "mesh_metrics_checked": true,
     "authored_node_heights_checked": true,
     "textures_written_and_hashed": true,
-    "blender_rendered_overview_and_f11_f16_route_view": true,
-    "route_preview_scope": "existing route-view output now frames the F15 hollow in three-quarter view; overview camera unchanged",
+    "blender_rendered_overview_and_f11_f16_route_view": false,
+    "route_preview_scope": "Existing offline preview images predate F02/F03 relief; no current render or native acceptance claimed.",
     "godot_import": "not run",
     "walk_and_collision_contact": "not run",
     "art_author_review": "pending"
   },
-  "preview_receipts": {
-    "W01_ForestGround_F00_to_F16_Overview.png": {
-      "sha256": "e77571c2f18c09a3e825ec51ef2ddd3b35ec47288c1406c8e6cc9c97c25aa2c7",
-      "bytes": 1697851
-    },
-    "W01_ForestGround_F11_to_F16_Routes.png": {
-      "sha256": "75af362dacd7f8beab84b4140cd869b2d2000503942b7fa8c23cc44361cd282b",
-      "bytes": 1454038
-    }
+  "incremental_geometry_export": {
+    "method": "Existing producer surface_height_and_masks updates the original terrain mesh; original UVs, vertex masks, indices, embedded image bytes and all zero-delta vertex bytes retained; source blend and runtime GLB updated together.",
+    "baseline_glb_sha256": "d787194398914ceca7412663e4b614b2190158f49ab4a85b8765c2f3ac6c2619",
+    "baseline_reference": "HEAD:game/assets/photoworlds/forest_ground/prologue-ground-f00-f16-v1.glb and HEAD:assets/source/blender/photoworlds/W01/urman_forest_ground_f16.py",
+    "baseline_blend_sha256": "00852b5c8cdcfd713555ae46be2ccc0f17cf64b6e7cfc20072e19d1e2c9e1f81",
+    "unchanged_export_arrays": [
+      "TEXCOORD_0",
+      "TEXCOORD_1",
+      "COLOR_0",
+      "indices",
+      "images"
+    ],
+    "protected_export_vertex_delta_m": 0.0,
+    "runtime_collision_owner": "Unchanged W01Controller.BuildGround constructs AuthoredSurfaceContact from this same terrain mesh.",
+    "native_visual_collision_and_performance_acceptance": "pending",
+    "source_blend_max_abs_previous_candidate_height_error_m": 2.384130830535014e-07,
+    "changed_float_position_vertex_count": 16265,
+    "nonzero_double_field_sample_count": 16275
   }
 }

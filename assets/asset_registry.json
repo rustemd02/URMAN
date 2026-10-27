@@ -4585,7 +4585,7 @@
       "id": "photoworlds.w01.route-ground-f00-f16.v1",
       "source": "assets/source/blender/photoworlds/W01/urman_forest_ground_f16.py",
       "derived": "game/assets/photoworlds/forest_ground/prologue-ground-f00-f16-v1.glb",
-      "generator": "Existing Blender4.5.12 W01 single terrain producer: preserved first32m snow shoulders plus compact off-route F15 hollow; same grid/masks/materials and one visual/contact surface",
+      "generator": "Existing Blender4.5.12 W01 single terrain producer: first32m shoulders, compact F02/F03 off-route relief and F15 hollow; same grid/masks/materials and one visual/contact surface",
       "license": "Original code-authored terrain; texture inputs retain their existing individual registry/provenance terms. No Meshy generation or new credit spend.",
       "scale": 1.0,
       "triangleBudget": 471680,
@@ -4597,8 +4597,8 @@
       "lod": "Existing0.5m singleterrain grid;236817vertices/471680triangles. No new terrain/collision owner.",
       "status": "F15 source integrated:236817vertices/471680triangles unchanged;1369actual existing-F16 vertices lowered only atXZ[134.5,153.5]×[152.5,173.5], min−1.4000001m. Current F16 indices/XZ and all5terrain textures unchanged. Blender source preview does not prove fullscene readability; native/art remain open.",
       "releaseDisposition": "candidate-native-scene-and-contact-review-pending",
-      "sourceSha256": "d6e972fbf0f4cfcee916541f248e6d4f9f641aeb62b590296de04f95e7ca49ab",
-      "derivedSha256": "d787194398914ceca7412663e4b614b2190158f49ab4a85b8765c2f3ac6c2619"
+      "sourceSha256": "305d79fae420d5887b2e4cd587d455414bdce361e9be34d37048392053f86100",
+      "derivedSha256": "b8fe147a2c78597f4fc7c403df8fbbbae8ce8901c79e15e35c00b45736014397"
     },
     {
       "id": "photoworlds.w01.first-action-bough.v1",

@@ -2209,7 +2209,34 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         }
 
         return routeY + TerrainRelief(x, z) - TerrainRelief(routeX, z) + TerrainMacroRelief(x, z)
-            + F15HollowRelief(x, z);
+            + F15HollowRelief(x, z) + TerrainVistaRelief(x, z);
+    }
+
+    private static float TerrainVistaRelief(float x, float z)
+    {
+        if (x <= 10f || x >= 84f || z <= 82f || z >= 144f) return 0f;
+        // Matches the terrain producer: compact bounds protect fixed roots;
+        // 3 m protects the 2 m anchor pads plus a 0.5 m grid-triangle diagonal.
+        var point = new Vector2(x, z);
+        var nearest = float.MaxValue;
+        for (var index = 1; index < PrologueRouteNodes.Length; index++)
+        {
+            var first = PrologueRouteNodes[index - 1];
+            var second = PrologueRouteNodes[index];
+            var start = new Vector2(first.X, first.Z);
+            var segment = new Vector2(second.X - first.X, second.Z - first.Z);
+            var t = Mathf.Clamp((point - start).Dot(segment) / segment.LengthSquared(), 0f, 1f);
+            nearest = Mathf.Min(nearest, point.DistanceTo(start + segment * t));
+        }
+        var clearance = TerrainSmoothStep(3f, 10f, nearest);
+        if (clearance == 0f) return 0f;
+        var window = TerrainSmoothStep(10f, 20f, x) * (1f - TerrainSmoothStep(80f, 84f, x))
+            * TerrainSmoothStep(82f, 92f, z) * (1f - TerrainSmoothStep(138f, 144f, z));
+        var left = MathF.Pow((x - 39f) / 13f, 2f) + MathF.Pow((z - 116f) / 16f, 2f);
+        var right = MathF.Pow((x - 72f) / 10f, 2f) + MathF.Pow((z - 103f) / 12f, 2f);
+        var hollow = MathF.Pow((x - 59f) / 9f, 2f) + MathF.Pow((z - 131f) / 10f, 2f);
+        return window * clearance * (1.4f * MathF.Exp(-left * 0.5f)
+            + 1.0f * MathF.Exp(-right * 0.5f) - 0.4f * MathF.Exp(-hollow * 0.5f));
     }
 
     private static float F15HollowRelief(float x, float z)

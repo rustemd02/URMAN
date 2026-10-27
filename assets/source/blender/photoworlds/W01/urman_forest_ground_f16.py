@@ -40,6 +40,14 @@ MACRO_RELIEF_FEATURES = (
 )
 MACRO_RELIEF_WINDOW_Z_M = (0.0, 6.0, 24.0, 32.0)
 MACRO_RELIEF_ROUTE_CLEARANCE_M = (1.8, 8.0)
+VISTA_RELIEF_FEATURES = (
+    {"name": "f02_left_wooded_bank", "center_xz_m": (39.0, 116.0), "amplitude_m": 1.4, "sigma_xz_m": (13.0, 16.0)},
+    {"name": "f02_right_snow_shoulder", "center_xz_m": (72.0, 103.0), "amplitude_m": 1.0, "sigma_xz_m": (10.0, 12.0)},
+    {"name": "f03_left_side_hollow", "center_xz_m": (59.0, 131.0), "amplitude_m": -0.4, "sigma_xz_m": (9.0, 10.0)},
+)
+VISTA_RELIEF_WINDOW_X_M = (10.0, 20.0, 80.0, 84.0)
+VISTA_RELIEF_WINDOW_Z_M = (82.0, 92.0, 138.0, 144.0)
+VISTA_RELIEF_ROUTE_CLEARANCE_M = (3.0, 10.0)
 F15_HOLLOW_CENTER_XZ_M = (144.0, 163.0)
 F15_HOLLOW_RADII_XZ_M = (10.0, 11.0)
 F15_HOLLOW_AMPLITUDE_M = -1.4
@@ -288,6 +296,33 @@ def terrain_macro_relief(x: float, z: float):
     return window * route_clearance * feature_sum
 
 
+def terrain_vista_relief(x: float, z: float):
+    x0, x1, x2, x3 = VISTA_RELIEF_WINDOW_X_M
+    z0, z1, z2, z3 = VISTA_RELIEF_WINDOW_Z_M
+    if x <= x0 or x >= x3 or z <= z0 or z >= z3:
+        return 0.0
+    # Compact bounds leave the F12/F13 root assemblies and all other routes
+    # untouched; 3 m also protects 2 m anchor pads plus a grid-triangle diagonal.
+    nearest = math.inf
+    for first_id, second_id in zip(PROLOGUE_ROUTE_NODE_IDS, PROLOGUE_ROUTE_NODE_IDS[1:]):
+        first, second = NODES[first_id]["xyz"], NODES[second_id]["xyz"]
+        dx, dz = second[0] - first[0], second[2] - first[2]
+        t = clamp01(((x - first[0]) * dx + (z - first[2]) * dz) / (dx * dx + dz * dz))
+        nearest = min(nearest, point_distance(x, z, first[0] + t * dx, first[2] + t * dz))
+    zero_radius, full_radius = VISTA_RELIEF_ROUTE_CLEARANCE_M
+    clearance = smoothstep(zero_radius, full_radius, nearest)
+    if clearance == 0.0:
+        return 0.0
+    window = (smoothstep(x0, x1, x) * (1.0 - smoothstep(x2, x3, x))
+              * smoothstep(z0, z1, z) * (1.0 - smoothstep(z2, z3, z)))
+    feature_sum = 0.0
+    for feature in VISTA_RELIEF_FEATURES:
+        cx, cz = feature["center_xz_m"]
+        sx, sz = feature["sigma_xz_m"]
+        feature_sum += feature["amplitude_m"] * math.exp(-0.5 * (((x - cx) / sx) ** 2 + ((z - cz) / sz) ** 2))
+    return window * clearance * feature_sum
+
+
 def forest_exit_lane_distance(x: float, z: float):
     nearest = math.inf
     for first_id, second_id in zip(FOREST_EXIT_ROUTE_NODE_IDS, FOREST_EXIT_ROUTE_NODE_IDS[1:]):
@@ -311,11 +346,11 @@ def terrain_f15_hollow(x: float, z: float):
 
 def surface_height_and_masks(x: float, z: float):
     # The base height follows the established F00→F03 centerline; bounded macro
-    # relief adds shoulders beside the first 32 m while preserving anchors/lane.
+    # relief adds shoulders beside the first 32 m and F02/F03 while preserving anchors/lane.
     # Additional route links change only the route mask, not the base profile.
     route_x, route_y = route_height_and_x(z)
     height = (route_y + terrain_relief(x, z) - terrain_relief(route_x, z)
-              + terrain_macro_relief(x, z) + terrain_f15_hollow(x, z))
+              + terrain_macro_relief(x, z) + terrain_f15_hollow(x, z) + terrain_vista_relief(x, z))
 
     route_mask = clamp01(1.0 - smoothstep(ROUTE_HALF_WIDTH, 4.3, route_distance(x, z)))
     for node_id in PAD_ROUTE_NODE_IDS:
@@ -1037,10 +1072,19 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
             "F10–F16 Y values are design-local, so the markers use sampled ground heights ("
             + ", ".join(f"{node_id}={node_heights[node_id]:.9f} m" for node_id in ("F10", "F11", "F12", "F13", "F14", "F15", "F16"))
             + "). The F15 hollow also has zero delta on every produced anchor and its protected exit lane. "
-            "Explicit field, lane-triangle and anchor deltas are recorded in the two relief contracts."
+            "The compact F02/F03 relief preserves every route, anchor pad and fixed root support; "
+            "The F02/F03 source-review results are recorded separately in the delivered manifest."
         ),
         "terrain_relief_contract": relief_contract,
         "f15_hollow_contract": f15_hollow_contract(xs, zs),
+        "f02_f03_relief_contract": {
+            "formula": "compact C1 X/Z window * prologue-route clearance * asymmetric Gaussian bank/shoulder/hollow sum",
+            "features": list(VISTA_RELIEF_FEATURES),
+            "window_x_m": list(VISTA_RELIEF_WINDOW_X_M),
+            "window_z_m": list(VISTA_RELIEF_WINDOW_Z_M),
+            "route_clearance_m": {"zero_through": VISTA_RELIEF_ROUTE_CLEARANCE_M[0],
+                                  "full_from": VISTA_RELIEF_ROUTE_CLEARANCE_M[1]},
+        },
         "authored_nodes": {
             node_id: {
                 "label": node["label"],
@@ -1096,6 +1140,7 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
         "production_defaults": [
             "A continuous surface follows the exact authored F00→F01→F02→F03 profile and includes bounded asymmetric snow shoulders beside the first 32 m; the F00→F01 lane and every produced anchor height are protected.",
             "A 2.1 m readable ground track connects F10→F11→transformed WalkEntry, transformed WalkExit→F14, and F14→F15→F16 on the same continuous surface; the original F00 macro relief ends at z=32 m, and a separate compact F15 hollow preserves the exit-lane triangles.",
+            "Compact asymmetric banks and a side hollow beside F02→F03 preserve all existing route triangles, anchor pads and fixed root assemblies.",
             "F12↔F13 uses a separate opaque, walk-through paired hero-root asset with one mid-bend SpatialLinkFrame and distinct WalkEntry/WalkExit endpoints.",
             "Leaf and root fields are terrain materials/masks; no separate debris, fence, tree, or gameplay prop is included.",
         ],

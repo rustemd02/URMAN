@@ -124965,6 +124965,19 @@
         "confirmed_cause": "Current matchingGLB COLOR_0 intact; centerlineR1,2.06m lateralR~.770. Shader remapped .16→.78 so lateral2.06m became track~.999, widening fullpackedcore beyond authored2.1m. Notmissingmask/import.",
         "correction": "Existing shader remap .72→1.0 retains fullstrengthonlyR1/authored2.1mcore and softens shouldercoverage. No terrain/sourceGLB/geometry/texture/physics/gates change.",
         "verification": "Binary/source inspection and arithmetic, diffcheck. Shader/native appearance requires next changedcandidate, not proven by C#compile."
+      },
+      "f02_f03_offroute_relief_candidate_2026_10_27": {
+        "result": "Extended one continuous terrain surface with asymmetric banks and a side hollow beside F02→F03, responding to existing 7df frames of an unbroken snowfield. Existing route, pads, anchors, root supports, mask/material/UV, triangle count and tree budget are preserved; ground visual and contact share the same GLB.",
+        "evidence": [
+          "assets/source/blender/photoworlds/W01/urman_forest_ground_f16.py",
+          "assets/source/blender/photoworlds/W01/prologue-ground-f00-f16-v1/prologue-ground-f00-f16-v1.manifest.json",
+          "game/scripts/photoworlds/W01Controller.cs",
+          "game/assets/photoworlds/forest_ground/prologue-ground-f00-f16-v1.glb",
+          "assets/asset_registry.json"
+        ],
+        "derived_sha256": "b8fe147a2c78597f4fc7c403df8fbbbae8ce8901c79e15e35c00b45736014397",
+        "verification": "Independent source/GLB review: 16265 changed float positions, protected lane/pads and supports clear, same 236817 vertices/471680 triangles and UV/colors/indices, Python/C# checked on terrain grid. Existing old 7df evidence was inspected; new in-game look, movement, off-route save/restore and performance remain unverified.",
+        "remaining": "Targeted native F02/F03 in-game comparison and walk/ground contact; art, cultural and performance acceptance remain open."
       }
     },
     {
