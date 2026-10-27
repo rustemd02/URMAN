@@ -3864,6 +3864,13 @@
           {
             "op": "photoworlds.fact.observed",
             "factId": "outside_leaf_witnessed"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "photoworlds.fact.observed",
+              "factId": "alsu_meeting_agreed"
+            }
           }
         ],
         "effects": [],
@@ -5487,9 +5494,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-label-alsu-leaf-talk",
     "value": {
-      "default": "Показать Алсу зелёный лист",
+      "default": "Поговорить с Алсу о листе",
       "translations": {
-        "ru": "Показать Алсу зелёный лист"
+        "ru": "Поговорить с Алсу о листе"
       }
     },
     "purpose": "ui"
@@ -5507,11 +5514,55 @@
   },
   {
     "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-alsu-leaf-witnessed",
+    "value": {
+      "default": "Он сейчас вырос?",
+      "translations": {
+        "ru": "Он сейчас вырос?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-alsu-leaf-witness",
+    "value": {
+      "default": "Ты тоже видела?",
+      "translations": {
+        "ru": "Ты тоже видела?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-alsu-leaf-confirmed",
+    "value": {
+      "default": "Видела. Прямо на голой ветке… Пойдём домой?",
+      "translations": {
+        "ru": "Видела. Прямо на голой ветке… Пойдём домой?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-choice-alsu-leaf-agree-to-return",
     "value": {
       "default": "Вижу. Пойдём домой вместе.",
       "translations": {
         "ru": "Вижу. Пойдём домой вместе."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-alsu-leaf-return-together",
+    "value": {
+      "default": "Пойдём вместе.",
+      "translations": {
+        "ru": "Пойдём вместе."
       }
     },
     "purpose": "dialogue"
@@ -5654,7 +5705,7 @@
       "aidar",
       "alsu"
     ],
-    "startNodeId": "leaf",
+    "startNodeId": "witnessed",
     "nodes": [
       {
         "id": "leaf",
@@ -5666,6 +5717,44 @@
           {
             "id": "agree-to-return",
             "textId": "urman.fullgame:text/pw-choice-alsu-leaf-agree-to-return",
+            "conditions": [],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "alsu_meeting_agreed",
+                "sourceId": "urman.fullgame:interaction/pw-alsu-leaf-talk"
+              }
+            ],
+            "nextNodeId": null
+          }
+        ]
+      },
+      {
+        "id": "witnessed",
+        "speakerRole": "alsu",
+        "textId": "urman.fullgame:text/pw-dialogue-alsu-leaf-witnessed",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "witness",
+            "textId": "urman.fullgame:text/pw-choice-alsu-leaf-witness",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "confirmed"
+          }
+        ]
+      },
+      {
+        "id": "confirmed",
+        "speakerRole": "alsu",
+        "textId": "urman.fullgame:text/pw-dialogue-alsu-leaf-confirmed",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "return-together",
+            "textId": "urman.fullgame:text/pw-choice-alsu-leaf-return-together",
             "conditions": [],
             "effects": [
               {

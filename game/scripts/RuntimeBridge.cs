@@ -891,6 +891,13 @@ public partial class RuntimeBridge : Node
             }
             else
             {
+                if (DisplayServer.GetName() != "headless")
+                {
+                    resourceLoading = LoadingScreenUi.Show(this, "Возвращение в деревню", "Готовим место возвращения");
+                    // The following dispatch may synchronously rebuild the village.
+                    await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+                }
+                if (!IsInsideTree() || IsQueuedForDeletion() || !Current()) return false;
                 var visit = ActivePhotoVisit()!.Value;
                 var id = visit.GetProperty("visitId").GetString()!;
                 ownedVisitId = id;

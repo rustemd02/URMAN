@@ -112292,6 +112292,12 @@
         ],
         "verification": "Independent source review of state and input; affected Game build succeeded, 0 warnings/errors. No game run.",
         "remaining": "Windows view at F11 must assess readability, overlap with landmarks/HUD, and input at small resolution; full first episode and return/Save/Continue remain open."
+      },
+      "active_return_loading_2026_10_27": {
+        "result": "Active photo-visit return displays existing non-cancellable loading screen and waits for a rendered frame before return dispatch; existing completion/CTS, recovery and autosave owners remain.",
+        "source": "game/scripts/RuntimeBridge.cs",
+        "verification": "Affected Game build and independent source review passed; normal Windows return and screen remain unverified.",
+        "remaining": "Legacy return remains unchanged. The synchronous world build is not faster and may freeze loading animation; measure and address separately."
       }
     },
     {
@@ -133919,6 +133925,16 @@
           "evidence/PW-062/panorama-river-source-20261020/game-build-final.log"
         ],
         "remaining": "Native C02 viewfromC03, C05/C06 wholepanorama, actualriverbanksinmotion/routecolor, Farentry/return/loadrestore andrendercost. Protected e79 terminal/restoration unknown; no newjob/input. Full W04passport/externalartacceptance remainopen."
+      },
+      "alsu_shared_leaf_dialogue_2026_10_27": {
+        "result": "After outside_leaf_witnessed, Alsu and Aidar explicitly discuss the leaf they both saw; current mission asks to discuss it. Original historical dialogue node/text retained for old notebook entries; the first conversation is unavailable after alsu_meeting_agreed.",
+        "sources": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/scripts/JournalUi.Missions.cs",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+        ],
+        "fingerprint": "2e2b6ed2af43e5fede13491fa26e70c6f83f08d59cc9ea149d30eed44990860d",
+        "verification": "ContentCli compile and affected Game build passed; independent source review of story gates, history, repeat and direct old-save fingerprints. Scene, natural dialogue and Save/Continue not yet accepted in game."
       }
     },
     {
@@ -145396,7 +145412,8 @@
         "producer_review": "Existing measured authored10.229s = content3.674/materials0.624/address mounting5.929; scene/component caches already avoid full per-house import. Whole collision shapes are not safely cacheable by catalog alone because placement scale/style/storeys differ. Candidate immutable reuse is fitted generated pine LOD0/1/2: W01 temporary provider and subsequent village repeat it; all foliage stage2.862s, fit share unmeasured. No measured speedup, no speculative live-world retention or new profiler.",
         "pine_fit_reuse": "Implemented bounded immutable generated-pine fit cache in AgentBAct1ExteriorLayer: key holds PackedScene/native ArrayMesh identity, LOD and exact scale; cap9; source Changed invalidates future shared lookups. W01 temporary provider and village can reuse three fitted LODs. Eviction drops cache references without disposing meshes used by scenes; final disposal runs after Main is freed. Physical contacts, source materials and placements unchanged. Existing per-instance caches/live trees are not rebuilt by resource-change invalidation.",
         "pine_fit_verification": "Affected Game compile 24.10.2026: 17.16s, exit0, 0 warnings/errors; scoped diff check and independent Astra source review: no P1/P2. Actual cache-hit timing and whole-return speedup unmeasured; no native run or new tests. Source Instantiate, physical copies and other village construction still execute."
-      }
+      },
+      "rebuild_profile_scope_2026_10_27": "Historical 24.10 profile: core12.531s, authored10.229s, total30.525s; not fresh return timing. Later 091f6b27 extended fitted foliage cache to pine and birch, cap12, so older cap9/pine-only description is historical; current benefit and stage distribution not measured."
     },
     {
       "id": "PW-091",

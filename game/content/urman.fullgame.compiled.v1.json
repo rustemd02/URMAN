@@ -7710,7 +7710,7 @@
           "aidar",
           "alsu"
         ],
-        "startNodeId": "leaf",
+        "startNodeId": "witnessed",
         "nodes": [
           {
             "id": "leaf",
@@ -7722,6 +7722,44 @@
               {
                 "id": "agree-to-return",
                 "textId": "urman.fullgame:text/pw-choice-alsu-leaf-agree-to-return",
+                "conditions": [],
+                "effects": [
+                  {
+                    "op": "photoworlds.fact.observe",
+                    "factId": "alsu_meeting_agreed",
+                    "sourceId": "urman.fullgame:interaction/pw-alsu-leaf-talk"
+                  }
+                ],
+                "nextNodeId": null
+              }
+            ]
+          },
+          {
+            "id": "witnessed",
+            "speakerRole": "alsu",
+            "textId": "urman.fullgame:text/pw-dialogue-alsu-leaf-witnessed",
+            "conditions": [],
+            "effects": [],
+            "choices": [
+              {
+                "id": "witness",
+                "textId": "urman.fullgame:text/pw-choice-alsu-leaf-witness",
+                "conditions": [],
+                "effects": [],
+                "nextNodeId": "confirmed"
+              }
+            ]
+          },
+          {
+            "id": "confirmed",
+            "speakerRole": "alsu",
+            "textId": "urman.fullgame:text/pw-dialogue-alsu-leaf-confirmed",
+            "conditions": [],
+            "effects": [],
+            "choices": [
+              {
+                "id": "return-together",
+                "textId": "urman.fullgame:text/pw-choice-alsu-leaf-return-together",
                 "conditions": [],
                 "effects": [
                   {
@@ -21608,6 +21646,13 @@
               {
                 "op": "photoworlds.fact.observed",
                 "factId": "outside_leaf_witnessed"
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "photoworlds.fact.observed",
+                  "factId": "alsu_meeting_agreed"
+                }
               }
             ],
             "effects": [],
@@ -29715,6 +29760,28 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-choice-alsu-leaf-return-together",
+        "value": {
+          "default": "\u041F\u043E\u0439\u0434\u0451\u043C \u0432\u043C\u0435\u0441\u0442\u0435.",
+          "translations": {
+            "ru": "\u041F\u043E\u0439\u0434\u0451\u043C \u0432\u043C\u0435\u0441\u0442\u0435."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-choice-alsu-leaf-witness",
+        "value": {
+          "default": "\u0422\u044B \u0442\u043E\u0436\u0435 \u0432\u0438\u0434\u0435\u043B\u0430?",
+          "translations": {
+            "ru": "\u0422\u044B \u0442\u043E\u0436\u0435 \u0432\u0438\u0434\u0435\u043B\u0430?"
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-choice-arrival-tea-d01-02",
         "value": {
           "default": "\u0412\u044B \u0432\u0441\u0435\u0433\u0434\u0430 \u0432 \u043A\u043D\u0438\u0433\u0435 \u0422\u0443\u043A\u0430\u044F \u0441\u043D\u0438\u043C\u043A\u0438 \u0445\u0440\u0430\u043D\u0438\u043B\u0438?",
@@ -30001,11 +30068,33 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-dialogue-alsu-leaf-confirmed",
+        "value": {
+          "default": "\u0412\u0438\u0434\u0435\u043B\u0430. \u041F\u0440\u044F\u043C\u043E \u043D\u0430 \u0433\u043E\u043B\u043E\u0439 \u0432\u0435\u0442\u043A\u0435\u2026 \u041F\u043E\u0439\u0434\u0451\u043C \u0434\u043E\u043C\u043E\u0439?",
+          "translations": {
+            "ru": "\u0412\u0438\u0434\u0435\u043B\u0430. \u041F\u0440\u044F\u043C\u043E \u043D\u0430 \u0433\u043E\u043B\u043E\u0439 \u0432\u0435\u0442\u043A\u0435\u2026 \u041F\u043E\u0439\u0434\u0451\u043C \u0434\u043E\u043C\u043E\u0439?"
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-dialogue-alsu-leaf-leaf",
         "value": {
           "default": "\u041D\u0430 \u0432\u0435\u0442\u043A\u0443 \u043F\u043E\u0441\u043C\u043E\u0442\u0440\u0438. \u041B\u0438\u0441\u0442 \u0437\u0435\u043B\u0451\u043D\u044B\u0439\u2026 \u0422\u044B \u0432\u0438\u0434\u0438\u0448\u044C?",
           "translations": {
             "ru": "\u041D\u0430 \u0432\u0435\u0442\u043A\u0443 \u043F\u043E\u0441\u043C\u043E\u0442\u0440\u0438. \u041B\u0438\u0441\u0442 \u0437\u0435\u043B\u0451\u043D\u044B\u0439\u2026 \u0422\u044B \u0432\u0438\u0434\u0438\u0448\u044C?"
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-dialogue-alsu-leaf-witnessed",
+        "value": {
+          "default": "\u041E\u043D \u0441\u0435\u0439\u0447\u0430\u0441 \u0432\u044B\u0440\u043E\u0441?",
+          "translations": {
+            "ru": "\u041E\u043D \u0441\u0435\u0439\u0447\u0430\u0441 \u0432\u044B\u0440\u043E\u0441?"
           }
         },
         "purpose": "dialogue"
@@ -31103,9 +31192,9 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-label-alsu-leaf-talk",
         "value": {
-          "default": "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0410\u043B\u0441\u0443 \u0437\u0435\u043B\u0451\u043D\u044B\u0439 \u043B\u0438\u0441\u0442",
+          "default": "\u041F\u043E\u0433\u043E\u0432\u043E\u0440\u0438\u0442\u044C \u0441 \u0410\u043B\u0441\u0443 \u043E \u043B\u0438\u0441\u0442\u0435",
           "translations": {
-            "ru": "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0410\u043B\u0441\u0443 \u0437\u0435\u043B\u0451\u043D\u044B\u0439 \u043B\u0438\u0441\u0442"
+            "ru": "\u041F\u043E\u0433\u043E\u0432\u043E\u0440\u0438\u0442\u044C \u0441 \u0410\u043B\u0441\u0443 \u043E \u043B\u0438\u0441\u0442\u0435"
           }
         },
         "purpose": "ui"
@@ -33529,7 +33618,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "a4270f5b5f488d4ec0d22905f95318915be22dea534ebc1640161b4366a91d45"
+      "sha256": "c62790df4eafa2081ac570bb5591a104589c61842f9d3ad06f0225831916b748"
     },
     {
       "moduleId": "urman.oldpc",
@@ -33537,5 +33626,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "cdbeb28dd3f267a7b2e43248b7e040f46deb98dd40ff2d0609744ee6e3b84be3"
+  "campaignFingerprint": "2e2b6ed2af43e5fede13491fa26e70c6f83f08d59cc9ea149d30eed44990860d"
 }
