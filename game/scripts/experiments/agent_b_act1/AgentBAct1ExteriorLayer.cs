@@ -1459,6 +1459,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         return true;
     }
 
+    private readonly record struct FoliagePlanEntry(Vector2 Position, string Variant, (double Distance, double HalfWidth) Road);
+
     private void PlantFoliage()
     {
         var kit = GetNode<Node3D>("AgentB_FoliageKit");
@@ -1587,7 +1589,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         kit.SetMeta("templateSourcePolicy", "hidden source library; shared geometry is rebased once per variant");
         var batches = new Dictionary<(Vector2I Cell, string Variant, string Region, int Lod), List<Transform3D>>();
         var roofs = BuildingRoofBounds(GetParent());
-        var plan = new List<(Vector2 Position, string Variant)>();
+        var plan = new List<FoliagePlanEntry>();
         Act1ConnectedWorld.ProfileWorldBuildStep("agent-b-densified-plan", () => plan = BuildDensifiedPlan());
         var maxRoadHalfWidth = AgentBAct1HeightField.MaxRoadHalfWidth;
         var architecture = GetNode<StaticBody3D>("AgentB_ArchitectureCollision");
@@ -1595,7 +1597,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var suppressed = 0;
         var suppressedKara = 0;
         var minimumClearance = float.MaxValue;
-        foreach (var (position, sourceVariant) in plan)
+        foreach (var (position, sourceVariant, road) in plan)
         {
             var smallShrub = sourceVariant.StartsWith("Shrub_", StringComparison.Ordinal);
             var woodlandRegrowth = smallShrub && position.X <= -44f && position.X >= -64f && Mathf.Abs(position.Y) <= 24f;
@@ -1619,7 +1621,6 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                     ? variant.StartsWith("WinterSpruce_", StringComparison.Ordinal) ? variant : "WinterSpruce_1"
                     : "WinterLinden_1";
             var template = Geometry(variant);
-            var road = AgentBAct1HeightField.RoadInfo(position.X, position.Y);
             var clearance = (float)(road.Distance - road.HalfWidth);
             if (clearance < .25f) throw new InvalidOperationException($"Foliage placement enters road: {variant}@{position}");
             minimumClearance = Mathf.Min(minimumClearance, clearance);
@@ -2135,13 +2136,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     /// passes the same road-envelope clearance check as the base plan.
     /// Deterministic seed keeps captures reproducible.
     /// </summary>
-    private List<(Vector2 Position, string Variant)> BuildDensifiedPlan()
+    private List<FoliagePlanEntry> BuildDensifiedPlan()
     {
         // VIS-085 evidence list: rebuilt with the plan, never carried over from a
         // previous world instance.
         _forestRingTrees.Clear();
         _outerRowUnderstorySkipped = 0;
-        var baseEntries = new List<(Vector2, string)>();
+        var baseEntries = new List<FoliagePlanEntry>();
         var generated = new List<(Vector2, string)>();
         var rng = new RandomNumberGenerator { Seed = 20260910 };
         var families = new Dictionary<string, string[]>(StringComparer.Ordinal)
@@ -2181,7 +2182,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             if (isAuthoredTree && !sourceClear) continue;
             // Ground-cover removal must not consume a different random stream:
             // later garden fixtures retain their authored roots and positions.
-            if (sourceClear) baseEntries.Add((position, winterVariant));
+            if (sourceClear) baseEntries.Add(new(position, winterVariant, authoredRoad));
             min = new Vector2(Mathf.Min(min.X, position.X), Mathf.Min(min.Y, position.Y));
             max = new Vector2(Mathf.Max(max.X, position.X), Mathf.Max(max.Y, position.Y));
 
@@ -2213,7 +2214,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         // street stops reading as empty. Density falls off with distance
         // from the road edge; a spacing check keeps it from clumping.
         var spacing = new List<Vector2>();
-        foreach (var (position, _) in baseEntries)
+        foreach (var (position, _, _) in baseEntries)
         {
             spacing.Add(position);
         }
@@ -2660,7 +2661,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var required = isTree ? 2.6f : 0.75f;
             if (clearance >= required)
             {
-                baseEntries.Add((position, variant));
+                baseEntries.Add(new(position, variant, roadInfo));
             }
             else if (isTree)
             {

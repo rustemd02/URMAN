@@ -145458,7 +145458,13 @@
         "pine_fit_reuse": "Implemented bounded immutable generated-pine fit cache in AgentBAct1ExteriorLayer: key holds PackedScene/native ArrayMesh identity, LOD and exact scale; cap9; source Changed invalidates future shared lookups. W01 temporary provider and village can reuse three fitted LODs. Eviction drops cache references without disposing meshes used by scenes; final disposal runs after Main is freed. Physical contacts, source materials and placements unchanged. Existing per-instance caches/live trees are not rebuilt by resource-change invalidation.",
         "pine_fit_verification": "Affected Game compile 24.10.2026: 17.16s, exit0, 0 warnings/errors; scoped diff check and independent Astra source review: no P1/P2. Actual cache-hit timing and whole-return speedup unmeasured; no native run or new tests. Source Instantiate, physical copies and other village construction still execute."
       },
-      "rebuild_profile_scope_2026_10_27": "Historical 24.10 profile: core12.531s, authored10.229s, total30.525s; not fresh return timing. Later 091f6b27 extended fitted foliage cache to pine and birch, cap12, so older cap9/pine-only description is historical; current benefit and stage distribution not measured."
+      "rebuild_profile_scope_2026_10_27": "Historical 24.10 profile: core12.531s, authored10.229s, total30.525s; not fresh return timing. Later 091f6b27 extended fitted foliage cache to pine and birch, cap12, so older cap9/pine-only description is historical; current benefit and stage distribution not measured.",
+      "foliage_road_query_reuse_2026_10_27": {
+        "result": "Each final foliage plan entry retains the RoadInfo already calculated for its final position; PlantFoliage no longer repeats that root query. Existing ordering, random stream, placement, vertex/lean road guards, colliders and metadata remain. Cache is local to this synchronous build.",
+        "source": "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+        "verification": "Independent Astra source review of both producers, sole consumer, mutable road axes and Studio reload/rollback; affected Game build 0 warnings/errors. No native output comparison or timing measurement.",
+        "remaining": "Measure representative protected world build and user-visible loading on target Windows only when a relevant run is possible; no time saved claimed."
+      }
     },
     {
       "id": "PW-091",
