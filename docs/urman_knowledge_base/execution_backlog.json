@@ -147708,7 +147708,11 @@
         ],
         "verification": "Source archive/member/image hashes checked; independent review validated all 19 members × 6 UV faces and custom RGB linear pigment path. Affected Game build 0 errors/warnings. Godot shader import, rendered scene/motion, snowfall, gates colour relationship, cultural/art and FPS/memory are NOT verified.",
         "budget": "No new Meshy request: existing task 01a17a75-f06d-72b4-801e-27e80073bdb8 previously cost 10 credits, total 590/4000.",
-        "performance": "Calculated +1 atlas surface and +12 bytes per indexed vertex; no measured draw calls/FPS/memory."
+        "performance": "Calculated +1 atlas surface and +12 bytes per indexed vertex; no measured draw calls/FPS/memory.",
+        "windows_capture": "Job 9ae3f30a136c4e28aaa51b0f5e534f51 PASS on 1d3896e4; import/build/content/game exit0, no shader/error matches, userdataRestored=true, station ready. Captured H073 native frame. Root viewed: fence and gate read as flat at this distance, so art/style approval is not established. No movement, FPS or GPU memory measured.",
+        "local_receipt_archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-palisadnik-9ae3f30a-2026-10-27/result.zip",
+        "archive_sha256": "dd8edf8bee4e78c2a6af2c41b6f70ee351ac158c39cf63cde3300e588d18afc0",
+        "frame_sha256": "67a12ffdba3d58c8aa1fcc26cedb4a7c5fcd6402a1cc87cb3eac8c54d4ba8a23"
       }
     },
     {

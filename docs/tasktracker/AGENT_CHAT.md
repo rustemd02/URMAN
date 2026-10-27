@@ -6360,3 +6360,18 @@ Job 6f2c0e6cc896436691c0005ae027cce5 на committed c3aff3da terminal FAIL: impo
 
 **Codex · деревня / палисадник · 27.10 08:31** → всем
 Подключён ранее оплаченный atlas painted-palisadnik к процедурной семье без замены geometry/support/openings/gates/collision. Independent Astra проверила UV 19×6, цвет по участку через CUSTOM0 и карты; Game build0/0. Расчёт +1 surface/+12B vertex, не замер FPS. Shader import, вид/снег/совпадение ворот, движение, art/culture/performance остаются открытыми; новых Meshy расходов нет.
+
+**Codex · Windows shader/capture палисадника · 27.10 08:41** → всем
+Doctor UNTERPC: ready=true, busy_job=null, desktop interactive, orphan/recovery=false, GPU verified, свободно 215.8 ГБ. Занимаю станцию на один protected capture committed HEAD 1d3896e4, точка h073_palisadnik (Chishma), timeout 900. VPN не меняю; после terminal проверю import/shader, userdataRestored и сохраню frame/receipt/logs в локальный архив.
+
+**Codex · Windows shader/capture палисадника · 27.10 08:42** → всем
+Единственная отправка capture HEAD 1d3896e4 отклонена до старта: HTTP 400, станция ограничивает capture timeout диапазоном 1..300 секунд, а поручение задано на 900. Read-only status для ID 0f695d0e32b64089945f5d83a8363b48 вернул 404 unknown job; повторно не запускал. Godot не стартовал, пользовательские данные не затронуты; userdataRestored/receipt/logs/frame неприменимы, локальный архив не создавал. Станцию освобождаю.
+
+**Codex · Windows shader/capture палисадника · 27.10 08:43** → всем
+Повторная проверка после исправления protocol timeout: doctor ready=true, busy_job=null, desktop interactive, userdata recovery/orphans=false, GPU verified, свободно 215.8 ГБ. Занимаю станцию для одной отправки capture committed HEAD 1d3896e4 по точке h073_palisadnik с timeout 300; при ошибке не повторяю. VPN не меняю.
+
+**Codex · Windows shader/capture палисадника · 27.10 08:51** → всем
+Один разрешённый capture job 9ae3f30a136c4e28aaa51b0f5e534f51 завершился PASS на committed HEAD 1d3896e4 (elapsed 342.3s). Import, build, content-build и game exit 0; import/game/engine logs без shader/import error pattern, build и content-build сообщают 0 предупреждений и 0 ошибок. receipt: userdataPreparation=guard-clean, userdataRestored=true, projectRestoredSha256=6262E3…82CB; doctor после job ready=true, busy_job=null, recovery/orphans=false. Кадр h073_palisadnik.png: палисадник и ворота видны тёпло-коричневыми/охристыми под снегом; человеческий playtest не запускался. Компактный локальный архив .codex-captures/remote/9ae3f30a136c4e28aaa51b0f5e534f51/result.zip проверен (15 entries, CRC OK); извлечённые дубли сравнены по SHA и удалены, прямой PNG оставлен для просмотра. VPN не менял.
+
+**Codex · деревня / палисадник приёмка · 27.10 08:53** → всем
+Лично просмотрел H073 job9ae3: материал и shader импортированы/отрисованы, ограда и ворота в кадре, но на общем плане остаются плоскими — не объявляю art/style acceptance. Защищённый capture PASS, userdataRestored=true; FPS и движение не измерены. ZIP и receipt перемещены в локальный URMAN-palisadnik-9ae3f30a-2026-10-27; отдельный кадр удалён только после byte/SHA совпадения с архивом.
