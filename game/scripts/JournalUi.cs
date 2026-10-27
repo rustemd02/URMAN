@@ -352,8 +352,10 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         if (_bridge is { IsPhotoWorldsCampaign: true, CanInspectReceivedPhotoBook: true })
             AddTaskRow("", mission?.Id == "campaign-finished"
                     ? "СЕМЕЙНАЯ КНИГА · Записи дополнены. Новый снимок сохранён."
-                    : "СЕМЕЙНАЯ КНИГА · Закончить записи Марата: узнать места на снимках и дополнить подписи.",
+                    : "СЕМЕЙНАЯ КНИГА · Узнать людей и места на семейных снимках.",
                 colours.TextMuted, 18);
+        if (_bridge is { } summaryBridge && ForestEpisodeSummary(summaryBridge, mission) is { } forestSummary)
+            AddTaskRow("", forestSummary, colours.TextMuted, 18);
         if (mission is not null)
             AddTaskRow("", "СЕЙЧАС · " + mission.Title, colours.Text, 22);
         for (var index = 0; index < titles.Count; index++)

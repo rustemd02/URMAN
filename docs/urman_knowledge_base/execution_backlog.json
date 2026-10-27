@@ -104901,6 +104901,15 @@
         ],
         "fingerprint": "8099af9f968add2f31e1a1f25bf814d6c3783e1b9fa3ea5abeaf12f802b6d3b2",
         "verification": "Compiled content and affected Game build 0/0; independent Astra review of story/gates and direct compatibility pairs. Actual pace, delivery, route and existing save load remain unverified in game."
+      },
+      "forest_episode_context_2026_10_27": {
+        "result": "Existing objective page now states the family-book purpose and, in the forest route, the reason to help әби plus only earned milestones and confirmed home result. It no longer promises adding captions.",
+        "sources": [
+          "game/scripts/JournalUi.cs",
+          "game/scripts/JournalUi.Missions.cs"
+        ],
+        "verification": "Affected Game build 0/0; independent source review caught and fixed shared water-first mission ID, checked earned facts and session guards. Windows UI readability and full first-episode experience remain unverified.",
+        "known_boundary": "If W04 is completed without the forest home account, existing progression suppresses that account and this forest context is no longer displayed outside its route; no unearned result is invented."
       }
     },
     {

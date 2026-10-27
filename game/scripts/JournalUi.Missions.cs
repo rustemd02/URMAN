@@ -29,6 +29,38 @@ public partial class JournalUi
     internal static string? PhotoBookPreparationObjectiveText(RuntimeBridge? bridge, string? selectedPhotoId = null) =>
         bridge is null ? null : PhotoBookPreparationMission(bridge, selectedPhotoId)?.Action;
 
+    private static string? ForestEpisodeSummary(RuntimeBridge bridge, PlayerMission? mission)
+    {
+        if (!bridge.IsPhotoWorldsCampaign || !bridge.CanInspectReceivedPhotoBook
+            || bridge.IsPhotoBookProjectionDeferred || bridge.SessionIdentity is not { } session)
+            return null;
+
+        var state = session.SelectState();
+        var recorded = MissionKnowledgeConfirmed(state, "urman.fullgame:knowledge/pw-forest-inside");
+        var forestContext = bridge.ActiveSceneId == "urman.fullgame:scene/pw-forest"
+            || mission?.Id.StartsWith("forest-", StringComparison.Ordinal) == true
+            || ForestHomeResultPending(bridge);
+        if (!forestContext && !(recorded && bridge.ActiveSceneId == "urman.fullgame:scene/pw-home"))
+            return null;
+
+        string summary;
+        if (recorded)
+            summary = "ЛЕСНОЙ СНИМОК · Әби узнала старый корень. Место съёмки и встреча с Шурале записаны в книгу.";
+        else
+        {
+            summary = "ЛЕСНОЙ СНИМОК · Помочь әби узнать место: она помнит людей на снимке, но не помнит, где они стояли.";
+            if (bridge.PhotoWorldFactObserved("forest_camera_back_seen"))
+                summary += " Берёза и перекладина совпали со школьной копией — место найдено.";
+            else if (bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-SCHOOL"))
+                summary += " Копия из школьного альбома получена.";
+            if (bridge.PhotoWorldFactObserved("forest_encounter_resolved"))
+                summary += " Ремень сумки у корня освобождён.";
+        }
+
+        return ReferenceEquals(session, bridge.SessionIdentity) && !bridge.IsPhotoBookProjectionDeferred
+            ? summary : null;
+    }
+
     internal static bool WaterHomeResultPending(RuntimeBridge bridge)
         => HomeWorldResultPending(bridge, "urman.fullgame:quest/pw-w02",
             "urman.fullgame:knowledge/pw-water-home-account");
