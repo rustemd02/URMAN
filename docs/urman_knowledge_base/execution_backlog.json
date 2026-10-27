@@ -104892,6 +104892,15 @@
         ],
         "fingerprint": "b0896377883d7ca17d35d84a3e318021df9c870c092f83a249c7998642c67f54",
         "verification": "ContentCli compile and Game build0/0; independent source review of completion, cancellation, target availability and predecessor fingerprint mappings. Normal in-game tea/handoff and old-save Continue remain unverified."
+      },
+      "early_dialogue_clarity_2026_10_27": {
+        "result": "Revised nine connected arrival, family tea and school lines: remove nonexistent physical book movement and duplicated exposition while retaining the memory gap, family motive, school location, copy and forest landmarks.",
+        "sources": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+        ],
+        "fingerprint": "8099af9f968add2f31e1a1f25bf814d6c3783e1b9fa3ea5abeaf12f802b6d3b2",
+        "verification": "Compiled content and affected Game build 0/0; independent Astra review of story/gates and direct compatibility pairs. Actual pace, delivery, route and existing save load remain unverified in game."
       }
     },
     {
