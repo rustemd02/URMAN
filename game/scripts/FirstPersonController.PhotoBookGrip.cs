@@ -13,6 +13,20 @@ public partial class FirstPersonController
 
     internal bool HasPhotoBookGrip => _photoBookGripRequested;
 
+    internal bool CanShowPhotoSceneReference(RuntimeBridge bridge, string photoId, bool allowJournalModal) =>
+        PhotoSceneReference.CanShow(this, bridge, photoId, allowJournalModal);
+
+    internal bool TryShowPhotoSceneReference(RuntimeBridge bridge, object session, string photoId, Texture2D front)
+    {
+        if (!ReferenceEquals(session, bridge.SessionIdentity)
+            || !CanShowPhotoSceneReference(bridge, photoId, allowJournalModal: false)) return false;
+        foreach (var previous in GetChildren().OfType<PhotoSceneReference>()) previous.Dismiss();
+        var reference = new PhotoSceneReference();
+        reference.Prepare(this, bridge, session, photoId, front);
+        AddChild(reference);
+        return true;
+    }
+
     // Called by the album before its ordinary close completes, so invalid/missing
     // models can refuse without dismissing the journal. It creates and frees only
     // temporary imported instances; no player state or scene is changed.

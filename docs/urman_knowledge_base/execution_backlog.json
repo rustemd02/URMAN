@@ -112271,6 +112271,16 @@
         "blocker": "LOOK_INPUT_NOT_OBSERVED: documented CUA drag did not rotate camera. One ordinary Escape/pause→Resume was verified focused=True/mouseModeCaptured, but subsequent drag still unchanged. No unsupported UI methods, teleport/fact edits, speculative input source patch or same native rerun. This is a computer-input acceptance limitation, not a proven game-look defect.",
         "remaining": "Proceed ordinary house/book/school/F11 only after usable supported mouse-look path or controlled human/station input. Source Save57 remains resumable; do not repeat NewGame/arrival or blind native checks.",
         "cleanup": "3rawmembers181982B byteverified then297870B loose PNG/log removed. UIprocessstopped;564930282B unusedreproducible import/shader/buildcache removed once this check ended with input blocker. No temporary override."
+      },
+      "forest_photo_live_reference_2026_10_27": {
+        "result": "Optional acquired P-FOREST or S-SCHOOL front remains visible while the player walks and looks in W01; existing observation and story state remain authoritative.",
+        "source": [
+          "game/scripts/PhotoSceneReference.cs",
+          "game/scripts/JournalUi.PhotoBookInspection.cs",
+          "game/scripts/FirstPersonController.PhotoBookGrip.cs"
+        ],
+        "verification": "Independent source review of state and input; affected Game build succeeded, 0 warnings/errors. No game run.",
+        "remaining": "Windows view at F11 must assess readability, overlap with landmarks/HUD, and input at small resolution; full first episode and return/Save/Continue remain open."
       }
     },
     {
@@ -147547,7 +147557,8 @@
       "tatar_village_authenticity_2026_10_26": {
         "author_instruction": "Generated village assets should fit the realities of a Tatar village, including homes and household details.",
         "practice": "Check each major family against the established game setting, period and locality and the existing cultural/architectural sources; choose plausible construction, materials and use, avoid invented generic motifs. Record uncertainty when evidence is missing and retain separate cultural and author acceptance.",
-        "scope": "All generated village families and interior assets; cupboard ImageGen reference remains an unaccepted candidate, not evidence of cultural authenticity."
+        "scope": "All generated village families and interior assets; cupboard ImageGen reference remains an unaccepted candidate, not evidence of cultural authenticity.",
+        "source_limits": "Sources and uncertainties: docs/research_shurale_package/research/01_sources_and_method.md and 04_houses_facades_and_yards.md; T1–T4 image files absent in this checkout, so descriptions are not evidence of viewing them. S101 street and S105 museum do not establish interiors or present-day private courtyard layouts. Separate cultural acceptance remains open."
       },
       "home_storage_chest_2026_10_26": {
         "status": "style_hold_no_runtime_integration",
