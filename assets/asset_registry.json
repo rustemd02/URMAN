@@ -4861,6 +4861,26 @@
       "provenance": "assets/source/blender/act1/neighbor_outbuilding_c_pbr_v1/candidate-receipt.json",
       "sourceSha256": "0e07cd4f7ce41201b63ece3a68dd9b3e3deb315c987f2ffbacb1410c4c192aa0",
       "derivedSha256": "0e07cd4f7ce41201b63ece3a68dd9b3e3deb315c987f2ffbacb1410c4c192aa0"
+    },
+    {
+      "id": "village.fence.painted-palisadnik.meshy-pbr.v1",
+      "source": "assets/source/blender/act1/painted_palisadnik_pbr_v1/candidate-receipt.json",
+      "derived": "game/assets/materials/act1/painted_palisadnik_pbr_v1/painted_palisadnik.tres",
+      "generator": "Own procedural fence reference → built-in image_gen → paid Meshy retexture → atlas image extraction and source-member UV mapping for existing procedural box geometry",
+      "license": "Owner-generated from own-game/ImageGen inputs under paid Meshy plan, subject to applicable Meshy terms; final rights and cultural acceptance remain open.",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "textureBudget": 2048,
+      "materials": [
+        "One shared shader/material with unmodified 2K albedo and normal, 1K metallic/roughness atlas; per-lot linear pigment in CUSTOM0, pale caps unchanged."
+      ],
+      "collision": "Original procedural ground support, authored openings, gates, wickets and collision remain authoritative; atlas changes visual batch only.",
+      "lod": "One additional family surface estimated, 12 bytes per indexed vertex; packaged GPU performance and memory are not measured.",
+      "status": "Archive/source/material hashes and UV mapping reviewed; native shader import, scene/motion, snow response, artistic and cultural acceptance and performance remain open.",
+      "releaseDisposition": "source-integration-native-art-culture-performance-pending",
+      "provenance": "game/assets/materials/act1/painted_palisadnik_pbr_v1/provenance.json",
+      "sourceSha256": "0d54b3b8078ad8947938f1f0f359b7f7d6149ae5769c5bc5fec8bff639f971fd",
+      "derivedSha256": "0d54b3b8078ad8947938f1f0f359b7f7d6149ae5769c5bc5fec8bff639f971fd"
     }
   ]
 }

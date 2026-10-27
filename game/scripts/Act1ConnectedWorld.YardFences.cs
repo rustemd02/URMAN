@@ -424,7 +424,7 @@ public partial class Act1ConnectedWorld
                     || !lotRunIds.Contains(runId))
                     throw new InvalidDataException($"fenceAlignment refers to unknown run '{runId}' in {lot.SourcePath} lot {lot.Id}.");
         // One mesh per material: picket instances and boxes alike are baked into a single surface.
-        foreach (var (key, transforms) in pickets)
+        foreach (var (key, transforms) in pickets.Where(part => !part.Key.StartsWith(PaintedPalisadnikBatchPrefix, StringComparison.Ordinal)))
         {
             var parts = key[4..].Split('|');
             using var tool = new SurfaceTool();
@@ -433,6 +433,41 @@ public partial class Act1ConnectedWorld
             tool.Index();
             root.AddChild(new MeshInstance3D { Name = "FenceParts_" + parts[0] + "_" + parts[1], Mesh = tool.Commit(),
                 MaterialOverride = PainterlyMaterialLibrary.ForColor(parts[0], parts[1]) });
+        }
+        var palisadnikParts = pickets.Where(part => part.Key.StartsWith(PaintedPalisadnikBatchPrefix, StringComparison.Ordinal)).ToArray();
+        if (palisadnikParts.Length > 0)
+        {
+            var material = ResourceLoader.Load<ShaderMaterial>(PaintedPalisadnikMaterialPath)
+                ?? throw new InvalidDataException("The painted-palisadnik atlas material is missing.");
+            using var tool = new SurfaceTool();
+            tool.Begin(Mesh.PrimitiveType.Triangles);
+            // RGBFloat retains tint ratios above 1; packed vertex COLOR would clip
+            // the pale/blue lot pigments. Cost: 12 bytes per indexed vertex.
+            tool.SetCustomFormat(0, SurfaceTool.CustomFormat.RgbFloat);
+            foreach (var (key, transforms) in palisadnikParts)
+            {
+                var fields = key[PaintedPalisadnikBatchPrefix.Length..].Split('|');
+                var member = fields[0];
+                if (!material.HasMeta(member))
+                    throw new InvalidDataException($"The painted-palisadnik atlas has no UV mapping for '{member}'.");
+                var uv = material.GetMeta(member).AsVector2Array();
+                if (uv.Length != 24)
+                    throw new InvalidDataException($"The painted-palisadnik member '{member}' must map six box faces.");
+                // Only the green source role carries a lot colour. Pale cap and
+                // post-cap keys have no suffix and retain their paid atlas pigment.
+                var pigment = Colors.White;
+                if (fields.Length == 2)
+                {
+                    var target = Color.FromHtml(fields[1]).SrgbToLinear();
+                    pigment = new Color(target.R / PaintedPalisadnikSourcePigment.R,
+                        target.G / PaintedPalisadnikSourcePigment.G, target.B / PaintedPalisadnikSourcePigment.B);
+                }
+                foreach (var transform in transforms) AppendPaintedPalisadnikBox(tool, transform, uv, pigment);
+            }
+            tool.Index();
+            tool.GenerateTangents();
+            root.AddChild(new MeshInstance3D { Name = "FenceParts_PaintedPalisadnikPbr", Mesh = tool.Commit(),
+                MaterialOverride = material });
         }
         if (!studioPreview)
         {
@@ -701,6 +736,34 @@ public partial class Act1ConnectedWorld
         list.Add(at * new Transform3D(Basis.Identity.Scaled(size), Vector3.Zero));
     }
 
+    private const string PaintedPalisadnikPartPrefix = "painted-palisadnik:";
+    private const string PaintedPalisadnikBatchPrefix = "box:" + PaintedPalisadnikPartPrefix;
+    private const string PaintedPalisadnikMaterialPath = "res://assets/materials/act1/painted_palisadnik_pbr_v1/painted_palisadnik.tres";
+    private static readonly Color PaintedPalisadnikSourcePigment = Color.FromHtml("7f9a74").SrgbToLinear();
+
+    // Same six quads and winding as AppendMetricBox; these UVs belong to the paid
+    // source member's atlas islands and must never be scaled by world metres.
+    private static void AppendPaintedPalisadnikBox(SurfaceTool tool, Transform3D transform, Vector2[] uv, Color pigment)
+    {
+        var face = 0;
+        foreach (var (normal, u, v) in new[] {
+            (Vector3.Right, Vector3.Back, Vector3.Up), (Vector3.Left, Vector3.Forward, Vector3.Up),
+            (Vector3.Up, Vector3.Right, Vector3.Back), (Vector3.Down, Vector3.Right, Vector3.Forward),
+            (Vector3.Back, Vector3.Left, Vector3.Up), (Vector3.Forward, Vector3.Right, Vector3.Up) })
+        {
+            void Vertex(float x, float y, int corner)
+            {
+                tool.SetNormal((transform.Basis.Inverse().Transposed() * normal).Normalized());
+                tool.SetUV(uv[face * 4 + corner]);
+                tool.SetCustom(0, pigment);
+                tool.AddVertex(transform * (normal * .5f + u * x + v * y));
+            }
+            Vertex(-.5f, -.5f, 0); Vertex(.5f, -.5f, 1); Vertex(.5f, .5f, 2);
+            Vertex(-.5f, -.5f, 0); Vertex(.5f, .5f, 2); Vertex(-.5f, .5f, 3);
+            face++;
+        }
+    }
+
     /// <summary>A point on a leaning post at height <paramref name="y"/> above its
     /// own foot. Rails and boards hang from these, so a settled post moves the whole
     /// bay with it instead of leaving the timber floating next to an empty post.</summary>
@@ -748,6 +811,7 @@ public partial class Act1ConnectedWorld
         // stays weathered board and only borrows a little of that colour. A yard
         // boundary is never painted: it is the working fence behind the street face.
         var paint = (street ? colour : "9b886b") + "|" + design.Surface;
+        var palisadnik = design.Id == "painted-palisadnik";
 
         var foot = new Vector3[bays + 1];
         var lean = new float[bays + 1];
@@ -766,9 +830,11 @@ public partial class Act1ConnectedWorld
             // the crown lands exactly where the rails are hung.
             var rise = groundY[i] + design.Height + .11f - foot[i].Y;
             var centre = PostPointAt(foot[i], along, lean[i], rise * .5f);
-            FencePart(parts, paint, new(design.PostSection, rise / Mathf.Cos(lean[i]), design.PostSection),
+            FencePart(parts, palisadnik ? PaintedPalisadnikPartPrefix + $"Palisadnik_Post_{i % 2}|{colour}" : paint,
+                new(design.PostSection, rise / Mathf.Cos(lean[i]), design.PostSection),
                 new(basis * new Basis(Vector3.Right, lean[i]), centre));
-            FencePart(parts, "e6dfc6|wood_painted_trim", new(design.PostSection + .04f, .045f, design.PostSection + .04f),
+            FencePart(parts, palisadnik ? PaintedPalisadnikPartPrefix + $"Palisadnik_PostCap_{i % 2}" : "e6dfc6|wood_painted_trim",
+                new(design.PostSection + .04f, .045f, design.PostSection + .04f),
                 new(basis, PostPointAt(foot[i], along, lean[i], rise + .0225f)));
         }
 
@@ -785,13 +851,14 @@ public partial class Act1ConnectedWorld
             var p0 = a + dir * (i * bay); var p1 = a + dir * ((i + 1) * bay);
             var mid = (p0 + p1) * .5f;
             var gm = (groundY[i] + groundY[i + 1]) * .5f;
-            foreach (var y in courses)
+            foreach (var (y, courseIndex) in courses.Select((height, index) => (height, index)))
             {
                 var from = PostPointAt(foot[i], along, lean[i], y);
                 var to = PostPointAt(foot[i + 1], along, lean[i + 1], y);
                 // Wattle has no separate rails: every course is a woven withy that
                 // passes in front of one upright and behind the next.
-                FencePart(parts, paint, new(design.RailThickness, design.RailDepth, from.DistanceTo(to)),
+                FencePart(parts, palisadnik ? PaintedPalisadnikPartPrefix + $"Palisadnik_BearingRail_{courseIndex}|{colour}" : paint,
+                    new(design.RailThickness, design.RailDepth, from.DistanceTo(to)),
                     new(BeamBasis(from, to), (from + to) * .5f));
             }
 
@@ -829,7 +896,8 @@ public partial class Act1ConnectedWorld
                 // across the fence line by half its own thickness, front and back.
                 var across = design.Woven ? (k % 2 == 0 ? .03f : -.03f) : 0f;
                 var offset = basis * new Vector3(across, 0f, 0f);
-                FencePart(parts, repaired ? "b9ab8e|wood_fence" : paint,
+                FencePart(parts, palisadnik ? PaintedPalisadnikPartPrefix + $"Palisadnik_Picket_{k % 12:D2}|{colour}"
+                        : repaired ? "b9ab8e|wood_fence" : paint,
                     new(design.BoardThickness, top - bottom, width),
                     new(basis, new(q.X + offset.X, (top + bottom) * .5f, q.Y + offset.Z)));
                 if (design.PointedTops && !(design.MixedBoards && k % 2 == 1))
@@ -841,7 +909,8 @@ public partial class Act1ConnectedWorld
             {
                 var capFrom = PostPointAt(foot[i], along, lean[i], design.Height);
                 var capTo = PostPointAt(foot[i + 1], along, lean[i + 1], design.Height);
-                FencePart(parts, "e3d6b8|wood_painted_trim", new(.055f, .06f, bay),
+                FencePart(parts, palisadnik ? PaintedPalisadnikPartPrefix + "Palisadnik_CapRail" : "e3d6b8|wood_painted_trim",
+                    new(.055f, .06f, bay),
                     new(BeamBasis(capFrom, capTo), (capFrom + capTo) * .5f));
             }
             if (i == repairBay)

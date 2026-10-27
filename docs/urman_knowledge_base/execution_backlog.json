@@ -147697,6 +147697,18 @@
         "meshy_spend": "No new generation or credits; existing total 590/4000.",
         "windows_check": "Protected job 6f2c0e6cc896436691c0005ae027cce5 on c3aff3da: candidate GLB reimport exit0; application reached W01 F00. Input refused ui_focus_post_activation_lost, village/graft were not reached; terminal timeout124. engine-errors empty, userdataRestored=true. No scene, movement, LOD, performance, art or culture acceptance.",
         "local_receipt_archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-variantc-6f2c0e6c-2026-10-27"
+      },
+      "painted_palisadnik_runtime_2026_10_27": {
+        "result": "Previously paid generated PBR atlas applied to procedural painted-palisadnik family with source-member face UV; original geometry, support, openings, gates/wickets and collision remain authoritative. One merged atlas shader/material with linear per-lot pigment for original colour variety and untinted pale caps.",
+        "sources": [
+          "game/scripts/Act1ConnectedWorld.YardFences.cs",
+          "game/assets/materials/act1/painted_palisadnik_pbr_v1/painted_palisadnik.tres",
+          "game/assets/materials/act1/painted_palisadnik_pbr_v1/provenance.json",
+          "assets/asset_registry.json"
+        ],
+        "verification": "Source archive/member/image hashes checked; independent review validated all 19 members × 6 UV faces and custom RGB linear pigment path. Affected Game build 0 errors/warnings. Godot shader import, rendered scene/motion, snowfall, gates colour relationship, cultural/art and FPS/memory are NOT verified.",
+        "budget": "No new Meshy request: existing task 01a17a75-f06d-72b4-801e-27e80073bdb8 previously cost 10 credits, total 590/4000.",
+        "performance": "Calculated +1 atlas surface and +12 bytes per indexed vertex; no measured draw calls/FPS/memory."
       }
     },
     {

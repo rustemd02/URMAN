@@ -1,0 +1,23 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+path="res://.godot/imported/metallic_roughness.png-58788d140b52c2b35423b0c6947017fc.ctex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://assets/materials/act1/painted_palisadnik_pbr_v1/metallic_roughness.png"
+dest_files=["res://.godot/imported/metallic_roughness.png-58788d140b52c2b35423b0c6947017fc.ctex"]
+
+[params]
+
+compress/mode=0
+compress/normal_map=0
+mipmaps/generate=true
+mipmaps/limit=-1
+process/normal_map_invert_y=false
+process/size_limit=0
+detect_3d/compress_to=0
