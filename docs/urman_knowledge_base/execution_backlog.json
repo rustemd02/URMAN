@@ -126027,14 +126027,19 @@
         "remaining": "Live same-RID pending/replay, full control reliability, actual W01/Continue and full goal acceptance remain unproven. Do not claim full30minstall fixed; preparecontroller BEFOREjob, reserveexit basedactualnativeelapsed."
       },
       "current_native_question_2026_10_29": {
-        "state": "running_menu_observed",
+        "state": "partial_timeout_userdata_restored",
         "source_commit": "554c6eba",
         "question": "Can ordinary New Game move the branch, follow the visible F00-F03 path, enter the Niva ride and reach family arrival without skip?",
         "success": "Observed physical branch action, normal F03 transition, actual Niva ride and controllable arrival; protected userdata restored. Does not close full Act I.",
         "limits": "One current protected play-product; stop inputs on foreground guard denial; do not repeat already accepted setup without new evidence.",
         "job_id": "727872321dbc4677a0142091a47becc7",
         "snapshot_id": "8db9f70e7e55ff141ae9c240c5ea596209744938ee14894df85fd45626f5e6e3",
-        "observation": "Menu rendered, New Game offered and Continue unavailable. Initial capture requests occurred during import and were resumed with same request ID. Input result pending."
+        "observation": "Menu rendered, New Game offered and Continue unavailable. Initial capture requests occurred during import and were resumed with same request ID. Input result pending.",
+        "result": "Ordinary New Game, F01 branch action and unobstructed visible trail through F02 observed. Stopped at44m from F03 by1200s game budget; Niva not reached. No engine ERROR lines. Input worked; no foreground denial.",
+        "userdata_restored": true,
+        "game_exit_code": 124,
+        "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-prologue-72787232-2026-10-29",
+        "next_action": "Dedicated native owner verifies updated atmosphere/sound and completes normal F03→Niva→family route with a sufficient explicit budget; no skip or altered saves."
       },
       "prologue_sound_2026_10_29": {
         "state": "source_reviewed_compiled_native_pending",
@@ -126045,6 +126050,16 @@
         "verification": "Source audio ownership and Game build0/0; actual audibility not yet accepted.",
         "remaining": "Spatial balance and cue recognition on ordinary F02→F03.",
         "independent_review": "Luna reviewer found no actionable regression in current save/session/modal/reduced-motion/asset lifecycle code; source→compiled text matches and20 direct compatibility predecessors confirmed. Root separately compared HEAD pack delta."
+      },
+      "prologue_atmosphere_2026_10_29": {
+        "state": "source_reviewed_compiled_native_pending",
+        "source": "Actual baseline Windows frame727872: harsh clear-blue daylight and uniformly visible distant rows weakened intended tension.",
+        "result": "Prologue-only deep clone on same WorldEnvironment; overcast sky, soft daylight and depth fog, authored W01 look restored on exit. Quality authored ambient recorded once to prevent High re-entry compounding.",
+        "targets": [
+          "game/scripts/photoworlds/W01Controller.WorldGuard.cs"
+        ],
+        "verification": "Independent Luna source review identified ambient compounding; root moved authored configuration to clone creation; Game build0warnings0errors. No extra environment owner or geometry change.",
+        "remaining": "Native new frame and movement: near branch/path readable, depth not opaque; restore mainW01 lighting, author art acceptance."
       }
     },
     {
