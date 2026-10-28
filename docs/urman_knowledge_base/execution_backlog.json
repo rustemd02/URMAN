@@ -123259,6 +123259,16 @@
         "compatibility": "21 exact direct predecessor pairs plus explicit current target; no transitive wildcard.",
         "verification": "Compiled-pack recursive comparison: 24 RU/default leaves + module hash + campaign hash only; narrow Game compile and source review.",
         "remaining": "Current native job uses78471311, so new12texts not observed there. Author/language/culture/voice acceptance remains separate."
+      },
+      "niva_language_reply_2026_10_29": {
+        "state": "source_compiled_verified_native_pending",
+        "result": "Four live PhotoNiva language responses made conversational; removed word lists and long-road claim after arrival. Choice branches, gates, effects and levels unchanged. Tatar remains subject to language/cultural acceptance.",
+        "source": "content/modules/urman-chapter1/definitions.json",
+        "verification": "Exact recursive compiled comparison: 8 RU/default text leaves for four IDs, chapter1 module hash and campaign hash only. Game build 0 warnings/0 errors; no new tests.",
+        "campaign_fingerprint": "2b2a65f4508663ee6ca3fe40600f15de181461d4b194555d0b1c4ad53c398dd3",
+        "save_compatibility": "22 exact one-way predecessor pairs plus explicit current-fingerprint whitelist; no wildcard/transitive acceptance.",
+        "native_context": "Old pedagogical response directly observed in Windows job75472eff, commit97d24f86; new replies are not in that immutable snapshot.",
+        "remaining": "Native presentation and author/language acceptance, alongside full campaign acceptance."
       }
     },
     {
@@ -126077,14 +126087,19 @@
         "remaining": "Native new frame and movement: near branch/path readable, depth not opaque; restore mainW01 lighting, author art acceptance."
       },
       "native_continuation_2026_10_29": {
-        "state": "running",
+        "state": "partial_timeout_userdata_restored",
         "owner": "/root/native_episode_oct29",
         "job_id": "24d781f2029a4e97b867b0d80ff41ec9",
         "source_commit": "7847131113bc6ddd4ecb1af41c824f490a599fe8",
         "snapshot_id": "0ae07b56ab1358f085dd7ff6083ff538fd28f030dc2988c4c0d3d4c0d9ffc55f",
         "question": "Ordinary New Game → physical branch → F03 → Niva arrival → family/book → first photo episode. No skip, no altered saves.",
         "observed": "F01 branch moved and goal changed; visible path reached F03; village loaded, Niva cabin and dialogue rendered; normal exit reached family tea objective. Prologue overcast frame is readable but artistic quality not accepted. Ride motion and audio not captured/proved.",
-        "remaining": "Continue current native route; terminal receipt/userdata restoration pending. Do not count in-flight job as passed."
+        "remaining": "First photo episode remains unverified. Root owns next latest-head native check, reuses ordinary prologue evidence; ride motion/audio remain unobserved.",
+        "game_exit_code": 124,
+        "userdata_restored": true,
+        "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-prologue-24d781f2-2026-10-29/result.zip",
+        "archive_sha256": "cf2beb3b7707984a9a272c18d8886b369a09c4b2f15d8b59678d969696def180",
+        "result": "Ordinary F01/F03→Niva cabin/dialogue→exit→house/tea/school clue confirmed. Book pickup not reached. No engine errors/Niva presentation failure. Targeted W sample hit real TableTop contact; no invisible blocker established. Only selected cabin/home frames retained, archive verified and extracted duplicates deleted."
       }
     },
     {

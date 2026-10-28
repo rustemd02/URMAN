@@ -76,6 +76,9 @@ public partial class RuntimeBridge
     private const string FullGameEncounterContinuityFingerprint =
         "d4b2cce8c2be61dc6c1a002040f7d76011651786c2aa6de904ca88772df5e337";
 
+    private const string FullGameNivaLanguageReplyFingerprint =
+        "2b2a65f4508663ee6ca3fe40600f15de181461d4b194555d0b1c4ad53c398dd3";
+
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
         // 80266983 -> 5b0a7ccf: 18 UI texts/provides IDs only; proof in PW-025.
@@ -345,7 +348,30 @@ public partial class RuntimeBridge
         new(FullGameWaterHomeAccountFingerprint, FullGameEncounterContinuityFingerprint),
         new(FullGameShuraleReplyTextFingerprint, FullGameEncounterContinuityFingerprint),
         new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
-            FullGameEncounterContinuityFingerprint)
+            FullGameEncounterContinuityFingerprint),
+        // Four Niva language replies only; exact compiled-pack comparison in PW-043.
+        new(FullGameEncounterContinuityFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameAtmosphericDialogueFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameEarlyDialogueRevisionFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameTeaCompletionGateFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameAlsuLeafDialogueFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameHousePhotoDialogueFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameAlsuMountedPhotoGateFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameRiverExitHintFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0", FullGameNivaLanguageReplyFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -377,7 +403,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTeaCompletionGateFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEarlyDialogueRevisionFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAtmosphericDialogueFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEncounterContinuityFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEncounterContinuityFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameNivaLanguageReplyFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }
