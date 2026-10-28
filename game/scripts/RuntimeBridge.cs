@@ -1040,15 +1040,23 @@ public partial class RuntimeBridge : Node
             if (dispatched && ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing)
             {
                 var hasEffects = interaction.Effects.GetArrayLength() > 0;
+                var committedPhotoWorldSceneTransition = _content.HasPhotoWorlds
+                    && interaction.SourceSceneId.StartsWith("urman.fullgame:scene/pw-", StringComparison.Ordinal)
+                    && interaction.TargetSceneId is { } targetSceneId
+                    && targetSceneId.StartsWith("urman.fullgame:scene/pw-", StringComparison.Ordinal)
+                    && sceneBeforeDispatch is not null
+                    && ActiveSceneId == targetSceneId
+                    && ActiveSceneId != sceneBeforeDispatch;
                 var committedPhotoWorldAction = _content.HasPhotoWorlds
                     && interaction.WorldLocations is null
                     && interaction.TargetSceneId is null
                     && sceneBeforeDispatch is not null
                     && ActiveSceneId == sceneBeforeDispatch
                     && hasEffects;
-                await SaveCheckpointAsync(force: hasEffects
-                    && ((interaction.WorldLocations is not null || IsSourceExcerptAction(interaction.Id))
-                        || committedPhotoWorldAction));
+                await SaveCheckpointAsync(force: committedPhotoWorldSceneTransition
+                    || (hasEffects
+                        && ((interaction.WorldLocations is not null || IsSourceExcerptAction(interaction.Id))
+                            || committedPhotoWorldAction)));
             }
 
             return dispatched;

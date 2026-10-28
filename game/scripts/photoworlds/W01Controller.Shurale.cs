@@ -19,6 +19,8 @@ public partial class W01Controller
     private const string ShuraleSpeakerRole = "shurale";
     private const string ShuraleAnchorPath = "Anchors/F14/ShuraleRoot";
     private const float ShuraleNoticeDistance = 5f;
+    private const float ShuraleAttentionReleaseDistance = 7f;
+    private const double ShuraleNoticeHoldSeconds = 0.9;
     private const float ShuraleHeadGazeInfluence = 0.58f;
     private const float ShuraleNeckGazeInfluence = 0.22f;
 
@@ -58,6 +60,7 @@ public partial class W01Controller
     private WorldFoleyPlayer? _shuraleWorkFoley;
     private double _shuralePreviousWorkAudioPhase = -1;
     private int _shuraleWorkCyclesUntilAudio;
+    private double _shuraleNoticeHoldRemaining;
 
     private void BuildShuralePresentation()
     {
@@ -183,8 +186,9 @@ public partial class W01Controller
         }
 
         ProcessShuraleDialogueAnimation();
+        ProcessShuraleNoticeHold(delta);
         ProcessShuraleGaze(delta, root);
-        if (_shuraleApproachTriggered || _shuraleInstructionsHeard || _shuraleEncounterResolved)
+        if (_shuraleInstructionsHeard || _shuraleEncounterResolved)
             return;
 
         if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
@@ -199,6 +203,20 @@ public partial class W01Controller
         var distance = new Vector2(
             player.GlobalPosition.X - root.GlobalPosition.X,
             player.GlobalPosition.Z - root.GlobalPosition.Z).Length();
+        if (_shuraleApproachTriggered)
+        {
+            if (distance > ShuraleAttentionReleaseDistance)
+            {
+                _shuraleApproachTriggered = false;
+                _shuraleNoticeHoldRemaining = 0;
+                _shuralePreviousDistance = distance;
+                _shuraleHasDistanceSample = true;
+                SetShuraleRestPose(instructionsHeard: false, encounterResolved: false);
+            }
+
+            return;
+        }
+
         if (!_shuraleHasDistanceSample)
         {
             _shuralePreviousDistance = distance;
@@ -218,6 +236,7 @@ public partial class W01Controller
         var dialogueId = dialogueUi?.CurrentDialogueId;
         if (dialogueId == ShuraleDialogueId || dialogueId == BagDialogueId)
         {
+            _shuraleNoticeHoldRemaining = 0;
             if (dialogueId == ShuraleDialogueId) _shuraleApproachTriggered = true;
             var dialogueChanged = _shuraleActiveDialogueId != dialogueId;
             var nodeChanged = _shuraleActiveDialogueNodeId != dialogueUi?.CurrentNodeId;
@@ -352,6 +371,7 @@ public partial class W01Controller
             _shuraleInstructionsHeard = instructionsHeard;
             _shuraleApproachTriggered = true;
             _shuraleHasDistanceSample = false;
+            _shuraleNoticeHoldRemaining = 0;
             SetShuraleRestPose(instructionsHeard, encounterResolved: true);
         }
         else if (instructionsHeard && !_shuraleInstructionsHeard)
@@ -359,6 +379,7 @@ public partial class W01Controller
             _shuraleInstructionsHeard = true;
             _shuraleApproachTriggered = true;
             _shuraleHasDistanceSample = false;
+            _shuraleNoticeHoldRemaining = 0;
             if (GetShuraleDialogueUi()?.CurrentDialogueId != ShuraleDialogueId)
                 SetShuraleTerminalPose("gesture");
         }
@@ -375,7 +396,11 @@ public partial class W01Controller
     {
         if (_shuraleRoot is not { Visible: true } root || !GodotObject.IsInstanceValid(root)) return;
 
-        if (settings.ReducedMotion) ResetShuraleGaze();
+        if (settings.ReducedMotion)
+        {
+            _shuraleNoticeHoldRemaining = 0;
+            ResetShuraleGaze();
+        }
 
         if (!settings.ReducedMotion)
         {
@@ -387,6 +412,8 @@ public partial class W01Controller
             var activeDialogue = GetShuraleDialogueUi()?.CurrentDialogueId;
             if (activeDialogue == ShuraleDialogueId || activeDialogue == BagDialogueId)
                 ProcessShuraleDialogueAnimation();
+            else if (_shuraleApproachTriggered && !_shuraleInstructionsHeard && !_shuraleEncounterResolved)
+                SetShuraleTerminalPose("gesture");
             else
                 SetShuraleRestPose(_shuraleInstructionsHeard, _shuraleEncounterResolved);
             return;
@@ -433,6 +460,7 @@ public partial class W01Controller
         _shuraleEncounterResolved = false;
         _shuraleApproachTriggered = false;
         _shuraleHasDistanceSample = false;
+        _shuraleNoticeHoldRemaining = 0;
         _shuraleCurrentAnimation = null;
         _shuraleActiveDialogueId = null;
         _shuraleActiveDialogueNodeId = null;
@@ -450,6 +478,7 @@ public partial class W01Controller
         _shuraleEncounterResolved = false;
         _shuraleApproachTriggered = false;
         _shuraleHasDistanceSample = false;
+        _shuraleNoticeHoldRemaining = 0;
         _shuraleActiveDialogueId = null;
         _shuraleActiveDialogueNodeId = null;
     }
@@ -462,7 +491,9 @@ public partial class W01Controller
         SetCollisionLayer(_shuraleContact, 0u);
         StopShuraleClip();
         _shuraleWasVisible = false;
+        _shuraleApproachTriggered = false;
         _shuraleHasDistanceSample = false;
+        _shuraleNoticeHoldRemaining = 0;
         _shuraleActiveDialogueId = null;
         _shuraleActiveDialogueNodeId = null;
         SetShuraleWorkBranchVisible(false);
@@ -497,6 +528,7 @@ public partial class W01Controller
     private void BeginShuraleApproach()
     {
         _shuraleApproachTriggered = true;
+        _shuraleNoticeHoldRemaining = 0;
         if (_accessibility.ReducedMotion)
         {
             SetShuraleTerminalPose("gesture");
@@ -504,6 +536,22 @@ public partial class W01Controller
         }
 
         PlayShuraleClip("noticed", ShuraleAnimationPhase.Noticing);
+    }
+
+    private void ProcessShuraleNoticeHold(double delta)
+    {
+        if (_shuraleNoticeHoldRemaining <= 0
+            || _accessibility.ReducedMotion
+            || _shuraleCurrentAnimation != "noticed"
+            || _shuraleAnimationPhase != ShuraleAnimationPhase.Resting
+            || _shuraleActiveDialogueId is not null
+            || GetShuraleDialogueUi() is { IsOpen: true }
+            || ShuraleModalOpen())
+            return;
+
+        _shuraleNoticeHoldRemaining = Math.Max(0, _shuraleNoticeHoldRemaining - Math.Max(0, delta));
+        if (_shuraleNoticeHoldRemaining == 0)
+            PlayShuraleClip("gesture", ShuraleAnimationPhase.Gesturing);
     }
 
     private void PlayShuraleClip(string clip, ShuraleAnimationPhase phase)
@@ -652,7 +700,8 @@ public partial class W01Controller
             }
             else
             {
-                PlayShuraleClip("gesture", ShuraleAnimationPhase.Gesturing);
+                SetShuraleTerminalPose("noticed");
+                _shuraleNoticeHoldRemaining = ShuraleNoticeHoldSeconds;
             }
             return;
         }
@@ -711,11 +760,15 @@ public partial class W01Controller
         var attentiveIdle = _shuraleInstructionsHeard && !_shuraleEncounterResolved
             && _shuraleActiveDialogueId is null && _shuraleCurrentAnimation == "gesture"
             && _shuraleAnimationPhase == ShuraleAnimationPhase.Resting;
-        var gazeState = _shuraleCurrentAnimation is "noticed" or "speak" || attentiveIdle;
+        var firstNoticeAttention = _shuraleApproachTriggered
+            && !_shuraleInstructionsHeard && !_shuraleEncounterResolved
+            && _shuraleActiveDialogueId is null;
+        var gazeState = _shuraleCurrentAnimation is "noticed" or "speak" || attentiveIdle || firstNoticeAttention;
         var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
         var inRange = player is not null && GodotObject.IsInstanceValid(player)
             && new Vector2(player.GlobalPosition.X - root.GlobalPosition.X,
-                player.GlobalPosition.Z - root.GlobalPosition.Z).Length() <= ShuraleNoticeDistance;
+                player.GlobalPosition.Z - root.GlobalPosition.Z).Length()
+                <= (firstNoticeAttention ? ShuraleAttentionReleaseDistance : ShuraleNoticeDistance);
         var gazeActive = !_accessibility.ReducedMotion && gazeState && inRange;
         var focus = gazeActive
             ? player!.GlobalPosition + Vector3.Up * 1.55f

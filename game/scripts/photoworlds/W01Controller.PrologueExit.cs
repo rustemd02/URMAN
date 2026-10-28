@@ -9,6 +9,8 @@ public partial class W01Controller
     private object? _prologueExitSession;
     private bool _prologueExitAttempted;
     private bool _prologueExitDispatching;
+    private bool _prologueExitKnocksPlayed;
+    private double _prologueExitSecondKnockDelay;
     private bool _prologueExitWakePlayed;
 
     private void ResetPrologueExitTracking(object? session)
@@ -16,6 +18,8 @@ public partial class W01Controller
         _prologueExitSession = session;
         _prologueExitAttempted = false;
         _prologueExitDispatching = false;
+        _prologueExitKnocksPlayed = false;
+        _prologueExitSecondKnockDelay = 0;
         _prologueExitWakePlayed = false;
     }
 
@@ -51,6 +55,23 @@ public partial class W01Controller
             || GetTree().GetFirstNodeInGroup("dialogue_ui") is DialogueUi { IsOpen: true }
             || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true }) return;
 
+        // A quiet, spatial pair points toward the opening before the familiar voice reaches it.
+        if (!_prologueExitKnocksPlayed && along >= -36f && along < -24f && lateral <= 5f)
+        {
+            _prologueExitKnocksPlayed = true;
+            _prologueExitSecondKnockDelay = .48;
+            PlayPrologueExitKnock();
+        }
+        else if (_prologueExitSecondKnockDelay > 0)
+        {
+            _prologueExitSecondKnockDelay -= GetProcessDeltaTime();
+            if (_prologueExitSecondKnockDelay <= 0)
+            {
+                _prologueExitSecondKnockDelay = 0;
+                PlayPrologueExitKnock();
+            }
+        }
+
         if (!_prologueExitWakePlayed && along >= -12f && along < -2.5f && lateral <= 4f)
         {
             _prologueExitWakePlayed = true;
@@ -63,6 +84,9 @@ public partial class W01Controller
         _prologueExitDispatching = true;
         _ = DispatchPrologueExitAsync(bridge, session);
     }
+
+    private void PlayPrologueExitKnock() =>
+        UiFoley.PlayWorld(this, ToGlobal(PrologueF03 + Vector3.Up * 1.6f), "wood_tap", -16f, 60f, 14f);
 
     private async Task DispatchPrologueExitAsync(RuntimeBridge bridge, object session)
     {

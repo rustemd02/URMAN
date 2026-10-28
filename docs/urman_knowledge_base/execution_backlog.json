@@ -114027,6 +114027,17 @@
         "file": "game/scripts/MainMenuUi.cs",
         "change": "Existing-save/no-readable-Continue branch now explains possible different version or corruption and explicitly states files were not changed. No codec/store/hash/allowlist changes.",
         "verification": "One-branch diff inspection, diff --check and coupled affected Game compile0/0. Actual old-slot ordinary Continue remains unproved."
+      },
+      "scene_transition_checkpoint_2026_10_29": {
+        "state": "source_reviewed_compiled_native_pending",
+        "cause": "Generic PhotoWorld scene-only interactions bank-return, bank-to-epilogue and epilogue-return-home commit a new scene but empty authored Effects did not force a checkpoint; these scenes are outside legacy CheckpointScenes.",
+        "result": "Successful same-session committed pw-* scene change now forces checkpoint only when current scene equals its authored target. W01-W05 visit transactions retain their dedicated checkpoint owner.",
+        "targets": [
+          "game/scripts/RuntimeBridge.cs"
+        ],
+        "verification": "Source trace of dispatch, save snapshot and Continue physical reconciliation; Game build 0 warnings/0 errors. Native final scene transition/Continue remains unverified.",
+        "remaining": "Ordinary final interaction → quit → Continue; bank-to-epilogue load must arrive inside family home, epilogue-to-home must preserve current home position.",
+        "independent_review": "Luna reviewer found no actionable regression in current save/session/modal/reduced-motion/asset lifecycle code; source→compiled text matches and20 direct compatibility predecessors confirmed. Root separately compared HEAD pack delta."
       }
     },
     {
@@ -123219,6 +123230,20 @@
           "REL-003"
         ],
         "scope_correction": "Полный первый W01эпизод удалён изremainingPW043 как соседнийобъёмPW046/UXA, не изкампании."
+      },
+      "dialogue_revision_2026_10_29": {
+        "state": "source_reviewed_compiled_native_pending",
+        "result": "Thirteen runtime dialogue texts shortened/reworked for school handoff, school copy, terse Shurale exchange and family return. IDs, nodes, conditions/effects, all other compiled registries unchanged.",
+        "targets": [
+          "content/modules/urman-fullgame/definitions.json",
+          "game/content/urman.fullgame.compiled.v1.json",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+        ],
+        "prior_fingerprint": "8099af9f968add2f31e1a1f25bf814d6c3783e1b9fa3ea5abeaf12f802b6d3b2",
+        "current_fingerprint": "f4184929e58e22f95e542c32d11a1210720dc5fbff2f701c2bd718470c01351f",
+        "verification": "Compiled diff: 26 RU/default leaves + campaign/module hashes only; Game build0/0; exact accepted predecessor pairs extended to this revision.",
+        "remaining": "Native delivery/timing, author and cultural/language acceptance.",
+        "independent_review": "Luna reviewer found no actionable regression in current save/session/modal/reduced-motion/asset lifecycle code; source→compiled text matches and20 direct compatibility predecessors confirmed. Root separately compared HEAD pack delta."
       }
     },
     {
@@ -125078,7 +125103,7 @@
       "title": "W01: действия за рамкой и состояние ветки",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "/root",
       "owner": "gameplay",
       "priority": "P1",
       "complexity": "complex",
@@ -125333,7 +125358,7 @@
       "assigned_owner": "gameplay",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Luna ack1916; sole ordinary UI/capture owner for live35e. Root handles JSON/Git/acceptance, read-only source investigations independent."
+        "reason": "29.10 owner renewed Act I delivery; root owns one ordinary Windows prologue/episode acceptance, tracker and Git. Independent Luna own bounded source slices."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -126000,6 +126025,26 @@
         ],
         "cleanup": "Exactownedstaging consumed; oldsourcebackup removed only afterdoctor4 andoldGitSHA match. Macstage-pathmarker removed. OtherWindowsdirtyfiles/branch preserved; no fullpull/reset/VPN/cert changes.",
         "remaining": "Live same-RID pending/replay, full control reliability, actual W01/Continue and full goal acceptance remain unproven. Do not claim full30minstall fixed; preparecontroller BEFOREjob, reserveexit basedactualnativeelapsed."
+      },
+      "current_native_question_2026_10_29": {
+        "state": "running_menu_observed",
+        "source_commit": "554c6eba",
+        "question": "Can ordinary New Game move the branch, follow the visible F00-F03 path, enter the Niva ride and reach family arrival without skip?",
+        "success": "Observed physical branch action, normal F03 transition, actual Niva ride and controllable arrival; protected userdata restored. Does not close full Act I.",
+        "limits": "One current protected play-product; stop inputs on foreground guard denial; do not repeat already accepted setup without new evidence.",
+        "job_id": "727872321dbc4677a0142091a47becc7",
+        "snapshot_id": "8db9f70e7e55ff141ae9c240c5ea596209744938ee14894df85fd45626f5e6e3",
+        "observation": "Menu rendered, New Game offered and Continue unavailable. Initial capture requests occurred during import and were resumed with same request ID. Input result pending."
+      },
+      "prologue_sound_2026_10_29": {
+        "state": "source_reviewed_compiled_native_pending",
+        "result": "Existing spatial wood_tap pair originates at F03 during the final approach24–36m away after actual branch movement; original voice follows nearer exit. One shot per session, pending tap canceled on session/scene reset; pause/focus/modal gate retained.",
+        "targets": [
+          "game/scripts/photoworlds/W01Controller.PrologueExit.cs"
+        ],
+        "verification": "Source audio ownership and Game build0/0; actual audibility not yet accepted.",
+        "remaining": "Spatial balance and cue recognition on ordinary F02→F03.",
+        "independent_review": "Luna reviewer found no actionable regression in current save/session/modal/reduced-motion/asset lifecycle code; source→compiled text matches and20 direct compatibility predecessors confirmed. Root separately compared HEAD pack delta."
       }
     },
     {
@@ -126844,6 +126889,16 @@
         ],
         "verification": "ContentCli fullgame exit0; affected Game compile19.04с0warnings0errors. Independent Luna source review W01-first, started water, W02-first, forest resume and physical house source/permission; Astra review D06/D07 against canon and staged movement. Another Luna initially proposed bag gate defect, but withdrew it after checking InteractionTarget.IsAvailable/RefreshAvailability; no bag code change. git diff-check, tracker validate/render. No game/tests/probes/station.",
         "remaining": "Обычное прохождение/приятность первой главы, выразительность и визуал Шурале, крупный текст и внешние культурные/языковые/авторские гейты не приняты."
+      },
+      "notice_choreography_2026_10_29": {
+        "state": "source_reviewed_compiled_native_pending",
+        "result": "Before first D06, noticed pose holds gaze for0.9s then gestures; retreat beyond7m restores work/foley, reapproach within5m notices again. Reduced-motion remains static. Existing facts/rig/geometry unchanged.",
+        "targets": [
+          "game/scripts/photoworlds/W01Controller.Shurale.cs"
+        ],
+        "verification": "Game build0/0; source phase/session/modal review, independent review pending.",
+        "remaining": "Ordinary F13-F14 approach/retreat/reapproach, D06→bag→return, reduced motion and actual sound/motion acceptance.",
+        "independent_review": "Luna reviewer found no actionable regression in current save/session/modal/reduced-motion/asset lifecycle code; source→compiled text matches and20 direct compatibility predecessors confirmed. Root separately compared HEAD pack delta."
       }
     },
     {
