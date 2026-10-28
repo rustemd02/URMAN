@@ -104910,6 +104910,12 @@
         ],
         "verification": "Affected Game build 0/0; independent source review caught and fixed shared water-first mission ID, checked earned facts and session guards. Windows UI readability and full first-episode experience remain unverified.",
         "known_boundary": "Source audit: in the current ordinary route ForestHomeResultPending enables the household debrief and disables P-COMMON permission, which is needed before W04; thus the earlier alleged regular-route skip is not confirmed. An old/external W04-completed state without confirmed forest account could lose access to that result, but no such user save is evidenced. No extra gate or epilogue change made."
+      },
+      "later_route_source_review_2026_10_29": {
+        "state": "reviewed_no_confirmed_gate_blocker",
+        "scope": "W03→outside photographer evidence→W04→winter leaf/Alsu→family photo/epilogue",
+        "result": "Independent Luna traced required facts to concrete producers/presenters and next missions. W02-derived bank evidence is routed before W04 rather than circular. No code changes justified by this source slice.",
+        "remaining": "Actual reachability, camera/occlusion/interaction distance, pacing and full ordinary playthrough remain open; no gameplay acceptance from source review."
       }
     },
     {
@@ -147819,6 +147825,19 @@
         "local_receipt_archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-palisadnik-9ae3f30a-2026-10-27/result.zip",
         "archive_sha256": "dd8edf8bee4e78c2a6af2c41b6f70ee351ac158c39cf63cde3300e588d18afc0",
         "frame_sha256": "67a12ffdba3d58c8aa1fcc26cedb4a7c5fcd6402a1cc87cb3eac8c54d4ba8a23"
+      },
+      "home_cupboard_2026_10_29": {
+        "state": "source_verified_code_compiled_native_pending",
+        "owner": "/root/village_asset_oct29",
+        "result": "One generated keepUV PBR family attached through existing interior owner: only three LOD0 mesh resources, original nodes/transforms/physics construction/targets preserved. No room-shell or furniture-layout changes.",
+        "task_id": "01a184a4-5aca-7534-8851-0323465d09d3",
+        "cost_credits": 10,
+        "asset": "game/assets/models/act1/home-cupboard-generated-pbr-2k.glb",
+        "asset_sha256": "00af029d49bfa21bdca77514ab7db983e5249e67ddf8f9e14ba2af21ff68ee3f",
+        "verification": "Blender reimport/oriented local triangle geometry/paired UV and original TRS checks; 352 source triangles retained; Body UV split96→100vertices without geometric change. Native GLB JSON confirms exact nodes/opaque material; narrow Game build0warnings0errors. Room max cupboard distance10.646m below LOD1fade15m.",
+        "archive": "../../../.codex/local_asset_archive/URMAN-home-cupboard-pbr-v1-2026-10-29.zip",
+        "archive_sha256": "65a5a28eb8627de8cc0e4f9acb66b907e0b663f5bdd1fe014ad7df6c3854cfa3",
+        "remaining": "Godot import and actual room appearance; retained LOD1 is outside room range, external camera review not done. Author/cultural acceptance open."
       }
     },
     {
@@ -166232,14 +166251,14 @@
     "credits": {
       "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 590,
-      "authorized_budget_remaining": 3410,
+      "agent_spent_after_purchase": 600,
+      "authorized_budget_remaining": 3400,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4100,
-      "balance_note": "590/4000 consumed, 3410 remain, reserve 0. VariantC retexture 01a17a56-47d1-7382-bbea-c68e05f08856 and painted palisadnik retexture 01a17a75-f06d-72b4-801e-27e80073bdb8 SUCCEEDED, server charged 10 each; API balance 3710→3700→3690. Both are source-only candidates; no scene or cultural acceptance.",
-      "latest_api_balance_observed": 3690,
+      "balance_note": "29.10 cupboard01a184a4-5aca-7534-8851-0323465d09d3 SUCCEEDED, server consumed10, API3690→3680. Total600/4000, remaining3400, reserve0. Source candidate inspected; scene/art/cultural acceptance pending.",
+      "latest_api_balance_observed": 3680,
       "reserved_for_current_work": 0,
-      "unreserved_author_budget": 3410
+      "unreserved_author_budget": 3400
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
     "operations": [
@@ -166471,6 +166490,14 @@
         "cost_credits": 10,
         "result": "SUCCEEDED server consumed10; source UV preflight passed, generated result awaits assessment and integration.",
         "source": "assets/source/blender/act1/home_storage_chest_pbr_v1/"
+      },
+      {
+        "task_id": "PW-093",
+        "api_task_id": "01a184a4-5aca-7534-8851-0323465d09d3",
+        "operation": "One keepUV 4K PBR retexture of existing home cupboard",
+        "cost_credits": 10,
+        "result": "SUCCEEDED; actual consumed10. Three source meshes/352triangles/pairedUV/bounds retained in2K candidate. Runtime integration and native/art acceptance pending.",
+        "source": "assets/source/blender/act1/home_cupboard_pbr_v1/"
       }
     ],
     "next_large_static_candidate": {
@@ -166505,6 +166532,21 @@
       "source_reference": "assets/source/blender/act1/neighbor_outbuilding_b_pbr_v1/input-material-reference-v1.png",
       "receipts": "assets/source/blender/act1/neighbor_outbuilding_b_pbr_v1/",
       "remaining": "Ожидать результат того же task ID, без повторного POST; проверить UV/материалы/права и сцену до принятия/интеграции."
+    },
+    "current_operation_2026_10_29": {
+      "owner": "/root/village_asset_oct29",
+      "state": "runtime_code_grafted_source_verified_native_pending",
+      "asset": "home_cupboard_pbr_v1",
+      "max_credits": 10,
+      "scope": "Existing exact source GLB and built-in image_gen reference → one keepUV 4K PBR retexture; no geometry/runtime/semantic replacement. Root serializes ledger/integration.",
+      "remaining": "Godot import and actual room appearance; retained LOD1 is outside room range, external camera review not done. Author/cultural acceptance open.",
+      "api_task_id": "01a184a4-5aca-7534-8851-0323465d09d3",
+      "actual_cost_credits": 10,
+      "candidate": "assets/source/blender/act1/home_cupboard_pbr_v1/home-cupboard-generated-pbr-2k.glb",
+      "candidate_sha256": "00af029d49bfa21bdca77514ab7db983e5249e67ddf8f9e14ba2af21ff68ee3f",
+      "runtime_asset": "game/assets/models/act1/home-cupboard-generated-pbr-2k.glb",
+      "consumer": "game/scripts/StyleBenchmarkInteriorFactory.cs::ApplyHomeCupboardPbr",
+      "archive": "../../../.codex/local_asset_archive/URMAN-home-cupboard-pbr-v1-2026-10-29.zip"
     }
   },
   "artifact_cleanup_2026_10_20": {

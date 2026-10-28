@@ -9,6 +9,8 @@ namespace Urman.Godot;
 /// </summary>
 public static partial class StyleBenchmarkInteriorFactory
 {
+    private const string HomeCupboardPbrModelPath = "res://assets/models/act1/home-cupboard-generated-pbr-2k.glb";
+
     public const string ContractVersion = "hero-house-eight-by-seven-v1";
     public const string ExteriorComponent = "HeroHouse_TimberPlaster";
     public const float ClearWidth = 8f;
@@ -536,6 +538,7 @@ public static partial class StyleBenchmarkInteriorFactory
         kit.SetMeta("collisionOwner", "none");
         kit.SetMeta("scaledHouseFurnitureMeshCount", 0);
         kit.SetMeta("houseInteriorCompositionPass", "rigid furniture groups; 8x7 shell is built from the exterior opening contract");
+        ApplyHomeCupboardPbr(kit);
         var body = new StaticBody3D { Name = "HouseInteriorFurnitureCollision", CollisionLayer = 1, CollisionMask = 1 };
         body.SetMeta("collisionOwner", "house-interior-floor-furniture");
         room.AddChild(body);
@@ -616,6 +619,71 @@ public static partial class StyleBenchmarkInteriorFactory
         room.SetMeta("houseInteriorPresentation", "8x7 opening-matched room; project-original GLB furniture with unchanged dimensions");
         BuildTablecloth(room, kit.FindChildren("*", nameof(MeshInstance3D), true, false)
             .OfType<MeshInstance3D>().Single(mesh => mesh.Name == "HouseInterior_TableTop_LOD0"));
+    }
+
+    private static void ApplyHomeCupboardPbr(Node3D kit)
+    {
+        var expectedNames = new[]
+        {
+            "HouseInterior_CupboardBody_LOD0",
+            "HouseInterior_CupboardDoor_LOD0",
+            "HouseInterior_CupboardPull_LOD0"
+        };
+        var packed = ResourceLoader.Load<PackedScene>(HomeCupboardPbrModelPath)
+            ?? throw new InvalidOperationException($"The generated household cupboard is missing: {HomeCupboardPbrModelPath}.");
+        var imported = packed.Instantiate<Node3D>()
+            ?? throw new InvalidOperationException($"The generated household cupboard could not be instantiated: {HomeCupboardPbrModelPath}.");
+        try
+        {
+            var candidateMeshes = imported.FindChildren("*", nameof(MeshInstance3D), true, false)
+                .OfType<MeshInstance3D>()
+                .ToDictionary(mesh => mesh.Name.ToString(), StringComparer.Ordinal);
+            if (candidateMeshes.Count != expectedNames.Length
+                || expectedNames.Any(name => !candidateMeshes.ContainsKey(name)))
+                throw new InvalidOperationException("The generated household cupboard must contain exactly its body, door, and pull LOD0 nodes.");
+
+            var originalMeshes = kit.FindChildren("*", nameof(MeshInstance3D), true, false)
+                .OfType<MeshInstance3D>()
+                .Where(mesh => expectedNames.Contains(mesh.Name.ToString(), StringComparer.Ordinal))
+                .ToDictionary(mesh => mesh.Name.ToString(), StringComparer.Ordinal);
+            if (originalMeshes.Count != expectedNames.Length)
+                throw new InvalidOperationException("The original household cupboard LOD0 target nodes are missing or duplicated.");
+
+            var replacements = new List<(MeshInstance3D Target, ArrayMesh Geometry)>();
+            foreach (var name in expectedNames)
+            {
+                var candidate = candidateMeshes[name];
+                var target = originalMeshes[name];
+                if (!target.Visible || target.Mesh is null
+                    || candidate.Mesh is not ArrayMesh geometry || geometry.GetSurfaceCount() != 1
+                    || geometry.SurfaceGetPrimitiveType(0) != Mesh.PrimitiveType.Triangles
+                    || geometry.SurfaceGetMaterial(0) is not BaseMaterial3D material
+                    || material.ResourceName != "URMAN_HomeCupboard_GeneratedPBR"
+                    || material.Transparency != BaseMaterial3D.TransparencyEnum.Disabled
+                    || candidate.MaterialOverride is not null || candidate.MaterialOverlay is not null
+                    || candidate.GetSurfaceOverrideMaterial(0) is not null)
+                    throw new InvalidOperationException($"The generated household cupboard surface is invalid: {name}.");
+
+                replacements.Add((target, geometry));
+            }
+
+            foreach (var (target, geometry) in replacements)
+            {
+                // The candidate root is recentered around the source anchor. Only
+                // its local mesh resource is grafted; original node transforms,
+                // LOD ranges, collision targets, and node paths remain authoritative.
+                target.Mesh = geometry;
+                target.MaterialOverride = null;
+                target.SetMeta("generatedPbrSource", HomeCupboardPbrModelPath);
+            }
+
+            kit.SetMeta("cupboardPbrSource", HomeCupboardPbrModelPath);
+            kit.SetMeta("cupboardPbrTriangles", 352);
+        }
+        finally
+        {
+            imported.Free();
+        }
     }
 
     private static void BuildTablecloth(Node3D room, MeshInstance3D table)

@@ -27,17 +27,221 @@
       2.4200001
     ]
   ],
-  "output": "source-cupboard-uv.glb",
-  "output_sha256": "414ee0213ad46f276b055bd536a02cc50bcf288c027336e43740ae2c6a7238da",
-  "consumer": "StyleBenchmarkInteriorFactory.AttachFurniture→GeneratedHouseInteriorAct1; named Cupboard group source(-4.82,0,-3.88)→destination(3.52,0,-2.40),yaw-90; existing collision owner unchanged.",
-  "remaining": "Only selected ImageGen reference and original source preparation delivered. No generated 3D material, runtime integration, LOD1 replacement or art/game acceptance.",
-  "status": "HOLD_UV_OVERLAP_NO_PAID_SUBMISSION",
+  "output": "../../../.codex/local_asset_archive/URMAN-home-cupboard-pbr-v1-2026-10-29.zip#source-cupboard-uv.glb",
+  "output_sha256": "0923d8f000ec75e4c4d83638cbf16ff3c61ef7cb1dd1762c5c218ce344599b35",
+  "consumer": "StyleBenchmarkInteriorFactory.AttachFurniture→ApplyHomeCupboardPbr; only original CupboardBody/Door/Pull LOD0 mesh resources are replaced; original node transforms, LOD1, placement and collision owner remain authoritative.",
+  "remaining": "Godot import and contextual runtime review of the LOD0 material graft remain open, including a camera outside the 8×7m interior where the legacy LOD1 can become visible; performance, author art and separate cultural acceptance remain open.",
+  "status": "SOURCE_CANDIDATE_CREATED_NOT_ACCEPTED",
   "last_preflight": {
-    "overlap_count": 20,
-    "details": [
+    "schema": "urman-uv-positive-area-preflight/v1",
+    "triangle_count": 352,
+    "positive_area_overlap_pairs": [],
+    "positive_area_overlap_pair_count": 0,
+    "intersection_area_tolerance": 1e-10,
+    "uv_degenerate_triangle_count": 16,
+    "uv_degenerate_triangles": [
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 170,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 171,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 174,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 175,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 176,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 177,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 180,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 181,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 254,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 255,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 256,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 257,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 258,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 259,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 262,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 263,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      }
+    ],
+    "source_geometry_degenerate_triangle_count": 16,
+    "source_geometry_degenerate_triangles": [
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 170,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 171,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 174,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 175,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 176,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 177,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 180,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 181,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 254,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 255,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 256,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 257,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 258,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 259,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 262,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      },
+      {
+        "node": "HouseInterior_CupboardDoor_LOD0",
+        "polygon": 263,
+        "uv_area": 0.0,
+        "geometry_area": 0.0
+      }
+    ],
+    "non_degenerate_geometry_with_degenerate_uv_count": 0,
+    "operator_edge_touch_and_degenerate_face_flags_count": 20,
+    "operator_flags": [
       {
         "node": "HouseInterior_CupboardBody_LOD0",
-        "overlapping_faces": 2,
+        "operator_flag_faces": 2,
         "minimum_face_area": 0.6852982044219971,
         "indices": [
           38,
@@ -46,7 +250,7 @@
       },
       {
         "node": "HouseInterior_CupboardDoor_LOD0",
-        "overlapping_faces": 16,
+        "operator_flag_faces": 16,
         "minimum_face_area": 9.769335514164812e-12,
         "indices": [
           170,
@@ -69,7 +273,7 @@
       },
       {
         "node": "HouseInterior_CupboardPull_LOD0",
-        "overlapping_faces": 2,
+        "operator_flag_faces": 2,
         "minimum_face_area": 0.0008819999638944864,
         "indices": [
           32,
@@ -78,7 +282,7 @@
       }
     ]
   },
-  "source_suitability": "Not suitable for keepUV retexture yet: final explicit global select/pack reduced overlaps304→20, but zero-overlap gate still fails. Body2,Door16,Pull2. No geometry/normals or runtime changes were used to hide this. Existing first UV donor is an earlier unaccepted artifact, not a paid-ready input.",
+  "source_suitability": "Suitable for one bounded keepUV retexture: no positive-area UV triangle overlaps; all16 zero-area source door triangles retain zero-area UVs and source geometry; non-degenerate body/pull triangle halves touch only at shared boundaries. Geometry, exact source bounds and material roles remain unchanged.",
   "material_reference": {
     "path": "assets/source/blender/act1/home_cupboard_pbr_v1/input-material-reference-v1.png",
     "sha256": "14ee1b989b75c9f7b8b802d20014fa1b5d3d84ee27c8f3ed6ddc6427f4202357",
@@ -91,13 +295,287 @@
   "existing_result_check": "No cupboard-specific Meshy PBR or UV atlas found in current source/registry/tracker. Existing W08 generic albedo remains for other finished furniture; no existing cupboard Meshy result was duplicated.",
   "budget": {
     "author_cap": 4000,
-    "actual_consumed": 560,
-    "remaining": 3440,
+    "actual_consumed_before": 590,
+    "actual_consumed_after": 600,
+    "remaining": 3400,
     "reserve": 0,
-    "attempt_consumed": 0,
-    "Meshy_POST_count": 0,
-    "API_balance_before": 3720,
-    "balance_receipt": "balance-before.json"
+    "attempt_consumed": 10,
+    "Meshy_POST_count": 1,
+    "API_balance_before": 3690,
+    "API_balance_after": 3680,
+    "monthly_before": 2540,
+    "monthly_after": 2530,
+    "permanent": 1150,
+    "balance_receipts": [
+      "../../../.codex/local_asset_archive/URMAN-home-cupboard-pbr-v1-2026-10-29.zip#balance-before.json",
+      "../../../.codex/local_asset_archive/URMAN-home-cupboard-pbr-v1-2026-10-29.zip#balance-after.json"
+    ],
+    "ledger_owner": "author_meshy_asset_refresh_2026_10_18; root records shared ledger"
   },
-  "next_action": "HOLD. Do not send Meshy or continue UV attempts in this unit. If resumed with a new source contract, inspect the20 identified UV faces and their tiny bevel geometry before choosing a bounded UV-only correction; original geometry/door pivot/collision remain authoritative."
+  "next_action": "Root performs the serialized Godot import and contextual scene review, including confirming whether exterior camera views can expose the original LOD1; art/cultural/author acceptance is separate.",
+  "uv_gate": "zero positive-area overlaps between UV triangle pairs; zero UV area is permitted only for zero-area source triangles",
+  "positive_area_uv_overlap_pairs": 0,
+  "source_geometry_degenerate_triangles_preserved": 16,
+  "non_degenerate_geometry_with_degenerate_uv": 0,
+  "legacy_blender_operator_flag_faces": 20,
+  "preflight_history": [
+    {
+      "status": "HOLD_UV_OVERLAP_NO_PAID_SUBMISSION",
+      "last_preflight": {
+        "overlap_count": 20,
+        "details": [
+          {
+            "node": "HouseInterior_CupboardBody_LOD0",
+            "overlapping_faces": 2,
+            "minimum_face_area": 0.6852982044219971,
+            "indices": [
+              38,
+              39
+            ]
+          },
+          {
+            "node": "HouseInterior_CupboardDoor_LOD0",
+            "overlapping_faces": 16,
+            "minimum_face_area": 9.769335514164812e-12,
+            "indices": [
+              170,
+              171,
+              174,
+              175,
+              176,
+              177,
+              180,
+              181,
+              254,
+              255,
+              256,
+              257,
+              258,
+              259,
+              262,
+              263
+            ]
+          },
+          {
+            "node": "HouseInterior_CupboardPull_LOD0",
+            "overlapping_faces": 2,
+            "minimum_face_area": 0.0008819999638944864,
+            "indices": [
+              32,
+              33
+            ]
+          }
+        ]
+      },
+      "source_suitability": "Not suitable for keepUV retexture yet: final explicit global select/pack reduced overlaps304→20, but zero-overlap gate still fails. Body2,Door16,Pull2. No geometry/normals or runtime changes were used to hide this. Existing first UV donor is an earlier unaccepted artifact, not a paid-ready input.",
+      "next_action": "HOLD. Do not send Meshy or continue UV attempts in this unit. If resumed with a new source contract, inspect the20 identified UV faces and their tiny bevel geometry before choosing a bounded UV-only correction; original geometry/door pivot/collision remain authoritative."
+    }
+  ],
+  "paid_submission": {
+    "operation": "One Meshy 7.1 4K PBR retexture, keep original UV, GLB",
+    "tool": "eng/meshy_assets.py submit-retexture (existing CLI)",
+    "task_id": "01a184a4-5aca-7534-8851-0323465d09d3",
+    "status": "SUCCEEDED",
+    "estimated_credits": 10,
+    "consumed_credits": 10,
+    "source_glb": "source-cupboard-uv.glb",
+    "source_glb_sha256": "0923d8f000ec75e4c4d83638cbf16ff3c61ef7cb1dd1762c5c218ce344599b35",
+    "style_reference": "input-material-reference-v1.png",
+    "style_reference_sha256": "14ee1b989b75c9f7b8b802d20014fa1b5d3d84ee27c8f3ed6ddc6427f4202357",
+    "returned_glb": "../../../.codex/local_asset_archive/URMAN-home-cupboard-pbr-v1-2026-10-29.zip#meshy-retexture-returned.glb",
+    "returned_glb_sha256": "13102107eadb665750323239e6efe81ddcf03d80a33de93513d3ad7fec9199b9",
+    "returned_glb_bytes": 14180352,
+    "download_receipt": "../../../.codex/local_asset_archive/URMAN-home-cupboard-pbr-v1-2026-10-29.zip#download-01.json"
+  },
+  "candidate": {
+    "glb": "game/assets/models/act1/home-cupboard-generated-pbr-2k.glb",
+    "sha256": "00af029d49bfa21bdca77514ab7db983e5249e67ddf8f9e14ba2af21ff68ee3f",
+    "bytes": 7403440,
+    "receipt": "../../../.codex/local_asset_archive/URMAN-home-cupboard-pbr-v1-2026-10-29.zip#candidate-receipt.json",
+    "visual": "../../../.codex/local_asset_archive/URMAN-home-cupboard-pbr-v1-2026-10-29.zip#candidate-front-right.png"
+  },
+  "cultural_basis": {
+    "sources": [
+      "docs/research_shurale_package/research/01_sources_and_method.md",
+      "docs/research_shurale_package/research/04_houses_facades_and_yards.md"
+    ],
+    "limit": "The package is not a field survey of current private interiors; the referenced museum interior images do not establish a present-day family cupboard type.",
+    "application": "The model is an existing project household cupboard. Warm maintained timber is an artistic material proposal, not a historical or regionally typical claim. No text, motif, religious symbol, or added detail was introduced; separate cultural acceptance remains open."
+  },
+  "runtime_integration": {
+    "status": "CODE_GRAFTED_PENDING_GODOT_IMPORT_AND_SCENE_REVIEW",
+    "asset": "game/assets/models/act1/home-cupboard-generated-pbr-2k.glb",
+    "sha256": "00af029d49bfa21bdca77514ab7db983e5249e67ddf8f9e14ba2af21ff68ee3f",
+    "bytes": 7403440,
+    "consumer": "game/scripts/StyleBenchmarkInteriorFactory.cs::ApplyHomeCupboardPbr",
+    "source_nodes": [
+      "HouseInterior_CupboardBody_LOD0",
+      "HouseInterior_CupboardDoor_LOD0",
+      "HouseInterior_CupboardPull_LOD0"
+    ],
+    "source_local_space_check": "Body/Door/Pull local triangle geometry is exact at 44/264/44 triangles; the candidate root was recentered, but only its mesh resources are grafted onto existing runtime nodes.",
+    "preserved": [
+      "existing semantic node paths and target nodes",
+      "existing per-node transforms and destination placement",
+      "existing LOD visibility ranges and original LOD1 meshes/materials",
+      "existing collision body and owner; Body contact is regenerated from geometrically identical mesh faces",
+      "unrelated transparent window/glazing nodes"
+    ],
+    "material_alpha": "Original cupboard body/door/pull materials are opaque alpha=1; generated material uses opaque mode. No transparency-bearing room nodes were changed.",
+    "remaining": "Godot import and contextual runtime review of the LOD0 material graft remain open, including whether a camera outside the 8×7m interior can expose the original LOD1; performance, author art and separate cultural acceptance remain open.",
+    "mesh_local_topology_check": {
+      "comparison": "source Mesh POSITION/index accessors versus candidate Mesh accessors, per semantic LOD0 node; local positions only, no node transform baked into mesh data",
+      "HouseInterior_CupboardBody_LOD0": {
+        "source_vertex_entries": 96,
+        "candidate_vertex_entries": 100,
+        "source_index_entries": 132,
+        "candidate_index_entries": 132,
+        "unique_local_position_set_equal": true,
+        "oriented_local_triangle_position_multiset_equal": true,
+        "triangle_count": 44,
+        "index_buffer_byte_sequence_equal": false,
+        "note": "Candidate adds four vertex entries for UV seams and reindexes the same oriented triangles; no local surface triangle was moved, flipped, added, or removed."
+      },
+      "HouseInterior_CupboardDoor_LOD0": {
+        "source_vertex_entries": 576,
+        "candidate_vertex_entries": 576,
+        "source_index_entries": 792,
+        "candidate_index_entries": 792,
+        "position_accessor_equal": true,
+        "index_accessor_equal": true,
+        "oriented_local_triangle_position_multiset_equal": true,
+        "triangle_count": 264
+      },
+      "HouseInterior_CupboardPull_LOD0": {
+        "source_vertex_entries": 96,
+        "candidate_vertex_entries": 96,
+        "source_index_entries": 132,
+        "candidate_index_entries": 132,
+        "position_accessor_equal": true,
+        "index_accessor_equal": true,
+        "oriented_local_triangle_position_multiset_equal": true,
+        "triangle_count": 44
+      }
+    },
+    "pre_swap_transform_check": {
+      "original_nodes": "Three source LOD0 nodes are GLB scene roots with translation-only transforms and identity basis.",
+      "candidate_root": "HomeCupboardPbr is identity at the candidate GLB scene root; candidate mesh nodes are children.",
+      "anchor_y_up": [
+        -4.820000171661377,
+        0.0,
+        -3.880000114440918
+      ],
+      "candidate_child_translation_plus_anchor_equals_original_node_translation": true,
+      "max_translation_difference_m": 0.0,
+      "runtime_behavior": "The graft copies candidate ArrayMesh resources only; it does not reparent candidate nodes or copy their transforms. The original nodes receive the existing source→destination placement transform and remain targets for contacts.",
+      "node_matrix_comparison": [
+        {
+          "node": "HouseInterior_CupboardBody_LOD0",
+          "source_parent_names": [],
+          "candidate_parent_names": [
+            "HomeCupboardPbr"
+          ],
+          "source_local_matrix_translation": [
+            -4.820000171661377,
+            1.2100000381469727,
+            -3.880000114440918
+          ],
+          "candidate_node_translation": [
+            0,
+            1.2100000381469727,
+            0
+          ],
+          "candidate_parent_basis_identity": true,
+          "candidate_anchor_applied_translation": [
+            -4.820000171661377,
+            1.2100000381469727,
+            -3.880000114440918
+          ],
+          "basis_equal_identity": true,
+          "max_translation_error_m": 0.0
+        },
+        {
+          "node": "HouseInterior_CupboardDoor_LOD0",
+          "source_parent_names": [],
+          "candidate_parent_names": [
+            "HomeCupboardPbr"
+          ],
+          "source_local_matrix_translation": [
+            -4.820000171661377,
+            1.2200000286102295,
+            -3.490000009536743
+          ],
+          "candidate_node_translation": [
+            0,
+            1.2200000286102295,
+            0.3900001049041748
+          ],
+          "candidate_parent_basis_identity": true,
+          "candidate_anchor_applied_translation": [
+            -4.820000171661377,
+            1.2200000286102295,
+            -3.490000009536743
+          ],
+          "basis_equal_identity": true,
+          "max_translation_error_m": 0.0
+        },
+        {
+          "node": "HouseInterior_CupboardPull_LOD0",
+          "source_parent_names": [],
+          "candidate_parent_names": [
+            "HomeCupboardPbr"
+          ],
+          "source_local_matrix_translation": [
+            -4.440000057220459,
+            1.2200000286102295,
+            -3.4630000591278076
+          ],
+          "candidate_node_translation": [
+            0.38000011444091797,
+            1.2200000286102295,
+            0.41700005531311035
+          ],
+          "candidate_parent_basis_identity": true,
+          "candidate_anchor_applied_translation": [
+            -4.440000057220459,
+            1.2200000286102295,
+            -3.4630000591278076
+          ],
+          "basis_equal_identity": true,
+          "max_translation_error_m": 0.0
+        }
+      ]
+    },
+    "lod_distance_check": {
+      "source": "GeneratedModularKitDressing.ConfigureVisibilityRange",
+      "lod0": "0–24m; fades during final3m",
+      "lod1": "18–72m; begins fading in3m before18m",
+      "interior": "Over the full 8×7m clear-room footprint and camera height 0–2.6m, the farthest cupboard vertex (including the pull) is 10.646m from a room corner; this is below the LOD1 first fade at15m and LOD0 first fade at21m. LOD1 is therefore not visible for a camera contained in the interior."
+    },
+    "archive": {
+      "path_from_repository_root": "../../../.codex/local_asset_archive/URMAN-home-cupboard-pbr-v1-2026-10-29.zip",
+      "sha256": "65a5a28eb8627de8cc0e4f9acb66b907e0b663f5bdd1fe014ad7df6c3854cfa3"
+    }
+  },
+  "local_intermediate_archive": {
+    "path_from_repository_root": "../../../.codex/local_asset_archive/URMAN-home-cupboard-pbr-v1-2026-10-29.zip",
+    "sha256": "65a5a28eb8627de8cc0e4f9acb66b907e0b663f5bdd1fe014ad7df6c3854cfa3",
+    "bytes": 16355877,
+    "crc32": "verified",
+    "member_sha256": "verified against source files before cleanup",
+    "members": [
+      "candidate-front-right.png",
+      "source-front-right.png",
+      "balance-before.json",
+      "balance-after.json",
+      "status-01.json",
+      "submit-retexture.json",
+      "download-01.json",
+      "candidate-receipt.json",
+      "source-cupboard-uv.glb",
+      "meshy-retexture-returned.glb",
+      "uv-preflight.json",
+      "manifest.json"
+    ]
+  }
 }
