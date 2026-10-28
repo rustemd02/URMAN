@@ -73,6 +73,9 @@ public partial class RuntimeBridge
     private const string FullGameAtmosphericDialogueFingerprint =
         "f4184929e58e22f95e542c32d11a1210720dc5fbff2f701c2bd718470c01351f";
 
+    private const string FullGameEncounterContinuityFingerprint =
+        "d4b2cce8c2be61dc6c1a002040f7d76011651786c2aa6de904ca88772df5e337";
+
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
         // 80266983 -> 5b0a7ccf: 18 UI texts/provides IDs only; proof in PW-025.
@@ -319,7 +322,30 @@ public partial class RuntimeBridge
         new(FullGameWaterHomeAccountFingerprint, FullGameAtmosphericDialogueFingerprint),
         new(FullGameShuraleReplyTextFingerprint, FullGameAtmosphericDialogueFingerprint),
         new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
-            FullGameAtmosphericDialogueFingerprint)
+            FullGameAtmosphericDialogueFingerprint),
+        // Twelve RU/default text values only; exact compiled-pack comparison in PW-043.
+        new(FullGameAtmosphericDialogueFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameEarlyDialogueRevisionFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameTeaCompletionGateFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameAlsuLeafDialogueFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameHousePhotoDialogueFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameAlsuMountedPhotoGateFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameRiverExitHintFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameEncounterContinuityFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameEncounterContinuityFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -350,7 +376,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAlsuLeafDialogueFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTeaCompletionGateFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEarlyDialogueRevisionFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAtmosphericDialogueFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAtmosphericDialogueFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEncounterContinuityFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }

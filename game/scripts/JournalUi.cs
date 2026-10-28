@@ -357,7 +357,8 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         if (_bridge is { } summaryBridge && ForestEpisodeSummary(summaryBridge, mission) is { } forestSummary)
             AddTaskRow("", forestSummary, colours.TextMuted, 18);
         if (mission is not null)
-            AddTaskRow("", "СЕЙЧАС · " + mission.Title, colours.Text, 22);
+            AddTaskRow("", (mission.Id == "campaign-finished" ? "АКТ I ЗАВЕРШЁН · " : "СЕЙЧАС · ")
+                + mission.Title, colours.Text, 22);
         for (var index = 0; index < titles.Count; index++)
         {
             if (index == 1 && mission is not null)

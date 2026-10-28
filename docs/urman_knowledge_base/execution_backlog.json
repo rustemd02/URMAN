@@ -2672,7 +2672,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-10-26",
+  "updated": "2026-10-29",
   "goal_key": "urman-photoworlds-finished-game",
   "goal_statement": "Довести единую очередь до готовой игры «За краем снимка»: обычная зимняя Кара-Урман, физическая книга Тукая, 13 снимков, пять полноценных фотомиров, пролог W01, реальные внешние подтверждения, домашний эпилог и свободные возвращения. Все применимые требования Visual Reset и PhotoWorlds, сохранённые бытовые системы и выпускная приёмка обязательны; готовность принимается REL-003 на конкретной поставляемой сборке, а не по числу закрытых карточек.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -123244,6 +123244,15 @@
         "verification": "Compiled diff: 26 RU/default leaves + campaign/module hashes only; Game build0/0; exact accepted predecessor pairs extended to this revision.",
         "remaining": "Native delivery/timing, author and cultural/language acceptance.",
         "independent_review": "Luna reviewer found no actionable regression in current save/session/modal/reduced-motion/asset lifecycle code; source→compiled text matches and20 direct compatibility predecessors confirmed. Root separately compared HEAD pack delta."
+      },
+      "encounter_continuity_2026_10_29": {
+        "state": "source_reviewed_compiled_native_pending",
+        "result": "Twelve existing RU/default text values: personal recognition of forest at tea; unknown figure prompt before D06; family reacts to Shurale encounter rather than immediately handing out next task; reduced instruction repetition in water/house/common dialogue. Same IDs, conditions, effects and non-text compiled data.",
+        "old_fingerprint": "f4184929e58e22f95e542c32d11a1210720dc5fbff2f701c2bd718470c01351f",
+        "new_fingerprint": "d4b2cce8c2be61dc6c1a002040f7d76011651786c2aa6de904ca88772df5e337",
+        "compatibility": "21 exact direct predecessor pairs plus explicit current target; no transitive wildcard.",
+        "verification": "Compiled-pack recursive comparison: 24 RU/default leaves + module hash + campaign hash only; narrow Game compile and source review.",
+        "remaining": "Current native job uses78471311, so new12texts not observed there. Author/language/culture/voice acceptance remains separate."
       }
     },
     {
@@ -126060,6 +126069,16 @@
         ],
         "verification": "Independent Luna source review identified ambient compounding; root moved authored configuration to clone creation; Game build0warnings0errors. No extra environment owner or geometry change.",
         "remaining": "Native new frame and movement: near branch/path readable, depth not opaque; restore mainW01 lighting, author art acceptance."
+      },
+      "native_continuation_2026_10_29": {
+        "state": "running",
+        "owner": "/root/native_episode_oct29",
+        "job_id": "24d781f2029a4e97b867b0d80ff41ec9",
+        "source_commit": "7847131113bc6ddd4ecb1af41c824f490a599fe8",
+        "snapshot_id": "0ae07b56ab1358f085dd7ff6083ff538fd28f030dc2988c4c0d3d4c0d9ffc55f",
+        "question": "Ordinary New Game → physical branch → F03 → Niva arrival → family/book → first photo episode. No skip, no altered saves.",
+        "observed": "F01 branch moved and goal changed; visible path reached F03; village loaded, Niva cabin and dialogue rendered; normal exit reached family tea objective. Prologue overcast frame is readable but artistic quality not accepted. Ride motion and audio not captured/proved.",
+        "remaining": "Continue current native route; terminal receipt/userdata restoration pending. Do not count in-flight job as passed."
       }
     },
     {
@@ -140568,6 +140587,17 @@
           "game/content/urman.fullgame.compiled.v1.json",
           "game/scripts/PhotoWorldEpiloguePresence.cs"
         ]
+      },
+      "completion_presentation_2026_10_29": {
+        "state": "source_reviewed_compiled_native_pending",
+        "result": "Existing campaign-finished mission shows ACT I completed on HUD and Tasks instead of new/current task; free exploration and J family book opening remain.",
+        "gate": "S-NOW plus confirmed pw-marat-death-question-remains-open from final family conversation. No new saved state or reward.",
+        "evidence": [
+          "game/scripts/Act1DemoRoot.cs",
+          "game/scripts/JournalUi.cs",
+          "game/scripts/JournalUi.Missions.cs"
+        ],
+        "remaining": "Actual final route, process close/Continue and author acceptance not completed."
       }
     },
     {

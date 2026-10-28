@@ -2010,10 +2010,13 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 && !StringComparer.Ordinal.Equals(previousMissionId, currentMission.Id))
                 _newMissionHeaderSeconds = NewMissionHeaderVisibleSeconds;
             _lastRouteCueMissionId = currentMission.Id;
+            var campaignFinished = currentMission.Id == "campaign-finished";
+            if (campaignFinished) _newMissionHeaderSeconds = 0;
             if (_routeCueHeader is not null)
             {
-                _routeCueHeader.Text = _newMissionHeaderSeconds > 0 ? "НОВАЯ ЗАДАЧА" : "ТЕКУЩАЯ ЗАДАЧА";
-                _routeCueHeader.Visible = _newMissionHeaderSeconds > 0;
+                _routeCueHeader.Text = campaignFinished ? "АКТ I ЗАВЕРШЁН"
+                    : _newMissionHeaderSeconds > 0 ? "НОВАЯ ЗАДАЧА" : "ТЕКУЩАЯ ЗАДАЧА";
+                _routeCueHeader.Visible = campaignFinished || _newMissionHeaderSeconds > 0;
             }
         }
         var routeText = UsesPhotoWorldsCampaign
