@@ -4881,6 +4881,29 @@
       "provenance": "game/assets/materials/act1/painted_palisadnik_pbr_v1/provenance.json",
       "sourceSha256": "0d54b3b8078ad8947938f1f0f359b7f7d6149ae5769c5bc5fec8bff639f971fd",
       "derivedSha256": "0d54b3b8078ad8947938f1f0f359b7f7d6149ae5769c5bc5fec8bff639f971fd"
+    },
+    {
+      "id": "house.cupboard.meshy-pbr.v1",
+      "source": "assets/source/blender/act1/home_cupboard_pbr_v1/source-receipt.json",
+      "derived": "game/assets/models/act1/home-cupboard-generated-pbr-2k.glb",
+      "generator": "Existing own-game cupboard → built-in image_gen material reference → paid Meshy keepUV retexture10 → generated PBR maps on original three source mesh surfaces",
+      "license": "Owner-authorized own-game/ImageGen inputs and paid Meshy generation; subject to applicable Meshy terms. Final rights/cultural/author acceptance remains open. Not CC0 or free-plan CCBY.",
+      "scale": 1.0,
+      "triangleBudget": 352,
+      "textureBudget": 2048,
+      "materials": [
+        "Shared opaque generated PBR; embedded2K basecolor/normal and1K packed scalar texture."
+      ],
+      "collision": "Original nodes/transforms and existing contact construction retained; oriented local triangle surfaces unchanged despite four UV seam vertex splits in body. No new physics/interaction owner.",
+      "lod": "Only existing LOD0 mesh resources replaced; authored LOD1 retained. Room max distance10.646m below first LOD1 fade15m; external viewpoint review pending.",
+      "status": "Source geometry/UV/bounds/TRS checked; GLB names/material inspected; narrow Game build0warnings0errors. Actual Godot import, room/movement/performance, artistic and cultural acceptance pending.",
+      "releaseDisposition": "source-integration-native-art-culture-performance-rights-pending",
+      "consumerPaths": [
+        "game/scripts/StyleBenchmarkInteriorFactory.cs"
+      ],
+      "apiTaskId": "01a184a4-5aca-7534-8851-0323465d09d3",
+      "sourceSha256": "07a3fbf29766d26a59ed4da750e43839fdf4922b9259bc87ac59bcb085d420a1",
+      "derivedSha256": "00af029d49bfa21bdca77514ab7db983e5249e67ddf8f9e14ba2af21ff68ee3f"
     }
   ]
 }

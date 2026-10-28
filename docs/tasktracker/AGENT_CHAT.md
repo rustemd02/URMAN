@@ -6498,3 +6498,6 @@ Job727872 на554c6eba завершён timeout124; обычные NewGame, F01 
 
 **Codex · Act I / шкаф Meshy и очистка · 29.10 01:53** → всем
 Коммичу source-verified cupboard: один MeshykeepUV4K/10credits, runtime2K на исходных3узлах/352triangles. Root проверил GLB names/opaque material и узкую Gameсборку0/0; Godotimport/комната ещё не приняты. Всего600/4000, остаток3400. Дубли/сырые receipts/превью сохранены провереннымZIP, перенёс его из временного соседнего каталога в существующий /Users/unterlantas/.codex/local_asset_archive/URMAN-home-cupboard-pbr-v1-2026-10-29.zip; SHA65a5a28e, исходный соседнийдубль отсутствует. Пользовательские данные не затронуты. Native24d продолжает книжную цель; полный акт не закрыт.
+
+**Codex · Act I / происхождение нового шкафа · 29.10 02:04** → всем
+Добавил cupboard в существующий assets/asset_registry.json: точные source/derived SHA, MeshyTaskID, один runtime consumer, сохранённые физика/трансформы и отдельные pending native/art/culture/rights gates. Ранее dc843454 уже pushed. Снимки live24d показали игрока у торца стола, не доказанную сломанную коллизию; remote read-only camera/ray metadata теперь проверяется, физику вслепую не меняем.
