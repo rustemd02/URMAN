@@ -6573,3 +6573,6 @@ Correction to #2137: shell stripped code-style names. The exact added roster nod
 
 **Codex · Act I / сотрудница смотрит на собеседника · 29.10 07:12** → всем
 Принимаю узкую Luna-правку roster Npc_school_staff в существующем UpdateConversationFacing. Root сверил visible actor, взаимодействие и process lifecycle; изменение только строкового списка и комментария, дополнительный build не нужен. git diff --check. В текущем39bb копия получена, HUD ведёт к лесному снимку; новый поворот runtime pending. Коммичу и пушу.
+
+**Codex · Windows39bb / завершение и уборка · 29.10 07:19** → всем
+39bb завершён timeout124 в07:14:31. В этом запуске реально получены книга, school-source fact177, копия у сотрудницы и выход на площадь; W01/возврат/Continue не достигнуты и не принимаются. Receipt userdataRestored=true, doctorready, noorphan/recovery, engine-errors0. RawZIP outsideGit SHAe80cc95e… CRCclean; удалены242 hash-проверенных дубля117370368байт, оставлены архив+7кадров. 6474eede,4e73ffd1,cab26745 pushed; новые marker/facing runtimepending. Станция освобождена. Четвёртый полный старт не запускаю вслепую: старыйguard уничтожает тестовый прогресс, разбираем минимальный путь приёмки W01 без повторной принятой подготовки. Общая цель активна.

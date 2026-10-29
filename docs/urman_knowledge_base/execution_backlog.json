@@ -126227,16 +126227,36 @@
           "preserved": "Remote dirty client differs from parent and was not replaced. Only worker/runner preimage matched; verified replacements, normalstop/start, no orphan/recovery. Stagingduplicatesremoved."
         },
         "current_39bb": {
-          "state": "running_not_accepted",
+          "state": "partial_native_observed_timeout_restored",
           "job_id": "39bb625fde934039aab04bc653be87b0",
           "head": "f2a2b5bd5f8a1a933d3c0eb10a2e06bf89169b04",
           "snapshot_sha256": "8fbd6249eca2d9bddb9649429d39532bcb56c10b821675c237ab4a94ef22ca0f",
-          "owner": "/root/native_episode_oct29",
+          "owner": "root; native_episode UI handed off 06:24MSK",
           "start_msk": "2026-10-29T05:10:10+03:00",
           "game_timeout_seconds": 7200,
           "question": "Ordinary school copy → W01 physical actions → family return/consequence → Menu/Continue; only built-in skip for already accepted forest prologue. No seed/debug/teleport.",
-          "observed": "NewGame → built-in forest skip → Niva conversation and ordinary exit → tea objective. W01/return/Continue pending.",
-          "userdata_restored": "pending_terminal_receipt"
+          "observed": "Ordinary NewGame with built-in accepted-forest skip → Niva conversation/exit → home tea/book → school stair/door/corridor → source album comparison confirmed → school staff dialogue/copy received → ordinary school exit/plaza. W01 entry/action/return and Continue not reached.",
+          "userdata_restored": true,
+          "finished_msk": "2026-10-29T07:14:31+03:00",
+          "game_exit_code": 124,
+          "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-w01-39bb625f-2026-10-29/result.zip",
+          "archive_sha256": "e80cc95eb05ce21272995729e6db55a15fee77a204e853a612235e30180b9332",
+          "doctor": {
+            "ready": true,
+            "orphan_game_process": false,
+            "orphan_candidate_process": false,
+            "userdata_recovery_pending": false
+          },
+          "engine_error_log_bytes": 0,
+          "evidence": [
+            "game.log [133] photoworlds.book.received",
+            "game.log [177] photoworlds.fact.observed:pw-school-copy-source",
+            "root_school_album_open.png",
+            "root_school_copy_received.png",
+            "root_school_plaza.png"
+          ],
+          "cleanup": "CRC and SHA verified. Removed242 extracted/renamed hash-identical duplicates,117370368bytes. Kept raw ZIP outsideGit and7selectedPNG. Station reclaimed1665264498bytes.",
+          "next_action": "Do not repeat accepted preparation blindly. Decide bounded acceptance route that reaches W01 action/return without another full slow preparation; current guard discards temporary test saves, so39bb cannot be resumed by Continue."
         }
       },
       "school_corridor_guidance_2026_10_29": {
