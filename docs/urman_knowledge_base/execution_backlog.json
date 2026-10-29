@@ -125499,7 +125499,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Continue own school-door save on changed committed snapshot; one stable E and currentcapture then inspect causalexistingmetadata. Do not repeatNewGame or weakenphysics.",
+      "next_action": "Ordinary Continue earned pw-home return checkpoint, follow home cue, talk to family, record W01 result and see next earned lead; save and quit normally. Do not replay school or prologue.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -126416,13 +126416,19 @@
         "verification": "Root final affected Game compile: 0 warnings, 0 errors. Luna independent static review PASS after external side approach retained regardless of door state; git diff --check. New route not in current f873 snapshot.",
         "next_action": "Continue earned school copy to W01 and return; check new school route on a later necessary snapshot, without replaying setup solely for this cue.",
         "native_check": {
-          "state": "door_cause_and_school_copy_verified_w01_pending",
+          "state": "school_copy_w01_action_return_checkpoint_verified_timeout_restored",
           "job_id": "f8738c66a79b482bae316ae394636597",
           "snapshot": "9355b1b8e418a7884543e2677069b7a4b74e10c8f4a21e43ae3ac7668cc337e4",
           "head": "92e684b6",
           "owner": "root",
           "profile": "act1-acceptance",
-          "question": "OrdinaryContinue at earned school-door save; one stable E then existingcapturedoor metadata; fix only evidencedcause. Continue W01 if dooropens. NoNewGame/seed/teleport."
+          "question": "OrdinaryContinue at earned school-door save; one stable E then existingcapturedoor metadata; fix only evidencedcause. Continue W01 if dooropens. NoNewGame/seed/teleport.",
+          "result": "Ordinary school copy → F11 observation → F12/F13 crossing (reverse workaround on old snapshot) → three trunk observation → D06 → physical bag release → D07 → physical F16 return. game.log scene-loaded village_day@pw-forest-approach and checkpoint pw-home; controllable return frame and home conversation not reached before timeout124.",
+          "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-door-f8738c66-2026-10-29/result.zip",
+          "archive_sha256": "a1a8b38ccab328259342cffdb9e8f4dced755fff341a7a0c240eb0370f568ce6",
+          "userdataRestored": true,
+          "doctorReady": true,
+          "cleanup": "CRC verified120 members; removed165 exact-content duplicates/87105097bytes; selected frames and raw archive retained outside Git. Station reclaimed1686199192bytes."
         },
         "route_change": "Read existing settled facility-door state to point through open half-gap; closed marker stays outside swing at local Z7.35. Side approach preserved. Inside marker clears front-wall band before lateral staff route at Z4.05, accounting for body radius.",
         "files": [
@@ -126437,6 +126443,14 @@
         "change": "Existing exit capsule sweep now follows ForestGroundHeight end-start grade in Y; XZ, full TestMove, masks, margin, aperture, grounded gate, facts and traversal transform unchanged. W01 only.",
         "verification": "Independent Luna source review PASS for both destination endpoints and authored identity transforms; affected Game build0warnings0errors17.84s. No newtests or probes.",
         "remaining": "On a necessary updated Windows snapshot, verify direct positive F12 crossing and obstacle rejection with ordinary movement. Current f873 does not contain change; full gameplay convenience not accepted."
+      },
+      "home_return_acceptance_2026_10_29": {
+        "state": "ready",
+        "question": "Does ordinary Continue from earned W01 return provide a controllable village, reachable home conversation, recorded book consequence and clear next earned objective?",
+        "success": "Observe ordinary home route/dialogue/book consequence/next goal; Save/Quit with original userdata restored. No seeds/teleport/NewGame.",
+        "owner": "root",
+        "profile": "act1-acceptance",
+        "source": "latest committed head with book/glove tints and W01 slope clearance; no need to replay already earned W01."
       }
     },
     {
@@ -166666,13 +166680,13 @@
     "credits": {
       "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 610,
-      "authorized_budget_remaining": 3390,
+      "agent_spent_after_purchase": 620,
+      "authorized_budget_remaining": 3380,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4100,
-      "balance_note": "29.10 spent610/4000; reserve10 for one H002 retexture candidate, remaining3390 total/3380 unreserved. No repeated rough-picket generation.",
-      "latest_api_balance_observed": 3670,
-      "reserved_for_current_work": 10,
+      "balance_note": "29.10 spent620/4000, remaining3380, reserve0; H002 source-preserving PBR v2 reviewed, scene integration pending.",
+      "latest_api_balance_observed": 3660,
+      "reserved_for_current_work": 0,
       "unreserved_author_budget": 3380
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
@@ -166921,6 +166935,14 @@
         "cost_credits": 10,
         "result": "SUCCEEDED; actual10. Source-preserving material inspection pending; runtime/art/cultural acceptance open. No furtheriteration authorized inthisslice.",
         "source": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v2"
+      },
+      {
+        "task_id": "ACT1-DEPTH.10",
+        "api_task_id": "01a18697-6785-7058-9e1b-e0e1aada649c",
+        "operation": "One Meshy7 4K PBR keepUV retexture of prepared project-original H002 using existing accepted ImageGen reference; no new ImageGen repeat.",
+        "cost_credits": 10,
+        "result": "SUCCEEDED; actual10. Exploratory source↔return comparison and material review pending, all final geometry/UV/normal/native/cultural gates remain open. No repeat POST.",
+        "source": "assets/source/blender/act1/neighbor_house_b_retexture_v1"
       }
     ],
     "next_large_static_candidate": {
@@ -166990,15 +167012,21 @@
       "cleanup": "18members CRC+SHA verified; 26076305bytes of two new source folders removed. Raw output/receipt/candidate retained in archive, two selected PNG outside Git. Root moved archive from repository .codex to home .codex; other source families untouched."
     },
     "current_operation_2026_10_29_h002": {
-      "state": "reserved_candidate_only",
+      "state": "source_preserving_pbr_v2_reviewed_runtime_pending",
       "task_id": "ACT1-DEPTH.10",
       "asset_id": "urman.world:act1/open-part/h002-house",
-      "reserved_credits": 10,
+      "reserved_credits": 0,
       "operation": "One Meshy7 4K PBR keepUV retexture of prepared project-original H002 using existing accepted ImageGen reference; no new ImageGen repeat.",
       "source": "assets/source/blender/act1/neighbor_house_b_retexture_v1/variant-b-opaque-for-retexture.glb",
       "reference": "assets/source/blender/act1/neighbor_house_b_reference_v1/imagegen-reference-v1.png",
       "root_decision": "Allow one bounded paid material candidate under existing owner4000 cap despite numerical source gates remaining open. This is exploratory upload authorization, NOT UV/normal/runtime acceptance. Normal component max delta .000136 versus .0001 is small; overlap receipt supplies minimum face area only, so do not claim all12 selected faces are degenerate. Keep this uncertainty through output inspection. Existing source receipt stays historical HOLD; no automatic integration. Root reviewed reference and current Seni corner construction; chosen plaster/timber hybrid is deliberate, not generic ethnic decoration.",
-      "spend_condition": "Fresh service state and known operation price <=10; exactly one POST; retain taskID and actual debit; no retry on ambiguous outcome."
+      "spend_condition": "Fresh service state and known operation price <=10; exactly one POST; retain taskID and actual debit; no retry on ambiguous outcome.",
+      "api_task_id": "01a18697-6785-7058-9e1b-e0e1aada649c",
+      "actual_cost_credits": 10,
+      "download_sha256": "4a6a966f25a10e1e3f321a00ca9d73aa51bea8b3c58c4e0fc755d4e53660a475",
+      "candidate": "assets/source/blender/act1/neighbor_house_b_retexture_v1/pbr_candidate_v2/variant-b-roof-preserved-pbr-v2.glb",
+      "candidate_sha256": "abad5abd45ee8418a73efb55e8f0039f6140a113a2959ee82645578bd0f40006",
+      "result": "Use only Meshy PBR payloads on exact source geometry/UV/BIN. 23 roof/detail nodes keep source material; 93 other opaque nodes use generated PBR. Root inspected final front-right: broad baked roof stripe removed; walls and timber accepted for scene candidate. Pale log ends and final art/cultural acceptance remain open. No extra spend."
     }
   },
   "artifact_cleanup_2026_10_20": {

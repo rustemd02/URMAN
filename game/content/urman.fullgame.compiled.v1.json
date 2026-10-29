@@ -29880,9 +29880,9 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-choice-forest-shurale-d06-02",
         "value": {
-          "default": "\u042F \u0438\u0449\u0443 \u043C\u0435\u0441\u0442\u043E \u0441\u043E \u0441\u043D\u0438\u043C\u043A\u0430. \u041C\u043D\u0435 \u0442\u0443\u0434\u0430.",
+          "default": "\u0422\u044B \u043A\u0442\u043E?",
           "translations": {
-            "ru": "\u042F \u0438\u0449\u0443 \u043C\u0435\u0441\u0442\u043E \u0441\u043E \u0441\u043D\u0438\u043C\u043A\u0430. \u041C\u043D\u0435 \u0442\u0443\u0434\u0430."
+            "ru": "\u0422\u044B \u043A\u0442\u043E?"
           }
         },
         "purpose": "dialogue"
@@ -33626,7 +33626,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "fe6a6d2457a1d5401534fba53c0206315ec0d011bfc8ff1577393bb163bfce65"
+      "sha256": "3f820a22b263a0f46004ba3d5f3bf76c36f1e3a91189c72192937e2b89af4ba4"
     },
     {
       "moduleId": "urman.oldpc",
@@ -33634,5 +33634,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "2b2a65f4508663ee6ca3fe40600f15de181461d4b194555d0b1c4ad53c398dd3"
+  "campaignFingerprint": "d1835802606570985fe48b2a2cd63c5c1fbc7385c646a78c2bca1792450e960e"
 }

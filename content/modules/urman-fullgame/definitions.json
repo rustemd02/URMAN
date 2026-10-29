@@ -7071,9 +7071,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-choice-forest-shurale-d06-02",
     "value": {
-      "default": "Я ищу место со снимка. Мне туда.",
+      "default": "Ты кто?",
       "translations": {
-        "ru": "Я ищу место со снимка. Мне туда."
+        "ru": "Ты кто?"
       }
     },
     "purpose": "dialogue"
