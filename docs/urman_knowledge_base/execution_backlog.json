@@ -121588,6 +121588,11 @@
         ],
         "verification": "Astra bounded narrative/order/provenance/compatibility review; root exact compiled delta: campaign incl saved catalog unchanged, existing quest/photo/scene registries unchanged. New initialhidden knowledge is created lazily by existing SetStatus; existing first_world_home_talk uses same idempotent source. Existing content CLI exit0, final affected compile result recorded in agent chat. No new tests/probes/game/captures. W04-completed excludes new pending; no new world/evidence gate or false E-BANK confirmation. Exact one-way b0b8a6/95c938→b809690 compatibility only; unknown pairs strict.",
         "remaining": "Обычная полная кампания, оба порядка миров/Continue, интерес, естественность речи и обязательная авторская/культурная/языковая/слуховая приёмка не подтверждены."
+      },
+      "authorship_reply_2026_10_29": {
+        "result": "Replaced player choice Записать: снимала Гөлсинә with Ты даже эту ткань помнишь. in default/ru only, in response to Gulsina recalling forgotten fabric. IDs/conditions/effects unchanged.",
+        "compatibility": "Exact compiledpack diff: two text values plus modulehash/campaignFingerprint. f754e4a5d29a27a357707835d6b56a78dfc71f90327d7a3912f38bd3da1df403 accepts d183 and23 already accepted predecessors via direct one-way pairs; unknown fingerprints strict.",
+        "verification": "Content compile succeeded. Final Game compile after removing unaccepted H002 hook:15.59s,0warnings0errors. Independent exact-source-set compatibility review; gitdiffcheck. New line not natively replayed; current Windows scene/input verified on unchanged gameplay e9cee056."
       }
     },
     {
@@ -131567,7 +131572,7 @@
         "Шов не меняет поле зрения и наклон камеры.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W03_Дом_на_просвет_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Inspect the bounded collision/lifecycle review results, then prove physical P-HOUSE entry → H00–H08 actions/two views → return → save/Continue in an owned ordinary native session once the foreground blocker has a causal resolution. Do not repeat unchanged compile or substitute an old W02 capture.",
+      "next_action": "Only after new owner instruction: ordinary Continue from saved envelope-open state → Gulsina permission → P-HOUSE mount/back/physical entry → W03 route. Do not repeat accepted opening or home loop.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -131771,6 +131776,22 @@
         "limits": "Compilation is not visual/traversal/restore proof. E02 authored asset families/provenance, source art and ordinary native acceptance remain open. No whole-card completion.",
         "review": "Independent native luna_fast source review found no confirmed W03 lifecycle/session/restore/return blocker. Producer read-only collision-path pass found door clearance1.30x2.25m vs player radius.35/height1.8, interior ground matches.331m floor. H06 sill.21m vs stepcap.22m remains a specific native uncertainty, not proof of safe traversal.",
         "native_import": "Current d334 ordinary job6280675a: Windows build/content/import exit0; W03 traversal/actions not reached. Use existing receipt evidence/FINISH-06/native_6280675a75da42fa98e8bf8e957ea1e4/receipt.json; no repeated unchanged compile/import needed."
+      },
+      "native_stage_2026_10_29": {
+        "state": "stopped_at_owner_request_before_W03_entry",
+        "owner": "root",
+        "question": "Does ordinary earned home Continue permit P-HOUSE envelope/permission/mount/back-read and physical entry, then the four authored W03 actions and return without blockers, with clear goals?",
+        "success": "Observe physical progression and readable next action; Save/Quit and userdata restoration. No seed, teleport, replay of accepted opening or debug route. Source-reviewed visual/collision uncertainties require native evidence.",
+        "input": "e9cee056, act1-acceptance saved after first_world_home_talk in c857",
+        "scope": "PW-056/PW-057 ordinary first W03 route; no claim full passport/revisit/LowHigh/audio/cultural acceptance.",
+        "job_id": "d7418d0c805a4751b585d37eef61d524",
+        "snapshot": "f860aa97b5f0ba6552162c300db7c77d8275c041eecf5ca455337d2b4e6fc828",
+        "source_review": "Bounded independent Luna route/gates and physical geometry reviews found no source-proven blocker. Physical H06 sill and actual two-view crossings remain native questions; final H08 exit requires all four actions, early book return is not completion.",
+        "result": "On e9cee056 ordinary Continue restored saved home position and family-envelope objective. Ordinary movement reached table; E on envelope opened source and changed goal to family copy permission from Gulsina. Owner requested finish compiling/launchable state then stop. No W03 entry/actions accepted. Normal Save/Quit completed, gameExitCode0, userdataRestoredtrue; doctorready/noorphans/recoveryfalse.",
+        "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-house-d7418d0c-2026-10-29/result.zip",
+        "archive_sha256": "6325cef0cc5d74ff6179e8a490174e5a52925e548072cbea8e93f38af3be8743",
+        "cleanup": "CRC20members;23 contentSHA-matched duplicates7528144bytes removed. RawZIP and family_envelope_open.png retained outsideGit.",
+        "next_action": "Only after new owner instruction: ordinary Continue from saved envelope-open state → Gulsina permission → P-HOUSE mount/back/physical entry → W03 route. Do not repeat accepted opening or home loop."
       }
     },
     {
@@ -131941,7 +131962,7 @@
         "Авторство Гөлсинә подтверждается только снаружи по обороту и разговору.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W03_Дом_на_просвет_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Inspect the bounded collision/lifecycle review results, then prove physical P-HOUSE entry → H00–H08 actions/two views → return → save/Continue in an owned ordinary native session once the foreground blocker has a causal resolution. Do not repeat unchanged compile or substitute an old W02 capture.",
+      "next_action": "Only after new owner instruction: ordinary Continue from saved envelope-open state → Gulsina permission → P-HOUSE mount/back/physical entry → W03 route. Do not repeat accepted opening or home loop.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -132176,6 +132197,22 @@
           "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
           "game/scripts/photoworlds/W03Controller.Interactions.cs"
         ]
+      },
+      "native_stage_2026_10_29": {
+        "state": "stopped_at_owner_request_before_W03_entry",
+        "owner": "root",
+        "question": "Does ordinary earned home Continue permit P-HOUSE envelope/permission/mount/back-read and physical entry, then the four authored W03 actions and return without blockers, with clear goals?",
+        "success": "Observe physical progression and readable next action; Save/Quit and userdata restoration. No seed, teleport, replay of accepted opening or debug route. Source-reviewed visual/collision uncertainties require native evidence.",
+        "input": "e9cee056, act1-acceptance saved after first_world_home_talk in c857",
+        "scope": "PW-056/PW-057 ordinary first W03 route; no claim full passport/revisit/LowHigh/audio/cultural acceptance.",
+        "job_id": "d7418d0c805a4751b585d37eef61d524",
+        "snapshot": "f860aa97b5f0ba6552162c300db7c77d8275c041eecf5ca455337d2b4e6fc828",
+        "source_review": "Bounded independent Luna route/gates and physical geometry reviews found no source-proven blocker. Physical H06 sill and actual two-view crossings remain native questions; final H08 exit requires all four actions, early book return is not completion.",
+        "result": "On e9cee056 ordinary Continue restored saved home position and family-envelope objective. Ordinary movement reached table; E on envelope opened source and changed goal to family copy permission from Gulsina. Owner requested finish compiling/launchable state then stop. No W03 entry/actions accepted. Normal Save/Quit completed, gameExitCode0, userdataRestoredtrue; doctorready/noorphans/recoveryfalse.",
+        "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-house-d7418d0c-2026-10-29/result.zip",
+        "archive_sha256": "6325cef0cc5d74ff6179e8a490174e5a52925e548072cbea8e93f38af3be8743",
+        "cleanup": "CRC20members;23 contentSHA-matched duplicates7528144bytes removed. RawZIP and family_envelope_open.png retained outsideGit.",
+        "next_action": "Only after new owner instruction: ordinary Continue from saved envelope-open state → Gulsina permission → P-HOUSE mount/back/physical entry → W03 route. Do not repeat accepted opening or home loop."
       }
     },
     {
@@ -167094,7 +167131,8 @@
         "candidate": "assets/source/blender/act1/neighbor_house_b_retexture_v1/pbr_candidate_v2/variant-b-roof-preserved-pbr-v3.glb",
         "sha256": "ae64f88a6a6d75b2d47c83a7a2c28b79c2f286109ff640f29208edce6791d80e",
         "recipe": "assets/source/blender/act1/neighbor_house_b_retexture_v1/pbr_candidate_v2/restore_variant_b_corner_names_v3.py",
-        "result": "Exact source116 opaque node names restored by changing only two Blender-truncated corner node.name strings. All other parsedJSON and BIN identical to v2. No generation/spend/import/runtime validation; v3 not integrated. Next integration must use actual importer names, not63character-normalized evidence."
+        "result": "Exact source116 opaque node names restored by changing only two Blender-truncated corner node.name strings. All other parsedJSON and BIN identical to v2. No generation/spend/import/runtime validation; v3 not integrated. Next integration must use actual importer names, not63character-normalized evidence.",
+        "runtime_preparation": "Prepared exact-root/tint-preserving v3 graft structurally and compiled; native review not completed before owner stop. Runtime hook/class/runtimeGLB withdrawn again before final compile. Original house kept. Prepared C# retained at /Users/unterlantas/.codex/local_asset_archive/URMAN-h002-v3-prepared-2026-10-29/Act1ConnectedWorld.VariantBDwellingPbr.cs; v3 source GLB retained at recorded candidate path. Duplicate runtime GLB removed only after byte equality."
       },
       "terminal_archives": [
         {

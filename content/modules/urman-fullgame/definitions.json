@@ -4918,9 +4918,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-choice-gulsina-author-record-authorship",
     "value": {
-      "default": "Записать: снимала Гөлсинә",
+      "default": "Ты даже эту ткань помнишь.",
       "translations": {
-        "ru": "Записать: снимала Гөлсинә"
+        "ru": "Ты даже эту ткань помнишь."
       }
     },
     "purpose": "dialogue"

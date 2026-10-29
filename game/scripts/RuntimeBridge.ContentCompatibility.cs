@@ -82,6 +82,9 @@ public partial class RuntimeBridge
     private const string FullGameShuraleQuestionFingerprint =
         "d1835802606570985fe48b2a2cd63c5c1fbc7385c646a78c2bca1792450e960e";
 
+    private const string FullGameGulsinaAuthorshipReplyFingerprint =
+        "f754e4a5d29a27a357707835d6b56a78dfc71f90327d7a3912f38bd3da1df403";
+
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
         // 80266983 -> 5b0a7ccf: 18 UI texts/provides IDs only; proof in PW-025.
@@ -399,7 +402,33 @@ public partial class RuntimeBridge
         new(FullGameWaterHomeAccountFingerprint, FullGameShuraleQuestionFingerprint),
         new(FullGameShuraleReplyTextFingerprint, FullGameShuraleQuestionFingerprint),
         new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
-            FullGameShuraleQuestionFingerprint)
+            FullGameShuraleQuestionFingerprint),
+        // W03 authorship reply wording only; source state and effects are unchanged.
+        new(FullGameShuraleQuestionFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameNivaLanguageReplyFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameEncounterContinuityFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameAtmosphericDialogueFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameEarlyDialogueRevisionFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameTeaCompletionGateFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameAlsuLeafDialogueFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameHousePhotoDialogueFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameAlsuMountedPhotoGateFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameRiverExitHintFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameGulsinaAuthorshipReplyFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -433,7 +462,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAtmosphericDialogueFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEncounterContinuityFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameNivaLanguageReplyFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameShuraleQuestionFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameShuraleQuestionFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameGulsinaAuthorshipReplyFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }
