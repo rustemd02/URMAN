@@ -125479,7 +125479,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Продолжать реализацию понятной кампании и устранение доказанных препятствий по исходникам. Не повторять NewGame/setup ради зелёного прогона; W01/возврат/Continue остаются конкретной будущей приёмкой изменённого результата.",
+      "next_action": "Continue current earned Windows profile through school source/copy→W01 action→home consequence. Ordinary Continue confirmed; second terminal restore and full chain remain open. No repeated NewGame or setup.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -126349,8 +126349,20 @@
           "question": "OrdinaryContinue of earned26d save; confirmsamegoal/position then continuehome/book/school/W01; Saveatmeaningfulcheckpoints. Restoreproofpendingterminal.",
           "result": "Ordinary menu Continue loaded exact saved camera [0,0.99587494,8.82], rotation [0,0,0], mission tea with family; no NewGame/seed/manual userdata changes.",
           "frame": "/Users/unterlantas/.codex/local_asset_archive/URMAN-continuation-46b6be5a-2026-10-29/continued_village.png",
-          "capture_request_id": "6a26e9ab491d4f6caef90df76ff3f004"
+          "capture_request_id": "6a26e9ab491d4f6caef90df76ff3f004",
+          "progress": "Continue→gate→door→tea dialogue→physical familybook pickup→album open→ordinary pauseSave→exit via gate confirmed. Going to school in same session; terminal restore pending.",
+          "book_frame": "/Users/unterlantas/.codex/local_asset_archive/URMAN-continuation-46b6be5a-2026-10-29/book_received.png"
         }
+      },
+      "w01_early_passage_guidance_2026_10_29": {
+        "state": "implemented_static_verified_native_pending",
+        "cause": "F12 can be crossed before F11; reciprocal passage prevents a proved softlock, but F11 cue pointed directly across disconnected space. Volatile exit-side-only solution also failed after Save/Continue.",
+        "result": "For the still-unearned F11 mission, reuse existing nearest F12/F13 endpoint XZ routing; far-side player sees return-through-passage cue, then normal F11 cue after return. No fact, traversal, physics, persistence or observation condition changes.",
+        "files": [
+          "game/scripts/photoworlds/W01Controller.PassageObservation.cs"
+        ],
+        "verification": "Independent Luna final diff PASS; caller leaves helper after F11, nearest-endpoint uses restored position; authored F10/F11 nearer F12. Affected Game build 0 warnings/0 errors14.48s; diff check. No new tests. Native marker pending next changed-snapshot need.",
+        "next_action": "Observe this cue if early crossing occurs during a necessary W01 run; do not restart current accepted progress solely for this marker."
       }
     },
     {

@@ -39,6 +39,21 @@ public partial class W01Controller
             || !GodotObject.IsInstanceValid(frame))
             return false;
 
+        // Save/Continue may clear traversal-side state; choose the nearer authored endpoint for this cue only.
+        if (_rootLinkFrameF12 is { } entryFrame && GodotObject.IsInstanceValid(entryFrame)
+            && _rootLinkFrameF13 is { } returnFrame && GodotObject.IsInstanceValid(returnFrame))
+        {
+            var position = new Vector2(playerPosition.X, playerPosition.Z);
+            var entry = new Vector2(entryFrame.GlobalPosition.X, entryFrame.GlobalPosition.Z);
+            var exit = new Vector2(returnFrame.GlobalPosition.X, returnFrame.GlobalPosition.Z);
+            if (position.DistanceSquaredTo(exit) < position.DistanceSquaredTo(entry))
+            {
+                point = returnFrame.GlobalPosition;
+                label = "Вернитесь через проход";
+                return true;
+            }
+        }
+
         // Preserve the observation owner's existing ±1.5 m square around F11.
         // Outside it, keep the route cue at F11; inside it, point at the real
         // crossbar observation surface from the active tableau.
