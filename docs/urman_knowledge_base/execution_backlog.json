@@ -126283,6 +126283,36 @@
         "observation": "Native39bb root_school_permission.png: staff dialogue shown while actor faces away from player.",
         "change": "Add actual visible Npc_school_staff to existing UpdateConversationFacing roster. Same shared proximity/return yaw behavior as established village NPCs; no new behavior system or story changes.",
         "verification": "Root inspected actor/target identities, school creation and process call; git diff --check. Runtime turning pending on newer snapshot."
+      },
+      "acceptance_profile_continuation_2026_10_29": {
+        "state": "implemented_static_review_pass_native_pending",
+        "cause": "Repeated guarded ordinary attempts end before W01; guard correctly discards earned test saves at job end.39bb reached schoolcopy+exit but cannot Continue. A fourth identical full preparation without new persistence would waste accepted work.",
+        "result": "Opt-in named clean acceptance profile owned by existing protected_run, retained locally on Windows across play-product jobs; ordinary NewGame/Save/Exit/Continue only.",
+        "owners": {
+          "guard": "/root/native_episode_oct29",
+          "cli_worker_runner": "/root/later_act_playability_oct29",
+          "independent_review": "/root/review_oct29",
+          "integration_tracker_git_station": "root"
+        },
+        "files": [
+          "eng/protected_run.py",
+          "eng/remote-check.py",
+          "eng/windows_station_worker.py",
+          "eng/run-windows-check.ps1"
+        ],
+        "boundaries": [
+          "Strict name, fixed guard-owned namespace outsideGit; own metadata and no symlink/junction import.",
+          "Requires clean mode; no copy from originaluserdata, no seed/flags/debug/teleport/export.",
+          "Reuse existing global lock/process cleanup/recovery; restore and verify original before retaining own earnedprofile.",
+          "Existing default modes/caps remain unchanged; failures preserve recovery evidence."
+        ],
+        "verification": [
+          "Syntax/APIallowlist/source review including failure/timeout paths.",
+          "Necessary Windows ordinary NewGame/Save/Exit and subsequent guarded Continue with same named profile; restore receipt required for both.",
+          "No new testsuites/fixtures/probes; profile plumbing does not prove W01 or release."
+        ],
+        "next_action": "Review completed guard+wire diff, deploy exact matched worker files only after static safety checks, then prove normal profile continuation on Windows.",
+        "verification_result": "Root+independent Luna reviewed default behavior, original restore before profile publication, error/timeout recovery, symlink/junction rejection and fixed clean namespace. Python syntax passes. CLI rejects wrong command, missing clean and explicit userdata before filesystem work. Root found PS Provenance rejection incompatible with worker; corrected and reviewed. Windows Save/Exit/Continue still pending."
       }
     },
     {

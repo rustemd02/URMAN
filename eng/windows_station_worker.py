@@ -2358,7 +2358,7 @@ class Station:
             return self.submit_candidate(spec, principal)
         if not isinstance(principal, str) or not principal:
             raise ValueError('authenticated job principal required')
-        if set(spec) - {'job_id','snapshot_id','mode','scene','timeout','headless','points','phase','fov','studio_restarts'}:
+        if set(spec) - {'job_id','snapshot_id','mode','scene','timeout','headless','points','phase','fov','studio_restarts','acceptance_profile'}:
             raise ValueError('unknown job field')
         jid = spec.get('job_id', '')
         if not re.fullmatch('[a-zA-Z0-9_-]{8,64}', jid):
@@ -2395,6 +2395,14 @@ class Station:
             raise ValueError('headless must be boolean')
         if not release and (not re.fullmatch(r'res://[\w/.-]+\.tscn', scene) or '..' in scene):
             raise ValueError('invalid scene')
+        if 'acceptance_profile' in spec:
+            acceptance_profile = spec['acceptance_profile']
+            if (mode != 'play' or scene != PHOTO_WORLDS_GAME_SCENE
+                    or spec.get('headless') is not False):
+                raise ValueError('acceptance_profile requires native PhotoWorlds product play')
+            if not isinstance(acceptance_profile, str) or not re.fullmatch(
+                    r'[a-z0-9][a-z0-9-]{0,47}', acceptance_profile):
+                raise ValueError('invalid acceptance_profile')
         if scene == STUDIO_SCENE and mode != 'studio':
             raise ValueError('Studio scene is only available in fixed Studio mode')
         if scene == FULL_GAME_SCENE and mode != 'play':
@@ -3436,6 +3444,8 @@ class Station:
                     command += ['-AtmospherePhase', spec['phase']]
                 if spec.get('fov'):
                     command += ['-ViewFov', spec['fov']]
+                if spec.get('acceptance_profile') is not None:
+                    command += ['-AcceptanceProfile', spec['acceptance_profile']]
                 if spec.get('studio_restarts'):
                     command += ['-StudioRestarts', str(spec['studio_restarts'])]
                 with (output/'stdout.log').open('wb') as out, (output/'stderr.log').open('wb') as err:

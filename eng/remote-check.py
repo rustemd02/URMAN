@@ -429,7 +429,14 @@ def main():
                    help='doctor only: check redacted native Studio, Codex, and Blender readiness')
     p.add_argument('--studio-restarts',type=int,default=0,
                    help='studio only: reopen the same authored workspace 0..2 times after clean exits')
+    p.add_argument('--acceptance-profile',
+                   help='play-product only: select a named clean protected userdata profile')
     args=p.parse_args()
+    if args.acceptance_profile is not None:
+        if args.command != 'play-product':
+            p.error('--acceptance-profile requires play-product')
+        if not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,47}', args.acceptance_profile):
+            p.error('--acceptance-profile must match [a-z0-9][a-z0-9-]{0,47}')
     source_snapshot_commands={'smoke','capture','studio','play','play-full','play-product','export-release'}
     if args.committed_head and args.command not in source_snapshot_commands:
         p.error('--committed-head requires a source-snapshot command')
@@ -681,6 +688,8 @@ def main():
         spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':'play' if play else args.command,
               'scene':'res://scenes/act1_demo.tscn' if args.command=='capture' else scene,
               'timeout':timeout,'headless':args.headless,'points':args.points or ''}
+    if args.acceptance_profile is not None:
+        spec['acceptance_profile']=args.acceptance_profile
     if args.studio_restarts:
         spec['studio_restarts']=args.studio_restarts
     if args.phase:

@@ -11,6 +11,7 @@ param(
     [string]$ToolsRoot,
     [string]$Provenance,
     [string]$CandidateRoot,
+    [string]$AcceptanceProfile,
     [switch]$CandidateSession,
     [string]$Output,
     [string]$Python = 'python'
@@ -64,6 +65,21 @@ if ($candidateMode) {
 }
 $studioPlay = $Mode -eq 'play' -and $Scene -eq 'res://studio/studio_main.tscn'
 $photoWorldsProductPlay = $Mode -eq 'play' -and $Scene -ceq 'res://scenes/photoworlds_game.tscn'
+$acceptanceProfileSupplied = $PSBoundParameters.ContainsKey('AcceptanceProfile')
+if ($acceptanceProfileSupplied) {
+    if ($AcceptanceProfile -cnotmatch '\A[a-z0-9][a-z0-9-]{0,47}\z') {
+        throw 'AcceptanceProfile must match [a-z0-9][a-z0-9-]{0,47}.'
+    }
+    if ($Mode -cne 'play' -or $Scene -cne 'res://scenes/photoworlds_game.tscn' -or $Headless -or
+        $PSBoundParameters.ContainsKey('ViewPoints') -or
+        $PSBoundParameters.ContainsKey('AtmospherePhase') -or
+        $PSBoundParameters.ContainsKey('ViewFov') -or
+        $PSBoundParameters.ContainsKey('StudioRestarts') -or
+        $PSBoundParameters.ContainsKey('CandidateRoot') -or
+        $PSBoundParameters.ContainsKey('CandidateSession')) {
+        throw 'AcceptanceProfile is only valid for ordinary native PhotoWorlds play with no capture or candidate options.'
+    }
+}
 $playTimeoutMaximum = if ($photoWorldsProductPlay) { 7200 } else { 3600 }
 if ($Mode -eq 'play' -and $TimeoutSeconds -gt $playTimeoutMaximum) {
     throw "play timeout must be 1..$playTimeoutMaximum seconds."
@@ -420,7 +436,11 @@ try {
     if ($Mode -in @('play', 'smoke', 'capture')) {
         $ordinaryPhotoWorldsPlay = $Mode -eq 'play' -and $Scene -eq 'res://scenes/photoworlds_game.tscn'
         $baseArguments = @($guard)
-        if ($ordinaryPhotoWorldsPlay) {
+        if ($acceptanceProfileSupplied) {
+            $baseArguments += @('--clean', '--acceptance-profile', $AcceptanceProfile)
+            $receipt.userdataPreparation = 'guard-clean-acceptance-profile'
+            $receipt.acceptanceProfile = $AcceptanceProfile
+        } elseif ($ordinaryPhotoWorldsPlay) {
             # The guard uses a disposable copy and restores the original; Continue needs that copy.
             $receipt.userdataPreparation = 'guard-default-copy-if-present'
         } else {
