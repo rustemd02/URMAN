@@ -126312,7 +126312,27 @@
           "No new testsuites/fixtures/probes; profile plumbing does not prove W01 or release."
         ],
         "next_action": "Review completed guard+wire diff, deploy exact matched worker files only after static safety checks, then prove normal profile continuation on Windows.",
-        "verification_result": "Root+independent Luna reviewed default behavior, original restore before profile publication, error/timeout recovery, symlink/junction rejection and fixed clean namespace. Python syntax passes. CLI rejects wrong command, missing clean and explicit userdata before filesystem work. Root found PS Provenance rejection incompatible with worker; corrected and reviewed. Windows Save/Exit/Continue still pending."
+        "verification_result": "Root+independent Luna reviewed default behavior, original restore before profile publication, error/timeout recovery, symlink/junction rejection and fixed clean namespace. Python syntax passes. CLI rejects wrong command, missing clean and explicit userdata before filesystem work. Root found PS Provenance rejection incompatible with worker; corrected and reviewed. Windows Save/Exit/Continue still pending.",
+        "commit": "caeb3f81",
+        "deployment": {
+          "station": "UnterPC",
+          "state": "deployed_ready_native_pending",
+          "method": "Matched normalized preimages for protected_run/runner/worker; preserved unrelated dirty checkout; verified staged SHA and PowerShell parse; backup; normalstop/install/start; doctorready/noorphan/recovery.",
+          "backup": "D:/URMAN-STATION/data/acceptance-profile-caeb3f81-20261029/originals.zip",
+          "backup_sha256": "ff48d6cea728d7582545ad8936d8d334f924d7500e43f6687135824bedf24525",
+          "cleanup": "Verified all3zip entries against originals and installed hashes; removed6stagingduplicates. Kept unique rollbackZIP only.",
+          "profile": "act1-acceptance"
+        },
+        "native_check": {
+          "state": "running_not_accepted",
+          "job_id": "26d7a9a0a9444594a99a5bc870ffeb44",
+          "snapshot": "66345485af09850bf24da904dc87bd66a1ebce72bd8781adea10da79bbf4fb27",
+          "head": "caeb3f81",
+          "profile": "act1-acceptance",
+          "owner": "root",
+          "timeout_seconds": 1800,
+          "question": "Can a fresh guarded namedprofile start ordinaryNewGame, save throughPauseUI, exit normally, then Continue in a separate same-profile job with originaluserdata restored afterboth? No seeds/debug/teleport."
+        }
       }
     },
     {
