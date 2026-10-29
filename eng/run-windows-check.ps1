@@ -63,7 +63,11 @@ if ($candidateMode) {
         -not (Test-Path (Join-Path "$Root/game" $Scene.Substring(6))))) { throw 'Invalid or missing scene.' }
 }
 $studioPlay = $Mode -eq 'play' -and $Scene -eq 'res://studio/studio_main.tscn'
-if ($Mode -eq 'play' -and $TimeoutSeconds -gt 3600) { throw 'play timeout must be 1..3600 seconds.' }
+$photoWorldsProductPlay = $Mode -eq 'play' -and $Scene -ceq 'res://scenes/photoworlds_game.tscn'
+$playTimeoutMaximum = if ($photoWorldsProductPlay) { 7200 } else { 3600 }
+if ($Mode -eq 'play' -and $TimeoutSeconds -gt $playTimeoutMaximum) {
+    throw "play timeout must be 1..$playTimeoutMaximum seconds."
+}
 if ($PSBoundParameters.ContainsKey('StudioRestarts') -and -not $studioPlay) {
     throw 'StudioRestarts is only valid for a native Studio play run.'
 }

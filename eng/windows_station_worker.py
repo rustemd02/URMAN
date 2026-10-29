@@ -2385,12 +2385,14 @@ class Station:
         if (type(restarts) is not int or not 0 <= restarts <= 2
                 or ('studio_restarts' in spec and mode != 'studio')):
             raise ValueError('studio_restarts requires Studio mode and an integer of 0..2')
-        timeout_max = 1800 if release else 3600 if mode in ('studio', 'play') else 300
+        scene = spec.get('scene', '')
+        timeout_max = (1800 if release else
+                       7200 if mode == 'play' and scene == PHOTO_WORLDS_GAME_SCENE else
+                       3600 if mode in ('studio', 'play') else 300)
         if type(spec.get('timeout')) is not int or not 1 <= spec['timeout'] <= timeout_max:
             raise ValueError(f'timeout must be 1..{timeout_max} seconds')
         if not release and type(spec.get('headless')) is not bool:
             raise ValueError('headless must be boolean')
-        scene = spec.get('scene', '')
         if not release and (not re.fullmatch(r'res://[\w/.-]+\.tscn', scene) or '..' in scene):
             raise ValueError('invalid scene')
         if scene == STUDIO_SCENE and mode != 'studio':
