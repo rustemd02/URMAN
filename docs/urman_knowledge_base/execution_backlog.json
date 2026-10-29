@@ -126461,6 +126461,12 @@
           "gameExitCode": 0,
           "userdataRestored": true,
           "cleanup": "CRC21 members;24 duplicate files5617259bytes removed after contentSHA match; menu failure frame and rawZIP kept."
+        },
+        "native_compatibility_recheck": {
+          "job_id": "c084ef2e155a43bab0866cdefd4f16a6",
+          "head": "2e03282c",
+          "result": "Continue appeared with earned village timestamp; ordinaryLoad logged SaveGameV3 restored and camera(-.18215232,.70670974,-120.10934),yaw.07998324 plus home mission121m. Home route not accepted because newH002candidate threw duringWorldBuild. No gameplaymovement/normalSave; ordinaryPause→Quit; gameerrors makejobFAIL.",
+          "frame": "/Users/unterlantas/.codex/local_asset_archive/URMAN-home-c084ef2e-2026-10-29/restored_forest_return.png"
         }
       }
     },
@@ -167023,7 +167029,7 @@
       "cleanup": "18members CRC+SHA verified; 26076305bytes of two new source folders removed. Raw output/receipt/candidate retained in archive, two selected PNG outside Git. Root moved archive from repository .codex to home .codex; other source families untouched."
     },
     "current_operation_2026_10_29_h002": {
-      "state": "runtime_source_integrated_compiled_native_pending",
+      "state": "native_import_root_failure_fixed_source_compile_recheck_pending",
       "task_id": "ACT1-DEPTH.10",
       "asset_id": "urman.world:act1/open-part/h002-house",
       "reserved_credits": 0,
@@ -167041,7 +167047,14 @@
       "runtime": "game/assets/models/act1/neighbor-house-b-pbr-v2.glb",
       "runtime_integration": "Act1ConnectedWorld.VariantBDwellingPbr: only addressed B without modeloverride; 93generated nodes replaced after contacts/collisions;23roof/details+9glass+snow stay live. Exact semanticnames, sourcegeometry/UV preserved; live transforms/visibility/shadows and household paint tint transferred. SourcePBR shallowduplicates keyed bymaterial+color retainmaps rather than flat paintoverride.",
       "verification": "Game compile0warnings0errors17.66s. Independent review found49/93frame flat overrides maskingPBR; fixed by tint-only sharedduplicates; final independent reviewPASS; nativepending.",
-      "cleanup": "11reproducible H002 files31906756bytes removed after ZIPCRC/memberSHA verification; archive /Users/unterlantas/.codex/local_asset_archive/URMAN-h002-reproducible-intermediates-2026-10-29.zip SHA3464bac317ba2820d636e031cc6d0be1f44ef8963cd3dec0e6f11bb204746018. Uniqueinputs/rawreturn/currentcandidate retained."
+      "cleanup": "11reproducible H002 files31906756bytes removed after ZIPCRC/memberSHA verification; archive /Users/unterlantas/.codex/local_asset_archive/URMAN-h002-reproducible-intermediates-2026-10-29.zip SHA3464bac317ba2820d636e031cc6d0be1f44ef8963cd3dec0e6f11bb204746018. Uniqueinputs/rawreturn/currentcandidate retained.",
+      "native_failure": {
+        "job_id": "c084ef2e155a43bab0866cdefd4f16a6",
+        "snapshot": "e25d32708e300df3d6a3d06d6648733431348abce072f8e9cb9a7b30868e2e14",
+        "error": "GraftVariantBDwellingPbr line85 rejected imported root; worldBuild interrupted, scene NOTaccepted.",
+        "fix": "Mirror existingVariantA exact authoredroot lookup inside imported Scene wrapper, validateidentity+composedbasis, detachowner/freewrapper beforeattach. SameGLB scene/rootshape asworkingA verified; no newweakening/namefallback.",
+        "verification": "Rootsource comparison andGamecompile0warnings0errors18.01s; changednative question pending."
+      }
     }
   },
   "artifact_cleanup_2026_10_20": {

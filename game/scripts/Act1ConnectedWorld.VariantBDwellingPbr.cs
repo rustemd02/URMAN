@@ -80,10 +80,17 @@ public partial class Act1ConnectedWorld
         {
             importedRoot = packed.Instantiate<Node3D>()
                 ?? throw new InvalidDataException("Variant B dwelling candidate has no 3D root.");
-            if (importedRoot.Name != VariantBDwellingName || !IsIdentityTransform(importedRoot.Transform)
-                || !IsIdentityBasis(ComposeImportedAncestorBasis(importedRoot)))
-                throw new InvalidDataException("Variant B dwelling candidate needs one identity-transform authored root.");
-            candidateRoot = importedRoot;
+            var importedRoots = new List<Node3D>();
+            if (string.Equals(importedRoot.Name.ToString(), VariantBDwellingName, StringComparison.Ordinal))
+                importedRoots.Add(importedRoot);
+            importedRoots.AddRange(FindDescendants<Node3D>(importedRoot)
+                .Where(node => string.Equals(node.Name.ToString(), VariantBDwellingName, StringComparison.Ordinal)));
+            if (importedRoots.Count != 1)
+                throw new InvalidDataException($"Variant B candidate contains {importedRoots.Count} authored dwelling roots; expected exactly one.");
+            candidateRoot = importedRoots[0];
+            if (!IsIdentityTransform(candidateRoot.Transform)
+                || !IsIdentityBasis(ComposeImportedAncestorBasis(candidateRoot)))
+                throw new InvalidDataException("Variant B dwelling authored root or its composed basis is not identity.");
 
             var candidateNodes = new Node[] { candidateRoot }.Concat(FindDescendants<Node>(candidateRoot)).ToArray();
             if (candidateNodes.Any(node => (node.GetType() != typeof(Node3D) && node.GetType() != typeof(MeshInstance3D))
@@ -148,7 +155,21 @@ public partial class Act1ConnectedWorld
                 candidateRoot.RemoveChild(mesh);
                 mesh.Free();
             }
-            ClearExtractedSceneOwnership(candidateRoot);
+            if (!ReferenceEquals(candidateRoot, importedRoot))
+            {
+                var importedParent = candidateRoot.GetParent()
+                    ?? throw new InvalidDataException("Variant B authored root is detached from its import scene.");
+                importedParent.RemoveChild(candidateRoot);
+                ClearExtractedSceneOwnership(candidateRoot);
+                importedRoot.Free();
+                importedRoot = null;
+            }
+            else
+            {
+                ClearExtractedSceneOwnership(candidateRoot);
+                importedRoot = null;
+            }
+            candidateRoot.Transform = Transform3D.Identity;
             candidateRoot.Name = VariantBDwellingMountedName;
             candidateRoot.SetMeta("presentationOnly", true);
             candidateRoot.SetMeta("visualOnly", true);

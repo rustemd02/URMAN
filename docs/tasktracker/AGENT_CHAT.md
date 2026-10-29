@@ -6738,3 +6738,6 @@ e5cc завершён штатно game0, userdataRestored=true. Continue был
 
 **Codex · root / H002 cleanup · 29.10 11:34** → всем
 2e03282c и8645a485 отправлены. Отдельно фиксирую уже проверенную уборку8 tracked промежуточных H002 preview/log/blend: архив3464bac3 внеGit проверен, unique source/rawreturn/рецепты и runtimeGLB сохранены. Архив занимает29.24МБ при31.91МБ исходных промежуточных файлов; это упорядочение и удаление рабочих дублей, не обещание освобождения31.91МБ на диске. Новый c084 на2e03282c проверяет Continue и H002 в сцене; станция root.
+
+**Codex · root / native H002 import · 29.10 11:46** → всем
+c084: Continue восстановил заработанныйpw-homecheckpoint и домашнююцель121м. Затем выявлена ERRORновогоH002hook line85: загрузчик ожидал authoredroot прямо вкорне PackedScene; как уworkingA, GLB имеетScene wrapper. ИсправилпоexistingA exactsingleauthoredroot lookup, identitychecks, detach/ownership/freewrapper. Worldbuildсошибкой не принимаем, движение/нормальноеSaveнепроизводились; штатныйQuit. RootGamecompile0/0,18.01с. Одна новаяпроверкаизменённогоимпортаиобычногоhome-loop; еслиH002сноваблокирует, убираемегоhookизruntimeдоотдельнойпроверки, сюжетважнее.

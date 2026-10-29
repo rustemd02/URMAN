@@ -13642,12 +13642,19 @@
     "verified_removal": "After ZIP CRC and every member SHA/byte length matched, deleted only those exact 11 listed files and removed the now-empty pbr_candidate_v1 directory."
   },
   "runtime_integration_2026_10_29": {
-    "state": "source_reviewed_compiled_native_pending",
+    "state": "native_import_root_failure_fixed_source_compile_recheck_pending",
     "root_decision": "Root reviewed final roof-preserved front-right and accepts walls/timber as scene candidate; source roof/detail materials retained. Does not close art/cultural/source-normal/UV gates.",
     "runtime_glb": "game/assets/models/act1/neighbor-house-b-pbr-v2.glb",
     "sha256": "abad5abd45ee8418a73efb55e8f0039f6140a113a2959ee82645578bd0f40006",
     "code": "game/scripts/Act1ConnectedWorld.VariantBDwellingPbr.cs",
     "scope": "Addressed VariantB dwellings only, no modeloverride; generated93nodes replace matchingvisuals afterphysics. Roof23/glass9/snow stay live. Preserves live transforms,visibility,shadow and palette tint; map-preserving cached shallowduplicate forpaint.",
-    "verification": "Exact116name contract versus live123+3crowns-10glass/snow. Independent review foundflatpaintoverride maskingmaps; correctionPASS. Gamebuild0warnings0errors17.66s; gitdiffcheck. Nativeimport/render not yet observed."
+    "verification": "Exact116name contract versus live123+3crowns-10glass/snow. Independent review foundflatpaintoverride maskingmaps; correctionPASS. Gamebuild0warnings0errors17.66s; gitdiffcheck. Nativeimport/render not yet observed.",
+    "native_failure_and_fix": {
+      "job_id": "c084ef2e155a43bab0866cdefd4f16a6",
+      "snapshot": "e25d32708e300df3d6a3d06d6648733431348abce072f8e9cb9a7b30868e2e14",
+      "error": "GraftVariantBDwellingPbr line85 rejected imported root; worldBuild interrupted, scene NOTaccepted.",
+      "fix": "Mirror existingVariantA exact authoredroot lookup inside imported Scene wrapper, validateidentity+composedbasis, detachowner/freewrapper beforeattach. SameGLB scene/rootshape asworkingA verified; no newweakening/namefallback.",
+      "verification": "Rootsource comparison andGamecompile0warnings0errors18.01s; changednative question pending."
+    }
   }
 }
