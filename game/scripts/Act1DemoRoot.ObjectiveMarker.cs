@@ -364,7 +364,7 @@ public partial class Act1DemoRoot
         if (!ObjectiveMarkerTargetAvailable(school, mission, endpoint: true)) return false;
         var local = school!.ToLocal(playerPosition);
         // SquareInteriors.School owns the 20 x 11 shell, corridor wall Z2.9 and these four doors.
-        const float corridorZ = 3.9f, staffX = -7.8f, roomSideZ = 2.35f;
+        const float corridorZ = 3.9f, staffX = -7.8f, roomSideZ = 2.35f, schoolFront = 5.5f;
         var inside = Mathf.Abs(local.X) < 9.65f && Mathf.Abs(local.Z) < 5.15f
             && local.Y > -.2f && local.Y < 3.4f;
         var clearingEntrance = Mathf.Abs(local.X) <= .4f && local.Z >= 5.15f && local.Z < 6.3f
@@ -382,6 +382,13 @@ public partial class Act1DemoRoot
                 destination = new(side * 10.6f, .05f, -6.1f);
             else if (Mathf.Abs(local.X) >= 9.65f && local.Z < 6.15f)
                 destination = new(side * 10.6f, .05f, 6.3f);
+            else if (schoolCopyGoal && local.Z >= schoolFront && Mathf.Abs(local.X) > 1.25f
+                && _main.ConnectedWorld?.AddressApproachPath("ACC-ADR-SQUARE-SCHOOL") is { Count: > 0 } schoolApproach)
+            {
+                // Align outside the dynamic stair flight before the marker resumes the centerline.
+                waypoint = schoolApproach[0];
+                return true;
+            }
             else if (Mathf.Abs(local.X) <= .4f && local.Z >= 5.15f && local.Z <= 6.45f)
                 destination = new(0, .05f, corridorZ);
             else if (local.Z < 6.15f)

@@ -126247,6 +126247,16 @@
           "game/scripts/Act1DemoRoot.ObjectiveMarker.cs"
         ],
         "verification": "Game build0warnings0errors16.36s; static geometry/source review; no new tests/native run."
+      },
+      "school_stair_approach_2026_10_29": {
+        "state": "implemented_compile_verified_native_pending",
+        "observation": "Windows39bb/f2a ordinary diagonal approach stopped at Step1 outer corner: capture e6039cebeb68487bb7b8f3a8abad0d5f, feet[-14.963759,.17482089,64.23235], displacement0; existing movement sample reports no tread support and Step1Shape contact. Centered ordinary route climbed stairs without jumping; open right leaf allowed entrance.",
+        "change": "Register school approach foot/landing using existing AddressApproachPath. During school-copy goal, approach from outside stair center band routes to foot before centerline. No physics/door/story gate changes.",
+        "files": [
+          "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs",
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs"
+        ],
+        "verification": "Root diff/static path review; Game build0warnings0errors16.88s. Current native39bb uses earlier f2a; corrected marker runtime acceptance remains pending."
       }
     },
     {

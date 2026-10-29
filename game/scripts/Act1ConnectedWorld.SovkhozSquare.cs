@@ -76,7 +76,12 @@ public partial class Act1ConnectedWorld
                 "PAR-SQUARE-" + suffix, "ADR-SQUARE-" + suffix, "urman", number,
                 cadastral, access, sign, outward, role, ApproachPath: approach, SignSurfaceName: surface));
         }
-        Address(school, "SCHOOL", "12", "URM-Q03-P0001", -6.5f, "Pier1Skin", 11f, 1.3f, "school");
+        const float schoolFront = 5.5f;
+        var schoolFoot = AddressGround(school.ToGlobal(new Vector3(0, 0,
+            schoolFront + SquareStepsRun(school, schoolFront) + .5f)));
+        var schoolLanding = school.ToGlobal(new Vector3(0, .01f, schoolFront + .8f));
+        Address(school, "SCHOOL", "12", "URM-Q03-P0001", -6.5f, "Pier1Skin", 11f, 1.3f,
+            "school", new[] { schoolFoot, schoolLanding });
         // Entrance apron and steps follow the new shallow canopy, not the former portico.
         var clubFoot = AddressGround(club.ToGlobal(new Vector3(0, 0, 6f + SquareStepsRun(club, 6f) + .5f)));
         var clubLanding = club.ToGlobal(new Vector3(0, .01f, 6.8f));
