@@ -13663,5 +13663,63 @@
       "result": "Exact root search passed; opaque semantic-name set equality failed. Previous offline63char-normalized matching did NOT establish actualGodot runtime names. WorldBuild interrupted; no scene acceptance.",
       "decision": "Withdraw runtimehook/partial/runtimeGLB after two observed integration failures. Preserve preparedv2source,receipt,paidmaps andcommittedattempt history. Readonly exactnamecause next; no moremodelnativeiterations in thisslice. Corestory acceptance takespriority."
     }
+  },
+  "source_only_corner_name_repair_v3_2026_10_29": {
+    "status": "source_candidate_raw_names_exact_godot_normalization_pending",
+    "scope": "JSON node.name correction only on the two long VariantB corner nodes truncated by the Blender 63-character name limit. Candidate v2, frozen source, raw return and scene runtime were not modified.",
+    "source_original_glb": {
+      "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
+      "sha256": "fdc69de9f580276f6a9c831bde60a0dad1728acdc533f00320e8a9009c233bf8",
+      "bytes": 3132148
+    },
+    "v2_input": {
+      "path": "assets/source/blender/act1/neighbor_house_b_retexture_v1/pbr_candidate_v2/variant-b-roof-preserved-pbr-v2.glb",
+      "sha256": "abad5abd45ee8418a73efb55e8f0039f6140a113a2959ee82645578bd0f40006",
+      "bytes": 18881976
+    },
+    "recipe": {
+      "path": "assets/source/blender/act1/neighbor_house_b_retexture_v1/pbr_candidate_v2/restore_variant_b_corner_names_v3.py",
+      "sha256": "f1c07bf2472eb88f1499248555fd92b8aa22b04b633444c0ba1a7aa4a9573f95"
+    },
+    "v3_output": {
+      "path": "assets/source/blender/act1/neighbor_house_b_retexture_v1/pbr_candidate_v2/variant-b-roof-preserved-pbr-v3.glb",
+      "sha256": "ae64f88a6a6d75b2d47c83a7a2c28b79c2f286109ff640f29208edce6791d80e",
+      "bytes": 18881984,
+      "runtime_integrated": false
+    },
+    "exact_node_name_replacements": [
+      {
+        "old": "VariantB_PlasterAnnex_Dwelling_Corner_-2.75_5.1000000000000005_",
+        "new": "VariantB_PlasterAnnex_Dwelling_Corner_-2.75_5.1000000000000005_LOD0"
+      },
+      {
+        "old": "VariantB_PlasterAnnex_Dwelling_Corner_2.75_5.1000000000000005_L",
+        "new": "VariantB_PlasterAnnex_Dwelling_Corner_2.75_5.1000000000000005_LOD0"
+      }
+    ],
+    "raw_name_contract": {
+      "original_variant_b_dwellings": 123,
+      "excluded_glass_snow_from_existing_receipt": 10,
+      "original_opaque_names": 113,
+      "receipt_generated_crowns": [
+        "VariantB_PlasterAnnex_Dwelling_SeniEntry_LogCrown",
+        "VariantB_PlasterAnnex_Dwelling_SeniOuter_LogCrown",
+        "VariantB_PlasterAnnex_Dwelling_SeniRear_LogCrown"
+      ],
+      "expected_total": 116,
+      "v3_total": 116,
+      "v3_names_exact_set_match": true,
+      "godot_importer_normalization": "pending"
+    },
+    "preservation": {
+      "v2_untouched": true,
+      "bin_bytes": 18776292,
+      "bin_sha256": "1867c3646634ca071534914dfafc5ea64b27e61f033093b47bec6c6c729efb3c",
+      "v2_v3_bin_byte_identical": true,
+      "all_non_json_glb_chunks_byte_identical": true,
+      "all_json_fields_except_two_node_names_semantically_identical": true,
+      "materials_meshes_accessors_transforms_uv_and_embedded_pbr_payloads_unchanged": true
+    },
+    "verification_limits": "Raw GLB names match all 113 original opaque nodes plus the three receipt crown names. This does not verify Godot importer normalization or scene acceptance; no game/runtime/import/build/render/test was run."
   }
 }

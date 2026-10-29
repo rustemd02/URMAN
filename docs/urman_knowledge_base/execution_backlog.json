@@ -125264,7 +125264,8 @@
         "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92/receipt.json",
         "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92.zip",
         "evidence/PW-043/ordinary_cb15f14baf8e4f62857487c8d8d9fde5/receipt.json",
-        "evidence/PW-043/ordinary_cb15f14baf8e4f62857487c8d8d9fde5.zip"
+        "evidence/PW-043/ordinary_cb15f14baf8e4f62857487c8d8d9fde5.zip",
+        "/Users/unterlantas/.codex/local_asset_archive/URMAN-home-c857b81d-2026-10-29/result.zip"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-046",
       "source_requirements": [
@@ -125499,7 +125500,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Ordinary Continue earned pw-home return checkpoint, follow home cue, talk to family, record W01 result and see next earned lead; save and quit normally. Do not replay school or prologue.",
+      "next_action": "Continue from the saved home checkpoint into the earned P-HOUSE family-envelope lead; inspect existing W03 contract and sources first. Do not replay accepted W01/home route. Native verification of changed F12 forward clearance remains a separate bounded question.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -125589,7 +125590,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN 26.10 source: after reset/unarmed nearF13, marker points to existing local reverse crossing/retry instead of distant F12; distance chooses navigation only, no traversal/knowledge grant. Native intermediate Save/Continue remainsopen.",
+        "actual_result": "29.10 native f873 completed earned W01 observations, bag release, D06/D07 and F16 return (F12 used reverse workaround). 29.10 c857 on48acdbce completed ordinary Continue, village route, home conversation, notebook consequence, next family-envelope goal and Save/Quit with userdata restored. Full W01 passport/branch persistence and new F12 forward clearance remain open.",
         "evidence_refs": [
           "tasks[id=PW-046].evidence"
         ],
@@ -126445,7 +126446,7 @@
         "remaining": "On a necessary updated Windows snapshot, verify direct positive F12 crossing and obstacle rejection with ordinary movement. Current f873 does not contain change; full gameplay convenience not accepted."
       },
       "home_return_acceptance_2026_10_29": {
-        "state": "continue_fingerprint_regression_fixed_native_pending",
+        "state": "home_return_book_consequence_next_goal_verified",
         "question": "Does ordinary Continue from earned W01 return provide a controllable village, reachable home conversation, recorded book consequence and clear next earned objective?",
         "success": "Observe ordinary home route/dialogue/book consequence/next goal; Save/Quit with original userdata restored. No seeds/teleport/NewGame.",
         "owner": "root",
@@ -126467,6 +126468,33 @@
           "head": "2e03282c",
           "result": "Continue appeared with earned village timestamp; ordinaryLoad logged SaveGameV3 restored and camera(-.18215232,.70670974,-120.10934),yaw.07998324 plus home mission121m. Home route not accepted because newH002candidate threw duringWorldBuild. No gameplaymovement/normalSave; ordinaryPause→Quit; gameerrors makejobFAIL.",
           "frame": "/Users/unterlantas/.codex/local_asset_archive/URMAN-home-c084ef2e-2026-10-29/restored_forest_return.png"
+        },
+        "native_home_result": {
+          "job_id": "c857b81dd00e403f8d81e89a196af9c2",
+          "head": "48acdbce",
+          "snapshot": "7aebc773536a248e9cc74490fdf72299e2fb02102a6b2eb392128fab4cad5edd",
+          "result": "Ordinary Continue restored earned W01 return. Walked forest road, bridge, main street, open gate and porch without observed blocking. Entered home via pw-home-enter-house. Gulsina forest-return-resolved acknowledged Shurale/bag action; two ordinary choices completed home conversation. Notebook displayed forest place/encounter recorded; next HUD goal was family courtyard photo in envelope on table, with visible marker. Pause Save displayed Saved; ordinary Quit.",
+          "evidence_directory": "/Users/unterlantas/.codex/local_asset_archive/URMAN-home-c857b81d-2026-10-29",
+          "frames": {
+            "dialogue": "home_return_conversation.png",
+            "reply": "home_return_reply.png",
+            "consequence": "home_book_consequence.png",
+            "next_goal": "home_next_earned_goal.png",
+            "save": "home_saved_checkpoint.png"
+          },
+          "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-home-c857b81d-2026-10-29/result.zip",
+          "archive_sha256": "12ae801f3c29f6daa844b170042af4a2e7c391afd118b29b0b90fd605c85a0eb",
+          "status": "PASS",
+          "gameExitCode": 0,
+          "userdataRestored": true,
+          "cleanup": "ZIP CRC40members;48 contentSHA-matched duplicate files19537452bytes removed;6 selected frames andrawZIP retained outsideGit. Station freed1665359352bytes; doctorready,noorphanprocesses,recoverypendingfalse.",
+          "limits": "Not full ActI acceptance. No replay of prologue/school/W01. New F12 forward slope-clearance fix remains unverified natively; final horror/art/audio/cultural acceptance remains open. Save observed, next-session Continue of this new checkpoint not repeated."
+        },
+        "visual_followup": {
+          "target": "ForestPhotoEntryLandmark/PForest_CentralTrunk_*,PForest_SplitBirch_*,PForest_LowCrossbar",
+          "source": "assets/source/blender/photoworlds/W01/pforest_tableau.py",
+          "runtime_asset": "game/assets/photoworlds/forest_entry/pforest-tableau-v1.glb",
+          "observed": "village_return_ready.png shows pale smooth foreground trunks at authored photo entry. Exact source material assignments match GLB: intentionally flat untextured bark, not an importer/material-loss bug. No changes or paid generation. Existing bark texture candidates need scene art decision; do not replace unrelated KaraSlopeStand trees."
         }
       }
     },
@@ -167046,7 +167074,7 @@
       "result": "Use only Meshy PBR payloads on exact source geometry/UV/BIN. 23 roof/detail nodes keep source material; 93 other opaque nodes use generated PBR. Root inspected final front-right: broad baked roof stripe removed; walls and timber accepted for scene candidate. Pale log ends and final art/cultural acceptance remain open. No extra spend.",
       "runtime": "not mounted; source candidate retained outside active runtime",
       "runtime_integration": "WITHDRAWN: original addressedVariantB presentation restored; no fallback/physicsweakening. Partial model code and runtime duplicate removed, reproduciblev2candidate kept.",
-      "verification": "Game compile0warnings0errors17.66s. Independent review found49/93frame flat overrides maskingPBR; fixed by tint-only sharedduplicates; final independent reviewPASS; nativepending.",
+      "verification": "Earlier affected Game compile and independent tint review passed, but c084 and ffbb native integration failed. Runtime attempt withdrawn in48acdbce; ordinary village/home accepted in c857 with original house. v3 exactname source correction is verified structurally only.",
       "cleanup": "11reproducible H002 files31906756bytes removed after ZIPCRC/memberSHA verification; archive /Users/unterlantas/.codex/local_asset_archive/URMAN-h002-reproducible-intermediates-2026-10-29.zip SHA3464bac317ba2820d636e031cc6d0be1f44ef8963cd3dec0e6f11bb204746018. Uniqueinputs/rawreturn/currentcandidate retained.",
       "native_failure": {
         "job_id": "c084ef2e155a43bab0866cdefd4f16a6",
@@ -167061,7 +167089,29 @@
         "head": "14c16756",
         "result": "Exact root search passed; opaque semantic-name set equality failed. Previous offline63char-normalized matching did NOT establish actualGodot runtime names. WorldBuild interrupted; no scene acceptance.",
         "decision": "Withdraw runtimehook/partial/runtimeGLB after two observed integration failures. Preserve preparedv2source,receipt,paidmaps andcommittedattempt history. Readonly exactnamecause next; no moremodelnativeiterations in thisslice. Corestory acceptance takespriority."
-      }
+      },
+      "source_v3_name_correction": {
+        "candidate": "assets/source/blender/act1/neighbor_house_b_retexture_v1/pbr_candidate_v2/variant-b-roof-preserved-pbr-v3.glb",
+        "sha256": "ae64f88a6a6d75b2d47c83a7a2c28b79c2f286109ff640f29208edce6791d80e",
+        "recipe": "assets/source/blender/act1/neighbor_house_b_retexture_v1/pbr_candidate_v2/restore_variant_b_corner_names_v3.py",
+        "result": "Exact source116 opaque node names restored by changing only two Blender-truncated corner node.name strings. All other parsedJSON and BIN identical to v2. No generation/spend/import/runtime validation; v3 not integrated. Next integration must use actual importer names, not63character-normalized evidence."
+      },
+      "terminal_archives": [
+        {
+          "job": "c084ef2e155a43bab0866cdefd4f16a6",
+          "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-home-c084ef2e-2026-10-29/result.zip",
+          "sha256": "f777ea9e8a4d3f573841d5bf1fc24236945de05b86cc731fca28bbb98eb7b950",
+          "userdataRestored": true,
+          "cleanup": "CRC18;19 content-matched duplicates4699712bytes removed."
+        },
+        {
+          "job": "ffbb881cef8947aabe341811b7441382",
+          "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-home-ffbb881c-2026-10-29/result.zip",
+          "sha256": "be499bfb59fd05e16497cc67a56376996d702a474e6ab4c8683b5608c8b6d768",
+          "userdataRestored": true,
+          "cleanup": "CRC16;18 content-matched duplicates5768904bytes removed."
+        }
+      ]
     }
   },
   "artifact_cleanup_2026_10_20": {
