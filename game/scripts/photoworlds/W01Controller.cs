@@ -663,6 +663,11 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var destinationTransform = destinationFrame.GlobalTransform * localTransform;
         var destinationMotion = destinationFrame.GlobalBasis.Z.Normalized()
             * crossingDirection * RootPassageExitSweepDistance;
+        // Keep the capsule clearance sweep on the authored grade without bypassing terrain contacts.
+        var sweepStartLocal = ToLocal(destinationTransform.Origin);
+        var sweepEndLocal = ToLocal(destinationTransform.Origin + destinationMotion);
+        destinationMotion.Y = ForestGroundHeight(sweepEndLocal.X, sweepEndLocal.Z)
+            - ForestGroundHeight(sweepStartLocal.X, sweepStartLocal.Z);
         if (player.TestMove(destinationTransform, destinationMotion, _rootLinkExitSweep, .001f, false, 4))
             return;
 

@@ -126429,6 +126429,14 @@
           "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
           "game/scripts/Act1DemoRoot.ObjectiveMarker.cs"
         ]
+      },
+      "root_passage_grade_2026_10_29": {
+        "state": "implemented_compiled_native_pending",
+        "native_observation": "f873 F11 earned. Direct F12 crossing from camera22.744,3.517,67.790 through24.085,3.616,70.710 and24.692,3.674,72.032 stayed at F12; A200/S1800 reverse crossing reached F13 camera94.790,5.240,119.257. No floor/collider result was captured on first reject; cause remains source-supported hypothesis.",
+        "source_cause": "Both apertures/ground anchors align. Horizontal destination .36m sweep rises across authored ground by7.073mm atF13 but mapped foot clearance is only about2.4mm (safe margin1mm); downhill reverse gains clearance.",
+        "change": "Existing exit capsule sweep now follows ForestGroundHeight end-start grade in Y; XZ, full TestMove, masks, margin, aperture, grounded gate, facts and traversal transform unchanged. W01 only.",
+        "verification": "Independent Luna source review PASS for both destination endpoints and authored identity transforms; affected Game build0warnings0errors17.84s. No newtests or probes.",
+        "remaining": "On a necessary updated Windows snapshot, verify direct positive F12 crossing and obstacle rejection with ordinary movement. Current f873 does not contain change; full gameplay convenience not accepted."
       }
     },
     {
@@ -166662,10 +166670,10 @@
       "authorized_budget_remaining": 3390,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4100,
-      "balance_note": "29.10 corrective rough-picket task SUCCEEDED, actual10; spent610/4000, remaining3390, reserve0. Material roles failed visual review; candidate HOLD, no runtime integration or repeat.",
+      "balance_note": "29.10 spent610/4000; reserve10 for one H002 retexture candidate, remaining3390 total/3380 unreserved. No repeated rough-picket generation.",
       "latest_api_balance_observed": 3670,
-      "reserved_for_current_work": 0,
-      "unreserved_author_budget": 3390
+      "reserved_for_current_work": 10,
+      "unreserved_author_budget": 3380
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
     "operations": [
@@ -166980,6 +166988,17 @@
       "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-rough-picket-corrective-2026-10-29.zip",
       "archive_sha256": "fe069a25f36c0a03ee74a4b7494e93ac03237a1cf57f168f531a365803306840",
       "cleanup": "18members CRC+SHA verified; 26076305bytes of two new source folders removed. Raw output/receipt/candidate retained in archive, two selected PNG outside Git. Root moved archive from repository .codex to home .codex; other source families untouched."
+    },
+    "current_operation_2026_10_29_h002": {
+      "state": "reserved_candidate_only",
+      "task_id": "ACT1-DEPTH.10",
+      "asset_id": "urman.world:act1/open-part/h002-house",
+      "reserved_credits": 10,
+      "operation": "One Meshy7 4K PBR keepUV retexture of prepared project-original H002 using existing accepted ImageGen reference; no new ImageGen repeat.",
+      "source": "assets/source/blender/act1/neighbor_house_b_retexture_v1/variant-b-opaque-for-retexture.glb",
+      "reference": "assets/source/blender/act1/neighbor_house_b_reference_v1/imagegen-reference-v1.png",
+      "root_decision": "Allow one bounded paid material candidate under existing owner4000 cap despite numerical source gates remaining open. This is exploratory upload authorization, NOT UV/normal/runtime acceptance. Normal component max delta .000136 versus .0001 is small; overlap receipt supplies minimum face area only, so do not claim all12 selected faces are degenerate. Keep this uncertainty through output inspection. Existing source receipt stays historical HOLD; no automatic integration. Root reviewed reference and current Seni corner construction; chosen plaster/timber hybrid is deliberate, not generic ethnic decoration.",
+      "spend_condition": "Fresh service state and known operation price <=10; exactly one POST; retain taskID and actual debit; no retry on ambiguous outcome."
     }
   },
   "artifact_cleanup_2026_10_20": {
