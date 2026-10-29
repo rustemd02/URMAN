@@ -126286,7 +126286,7 @@
         "verification": "Root inspected actor/target identities, school creation and process call; git diff --check. Runtime turning pending on newer snapshot."
       },
       "acceptance_profile_continuation_2026_10_29": {
-        "state": "implemented_static_review_pass_native_pending",
+        "state": "native_continue_confirmed_second_restore_pending",
         "cause": "Repeated guarded ordinary attempts end before W01; guard correctly discards earned test saves at job end.39bb reached schoolcopy+exit but cannot Continue. A fourth identical full preparation without new persistence would waste accepted work.",
         "result": "Opt-in named clean acceptance profile owned by existing protected_run, retained locally on Windows across play-product jobs; ordinary NewGame/Save/Exit/Continue only.",
         "owners": {
@@ -126312,7 +126312,7 @@
           "Necessary Windows ordinary NewGame/Save/Exit and subsequent guarded Continue with same named profile; restore receipt required for both.",
           "No new testsuites/fixtures/probes; profile plumbing does not prove W01 or release."
         ],
-        "next_action": "Review completed guard+wire diff, deploy exact matched worker files only after static safety checks, then prove normal profile continuation on Windows.",
+        "next_action": "Continue earned profile through home/book/school/W01; save at checkpoints and confirm second terminal userdata restoration.",
         "verification_result": "Root+independent Luna reviewed default behavior, original restore before profile publication, error/timeout recovery, symlink/junction rejection and fixed clean namespace. Python syntax passes. CLI rejects wrong command, missing clean and explicit userdata before filesystem work. Root found PS Provenance rejection incompatible with worker; corrected and reviewed. Windows Save/Exit/Continue still pending.",
         "commit": "caeb3f81",
         "deployment": {
@@ -126339,14 +126339,17 @@
           "cleanup": "CRC/SHA verified;28hash-identicalduplicates removed7847262bytes, rawZIP+2selectedPNG retained. Ownstationprofile retained forContinue; no saveexport ormanualediting."
         },
         "continuation_check": {
-          "state": "running_not_accepted",
+          "state": "continue_confirmed_gameplay_ongoing_restore_pending",
           "job_id": "46b6be5a9f8948e2ad8dc3b232c53725",
           "snapshot": "94a5933aab2b3013364be9bf50251af69bab88041b946c551095ce03f5fc5f6a",
           "head": "d1e90576",
           "profile": "act1-acceptance",
           "owner": "root",
           "timeout_seconds": 7200,
-          "question": "OrdinaryContinue of earned26d save; confirmsamegoal/position then continuehome/book/school/W01; Saveatmeaningfulcheckpoints. Restoreproofpendingterminal."
+          "question": "OrdinaryContinue of earned26d save; confirmsamegoal/position then continuehome/book/school/W01; Saveatmeaningfulcheckpoints. Restoreproofpendingterminal.",
+          "result": "Ordinary menu Continue loaded exact saved camera [0,0.99587494,8.82], rotation [0,0,0], mission tea with family; no NewGame/seed/manual userdata changes.",
+          "frame": "/Users/unterlantas/.codex/local_asset_archive/URMAN-continuation-46b6be5a-2026-10-29/continued_village.png",
+          "capture_request_id": "6a26e9ab491d4f6caef90df76ff3f004"
         }
       }
     },
@@ -166577,13 +166580,13 @@
     "credits": {
       "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 600,
-      "authorized_budget_remaining": 3400,
+      "agent_spent_after_purchase": 610,
+      "authorized_budget_remaining": 3390,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4100,
-      "balance_note": "29.10 cupboard actual600spent/4000; rough-picket one corrective text-mode keepUV4K PBR retexture reserved10 beforePOST. Remaining3400, unreserved3390. Prior approvedImageGen reference already used to make source/image-mode candidate; no additionalMeshyimagegeneration.",
-      "latest_api_balance_observed": 3680,
-      "reserved_for_current_work": 10,
+      "balance_note": "29.10 corrective rough-picket task SUCCEEDED, actual10; spent610/4000, remaining3390, reserve0. Material roles failed visual review; candidate HOLD, no runtime integration or repeat.",
+      "latest_api_balance_observed": 3670,
+      "reserved_for_current_work": 0,
       "unreserved_author_budget": 3390
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
@@ -166824,6 +166827,14 @@
         "cost_credits": 10,
         "result": "SUCCEEDED; actual consumed10. Three source meshes/352triangles/pairedUV/bounds retained in2K candidate. Runtime integration and native/art acceptance pending.",
         "source": "assets/source/blender/act1/home_cupboard_pbr_v1/"
+      },
+      {
+        "task_id": "ACT1-DEPTH.7",
+        "api_task_id": "01a18607-ccf9-7185-b5bc-fdb69c58ade6",
+        "operation": "One text-role corrective keepUV4K PBR rough-picket retexture on existing ImageGen-informed frozen source",
+        "cost_credits": 10,
+        "result": "SUCCEEDED; actual10. Source-preserving material inspection pending; runtime/art/cultural acceptance open. No furtheriteration authorized inthisslice.",
+        "source": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v2"
       }
     ],
     "next_large_static_candidate": {
@@ -166876,15 +166887,21 @@
     },
     "current_operation_2026_10_29_rough_picket": {
       "task_id": "ACT1-DEPTH.7",
-      "state": "reserved_not_submitted",
+      "state": "hold_material_roles_failed",
       "owner": "/root/village_asset_oct29",
-      "reserved_credits": 10,
-      "api_task_id": null,
+      "reserved_credits": 0,
+      "api_task_id": "01a18607-ccf9-7185-b5bc-fdb69c58ade6",
       "reason": "Prior image-only retexture made hardware andbraceboards ivory. New input is explicit material-role prompt, one10credit corrective operation on samefrozengeometry/UV; do notrepeatidenticalimage-onlyrequest.",
       "source": "assets/source/blender/act1/rough_picket_family_reference_v3/rough-picket-family-source.glb",
       "reference": "assets/source/blender/act1/rough_picket_family_reference_v3/imagegen-reference-v1.png",
       "scope": "Text-only retexture allowed byroot as one correction of existingImageGen→Meshy candidate; no newprototype/model/geometry/rig/iteration. Root ownsledger/runtime/Git.",
-      "output": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v2/"
+      "output": "/Users/unterlantas/.codex/local_asset_archive/URMAN-rough-picket-corrective-2026-10-29.zip",
+      "actual_credits": 10,
+      "receipt": "archive: retexture_maps_v2/status-final.json",
+      "result": "79meshes/2212triangles and geometry/UV preserved; hardware remains pale, wooden caps too dark, brace contrast insufficient. No runtime replacement.",
+      "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-rough-picket-corrective-2026-10-29.zip",
+      "archive_sha256": "fe069a25f36c0a03ee74a4b7494e93ac03237a1cf57f168f531a365803306840",
+      "cleanup": "18members CRC+SHA verified; 26076305bytes of two new source folders removed. Raw output/receipt/candidate retained in archive, two selected PNG outside Git. Root moved archive from repository .codex to home .codex; other source families untouched."
     }
   },
   "artifact_cleanup_2026_10_20": {
