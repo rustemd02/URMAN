@@ -238,6 +238,28 @@ public partial class Main
                 ["jobId"] = job, ["requestId"] = id, ["capturePhysicsFrame"] = Engine.GetPhysicsFrames(),
                 ["lastMovingSample"] = _interactiveMovementSample?.DeepClone()
             }.ToJsonString());
+            if (target is not null && GodotObject.IsInstanceValid(target))
+            {
+                static string? BoundedText(string? value, int limit) => value is null ? null
+                    : value.Length <= limit ? value : $"[omitted; {value.Length} chars]";
+
+                static string? DoorText(InteractionTarget source, string key, int limit) =>
+                    source.HasMeta(key) ? BoundedText(source.GetMeta(key).AsString(), limit) : null;
+
+                var focusedPlayer = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+                GD.Print("interactive-door-target-sample: " + new JsonObject
+                {
+                    ["jobId"] = job, ["requestId"] = id,
+                    ["capturePhysicsFrame"] = Engine.GetPhysicsFrames(),
+                    ["focusedInteractionId"] = focusedPlayer is not null && GodotObject.IsInstanceValid(focusedPlayer)
+                        ? BoundedText(focusedPlayer.FocusedInteractionId, 128) : null,
+                    ["lastDoorActionNumber"] = target.HasMeta("lastDoorActionNumber")
+                        ? JsonValue.Create(target.GetMeta("lastDoorActionNumber").AsInt32()) : null,
+                    ["lastDoorActionResult"] = DoorText(target, "lastDoorActionResult", 64),
+                    ["lastDoorAction"] = DoorText(target, "lastDoorAction", 512),
+                    ["doorSweepProbe"] = DoorText(target, "doorSweepProbe", 2048)
+                }.ToJsonString());
+            }
         }
         catch (Exception error)
         {

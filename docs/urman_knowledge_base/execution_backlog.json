@@ -125479,7 +125479,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Continue current earned Windows profile through school source/copy→W01 action→home consequence. Ordinary Continue confirmed; second terminal restore and full chain remain open. No repeated NewGame or setup.",
+      "next_action": "Continue own school-door save on changed committed snapshot; one stable E and currentcapture then inspect causalexistingmetadata. Do not repeatNewGame or weakenphysics.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -126286,7 +126286,7 @@
         "verification": "Root inspected actor/target identities, school creation and process call; git diff --check. Runtime turning pending on newer snapshot."
       },
       "acceptance_profile_continuation_2026_10_29": {
-        "state": "native_continue_confirmed_second_restore_pending",
+        "state": "native_save_exit_continue_and_restore_verified",
         "cause": "Repeated guarded ordinary attempts end before W01; guard correctly discards earned test saves at job end.39bb reached schoolcopy+exit but cannot Continue. A fourth identical full preparation without new persistence would waste accepted work.",
         "result": "Opt-in named clean acceptance profile owned by existing protected_run, retained locally on Windows across play-product jobs; ordinary NewGame/Save/Exit/Continue only.",
         "owners": {
@@ -126312,8 +126312,8 @@
           "Necessary Windows ordinary NewGame/Save/Exit and subsequent guarded Continue with same named profile; restore receipt required for both.",
           "No new testsuites/fixtures/probes; profile plumbing does not prove W01 or release."
         ],
-        "next_action": "Continue earned profile through home/book/school/W01; save at checkpoints and confirm second terminal userdata restoration.",
-        "verification_result": "Root+independent Luna reviewed default behavior, original restore before profile publication, error/timeout recovery, symlink/junction rejection and fixed clean namespace. Python syntax passes. CLI rejects wrong command, missing clean and explicit userdata before filesystem work. Root found PS Provenance rejection incompatible with worker; corrected and reviewed. Windows Save/Exit/Continue still pending.",
+        "next_action": "Reuse earned school-door save for one causal local-door interaction check, then continue W01; persistence implementation accepted, campaign not accepted.",
+        "verification_result": "26d ordinaryNewGame/Save/Quit PASS and46b ordinaryContinue restored exact earnedpose/goal; later physicalbook earned and PauseSave at school followed ordinaryQuit PASS. Both receipts userdataRestored=true, profileact1-acceptance. No seeds/manualsave or userdata export.",
         "commit": "caeb3f81",
         "deployment": {
           "station": "UnterPC",
@@ -126339,7 +126339,7 @@
           "cleanup": "CRC/SHA verified;28hash-identicalduplicates removed7847262bytes, rawZIP+2selectedPNG retained. Ownstationprofile retained forContinue; no saveexport ormanualediting."
         },
         "continuation_check": {
-          "state": "continue_confirmed_gameplay_ongoing_restore_pending",
+          "state": "pass_continue_and_restore_campaign_partial",
           "job_id": "46b6be5a9f8948e2ad8dc3b232c53725",
           "snapshot": "94a5933aab2b3013364be9bf50251af69bab88041b946c551095ce03f5fc5f6a",
           "head": "d1e90576",
@@ -126347,11 +126347,24 @@
           "owner": "root",
           "timeout_seconds": 7200,
           "question": "OrdinaryContinue of earned26d save; confirmsamegoal/position then continuehome/book/school/W01; Saveatmeaningfulcheckpoints. Restoreproofpendingterminal.",
-          "result": "Ordinary menu Continue loaded exact saved camera [0,0.99587494,8.82], rotation [0,0,0], mission tea with family; no NewGame/seed/manual userdata changes.",
+          "result": "PASS/gameExit0/userdataRestoredtrue; doctorready/noorphan/recovery. Continue exactpose/goal, physicalfamilybook and ordinarySave at school. School localdoor does not visibly open; W01 not reached.",
           "frame": "/Users/unterlantas/.codex/local_asset_archive/URMAN-continuation-46b6be5a-2026-10-29/continued_village.png",
           "capture_request_id": "6a26e9ab491d4f6caef90df76ff3f004",
           "progress": "Continue→gate→door→tea dialogue→physical familybook pickup→album open→ordinary pauseSave→exit via gate confirmed. Going to school in same session; terminal restore pending.",
-          "book_frame": "/Users/unterlantas/.codex/local_asset_archive/URMAN-continuation-46b6be5a-2026-10-29/book_received.png"
+          "book_frame": "/Users/unterlantas/.codex/local_asset_archive/URMAN-continuation-46b6be5a-2026-10-29/book_received.png",
+          "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-continuation-46b6be5a-2026-10-29/result.zip",
+          "archive_sha256": "d4b7bc88a4adea1f0745440fa7c68c32b30446f8627222ae714758a853395d7d",
+          "cleanup": "CRC/SHAverified;80hash-identicalduplicates removed30988410bytes; rawZIP+7selectedPNGs retained. Station reclaimed1665253802bytes.",
+          "saved_position": [
+            -17.495054,
+            2.3939288,
+            65.0807
+          ],
+          "saved_rotation": [
+            0,
+            175.12,
+            0
+          ]
         }
       },
       "w01_early_passage_guidance_2026_10_29": {
@@ -126374,6 +126387,14 @@
           "/Users/unterlantas/.codex/local_asset_archive/URMAN-continuation-46b6be5a-2026-10-29/book_pickup.png"
         ],
         "verification": "Agent inspected both real PNGs and owner; root reviewed ID binding, destination and waypoint precedence plus diffcheck. Trivial marker offset: no additional build/test. Native corrected label pending, current46b already earned book not restarted."
+      },
+      "school_local_door_2026_10_29": {
+        "state": "native_blocker_cause_unresolved_bounded_capture_ready",
+        "evidence": "46b left/right Use exactray/id/availabletrue, E250/650 no visible open, closedleaf contacts. Door hint still Open. Normalcontent home/tea/book worked. PriorNewGame jobs openedschool.",
+        "reviews": "Two bounded reviews did not confirm lostContinuecallbacks, L/Rbinding asymmetry or FPC suppression after stable releasedE. Sweep notice lasts2.2s, latercapturecannotexcludeit. No blind physics/state fix.",
+        "capture_change": "Existing protected explicit-frame capture now writes only current ray target existing lastDoorActionNumber/result/action/doorSweepProbe and existingFocusedInteractionId to bounded normal log. Nulls retained to distinguish callback never entered. No input, new polling, state writes, sidecar schema change or new probe scenario.",
+        "verification": "Source whitelist review, boundedstrings, affectedGamebuild0warnings0errors18.10s; gitdiffcheck. Runtime diagnostics pending.",
+        "next_action": "Continue own school-door save on changed committed snapshot; one stable E and currentcapture then inspect causalexistingmetadata. Do not repeatNewGame or weakenphysics."
       }
     },
     {
