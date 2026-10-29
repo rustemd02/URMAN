@@ -131,6 +131,7 @@ public partial class Act1DemoRoot
                 return;
             }
             waypoint = waypoint
+                || TryGetHomeYardExitObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel)
                 || TryGetSchoolObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel)
                 || TryGetHomeObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel);
         }
@@ -260,6 +261,87 @@ public partial class Act1DemoRoot
             }
         }
         waypoint = anchor!.GlobalPosition;
+        return true;
+    }
+
+    private bool TryGetHomeYardExitObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition,
+        out Vector3 waypoint, out string label)
+    {
+        waypoint = default;
+        label = "Калитка";
+        if (_bridge?.CurrentZoneId != "village_day" || mission.TargetZoneId != "village_day"
+            || mission.InteractionId is not ("urman.fullgame:interaction/pw-school-copy-source"
+                or "urman.fullgame:interaction/pw-school-copy-permission"))
+            return false;
+
+        var position = new Vector2(playerPosition.X, playerPosition.Z);
+        // Scope this detour to the Babai parcel and the short passage through
+        // the same gate plane used by the house-entry route. The school goal
+        // resumes after the player clears that gate approach.
+        if (BabaiRelocation.OutsideNewYard(position.X, position.Y) > .001f)
+            return false;
+
+        var route = HomeObjectiveRoute.Value;
+        var inward = (route[3] - route[2]).Normalized();
+        var gateOffset = (position - route[2]).Dot(inward);
+        if (gateOffset < 0f)
+        {
+            // Keep the exit cue until the capsule clears the gate post. The
+            // existing outside approach is only 1.2 m past the gate plane, so
+            // its short, narrow corridor cannot capture the street route.
+            const float corridorHalfWidth = .45f;
+            var outsideLeg = route[1] - route[2];
+            var routeFraction = (position - route[2]).Dot(outsideLeg) / outsideLeg.LengthSquared();
+            var fraction = Mathf.Clamp(routeFraction, 0f, 1f);
+            var corridorPoint = route[2] + outsideLeg * fraction;
+            if (position.DistanceSquaredTo(corridorPoint) > corridorHalfWidth * corridorHalfWidth
+                || routeFraction >= 1f)
+                return false;
+
+            waypoint = new Vector3(route[1].X,
+                AgentBAct1HeightField.CollisionGround(route[1].X, route[1].Y) + .05f,
+                route[1].Y);
+            label = "Дорожка за калиткой";
+            return true;
+        }
+
+        var closestDistance = float.PositiveInfinity;
+        var closestProgress = -1f;
+        var closestPoint = route[4];
+        var closestSegment = -1;
+        // HomeObjectiveRoute runs from the street through the gate to the door.
+        // Follow its last three segments in reverse, ending at the gate crossing.
+        for (var index = route.Count - 2; index >= 2; index--)
+        {
+            var outwardLeg = route[index] - route[index + 1];
+            var fraction = Mathf.Clamp((position - route[index + 1]).Dot(outwardLeg) / outwardLeg.LengthSquared(), 0f, 1f);
+            var point = route[index + 1] + outwardLeg * fraction;
+            var distance = position.DistanceSquaredTo(point);
+            var progress = route.Count - 2 - index + fraction;
+            if (distance < closestDistance - .0001f
+                || (Mathf.Abs(distance - closestDistance) <= .0001f && progress >= closestProgress))
+            {
+                closestDistance = distance;
+                closestProgress = progress;
+                closestPoint = point;
+                closestSegment = index;
+            }
+        }
+
+        if (closestSegment < 2)
+            return false;
+        var next = closestSegment;
+        // Advance a corner only after reaching it; never aim at the street-side
+        // continuation of the line, which would cut across the closed fence.
+        if (next > 2 && position.DistanceSquaredTo(route[next]) <= .15f * .15f)
+            next--;
+
+        var recovering = closestDistance > .5f * .5f;
+        var pointOnRoute = recovering ? closestPoint : route[next];
+        waypoint = new Vector3(pointOnRoute.X,
+            AgentBAct1HeightField.CollisionGround(pointOnRoute.X, pointOnRoute.Y) + .05f,
+            pointOnRoute.Y);
+        label = recovering ? "Дорожка к калитке" : next <= 3 ? "Калитка" : "Проход во дворе";
         return true;
     }
 

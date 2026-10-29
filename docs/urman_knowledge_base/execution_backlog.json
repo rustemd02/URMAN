@@ -123269,6 +123269,46 @@
         "save_compatibility": "22 exact one-way predecessor pairs plus explicit current-fingerprint whitelist; no wildcard/transitive acceptance.",
         "native_context": "Old pedagogical response directly observed in Windows job75472eff, commit97d24f86; new replies are not in that immutable snapshot.",
         "remaining": "Native presentation and author/language acceptance, alongside full campaign acceptance."
+      },
+      "native_book_school_2026_10_29": {
+        "state": "partial_native_verified_timeout_restored",
+        "job_id": "75472effa782485d90fa3ec674593eac",
+        "commit": "97d24f86",
+        "snapshot": "e1f0c7d77b8b27edc7d25a32559c083e161f09a194b9e458730d97caadc8a5f4",
+        "route": "Ordinary NewGame; built-in forest skip; Niva language/D00; gate/porch/E home entry; tea and school clue; real book aim/E handoff; journal opens and book disappears; E exit; village walk; school stairs and E-open entrance. Timeout at school threshold before copy/photoworld.",
+        "confirmed": [
+          "Book handoff event [135] photoworlds.book.received: pw-book-handoff",
+          "Book obtained screenshot7173029436cb48c7bf6a01f1b833f66d",
+          "Current text personal forest recognition shown in tea",
+          "School objective and door open reached by ordinary controls"
+        ],
+        "not_confirmed": [
+          "School copy/permission",
+          "First photo entry/action/return",
+          "Niva motion capture",
+          "Whole Act I playability and author acceptance"
+        ],
+        "receipt": {
+          "game_exit": 124,
+          "userdataRestored": true,
+          "doctorReady": true,
+          "orphan_game_process": false,
+          "userdata_recovery_pending": false,
+          "engine_errors": 0
+        },
+        "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-episode-75472eff-2026-10-29/result.zip",
+        "archive_sha256": "ae0527fe977833197097849d2988133efff20c67a86b874db162ec27d7e2b8b8",
+        "cleanup": "ZIP CRC/SHA verified; 144 duplicate extracted/renamed files deleted by content hash; three selected frames kept outside Git."
+      },
+      "school_yard_exit_guidance_2026_10_29": {
+        "state": "source_compiled_verified_native_pending",
+        "observed": "After book handoff and home exit, school marker points68m through yard fence; no exit-gate intermediate waypoint. Screenshot f5e6b932d9bd410bbc6df0dfa4400c29 in75472eff archive.",
+        "change": "Reuse reverse HomeObjectiveRoute only for two school-copy missions in village_day and Babai yard; guide through gate to existing outside node1.2m past gate-plane, narrow .45m exit corridor, then restore school destination. No collision/save/content changes.",
+        "files": [
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs"
+        ],
+        "verification": "Root review caught early gate-plane switch; corrected to clear capsule. Existing geometry formulas and out-variable short-circuit reviewed; Game build0/0, diff check. No tests added/run.",
+        "remaining": "Native marker routing after exit; whole campaign and external gates remain."
       }
     },
     {
@@ -147852,7 +147892,14 @@
         "verification": "Blender reimport/oriented local triangle geometry/paired UV and original TRS checks; 352 source triangles retained; Body UV split96→100vertices without geometric change. Native GLB JSON confirms exact nodes/opaque material; narrow Game build0warnings0errors. Room max cupboard distance10.646m below LOD1fade15m.",
         "archive": "../../../.codex/local_asset_archive/URMAN-home-cupboard-pbr-v1-2026-10-29.zip",
         "archive_sha256": "65a5a28eb8627de8cc0e4f9acb66b907e0b663f5bdd1fe014ad7df6c3854cfa3",
-        "remaining": "Godot import and actual room appearance; retained LOD1 is outside room range, external camera review not done. Author/cultural acceptance open."
+        "remaining": "Godot import and actual room appearance; retained LOD1 is outside room range, external camera review not done. Author/cultural acceptance open.",
+        "native_observation": {
+          "job": "75472effa782485d90fa3ec674593eac",
+          "commit": "97d24f86",
+          "frame": "3a7be0b8ba174e989e551e0db710861d",
+          "result": "New wood material visible in family room; no missing material or obvious geometry shift/floating in single frame. Root and asset worker viewed. No engine/import error.",
+          "remaining": "Author art/culture/rights acceptance, external-camera LOD transition and performance not proved by still frame."
+        }
       }
     },
     {
