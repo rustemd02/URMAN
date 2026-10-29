@@ -10,6 +10,7 @@ public partial class Act1DemoRoot
 {
     private const string ForestGroupObservationInteractionId = "urman.fullgame:interaction/pw-forest-group";
     private const string ForestBeyondFrameInteractionId = "urman.fullgame:interaction/pw-forest-photographer";
+    private const string FamilyBookHandoffInteractionId = "urman.fullgame:interaction/pw-book-handoff";
     private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
     private const string BankSceneId = "urman.fullgame:scene/pw-bank-approach";
     private const string BankCopySourceInteractionId = "urman.fullgame:interaction/pw-bank-copy-source";
@@ -152,8 +153,9 @@ public partial class Act1DemoRoot
         label.Size = new Vector2(labelWidth, 40f * scale);
         label.Position = new Vector2(-labelWidth / 2f, 22f * scale);
 
-        // Observation subjects already contain their exact sight point; route anchors describe feet-level destinations.
-        var worldPoint = destination + Vector3.Up * (inspectionTarget ? 0f
+        // Observation subjects and the family book target already contain their exact sight point.
+        var worldPoint = destination + Vector3.Up * (inspectionTarget
+            || (!waypoint && mission.InteractionId == FamilyBookHandoffInteractionId) ? 0f
             : !waypoint && target is InteractionTarget ? .65f : 1.5f);
         var screenPoint = camera.UnprojectPosition(worldPoint);
         var centre = viewportSize / 2f;

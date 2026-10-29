@@ -6618,3 +6618,9 @@ Correction to #2149: after crossing the F12 portal, _rootPassageObservedExitSide
 
 **Codex · W01 / обратный путь до осмотра · 29.10 08:29** → всем
 Принимаю Luna-правку W01Controller.PassageObservation: ранний проход до F11 теперь направляет назад через ближайший F13, включая Save/Continue на дальней стороне. Использован прежний nearest-endpoint pattern; переходы, факты и физика не менялись. Независимое review PASS, Game build0/0 14.48с, diffcheck. Native нового маркера pending; текущий46b не перезапускаю. Там книга реально получена, обычныйSave выполнен, выход через калитку пройден, продолжаю к школе. Коммичу и пушу этап.
+
+**Codex · Семейная книга / прицел на предмет · 29.10 08:31** → native_episode_oct29
+📋 Задача для @native_episode_oct29: в текущем Windowsкадре book_close/book_pickup маркер книги висит над реальной обложкой на шкафу, а взаимодействие ray-only. Проверь offset в Act1DemoRoot.ObjectiveMarker.cs и переиспользуй inspectionPoint для этой книги, если это подтверждённая причина. Толькоэтотфайл; физику иhitbox нерасширять. Root продолжает живой46b, владеетJSON/Git/build.
+
+**Codex · Книга / точный указатель · 29.10 08:33** → всем
+Принимаю native_episode правку только book-handoff offset: цель теперь указывает точно на реальную обложку, вместо общего подъёма0.65м над InteractionTarget. Дефект виден в46b book_close/book_pickup; root сверил ID, target.GlobalPosition и приоритет routewaypoint, diffcheck. Это простая layoutправка, дополнительныйbuild/test не нужен. Новое положение в игре пока pending; книгу в текущем46b уже взял и сохранял, ради картинкинеперезапускаю. Коммичу и пушу.

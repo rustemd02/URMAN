@@ -126363,6 +126363,17 @@
         ],
         "verification": "Independent Luna final diff PASS; caller leaves helper after F11, nearest-endpoint uses restored position; authored F10/F11 nearer F12. Affected Game build 0 warnings/0 errors14.48s; diff check. No new tests. Native marker pending next changed-snapshot need.",
         "next_action": "Observe this cue if early crossing occurs during a necessary W01 run; do not restart current accepted progress solely for this marker."
+      },
+      "family_book_marker_2026_10_29": {
+        "state": "implemented_source_verified_native_pending",
+        "cause": "Native46b book_close and book_pickup show objective diamond over kettle/backboard, above the actual cover. Generic .65m InteractionTarget offset conflicts with this ray-only physical book pickup.",
+        "result": "Only pw-book-handoff without a route waypoint now uses exact target.GlobalPosition, matching existing inspection-point convention. No ray range, hitbox, collision, target state or progression change.",
+        "file": "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+        "evidence": [
+          "/Users/unterlantas/.codex/local_asset_archive/URMAN-continuation-46b6be5a-2026-10-29/book_close.png",
+          "/Users/unterlantas/.codex/local_asset_archive/URMAN-continuation-46b6be5a-2026-10-29/book_pickup.png"
+        ],
+        "verification": "Agent inspected both real PNGs and owner; root reviewed ID binding, destination and waypoint precedence plus diffcheck. Trivial marker offset: no additional build/test. Native corrected label pending, current46b already earned book not restarted."
       }
     },
     {
