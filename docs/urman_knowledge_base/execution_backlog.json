@@ -126445,12 +126445,23 @@
         "remaining": "On a necessary updated Windows snapshot, verify direct positive F12 crossing and obstacle rejection with ordinary movement. Current f873 does not contain change; full gameplay convenience not accepted."
       },
       "home_return_acceptance_2026_10_29": {
-        "state": "ready",
+        "state": "continue_fingerprint_regression_fixed_native_pending",
         "question": "Does ordinary Continue from earned W01 return provide a controllable village, reachable home conversation, recorded book consequence and clear next earned objective?",
         "success": "Observe ordinary home route/dialogue/book consequence/next goal; Save/Quit with original userdata restored. No seeds/teleport/NewGame.",
         "owner": "root",
         "profile": "act1-acceptance",
-        "source": "latest committed head with book/glove tints and W01 slope clearance; no need to replay already earned W01."
+        "source": "latest committed head with book/glove tints and W01 slope clearance; no need to replay already earned W01.",
+        "job_id": "e5cc1564bc7f45b7abc40a4e72de9b24",
+        "snapshot": "67c45c95bad2efe5bb10e15bb79e3641edfc643ccc2f7fe72c0ad295f711da77",
+        "result": "Menu detected save but Continue unavailable. Premature Down/Enter selected replay-prologue (debug saves only); returned to menu and Quit, no replay traversal or normal saves changed. Own checkpoint metadata confirms schema3/2b2a65f4/sequence362/pw-home village_day at pw-forest-approach. Current packd183 lacked explicit compatibility. Root diff proves only D06 default+ru plus hashes changed. Added exact direct pairs for2b2a and22 already-proven predecessors; unknown revisions stay strict.",
+        "verification": "Affected Game build0warnings0errors17.66s; source/compiled delta and directpairs reviewed. Native recheck pending.",
+        "receipt": {
+          "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-home-e5cc1564-2026-10-29/result.zip",
+          "sha256": "d9c8ad4de7f732b553e004ac49a3a5b97555613bf734c8a98c97c247108b85df",
+          "gameExitCode": 0,
+          "userdataRestored": true,
+          "cleanup": "CRC21 members;24 duplicate files5617259bytes removed after contentSHA match; menu failure frame and rawZIP kept."
+        }
       }
     },
     {
@@ -167012,7 +167023,7 @@
       "cleanup": "18members CRC+SHA verified; 26076305bytes of two new source folders removed. Raw output/receipt/candidate retained in archive, two selected PNG outside Git. Root moved archive from repository .codex to home .codex; other source families untouched."
     },
     "current_operation_2026_10_29_h002": {
-      "state": "source_preserving_pbr_v2_reviewed_runtime_pending",
+      "state": "runtime_source_integrated_compiled_native_pending",
       "task_id": "ACT1-DEPTH.10",
       "asset_id": "urman.world:act1/open-part/h002-house",
       "reserved_credits": 0,
@@ -167026,7 +167037,11 @@
       "download_sha256": "4a6a966f25a10e1e3f321a00ca9d73aa51bea8b3c58c4e0fc755d4e53660a475",
       "candidate": "assets/source/blender/act1/neighbor_house_b_retexture_v1/pbr_candidate_v2/variant-b-roof-preserved-pbr-v2.glb",
       "candidate_sha256": "abad5abd45ee8418a73efb55e8f0039f6140a113a2959ee82645578bd0f40006",
-      "result": "Use only Meshy PBR payloads on exact source geometry/UV/BIN. 23 roof/detail nodes keep source material; 93 other opaque nodes use generated PBR. Root inspected final front-right: broad baked roof stripe removed; walls and timber accepted for scene candidate. Pale log ends and final art/cultural acceptance remain open. No extra spend."
+      "result": "Use only Meshy PBR payloads on exact source geometry/UV/BIN. 23 roof/detail nodes keep source material; 93 other opaque nodes use generated PBR. Root inspected final front-right: broad baked roof stripe removed; walls and timber accepted for scene candidate. Pale log ends and final art/cultural acceptance remain open. No extra spend.",
+      "runtime": "game/assets/models/act1/neighbor-house-b-pbr-v2.glb",
+      "runtime_integration": "Act1ConnectedWorld.VariantBDwellingPbr: only addressed B without modeloverride; 93generated nodes replaced after contacts/collisions;23roof/details+9glass+snow stay live. Exact semanticnames, sourcegeometry/UV preserved; live transforms/visibility/shadows and household paint tint transferred. SourcePBR shallowduplicates keyed bymaterial+color retainmaps rather than flat paintoverride.",
+      "verification": "Game compile0warnings0errors17.66s. Independent review found49/93frame flat overrides maskingPBR; fixed by tint-only sharedduplicates; finalreviewpending/nativepending.",
+      "cleanup": "11reproducible H002 files31906756bytes removed after ZIPCRC/memberSHA verification; archive /Users/unterlantas/.codex/local_asset_archive/URMAN-h002-reproducible-intermediates-2026-10-29.zip SHA3464bac317ba2820d636e031cc6d0be1f44ef8963cd3dec0e6f11bb204746018. Uniqueinputs/rawreturn/currentcandidate retained."
     }
   },
   "artifact_cleanup_2026_10_20": {

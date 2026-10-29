@@ -79,6 +79,9 @@ public partial class RuntimeBridge
     private const string FullGameNivaLanguageReplyFingerprint =
         "2b2a65f4508663ee6ca3fe40600f15de181461d4b194555d0b1c4ad53c398dd3";
 
+    private const string FullGameShuraleQuestionFingerprint =
+        "d1835802606570985fe48b2a2cd63c5c1fbc7385c646a78c2bca1792450e960e";
+
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
         // 80266983 -> 5b0a7ccf: 18 UI texts/provides IDs only; proof in PW-025.
@@ -371,7 +374,32 @@ public partial class RuntimeBridge
         new(FullGameNaturalDialogueFingerprint, FullGameNivaLanguageReplyFingerprint),
         new(FullGameWaterHomeAccountFingerprint, FullGameNivaLanguageReplyFingerprint),
         new(FullGameShuraleReplyTextFingerprint, FullGameNivaLanguageReplyFingerprint),
-        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0", FullGameNivaLanguageReplyFingerprint)
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0", FullGameNivaLanguageReplyFingerprint),
+        // D06 question wording only; saved definitions and state remain unchanged.
+        new(FullGameNivaLanguageReplyFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameEncounterContinuityFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameAtmosphericDialogueFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameEarlyDialogueRevisionFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameTeaCompletionGateFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameAlsuLeafDialogueFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameHousePhotoDialogueFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameAlsuMountedPhotoGateFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameRiverExitHintFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameShuraleQuestionFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameShuraleQuestionFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -404,7 +432,8 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEarlyDialogueRevisionFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAtmosphericDialogueFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEncounterContinuityFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameNivaLanguageReplyFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameNivaLanguageReplyFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameShuraleQuestionFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }
