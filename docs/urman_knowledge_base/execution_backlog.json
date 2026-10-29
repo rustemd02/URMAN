@@ -126241,12 +126241,12 @@
       },
       "school_corridor_guidance_2026_10_29": {
         "state": "implemented_compile_verified_native_pending",
-        "problem": "Native school cues repeatedly showed room/exit1m while aligning to a narrow floor waypoint. Source review additionally found old z4.2 route only .29m from bench collision startingz4.49, less than player capsule radius. No claim that every observed bump came from bench.",
-        "change": "Route center z3.9 with .20 tolerance and distinct corridor/door labels; preserve staff door X tolerance.1 and all story/access gates. Bench/.35 capsule clearance .24m at center/.04m at nearest accepted edge; partition remains clear.",
+        "problem": "Native39bb localX-6.64/Z4.19 already in free corridor still showed Corridor1m at same-X/Z3.9 due narrow .20 tolerance. Earlier bench-coordinate claim was incorrect: current source bench centerZ3.4, near edge3.61, not4.7/4.49.",
+        "change": "Corridor safe axis4.05 leaves .09m past bench edge plus .35 capsule. Below axis keep X until clear; safe-side lateral guidance retains currentZ toward staff door or exit. Existing staffX/door gates unchanged.",
         "files": [
           "game/scripts/Act1DemoRoot.ObjectiveMarker.cs"
         ],
-        "verification": "Game build0warnings0errors16.36s; static geometry/source review; no new tests/native run."
+        "verification": "Luna geometry review and root diff/caller review; Game build0warnings0errors17.11s; no new tests. New marker runtime pending; current39bb older snapshot successfully entered staff room and inspected source album."
       },
       "school_stair_approach_2026_10_29": {
         "state": "implemented_compile_verified_native_pending",

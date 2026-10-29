@@ -364,7 +364,7 @@ public partial class Act1DemoRoot
         if (!ObjectiveMarkerTargetAvailable(school, mission, endpoint: true)) return false;
         var local = school!.ToLocal(playerPosition);
         // SquareInteriors.School owns the 20 x 11 shell, corridor wall Z2.9 and these four doors.
-        const float corridorZ = 3.9f, staffX = -7.8f, roomSideZ = 2.35f, schoolFront = 5.5f;
+        const float corridorZ = 4.05f, staffX = -7.8f, roomSideZ = 2.35f, schoolFront = 5.5f;
         var inside = Mathf.Abs(local.X) < 9.65f && Mathf.Abs(local.Z) < 5.15f
             && local.Y > -.2f && local.Y < 3.4f;
         var clearingEntrance = Mathf.Abs(local.X) <= .4f && local.Z >= 5.15f && local.Z < 6.3f
@@ -412,23 +412,27 @@ public partial class Act1DemoRoot
                     : new(doorX, .05f, corridorZ);
             }
         }
-        else if (!schoolCopyGoal && Mathf.Abs(local.X) <= .1f)
-            // Clear the doorway before resuming the distant street destination.
-            destination = new(0, .05f, 6.3f);
         else if (schoolCopyGoal && Mathf.Abs(local.X - staffX) <= .1f)
             destination = new(staffX, .05f, roomSideZ);
-        else if (Mathf.Abs(local.Z - corridorZ) > .20f)
+        else if (local.Z < corridorZ)
         {
-            // The bench collision starts at Z4.49 (center 4.70, half-depth .21).
-            // This Z3.9 centerline leaves .24 m beyond the player's .35 m radius
-            // while staying clear of the corridor wall at Z2.9.
+            // The bench's near edge is Z3.61; Z4.05 leaves .09 m beyond the
+            // player's .35 m radius. Stay on this X until clear of the bench.
             label = schoolCopyGoal ? "Коридор к учительской" : "Коридор к выходу";
             destination = new(local.X, .05f, corridorZ);
         }
+        else if (!schoolCopyGoal && Mathf.Abs(local.X) <= .1f)
+            // Clear the doorway before resuming the distant street destination.
+            destination = new(0, .05f, 6.3f);
+        else if (schoolCopyGoal)
+        {
+            label = "Дверь учительской";
+            destination = new(staffX, .05f, local.Z);
+        }
         else
         {
-            label = schoolCopyGoal ? "Дверь учительской" : "Входная дверь";
-            destination = new(schoolCopyGoal ? staffX : 0f, .05f, corridorZ);
+            label = "Входная дверь";
+            destination = new(0, .05f, local.Z);
         }
 
         waypoint = school.ToGlobal(destination);
