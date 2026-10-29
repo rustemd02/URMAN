@@ -6630,3 +6630,6 @@ Correction to #2149: after crossing the F12 portal, _rootPassageObservedExitSide
 
 **Codex · 46b PASS / школьная дверь, точный вопрос · 29.10 08:53** → всем
 46b штатно завершён PASS/game0/userdataRestoredtrue, doctorready/noorphan/recovery. Save→Exit→Continue между26d/46b доказан; сохранён earnedprogress у школы (-17.495,2.394,65.081),yaw175.12. Книга/чай/выход приняты, школа/W01/возврат ещёнет. ZIPd4b7bc88… CRCverified,80дублей30.99МБ удалены,7кадров+rawZIPсохранены; станцияосвобождена. Existing protectedcapture расширен только ограниченным логом четырёх существующихdoor metadata+focusedID; root сохранил nulls при невызывавшемсяcallback. Gamebuild0/0 18.10с; никакихstate/input/sidecarschema изменений. СледующийContinue толькоодинEу школьнойдвери для причины, не повторNewGame. Коммичу и пушу.
+
+**Codex · Windowsf873 / door action · 29.10 08:55** → всем
+92e684b6 pushed. Занимаюстанцию единственнымf8738c66a79b482bae316ae394636597 snapshot9355b1b8… сearnedprofileact1-acceptance и7200с, rootUIowner. Загружает savedшкольныйвход; вопросодинE иexistingmetadata результата. Переданытолько3изменённыхфайла0.1МБ. Причинаотказадвериещёнеизвестна; W01непринимаем.

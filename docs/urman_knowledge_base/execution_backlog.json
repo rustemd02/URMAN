@@ -126394,7 +126394,16 @@
         "reviews": "Two bounded reviews did not confirm lostContinuecallbacks, L/Rbinding asymmetry or FPC suppression after stable releasedE. Sweep notice lasts2.2s, latercapturecannotexcludeit. No blind physics/state fix.",
         "capture_change": "Existing protected explicit-frame capture now writes only current ray target existing lastDoorActionNumber/result/action/doorSweepProbe and existingFocusedInteractionId to bounded normal log. Nulls retained to distinguish callback never entered. No input, new polling, state writes, sidecar schema change or new probe scenario.",
         "verification": "Source whitelist review, boundedstrings, affectedGamebuild0warnings0errors18.10s; gitdiffcheck. Runtime diagnostics pending.",
-        "next_action": "Continue own school-door save on changed committed snapshot; one stable E and currentcapture then inspect causalexistingmetadata. Do not repeatNewGame or weakenphysics."
+        "next_action": "Continue own school-door save on changed committed snapshot; one stable E and currentcapture then inspect causalexistingmetadata. Do not repeatNewGame or weakenphysics.",
+        "native_check": {
+          "state": "running_not_accepted",
+          "job_id": "f8738c66a79b482bae316ae394636597",
+          "snapshot": "9355b1b8e418a7884543e2677069b7a4b74e10c8f4a21e43ae3ac7668cc337e4",
+          "head": "92e684b6",
+          "owner": "root",
+          "profile": "act1-acceptance",
+          "question": "OrdinaryContinue at earned school-door save; one stable E then existingcapturedoor metadata; fix only evidencedcause. Continue W01 if dooropens. NoNewGame/seed/teleport."
+        }
       }
     },
     {
