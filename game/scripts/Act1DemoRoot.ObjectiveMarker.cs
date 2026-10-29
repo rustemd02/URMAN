@@ -133,7 +133,7 @@ public partial class Act1DemoRoot
             }
             waypoint = waypoint
                 || TryGetHomeYardExitObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel)
-                || TryGetSchoolObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel)
+                || TryGetSchoolObjectiveWaypoint(mission, player.GlobalPosition, player.BodyRadius, out routePoint, out routeLabel)
                 || TryGetHomeObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel);
         }
         if (waypoint)
@@ -347,7 +347,7 @@ public partial class Act1DemoRoot
         return true;
     }
 
-    private bool TryGetSchoolObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition,
+    private bool TryGetSchoolObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition, float playerRadius,
         out Vector3 waypoint, out string label)
     {
         waypoint = default;
@@ -367,6 +367,11 @@ public partial class Act1DemoRoot
         var local = school!.ToLocal(playerPosition);
         // SquareInteriors.School owns the 20 x 11 shell, corridor wall Z2.9 and these four doors.
         const float corridorZ = 4.05f, staffX = -7.8f, roomSideZ = 2.35f, schoolFront = 5.5f;
+        const float frontWallThickness = .35f;
+        const float closedDoorStandoffZ = 7.35f;
+        // The 1.15 m front windows leave only .45 m of centreline clearance
+        // after the .35 m player radius; clear the wall plane before crossing piers.
+        var safeLateralZ = schoolFront - frontWallThickness - playerRadius;
         var inside = Mathf.Abs(local.X) < 9.65f && Mathf.Abs(local.Z) < 5.15f
             && local.Y > -.2f && local.Y < 3.4f;
         var clearingEntrance = Mathf.Abs(local.X) <= .4f && local.Z >= 5.15f && local.Z < 6.3f
@@ -384,15 +389,27 @@ public partial class Act1DemoRoot
                 destination = new(side * 10.6f, .05f, -6.1f);
             else if (Mathf.Abs(local.X) >= 9.65f && local.Z < 6.15f)
                 destination = new(side * 10.6f, .05f, 6.3f);
-            else if (schoolCopyGoal && local.Z >= schoolFront && Mathf.Abs(local.X) > 1.25f
-                && _main.ConnectedWorld?.AddressApproachPath("ACC-ADR-SQUARE-SCHOOL") is { Count: > 0 } schoolApproach)
+            else if (schoolCopyGoal && local.Z >= schoolFront - frontWallThickness)
             {
-                // Align outside the dynamic stair flight before the marker resumes the centerline.
-                waypoint = schoolApproach[0];
-                return true;
+                label = "Вход в школу";
+                var connectedWorld = _main.ConnectedWorld;
+                if (Mathf.Abs(local.X) > 1.25f)
+                {
+                    if (connectedWorld?.AddressApproachPath("ACC-ADR-SQUARE-SCHOOL") is { Count: > 0 } schoolApproach)
+                    {
+                        // Align outside the dynamic stair flight before the marker resumes the centerline.
+                        waypoint = schoolApproach[0];
+                        return true;
+                    }
+                    // If the authored stair approach is unavailable, stay outside rather than aim through the wall.
+                    destination = new(0, .05f, closedDoorStandoffZ);
+                }
+                else if (connectedWorld?.TryGetSchoolEntranceObjectivePoint(school!, closedDoorStandoffZ,
+                    corridorZ, out waypoint, out _) == true)
+                    return true;
+                else
+                    destination = new(0, .05f, closedDoorStandoffZ);
             }
-            else if (Mathf.Abs(local.X) <= .4f && local.Z >= 5.15f && local.Z <= 6.45f)
-                destination = new(0, .05f, corridorZ);
             else if (local.Z < 6.15f)
                 destination = new(local.X, .05f, 6.3f);
             else
@@ -413,6 +430,13 @@ public partial class Act1DemoRoot
                     ? new(doorX, .05f, Mathf.Min(local.Z, roomSideZ))
                     : new(doorX, .05f, corridorZ);
             }
+        }
+        else if (schoolCopyGoal && local.Z > safeLateralZ)
+        {
+            // FrontWall's 0.35 m body ends at Z5.15; the .35 m player radius
+            // needs to clear that plane before crossing the narrow window piers.
+            label = "Коридор к учительской";
+            destination = new(local.X, .05f, corridorZ);
         }
         else if (schoolCopyGoal && Mathf.Abs(local.X - staffX) <= .1f)
             destination = new(staffX, .05f, roomSideZ);

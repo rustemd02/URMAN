@@ -108887,7 +108887,7 @@
           "game/scripts/JournalUi.PhotoBook.ImageReader.cs"
         ],
         "verification": "Root/Luna static lifecycle review and current native defect frame; Gamebuild0warnings0errors17.23s; no newtests.",
-        "acceptance_remaining": "On next otherwise necessary Windows check, verify reader receives freed area and return restores selected album and keyboard focus; current39bb snapshot does not include fix."
+        "acceptance_remaining": "Still pending: f873 school_album_reader.png uses DocumentImageReader, not JournalUi.PhotoBook.ImageReader, so it does not verify this fix. Next natural family-photo inspection must confirm freed space and return focus."
       }
     },
     {
@@ -126280,10 +126280,10 @@
         "physics_review": "Independent bounded solver review: feet center about.311m beyond stair side, radius.35 leaves only.039m overlap; Step1 rise.289 exceeds current.22step limit. Firstsupportprobe misses9mm outsideedge, remainingprobesnotlogged becauseearlyreturn. No provenfalse-rejection ofwalkablesupport; retainphysics andcenterapproachcue, not globalrelaxation."
       },
       "school_staff_facing_2026_10_29": {
-        "state": "implemented_source_verified_native_pending",
+        "state": "native_verified",
         "observation": "Native39bb root_school_permission.png: staff dialogue shown while actor faces away from player.",
         "change": "Add actual visible Npc_school_staff to existing UpdateConversationFacing roster. Same shared proximity/return yaw behavior as established village NPCs; no new behavior system or story changes.",
-        "verification": "Root inspected actor/target identities, school creation and process call; git diff --check. Runtime turning pending on newer snapshot."
+        "verification": "f873 school_album_approach.png and school_copy_dialogue.png: actor faces nearby player; original comparison, permission dialogue and copy completed normally."
       },
       "acceptance_profile_continuation_2026_10_29": {
         "state": "native_save_exit_continue_and_restore_verified",
@@ -126389,21 +126389,26 @@
         "verification": "Agent inspected both real PNGs and owner; root reviewed ID binding, destination and waypoint precedence plus diffcheck. Trivial marker offset: no additional build/test. Native corrected label pending, current46b already earned book not restarted."
       },
       "school_local_door_2026_10_29": {
-        "state": "native_blocker_cause_unresolved_bounded_capture_ready",
-        "evidence": "46b left/right Use exactray/id/availabletrue, E250/650 no visible open, closedleaf contacts. Door hint still Open. Normalcontent home/tea/book worked. PriorNewGame jobs openedschool.",
-        "reviews": "Two bounded reviews did not confirm lostContinuecallbacks, L/Rbinding asymmetry or FPC suppression after stable releasedE. Sweep notice lasts2.2s, latercapturecannotexcludeit. No blind physics/state fix.",
+        "state": "cause_verified_route_fix_compiled_native_pending",
+        "evidence": "f873 ordinary Continue; capture608a79fcb2df4c8e8f6a46f511b57a64 logs blocked-by-full-shape-sweep against Player/CollisionShape3D sample47/70. Stepping back and aside opened right leaf (6e334b26529e40f0a2dbf3e09be3ccbb); ordinary entry, original inspection, staff permission and school copy completed and saved.",
+        "reviews": "Actual cause is player standing in outward swing, not lost Continue callbacks. Existing brief blocked notice is correct. Native marker then aimed at closed left leaf and later too close to front wall; two route cues corrected without weakening physics.",
         "capture_change": "Existing protected explicit-frame capture now writes only current ray target existing lastDoorActionNumber/result/action/doorSweepProbe and existingFocusedInteractionId to bounded normal log. Nulls retained to distinguish callback never entered. No input, new polling, state writes, sidecar schema change or new probe scenario.",
-        "verification": "Source whitelist review, boundedstrings, affectedGamebuild0warnings0errors18.10s; gitdiffcheck. Runtime diagnostics pending.",
-        "next_action": "Continue own school-door save on changed committed snapshot; one stable E and currentcapture then inspect causalexistingmetadata. Do not repeatNewGame or weakenphysics.",
+        "verification": "Root final affected Game compile: 0 warnings, 0 errors. Luna independent static review PASS after external side approach retained regardless of door state; git diff --check. New route not in current f873 snapshot.",
+        "next_action": "Continue earned school copy to W01 and return; check new school route on a later necessary snapshot, without replaying setup solely for this cue.",
         "native_check": {
-          "state": "running_not_accepted",
+          "state": "door_cause_and_school_copy_verified_w01_pending",
           "job_id": "f8738c66a79b482bae316ae394636597",
           "snapshot": "9355b1b8e418a7884543e2677069b7a4b74e10c8f4a21e43ae3ac7668cc337e4",
           "head": "92e684b6",
           "owner": "root",
           "profile": "act1-acceptance",
           "question": "OrdinaryContinue at earned school-door save; one stable E then existingcapturedoor metadata; fix only evidencedcause. Continue W01 if dooropens. NoNewGame/seed/teleport."
-        }
+        },
+        "route_change": "Read existing settled facility-door state to point through open half-gap; closed marker stays outside swing at local Z7.35. Side approach preserved. Inside marker clears front-wall band before lateral staff route at Z4.05, accounting for body radius.",
+        "files": [
+          "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs"
+        ]
       }
     },
     {
