@@ -167029,7 +167029,7 @@
       "cleanup": "18members CRC+SHA verified; 26076305bytes of two new source folders removed. Raw output/receipt/candidate retained in archive, two selected PNG outside Git. Root moved archive from repository .codex to home .codex; other source families untouched."
     },
     "current_operation_2026_10_29_h002": {
-      "state": "native_import_root_failure_fixed_source_compile_recheck_pending",
+      "state": "source_candidate_hold_runtime_integration_withdrawn",
       "task_id": "ACT1-DEPTH.10",
       "asset_id": "urman.world:act1/open-part/h002-house",
       "reserved_credits": 0,
@@ -167044,8 +167044,8 @@
       "candidate": "assets/source/blender/act1/neighbor_house_b_retexture_v1/pbr_candidate_v2/variant-b-roof-preserved-pbr-v2.glb",
       "candidate_sha256": "abad5abd45ee8418a73efb55e8f0039f6140a113a2959ee82645578bd0f40006",
       "result": "Use only Meshy PBR payloads on exact source geometry/UV/BIN. 23 roof/detail nodes keep source material; 93 other opaque nodes use generated PBR. Root inspected final front-right: broad baked roof stripe removed; walls and timber accepted for scene candidate. Pale log ends and final art/cultural acceptance remain open. No extra spend.",
-      "runtime": "game/assets/models/act1/neighbor-house-b-pbr-v2.glb",
-      "runtime_integration": "Act1ConnectedWorld.VariantBDwellingPbr: only addressed B without modeloverride; 93generated nodes replaced after contacts/collisions;23roof/details+9glass+snow stay live. Exact semanticnames, sourcegeometry/UV preserved; live transforms/visibility/shadows and household paint tint transferred. SourcePBR shallowduplicates keyed bymaterial+color retainmaps rather than flat paintoverride.",
+      "runtime": "not mounted; source candidate retained outside active runtime",
+      "runtime_integration": "WITHDRAWN: original addressedVariantB presentation restored; no fallback/physicsweakening. Partial model code and runtime duplicate removed, reproduciblev2candidate kept.",
       "verification": "Game compile0warnings0errors17.66s. Independent review found49/93frame flat overrides maskingPBR; fixed by tint-only sharedduplicates; final independent reviewPASS; nativepending.",
       "cleanup": "11reproducible H002 files31906756bytes removed after ZIPCRC/memberSHA verification; archive /Users/unterlantas/.codex/local_asset_archive/URMAN-h002-reproducible-intermediates-2026-10-29.zip SHA3464bac317ba2820d636e031cc6d0be1f44ef8963cd3dec0e6f11bb204746018. Uniqueinputs/rawreturn/currentcandidate retained.",
       "native_failure": {
@@ -167054,6 +167054,13 @@
         "error": "GraftVariantBDwellingPbr line85 rejected imported root; worldBuild interrupted, scene NOTaccepted.",
         "fix": "Mirror existingVariantA exact authoredroot lookup inside imported Scene wrapper, validateidentity+composedbasis, detachowner/freewrapper beforeattach. SameGLB scene/rootshape asworkingA verified; no newweakening/namefallback.",
         "verification": "Rootsource comparison andGamecompile0warnings0errors18.01s; changednative question pending."
+      },
+      "second_native_failure": {
+        "job_id": "ffbb881cef8947aabe341811b7441382",
+        "snapshot": "ab04bd52ad58b45a8e19c571a583d8d72066d4053b44c7fb7ea6ff3b7cd6f109",
+        "head": "14c16756",
+        "result": "Exact root search passed; opaque semantic-name set equality failed. Previous offline63char-normalized matching did NOT establish actualGodot runtime names. WorldBuild interrupted; no scene acceptance.",
+        "decision": "Withdraw runtimehook/partial/runtimeGLB after two observed integration failures. Preserve preparedv2source,receipt,paidmaps andcommittedattempt history. Readonly exactnamecause next; no moremodelnativeiterations in thisslice. Corestory acceptance takespriority."
       }
     }
   },

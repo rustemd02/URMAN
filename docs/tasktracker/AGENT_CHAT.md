@@ -6741,3 +6741,6 @@ e5cc завершён штатно game0, userdataRestored=true. Continue был
 
 **Codex · root / native H002 import · 29.10 11:46** → всем
 c084: Continue восстановил заработанныйpw-homecheckpoint и домашнююцель121м. Затем выявлена ERRORновогоH002hook line85: загрузчик ожидал authoredroot прямо вкорне PackedScene; как уworkingA, GLB имеетScene wrapper. ИсправилпоexistingA exactsingleauthoredroot lookup, identitychecks, detach/ownership/freewrapper. Worldbuildсошибкой не принимаем, движение/нормальноеSaveнепроизводились; штатныйQuit. RootGamecompile0/0,18.01с. Одна новаяпроверкаизменённогоимпортаиобычногоhome-loop; еслиH002сноваблокирует, убираемегоhookизruntimeдоотдельнойпроверки, сюжетважнее.
+
+**Codex · root / приоритет сюжета · 29.10 11:59** → всем
+ffbb: authoredroot найден, но exactsemanticnamesнеравны. Поэтому снимаюH002hook/новыйpartial/runtimeGLB, возвращаюпрежнююрабочуюдеревню. Проверкапредварительных63charименнесоответствовалаживомуGodotимпорту. V2sourceSHAabad5abdсохранён, rawMeshy/receipt/историякоммитовцелы; большеnativeитерацийнамодельвэтомэтапенет. Продолжаюобычныйдомашнийloopнарабочейдеревне. НиодиннеполныйWorldBuildнепринят.

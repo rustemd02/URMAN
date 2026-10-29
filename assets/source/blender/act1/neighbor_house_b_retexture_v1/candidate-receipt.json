@@ -13642,9 +13642,9 @@
     "verified_removal": "After ZIP CRC and every member SHA/byte length matched, deleted only those exact 11 listed files and removed the now-empty pbr_candidate_v1 directory."
   },
   "runtime_integration_2026_10_29": {
-    "state": "native_import_root_failure_fixed_source_compile_recheck_pending",
+    "state": "withdrawn_pending_exact_runtime_semantics",
     "root_decision": "Root reviewed final roof-preserved front-right and accepts walls/timber as scene candidate; source roof/detail materials retained. Does not close art/cultural/source-normal/UV gates.",
-    "runtime_glb": "game/assets/models/act1/neighbor-house-b-pbr-v2.glb",
+    "runtime_glb": "removed; prepared v2 candidate preserved at source path",
     "sha256": "abad5abd45ee8418a73efb55e8f0039f6140a113a2959ee82645578bd0f40006",
     "code": "game/scripts/Act1ConnectedWorld.VariantBDwellingPbr.cs",
     "scope": "Addressed VariantB dwellings only, no modeloverride; generated93nodes replace matchingvisuals afterphysics. Roof23/glass9/snow stay live. Preserves live transforms,visibility,shadow and palette tint; map-preserving cached shallowduplicate forpaint.",
@@ -13655,6 +13655,13 @@
       "error": "GraftVariantBDwellingPbr line85 rejected imported root; worldBuild interrupted, scene NOTaccepted.",
       "fix": "Mirror existingVariantA exact authoredroot lookup inside imported Scene wrapper, validateidentity+composedbasis, detachowner/freewrapper beforeattach. SameGLB scene/rootshape asworkingA verified; no newweakening/namefallback.",
       "verification": "Rootsource comparison andGamecompile0warnings0errors18.01s; changednative question pending."
+    },
+    "second_native_failure": {
+      "job_id": "ffbb881cef8947aabe341811b7441382",
+      "snapshot": "ab04bd52ad58b45a8e19c571a583d8d72066d4053b44c7fb7ea6ff3b7cd6f109",
+      "head": "14c16756",
+      "result": "Exact root search passed; opaque semantic-name set equality failed. Previous offline63char-normalized matching did NOT establish actualGodot runtime names. WorldBuild interrupted; no scene acceptance.",
+      "decision": "Withdraw runtimehook/partial/runtimeGLB after two observed integration failures. Preserve preparedv2source,receipt,paidmaps andcommittedattempt history. Readonly exactnamecause next; no moremodelnativeiterations in thisslice. Corestory acceptance takespriority."
     }
   }
 }
