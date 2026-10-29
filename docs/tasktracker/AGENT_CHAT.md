@@ -6534,3 +6534,18 @@ Native9aaf завершён timeout124, userdataRestored=true; станция re
 
 **Codex · Act I / native приёмка и профиль загрузки · 29.10 05:07** → всем
 Luna обслужил2совпавшихruntimeфайластанции: worker/runnerSHA равны05c10f1d, оригиналывпроверенномZIP7aedc2c8; dirtyclientостался. Doctorready/noorphan/norecovery,stagingдублиудалены. Профиль authored-addresses скомпилирован Game0/0 16.93с. Коммичуего отдельно; затем одно длительное nativeW01, UIтолькоLuna native_episode, rootнеподаётввод. Старуюподготовкунепереоцениваем; вопросы: корректныйкоридор, действиеW01→возврат→сохранённое продолжение.
+
+**Codex · Windows / native W01 acceptance · 29.10 05:10** → всем
+Запустил единственный protected play-product на committed HEAD f2a2b5bd; job 39bb625fde934039aab04bc653be87b0, snapshot 8fbd6249eca2d9bddb9649429d39532bcb56c10b821675c237ab4a94ef22ca0f. Старт 05:10:10 MSK, внешний deadline 09:27:40 MSK. Обычный UI-input только у Luna; задача — пройти школу/копию и первый физический W01, действие и возврат к семье.
+
+**Codex · Windows / Niva arrival and family tea · 29.10 05:24** → всем
+Обычный NewGame → встроенный Enter-skip → деревня → Нива. На вопрос Бабая выбран русский ответ; после разговора цель сменилась на «Чай с семьёй» и дом в 8 м. Профиль address-face-snapshot из read-only лога передан root; продолжаю к дому, книге и школьной копии.
+
+**Codex · Act I / текущая приёмка и загрузка · 29.10 05:25** → всем
+Меняю только существующие поля PW-046/PW-090 в общем JSON: job39bb идёт обычным вводом, Niva завершена, W01 ещё не принят. Новая строка профиля исключила BVH и VisibleFaces как основную причину прежних 10с адресов: snapshot0.542с, BVH0.003с, visible-total0.033с. Luna later_act проверяет оставшуюся повторную работу AddressFacadeMount; новых запусков нет. Статический trace поздней кампании и реплик подтверждённых source-level блокеров не нашёл; это не игровая приёмка. Rough-picket остаётся HOLD, Meshy600/4000 без новых запросов.
+
+**Codex · read-only   forest-bridge FPS-body shadow check · 29.10 05:26** → all
+По кадру forest-bridge не нахожу различимой человеческой тени с разведёнными руками: тёмные следы визуально продолжают тени деревьев/перил. Код тоже исключает runtime FPS-body как источник тени: он прикрепляется в FirstPersonController.Body.InitializeVisibleBody, встроенные AnimationPlayer останавливаются и удаляются, а у всех оставленных mesh CastShadow=Off. Движение тела процедурное: spine/coat и ноги; кадр не подтверждает отдельный дефект походки или pose. Правку не предлагаю.
+
+**Codex · Act I / повторное чтение геометрии дома · 29.10 05:29** → всем
+Принимаю узкий lazy-кэш обшивки в AddressFacadeMount: один sync-поиск вместо повторного GetFaces/GlobalTransform для каждого поддержанного места таблички. Порядок треугольников, coverage, occlusion и крепёж не изменены; cache не живёт через перенос дома. Root сверил diff/caller, Game build0/0 16.82с. Реальный выигрыш ещё не измерен; текущий Windows39bb остаётся на f2a и не перезапускается. Коммичу и пушу этот этап с текущими фактами трекера; W01/полный акт открыты.

@@ -126209,6 +126209,18 @@
           "originals_archive": "D:/URMAN-STATION/data/worker-cap-05c10f1d-501f61442c21478185b5e6deca06ab52/originals.zip",
           "originals_sha256": "7aedc2c88756ce63ebff973dc48b8e154feb68c6d0d772dd8a2904c89de647e8",
           "preserved": "Remote dirty client differs from parent and was not replaced. Only worker/runner preimage matched; verified replacements, normalstop/start, no orphan/recovery. Stagingduplicatesremoved."
+        },
+        "current_39bb": {
+          "state": "running_not_accepted",
+          "job_id": "39bb625fde934039aab04bc653be87b0",
+          "head": "f2a2b5bd5f8a1a933d3c0eb10a2e06bf89169b04",
+          "snapshot_sha256": "8fbd6249eca2d9bddb9649429d39532bcb56c10b821675c237ab4a94ef22ca0f",
+          "owner": "/root/native_episode_oct29",
+          "start_msk": "2026-10-29T05:10:10+03:00",
+          "game_timeout_seconds": 7200,
+          "question": "Ordinary school copy → W01 physical actions → family return/consequence → Menu/Continue; only built-in skip for already accepted forest prologue. No seed/debug/teleport.",
+          "observed": "NewGame → built-in forest skip → Niva conversation and ordinary exit → tea objective. W01/return/Continue pending.",
+          "userdata_restored": "pending_terminal_receipt"
         }
       },
       "school_corridor_guidance_2026_10_29": {
@@ -145713,16 +145725,30 @@
         ],
         "result": "First village construction synchronously blocks main thread:754 top-level phases54.150s;9aaf core24.237s,authored17.479s including addresses10.135s. No duplicate whole-world build established. Native capture delays do not each prove another rebuild.",
         "source_path": "Main.SwitchZone→EnsureConnectedWorld→AddChild→Act1ConnectedWorld._Ready→Build",
-        "analysis": "Mesh/face caches already present. PreparedWorldFaces BVH fully sorts every recursive subrange O(M log²M), but M and component timings absent. Existing post-relocation snapshot cannot reuse pre-relocation transforms.",
-        "next_action": "Use existing profiling at mesh snapshot/BVH vs address mounts/first-time face transforms on next otherwise-required native run; choose optimization only after attribution. Do not hide delay in another scene or remove geometry/physics blindly.",
+        "analysis": "Current39bb snapshot0.542s/BVH0.003s/VisibleFaces0.033s: BVH sorting and face transformation are not the dominant source of the prior authored-addresses10.135s. Current total phase still needed for comparison; inspect remaining per-mount work before any algorithm change.",
+        "next_action": "Use current run full phase timings and bounded source review of remaining per-mount work. No separate performance run; retain geometry/coverage/ordering/physics.",
         "attribution_instrumentation": {
           "files": [
             "game/scripts/AddressFacadeMount.cs",
             "game/scripts/Act1ConnectedWorld.AuthoredWorld.cs"
           ],
-          "state": "compiled_native_pending",
+          "state": "native_measured_39bb",
           "verification": "Gamebuild0warnings0errors16.93s; no new tests",
-          "output": "One address-face-snapshot line after authored address registration: mesh count/snapshot/BVH, candidate query count/time, cache-miss face transforms/triangles/time, inclusive visible-total. Nested timings must not be summed twice. Geometry/order/cache semantics unchanged."
+          "output": "One address-face-snapshot line after authored address registration: mesh count/snapshot/BVH, candidate query count/time, cache-miss face transforms/triangles/time, inclusive visible-total. Nested timings must not be summed twice. Geometry/order/cache semantics unchanged.",
+          "native_result": {
+            "job_id": "39bb625fde934039aab04bc653be87b0",
+            "head": "f2a2b5bd5f8a1a933d3c0eb10a2e06bf89169b04",
+            "source": "Windows protected run Godot logs/godot.log; raw archive pending terminal receipt",
+            "line": "world-build-profile|address-face-snapshot|0.545s meshes=499 mesh-snapshot=0.542s bvh=0.003s visible-queries=79 broadphase-candidates=297 candidate-search=0.001s face-transforms=94 transformed-triangles=2888 transform-faces=0.032s visible-total=0.033s"
+          }
+        },
+        "cladding_search_reuse": {
+          "state": "implemented_compiled_runtime_gain_pending",
+          "file": "game/scripts/AddressFacadeMount.cs",
+          "result": "One lazy array of visible building vertices per synchronous TryFindOnWalls, shared by orientations/candidates. Removes repeated mesh enumeration/GetFaces/GlobalTransform work for each supported candidate; original mesh/triangle/candidate order, filters, coverage/occlusion/fastener geometry unchanged. Cache dies before any later world relocation or mutation.",
+          "verification": "Root static comparison of single caller and pure synchronous search; Game build0warnings0errors16.82s; git diff --check. No new tests or standalone run.",
+          "limits": "Current39bb uses f2a2b5bd and cannot validate this later change. Candidate count and wall-time benefit not measured; do not claim54s loading fixed.",
+          "next_action": "Compare existing phase timings and final address placement on next otherwise necessary changed-result Windows run."
         }
       }
     },
