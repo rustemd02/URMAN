@@ -12759,5 +12759,895 @@
     "result": "Root personally inspected all six actual GLB source views; freeze/HOLD retained, no paid or runtime authorization",
     "acceptance_scope": "Source geometry review only, not art/native/UV/normal acceptance"
   },
-  "next_action": "Root decides one bounded source hold-resolution step from the frozen receipt; no upload or paid generation while current strict UV and numerical-normal gates remain open."
+  "next_action": "Historical source-preparation HOLD remains open. Root authorized one source-authoritative material graft candidate from the frozen prepared H002 GLB using only the Meshy PBR maps; root reviews the saved front-right and Seni corner. No runtime integration or repeat POST.",
+  "authorized_exploratory_operation_2026_10_29": {
+    "root_authorization": "One Meshy7 4K PBR retexture with keepUV, using the existing accepted ImageGen material reference. Exploratory candidate only; source UV/normal gates and runtime/art acceptance remain open.",
+    "source_path": "assets/source/blender/act1/neighbor_house_b_retexture_v1/variant-b-opaque-for-retexture.glb",
+    "source_sha256": "529d39a8341e54ceb4cf61156ebc2d4a1a794106526018af61f4fbf21ee89508",
+    "reference_path": "assets/source/blender/act1/neighbor_house_b_reference_v1/imagegen-reference-v1.png",
+    "reference_sha256": "a53bdb1407061568b786d76cef2017fc9971b49feff51a2ade7820e3c3b7d341",
+    "model": "meshy-7",
+    "texture_resolution": "4k",
+    "enable_pbr": true,
+    "keep_uv": true,
+    "estimated_credits": 10,
+    "fresh_api_balance_before_post": 3670,
+    "recent_retexture_page_checked": 1,
+    "recent_retexture_page_size": 50,
+    "existing_h002_task_found": false,
+    "reserved_credits": 10,
+    "budget_unreserved_before_post": 3380,
+    "submit_policy": "Exactly one POST; recover task/status on ambiguous outcome, never retry submission.",
+    "submitted_task": {
+      "task_id": "01a18697-6785-7058-9e1b-e0e1aada649c",
+      "status": "SUCCEEDED",
+      "progress": 100,
+      "actual_consumed_credits": 10,
+      "fresh_api_balance_after": 3660,
+      "available_formats": [
+        "glb"
+      ],
+      "downloaded": true,
+      "candidate_path": "assets/source/blender/act1/neighbor_house_b_retexture_v1/meshy-retexture-returned.glb",
+      "candidate_bytes": 18847768,
+      "candidate_sha256": "4a6a966f25a10e1e3f321a00ca9d73aa51bea8b3c58c4e0fc755d4e53660a475",
+      "technical_uv_normal_gates_closed": false
+    }
+  },
+  "candidate_review_2026_10_29": {
+    "review_status": "EXPLORATORY_CANDIDATE_NOT_RUNTIME_READY",
+    "method": "Imported prepared source and Meshy return in Blender 4.5.12; compared with existing hero_house_pbr_v1.attach_hero_house_retexture triangle_signatures after temporary uniform rescale/recenter of returned GLB to source bounds. No file was saved from this comparison.",
+    "normalization_for_comparison_only": {
+      "source_bounds_blender": [
+        [
+          -3.2449987,
+          -1.7099999,
+          0.0
+        ],
+        [
+          4.8199987,
+          5.5100002,
+          4.9300003
+        ]
+      ],
+      "return_bounds_blender": [
+        [
+          -1.0,
+          -0.8952266,
+          -0.6112835
+        ],
+        [
+          1.0,
+          0.8952266,
+          0.6112835
+        ]
+      ],
+      "uniform_scale_to_source_bounds": 4.03249886796106,
+      "center_offset": [
+        0.7875000238418579,
+        1.9000000953674316,
+        2.4650001525878906
+      ]
+    },
+    "geometry_uv_comparison": {
+      "source_mesh_objects": 116,
+      "candidate_mesh_objects": 1,
+      "source_triangles": 7566,
+      "candidate_triangles": 7550,
+      "source_uv_corner_count": 22698,
+      "candidate_uv_corner_count": 22650,
+      "geometry_triangle_signature_delta": {
+        "missing": 2814,
+        "extra": 2798,
+        "exact": false
+      },
+      "uv_space_triangle_signature_delta": {
+        "missing": 16,
+        "extra": 0,
+        "exact": false
+      },
+      "position_uv_triangle_signature_delta": {
+        "missing": 2814,
+        "extra": 2798,
+        "exact": false
+      },
+      "note": "Returned Meshy GLB is centered and normalized; its geometry/UV signatures do not exactly preserve the prepared input. This is an exploratory comparison, not a gate waiver or proof that all changed triangle signatures represent large visible surface changes."
+    },
+    "material_report": {
+      "source_material_roles": 10,
+      "candidate_material_roles": 1,
+      "candidate_base_color": {
+        "size": [
+          4096,
+          4096
+        ],
+        "colorspace": "sRGB"
+      },
+      "candidate_metallic_roughness": {
+        "size": [
+          2048,
+          2048
+        ],
+        "colorspace": "Non-Color"
+      },
+      "candidate_normal": {
+        "size": [
+          4096,
+          4096
+        ],
+        "colorspace": "Non-Color"
+      }
+    },
+    "views_rendered_and_reviewed": [
+      "front",
+      "front-right",
+      "right",
+      "rear",
+      "left",
+      "SeniEntry corner/opening close-up"
+    ],
+    "visual_observation": "The detached candidate reads as weathered timber, muted plaster and dark slate, and the door/windows remain visible from the reviewed sides. A broad diagonal light/dark roof patch and bright exposed Seni log ends are visible at the close-up; no artistic or cultural acceptance is claimed. The close-up does not override the separate source construction review because returned geometry differs.",
+    "runtime_integrated": false,
+    "source_uv_normal_gates_closed": false,
+    "retries_or_additional_meshy_requests": 0
+  },
+  "missing_uv_area_check_2026_10_29": {
+    "method": "Existing neighbor_house_a_retexture_v2/attach_variant_a_retexture.py missing_uv_rows helper on Blender-imported prepared source and Meshy return; measured source triangle world area per missing UV-space signature.",
+    "source_sha256": "529d39a8341e54ceb4cf61156ebc2d4a1a794106526018af61f4fbf21ee89508",
+    "returned_sha256": "4a6a966f25a10e1e3f321a00ca9d73aa51bea8b3c58c4e0fc755d4e53660a475",
+    "uv_space_signature_delta": {
+      "missing": 16,
+      "extra": 0,
+      "exact": false
+    },
+    "missing_triangles": 16,
+    "node": "VariantB_PlasterAnnex_Dwelling_SeniOuter_LogCrown",
+    "material": "Runtime_VariantB_Seni_Constructive_85715c_PreRegrade",
+    "source_triangle_world_area_sum_m2": 3.105474982643325e-05,
+    "source_triangle_world_area_max_m2": 7.631778316863404e-06,
+    "source_triangle_world_area_min_m2": 1.5347723092418164e-12,
+    "source_all_triangle_world_area_sum_m2": 537.4597355868048,
+    "missing_share_percent_of_all_source_triangles": 5.778060712311279e-06,
+    "all_missing_areas_are_positive": true,
+    "assessment": "The missing UV signatures are narrow sliver triangles on one constructed log-crown mesh, not substantial uncovered surfaces. The prior strict UV-overlap and normal gates remain open; this area check does not waive them or claim the whole 16 are degenerate.",
+    "triangles": [
+      {
+        "polygon": 51,
+        "world_area_m2": 7.631778316863404e-06,
+        "uv_area": 3.949626403709772e-09,
+        "long_edge_m": 2.909999847414632,
+        "thin_edge_m": 5.245208740234375e-06
+      },
+      {
+        "polygon": 43,
+        "world_area_m2": 7.631778316863349e-06,
+        "uv_area": 3.949626403709772e-09,
+        "long_edge_m": 2.9099998474146105,
+        "thin_edge_m": 5.245208740234375e-06
+      },
+      {
+        "polygon": 49,
+        "world_area_m2": 4.1853118096587455e-06,
+        "uv_area": 1.974813201854886e-09,
+        "long_edge_m": 2.909999847412483,
+        "thin_edge_m": 2.8765031127962243e-06
+      },
+      {
+        "polygon": 44,
+        "world_area_m2": 3.468990144028795e-06,
+        "uv_area": 1.7279615516230251e-09,
+        "long_edge_m": 2.9099998474124615,
+        "thin_edge_m": 2.384185791015625e-06
+      },
+      {
+        "polygon": 45,
+        "world_area_m2": 2.7751921152230356e-06,
+        "uv_area": 1.4811099013911644e-09,
+        "long_edge_m": 2.909999847412266,
+        "thin_edge_m": 1.9073486328125e-06
+      },
+      {
+        "polygon": 47,
+        "world_area_m2": 2.7751921152230356e-06,
+        "uv_area": 1.4811099013911644e-09,
+        "long_edge_m": 2.909999847412149,
+        "thin_edge_m": 1.9073486328125e-06
+      },
+      {
+        "polygon": 46,
+        "world_area_m2": 2.081394086417277e-06,
+        "uv_area": 9.87406600927443e-10,
+        "long_edge_m": 2.909999847412266,
+        "thin_edge_m": 1.430511474609375e-06
+      },
+      {
+        "polygon": 25,
+        "world_area_m2": 2.239264347281278e-07,
+        "uv_area": 1.1089085205640004e-10,
+        "long_edge_m": 0.14170006687842993,
+        "thin_edge_m": 7.331371307373047e-06
+      },
+      {
+        "polygon": 13,
+        "world_area_m2": 1.1115626818991586e-07,
+        "uv_area": 4.687272792125441e-11,
+        "long_edge_m": 0.13814735413535034,
+        "thin_edge_m": 7.331371307373047e-06
+      },
+      {
+        "polygon": 30,
+        "world_area_m2": 1.0987632492742705e-07,
+        "uv_area": 5.979039485737303e-11,
+        "long_edge_m": 0.14170004626156682,
+        "thin_edge_m": 2.8765031127962243e-06
+      },
+      {
+        "polygon": 16,
+        "world_area_m2": 3.758898969863367e-08,
+        "uv_area": 2.133937471171521e-11,
+        "long_edge_m": 0.14169929627690478,
+        "thin_edge_m": 2.384185791015625e-06
+      },
+      {
+        "polygon": 15,
+        "world_area_m2": 2.25533938191802e-08,
+        "uv_area": 2.133937471171521e-11,
+        "long_edge_m": 0.1417006909208224,
+        "thin_edge_m": 1.430511474609375e-06
+      },
+      {
+        "polygon": 19,
+        "world_area_m2": 4.220623850414995e-12,
+        "uv_area": 1.7763568394002505e-15,
+        "long_edge_m": 7.331371307373047e-06,
+        "thin_edge_m": 2.495577504093447e-06
+      },
+      {
+        "polygon": 22,
+        "world_area_m2": 4.220623850414995e-12,
+        "uv_area": 1.7763568394002505e-15,
+        "long_edge_m": 7.331371307373047e-06,
+        "thin_edge_m": 2.495577504093447e-06
+      },
+      {
+        "polygon": 20,
+        "world_area_m2": 1.5347723092418164e-12,
+        "uv_area": 8.881784197001252e-16,
+        "long_edge_m": 2.495577504093447e-06,
+        "thin_edge_m": 1.6093254089355469e-06
+      },
+      {
+        "polygon": 21,
+        "world_area_m2": 1.5347723092418164e-12,
+        "uv_area": 8.881784197001252e-16,
+        "long_edge_m": 2.495577504093447e-06,
+        "thin_edge_m": 1.6093254089355469e-06
+      }
+    ]
+  },
+  "source_authoritative_material_graft_2026_10_29": {
+    "status": "source_candidate_visual_hold",
+    "operation": "one source-authoritative material graft using only PBR image payloads from the already-paid H002 Meshy retexture; no Meshy geometry, UV or transforms incorporated",
+    "mesh_task": {
+      "task_id": "01a18697-6785-7058-9e1b-e0e1aada649c",
+      "actual_meshy_debit_credits": 10,
+      "additional_credits_for_graft": 0
+    },
+    "source_glb": {
+      "path": "assets/source/blender/act1/neighbor_house_b_retexture_v1/variant-b-opaque-for-retexture.glb",
+      "bytes": 475256,
+      "sha256": "529d39a8341e54ceb4cf61156ebc2d4a1a794106526018af61f4fbf21ee89508"
+    },
+    "returned_pbr_glb": {
+      "path": "assets/source/blender/act1/neighbor_house_b_retexture_v1/meshy-retexture-returned.glb",
+      "bytes": 18847768,
+      "sha256": "4a6a966f25a10e1e3f321a00ca9d73aa51bea8b3c58c4e0fc755d4e53660a475",
+      "used_for": "PBR image payloads only"
+    },
+    "existing_helper": {
+      "path": "assets/source/blender/act1/neighbor_house_a_retexture_v2/attach_variant_a_retexture.py",
+      "sha256": "da1f054a7fb5032e39ce1b9d020892e489568f6820af077a394d07322ba44ec6"
+    },
+    "candidate_glb": {
+      "path": "assets/source/blender/act1/neighbor_house_b_retexture_v1/pbr_candidate_v1/variant-b-semantic-pbr-v1.glb",
+      "bytes": 18882000,
+      "sha256": "a01c747f229b6db758ea90b54804f7b509438f06e657efad9edff390a8c0406e",
+      "runtime_integrated": false
+    },
+    "source_preservation": {
+      "source_bin_bytes": 370604,
+      "source_bin_sha256": "3ca1596fd182797906345734f3141e850540a02ac161ba21f5170615a6794c15",
+      "candidate_bin_starts_with_exact_source_bin": true,
+      "source_nodes_accessors_scene_and_buffer_views_preserved": true,
+      "mesh_json_diff": "primitive material index only",
+      "geometry_uv_and_position_uv_signatures": {
+        "geometry": {
+          "missing": 0,
+          "extra": 0,
+          "exact": true
+        },
+        "uv": {
+          "missing": 0,
+          "extra": 0,
+          "exact": true
+        },
+        "position_uv": {
+          "missing": 0,
+          "extra": 0,
+          "exact": true
+        },
+        "triangles": 7566
+      },
+      "bounds_blender": {
+        "source": [
+          [
+            -3.2449987,
+            -1.7099999,
+            0.0
+          ],
+          [
+            4.8199987,
+            5.5100002,
+            4.9300003
+          ]
+        ],
+        "candidate": [
+          [
+            -3.2449987,
+            -1.7099999,
+            0.0
+          ],
+          [
+            4.8199987,
+            5.5100002,
+            4.9300003
+          ]
+        ]
+      }
+    },
+    "material": {
+      "name": "URMAN_NeighborB_PlasterAnnex_Generated_PBR_v1",
+      "base_color": {
+        "size": [
+          4096,
+          4096
+        ],
+        "colorspace": "sRGB",
+        "payload_sha256": "a3b220dc7d679f115f82a6a9315cb444e0cd519787fca84458a6ee31aee370f8"
+      },
+      "metallic_roughness": {
+        "size": [
+          2048,
+          2048
+        ],
+        "colorspace": "Non-Color",
+        "payload_sha256": "cf264f9ee386a7c9e2986a61b95fe5f779ebb292d4cbd524ec442e02bb209fce"
+      },
+      "normal": {
+        "size": [
+          4096,
+          4096
+        ],
+        "colorspace": "Non-Color",
+        "payload_sha256": "2f48dfe2efff9b9a25739a0b15e3f3e7b5dafb6ce7ca5fa3f3b56010469d7bd6"
+      },
+      "returned_map_payloads_byte_identical": true
+    },
+    "missing_uv_review_ref": "missing_uv_area_check_2026_10_29",
+    "preview_views": [
+      {
+        "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-h002-semantic-pbr-v1-preview/h002-graft-front-right.png",
+        "bytes": 1408237,
+        "sha256": "04f51a80068b0a2a3854ad848f0afa1de86c725385662322d6230ac5747c45c9"
+      },
+      {
+        "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-h002-semantic-pbr-v1-preview/h002-graft-seni-entry-corner.png",
+        "bytes": 1761889,
+        "sha256": "f6320e3e52310dbd977fbe62b98e3f88023b5947855e784131cc63549cf96ebc"
+      }
+    ],
+    "visual_observation": "The saved front-right preview still has a broad diagonal pale patch across the main roof; the Seni-entry view shows log end faces noticeably lighter/beiger than adjacent weathered logs. This remains a source-only candidate and is not art/cultural/native accepted.",
+    "remaining_gates": [
+      "root material review",
+      "source UV/normal gates remain open",
+      "Godot import/runtime scene review",
+      "author/cultural acceptance"
+    ],
+    "intermediate_archive": {
+      "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-h002-semantic-pbr-v1-build-intermediates.zip",
+      "bytes": 7473,
+      "sha256": "e7274d02a194f7190417734e2911b451e4062d4d2db15440e904bbb03d1c7612",
+      "zip_crc_passed": true,
+      "members": [
+        {
+          "name": "h002_source_authoritative_graft.py",
+          "bytes": 6206,
+          "sha256": "94438f45248e54cfb696c454e99534801848191830dc60cbb7fb6b9e8552387d",
+          "crc32": "11fc87fe"
+        },
+        {
+          "name": "h002_source_authoritative_graft.log",
+          "bytes": 85625,
+          "sha256": "200e89d3ee52c1da21f8cbdea19e144b49d77089f094ef8f7c494377854ca67d",
+          "crc32": "d565b75f"
+        }
+      ]
+    },
+    "cleanup": "Archived and CRC/SHA-verified only this run temporary graft script and Blender log, then removed those /tmp copies. Kept original source and Meshy return GLBs untouched."
+  },
+  "source_authoritative_roof_preserving_graft_2026_10_29": {
+    "status": "source_candidate_ready_for_root_runtime_decision",
+    "scope": "PBR material-only partial replacement. Preserve exact source material assignments on listed roof and roof-detail roles; assign the already-paid Meshy PBR material to all other 93 prepared opaque mesh nodes. This does not claim every dwelling family is generated.",
+    "source_glb": {
+      "path": "assets/source/blender/act1/neighbor_house_b_retexture_v1/variant-b-opaque-for-retexture.glb",
+      "bytes": 475256,
+      "sha256": "529d39a8341e54ceb4cf61156ebc2d4a1a794106526018af61f4fbf21ee89508"
+    },
+    "mesh_task_reused": {
+      "task_id": "01a18697-6785-7058-9e1b-e0e1aada649c",
+      "prior_actual_debit_credits": 10,
+      "additional_credits": 0,
+      "returned_glb_sha256": "4a6a966f25a10e1e3f321a00ca9d73aa51bea8b3c58c4e0fc755d4e53660a475",
+      "returned_mesh_geometry_used": false
+    },
+    "existing_helper": {
+      "path": "assets/source/blender/act1/neighbor_house_a_retexture_v2/attach_variant_a_retexture.py",
+      "sha256": "da1f054a7fb5032e39ce1b9d020892e489568f6820af077a394d07322ba44ec6"
+    },
+    "candidate_glb": {
+      "path": "assets/source/blender/act1/neighbor_house_b_retexture_v1/pbr_candidate_v2/variant-b-roof-preserved-pbr-v2.glb",
+      "bytes": 18881976,
+      "sha256": "abad5abd45ee8418a73efb55e8f0039f6140a113a2959ee82645578bd0f40006",
+      "runtime_integrated": false
+    },
+    "material_assignment": {
+      "preserved_source_roof_detail_node_count": 23,
+      "preserved_source_material_node_roles": [
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_Back_VergeLeft_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 0,
+              "name": "URMAN_Wood_Weathered"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_Back_VergeRight_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 0,
+              "name": "URMAN_Wood_Weathered"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_ChimneyCap_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 1,
+              "name": "URMAN_Roof_WetSlate"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_ChimneyFlashing_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 2,
+              "name": "URMAN_Metal_Dulled"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_ChimneyStack_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 3,
+              "name": "URMAN_Plaster_Shadow"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_Downpipe_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 2,
+              "name": "URMAN_Metal_Dulled"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_DownpipeSplash_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 4,
+              "name": "URMAN_Stone_Mossy"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_Eave_-3.1_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 0,
+              "name": "URMAN_Wood_Weathered"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_Eave_3.1_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 0,
+              "name": "URMAN_Wood_Weathered"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_Front_VergeLeft_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 0,
+              "name": "URMAN_Wood_Weathered"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_Front_VergeRight_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 0,
+              "name": "URMAN_Wood_Weathered"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_Gutter_+1_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 6,
+              "name": "URMAN_Wood_WetShadow"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_Gutter_-1_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 6,
+              "name": "URMAN_Wood_WetShadow"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_RafterTail_+1_00_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 0,
+              "name": "URMAN_Wood_Weathered"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_RafterTail_+1_01_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 0,
+              "name": "URMAN_Wood_Weathered"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_RafterTail_-1_00_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 0,
+              "name": "URMAN_Wood_Weathered"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_RafterTail_-1_01_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 0,
+              "name": "URMAN_Wood_Weathered"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_RidgeBeam_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 0,
+              "name": "URMAN_Wood_Weathered"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_Roof_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 1,
+              "name": "URMAN_Roof_WetSlate"
+            },
+            {
+              "index": 6,
+              "name": "URMAN_Wood_WetShadow"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_SeniFrontRoofInfill_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 0,
+              "name": "URMAN_Wood_Weathered"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_SeniRearRoofInfill_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 0,
+              "name": "URMAN_Wood_Weathered"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_SeniRoof_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 1,
+              "name": "URMAN_Roof_WetSlate"
+            }
+          ]
+        },
+        {
+          "node": "VariantB_PlasterAnnex_Dwelling_StoveFlueFlashing_LOD0",
+          "source_primitive_materials": [
+            {
+              "index": 2,
+              "name": "URMAN_Metal_Dulled"
+            }
+          ]
+        }
+      ],
+      "all_other_prepared_opaque_node_count": 93,
+      "generated_material_index": 10,
+      "generated_material_name": "URMAN_NeighborB_PlasterAnnex_Generated_PBR_v2",
+      "generated_material_definition": "4K base color sRGB; 2K metallic/roughness Non-Color; 4K normal Non-Color; exact already-paid Meshy image payloads",
+      "source_material_definitions_0_through_9_unchanged": true,
+      "source_material_indices_restored_only_on_listed_nodes": true,
+      "generated_pbr_assigned_to_every_other_opaque_primitive": true,
+      "boarded_gable_nodes_receive_pbr": "Back_BoardedGable and Front_BoardedGable are wall cladding, not roof material roles."
+    },
+    "source_preservation": {
+      "source_bin_bytes": 370604,
+      "source_bin_sha256": "3ca1596fd182797906345734f3141e850540a02ac161ba21f5170615a6794c15",
+      "candidate_bin_starts_with_exact_source_bin": true,
+      "nodes_accessors_scenes_and_all_original_buffer_views_exact": true,
+      "only_mesh_json_differences_are_material_indices": true,
+      "blender_reimport_signatures": {
+        "geometry_exact": true,
+        "uv_exact": true,
+        "position_uv_exact": true,
+        "triangles": 7566
+      },
+      "bounds_blender": {
+        "source": [
+          [
+            -3.2449987,
+            -1.7099999,
+            0.0
+          ],
+          [
+            4.8199987,
+            5.5100002,
+            4.9300003
+          ]
+        ],
+        "candidate": [
+          [
+            -3.2449987,
+            -1.7099999,
+            0.0
+          ],
+          [
+            4.8199987,
+            5.5100002,
+            4.9300003
+          ]
+        ]
+      }
+    },
+    "actual_preview": {
+      "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-h002-semantic-pbr-v1-preview/h002-graft-roof-preserved-front-right.png",
+      "bytes": 1329308,
+      "sha256": "524a5e81058fae22b380064317d2411ba5951168c0683cd4f80c17275d134752",
+      "review": "The broad diagonal roof patch from v1 is absent after restoring the source slate material; Meshy PBR remains on walls/door/other non-roof opaque parts. Log ends remain comparatively light, as accepted for this candidate. This is a single source preview, not scene or author acceptance."
+    },
+    "runtime_activation_read_only_plan": {
+      "existing_h001_pattern": {
+        "file": "game/scripts/Act1ConnectedWorld.VariantAPbr.cs",
+        "model_path": "res://assets/models/act1/neighbor-house-a-pbr-v2.glb",
+        "catalog_id": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+        "dwelling_component": "VillageParcel_VariantA_TimberGable_Dwelling",
+        "relative_path": "Visual/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Dwelling",
+        "method": "GraftPrivateVariantAPbrFamily"
+      },
+      "h002_target_from_existing_scene": "game/scripts/Act1ConnectedWorld.cs mounts VillageParcel_VariantB_PlasterAnnex/VillageParcel_VariantB_PlasterAnnex_Dwelling on east arrival and west return parcels.",
+      "h002_catalog_id_from_existing_b_outbuilding_owner": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+      "h002_dwelling_component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
+      "h002_dwelling_relative_path": "Visual/VillageParcel_VariantB_PlasterAnnex/VillageParcel_VariantB_PlasterAnnex_Dwelling",
+      "mesh_name_prefix": "VariantB_PlasterAnnex_Dwelling_",
+      "existing_variant_b_owner_scope": "game/scripts/Act1ConnectedWorld.VariantBOutbuildingPbr.cs handles only VillageParcel_VariantB_PlasterAnnex_Outbuilding. No Variant B dwelling graft was changed or claimed here.",
+      "runtime_integration": "not performed; root decides activation and runtime asset destination."
+    },
+    "source_uv_normal_and_art_cultural_acceptance_gates": "remain open; prior source HOLD fields are preserved unchanged",
+    "preview_record": {
+      "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-h002-semantic-pbr-v1-preview/h002-graft-roof-preserved-front-right.png",
+      "bytes": 1329308,
+      "sha256": "524a5e81058fae22b380064317d2411ba5951168c0683cd4f80c17275d134752"
+    },
+    "intermediate_archive": {
+      "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-h002-semantic-pbr-v2-build-intermediates.zip",
+      "bytes": 9399,
+      "sha256": "333b7720517c1d57f896f930f29e66d4c9fe0c615b2aaa0cac8e7c06d53676b1",
+      "zip_crc_passed": true,
+      "members": [
+        {
+          "name": "h002_roof_preserved_graft.py",
+          "bytes": 9547,
+          "sha256": "179bfc1679837eae1cb24efe0d381a27043eb1e63c107f23cfe28cbed39f432a",
+          "crc32": "1b3a5ead"
+        },
+        {
+          "name": "h002_roof_preserved_graft.log",
+          "bytes": 63546,
+          "sha256": "f532d3e439dd16f542d33c0ec07cda66e50e16707f31281f9a2c1b11e80f2dca",
+          "crc32": "f42929fc"
+        },
+        {
+          "name": "h002_check_names.py",
+          "bytes": 568,
+          "sha256": "c06fe56c57ccc1a53a88cbf8fbc762df988667b3dcb1e5702f039873cd4fab3b",
+          "crc32": "302f65e0"
+        },
+        {
+          "name": "h002_check_names.log",
+          "bytes": 25834,
+          "sha256": "8125a8dae305e2f1805bebc5a4936f56cf7c09fe86bb057f66e16b78032dfc08",
+          "crc32": "d1f49eb2"
+        }
+      ]
+    },
+    "cleanup": "Archived and CRC/SHA-verified this step temporary runner/log and one-off Blender name inspection helper/log, then removed those exact /tmp copies. Source/return GLBs, prior v1 candidate and prior views remain untouched."
+  },
+  "cleanup_2026_10_29_reproducible_intermediates": {
+    "archive": {
+      "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-h002-reproducible-intermediates-2026-10-29.zip",
+      "bytes": 29243737,
+      "sha256": "3464bac317ba2820d636e031cc6d0be1f44ef8963cd3dec0e6f11bb204746018",
+      "zip_crc_passed": true,
+      "member_count": 11,
+      "uncompressed_bytes": 31906756,
+      "members": [
+        {
+          "original_path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-h002-semantic-pbr-v1-preview/h002-graft-front-right.png",
+          "archive_member": "h002/old-graft-v1/h002-graft-front-right.png",
+          "bytes": 1408237,
+          "sha256": "04f51a80068b0a2a3854ad848f0afa1de86c725385662322d6230ac5747c45c9",
+          "crc32": "904a7b11"
+        },
+        {
+          "original_path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-h002-semantic-pbr-v1-preview/h002-graft-seni-entry-corner.png",
+          "archive_member": "h002/old-graft-v1/h002-graft-seni-entry-corner.png",
+          "bytes": 1761889,
+          "sha256": "f6320e3e52310dbd977fbe62b98e3f88023b5947855e784131cc63549cf96ebc",
+          "crc32": "86846da5"
+        },
+        {
+          "original_path": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_b_retexture_v1/pbr_candidate_v1/variant-b-semantic-pbr-v1.glb",
+          "archive_member": "h002/old-graft-v1/variant-b-semantic-pbr-v1.glb",
+          "bytes": 18882000,
+          "sha256": "a01c747f229b6db758ea90b54804f7b509438f06e657efad9edff390a8c0406e",
+          "crc32": "64261f2d"
+        },
+        {
+          "original_path": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_b_retexture_v1/prepare.log",
+          "archive_member": "h002/preparation/prepare.log",
+          "bytes": 286751,
+          "sha256": "e850565eb2dccc94110572fa6bf0b56cfe39fcf1d5f2c85c18aac8bb765f1560",
+          "crc32": "86f481a3"
+        },
+        {
+          "original_path": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_b_retexture_v1/variant-b-opaque-for-retexture.blend",
+          "archive_member": "h002/preparation/variant-b-opaque-for-retexture.blend",
+          "bytes": 2221568,
+          "sha256": "176c28c3b2833a55a6b35a782717a6231c370ffb9000a723dcad315b4fc55443",
+          "crc32": "621e775e"
+        },
+        {
+          "original_path": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_b_retexture_v1/actual-glb-front.png",
+          "archive_member": "h002/source-previews/actual-glb-front.png",
+          "bytes": 1182981,
+          "sha256": "ac642a31f6c67d6682a681767ff0546f213c6a9a78d353eaeb9791351de32725",
+          "crc32": "8bcefc75"
+        },
+        {
+          "original_path": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_b_retexture_v1/actual-glb-left.png",
+          "archive_member": "h002/source-previews/actual-glb-left.png",
+          "bytes": 1092754,
+          "sha256": "2f9850a3c036a284c17024639c27a67694a831b82409350a399917981b66b191",
+          "crc32": "48becbca"
+        },
+        {
+          "original_path": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_b_retexture_v1/actual-glb-rear.png",
+          "archive_member": "h002/source-previews/actual-glb-rear.png",
+          "bytes": 1169927,
+          "sha256": "1648563c02d654590a5300053e5f79a51b27ac7e29361df39e77a11c6436512c",
+          "crc32": "7783d7a3"
+        },
+        {
+          "original_path": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_b_retexture_v1/actual-glb-right.png",
+          "archive_member": "h002/source-previews/actual-glb-right.png",
+          "bytes": 1139851,
+          "sha256": "f8bbdf2039d217c414425e571b6fcfaa6cb1a68d0a7c325142fb8f0e731f298c",
+          "crc32": "0d78d23b"
+        },
+        {
+          "original_path": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_b_retexture_v1/actual-glb-senientry-corner-opening.png",
+          "archive_member": "h002/source-previews/actual-glb-senientry-corner-opening.png",
+          "bytes": 1375562,
+          "sha256": "ce89bf860be25ab5a4d0807e508177c124be4001e2a8c7e29ae38c50a9c8416c",
+          "crc32": "5af0f858"
+        },
+        {
+          "original_path": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_b_retexture_v1/actual-glb-senirear-corner-opening.png",
+          "archive_member": "h002/source-previews/actual-glb-senirear-corner-opening.png",
+          "bytes": 1385236,
+          "sha256": "0c70f27229bb34761c58544d63ff96f97b86af14abf11a63f27fc528553497a2",
+          "crc32": "3f6ff93f"
+        }
+      ]
+    },
+    "deleted_reproducible_duplicates": true,
+    "deleted_file_count": 11,
+    "deleted_uncompressed_bytes": 31906756,
+    "standalone_texture_maps_removed": 0,
+    "texture_provenance": "All Meshy PBR map payloads remain embedded in the preserved raw Meshy return GLB; no standalone map files were present in H002.",
+    "rebuild_dependencies_preserved": [
+      "variant-b-opaque-for-retexture.glb (frozen source)",
+      "meshy-retexture-returned.glb (raw Meshy return with embedded maps)",
+      "prepare_variant_b_retexture.py",
+      "attach_variant_a_retexture.py",
+      "candidate-receipt.json",
+      "accepted ImageGen reference and its source receipt in neighbor_house_b_reference_v1"
+    ],
+    "historical_unique_files_preserved": [
+      "candidate-receipt.json",
+      "wrapper-roof-slot-failure-receipt.json",
+      "prepare-wrapper-roof-slot-failure.log",
+      "source reference/receipt",
+      "frozen source GLB",
+      "raw Meshy return GLB",
+      "roof-preserved v2 GLB",
+      "roof-preserved v2 preview"
+    ],
+    "active_native_dependency": "native_episode_oct29 confirmed it uses none of the archived files; v2 GLB and candidate receipt remain in place until its runtime copy/import and root review.",
+    "restore_note": "Each member is recoverable at its original path from this archive. The old graft v1 is reproducible from frozen source + raw Meshy return + existing helper; source views use the camera parameters in this receipt; the prep .blend and log are reproducible from the preserved source and prepare recipe.",
+    "verified_removal": "After ZIP CRC and every member SHA/byte length matched, deleted only those exact 11 listed files and removed the now-empty pbr_candidate_v1 directory."
+  },
+  "runtime_integration_2026_10_29": {
+    "state": "source_reviewed_compiled_native_pending",
+    "root_decision": "Root reviewed final roof-preserved front-right and accepts walls/timber as scene candidate; source roof/detail materials retained. Does not close art/cultural/source-normal/UV gates.",
+    "runtime_glb": "game/assets/models/act1/neighbor-house-b-pbr-v2.glb",
+    "sha256": "abad5abd45ee8418a73efb55e8f0039f6140a113a2959ee82645578bd0f40006",
+    "code": "game/scripts/Act1ConnectedWorld.VariantBDwellingPbr.cs",
+    "scope": "Addressed VariantB dwellings only, no modeloverride; generated93nodes replace matchingvisuals afterphysics. Roof23/glass9/snow stay live. Preserves live transforms,visibility,shadow and palette tint; map-preserving cached shallowduplicate forpaint.",
+    "verification": "Exact116name contract versus live123+3crowns-10glass/snow. Independent review foundflatpaintoverride maskingmaps; correctionPASS. Gamebuild0warnings0errors17.66s; gitdiffcheck. Nativeimport/render not yet observed."
+  }
 }

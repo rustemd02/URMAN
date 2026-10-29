@@ -544,6 +544,7 @@ public partial class Act1ConnectedWorld : Node3D
         // Keep addressed Variant A source dwellings through every authored
         // contact and collision pass, then graft their opaque PBR presentation.
         GraftPrivateVariantAPbrFamily();
+        GraftPrivateVariantBDwellingPbrFamily();
         GraftH049OutbuildingPbr();
         GraftPrivateVariantBOutbuildingPbrFamily();
         GraftPrivateVariantCOutbuildingPbrFamily();
