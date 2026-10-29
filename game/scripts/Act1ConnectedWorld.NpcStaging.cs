@@ -177,10 +177,10 @@ public partial class Act1ConnectedWorld
 
     /// <summary>
     /// Presentation-only idle behaviour for the NPCs the player talks to
-    /// outside the story-driven turns (Alsu, Timur, Mansur, Naila): they turn
-    /// to face the player who stands in conversation range and return to their
-    /// rest yaw when the player walks away. Gulsina and Rinat keep their
-    /// existing authored turns.
+    /// outside the story-driven turns (Alsu, Timur, Mansur, Naila, and the
+    /// school staff member): they turn to face the player who stands in
+    /// conversation range and return to their rest yaw when the player walks
+    /// away. Gulsina and Rinat keep their existing authored turns.
     /// </summary>
     private void UpdateConversationFacing()
     {
@@ -196,7 +196,7 @@ public partial class Act1ConnectedWorld
             // The visible actors are separate siblings of their hidden ray
             // targets. Turning MansurNpc/NailaNpc only rotated those colliders
             // and left the people motionless during conversation.
-            foreach (var name in new[] { "Npc_alsu", "Npc_timur_hazrat", "Npc_mansur", "Npc_naila" })
+            foreach (var name in new[] { "Npc_alsu", "Npc_timur_hazrat", "Npc_mansur", "Npc_naila", "Npc_school_staff" })
             {
                 if (FindChild(name, recursive: true, owned: false) is Node3D npc)
                 {

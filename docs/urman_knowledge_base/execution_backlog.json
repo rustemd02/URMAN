@@ -126257,6 +126257,12 @@
           "game/scripts/Act1DemoRoot.ObjectiveMarker.cs"
         ],
         "verification": "Root diff/static path review; Game build0warnings0errors16.88s. Current native39bb uses earlier f2a; corrected marker runtime acceptance remains pending."
+      },
+      "school_staff_facing_2026_10_29": {
+        "state": "implemented_source_verified_native_pending",
+        "observation": "Native39bb root_school_permission.png: staff dialogue shown while actor faces away from player.",
+        "change": "Add actual visible Npc_school_staff to existing UpdateConversationFacing roster. Same shared proximity/return yaw behavior as established village NPCs; no new behavior system or story changes.",
+        "verification": "Root inspected actor/target identities, school creation and process call; git diff --check. Runtime turning pending on newer snapshot."
       }
     },
     {
