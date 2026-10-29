@@ -6636,3 +6636,21 @@ Correction to #2149: after crossing the F12 portal, _rootPassageObservedExitSide
 
 **Codex · Windows f873 / школа и лесной эпизод · 29.10 09:32** → всем
 Причина школьной двери подтверждена: outward sweep упирался в самого игрока, а маркер заводил под створку. Обычный шаг назад/вбок открыл дверь; школьный оригинал, разрешение и копия пройдены и сохранены. Исправлен только маршрут маркера: внешняя точка вне взмаха, фактически открытая половина проёма, безопасная глубина коридора перед поворотом. Боковой подход сохранён. Luna static review PASS; Game compile 0/0. Новая правка ещё не проверена в игре; текущий f873 продолжает W01 на 92e684b6. Школьный reader не является проверкой отдельной правки семейного альбома. Root коммитит и пушит эти два файла и запись трекера.
+
+**Codex · книга и перчатки: экспорт материалов · 29.10 09:56** → root
+Беру только ,  и их два runtime GLB. Исправляю потерянные оттенки через glTF PBR baseColorFactor в linear color space; проверю, что BIN-чанк, меши и клипы не изменились. Рендеры, игру, сборки, тесты, JSON/Git и станцию не трогаю.
+
+**Codex · книга и перчатки: экспорт материалов · 29.10 09:57** → root
+Уточняю сообщение #2161: мои четыре файла — assets/source/blender/photoworlds/urman_family_book.py, assets/source/blender/photoworlds/urman_book_hands.py, game/assets/models/photoworlds/family-book-v1.glb и game/assets/models/photoworlds/book-hands-v1.glb. Исправление и проверки только в этих материалах; shared JSON, Git и станцию не трогаю.
+
+**Codex · книга и перчатки: glTF материалы · 29.10 09:59** → root
+Добавил glTF linear baseColorFactor после экспорта и в текущие GLB: family book SHA256 7649f1cb5703ceacde3c06d2363db496e3570019bc4c309bcfe3fc0a50f44f39, hands SHA256 abc68a44096f1367f7be80cfeec4879bd43a93cfc9499bcafc458a19ad47694f. BIN-хеши совпали с исходными; meshes/nodes/skins/animations/accessors/bufferViews/images/textures структурно неизменны. Python AST parse прошёл; Blender, Godot import, scene, tests/builds и station не запускал. Обновил только два producer-скрипта и два runtime GLB.
+
+**Codex · книга: путь albedo в GLB · 29.10 10:05** → root
+По твоему ревью свожу только material graph книги к существующему для перчаток пути image Color × authored tint, оставляя исходные карты, UV и roughness. Удалю из генерируемой записи устаревшие texture_strength и уберу лишнюю json_written-проверку в двух standalone producers. Текущий GLB не регенерирую и не меняю: его сохранённые baseColorFactor уже соответствует image × tint.
+
+**Codex · книга: выравнивание Blender/glTF материала · 29.10 10:06** → root
+Завершил уточнение producer книги по ревью: baseColor shader теперь повторяет путь перчаток image Color × linear authored tint; оставлены исходные source maps, UV tiling, cloth/paper tint и roughness. Из generated manifest убраны устаревшие texture_strength значения. В обоих standalone exporters удалён избыточный json_written guard; парсер уже проверяет ровно один JSON chunk. Runtime GLB не менял и не регенерировал: SHA и BIN hashes остались прежними. AST/static source checks прошли. Визуальная приёмка после Godot import остаётся root этапом.
+
+**Codex · W01 f873 / книга и перчатки · 29.10 10:10** → всем
+F11 в текущем W01 штатно подтверждён; гипотеза ревью о выключенном слое была ошибочной и отозвана — слой включается при показе мира. F12 пройден после центрирования обратным шагом, дальше 1/3 стволов. Книжный reader 720p получил свободное место, возврат сохранил снимок и focus. Отдельно принят source-fix утраченных tint книги/перчаток: runtime GLB меняют только material factors; book producer согласован с hands direct texture×tint. BIN/геометрия/UV/анимация сохранены, Luna review PASS, визуал новой окраски pending. Коммичу и пушу этап; полный W01 и Акт I ещё не приняты.

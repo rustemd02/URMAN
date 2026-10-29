@@ -108874,7 +108874,7 @@
         "cleanup_handoff_resolved_2026_10_20": "Current W01Controller uses nullable _prologueUiViewport; subscribes and stores actual viewport in BuildPrologueUi, unsubscribes only if nonnull/valid in ExitTree and clears it. Root source-confirmed; no new patch/build/run. Original failed Mac attempt remains NOT_ACCEPTED; working native UI channel still needed."
       },
       "photo_reader_space_2026_10_29": {
-        "state": "implemented_compiled_native_pending",
+        "state": "front_reader_space_and_return_native_verified",
         "source_evidence": {
           "job_id": "39bb625fde934039aab04bc653be87b0",
           "head": "f2a2b5bd",
@@ -108887,7 +108887,14 @@
           "game/scripts/JournalUi.PhotoBook.ImageReader.cs"
         ],
         "verification": "Root/Luna static lifecycle review and current native defect frame; Gamebuild0warnings0errors17.23s; no newtests.",
-        "acceptance_remaining": "Still pending: f873 school_album_reader.png uses DocumentImageReader, not JournalUi.PhotoBook.ImageReader, so it does not verify this fix. Next natural family-photo inspection must confirm freed space and return focus."
+        "acceptance_remaining": "This finite layout fix is verified for front/text/return. Broader PW-014 back/common reader and lifecycle acceptance remain separate; do not repeat this unchanged front case.",
+        "native_evidence": {
+          "job_id": "f8738c66a79b482bae316ae394636597",
+          "head": "92e684b6",
+          "reader": "/Users/unterlantas/.codex/local_asset_archive/URMAN-door-f8738c66-2026-10-29/family_photo_reader_current.png",
+          "return": "/Users/unterlantas/.codex/local_asset_archive/URMAN-door-f8738c66-2026-10-29/family_album_return_verified.png",
+          "result": "720p ordinary P-FOREST front reader occupies freed album area; switching to text works; Return restores same P-FOREST selection and keyboard focus on Рассмотреть снимок."
+        }
       }
     },
     {
@@ -110380,6 +110387,19 @@
         },
         "native": "NOT_RUN for changed source; d884 is prerequisite acquired/mounted P-FOREST and current 2D UI, not proof of this new physical overlay.",
         "remaining": "Actual native front/UV/framing/caption/readability, selection switch, close/session lifecycle; walking grip/typed physical multi-page turn/all photos/FOV/art remain open."
+      },
+      "export_material_tint_2026_10_29": {
+        "state": "implemented_source_verified_native_pending",
+        "observation": "f873 w01_entry_result.png is ordinary carry-book view: book cover and gloves render almost white, not authored dark tints. Embedded texture maps exist; exported GLBs omitted baseColorFactor.",
+        "result": "Both standalone producers and runtime GLBs preserve authored linear tints through glTF baseColorFactor. Book shader intentionally aligned to existing hands direct image Color × tint path; previous grayscale MapRange removed so Blender and glTF agree. Geometry/UV/animations unchanged.",
+        "files": [
+          "assets/source/blender/photoworlds/urman_family_book.py",
+          "assets/source/blender/photoworlds/urman_book_hands.py",
+          "game/assets/models/photoworlds/family-book-v1.glb",
+          "game/assets/models/photoworlds/book-hands-v1.glb"
+        ],
+        "verification": "Luna independent static review PASS after shader alignment; Python AST; GLB2 structural parse; only JSON material factors changed, BIN byte-identical to prechange. git diff --check. No renderer/import/game rerun.",
+        "remaining": "On next otherwise necessary native snapshot, inspect carry/book material colors in the actual scene. No visual acceptance claimed."
       }
     },
     {
