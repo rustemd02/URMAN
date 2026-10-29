@@ -42,6 +42,7 @@ public partial class JournalUi
             ["S-NOW"] = ("res://assets/textures/photobook/backs-v1/s-now-back.svg", "Сегодня. Снимал Айдар.")
         };
     private VBoxContainer _photoBookPage = null!;
+    private HSplitContainer _photoBookAlbumSplit = null!;
     private ItemList _photoBookList = null!;
     private VBoxContainer _photoBookRightPane = null!;
     private ScrollContainer _photoBookScroll = null!;
@@ -100,7 +101,7 @@ public partial class JournalUi
     {
         var layout = GetNode<VBoxContainer>("Screen/Book/Layout");
         _tabs.AddTab("Фотоальбом");
-        var spread = new HSplitContainer
+        _photoBookAlbumSplit = new HSplitContainer
         {
             Name = "PhotoBook",
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
@@ -118,7 +119,7 @@ public partial class JournalUi
             Visible = false
         };
         _photoBookPage.AddChild(_photoBookPreparation);
-        _photoBookPage.AddChild(spread);
+        _photoBookPage.AddChild(_photoBookAlbumSplit);
         layout.AddChild(_photoBookPage);
 
         _photoBookList = new ItemList
@@ -131,7 +132,7 @@ public partial class JournalUi
             MaxColumns = 1,
             FixedIconSize = new Vector2I(60, 40)
         };
-        spread.AddChild(_photoBookList);
+        _photoBookAlbumSplit.AddChild(_photoBookList);
         _photoBookList.ItemSelected += SelectPhotoBookPhoto;
 
         _photoBookRightPane = new VBoxContainer
@@ -140,7 +141,7 @@ public partial class JournalUi
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
             SizeFlagsVertical = Control.SizeFlags.ExpandFill
         };
-        spread.AddChild(_photoBookRightPane);
+        _photoBookAlbumSplit.AddChild(_photoBookRightPane);
         _photoBookScroll = new ScrollContainer
         {
             Name = "PhotoSpreadScroll",
@@ -947,6 +948,8 @@ public partial class JournalUi
         reader.SetImages(new[] { study });
         _photoBookImageReaderLaunchButton = _photoBookCommonRelationsInspectButton;
         _photoBookRightPane.Visible = false;
+        if (_photoBookAlbumSplit is { } albumSplit && GodotObject.IsInstanceValid(albumSplit))
+            albumSplit.Visible = false;
         header.Visible = true;
         reader.ShowPicture(true);
     }

@@ -108872,6 +108872,22 @@
           "cache": ".godot/imported/prologue-ground-f00-f03-v1.glb-d81bc39b455be2936c01477aac4bce7b.scn"
         },
         "cleanup_handoff_resolved_2026_10_20": "Current W01Controller uses nullable _prologueUiViewport; subscribes and stores actual viewport in BuildPrologueUi, unsubscribes only if nonnull/valid in ExitTree and clears it. Root source-confirmed; no new patch/build/run. Original failed Mac attempt remains NOT_ACCEPTED; working native UI channel still needed."
+      },
+      "photo_reader_space_2026_10_29": {
+        "state": "implemented_compiled_native_pending",
+        "source_evidence": {
+          "job_id": "39bb625fde934039aab04bc653be87b0",
+          "head": "f2a2b5bd",
+          "frame": "/Users/unterlantas/.codex/local_asset_archive/URMAN-w01-39bb625f-2026-10-29/photo_reader.png",
+          "observation": "Reader visibly shares vertical space with the still-visible empty album split/list; photo remains small. The frame proves opening only, not a photo observation fact."
+        },
+        "result": "Existing album HSplit hidden for front/back/common study reader and restored by common close before focus restoration; image reader contents, text/zoom, current photo, story gates unchanged.",
+        "files": [
+          "game/scripts/JournalUi.PhotoBook.cs",
+          "game/scripts/JournalUi.PhotoBook.ImageReader.cs"
+        ],
+        "verification": "Root/Luna static lifecycle review and current native defect frame; Gamebuild0warnings0errors17.23s; no newtests.",
+        "acceptance_remaining": "On next otherwise necessary Windows check, verify reader receives freed area and return restores selected album and keyboard focus; current39bb snapshot does not include fix."
       }
     },
     {

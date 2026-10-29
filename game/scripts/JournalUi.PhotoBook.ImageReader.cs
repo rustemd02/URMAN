@@ -123,6 +123,8 @@ public partial class JournalUi
         });
         _photoBookImageReaderLaunchButton = _photoBookInspectFrontButton;
         _photoBookRightPane.Visible = false;
+        if (_photoBookAlbumSplit is { } albumSplit && GodotObject.IsInstanceValid(albumSplit))
+            albumSplit.Visible = false;
         header.Visible = true;
         reader.ShowPicture(true);
     }
@@ -167,6 +169,8 @@ public partial class JournalUi
         });
         _photoBookImageReaderLaunchButton = _photoBookInspectBackButton;
         _photoBookRightPane.Visible = false;
+        if (_photoBookAlbumSplit is { } albumSplit && GodotObject.IsInstanceValid(albumSplit))
+            albumSplit.Visible = false;
         header.Visible = true;
         reader.ShowPicture(true);
     }
@@ -201,6 +205,8 @@ public partial class JournalUi
             titleLabel.Text = string.Empty;
         if (_photoBookRightPane is not null && GodotObject.IsInstanceValid(_photoBookRightPane))
             _photoBookRightPane.Visible = true;
+        if (_photoBookAlbumSplit is { } albumSplit && GodotObject.IsInstanceValid(albumSplit))
+            albumSplit.Visible = true;
 
         var launchButton = _photoBookImageReaderLaunchButton;
         _photoBookImageReaderLaunchButton = null;
