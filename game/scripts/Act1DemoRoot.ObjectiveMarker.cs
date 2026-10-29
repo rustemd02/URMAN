@@ -349,9 +349,9 @@ public partial class Act1DemoRoot
         out Vector3 waypoint, out string label)
     {
         waypoint = default;
-        label = "Учительская";
         var schoolCopyGoal = mission.InteractionId is
             "urman.fullgame:interaction/pw-school-copy-source" or "urman.fullgame:interaction/pw-school-copy-permission";
+        label = schoolCopyGoal ? "Дверь учительской" : "Выход из школы";
         if (_bridge?.CurrentZoneId != "village_day" || (!schoolCopyGoal && mission.TargetZoneId != "village_day"))
             return false;
 
@@ -364,13 +364,13 @@ public partial class Act1DemoRoot
         if (!ObjectiveMarkerTargetAvailable(school, mission, endpoint: true)) return false;
         var local = school!.ToLocal(playerPosition);
         // SquareInteriors.School owns the 20 x 11 shell, corridor wall Z2.9 and these four doors.
-        const float corridorZ = 4.2f, staffX = -7.8f, roomSideZ = 2.35f;
+        const float corridorZ = 3.9f, staffX = -7.8f, roomSideZ = 2.35f;
         var inside = Mathf.Abs(local.X) < 9.65f && Mathf.Abs(local.Z) < 5.15f
             && local.Y > -.2f && local.Y < 3.4f;
         var clearingEntrance = Mathf.Abs(local.X) <= .4f && local.Z >= 5.15f && local.Z < 6.3f
             && local.Y > -.2f && local.Y < 3.4f;
         if (!schoolCopyGoal && !inside && !clearingEntrance) return false;
-        if (!schoolCopyGoal) label = "Выход из школы";
+        if (!schoolCopyGoal) label = clearingEntrance ? "Выход из школы" : "Коридор к выходу";
         Vector3 destination;
         if (!schoolCopyGoal && clearingEntrance)
             destination = new(0, .05f, 6.3f);
@@ -410,11 +410,19 @@ public partial class Act1DemoRoot
             destination = new(0, .05f, 6.3f);
         else if (schoolCopyGoal && Mathf.Abs(local.X - staffX) <= .1f)
             destination = new(staffX, .05f, roomSideZ);
-        else if (Mathf.Abs(local.Z - corridorZ) > .12f)
-            // Align in the hall before walking along it; the cloakroom bench ends at Z3.61.
+        else if (Mathf.Abs(local.Z - corridorZ) > .20f)
+        {
+            // The bench collision starts at Z4.49 (center 4.70, half-depth .21).
+            // This Z3.9 centerline leaves .24 m beyond the player's .35 m radius
+            // while staying clear of the corridor wall at Z2.9.
+            label = schoolCopyGoal ? "Коридор к учительской" : "Коридор к выходу";
             destination = new(local.X, .05f, corridorZ);
+        }
         else
+        {
+            label = schoolCopyGoal ? "Дверь учительской" : "Входная дверь";
             destination = new(schoolCopyGoal ? staffX : 0f, .05f, corridorZ);
+        }
 
         waypoint = school.ToGlobal(destination);
         return true;

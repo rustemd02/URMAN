@@ -117741,7 +117741,7 @@
         "Не создаются сотни уникальных текстур одинаковых досок.",
         "Уточнение автора 09.10.2026: материалы и растительные формы наружной деревни проверены в составе домов и окружения по выбранным автором скриншотам. Сопоставимы масштаб фактур, материальность дерева/земли/снега, объём и плотность растительности, свет и цветовые отношения. Новые текстуры поверх примитивных форм и отдельный образец материала не доказывают соответствие целой игровой сцены."
       ],
-      "next_action": "Reuse deployed coniferV2 and newbirchV2 wholefamilies. Prioritize completed first-episode gameplay; next native movement may cover pending familyLOD/performance/style without repeating staticstill. Continue existing neighboring-house/outbuilding/fence queue only with named source gap and authorcap3490 remaining; do not regenerate accepted inputs blindly.",
+      "next_action": "Reuse deployed coniferV2 and newbirchV2 wholefamilies. Prioritize completed first-episode gameplay; next native movement may cover pending familyLOD/performance/style without repeating staticstill. Continue existing neighboring-house/outbuilding/fence queue only with named source gap and authorcap3400 remaining (600/4000 spent); do not regenerate accepted inputs blindly.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -123308,7 +123308,37 @@
           "game/scripts/Act1DemoRoot.ObjectiveMarker.cs"
         ],
         "verification": "Root review caught early gate-plane switch; corrected to clear capsule. Existing geometry formulas and out-variable short-circuit reviewed; Game build0/0, diff check. No tests added/run.",
-        "remaining": "Native marker routing after exit; whole campaign and external gates remain."
+        "remaining": "Native marker routing after exit; whole campaign and external gates remain.",
+        "native_9aaf": "Observed route labels: Проход во дворе → Калитка → Дорожка за калиткой → Вход в школу; ordinary passage succeeded without jumping/debug/teleport."
+      },
+      "current_first_episode_question_2026_10_29": {
+        "state": "partial_native_observed_timeout_restored",
+        "job": "9aafab3f20fb4ebcb444b7d753eb3608",
+        "snapshot": "d181b6281bf8549a39ef9a114cf616351e51c9ddab7f0ea3a25324f4bf416864",
+        "commit": "8b741e6d",
+        "question": "Does the new school mission guide through the home gate, then real school source/permission/copy permit W01 meaningful action and earned return?",
+        "success": "Observe native exit waypoints, acquire authorised copy by ordinary controls, enter photo, perform physical action, return to family with visible saved consequence; do not re-accept already evidenced forest or old text.",
+        "preparation": "Single protected ordinary NewGame with built-in forest skip; source Windows userdata absent; no seed edits/teleport/debug.",
+        "known_result": "Previous754 earned real book and reached opened school entrance; copy/world still unverified.",
+        "result": "Ordinary built-in forest skip → real Niva arrival/new RU reply → home tea/book → yard/gate/street cues → school source inspection confirmed → staff dialogue/copy received → school exit → village street → bridge39m from forest tableau. W01 action/return not reached before game timeout124.",
+        "receipt": {
+          "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-episode-9aafab3f-2026-10-29/result.zip",
+          "sha256": "6e35947069b5ff011be53e3270f9071456978df1d8a0e5a0ff268937377f1080",
+          "gameExitCode": 124,
+          "userdataRestored": true,
+          "doctorReady": true,
+          "orphan": false,
+          "recovery_pending": false,
+          "engine_error_count": 0
+        },
+        "evidence": [
+          "game.log [137] photoworlds.book.received",
+          "game.log [181] photoworlds.fact.observed:pw-school-copy-source",
+          ".codex-captures/remote/9aafab3f20fb4ebcb444b7d753eb3608/yard-exit-cue.png",
+          ".codex-captures/remote/9aafab3f20fb4ebcb444b7d753eb3608/school-copy-received.png",
+          ".codex-captures/remote/9aafab3f20fb4ebcb444b7d753eb3608/forest-bridge.png"
+        ],
+        "cleanup": "CRC/SHA verified raw archive outside Git;179 extracted/renamed duplicates removed by content hash;4 selected PNG retained locally."
       }
     },
     {
@@ -126139,7 +126169,45 @@
         "userdata_restored": true,
         "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-prologue-24d781f2-2026-10-29/result.zip",
         "archive_sha256": "cf2beb3b7707984a9a272c18d8886b369a09c4b2f15d8b59678d969696def180",
-        "result": "Ordinary F01/F03→Niva cabin/dialogue→exit→house/tea/school clue confirmed. Book pickup not reached. No engine errors/Niva presentation failure. Targeted W sample hit real TableTop contact; no invisible blocker established. Only selected cabin/home frames retained, archive verified and extracted duplicates deleted."
+        "result": "Ordinary F01/F03→Niva cabin/dialogue→exit→house/tea/school clue confirmed. Book pickup not reached. No engine errors/Niva presentation failure. Targeted W sample hit real TableTop contact; no invisible blocker established. Only selected cabin/home frames retained, archive verified and extracted duplicates deleted.",
+        "school_copy_9aaf": {
+          "state": "partial_native_observed_timeout_restored",
+          "job": "9aafab3f20fb4ebcb444b7d753eb3608",
+          "snapshot": "d181b6281bf8549a39ef9a114cf616351e51c9ddab7f0ea3a25324f4bf416864",
+          "commit": "8b741e6d",
+          "question": "Does the new school mission guide through the home gate, then real school source/permission/copy permit W01 meaningful action and earned return?",
+          "success": "Observe native exit waypoints, acquire authorised copy by ordinary controls, enter photo, perform physical action, return to family with visible saved consequence; do not re-accept already evidenced forest or old text.",
+          "preparation": "Single protected ordinary NewGame with built-in forest skip; source Windows userdata absent; no seed edits/teleport/debug.",
+          "known_result": "Previous754 earned real book and reached opened school entrance; copy/world still unverified.",
+          "result": "Ordinary built-in forest skip → real Niva arrival/new RU reply → home tea/book → yard/gate/street cues → school source inspection confirmed → staff dialogue/copy received → school exit → village street → bridge39m from forest tableau. W01 action/return not reached before game timeout124.",
+          "receipt": {
+            "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-episode-9aafab3f-2026-10-29/result.zip",
+            "sha256": "6e35947069b5ff011be53e3270f9071456978df1d8a0e5a0ff268937377f1080",
+            "gameExitCode": 124,
+            "userdataRestored": true,
+            "doctorReady": true,
+            "orphan": false,
+            "recovery_pending": false,
+            "engine_error_count": 0
+          },
+          "evidence": [
+            "game.log [137] photoworlds.book.received",
+            "game.log [181] photoworlds.fact.observed:pw-school-copy-source",
+            ".codex-captures/remote/9aafab3f20fb4ebcb444b7d753eb3608/yard-exit-cue.png",
+            ".codex-captures/remote/9aafab3f20fb4ebcb444b7d753eb3608/school-copy-received.png",
+            ".codex-captures/remote/9aafab3f20fb4ebcb444b7d753eb3608/forest-bridge.png"
+          ],
+          "cleanup": "CRC/SHA verified raw archive outside Git;179 extracted/renamed duplicates removed by content hash;4 selected PNG retained locally."
+        }
+      },
+      "school_corridor_guidance_2026_10_29": {
+        "state": "implemented_compile_verified_native_pending",
+        "problem": "Native school cues repeatedly showed room/exit1m while aligning to a narrow floor waypoint. Source review additionally found old z4.2 route only .29m from bench collision startingz4.49, less than player capsule radius. No claim that every observed bump came from bench.",
+        "change": "Route center z3.9 with .20 tolerance and distinct corridor/door labels; preserve staff door X tolerance.1 and all story/access gates. Bench/.35 capsule clearance .24m at center/.04m at nearest accepted edge; partition remains clear.",
+        "files": [
+          "game/scripts/Act1DemoRoot.ObjectiveMarker.cs"
+        ],
+        "verification": "Game build0warnings0errors16.36s; static geometry/source review; no new tests/native run."
       }
     },
     {
@@ -145625,6 +145693,17 @@
         "source": "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
         "verification": "Independent Astra source review of both producers, sole consumer, mutable road axes and Studio reload/rollback; affected Game build 0 warnings/errors. No native output comparison or timing measurement.",
         "remaining": "Measure representative protected world build and user-visible loading on target Windows only when a relevant run is possible; no time saved claimed."
+      },
+      "first_village_build_2026_10_29": {
+        "state": "measured_cause_not_yet_isolated",
+        "evidence": [
+          "/Users/unterlantas/.codex/local_asset_archive/URMAN-episode-75472eff-2026-10-29/result.zip:game.log",
+          "/Users/unterlantas/.codex/local_asset_archive/URMAN-episode-9aafab3f-2026-10-29/result.zip:game.log"
+        ],
+        "result": "First village construction synchronously blocks main thread:754 top-level phases54.150s;9aaf core24.237s,authored17.479s including addresses10.135s. No duplicate whole-world build established. Native capture delays do not each prove another rebuild.",
+        "source_path": "Main.SwitchZone→EnsureConnectedWorld→AddChild→Act1ConnectedWorld._Ready→Build",
+        "analysis": "Mesh/face caches already present. PreparedWorldFaces BVH fully sorts every recursive subrange O(M log²M), but M and component timings absent. Existing post-relocation snapshot cannot reuse pre-relocation transforms.",
+        "next_action": "Use existing profiling at mesh snapshot/BVH vs address mounts/first-time face transforms on next otherwise-required native run; choose optimization only after attribution. Do not hide delay in another scene or remove geometry/physics blindly."
       }
     },
     {
