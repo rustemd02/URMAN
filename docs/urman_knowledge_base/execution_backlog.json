@@ -126276,7 +126276,8 @@
           "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs",
           "game/scripts/Act1DemoRoot.ObjectiveMarker.cs"
         ],
-        "verification": "Root diff/static path review; Game build0warnings0errors16.88s. Current native39bb uses earlier f2a; corrected marker runtime acceptance remains pending."
+        "verification": "Root diff/static path review; Game build0warnings0errors16.88s. Current native39bb uses earlier f2a; corrected marker runtime acceptance remains pending.",
+        "physics_review": "Independent bounded solver review: feet center about.311m beyond stair side, radius.35 leaves only.039m overlap; Step1 rise.289 exceeds current.22step limit. Firstsupportprobe misses9mm outsideedge, remainingprobesnotlogged becauseearlyreturn. No provenfalse-rejection ofwalkablesupport; retainphysics andcenterapproachcue, not globalrelaxation."
       },
       "school_staff_facing_2026_10_29": {
         "state": "implemented_source_verified_native_pending",
@@ -126324,14 +126325,28 @@
           "profile": "act1-acceptance"
         },
         "native_check": {
-          "state": "running_not_accepted",
+          "state": "first_session_pass_continue_pending",
           "job_id": "26d7a9a0a9444594a99a5bc870ffeb44",
           "snapshot": "66345485af09850bf24da904dc87bd66a1ebce72bd8781adea10da79bbf4fb27",
           "head": "caeb3f81",
           "profile": "act1-acceptance",
           "owner": "root",
           "timeout_seconds": 1800,
-          "question": "Can a fresh guarded namedprofile start ordinaryNewGame, save throughPauseUI, exit normally, then Continue in a separate same-profile job with originaluserdata restored afterboth? No seeds/debug/teleport."
+          "question": "Can a fresh guarded namedprofile start ordinaryNewGame, save throughPauseUI, exit normally, then Continue in a separate same-profile job with originaluserdata restored afterboth? No seeds/debug/teleport.",
+          "result": "Fresh menu had Continue unavailable. Ordinary NewGame→previouslyacceptedforestskip→NivaRUdialogues→exit→PauseSave showed Saved; ordinaryconfirmedQuit. TerminalPASS/game0/userdataRestoredtrue, receiptprofileact1-acceptance; doctorready/noorphan/recovery.",
+          "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-profile-26d7a9a0-2026-10-29/result.zip",
+          "archive_sha256": "414ee7993110abc1290df6285d3cef2771d5dc8aec3b47192505ffbd6002f400",
+          "cleanup": "CRC/SHA verified;28hash-identicalduplicates removed7847262bytes, rawZIP+2selectedPNG retained. Ownstationprofile retained forContinue; no saveexport ormanualediting."
+        },
+        "continuation_check": {
+          "state": "running_not_accepted",
+          "job_id": "46b6be5a9f8948e2ad8dc3b232c53725",
+          "snapshot": "94a5933aab2b3013364be9bf50251af69bab88041b946c551095ce03f5fc5f6a",
+          "head": "d1e90576",
+          "profile": "act1-acceptance",
+          "owner": "root",
+          "timeout_seconds": 7200,
+          "question": "OrdinaryContinue of earned26d save; confirmsamegoal/position then continuehome/book/school/W01; Saveatmeaningfulcheckpoints. Restoreproofpendingterminal."
         }
       }
     },
@@ -145865,6 +145880,14 @@
           "source_evidence": "Static call trace found44 helper invocations in ordinary core path, each previously instantiated complete3.13MB GLB; two other direct instantiations unchanged. ResourceLoader disk-read savings not claimed.",
           "verification": "Independent Luna review plus root comparison; sibling-name collision found and fixed before commit. Gamebuild0warnings0errors17.99s; no newtests/probes.",
           "limits": "Native39bb remains onf2a and does not include this change. Scene/resource equivalence and wall-time benefit require next otherwise necessary Windows check; no extra run started."
+        },
+        "native_26d_observation": {
+          "source": "26d/result.zip game.log/stdout.log, sourcecaeb3f81",
+          "core_seconds": 23.704,
+          "authored_seconds": 11.241,
+          "authored_addresses_seconds": 4.237,
+          "face_snapshot_seconds": 0.537,
+          "comparison": "Previous39bb sameWindows core24.238/authored17.646/addresses10.643. Oneobservationalpair, notcontrolledbenchmark; addressphase reduced6.406s. Corechange small/notprovenmaterialspeedup. Nativevillage/Niva rendered; fullvisualequivalence/artpending."
         }
       }
     },
@@ -166558,10 +166581,10 @@
       "authorized_budget_remaining": 3400,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4100,
-      "balance_note": "29.10 cupboard01a184a4-5aca-7534-8851-0323465d09d3 SUCCEEDED, server consumed10, API3690→3680. Total600/4000, remaining3400, reserve0. Source candidate inspected; scene/art/cultural acceptance pending.",
+      "balance_note": "29.10 cupboard actual600spent/4000; rough-picket one corrective text-mode keepUV4K PBR retexture reserved10 beforePOST. Remaining3400, unreserved3390. Prior approvedImageGen reference already used to make source/image-mode candidate; no additionalMeshyimagegeneration.",
       "latest_api_balance_observed": 3680,
-      "reserved_for_current_work": 0,
-      "unreserved_author_budget": 3400
+      "reserved_for_current_work": 10,
+      "unreserved_author_budget": 3390
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
     "operations": [
@@ -166850,6 +166873,18 @@
       "runtime_asset": "game/assets/models/act1/home-cupboard-generated-pbr-2k.glb",
       "consumer": "game/scripts/StyleBenchmarkInteriorFactory.cs::ApplyHomeCupboardPbr",
       "archive": "../../../.codex/local_asset_archive/URMAN-home-cupboard-pbr-v1-2026-10-29.zip"
+    },
+    "current_operation_2026_10_29_rough_picket": {
+      "task_id": "ACT1-DEPTH.7",
+      "state": "reserved_not_submitted",
+      "owner": "/root/village_asset_oct29",
+      "reserved_credits": 10,
+      "api_task_id": null,
+      "reason": "Prior image-only retexture made hardware andbraceboards ivory. New input is explicit material-role prompt, one10credit corrective operation on samefrozengeometry/UV; do notrepeatidenticalimage-onlyrequest.",
+      "source": "assets/source/blender/act1/rough_picket_family_reference_v3/rough-picket-family-source.glb",
+      "reference": "assets/source/blender/act1/rough_picket_family_reference_v3/imagegen-reference-v1.png",
+      "scope": "Text-only retexture allowed byroot as one correction of existingImageGen→Meshy candidate; no newprototype/model/geometry/rig/iteration. Root ownsledger/runtime/Git.",
+      "output": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v2/"
     }
   },
   "artifact_cleanup_2026_10_20": {
