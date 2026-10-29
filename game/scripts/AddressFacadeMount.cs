@@ -45,9 +45,20 @@ internal static class AddressFacadeMount
         private readonly int[] _boundsOrder;
         private readonly BoundsNode[] _boundsTree;
         private readonly int _boundsRoot;
+        private readonly long _meshSnapshotTicks;
+        private readonly long _boundsTreeTicks;
+        private long _visibleQueryCount;
+        private long _visibleCandidateCount;
+        private long _visibleCandidateTicks;
+        private long _faceTransformCount;
+        private long _transformedTriangleCount;
+        private long _faceTransformTicks;
+        private long _visibleTotalTicks;
+        private bool _profileReported;
 
         internal PreparedWorldFaces(Node3D root)
         {
+            var meshSnapshotStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             _meshes=Descendants(root).OfType<MeshInstance3D>()
                 .Select(mesh=>(Instance:mesh,Mesh:mesh.Mesh))
                 .Where(pair=>pair.Mesh is not null
@@ -60,19 +71,27 @@ internal static class AddressFacadeMount
                     var worldBounds=Bounds(Enumerable.Range(0,8).Select(i=>transform*bounds.GetEndpoint(i)));
                     return new PreparedMeshFaces(pair.Instance,pair.Mesh!,transform,worldBounds,pair.Instance.GetPath().ToString());
                 }).ToArray();
+            _meshSnapshotTicks = System.Diagnostics.Stopwatch.GetTimestamp() - meshSnapshotStarted;
 
+            var boundsTreeStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             _boundsOrder=Enumerable.Range(0,_meshes.Length).ToArray();
             var nodes=new List<BoundsNode>();
             _boundsRoot=_meshes.Length==0?-1:BuildBoundsTree(_boundsOrder,0,_boundsOrder.Length,nodes);
             _boundsTree=nodes.ToArray();
+            _boundsTreeTicks = System.Diagnostics.Stopwatch.GetTimestamp() - boundsTreeStarted;
         }
 
         internal Face[] VisibleFaces(Aabb bounds)
         {
+            var visibleStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             var result=new List<Face>();
             var candidates=new List<int>();
+            var candidateStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             if(_boundsRoot>=0)CollectBoundsCandidates(_boundsRoot,bounds,CanSafelyPrune(bounds),candidates);
             candidates.Sort(); // Restore the original depth-first mesh order before materializing faces.
+            _visibleCandidateTicks += System.Diagnostics.Stopwatch.GetTimestamp() - candidateStarted;
+            _visibleCandidateCount += candidates.Count;
+            _visibleQueryCount++;
             foreach(var index in candidates)
             {
                 var prepared=_meshes[index];
@@ -80,10 +99,36 @@ internal static class AddressFacadeMount
                 var mesh=prepared.Instance;
                 if(mesh.Mesh is null||!mesh.IsVisibleInTree())continue;
                 if(mesh.GetParent() is AddressSignVisualComponent)continue;
-                prepared.Faces??=TransformFaces(prepared.Mesh,prepared.Transform,prepared.Owner);
-                result.AddRange(prepared.Faces);
+                var faces = prepared.Faces;
+                if(faces is null)
+                {
+                    var transformStarted = System.Diagnostics.Stopwatch.GetTimestamp();
+                    faces = TransformFaces(prepared.Mesh,prepared.Transform,prepared.Owner);
+                    _faceTransformTicks += System.Diagnostics.Stopwatch.GetTimestamp() - transformStarted;
+                    _faceTransformCount++;
+                    _transformedTriangleCount += faces.Length;
+                    prepared.Faces = faces;
+                }
+                result.AddRange(faces);
             }
-            return result.ToArray();
+            var visibleFaces = result.ToArray();
+            _visibleTotalTicks += System.Diagnostics.Stopwatch.GetTimestamp() - visibleStarted;
+            return visibleFaces;
+        }
+
+        internal void ReportProfile()
+        {
+            if (_profileReported) return;
+            _profileReported = true;
+            static string Seconds(long ticks) => (ticks / (double)System.Diagnostics.Stopwatch.Frequency)
+                .ToString("0.000", System.Globalization.CultureInfo.InvariantCulture);
+
+            GD.Print($"world-build-profile|address-face-snapshot|{Seconds(_meshSnapshotTicks + _boundsTreeTicks)}s"
+                + $" meshes={_meshes.Length} mesh-snapshot={Seconds(_meshSnapshotTicks)}s bvh={Seconds(_boundsTreeTicks)}s"
+                + $" visible-queries={_visibleQueryCount} broadphase-candidates={_visibleCandidateCount}"
+                + $" candidate-search={Seconds(_visibleCandidateTicks)}s face-transforms={_faceTransformCount}"
+                + $" transformed-triangles={_transformedTriangleCount} transform-faces={Seconds(_faceTransformTicks)}s"
+                + $" visible-total={Seconds(_visibleTotalTicks)}s");
         }
 
         private int BuildBoundsTree(int[] order,int start,int count,List<BoundsNode> nodes)
