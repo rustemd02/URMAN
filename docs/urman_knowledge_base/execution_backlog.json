@@ -2672,7 +2672,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-10-29",
+  "updated": "2026-10-31",
   "goal_key": "urman-photoworlds-finished-game",
   "goal_statement": "Довести единую очередь до готовой игры «За краем снимка»: обычная зимняя Кара-Урман, физическая книга Тукая, 13 снимков, пять полноценных фотомиров, пролог W01, реальные внешние подтверждения, домашний эпилог и свободные возвращения. Все применимые требования Visual Reset и PhotoWorlds, сохранённые бытовые системы и выпускная приёмка обязательны; готовность принимается REL-003 на конкретной поставляемой сборке, а не по числу закрытых карточек.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -131572,8 +131572,8 @@
         "Шов не меняет поле зрения и наклон камеры.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W03_Дом_на_просвет_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Only after new owner instruction: ordinary Continue from saved envelope-open state → Gulsina permission → P-HOUSE mount/back/physical entry → W03 route. Do not repeat accepted opening or home loop.",
-      "blocker": null,
+      "next_action": "31.10 author resumed Act I MVP delivery. Once UnterPC is online with an unlocked desktop and doctor ready, ordinary Continue of act1-acceptance from the earned envelope-open save → Gulsina permission → P-HOUSE mount/back/physical entry → W03 route → return/Save/Quit and userdata restoration. Reuse accepted prologue/W01/home evidence; do not replay setup.",
+      "blocker": "31.10.2026: configured Windows station unreachable. python3.12 eng/remote-check.py doctor exited1: <urlopen error timed out>; tailscale --socket=$HOME/.config/urman-station/tailscaled.sock status reports unterpc offline, last seen1d ago, tx1092 rx0. No game job submitted. Owner must power on/connect UnterPC and unlock its desktop; native W03 verification remains not_run. No local fallback or guard bypass.",
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
       "execution_mode": "production_paused_during_tracker_migration",
