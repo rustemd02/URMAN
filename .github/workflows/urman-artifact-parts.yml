@@ -20,7 +20,8 @@ jobs:
           import hashlib, os, pathlib, urllib.request
           root = pathlib.Path('parts')
           root.mkdir()
-          req = urllib.request.Request('https://api.github.com/repos/rustemd02/URMAN/actions/artifacts/13448056428/zip', headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json'})
+          req = urllib.request.Request('https://api.github.com/repos/rustemd02/URMAN/actions/artifacts/13448056428/zip', headers={'Accept': 'application/vnd.github+json'})
+          req.add_unredirected_header('Authorization', 'Bearer ' + os.environ['GH_TOKEN'])
           h = hashlib.sha256()
           total = 0
           with urllib.request.urlopen(req, timeout=120) as response:
