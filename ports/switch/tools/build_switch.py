@@ -149,7 +149,10 @@ class Pipeline:
               'godot_patch_sha256': self.patch_hash, 'runtime_patch_sha256': self.runtime_patch_hash, 'files': {'urman.nro': digest(self.nro), 'urman.elf': digest(self.elf)}})
 
     def editor_stage(self):
+        # This editor only imports/exports assets. Avoid optimizing its large
+        # desktop binary; the Switch release target retains its optimizations.
         self.run(['scons', 'platform=linuxbsd', 'target=editor', 'arch=x86_64', 'module_mono_enabled=yes',
+            'optimize=none', 'debug_symbols=no',
             'x11=no', 'wayland=no', 'vulkan=no', 'opengl3=yes', 'openxr=no', 'alsa=no', 'pulseaudio=no',
             'speechd=no', 'udev=no', 'dbus=no', 'lto=none', f'-j{self.args.jobs}'], 'godot-editor', self.engine)
         self.editor = self.engine / 'bin/godot.linuxbsd.editor.x86_64.mono'

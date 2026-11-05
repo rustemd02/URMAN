@@ -8,3 +8,5 @@ No working Switch game package or on-device acceptance is claimed. Main is uncha
 Native controller follow-up: implement libnx rumble from Godot strengths with finite-time stop, style/connection refresh and focus/exit/resume cancellation; add focus notifications and neutral-input resync after HOME/resume. Physical rumble and suspend/resume remain hardware-unverified. Fix the export-hook System.Environment qualification and stream/export detailed diagnostics. Engine patch hash is updated; local whitespace and Python syntax checks passed.
 
 Enable cancellation of superseded branch builds; the second run lacks the already-fixed export compiler qualification. Preserve diagnostics on cancellation and build the current source.
+
+The second run completed the full Horizon framework with zero errors and compiled native platform/CoreCLR startup sources before cancellation. Build the desktop import/export editor without optimization or debug symbols to reduce host-only build time; the Switch template keeps release optimization.
