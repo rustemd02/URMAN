@@ -61,6 +61,7 @@ class Pipeline:
         require(self.pins.get('game_patch_sha256') == digest(self.project / 'engine/game-port.patch'), 'Game patch differs from source pins')
         self.work.mkdir(parents=True, exist_ok=True)
         (self.work / 'logs').mkdir(exist_ok=True)
+        self.scons_cache = self.work / 'scons-cache'
         self.engine = self.work / 'sources/godot'
         self.runtime = self.work / 'sources/dotnet-runtime'
         self.env = os.environ.copy()
@@ -130,7 +131,9 @@ class Pipeline:
     def native_stage(self):
         output = self.engine / 'bin/godot.switch.template_release.arm64.mono'
         self.run(['scons', 'platform=switch', 'target=template_release', 'arch=arm64', 'module_mono_enabled=yes',
-                  'switch_coreclr_root=' + str(self.runtime), 'debug_symbols=yes', 'lto=none', f'-j{self.args.jobs}', str(output.relative_to(self.engine))], 'godot-native', self.engine)
+                  'switch_coreclr_root=' + str(self.runtime), 'debug_symbols=yes', 'lto=none',
+                  'cache_path=' + str(self.scons_cache), 'cache_limit=2', f'-j{self.args.jobs}',
+                  str(output.relative_to(self.engine))], 'godot-native', self.engine)
         require(output.is_file(), 'Expected unstripped native ELF missing')
         native = self.work / 'native'
         native.mkdir(exist_ok=True)
@@ -154,7 +157,8 @@ class Pipeline:
         self.run(['scons', 'platform=linuxbsd', 'target=editor', 'arch=x86_64', 'module_mono_enabled=yes',
             'optimize=none', 'debug_symbols=no',
             'x11=no', 'wayland=no', 'vulkan=no', 'opengl3=yes', 'openxr=no', 'alsa=no', 'pulseaudio=no',
-            'speechd=no', 'udev=no', 'dbus=no', 'lto=none', f'-j{self.args.jobs}'], 'godot-editor', self.engine)
+            'speechd=no', 'udev=no', 'dbus=no', 'lto=none',
+            'cache_path=' + str(self.scons_cache), 'cache_limit=2', f'-j{self.args.jobs}'], 'godot-editor', self.engine)
         self.editor = self.engine / 'bin/godot.linuxbsd.editor.x86_64.mono'
         require(self.editor.is_file(), 'Built Mono editor not found')
         self.run([self.editor, '--headless', '--generate-mono-glue', self.engine / 'modules/mono/glue'], 'mono-glue', self.engine)

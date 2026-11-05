@@ -25,16 +25,90 @@ jobs:
         run: |
           sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc
           df -h .
+      - name: Restore pinned runtime build cache
+        uses: actions/cache/restore@v4
+        continue-on-error: true
+        with:
+          path: |
+            ${{ runner.temp }}/urman-build/urman/sources/dotnet-runtime
+            ${{ runner.temp }}/urman-build/urman/runtime-patch.json
+          key: urman-switch-runtime-4a1e59e06fba330166a070eab784cc37a3232f6a-${{ hashFiles('ports/switch/tools/Dockerfile.switch') }}-${{ hashFiles('ports/switch/engine/dotnet-build-dependencies.patch') }}
+      - name: Restore bounded SCons object cache
+        uses: actions/cache/restore@v4
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/urman-build/urman/scons-cache
+          key: urman-switch-scons-${{ hashFiles('ports/switch/tools/Dockerfile.switch') }}-${{ github.sha }}
+          restore-keys: |
+            urman-switch-scons-${{ hashFiles('ports/switch/tools/Dockerfile.switch') }}-
       - name: Build pinned toolchain container
         run: docker build --platform linux/amd64 -f ports/switch/tools/Dockerfile.switch -t urman-switch-builder ports/switch/tools
       - name: Build runtime, engine and complete game payload
+        id: build_switch
         run: |
           mkdir -p "$RUNNER_TEMP/urman-build"
+          # Restored caches belong to the runner; Git inside this container runs as root.
+          if [ -d "$RUNNER_TEMP/urman-build/urman/sources/dotnet-runtime" ]; then
+            sudo chown -hR 0:0 "$RUNNER_TEMP/urman-build/urman/sources/dotnet-runtime"
+          fi
           docker run --rm --platform linux/amd64 --ulimit stack=-1:-1 \
             -v "$GITHUB_WORKSPACE:/workspace:ro" \
             -v "$RUNNER_TEMP/urman-build:/build" \
             urman-switch-builder python3 /workspace/ports/switch/tools/build_switch.py \
             --game-source /workspace --work-dir /build/urman --stage game --jobs 4
+      - name: Check for complete bounded runtime cache
+        id: runtime_cache
+        if: always()
+        continue-on-error: true
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "urman-build/urman"
+          framework_path = root / "framework-receipt.json"
+          if not framework_path.is_file():
+              raise SystemExit(0)
+          try:
+              framework = json.loads(framework_path.read_text())
+          except (OSError, ValueError):
+              raise SystemExit(0)
+          if (framework.get("schema_version") != 1 or framework.get("target_os") != "libnx" or
+              not framework.get("runtime_commit") or not framework.get("runtime_patch_sha256") or
+              not framework.get("files")):
+              raise SystemExit(0)
+          size = int(subprocess.check_output(["du", "-sb", str(root / "sources/dotnet-runtime")], text=True).split()[0])
+          if size <= 6442450944:
+              with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+                  output.write("has_complete_runtime=true\n")
+          else:
+              print(f"Skipping runtime cache save: checkout is {size} bytes (limit 6442450944)")
+          PY
+      - name: Save pinned runtime build cache
+        if: always() && steps.runtime_cache.outputs.has_complete_runtime == 'true'
+        uses: actions/cache/save@v4
+        continue-on-error: true
+        with:
+          path: |
+            ${{ runner.temp }}/urman-build/urman/sources/dotnet-runtime
+            ${{ runner.temp }}/urman-build/urman/runtime-patch.json
+          key: urman-switch-runtime-4a1e59e06fba330166a070eab784cc37a3232f6a-${{ hashFiles('ports/switch/tools/Dockerfile.switch') }}-${{ hashFiles('ports/switch/engine/dotnet-build-dependencies.patch') }}
+      - name: Check for SCons cache objects
+        id: scons_cache
+        if: always()
+        continue-on-error: true
+        run: |
+          if [ -d "$RUNNER_TEMP/urman-build/urman/scons-cache" ] && find "$RUNNER_TEMP/urman-build/urman/scons-cache" -type f -print -quit | grep -q .; then
+            echo "has_objects=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Save bounded SCons object cache
+        if: always() && steps.scons_cache.outputs.has_objects == 'true'
+        uses: actions/cache/save@v4
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/urman-build/urman/scons-cache
+          key: urman-switch-scons-${{ hashFiles('ports/switch/tools/Dockerfile.switch') }}-${{ github.sha }}
       - name: Preserve build diagnostics
         if: always()
         uses: actions/upload-artifact@v4

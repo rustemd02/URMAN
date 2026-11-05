@@ -401,10 +401,10 @@ index d31f5de..0380759 100644
      # Off by default; enable with `deko3d=yes`. The default renderer stays GL.
      if env["deko3d"]:
 diff --git a/platform/switch/display_server_switch.cpp b/platform/switch/display_server_switch.cpp
-index 5e2d985..6d63b38 100644
+index 5e2d985..b136da0 100644
 --- a/platform/switch/display_server_switch.cpp
 +++ b/platform/switch/display_server_switch.cpp
-@@ -5,6 +5,7 @@
+@@ -5,9 +5,11 @@
  #include "display_server_switch.h"
  
  #include "core/config/project_settings.h"
@@ -412,16 +412,31 @@ index 5e2d985..6d63b38 100644
  #include "core/os/os.h"
  
  #include <stdio.h>
-@@ -64,6 +65,53 @@ void DisplayServerSwitch::_dispatch_input_event(const Ref<InputEvent> &p_event)
++#include <vector>
+ #include "main/performance.h"
+ #include "os_switch.h"
+ #include "switch_clocks.h"
+@@ -64,9 +66,168 @@ void DisplayServerSwitch::_dispatch_input_event(const Ref<InputEvent> &p_event)
  	}
  }
  
 +void DisplayServerSwitch::_applet_hook(AppletHookType p_hook, void *p_param) {
 +	DisplayServerSwitch *display_server = static_cast<DisplayServerSwitch *>(p_param);
 +	if (p_hook == AppletHookType_OnFocusState) {
-+		display_server->_set_window_focused(appletGetFocusState() == AppletFocusState_InFocus);
++		AppletFocusState state = appletGetFocusState();
++		// Opening swkbd briefly puts this application out of focus. Do not
++		// propagate that modal transition to the game. HOME/sleep is Background
++		// and continues through the normal focus lifecycle.
++		if (display_server->native_keyboard_active && state == AppletFocusState_OutOfFocus) {
++			return;
++		}
++		display_server->_set_window_focused(state == AppletFocusState_InFocus);
 +	} else if (p_hook == AppletHookType_OnResume) {
-+		display_server->_set_window_focused(appletGetFocusState() == AppletFocusState_InFocus);
++		AppletFocusState state = appletGetFocusState();
++		if (display_server->native_keyboard_active && state == AppletFocusState_OutOfFocus) {
++			return;
++		}
++		display_server->_set_window_focused(state == AppletFocusState_InFocus);
 +	}
 +}
 +
@@ -439,6 +454,14 @@ index 5e2d985..6d63b38 100644
 +		return;
 +	}
 +	window_focused = p_focused;
++	if (!p_focused) {
++		// HOME/sleep changes the focus owner while swkbdShow is blocked. Drop its
++		// eventual result, and discard a queued request if focus moved first.
++		virtual_keyboard_pending = false;
++		if (native_keyboard_active) {
++			native_keyboard_cancelled = true;
++		}
++	}
 +	Input *input = Input::get_singleton();
 +	if (!p_focused && input) {
 +		// Ensure held controller actions are released on focus loss regardless
@@ -463,10 +486,116 @@ index 5e2d985..6d63b38 100644
 +	}
 +}
 +
++void DisplayServerSwitch::virtual_keyboard_show(const String &p_existing_text, const Rect2 &p_screen_rect, DisplayServerEnums::VirtualKeyboardType p_type, int p_max_length, int p_cursor_start, int p_cursor_end) {
++	(void)p_screen_rect;
++	(void)p_cursor_start;
++	(void)p_cursor_end;
++	virtual_keyboard_text = p_existing_text;
++	virtual_keyboard_type = p_type;
++	virtual_keyboard_max_length = p_max_length;
++	virtual_keyboard_pending = true;
++}
++
++void DisplayServerSwitch::_show_queued_virtual_keyboard() {
++	if (!virtual_keyboard_pending || !window_focused) {
++		return;
++	}
++	virtual_keyboard_pending = false;
++
++	const int max_length = CLAMP(virtual_keyboard_max_length > 0 ? virtual_keyboard_max_length : 500, 1, 500);
++	if (virtual_keyboard_text.length() > max_length) {
++		ERR_PRINT("Switch: text exceeds the native keyboard limit; preserving the existing text.");
++		return;
++	}
++	const size_t output_size = static_cast<size_t>(max_length) * 4 + 1; // UTF-8, including NUL.
++	std::vector<char> output(output_size, '\0');
++	SwkbdConfig config = {};
++	Result rc = swkbdCreate(&config, 0);
++	if (R_FAILED(rc)) {
++		ERR_PRINT("Switch: unable to create the native software keyboard (error " + itos(rc) + ").");
++		return;
++	}
++
++	SwkbdType keyboard_type = SwkbdType_All;
++	bool multiline = false;
++	bool password = false;
++	switch (virtual_keyboard_type) {
++		case DisplayServerEnums::KEYBOARD_TYPE_NUMBER:
++			keyboard_type = SwkbdType_NumPad;
++			break;
++		case DisplayServerEnums::KEYBOARD_TYPE_NUMBER_DECIMAL:
++			keyboard_type = SwkbdType_NumPad;
++			swkbdConfigSetLeftOptionalSymbolKey(&config, "-");
++			swkbdConfigSetRightOptionalSymbolKey(&config, ".");
++			break;
++		case DisplayServerEnums::KEYBOARD_TYPE_PHONE:
++			keyboard_type = SwkbdType_NumPad;
++			swkbdConfigSetLeftOptionalSymbolKey(&config, "+");
++			swkbdConfigSetRightOptionalSymbolKey(&config, "#");
++			break;
++		case DisplayServerEnums::KEYBOARD_TYPE_EMAIL_ADDRESS:
++		case DisplayServerEnums::KEYBOARD_TYPE_URL:
++			keyboard_type = SwkbdType_Latin;
++			break;
++		case DisplayServerEnums::KEYBOARD_TYPE_PASSWORD:
++			password = true;
++			break;
++		case DisplayServerEnums::KEYBOARD_TYPE_MULTILINE:
++			multiline = true;
++			break;
++		case DisplayServerEnums::KEYBOARD_TYPE_DEFAULT:
++		default:
++			break;
++	}
++
++	swkbdConfigSetType(&config, keyboard_type);
++	swkbdConfigSetInitialCursorPos(&config, 1);
++	swkbdConfigSetStringLenMax(&config, max_length);
++	swkbdConfigSetPasswordFlag(&config, password ? 1 : 0);
++	swkbdConfigSetReturnButtonFlag(&config, multiline ? 1 : 0);
++	swkbdConfigSetBlurBackground(&config, 1);
++	CharString initial_text = virtual_keyboard_text.utf8();
++	swkbdConfigSetInitialText(&config, initial_text.get_data());
++
++	// swkbdShow pumps libnx applet messages while active. Its temporary
++	// LibraryApplet focus state is suppressed by _applet_hook above; Background
++	// notifications for HOME/sleep remain visible to Godot.
++	native_keyboard_cancelled = false;
++	native_keyboard_active = true;
++	rc = swkbdShow(&config, output.data(), output.size());
++	native_keyboard_active = false;
++	swkbdClose(&config);
++
++	// swkbdShow returns an error for Cancel and system-app failures. Retain the
++	// caller's original text unless the user explicitly confirmed a result and
++	// the original editor still owns focus.
++	const bool editor_still_focused = appletGetFocusState() == AppletFocusState_InFocus;
++	_set_window_focused(editor_still_focused);
++	if (R_SUCCEEDED(rc) && !native_keyboard_cancelled && editor_still_focused && input_text_callback.is_valid()) {
++		input_text_callback.call(String::utf8(output.data()), true);
++	} else if (R_FAILED(rc)) {
++		print_verbose("Switch: native software keyboard was canceled or unavailable (" + itos(rc) + ").");
++	}
++}
++
  bool DisplayServerSwitch::has_feature(DisplayServerEnums::Feature p_feature) const {
  	switch (p_feature) {
  		case DisplayServerEnums::FEATURE_TOUCHSCREEN:
-@@ -289,6 +337,7 @@ DisplayServerSwitch::DisplayServerSwitch(const String &p_rendering_driver, Displ
++		case DisplayServerEnums::FEATURE_VIRTUAL_KEYBOARD:
+ 			return true;
+ 		default:
+ 			return false;
+@@ -182,6 +343,9 @@ void DisplayServerSwitch::_process_touch() {
+ }
+ 
+ void DisplayServerSwitch::process_events() {
++	// Open queued native text input at the start of an event pass, after the
++	// call that requested it has returned through LineEdit::_edit.
++	_show_queued_virtual_keyboard();
+ 	if (joypad) {
+ 		joypad->process();
+ 	}
+@@ -289,6 +453,7 @@ DisplayServerSwitch::DisplayServerSwitch(const String &p_rendering_driver, Displ
  		hidInitializeTouchScreen();
  		joypad = memnew(JoypadSwitch);
  		Input::get_singleton()->set_event_dispatch_function(_dispatch_input_events);
@@ -474,7 +603,7 @@ index 5e2d985..6d63b38 100644
  
  		r_error = OK;
  		return;
-@@ -330,11 +379,16 @@ DisplayServerSwitch::DisplayServerSwitch(const String &p_rendering_driver, Displ
+@@ -330,11 +495,16 @@ DisplayServerSwitch::DisplayServerSwitch(const String &p_rendering_driver, Displ
  	joypad = memnew(JoypadSwitch);
  
  	Input::get_singleton()->set_event_dispatch_function(_dispatch_input_events);
@@ -492,10 +621,15 @@ index 5e2d985..6d63b38 100644
  		memdelete(joypad);
  		joypad = nullptr;
 diff --git a/platform/switch/display_server_switch.h b/platform/switch/display_server_switch.h
-index b9d02b9..27ecafd 100644
+index b9d02b9..6ebaa1a 100644
 --- a/platform/switch/display_server_switch.h
 +++ b/platform/switch/display_server_switch.h
-@@ -43,12 +43,19 @@ class DisplayServerSwitch : public DisplayServer {
+@@ -39,16 +39,31 @@ class DisplayServerSwitch : public DisplayServer {
+ 	Size2i window_size = Size2i(1280, 720);
+ 
+ 	Callable input_event_callback;
++	Callable input_text_callback;
+ 	Callable rect_changed_callback;
  	Callable window_event_callback;
  
  	HidTouchScreenState last_touch_state = {};
@@ -503,6 +637,12 @@ index b9d02b9..27ecafd 100644
 +	bool applet_hook_registered = false;
 +	bool window_focused = true;
 +	bool previous_ignore_unfocused_joypad_setting = false;
++	bool native_keyboard_active = false;
++	bool native_keyboard_cancelled = false;
++	bool virtual_keyboard_pending = false;
++	String virtual_keyboard_text;
++	DisplayServerEnums::VirtualKeyboardType virtual_keyboard_type = DisplayServerEnums::KEYBOARD_TYPE_DEFAULT;
++	int virtual_keyboard_max_length = -1;
  
  	static Vector<String> get_rendering_drivers_func();
  	static DisplayServer *create_func(const String &p_rendering_driver, DisplayServerEnums::WindowMode p_mode, DisplayServerEnums::VSyncMode p_vsync_mode, uint32_t p_flags, const Vector2i *p_position, const Vector2i &p_resolution, int p_screen, DisplayServerEnums::Context p_context, int64_t p_parent_window, Error &r_error);
@@ -512,10 +652,20 @@ index b9d02b9..27ecafd 100644
 +	static void _applet_hook(AppletHookType p_hook, void *p_param);
 +	void _register_applet_focus_hook();
 +	void _set_window_focused(bool p_focused);
++	void _show_queued_virtual_keyboard();
  
  	void _process_touch();
  
-@@ -124,7 +131,7 @@ public:
+@@ -84,7 +99,7 @@ public:
+ 	void window_set_rect_changed_callback(const Callable &p_callable, DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) override { rect_changed_callback = p_callable; }
+ 	void window_set_window_event_callback(const Callable &p_callable, DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) override { window_event_callback = p_callable; }
+ 	void window_set_input_event_callback(const Callable &p_callable, DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) override { input_event_callback = p_callable; }
+-	void window_set_input_text_callback(const Callable &p_callable, DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) override {}
++	void window_set_input_text_callback(const Callable &p_callable, DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) override { input_text_callback = p_callable; }
+ 	void window_set_drop_files_callback(const Callable &p_callable, DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) override {}
+ 
+ 	void window_set_title(const String &p_title, DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) override {}
+@@ -124,7 +139,7 @@ public:
  	void window_set_taskbar_progress_value(float p_value, DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) override {}
  	void window_set_taskbar_progress_state(DisplayServerEnums::ProgressState p_state, DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) override {}
  	void window_move_to_foreground(DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) override {}
@@ -524,6 +674,22 @@ index b9d02b9..27ecafd 100644
  
  	bool window_can_draw(DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) const override { return true; }
  	bool can_any_window_draw() const override { return true; }
+@@ -156,8 +171,13 @@ public:
+ 	void clipboard_set(const String &p_text) override {}
+ 	void clipboard_set_primary(const String &p_text) override {}
+ 
+-	void virtual_keyboard_show(const String &p_existing_text, const Rect2 &p_screen_rect = Rect2(), DisplayServerEnums::VirtualKeyboardType p_type = DisplayServerEnums::KEYBOARD_TYPE_DEFAULT, int p_max_length = -1, int p_cursor_start = -1, int p_cursor_end = -1) override {}
+-	void virtual_keyboard_hide() override {}
++	void virtual_keyboard_show(const String &p_existing_text, const Rect2 &p_screen_rect = Rect2(), DisplayServerEnums::VirtualKeyboardType p_type = DisplayServerEnums::KEYBOARD_TYPE_DEFAULT, int p_max_length = -1, int p_cursor_start = -1, int p_cursor_end = -1) override;
++	void virtual_keyboard_hide() override {
++		virtual_keyboard_pending = false;
++		if (native_keyboard_active) {
++			native_keyboard_cancelled = true;
++		}
++	}
+ 
+ 	void cursor_set_shape(DisplayServerEnums::CursorShape p_shape) override {}
+ 	void cursor_set_custom_image(const Ref<Resource> &p_cursor, DisplayServerEnums::CursorShape p_shape = DisplayServerEnums::CURSOR_ARROW, const Vector2 &p_hotspot = Vector2()) override {}
 diff --git a/platform/switch/godot_switch.cpp b/platform/switch/godot_switch.cpp
 index 73c7872..6666427 100644
 --- a/platform/switch/godot_switch.cpp
