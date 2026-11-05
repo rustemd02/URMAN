@@ -1,0 +1,22 @@
+# devkitPro's toolchain-base uses Debian bookworm; match Python's libc base.
+ARG PYTHON_IMAGE=python@sha256:034c3e9d991f148d14c32ff8350286b91420baca7757d37819c7a9cc771317a0
+ARG DEVKITPRO_IMAGE=devkitpro/devkita64@sha256:82575ea78651b530b2e232bb3799cfd1fe331514e053d5f724bb4b28191fb79d
+FROM ${PYTHON_IMAGE} AS python
+FROM ${DEVKITPRO_IMAGE}
+USER root
+COPY --from=python /usr/local/ /usr/local/
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    clang llvm lld cmake ninja-build build-essential git curl ca-certificates \
+    pkg-config patch zip unzip autoconf automake libtool \
+    libicu-dev libkrb5-dev libssl-dev liblttng-ust-dev libunwind-dev \
+    libnuma-dev zlib1g-dev libcurl4-openssl-dev libbrotli-dev \
+    libexpat1 libffi8 libsqlite3-0 libbz2-1.0 liblzma5 libreadline8 uuid-dev \
+    libgl1-mesa-dev libfontconfig1-dev && rm -rf /var/lib/apt/lists/*
+RUN python3 -m pip install --no-cache-dir scons dnfile pefile pyelftools && \
+    python3 -c 'import sys; assert sys.version_info >= (3,12)'
+RUN dkp-pacman -Sy --needed --noconfirm switch-mesa switch-libdrm_nouveau
+ENV DEVKITPRO=/opt/devkitpro DEVKITA64=/opt/devkitpro/devkitA64
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=1 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
+WORKDIR /workspace
+# Build invocation is explicit in CI; no network/build action occurs on startup.
+CMD ["python3", "--version"]

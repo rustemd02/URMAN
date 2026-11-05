@@ -1,0 +1,15 @@
+{
+  "engine_url": "https://github.com/SnepOMatic/Godot-for-Nintendo-Switch.git",
+  "engine_commit": "650036e08177daeb0f72b7c2201fad7710efeffa",
+  "engine_version_from_source": "4.7.3-rc",
+  "runtime_url": "https://github.com/pixelomer/dotnet-runtime.git",
+  "runtime_commit": "4a1e59e06fba330166a070eab784cc37a3232f6a",
+  "runtime_sdk_wrapper_url": "https://github.com/pixelomer/dotnet-switch.git",
+  "runtime_sdk_wrapper_commit": "da840208eb6501c971a254bd6967500a58c4010f",
+  "libnx_commit": "1ad156340a015986ceaedaaf8fba602d7fea2730",
+  "icu_version": "77.1",
+  "devkitpro_image": "devkitpro/devkita64@sha256:82575ea78651b530b2e232bb3799cfd1fe331514e053d5f724bb4b28191fb79d",
+  "game_base_commit": "9e2583400cd28716cff19368f19b1d30c335e247",
+  "python_image": "python@sha256:034c3e9d991f148d14c32ff8350286b91420baca7757d37819c7a9cc771317a0",
+  "patch_sha256": "b7658e634af62c63ee3002600782b9127d9fefcced22040fd39ffccb8c138350"
+}

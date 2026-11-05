@@ -1,0 +1,52 @@
+name: URMAN Switch source build
+on:
+  push:
+    branches: [codex/urman-switch-homebrew]
+    paths: ['ports/switch/**', '.github/workflows/urman-switch.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: urman-switch-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: ports/switch
+          persist-credentials: false
+      - name: Free disposable runner space
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc
+          df -h .
+      - name: Build pinned toolchain container
+        run: docker build --platform linux/amd64 -f ports/switch/tools/Dockerfile.switch -t urman-switch-builder ports/switch/tools
+      - name: Build Horizon runtime and Godot engine
+        run: |
+          mkdir -p "$RUNNER_TEMP/urman-build"
+          docker run --rm --platform linux/amd64 --ulimit stack=-1:-1 \
+            -v "$GITHUB_WORKSPACE:/workspace:ro" \
+            -v "$RUNNER_TEMP/urman-build:/build" \
+            urman-switch-builder python3 /workspace/ports/switch/tools/build_switch.py \
+            --game-source /workspace --work-dir /build/urman --stage native --jobs 4
+      - name: Preserve build diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: urman-switch-build-diagnostics
+          retention-days: 1
+          if-no-files-found: warn
+          path: |
+            ${{ runner.temp }}/urman-build/urman/logs/
+            ${{ runner.temp }}/urman-build/urman/build-status.json
+            ${{ runner.temp }}/urman-build/urman/*-receipt.json
+      - name: Preserve native engine (requires game payload)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: urman-switch-native-engine-not-a-game-package
+          retention-days: 1
+          path: ${{ runner.temp }}/urman-build/urman/native/

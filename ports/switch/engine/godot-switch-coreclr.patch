@@ -1,0 +1,431 @@
+diff --git a/modules/mono/editor/GodotTools/GodotTools/Export/ExportPlugin.cs b/modules/mono/editor/GodotTools/GodotTools/Export/ExportPlugin.cs
+index fc38b6a..55c625b 100644
+--- a/modules/mono/editor/GodotTools/GodotTools/Export/ExportPlugin.cs
++++ b/modules/mono/editor/GodotTools/GodotTools/Export/ExportPlugin.cs
+@@ -171,6 +171,18 @@ namespace GodotTools.Export
+         {
+             _ = flags; // Unused.
+ 
++            // URMAN_SWITCH_EXTERNAL_MANAGED_V1: pack resources without publishing
++            // a Linux runtime. Managed IL is built and validated separately.
++            // _ExportFile remains active to preserve C# resource remaps.
++            if (features.Contains("urman_switch_pck"))
++            {
++                string manifest = Environment.GetEnvironmentVariable("URMAN_SWITCH_MANAGED_MANIFEST") ?? "";
++                if (!features.Contains("switch") || !File.Exists(manifest))
++                    throw new InvalidOperationException("Switch PCK export requires its external managed build manifest.");
++                GD.Print("URMAN_SWITCH_EXTERNAL_MANAGED_V1");
++                return;
++            }
++
+             if (!ProjectContainsDotNet())
+                 return;
+ 
+diff --git a/modules/mono/godotsharp_dirs.cpp b/modules/mono/godotsharp_dirs.cpp
+index 12aa9b4..0b6f3ca 100644
+--- a/modules/mono/godotsharp_dirs.cpp
++++ b/modules/mono/godotsharp_dirs.cpp
+@@ -178,6 +178,11 @@ private:
+ 		String arch = Engine::get_singleton()->get_architecture_name();
+ 		String appname_safe = Path::get_csharp_project_name();
+ 		String packed_path = "res://.godot/mono/publish/" + arch;
++#ifdef SWITCH_CORECLR_ENABLED
++		// The Switch package stages the managed app and matching framework in a
++		// single stable SD-card directory for the statically linked CoreCLR host.
++		api_assemblies_dir = "/switch/urman/managed";
++#else
+ #ifdef ANDROID_ENABLED
+ 		api_assemblies_dir = packed_path;
+ 		print_verbose(".NET: Android platform detected. Setting api_assemblies_dir directly to pck path: " + api_assemblies_dir);
+@@ -228,6 +233,7 @@ private:
+ 			api_assemblies_dir = data_dir_root;
+ 		}
+ #endif // ANDROID_ENABLED
++#endif // SWITCH_CORECLR_ENABLED
+ #endif
+ 	}
+ 
+diff --git a/modules/mono/mono_gd/gd_mono.cpp b/modules/mono/mono_gd/gd_mono.cpp
+index 8805ab6..0c415c0 100644
+--- a/modules/mono/mono_gd/gd_mono.cpp
++++ b/modules/mono/mono_gd/gd_mono.cpp
+@@ -53,7 +53,11 @@
+ #include "core/os/os.h"
+ #include "core/os/thread.h"
+ 
+-#ifdef UNIX_ENABLED
++#if defined(SWITCH_CORECLR_ENABLED) && !defined(TOOLS_ENABLED)
++#include "platform/switch/coreclr_host.h"
++#endif
++
++#if defined(UNIX_ENABLED) && !defined(SWITCH_CORECLR_ENABLED)
+ #include <dlfcn.h>
+ #endif
+ 
+@@ -75,8 +79,8 @@ hostfxr_close_fn hostfxr_close = nullptr;
+ typedef int(CORECLR_DELEGATE_CALLTYPE *coreclr_create_delegate_fn)(void *hostHandle, unsigned int domainId, const char *entryPointAssemblyName, const char *entryPointTypeName, const char *entryPointMethodName, void **delegate);
+ typedef int(CORECLR_DELEGATE_CALLTYPE *coreclr_initialize_fn)(const char *exePath, const char *appDomainFriendlyName, int propertyCount, const char **propertyKeys, const char **propertyValues, void **hostHandle, unsigned int *domainId);
+ 
+-coreclr_create_delegate_fn coreclr_create_delegate = nullptr;
+-coreclr_initialize_fn coreclr_initialize = nullptr;
++coreclr_create_delegate_fn p_coreclr_create_delegate = nullptr;
++coreclr_initialize_fn p_coreclr_initialize = nullptr;
+ 
+ #ifdef ANDROID_ENABLED
+ mono_install_assembly_preload_hook_fn mono_install_assembly_preload_hook = nullptr;
+@@ -300,6 +304,14 @@ bool load_hostfxr(void *&r_hostfxr_dll_handle) {
+ 
+ #ifndef TOOLS_ENABLED
+ bool load_coreclr(void *&r_coreclr_dll_handle) {
++#if defined(SWITCH_CORECLR_ENABLED)
++	// CoreCLR is linked into the NRO on Horizon; there is no dynamic runtime
++	// library to locate or open.
++	r_coreclr_dll_handle = nullptr;
++	p_coreclr_initialize = ::coreclr_initialize;
++	p_coreclr_create_delegate = ::coreclr_create_delegate;
++	return true;
++#else
+ 	String coreclr_path = find_coreclr();
+ 
+ 	bool is_monovm = false;
+@@ -328,11 +340,11 @@ bool load_coreclr(void *&r_coreclr_dll_handle) {
+ 
+ 	err = OS::get_singleton()->get_dynamic_library_symbol_handle(lib, "coreclr_initialize", symbol);
+ 	ERR_FAIL_COND_V(err != OK, false);
+-	coreclr_initialize = (coreclr_initialize_fn)symbol;
++	p_coreclr_initialize = (coreclr_initialize_fn)symbol;
+ 
+ 	err = OS::get_singleton()->get_dynamic_library_symbol_handle(lib, "coreclr_create_delegate", symbol);
+ 	ERR_FAIL_COND_V(err != OK, false);
+-	coreclr_create_delegate = (coreclr_create_delegate_fn)symbol;
++	p_coreclr_create_delegate = (coreclr_create_delegate_fn)symbol;
+ 
+ #ifdef ANDROID_ENABLED
+ 	err = OS::get_singleton()->get_dynamic_library_symbol_handle(lib, "mono_install_assembly_preload_hook", symbol);
+@@ -356,9 +368,11 @@ bool load_coreclr(void *&r_coreclr_dll_handle) {
+ 	mono_assembly_load_from_full = (mono_assembly_load_from_full_fn)symbol;
+ #endif
+ 
+-	return (coreclr_initialize &&
+-			coreclr_create_delegate);
++	return (p_coreclr_initialize &&
++			p_coreclr_create_delegate);
++#endif
+ }
++
+ #endif
+ 
+ #ifdef TOOLS_ENABLED
+@@ -590,18 +604,27 @@ godot_plugins_initialize_fn initialize_coreclr_and_godot_plugins(bool &r_runtime
+ 
+ 	void *coreclr_handle = nullptr;
+ 	unsigned int domain_id = 0;
+-	int rc = coreclr_initialize(nullptr, nullptr, 0, nullptr, nullptr, &coreclr_handle, &domain_id);
++	int rc = 0;
++#if defined(SWITCH_CORECLR_ENABLED)
++	if (!switch_coreclr::initialize(&coreclr_handle, &domain_id)) {
++		return nullptr;
++	}
++	rc = 0;
++#else
++	rc = p_coreclr_initialize(nullptr, nullptr, 0, nullptr, nullptr, &coreclr_handle, &domain_id);
++#endif
+ 	ERR_FAIL_COND_V_MSG(rc != 0, nullptr, ".NET: Failed to initialize CoreCLR.");
+ 
+ 	r_runtime_initialized = true;
+ 
+ 	print_verbose(".NET: CoreCLR initialized");
+ 
+-	coreclr_create_delegate(coreclr_handle, domain_id,
++	rc = p_coreclr_create_delegate(coreclr_handle, domain_id,
+ 			assembly_name.utf8().get_data(),
+ 			"GodotPlugins.Game.Main",
+ 			"InitializeFromGameProject",
+ 			(void **)&godot_plugins_initialize);
++	ERR_FAIL_COND_V_MSG(rc != 0, nullptr, ".NET: Failed to get GodotPlugins initialization delegate (error " + itos(rc) + ").");
+ 	ERR_FAIL_NULL_V_MSG(godot_plugins_initialize, nullptr, ".NET: Failed to get GodotPlugins initialization function pointer");
+ 
+ 	return godot_plugins_initialize;
+@@ -651,6 +674,13 @@ void GDMono::initialize() {
+ 	}
+ #endif
+ 
++#if defined(SWITCH_CORECLR_ENABLED)
++	if (load_coreclr(coreclr_dll_handle)) {
++		godot_plugins_initialize = initialize_coreclr_and_godot_plugins(runtime_initialized);
++	} else {
++		ERR_FAIL_MSG(".NET: Failed to bind the statically linked Switch CoreCLR");
++	}
++#else
+ 	if (load_hostfxr(hostfxr_dll_handle)) {
+ 		godot_plugins_initialize = initialize_hostfxr_and_godot_plugins(runtime_initialized);
+ 		ERR_FAIL_NULL(godot_plugins_initialize);
+@@ -676,6 +706,7 @@ void GDMono::initialize() {
+ 		ERR_FAIL_MSG(".NET: Failed to load hostfxr");
+ #endif
+ 	}
++#endif
+ 
+ 	int32_t interop_funcs_size = 0;
+ 	const void **interop_funcs = godotsharp::get_runtime_interop_funcs(interop_funcs_size);
+@@ -684,7 +715,7 @@ void GDMono::initialize() {
+ 
+ 	void *godot_dll_handle = nullptr;
+ 
+-#if defined(UNIX_ENABLED) && !defined(MACOS_ENABLED) && !defined(APPLE_EMBEDDED_ENABLED)
++#if defined(UNIX_ENABLED) && !defined(MACOS_ENABLED) && !defined(APPLE_EMBEDDED_ENABLED) && !defined(SWITCH_CORECLR_ENABLED)
+ 	// Managed code can access it on its own on other platforms
+ 	godot_dll_handle = dlopen(nullptr, RTLD_NOW);
+ #endif
+diff --git a/platform/switch/SCsub b/platform/switch/SCsub
+index 4c6a6c5..f0f4496 100644
+--- a/platform/switch/SCsub
++++ b/platform/switch/SCsub
+@@ -13,6 +13,9 @@ files = [
+     "switch_mbedtls_entropy.c",
+ ]
+ 
++if env["module_mono_enabled"]:
++    files.append("coreclr_host.cpp")
++
+ prog = env.add_program("#bin/godot", files)
+ 
+ dkp = os.environ["DEVKITPRO"]
+diff --git a/platform/switch/coreclr_build.py b/platform/switch/coreclr_build.py
+new file mode 100644
+index 0000000..756015b
+--- /dev/null
++++ b/platform/switch/coreclr_build.py
+@@ -0,0 +1,53 @@
++"""Link the source-built Horizon CoreCLR; never consume a desktop runtime."""
++import json
++import os
++from pathlib import Path
++import subprocess
++
++RUNTIME_COMMIT = "4a1e59e06fba330166a070eab784cc37a3232f6a"
++ARCHIVES = (
++    "dlls/mscoree/coreclr/libcoreclr_static.a",
++    "pal/src/libcoreclrpal.a",
++    "minipal/Unix/libcoreclrminipal.a",
++    "shared_minipal/libminipal.a",
++    "nativeresources/libnativeresourcestring.a",
++    "libs-native/System.Globalization.Native/libSystem.Globalization.Native.a",
++    "libs-native/System.Native/libSystem.Native.a",
++    "libs-native/System.IO.Compression.Native/libSystem.IO.Compression.Native.a",
++    "_deps/fetchzlibng-build/libz.a",
++    "_deps/brotli-build/libbrotlienc.a",
++    "_deps/brotli-build/libbrotlidec.a",
++    "_deps/brotli-build/libbrotlicommon.a",
++)
++
++
++def configure(env):
++    if not env.get("switch_coreclr_root"):
++        raise RuntimeError("C# on Switch requires switch_coreclr_root=<pinned, source-built runtime checkout>")
++    root = Path(env["switch_coreclr_root"]).resolve()
++    revision = subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()
++    if revision != RUNTIME_COMMIT:
++        raise RuntimeError("Horizon runtime revision does not match the integration pin")
++    record = json.loads((root / "artifacts/horizon/coreclr-build.json").read_text())
++    if record.get("source_revision") != revision or record.get("flavor") != "coreclr":
++        raise RuntimeError("Build the pinned CoreCLR profile before linking Godot")
++    configuration = json.loads((root / "artifacts/horizon/environment.json").read_text())
++    if Path(os.environ["DEVKITPRO"]).resolve() != Path(configuration["DEVKITPRO"]).resolve():
++        raise RuntimeError("Godot and CoreCLR must use the same staged libnx SDK: source eng/libnx/env.sh")
++    native = root / "artifacts/obj/coreclr/libnx.arm64.Release/coreclr-probe"
++    icu = Path(configuration["ICU_NX_INSTALL_DIR"])
++    archives = [native / name for name in ARCHIVES]
++    archives += [icu / "lib" / name for name in ("libicui18n.a", "libicuuc.a", "libicudata.a")]
++    for archive in archives:
++        if not archive.is_file():
++            raise RuntimeError("Missing static runtime dependency: " + str(archive))
++    env.Append(CPPDEFINES=["SWITCH_CORECLR_ENABLED"])
++    env.Append(CPPPATH=[str(root / "src/coreclr/hosts/inc")])
++    # Keep this group after Godot archives and before libnx. No diagnostic
++    # probe main(), wrappers, fake POSIX functions or dynamic loaders are linked.
++    env.Prepend(LIBS=[env.Literal("-Wl,--start-group")] + [env.File(str(p)) for p in archives] + [env.Literal("-Wl,--end-group")])
++    env.Append(LINKFLAGS=[
++        "-Wl,--eh-frame-hdr",
++        "-Wl,-T," + str(root / "src/coreclr/nativeaot/Runtime/libnx/unwind-sections.ld"),
++        "-Wl,--export-dynamic-symbol=coreclr_initialize",
++    ])
+diff --git a/platform/switch/coreclr_host.cpp b/platform/switch/coreclr_host.cpp
+new file mode 100644
+index 0000000..494fb59
+--- /dev/null
++++ b/platform/switch/coreclr_host.cpp
+@@ -0,0 +1,87 @@
++/**************************************************************************/
++/*  coreclr_host.cpp                                                      */
++/**************************************************************************/
++/*  Static CoreCLR host adapter for the source-built Horizon runtime.      */
++/**************************************************************************/
++
++#include "coreclr_host.h"
++
++#include "modules/mono/godotsharp_dirs.h"
++
++#include "core/config/project_settings.h"
++#include "core/io/dir_access.h"
++#include "core/os/os.h"
++
++#include <cstdlib>
++#include <vector>
++
++extern "C" bool nxvm_ensure_initialized(size_t backing_bytes);
++
++namespace switch_coreclr {
++
++bool preinitialize() {
++	// The shared runtime arena must be reserved before Godot or libnx create
++	// worker stacks that could fragment Horizon's stack address region.
++	return nxvm_ensure_initialized(size_t(512) << 20);
++}
++
++bool initialize(void **r_host_handle, unsigned int *r_domain_id) {
++	// The Switch package stages the app and its matching framework DLLs in one
++	// directory, as in the pinned libnx embedding host.
++	String managed_dir = ProjectSettings::get_singleton()->globalize_path(GodotSharpDirs::get_api_assemblies_dir()).simplify_path();
++	Ref<DirAccess> managed_files = DirAccess::open(managed_dir);
++	ERR_FAIL_COND_V_MSG(managed_files.is_null(), false, ".NET: Unable to open Switch managed assembly directory: " + managed_dir);
++
++	std::vector<String> assembly_paths;
++	String corelib_path;
++	managed_files->list_dir_begin();
++	while (true) {
++		String file_name = managed_files->get_next();
++		if (file_name.is_empty()) {
++			break;
++		}
++		if (managed_files->current_is_dir() || !file_name.ends_with(".dll")) {
++			continue;
++		}
++		String assembly_path = managed_dir.path_join(file_name).simplify_path();
++		if (file_name == "System.Private.CoreLib.dll") {
++			corelib_path = assembly_path;
++		} else {
++			assembly_paths.push_back(assembly_path);
++		}
++	}
++	managed_files->list_dir_end();
++	ERR_FAIL_COND_V_MSG(corelib_path.is_empty(), false, ".NET: Switch managed directory is missing the matching System.Private.CoreLib.dll.");
++
++	// CoreCLR accepts colon-delimited absolute paths in this host property.
++	String trusted_platform_assemblies = corelib_path;
++	for (const String &assembly_path : assembly_paths) {
++		trusted_platform_assemblies += ":" + assembly_path;
++	}
++	CharString app_paths_utf8 = managed_dir.utf8();
++	CharString app_base_utf8 = (managed_dir + "/").utf8();
++	CharString tpa_utf8 = trusted_platform_assemblies.utf8();
++	CharString executable_path_utf8 = OS::get_singleton()->get_executable_path().utf8();
++	const char *property_keys[] = {
++		"APP_PATHS",
++		"TRUSTED_PLATFORM_ASSEMBLIES",
++		"System.Globalization.Invariant",
++		"APP_CONTEXT_BASE_DIRECTORY",
++	};
++	const char *property_values[] = {
++		app_paths_utf8.get_data(),
++		tpa_utf8.get_data(),
++		"false",
++		app_base_utf8.get_data(),
++	};
++
++	// Horizon's upstream host disables the unsupported FIFO debugger transport.
++	// ICU is source-built for this runtime and staged in the package's icu folder.
++	setenv("DOTNET_EnableDiagnostics_Debugger", "0", 1);
++	setenv("ICU_DATA", "sdmc:/switch/urman/icu", 1);
++	int rc = coreclr_initialize(executable_path_utf8.get_data(), "Godot Horizon CoreCLR", 4, property_keys, property_values, r_host_handle, r_domain_id);
++	ERR_FAIL_COND_V_MSG(rc != 0, false, ".NET: Failed to initialize the statically linked Switch CoreCLR (error " + itos(rc) + ").");
++	return true;
++}
++
++} // namespace switch_coreclr
+diff --git a/platform/switch/coreclr_host.h b/platform/switch/coreclr_host.h
+new file mode 100644
+index 0000000..82b0000
+--- /dev/null
++++ b/platform/switch/coreclr_host.h
+@@ -0,0 +1,14 @@
++/**************************************************************************/
++/*  coreclr_host.h                                                        */
++/**************************************************************************/
++
++#pragma once
++
++#include "coreclrhost.h"
++
++namespace switch_coreclr {
++
++bool preinitialize();
++bool initialize(void **r_host_handle, unsigned int *r_domain_id);
++
++} // namespace switch_coreclr
+diff --git a/platform/switch/detect.py b/platform/switch/detect.py
+index d31f5de..0380759 100644
+--- a/platform/switch/detect.py
++++ b/platform/switch/detect.py
+@@ -21,6 +21,7 @@ def can_build():
+ 
+ def get_opts():
+     return [
++        ("switch_coreclr_root", "Source-built pinned Horizon CoreCLR checkout (required for C#)", ""),
+         # Experimental, off by default. Builds the scaffold deko3d
+         # RenderingDeviceDriver (drivers/deko3d/) and links libdeko3d. Does not
+         # render yet; the default renderer remains the GL Compatibility backend.
+@@ -57,7 +58,8 @@ def get_flags():
+         "disable_xr": False,
+         # No W^X JIT pages on Horizon.
+         "builtin_pcre2_with_jit": False,
+-        "supported": [],
++        # The static host is configured below; a missing matching runtime is fatal.
++        "supported": ["mono"],
+     }
+ 
+ 
+@@ -99,6 +101,13 @@ def configure(env):
+     env.Append(LINKFLAGS=["-Wl,--wrap=pthread_create"])
+     env.Append(LIBS=["EGL", "GLESv2", "glapi", "drm_nouveau", "nx"])
+ 
++    if env["module_mono_enabled"]:
++        import importlib.util
++        spec = importlib.util.spec_from_file_location("switch_coreclr_build", os.path.join(os.path.dirname(__file__), "coreclr_build.py"))
++        coreclr_build = importlib.util.module_from_spec(spec)
++        spec.loader.exec_module(coreclr_build)
++        coreclr_build.configure(env)
++
+     # Experimental deko3d RenderingDeviceDriver scaffold (drivers/deko3d/).
+     # Off by default; enable with `deko3d=yes`. The default renderer stays GL.
+     if env["deko3d"]:
+diff --git a/platform/switch/godot_switch.cpp b/platform/switch/godot_switch.cpp
+index 73c7872..6666427 100644
+--- a/platform/switch/godot_switch.cpp
++++ b/platform/switch/godot_switch.cpp
+@@ -16,6 +16,9 @@
+ #include "main/main.h"
+ #include "os_switch.h"
+ #include "switch_clocks.h"
++#ifdef SWITCH_CORECLR_ENABLED
++#include "coreclr_host.h"
++#endif
+ 
+ #define FB_WIDTH 1280
+ #define FB_HEIGHT 720
+@@ -140,6 +143,15 @@ int main(int argc, char *argv[]) {
+ 		return ret;
+ 	}
+ 
++#ifdef SWITCH_CORECLR_ENABLED
++	if (!switch_coreclr::preinitialize()) {
++		fprintf(stderr, "URMAN: unable to reserve the managed runtime arena.\n");
++		romfsExit();
++		socketExit();
++		return EXIT_FAILURE;
++	}
++#endif
++
+ 	// [Switch fork] Boot splash during engine init (application mode). Bridges the
+ 	// grey gap before Godot's own boot splash / first GL frame appears.
+ 	draw_boot_splash();
