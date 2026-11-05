@@ -148882,7 +148882,11 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-095/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "build/releases/act1-20261106-224235b2-mac/receipt.json",
+        "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-release-2026-11-06.zip SHA256 def8d911fc5d6f388ecb5971b274c02a9deb3dbae2c66e8bf25ba1b0b0532a32",
+        "eng/desktop_release_checks.py"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-095",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -149007,7 +149011,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Сохранённый Windows-кандидат6542c528 имеет два подтверждённых native запуска, но не включает текущие15ca5c10 и исправления интерфейса/двери/сравнения/целей. Обновить пакет только для предметной приёмки/поставки изменённого результата; не повторять экспорт и NewGame/setup ради отчёта. Save/Continue/кампания/Mac/права/внешние гейты остаются открыты.",
+      "next_action": "Использовать свежий Mac ZIP 224235b2 с уже подтверждённым отдельным запуском Metal. В следующей необходимой игровой сессии этого кандидата проверить обычный Continue/Save и маршрут от школы. Windows-кандидат6542c528 старше текущего runtime, его обновлять для отдельной предметной приёмки. Права и внешние гейты открыты.",
       "blocker": null,
       "external_gates": [
         {
@@ -150003,6 +150007,25 @@
         },
         "limitations": "Scene capture is not ordinary campaign gameplay, interaction, Save/Continue, performance or artistic acceptance. The sample does not prove individual VariantB visibility or graft presence; targeted accepted scene/movement remains open.",
         "duration": "worker 409.89 s; do not repeat unchanged run."
+      },
+      "macos_standalone_candidate_2026_11_06": {
+        "state": "protected_native_bootstrap_pass_full_acceptance_open",
+        "artifact": "build/releases/act1-20261106-224235b2-mac/URMAN.zip",
+        "artifact_bytes": 716043010,
+        "artifact_sha256": "290c59f04ef04b24188d0fa4f48f61c24934ef40241abd8b4ad4af622b19d528",
+        "source_commit": "224235b267be715b3b5e7b07bc25eb13f45a281d",
+        "source_manifest_sha256": "32d8f90833333624a5ece0be1e749eaf8769d8a24f351af4c1e22aead2b9596e",
+        "source_file_count": 2548,
+        "source_inputs_equal_before_after": true,
+        "local_runtime_source_edits": [
+          "game/assets/materials/act1/painted_palisadnik_pbr_v1/albedo.png.import",
+          "game/assets/materials/act1/painted_palisadnik_pbr_v1/metallic_roughness.png.import",
+          "game/assets/materials/act1/painted_palisadnik_pbr_v1/normal.png.import"
+        ],
+        "verification": "One Godot Act I Release macOS export. ZIP integrity, arm64+x86_64, both self-contained .NET closures and 1497-entry PCK scope pass. Exact current fullgame pack, 27 book image remaps, W01–W05 scenes and current W03 materials present. Required S-PRINT thumbnail omission correctly refused by the new verifier. Extracted app ran from a separate working directory without pinned SDK variables on M4 Pro/Metal; physical pw-prologue/W01 F00 supported, exit0, userdata restored. No ERROR or SCRIPT ERROR lines; two existing material warnings.",
+        "limits": "Local Mac candidate, no Windows export. Intel architecture/closure only, no Intel play. New Game/Save/Continue, offline isolation, signing, full route, performance and external gates remain open.",
+        "archive": "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-release-2026-11-06.zip",
+        "archive_sha256": "def8d911fc5d6f388ecb5971b274c02a9deb3dbae2c66e8bf25ba1b0b0532a32"
       }
     },
     {
