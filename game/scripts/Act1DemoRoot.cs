@@ -1976,7 +1976,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         var journalHint = InputBindingService.ActionHint("journal", gamepad);
         var canInspectPhotoBook = _bridge?.CanInspectReceivedPhotoBook == true;
         var bookOnlyAction = canInspectPhotoBook && _mission.InteractionId is null && _mission.AnchorPath is null;
-        var text = bookOnlyAction
+        var text = canInspectPhotoBook && _bridge?.IsPhotoBookReturnScene == true
+            ? $"{journalHint}  Книга и выход из снимка"
+            : bookOnlyAction
             ? $"{journalHint}  Открыть книгу"
             : canInspectPhotoBook && _mission.BookPhotoId is not null
                 ? $"{journalHint}  Открыть снимок"

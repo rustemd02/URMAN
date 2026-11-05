@@ -26,6 +26,13 @@ public partial class RuntimeBridge
     internal const string PhotoBookCommonReturnInteractionId = "urman.fullgame:interaction/pw-common-book-return";
 
     internal bool IsPhotoBookReturnScene => CurrentPhotoBookReturnInteractionId is not null;
+    internal string? CurrentPhotoBookVisitPhotoId =>
+        CurrentPhotoBookReturnInteractionId is { } interactionId
+        && PhotoVisitWorldForInteraction(interactionId) is { } worldId
+        && _content.PhotoWorldDefinitions is { } catalog
+            ? catalog.RequireWorld(worldId).PhotoId
+            : null;
+
     private string? CurrentPhotoBookReturnInteractionId => ActiveSceneId switch
     {
         "urman.fullgame:scene/pw-forest" => PhotoBookForestReturnInteractionId,

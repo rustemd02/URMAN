@@ -132,10 +132,11 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
                      && GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge bridge)
             {
                 var mission = CurrentPlayerMission(bridge);
+                var photoId = bridge.CurrentPhotoBookVisitPhotoId ?? mission?.BookPhotoId;
                 if (bridge.CanInspectReceivedPhotoBook
-                    && (mission?.BookPhotoId is not null
+                    && (photoId is not null
                         || mission is { InteractionId: null, AnchorPath: null }))
-                    OpenPhotoBook(bridge, mission?.BookPhotoId);
+                    OpenPhotoBook(bridge, photoId);
                 else
                 {
                     if (mission is not null) _tabs.CurrentTab = 2;

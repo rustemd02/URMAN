@@ -109332,7 +109332,10 @@
         "game/scripts/JournalUi.PhotoBook.cs",
         "game/scripts/RuntimeBridge.PhotoBook.cs",
         "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e/receipt.json",
-        "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e.zip"
+        "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e.zip",
+        "game/scripts/JournalUi.cs",
+        "game/scripts/RuntimeBridge.PhotoBook.cs",
+        "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-photo-exit-2026-11-06.zip SHA256 8e7fb3137a8bb3e66f73c33fec12abfd599598c32c493e56fa628a15d15a1891"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-016",
       "source_requirements": [
@@ -109464,9 +109467,10 @@
         "Все старые полезные функции доступны.",
         "Фотомиры не открывают клетки наружной карты.",
         "После обычного получения снимка игрок находит фронт/оборот и вклейку в семейной книге; Continue сохраняет личные записи и состояния снимка. Карта/адреса/словарь/прежний инвентарь используют существующий источник состояния; открытие страницы не выдаёт непрочитанное знание или внешнее подтверждение.",
-        "Обычное использование книги/вклейки/сравнения и сохранённое продолжение текущего first episode ещё не приняты."
+        "Обычное использование книги/вклейки/сравнения и сохранённое продолжение текущего first episode ещё не приняты.",
+        "The ordinary journal shortcut opens the current acquired print during W01–W05; return remains a separate confirmed action. Mac compile and compiled catalog cross-check passed. Actual shortcut, close/cancel, return and restored book state remain open."
       ],
-      "next_action": "При следующей необходимой полной school→W01→home приёмке подтвердить реальное postmodal photoresult и дополненную семейнуюстраницу; unchangedsource не перепроверять. Перед новымrun выяснить обычный Continue/защищённую подготовку по фактам, не повторять247cfsetup.",
+      "next_action": "В обычной сессии Mac после школы открыть текущий снимок из W01 кнопкой книги, увидеть выход и вернуться к прохождению. Завершить W01 обычным выходом F16, проверить семейную запись и Save/Continue. В уже нужной сессии отдельного мира проверить подтверждение раннего выхода и возвращение на заработанный прогресс.",
       "blocker": {
         "reason": "Old missing-uuid source defect identified and fixed by peer; root official UI2 endpoint still unverified. Configured root loopback proxy127.0.0.1:1055 currently refuses connection, so raw receipt fetch/official capture-current cannot be completed here. Clean delivered x11 viewport accepted only for its visible UI.",
         "release_condition": "Configured existing local proxy becomes reachable; station owner releases/coordinates a current protected run and current deployed worker SHA is confirmed. Get one official scoped capture-current receipt/PNG on that owned run, preserving guards. No repeated old502 or rawprobe bypass/new daemon/config changes.",
