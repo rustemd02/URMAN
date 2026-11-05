@@ -1,0 +1,60 @@
+name: URMAN trial artifact download parts
+on:
+  push:
+    branches: [codex/urman-switch-homebrew]
+    paths: ['.github/workflows/urman-artifact-parts.yml']
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: read
+jobs:
+  split:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Download and verify completed trial artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, os, pathlib, urllib.request
+          root = pathlib.Path('parts')
+          root.mkdir()
+          req = urllib.request.Request('https://api.github.com/repos/rustemd02/URMAN/actions/artifacts/13448056428/zip', headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json'})
+          h = hashlib.sha256()
+          total = 0
+          with urllib.request.urlopen(req, timeout=120) as response:
+              for index in range(3):
+                  remaining = 400 * 1024 * 1024
+                  with (root / f'payload.zip.part{index}').open('wb') as out:
+                      while remaining:
+                          data = response.read(min(1024 * 1024, remaining))
+                          if not data:
+                              break
+                          out.write(data)
+                          h.update(data)
+                          total += len(data)
+                          remaining -= len(data)
+              assert not response.read(1), 'Unexpected artifact size'
+          assert total == 1073095082, total
+          assert h.hexdigest() == '8f8746b07e26a43bdc9f79047c47ba232db557016fddb0fed33c63c3eee70908', h.hexdigest()
+          print('Verified original trial ZIP and split into three download parts')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: urman-trial-part0
+          path: parts/payload.zip.part0
+          retention-days: 1
+          compression-level: 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: urman-trial-part1
+          path: parts/payload.zip.part1
+          retention-days: 1
+          compression-level: 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: urman-trial-part2
+          path: parts/payload.zip.part2
+          retention-days: 1
+          compression-level: 0
