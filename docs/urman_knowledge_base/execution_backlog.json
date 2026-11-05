@@ -25913,6 +25913,16 @@
                 "verification": "CRC and exact18memberbytes verified;17,408,917bytes.13 selectednativePNGs,3 temporaryhelperrecipes,currentactive-log snapshot andreceipt. No binaryscreens/logpayloads inGit; no activeprocessfiles oruserdata removed.",
                 "limits": "Currentrun75057 terminalrestorepending. Completed historical harness .out files sh_1ab224/sh_1ab24 are no longer in managedshellstorage; receipt explicitly records this, they were not recreated or claimed as rawarchived evidence. Their guardrestoration appeared in original tool output. Currentlog snapshot is not terminalreceipt."
               },
+              "terminal_75057": {
+                "status": "timeout_partial_not_full_acceptance",
+                "exit_code": 124,
+                "guard_restored": true,
+                "engine_error_lines": 0,
+                "log_sha256": "79a087584f038c02b47e2967e61ea2c971a952e38c818283883f25689c6ba0fa",
+                "result": "The own1800second guard ended the session while awaiting physicalmouse discrimination; originalfiles/permissionsrestoredverified. Earlier observed Save/Continue/liveReturn evidence remains bounded partial; normalexit of this last run and fullActI not accepted. No new run until owner answers whether physicalmouse turned camera. Earned doorstep save remains in namedlocalprofile.",
+                "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-mac-native-save-continue-2026-11-05-terminal.zip",
+                "supersedes_pending": "Current-run pending statements in earlier partial archive/history are superseded only for terminal restoration; no gameplaycriterion is promoted tocompleted."
+              },
               "scope": "Two bounded ordinary menu/save phases only after temporary PID/guard-parent/window/focus-safe controller is compiled. No seeds/debug/autoplay/prologue acceptance by skip, no claims of fullActI/art/human acceptance. Root exclusive input; no repeated preparation without new causal fact."
             },
             "external_gates": [],
