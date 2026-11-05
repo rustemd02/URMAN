@@ -891,6 +891,160 @@ diff --git a/game/scripts/Act1DemoRoot.cs b/game/scripts/Act1DemoRoot.cs
              var candidate = startNewGame ? null : await bridge.FindContinueAsync();
              if (!OwnsMenuOperation(menu, bridge)) return;
              var success = startNewGame
+diff --git a/game/scripts/AudioSettingsService.cs b/game/scripts/AudioSettingsService.cs
+--- a/game/scripts/AudioSettingsService.cs
++++ b/game/scripts/AudioSettingsService.cs
+@@ -1,5 +1,6 @@
+ using System.Text.Json;
+ using Godot;
++using Urman.Core.Persistence;
+ 
+ namespace Urman.Godot;
+ 
+@@ -30,6 +31,7 @@
+     private static Dictionary<string, float>? _volumes;
+ 
+     private static string FilePath => ProjectSettings.GlobalizePath("user://audio-settings.json");
++    private static string BackupFilePath => ProjectSettings.GlobalizePath("user://audio-settings.backup.json");
+ 
+     /// <summary>Idempotently creates the routed buses and applies stored volumes.</summary>
+     public static void EnsureBuses()
+@@ -122,49 +124,66 @@
+ 
+     private static Dictionary<string, float>? LoadFile()
+     {
++        Exception? failure = null;
++        var candidates = SwitchPersistenceMode.Enabled
++            ? new[] { FilePath, BackupFilePath }
++            : new[] { FilePath };
++        foreach (var candidate in candidates)
++        {
++            if (!System.IO.File.Exists(candidate))
++            {
++                continue;
++            }
++
++            try
++            {
++                var payload = JsonSerializer.Deserialize<StoredVolumes>(
++                    System.IO.File.ReadAllBytes(candidate));
++                if (payload is null || payload.Version != CurrentVersion || payload.Volumes is null)
++                {
++                    continue;
++                }
++
++                var volumes = DefaultVolumes();
++                foreach (var (busName, volume) in payload.Volumes)
++                {
++                    if (volumes.ContainsKey(busName))
++                    {
++                        volumes[busName] = Math.Clamp(volume, 0f, 1f);
++                    }
++                }
++
++                return volumes;
++            }
++            catch (Exception exception) when (exception is IOException or JsonException or UnauthorizedAccessException)
++            {
++                failure ??= exception;
++            }
++        }
++
++        if (failure is not null) GD.PushWarning($"Audio settings could not be loaded: {failure.Message}");
++        return null;
++    }
++
++    private static void SaveFile()
++    {
+         try
+         {
+-            if (!System.IO.File.Exists(FilePath))
+-            {
+-                return null;
+-            }
+-
+-            var payload = JsonSerializer.Deserialize<StoredVolumes>(
+-                System.IO.File.ReadAllBytes(FilePath));
+-            if (payload is null || payload.Version != CurrentVersion || payload.Volumes is null)
+-            {
+-                return null;
+-            }
+-
+-            var volumes = DefaultVolumes();
+-            foreach (var (busName, volume) in payload.Volumes)
+-            {
+-                if (volumes.ContainsKey(busName))
+-                {
+-                    volumes[busName] = Math.Clamp(volume, 0f, 1f);
+-                }
+-            }
+-
+-            return volumes;
+-        }
+-        catch (Exception exception) when (exception is IOException or JsonException or UnauthorizedAccessException)
+-        {
+-            GD.PushWarning($"Audio settings could not be loaded: {exception.Message}");
+-            return null;
+-        }
+-    }
+-
+-    private static void SaveFile()
+-    {
+-        try
+-        {
+-            var temporaryPath = System.IO.Path.Combine(
+-                ProjectSettings.GlobalizePath("user://"),
+-                $"audio-settings.{System.Guid.NewGuid():N}.tmp");
+             var bytes = JsonSerializer.SerializeToUtf8Bytes(
+                 new StoredVolumes(CurrentVersion, _volumes!));
+-            System.IO.File.WriteAllBytes(temporaryPath, bytes);
+-            System.IO.File.Move(temporaryPath, FilePath, overwrite: true);
++            if (SwitchPersistenceMode.Enabled)
++            {
++                SwitchSafeFileReplacement.WriteWithBackup(
++                    FilePath, BackupFilePath, bytes, IsValidCurrentVolumes);
++            }
++            else
++            {
++                var temporaryPath = System.IO.Path.Combine(
++                    ProjectSettings.GlobalizePath("user://"),
++                    $"audio-settings.{System.Guid.NewGuid():N}.tmp");
++                System.IO.File.WriteAllBytes(temporaryPath, bytes);
++                System.IO.File.Move(temporaryPath, FilePath, overwrite: true);
++            }
+         }
+         catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+         {
+@@ -176,14 +195,25 @@
+     {
+         try
+         {
+-            if (System.IO.File.Exists(FilePath))
+-            {
+-                System.IO.File.Delete(FilePath);
+-            }
++            if (System.IO.File.Exists(FilePath)) System.IO.File.Delete(FilePath);
++            if (System.IO.File.Exists(BackupFilePath)) System.IO.File.Delete(BackupFilePath);
+         }
+         catch (IOException exception)
+         {
+             GD.PushWarning($"Audio settings could not be removed: {exception.Message}");
++        }
++    }
++
++    private static bool IsValidCurrentVolumes(byte[] bytes)
++    {
++        try
++        {
++            var payload = JsonSerializer.Deserialize<StoredVolumes>(bytes);
++            return payload is { Version: CurrentVersion, Volumes: not null };
++        }
++        catch (JsonException)
++        {
++            return false;
+         }
+     }
+ 
 diff --git a/game/scripts/ControlsTutorialUi.cs b/game/scripts/ControlsTutorialUi.cs
 new file mode 100644
 --- /dev/null
@@ -1652,6 +1806,49 @@ diff --git a/game/scripts/PauseMenuUi.cs b/game/scripts/PauseMenuUi.cs
          _settingsButton = ShellButton("SettingsButton", "Настройки");
          _settingsButton.Pressed += OpenSettings;
          layout.AddChild(_settingsButton);
+diff --git a/game/scripts/RuntimeBridge.ContentCompatibility.cs b/game/scripts/RuntimeBridge.ContentCompatibility.cs
+--- a/game/scripts/RuntimeBridge.ContentCompatibility.cs
++++ b/game/scripts/RuntimeBridge.ContentCompatibility.cs
+@@ -78,6 +78,7 @@
+ 
+     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
+     {
++        var switchSafeFileReplacement = SwitchPersistenceMode.Enabled;
+         if (!StringComparer.Ordinal.Equals(_content.CampaignId, FullGameCampaignId) ||
+             (!StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTextRevisionFingerprint) &&
+              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTeaTextRevisionFingerprint) &&
+@@ -89,9 +90,12 @@
+              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameNivaArrivalFingerprint) &&
+              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameArrivalSkipTextFingerprint)))
+         {
+-            return new AtomicSaveGameStore(directory);
++            return new AtomicSaveGameStore(directory,
++                switchSafeFileReplacement: switchSafeFileReplacement);
+         }
+ 
+-        return new AtomicSaveGameStore(directory, fingerprintCompatibility: FullGameTextRevisionCompatibility);
++        return new AtomicSaveGameStore(directory,
++            fingerprintCompatibility: FullGameTextRevisionCompatibility,
++            switchSafeFileReplacement: switchSafeFileReplacement);
+     }
+ }
+diff --git a/game/scripts/RuntimeBridge.cs b/game/scripts/RuntimeBridge.cs
+--- a/game/scripts/RuntimeBridge.cs
++++ b/game/scripts/RuntimeBridge.cs
+@@ -83,8 +83,11 @@
+         _questCoordinator = new QuestRuntimeCoordinator(_content);
+         var playerSaveRoot = ProjectSettings.GlobalizePath("user://savegames");
+         var debugSaveRoot = ProjectSettings.GlobalizePath("user://debug-savegames");
+-        var existingPlayerStore = new AtomicSaveGameStore(playerSaveRoot);
+-        var existingDebugStore = new AtomicSaveGameStore(debugSaveRoot);
++        var switchSafeFileReplacement = SwitchPersistenceMode.Enabled;
++        var existingPlayerStore = new AtomicSaveGameStore(playerSaveRoot,
++            switchSafeFileReplacement: switchSafeFileReplacement);
++        var existingDebugStore = new AtomicSaveGameStore(debugSaveRoot,
++            switchSafeFileReplacement: switchSafeFileReplacement);
+         if (_content.PhotoWorldNamespaceId == PhotoWorldState.NamespaceId)
+         {
+             _incompatiblePhotoWorldSaveStore = existingPlayerStore;
 diff --git a/game/scripts/SettingsUi.cs b/game/scripts/SettingsUi.cs
 --- a/game/scripts/SettingsUi.cs
 +++ b/game/scripts/SettingsUi.cs
@@ -2025,3 +2222,443 @@ new file mode 100644
 +        throw new ArgumentException("Texture path is not in the Switch art allowlist.", nameof(resourcePath));
 +    }
 +}
+diff --git a/game/scripts/SwitchPersistenceMode.cs b/game/scripts/SwitchPersistenceMode.cs
+new file mode 100644
+--- /dev/null
++++ b/game/scripts/SwitchPersistenceMode.cs
+@@ -0,0 +1,9 @@
++using Godot;
++
++namespace Urman.Godot;
++
++internal static class SwitchPersistenceMode
++{
++    internal static bool Enabled => OS.HasFeature("switch") ||
++        StringComparer.OrdinalIgnoreCase.Equals(OS.GetName(), "Switch");
++}
+diff --git a/game/scripts/UserSettingsStore.cs b/game/scripts/UserSettingsStore.cs
+--- a/game/scripts/UserSettingsStore.cs
++++ b/game/scripts/UserSettingsStore.cs
+@@ -15,30 +15,38 @@
+     private const int CurrentVersion = 1;
+ 
+     private static string FilePath => ProjectSettings.GlobalizePath("user://settings.json");
++    private static string BackupFilePath => ProjectSettings.GlobalizePath("user://settings.backup.json");
+ 
+     public static GameSettingsSnapshot? TryLoad()
+     {
+-        try
++        Exception? failure = null;
++        var candidates = SwitchPersistenceMode.Enabled
++            ? new[] { FilePath, BackupFilePath }
++            : new[] { FilePath };
++        foreach (var candidate in candidates)
+         {
+-            if (!System.IO.File.Exists(FilePath))
++            if (!System.IO.File.Exists(candidate))
+             {
+-                return null;
++                continue;
+             }
+ 
+-            var payload = JsonSerializer.Deserialize<StoredSettings>(
+-                System.IO.File.ReadAllBytes(FilePath));
+-            if (payload is null || payload.Version != CurrentVersion || payload.Settings is null)
++            try
+             {
+-                return null;
++                var payload = JsonSerializer.Deserialize<StoredSettings>(
++                    System.IO.File.ReadAllBytes(candidate));
++                if (payload is not null && payload.Version == CurrentVersion && payload.Settings is not null)
++                {
++                    return payload.Settings;
++                }
+             }
++            catch (Exception exception) when (exception is IOException or JsonException or UnauthorizedAccessException)
++            {
++                failure ??= exception;
++            }
++        }
+ 
+-            return payload.Settings;
+-        }
+-        catch (Exception exception) when (exception is IOException or JsonException or UnauthorizedAccessException)
+-        {
+-            GD.PushWarning($"User settings could not be loaded: {exception.Message}");
+-            return null;
+-        }
++        if (failure is not null) GD.PushWarning($"User settings could not be loaded: {failure.Message}");
++        return null;
+     }
+ 
+     public static void Save(GameSettingsSnapshot settings)
+@@ -46,10 +54,18 @@
+         try
+         {
+             var directory = ProjectSettings.GlobalizePath("user://");
+-            var temporaryPath = System.IO.Path.Combine(directory, $"settings.{System.Guid.NewGuid():N}.tmp");
+             var bytes = JsonSerializer.SerializeToUtf8Bytes(new StoredSettings(CurrentVersion, settings));
+-            System.IO.File.WriteAllBytes(temporaryPath, bytes);
+-            System.IO.File.Move(temporaryPath, FilePath, overwrite: true);
++            if (SwitchPersistenceMode.Enabled)
++            {
++                SwitchSafeFileReplacement.WriteWithBackup(
++                    FilePath, BackupFilePath, bytes, IsValidCurrentSettings);
++            }
++            else
++            {
++                var temporaryPath = System.IO.Path.Combine(directory, $"settings.{System.Guid.NewGuid():N}.tmp");
++                System.IO.File.WriteAllBytes(temporaryPath, bytes);
++                System.IO.File.Move(temporaryPath, FilePath, overwrite: true);
++            }
+         }
+         catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+         {
+@@ -61,10 +77,8 @@
+     {
+         try
+         {
+-            if (System.IO.File.Exists(FilePath))
+-            {
+-                System.IO.File.Delete(FilePath);
+-            }
++            if (System.IO.File.Exists(FilePath)) System.IO.File.Delete(FilePath);
++            if (System.IO.File.Exists(BackupFilePath)) System.IO.File.Delete(BackupFilePath);
+         }
+         catch (IOException exception)
+         {
+@@ -72,5 +86,18 @@
+         }
+     }
+ 
++    private static bool IsValidCurrentSettings(byte[] bytes)
++    {
++        try
++        {
++            var payload = JsonSerializer.Deserialize<StoredSettings>(bytes);
++            return payload is { Version: CurrentVersion, Settings: not null };
++        }
++        catch (JsonException)
++        {
++            return false;
++        }
++    }
++
+     private sealed record StoredSettings(int Version, GameSettingsSnapshot Settings);
+ }
+diff --git a/src-dotnet/Urman.Core/Persistence/AtomicSaveGameStore.cs b/src-dotnet/Urman.Core/Persistence/AtomicSaveGameStore.cs
+--- a/src-dotnet/Urman.Core/Persistence/AtomicSaveGameStore.cs
++++ b/src-dotnet/Urman.Core/Persistence/AtomicSaveGameStore.cs
+@@ -7,16 +7,19 @@
+     private readonly string _directory;
+     private readonly SaveGameV3Codec _codec;
+     private readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> _fingerprintCompatibility;
++    private readonly bool _switchSafeFileReplacement;
+ 
+     public AtomicSaveGameStore(
+         string directory,
+         SaveGameV3Codec? codec = null,
+-        IReadOnlyCollection<SaveGameFingerprintCompatibility>? fingerprintCompatibility = null)
++        IReadOnlyCollection<SaveGameFingerprintCompatibility>? fingerprintCompatibility = null,
++        bool switchSafeFileReplacement = false)
+     {
+         ArgumentException.ThrowIfNullOrWhiteSpace(directory);
+         _directory = Path.GetFullPath(directory);
+         _codec = codec ?? new SaveGameV3Codec();
+         _fingerprintCompatibility = fingerprintCompatibility?.ToArray() ?? Array.Empty<SaveGameFingerprintCompatibility>();
++        _switchSafeFileReplacement = switchSafeFileReplacement;
+     }
+ 
+     public async Task SaveAsync(string slot, SaveGameV3 save, CancellationToken cancellationToken = default)
+@@ -43,7 +46,13 @@
+                 stream.Flush(flushToDisk: true);
+             }
+ 
+-            if (File.Exists(target))
++            if (_switchSafeFileReplacement)
++            {
++                SwitchSafeFileReplacement.InstallPreparedFile(
++                    temporary, target, backup,
++                    IsValidCurrentSave);
++            }
++            else if (File.Exists(target))
+             {
+                 File.Replace(temporary, target, backup, ignoreMetadataErrors: true);
+             }
+@@ -58,6 +67,22 @@
+             {
+                 File.Delete(temporary);
+             }
++        }
++    }
++
++    private bool IsValidCurrentSave(byte[] bytes)
++    {
++        try
++        {
++            // The old primary may belong to a different campaign revision.
++            // Validate its structure without the incoming fingerprint so a
++            // valid prior save is never discarded as if it were corruption.
++            _codec.Decode(bytes);
++            return true;
++        }
++        catch (InvalidDataException)
++        {
++            return false;
+         }
+     }
+ 
+diff --git a/src-dotnet/Urman.Core/Persistence/SwitchSafeFileReplacement.cs b/src-dotnet/Urman.Core/Persistence/SwitchSafeFileReplacement.cs
+new file mode 100644
+--- /dev/null
++++ b/src-dotnet/Urman.Core/Persistence/SwitchSafeFileReplacement.cs
+@@ -0,0 +1,116 @@
++namespace Urman.Core.Persistence;
++
++/// <summary>
++/// Installs a prepared file using renames only when their destination is
++/// absent. This supports Switch filesystems whose rename call does not replace
++/// an existing path.
++/// </summary>
++public static class SwitchSafeFileReplacement
++{
++    public static void WriteWithBackup(
++        string target,
++        string backup,
++        ReadOnlySpan<byte> contents,
++        Func<byte[], bool> isValidCurrent)
++    {
++        ArgumentException.ThrowIfNullOrWhiteSpace(target);
++        ArgumentException.ThrowIfNullOrWhiteSpace(backup);
++        ArgumentNullException.ThrowIfNull(isValidCurrent);
++        var fullTarget = Path.GetFullPath(target);
++        var directory = Path.GetDirectoryName(fullTarget)!;
++        Directory.CreateDirectory(directory);
++        var temporary = Path.Combine(directory, $".{Path.GetFileName(fullTarget)}.{Guid.NewGuid():N}.tmp");
++        try
++        {
++            WriteDurably(temporary, contents);
++            InstallPreparedFile(temporary, fullTarget, Path.GetFullPath(backup), isValidCurrent);
++        }
++        finally
++        {
++            if (File.Exists(temporary)) File.Delete(temporary);
++        }
++    }
++
++    public static void InstallPreparedFile(
++        string temporary,
++        string target,
++        string backup,
++        Func<byte[], bool> isValidCurrent) =>
++        InstallPreparedFile(temporary, target, backup, isValidCurrent, checkpoint: null);
++
++    internal static void InstallPreparedFile(
++        string temporary,
++        string target,
++        string backup,
++        Func<byte[], bool> isValidCurrent,
++        Action<InstallCheckpoint>? checkpoint)
++    {
++        ArgumentException.ThrowIfNullOrWhiteSpace(temporary);
++        ArgumentException.ThrowIfNullOrWhiteSpace(target);
++        ArgumentException.ThrowIfNullOrWhiteSpace(backup);
++        ArgumentNullException.ThrowIfNull(isValidCurrent);
++        var fullTemporary = Path.GetFullPath(temporary);
++        var fullTarget = Path.GetFullPath(target);
++        var fullBackup = Path.GetFullPath(backup);
++        if (StringComparer.Ordinal.Equals(fullTemporary, fullTarget) ||
++            StringComparer.Ordinal.Equals(fullTemporary, fullBackup) ||
++            StringComparer.Ordinal.Equals(fullTarget, fullBackup))
++        {
++            throw new ArgumentException("Temporary, primary and backup paths must be distinct.");
++        }
++        if (!File.Exists(fullTemporary))
++        {
++            throw new FileNotFoundException("Prepared replacement file is missing.", fullTemporary);
++        }
++
++        if (File.Exists(fullTarget))
++        {
++            var current = File.ReadAllBytes(fullTarget);
++            if (isValidCurrent(current))
++            {
++                var backupDirectory = Path.GetDirectoryName(fullBackup)!;
++                Directory.CreateDirectory(backupDirectory);
++                var backupTemporary = Path.Combine(backupDirectory, $".{Path.GetFileName(fullBackup)}.{Guid.NewGuid():N}.tmp");
++                try
++                {
++                    WriteDurably(backupTemporary, current);
++                    if (!File.ReadAllBytes(backupTemporary).AsSpan().SequenceEqual(current))
++                    {
++                        throw new IOException("Verified backup copy does not match the current primary.");
++                    }
++
++                    // The primary still exists while the old backup is
++                    // removed, so a crash here leaves one valid copy.
++                    if (File.Exists(fullBackup)) File.Delete(fullBackup);
++                    File.Move(backupTemporary, fullBackup);
++                }
++                finally
++                {
++                    if (File.Exists(backupTemporary)) File.Delete(backupTemporary);
++                }
++            }
++
++            checkpoint?.Invoke(InstallCheckpoint.BeforePrimaryRemoval);
++            File.Delete(fullTarget);
++            checkpoint?.Invoke(InstallCheckpoint.AfterPrimaryRemoval);
++        }
++
++        // Destination is absent, so this is a plain rename on Switch.
++        File.Move(fullTemporary, fullTarget);
++    }
++
++    private static void WriteDurably(string path, ReadOnlySpan<byte> contents)
++    {
++        using var stream = new FileStream(
++            path, FileMode.CreateNew, FileAccess.Write, FileShare.None,
++            64 * 1024, FileOptions.WriteThrough);
++        stream.Write(contents);
++        stream.Flush(flushToDisk: true);
++    }
++
++    internal enum InstallCheckpoint
++    {
++        BeforePrimaryRemoval,
++        AfterPrimaryRemoval
++    }
++}
+diff --git a/src-dotnet/Urman.Core/Properties/AssemblyInfo.cs b/src-dotnet/Urman.Core/Properties/AssemblyInfo.cs
+new file mode 100644
+--- /dev/null
++++ b/src-dotnet/Urman.Core/Properties/AssemblyInfo.cs
+@@ -0,0 +1,3 @@
++using System.Runtime.CompilerServices;
++
++[assembly: InternalsVisibleTo("Urman.Core.Tests")]
+diff --git a/tests-dotnet/Urman.Core.Tests/DeterminismAndSaveTests.cs b/tests-dotnet/Urman.Core.Tests/DeterminismAndSaveTests.cs
+--- a/tests-dotnet/Urman.Core.Tests/DeterminismAndSaveTests.cs
++++ b/tests-dotnet/Urman.Core.Tests/DeterminismAndSaveTests.cs
+@@ -58,6 +58,121 @@
+             {
+                 Directory.Delete(directory, recursive: true);
+             }
++        }
++    }
++
++    [Fact]
++    public async Task AtomicStore_SwitchSafeReplacementKeepsPreviousVerifiedGeneration()
++    {
++        var directory = Path.Combine(Path.GetTempPath(), $"urman-save-test-{Guid.NewGuid():N}");
++        var store = new AtomicSaveGameStore(directory, switchSafeFileReplacement: true);
++        try
++        {
++            await store.SaveAsync("slot-1", CreateSave("house", 1), TestContext.Current.CancellationToken);
++            await store.SaveAsync("slot-1", CreateSave("forest", 2), TestContext.Current.CancellationToken);
++            await store.SaveAsync("slot-1", CreateSave("fap_clinic", 3), TestContext.Current.CancellationToken);
++
++            var loaded = await store.LoadAsync("slot-1", CampaignFingerprint, TestContext.Current.CancellationToken);
++            var backup = new SaveGameV3Codec().Decode(
++                await File.ReadAllBytesAsync(store.BackupPath("slot-1"), TestContext.Current.CancellationToken),
++                CampaignFingerprint);
++
++            Assert.False(loaded.RecoveredFromBackup);
++            Assert.Equal("fap_clinic", loaded.Save.CurrentZone.Value);
++            Assert.Equal("forest", backup.CurrentZone.Value);
++            Assert.Equal(2, backup.SavedSequence);
++        }
++        finally
++        {
++            if (Directory.Exists(directory)) Directory.Delete(directory, recursive: true);
++        }
++    }
++
++    [Fact]
++    public async Task AtomicStore_SwitchSafeReplacementDoesNotRotateCorruptPrimaryOverValidBackup()
++    {
++        var directory = Path.Combine(Path.GetTempPath(), $"urman-save-test-{Guid.NewGuid():N}");
++        var store = new AtomicSaveGameStore(directory, switchSafeFileReplacement: true);
++        try
++        {
++            await store.SaveAsync("slot-1", CreateSave("house", 1), TestContext.Current.CancellationToken);
++            await store.SaveAsync("slot-1", CreateSave("forest", 2), TestContext.Current.CancellationToken);
++            await File.WriteAllTextAsync(store.SlotPath("slot-1"), "{corrupt", TestContext.Current.CancellationToken);
++
++            await store.SaveAsync("slot-1", CreateSave("fap_clinic", 3), TestContext.Current.CancellationToken);
++
++            var loaded = await store.LoadAsync("slot-1", CampaignFingerprint, TestContext.Current.CancellationToken);
++            var backup = new SaveGameV3Codec().Decode(
++                await File.ReadAllBytesAsync(store.BackupPath("slot-1"), TestContext.Current.CancellationToken),
++                CampaignFingerprint);
++            Assert.Equal("fap_clinic", loaded.Save.CurrentZone.Value);
++            Assert.Equal("house", backup.CurrentZone.Value);
++        }
++        finally
++        {
++            if (Directory.Exists(directory)) Directory.Delete(directory, recursive: true);
++        }
++    }
++
++    [Fact]
++    public async Task SwitchSafeReplacement_FailureBeforePrimaryRemovalKeepsPrimary()
++    {
++        var directory = Path.Combine(Path.GetTempPath(), $"urman-save-test-{Guid.NewGuid():N}");
++        var store = new AtomicSaveGameStore(directory, switchSafeFileReplacement: true);
++        try
++        {
++            await store.SaveAsync("slot-1", CreateSave("house", 1), TestContext.Current.CancellationToken);
++            var temporary = Path.Combine(directory, "next.tmp");
++            await File.WriteAllBytesAsync(temporary, new SaveGameV3Codec().Encode(CreateSave("forest", 2)), TestContext.Current.CancellationToken);
++
++            var error = Assert.Throws<IOException>(() => SwitchSafeFileReplacement.InstallPreparedFile(
++                temporary, store.SlotPath("slot-1"), store.BackupPath("slot-1"),
++                _ => true,
++                checkpoint =>
++                {
++                    if (checkpoint == SwitchSafeFileReplacement.InstallCheckpoint.BeforePrimaryRemoval)
++                        throw new IOException("injected before primary removal");
++                }));
++
++            var loaded = await store.LoadAsync("slot-1", CampaignFingerprint, TestContext.Current.CancellationToken);
++            Assert.Contains("injected", error.Message, StringComparison.Ordinal);
++            Assert.False(loaded.RecoveredFromBackup);
++            Assert.Equal("house", loaded.Save.CurrentZone.Value);
++        }
++        finally
++        {
++            if (Directory.Exists(directory)) Directory.Delete(directory, recursive: true);
++        }
++    }
++
++    [Fact]
++    public async Task SwitchSafeReplacement_FailureAfterPrimaryRemovalRecoversVerifiedBackup()
++    {
++        var directory = Path.Combine(Path.GetTempPath(), $"urman-save-test-{Guid.NewGuid():N}");
++        var store = new AtomicSaveGameStore(directory, switchSafeFileReplacement: true);
++        try
++        {
++            await store.SaveAsync("slot-1", CreateSave("house", 1), TestContext.Current.CancellationToken);
++            var temporary = Path.Combine(directory, "next.tmp");
++            await File.WriteAllBytesAsync(temporary, new SaveGameV3Codec().Encode(CreateSave("forest", 2)), TestContext.Current.CancellationToken);
++
++            var error = Assert.Throws<IOException>(() => SwitchSafeFileReplacement.InstallPreparedFile(
++                temporary, store.SlotPath("slot-1"), store.BackupPath("slot-1"),
++                _ => true,
++                checkpoint =>
++                {
++                    if (checkpoint == SwitchSafeFileReplacement.InstallCheckpoint.AfterPrimaryRemoval)
++                        throw new IOException("injected after primary removal");
++                }));
++
++            var loaded = await store.LoadAsync("slot-1", CampaignFingerprint, TestContext.Current.CancellationToken);
++            Assert.Contains("injected", error.Message, StringComparison.Ordinal);
++            Assert.True(loaded.RecoveredFromBackup);
++            Assert.Equal("house", loaded.Save.CurrentZone.Value);
++        }
++        finally
++        {
++            if (Directory.Exists(directory)) Directory.Delete(directory, recursive: true);
+         }
+     }
+ 

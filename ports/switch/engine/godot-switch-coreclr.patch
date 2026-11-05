@@ -194,10 +194,10 @@ index 4c6a6c5..f0f4496 100644
  dkp = os.environ["DEVKITPRO"]
 diff --git a/platform/switch/coreclr_build.py b/platform/switch/coreclr_build.py
 new file mode 100644
-index 0000000..756015b
+index 0000000..a323464
 --- /dev/null
 +++ b/platform/switch/coreclr_build.py
-@@ -0,0 +1,53 @@
+@@ -0,0 +1,56 @@
 +"""Link the source-built Horizon CoreCLR; never consume a desktop runtime."""
 +import json
 +import os
@@ -243,9 +243,12 @@ index 0000000..756015b
 +            raise RuntimeError("Missing static runtime dependency: " + str(archive))
 +    env.Append(CPPDEFINES=["SWITCH_CORECLR_ENABLED"])
 +    env.Append(CPPPATH=[str(root / "src/coreclr/hosts/inc")])
-+    # Keep this group after Godot archives and before libnx. No diagnostic
-+    # probe main(), wrappers, fake POSIX functions or dynamic loaders are linked.
-+    env.Prepend(LIBS=[env.Literal("-Wl,--start-group")] + [env.File(str(p)) for p in archives] + [env.Literal("-Wl,--end-group")])
++    # Put the runtime archives before libnx and group the library expansion.
++    # No probe main(), fake POSIX functions or dynamic loaders are linked.
++    # LIBS must contain actual libraries only: SCons scans even Literal values
++    # there as dependencies. Emit grouping flags in the link command expansion.
++    env.Prepend(LIBS=[env.File(str(p)) for p in archives])
++    env["_LIBFLAGS"] = "-Wl,--start-group " + env["_LIBFLAGS"] + " -Wl,--end-group"
 +    env.Append(LINKFLAGS=[
 +        "-Wl,--eh-frame-hdr",
 +        "-Wl,-T," + str(root / "src/coreclr/nativeaot/Runtime/libnx/unwind-sections.ld"),

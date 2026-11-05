@@ -20,6 +20,7 @@ jobs:
             ports/switch
             game
             src-dotnet
+            tests-dotnet
           persist-credentials: false
       - name: Free disposable runner space
         run: |
@@ -99,6 +100,10 @@ jobs:
         if: always()
         continue-on-error: true
         run: |
+          # SCons creates private cache directories as the container's root user.
+          if [ -d "$RUNNER_TEMP/urman-build/urman/scons-cache" ]; then
+            sudo chown -hR "$(id -u):$(id -g)" "$RUNNER_TEMP/urman-build/urman/scons-cache"
+          fi
           if [ -d "$RUNNER_TEMP/urman-build/urman/scons-cache" ] && find "$RUNNER_TEMP/urman-build/urman/scons-cache" -type f -print -quit | grep -q .; then
             echo "has_objects=true" >> "$GITHUB_OUTPUT"
           fi

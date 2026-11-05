@@ -11,8 +11,8 @@
   "devkitpro_image": "devkitpro/devkita64@sha256:82575ea78651b530b2e232bb3799cfd1fe331514e053d5f724bb4b28191fb79d",
   "game_base_commit": "9e2583400cd28716cff19368f19b1d30c335e247",
   "python_image": "python@sha256:034c3e9d991f148d14c32ff8350286b91420baca7757d37819c7a9cc771317a0",
-  "patch_sha256": "c7cefd1f22a5256a4cf54b1ea7bc9dfe82165357c86d522ffe75d622b236cd31",
+  "patch_sha256": "b67d0d6bb44ad1e5d766628ffe9eeba9c5c790c1f3f64e5473e5f5c103cfba02",
   "runtime_patch_sha256": "2b5c8cce5e74339fdfcdf0ca68acb509da053ab67e3b07b6ddaa54c80075b30f",
-  "game_patch_sha256": "90ea6240a7ad916a12c90f6a7a4cc0819dac1df60f333664dcee40971fd4ec0e",
+  "game_patch_sha256": "d2ff8f8412530cca3c6eeda5c1e18231ce28ea944fb77e71ea61a79abb8ae94f",
   "build_host_pkcs_version": "9.0.21"
 }
