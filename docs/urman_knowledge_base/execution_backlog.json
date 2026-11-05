@@ -2672,7 +2672,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-10-31",
+  "updated": "2026-11-05",
   "goal_key": "urman-photoworlds-finished-game",
   "goal_statement": "Довести единую очередь до готовой игры «За краем снимка»: обычная зимняя Кара-Урман, физическая книга Тукая, 13 снимков, пять полноценных фотомиров, пролог W01, реальные внешние подтверждения, домашний эпилог и свободные возвращения. Все применимые требования Visual Reset и PhotoWorlds, сохранённые бытовые системы и выпускная приёмка обязательны; готовность принимается REL-003 на конкретной поставляемой сборке, а не по числу закрытых карточек.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -25875,7 +25875,7 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Finite release source stage accepted/frozen after review; own native action/state acceptance remains open."
+              "reason": "05.11 local native manual Save→normalQuit→coldContinue and live MenuReturn observed on current candidate; technical stage recorded, fullprimary/backup contract remains open. Awaiting one physical-mouse discrimination after two unsuccessful bounded PID-targeted look hypotheses; root stops automated input, no game-code or guard weakening."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -25885,7 +25885,36 @@
               "Подключить Continue самого свежего совместимого save с unknown-version refusal; собственного целевого receipt пока нет."
             ],
             "next_action": "31.10 explicit author local-Mac override: verify ordinary current-source menu and Continue against actual local save metadata, without manual save edits or Windows profile transfer. Existing local1785/53c fingerprints are not current fullgame allowlisted; unknown-version refusal must remain strict. If no legitimate Continue exists, use one clean named act1-acceptance profile and ordinary NewGame/Save/Quit/Continue; preserve original userdata with protected_run. Previously accepted Windows school→W01→home evidence is not new Mac proof.",
-            "blocker": "31.10 local Mac preparation passed, but native ordinary input/capture requires owner-granted OS permissions. Read-only Swift/AppKit/CoreGraphics preflight returned AXIsProcessTrusted=false, CGPreflightPostEventAccess=false, CGPreflightScreenCaptureAccess=false; window metadata API is available. No global keyboard events, security changes or native gameplay launch performed. Owner must grant Accessibility and Screen Recording to the responsible OpenCode/terminal application, then resume; do not bypass OS permission gates.",
+            "blocker": null,
+            "local_native_question_2026_11_01": {
+              "state": "manual_save_normal_quit_cold_continue_and_live_resume_observed_awaiting_manual_mouse_discrimination",
+              "owner": "Sol/Mac-native",
+              "question": "Does ordinary local current-source menu refuse actual unknown original saves without mutation, then can an ordinary earned current clean-profile Save/Quit/Continue restore the same state?",
+              "candidate": "ManagedDLL SHA2565345e77163c58d880c53af5acdf952d77acc8ebefe6962e0c56545ce7a6d7125; campaignf754e4a5d29a27a357707835d6b56a78dfc71f90327d7a3912f38bd3da1df403; accepted local build/import reused.",
+              "inputs": "Original Mac checkpoint+backup schema3, unknown1785 fingerprint, sequences10/55 atvillage_day/arrival. Originaluserdata is protected; no Windows profile transfer/manualsave edits. Local act1-acceptance does not yet exist.",
+              "success": "App-only current native frames show correct refusal/menu and ordinary save feedback; subsequent diskContinue restores earned state, normalQuit and guard restoration verified. EmptyprofileContinue alone does not prove newest-compatible-primary/backup selection or wholefirstepisode.",
+              "independent_source_review": "Luna6Max #2237: exact unknown1785 fingerprints rejected for both primary+backup regardless ofsequence10/55. MainMenu should hideContinue and disclose failure; existing files cause secondNewGameconfirmation. AtomicSaveGameStore tries primary before backup; newest across quick/checkpoint uses mtime, not savedsequence. Backup acceptance requires compatible backup after primaryfailure with reserve-label/recoverylog; currentclean-profileSaveContinue alone cannot close that criterion. No confirmed source defect; no source/saves/runtime changes.",
+              "mac_observed_2026_11_05": {
+                "renderer": "Godot4.7.1 native Metal4.0 Forward+ on AppleM4Pro(Apple9). Managedcandidate5345e771…d7125/currentpackf754 reused; no repeated build/import.",
+                "original_menu": "OwnPID68139/guard68131/window5638 screenshot showed noContinue plus explicit prior-campaign incompatibility warning; originaldata restored and verified byguard. First keyattempt refusedfocus before sending input. This tests legacy-disclosure, not current-store corrupt-primary/backup recovery.",
+                "newgame": "OwnPID73243/guard73234/window11714; targeted Enter really started ordinaryNewGame, nextEnter used built-in prologue skip as accepted setup. ActualF00goal and Niva cabin rendered. Runtime autosaved currentf754checkpoint atpw-niva-arrival. Harness backgroundtimeout120s interrupted child despiteguard1800; guard restored originalfiles/permissions and retained owned acceptanceprofile. This was caller timeout, not gamefailure; no fullprologue/saveQuit acceptance.",
+                "earned_local_checkpoint": "Read-only profile metadata: schema3/f754,sequence21,village_day/arrival; no save mutation or Windowsprofiletransfer. Local act1-acceptance now exists.",
+                "cold_continue": "Secondlocalguard started with backgroundtimeout0 andguard1800. OwnPID73914/guard73910/window11734 screenshot showsContinue with earnedvillage timestamp. OrdinaryDown/Enter selectedContinue; actual restoredgameplay verification pending.",
+                "evidence": "OutsideGit screenshots in /private/var/folders/j_/jbw_g7qj2g9gg4l_142f7pm00000gn/T/opencode/: urman-mac-original-menu.png,urman-mac-newgame.png,urman-mac-niva-ready.png,urman-mac-continue-menu.png. Rawlogs /Users/unterlantas/.local/share/opencode/shell/dbf6fe2b8165141c0f059736fc894dfa8d98a4ee/sh_1ab224dd5001LYudzPDYAG5ZFr.out and sh_1ab24bc0c001wzlXhWTwXx40zx.out; retain compact localarchive afterstage, no screen/log payloads inGit.",
+                "remaining": "Compatibleprimary/backup scenarios and wholeepisode remainopen. Menu screenshot withContinue is intentionally scrollable: Luna source review confirmsScrollContainer/FollowFocus/visiblefocusedQuit, no sourceclippingdefect. Current run75057 remains guard-owned; terminalrestore stillpending until normalexit.",
+                "manual_roundtrip_result": "Run73914 restored the earnedNiva checkpoint (SaveGameV3restored), ordinary dialogue exited tostreet, PauseSave showedSaved and wrote currentquickseq56 at(0,-0.7041251063,9),yaw0. Normal confirmedPauseQuit completed with originalfiles/permissionsrestoredverified. Next coldprocess75057/guard75037/window11755 ordinaryContinue rendered same street/homeTea mission8m and loggedSaveGameV3restored; no manualsave edits or Windowsprofiletransfer.",
+                "live_menu_result": "OrdinaryW800 movedgoal8→7m withoutSave; Pause→confirmedMainMenu screenshot offers Вернутьсявигру, thenEnter resumed same movedview/7m instead of disk8m. Runtime source+existinglog support live-session path, not aLoad/NewGame; exactsessionidentity/audio and epilogue criteria are not claimed. Subsequent ordinaryWalkChainapproach passedgate/yard tohomeDoor2m; PauseSave showedSaved there.",
+                "native_mouse_blocker": "PID-targetedkeyboard/holds/capture work. Firstlook(-300,0) and v2 zero-delta-prime+same boundedlook leave camera unchanged. SwiftNSEvent construction confirms actualdelta-300/0 without posting; source supports potentialMacignore_warp but v2 did not resolve actualbehavior. After two hypotheses no further blindmouse retries/gamechanges. Need owner physicalmouse movement in owncurrentGodot window to distinguish ordinarycamera defect from automation delivery/gate failure.",
+                "additional_frames": "urman-mac-manual-save.png, urman-mac-manual-cold-restored.png, urman-mac-unsaved-move.png, urman-mac-live-return-offer.png, urman-mac-resumed-unsaved.png, urman-mac-inside-yard.png, urman-mac-door-saved.png, urman-mac-door-look-v2.png in existing outsideGit tempfolder. Final coldlog is /private/var/folders/j_/jbw_g7qj2g9gg4l_142f7pm00000gn/T/opencode/urman-mac-cold-manual-save.log. No unperformed fullActI/art/human acceptance."
+              },
+              "local_archive": {
+                "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-mac-native-save-continue-2026-11-05-partial.zip",
+                "sha256": "72be56223303718773e5654be6efc83e03b653071028dfbe1dd308cb07cad152",
+                "verification": "CRC and exact18memberbytes verified;17,408,917bytes.13 selectednativePNGs,3 temporaryhelperrecipes,currentactive-log snapshot andreceipt. No binaryscreens/logpayloads inGit; no activeprocessfiles oruserdata removed.",
+                "limits": "Currentrun75057 terminalrestorepending. Completed historical harness .out files sh_1ab224/sh_1ab24 are no longer in managedshellstorage; receipt explicitly records this, they were not recreated or claimed as rawarchived evidence. Their guardrestoration appeared in original tool output. Currentlog snapshot is not terminalreceipt."
+              },
+              "scope": "Two bounded ordinary menu/save phases only after temporary PID/guard-parent/window/focus-safe controller is compiled. No seeds/debug/autoplay/prologue acceptance by skip, no claims of fullActI/art/human acceptance. Root exclusive input; no repeated preparation without new causal fact."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -131573,14 +131602,15 @@
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W03_Дом_на_просвет_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
       "next_action": "31.10 author explicitly rerouted gameplay verification to this Mac, not UnterPC. Use existing protected_run and ordinary product scene; establish actual local Continue/input first. Local existing save fingerprints1785/53c are not in current fullgame compatibility; do not import Windows profile or seed progress. If no compatible Continue exists, earn local progress in the existing named clean acceptance profile. Then permission→mount/back→physical W03 entry→four actions→H08 return/Save/Quit; verify original userdata restoration. Historical Windows W01/home evidence remains valid in its bounds, not a new Mac acceptance.",
-      "blocker": "31.10 Mac OS read-only permission check: Accessibility=false, event posting=false, Screen capture=false; native metadata API available. Local build/import passed, but no safe authorized automatic native gameplay input/capture yet. Owner must grant Accessibility and Screen Recording to the responsible OpenCode/terminal application; no bypass or permission changes made by agent. W03 remains not_run on Mac.",
+      "blocker": null,
       "local_verification_2026_10_31": {
         "authority": "Explicit live user instruction: continue goal and test on user's Mac, not UnterPC; overrides default Windows routing for this run only.",
-        "state": "local_build_import_pass_native_blocked_by_os_permissions",
+        "state": "permissions_granted_2026_11_01_local_continue_acceptance_preparation",
         "guard_preflight": "Original userdata exists; protected-run lock0bytes; no Godot/protected_run process before preparation. Original saves inspected only for metadata; no mutation or Windows profile transfer.",
         "compile": "Pinned local .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1: PASS15.74s,0warnings,0errors.",
         "import": "PASS: guarded local headless Godot4.7.1 import with eng/dotnet-env.sh completed; original files and permissions restored and verified. Log /Users/unterlantas/.local/share/opencode/shell/dbf6fe2b8165141c0f059736fc894dfa8d98a4ee/sh_191434f16001wAQTgVYchg0SMe.out. First caller omitted dotnet environment, failed to find hostfxr, stopped through guard SIGTERM/143 with originaluserdata restored; not a game defect and not accepted as successful import. No native gameplay acceptance yet.",
         "native_control_preflight": "Existing-tools review by Luna6Max found no PID/focus-guarded local helper. Read-only /usr/bin/swift with AppKit/CoreGraphics: AXIsProcessTrusted=false; CGPreflightScreenCaptureAccess=false; CGPreflightPostEventAccess=false; CGWindowListCopyWindowInfo available=true. No system permission request/change, no global inputs, no native game launch. User action required before ordinary automated play; no new test/probe/helper file added.",
+        "native_control_release_2026_11_01": "User explicitly requested OS prompts, manually granted permissions; current actual Swift/AppKit/CoreGraphics preflight Accessibility=true, Screen capture=true, event posting=true. Previous permission blocker cleared. One temporary PID/guard-parent/window/focus-scoped automation helper is being prepared outsideGit by Luna6Max to enable authorized ordinary Mac testing; no gameplay or save changes. Prior build/import not repeated.",
         "previous_blocker": "UnterPC doctor timeout and Tailscale offline,lastseen1d remain true for that station, but are no longer an execution blocker after explicit local authorization. Windows-only final platform gate remains separate."
       },
       "external_gates": [],
