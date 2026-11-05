@@ -25875,7 +25875,7 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "05.11 local native manual Save→normalQuit→coldContinue and live MenuReturn observed on current candidate; technical stage recorded, fullprimary/backup contract remains open. Awaiting one physical-mouse discrimination after two unsuccessful bounded PID-targeted look hypotheses; root stops automated input, no game-code or guard weakening."
+              "reason": "06.11 local cold Continue, movement, ordinary Save and normal Quit reverified while advancing into school. Newest-compatible backup/primary matrix remains separate."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -25884,10 +25884,10 @@
             "remaining": [
               "Подключить Continue самого свежего совместимого save с unknown-version refusal; собственного целевого receipt пока нет."
             ],
-            "next_action": "31.10 explicit author local-Mac override: verify ordinary current-source menu and Continue against actual local save metadata, without manual save edits or Windows profile transfer. Existing local1785/53c fingerprints are not current fullgame allowlisted; unknown-version refusal must remain strict. If no legitimate Continue exists, use one clean named act1-acceptance profile and ordinary NewGame/Save/Quit/Continue; preserve original userdata with protected_run. Previously accepted Windows school→W01→home evidence is not new Mac proof.",
+            "next_action": "Reuse Mac earned cold Continue and ordinary Save/Quit evidence. On the next distinct required save check verify selected compatible backup and recency against current primaries with protected userdata. Do not repeat unchanged Save/Continue or promote the whole product gate.",
             "blocker": null,
             "local_native_question_2026_11_01": {
-              "state": "manual_save_normal_quit_cold_continue_and_live_resume_observed_awaiting_manual_mouse_discrimination",
+              "state": "mac_ordinary_save_continue_school_route_observed_backup_matrix_open",
               "owner": "Sol/Mac-native",
               "question": "Does ordinary local current-source menu refuse actual unknown original saves without mutation, then can an ordinary earned current clean-profile Save/Quit/Continue restore the same state?",
               "candidate": "ManagedDLL SHA2565345e77163c58d880c53af5acdf952d77acc8ebefe6962e0c56545ce7a6d7125; campaignf754e4a5d29a27a357707835d6b56a78dfc71f90327d7a3912f38bd3da1df403; accepted local build/import reused.",
@@ -25922,6 +25922,12 @@
                 "result": "The own1800second guard ended the session while awaiting physicalmouse discrimination; originalfiles/permissionsrestoredverified. Earlier observed Save/Continue/liveReturn evidence remains bounded partial; normalexit of this last run and fullActI not accepted. No new run until owner answers whether physicalmouse turned camera. Earned doorstep save remains in namedlocalprofile.",
                 "archive": "/Users/unterlantas/.codex/local_asset_archive/URMAN-mac-native-save-continue-2026-11-05-terminal.zip",
                 "supersedes_pending": "Current-run pending statements in earlier partial archive/history are superseded only for terminal restoration; no gameplaycriterion is promoted tocompleted."
+              },
+              "mouse_window_routing_followup": {
+                "authority": "Author explicitly said continue on this Mac despite unresolved physicalmouse question.",
+                "new_causal_fact": "Actual no-post Swift/AppKit measurement: CGEvent(mouseEventSource...) becomes NSEvent.windowNumber0; merely setting window-under-pointer/handling-window CGfields leaves windowNumber0. NSEvent.mouseEvent(with:.mouseMoved,windowNumber:11755,...)→cgEvent→deltaX-20→NSEvent preserves windowNumber11755 AND deltaX-20. Thus prior controller omitted concrete AppKit windowrouting, independent of gamecamera settings.",
+                "scope": "Luna6Max prepares temporary v3 helper outsideGit: construct neutral+actual NSEvent for freshlyvalidated ownwindow, roundtripassert window+deltas, separated noncoalesced PID-targeted events with all existingguard/focus gates. Compile only; root will hand one bounded native camera check to a single owner when ready. No globaleventfallback, gameplaycode/physics/save/permissions changes or blindthirdretry without newfact.",
+                "runtime": "05.11 Luna archive 2253 verified actual yaw 0→9.599998° with v3 and earned save. 06.11 current Codex CUA confirmed keyboard, window screenshots and ordinary menu input; captured mouse drag/click fail noWindowsAvailable. Previous helper capture preflight lacked Screen Recording in this host. No camera-code defect established."
               },
               "scope": "Two bounded ordinary menu/save phases only after temporary PID/guard-parent/window/focus-safe controller is compiled. No seeds/debug/autoplay/prologue acceptance by skip, no claims of fullActI/art/human acceptance. Root exclusive input; no repeated preparation without new causal fact."
             },
@@ -104955,6 +104961,16 @@
         "scope": "W03→outside photographer evidence→W04→winter leaf/Alsu→family photo/epilogue",
         "result": "Independent Luna traced required facts to concrete producers/presenters and next missions. W02-derived bank evidence is routed before W04 rather than circular. No code changes justified by this source slice.",
         "remaining": "Actual reachability, camera/occlusion/interaction distance, pacing and full ordinary playthrough remain open; no gameplay acceptance from source review."
+      },
+      "mac_semantic_verification_2026_11_06": {
+        "state": "semantic_routes_a_b_pass_ordinary_play_partial",
+        "cause": "The existing test expected only W01–W05 after the intentional optional Tamara restoration 42f91489 and assumed the warm-arrival beat existed before D01-07. Current routed home replies, house copy permission, pre-W04 conversation and leaf witness sequence were reconciled to the authored definitions. Exact quest-set check and gates retained.",
+        "verification": "Current Game build 0 warnings/errors (15.90 s); guarded Mac full_game_flow_smoke_test exit0, both story orders to finale and optional W05, disk-save isolation pass, original files/permissions restored, lock empty. No engine error lines in successful semantic run.",
+        "test": "game/tests/FullGameFlowSmokeTest.cs",
+        "archive": "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-school-and-semantic-2026-11-06.zip",
+        "archive_sha256": "a81e84dbe0c49a5c8b02b15a5cc781b377ceffbd95ce6e207e78f14c431016d8",
+        "candidate": "d377e4f1 production source and pack SHA b86ecdea8c50df2307eda82fa39b6e72dd35dfde5f4ba2143ee6fd02868d89b1; test SHA 15e7f7fe803c94f8a8ef9f39ab754c8b66ef6012250a0618179392cd475a49e9; DLL SHA c4c7dc098db7e63d0e210e3ccea231a03a06e8888746dfb47c7aedc7aa93b05f.",
+        "remaining": "Ordinary Mac school corridor→staff/photo copy→W01 physical route and W03 authored spaces, visuals, pacing, whole Act I and external gates remain open."
       }
     },
     {
@@ -125278,7 +125294,7 @@
       "title": "W01: действия за рамкой и состояние ветки",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "/root",
+      "active_owner": null,
       "owner": "gameplay",
       "priority": "P1",
       "complexity": "complex",
@@ -125533,8 +125549,8 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "29.10 owner renewed Act I delivery; root owns one ordinary Windows prologue/episode acceptance, tracker and Git. Independent Luna own bounded source slices."
+        "state": "not_active",
+        "reason": "06.11 Codex resumed the author-requested Mac-only delivery. Prior Luna native lease ended; current protected ordinary session also completed with normal Quit and verified restoration."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -125544,7 +125560,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Continue from the saved home checkpoint into the earned P-HOUSE family-envelope lead; inspect existing W03 contract and sources first. Do not replay accepted W01/home route. Native verification of changed F12 forward clearance remains a separate bounded question.",
+      "next_action": "Continue the earned Mac school-corridor quick save seq172. Verify staff room → original → permission → copy and ordinary W01 entry/action/return/home. CUA keyboard and window capture worked; captured mouse drag/click returned noWindowsAvailable. A bounded v3 controller was proven 05.11 and its use in this Codex session awaits explicit author instruction. Do not replay the accepted entrance or infer physical acceptance from semantic smoke.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -126539,6 +126555,18 @@
           "source": "assets/source/blender/photoworlds/W01/pforest_tableau.py",
           "runtime_asset": "game/assets/photoworlds/forest_entry/pforest-tableau-v1.glb",
           "observed": "village_return_ready.png shows pale smooth foreground trunks at authored photo entry. Exact source material assignments match GLB: intentionally flat untextured bark, not an importer/material-loss bug. No changes or paid generation. Existing bark texture candidates need scene art decision; do not replace unrelated KaraSlopeStand trees."
+        }
+      },
+      "mac_school_entrance_2026_11_06": {
+        "state": "ordinary_school_entry_and_save_observed",
+        "source": "d377e4f1 runtime source; accepted local DLL 5345e77163c58d880c53af5acdf952d77acc8ebefe6962e0c56545ce7a6d7125; pack f754e4a5d29a27a357707835d6b56a78dfc71f90327d7a3912f38bd3da1df403",
+        "result": "Ordinary cold Continue displayed the school goal at 18 m; keyboard walking reached the steps. A visible E prompt opened the left entrance leaf, the marker moved through the gap, and ordinary walking reached the corridor with the teacher-room route cue. Pause Save showed Сохранено. Confirmed menu Quit exited 0; protected_run verified original files and permissions and left lock empty. No engine error lines; seven known Texture RID shutdown warnings.",
+        "profile": "act1-acceptance quick seq172; (-16.94983864,0.88127452,66.53600311), yaw 149.99997; currentZone village_day, spawnPoint from_house",
+        "remaining": "Staff room, original/permission/copy, W01 direct F12/action/return and post-return Continue were not exercised in this run. CUA drag/click failed with noWindowsAvailable in captured mouse mode.",
+        "receipt": {
+          "archive": "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-school-and-semantic-2026-11-06.zip",
+          "sha256": "a81e84dbe0c49a5c8b02b15a5cc781b377ceffbd95ce6e207e78f14c431016d8",
+          "log": "guard.log"
         }
       }
     },
@@ -131611,7 +131639,7 @@
         "Шов не меняет поле зрения и наклон камеры.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W03_Дом_на_просвет_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "31.10 author explicitly rerouted gameplay verification to this Mac, not UnterPC. Use existing protected_run and ordinary product scene; establish actual local Continue/input first. Local existing save fingerprints1785/53c are not in current fullgame compatibility; do not import Windows profile or seed progress. If no compatible Continue exists, earn local progress in the existing named clean acceptance profile. Then permission→mount/back→physical W03 entry→four actions→H08 return/Save/Quit; verify original userdata restoration. Historical Windows W01/home evidence remains valid in its bounds, not a new Mac acceptance.",
+      "next_action": "Reuse W03 source readback: ordinary entry needs W01 or W02 complete, home result conversation, and P-HOUSE permission/mount/ReadBack. Continue Mac earned school→W01 path first. Once eligible verify H00→shutter→two passages/views→photographer position→cloth/frame→H08 return/save. Track P-HOUSE art provenance separately.",
       "blocker": null,
       "local_verification_2026_10_31": {
         "authority": "Explicit live user instruction: continue goal and test on user's Mac, not UnterPC; overrides default Windows routing for this run only.",
@@ -131841,6 +131869,10 @@
         "archive_sha256": "6325cef0cc5d74ff6179e8a490174e5a52925e548072cbea8e93f38af3be8743",
         "cleanup": "CRC20members;23 contentSHA-matched duplicates7528144bytes removed. RawZIP and family_envelope_open.png retained outsideGit.",
         "next_action": "Only after new owner instruction: ordinary Continue from saved envelope-open state → Gulsina permission → P-HOUSE mount/back/physical entry → W03 route. Do not repeat accepted opening or home loop."
+      },
+      "mac_source_review_2026_11_06": {
+        "state": "entry_contract_readback_pass_physical_not_run",
+        "result": "Luna reviewed compiled pw-enter-house, the active objective chain and W03.tscn entry. No extra source gate beyond earned W01/W02, home conversation and mounted/back-read P-HOUSE. The tracker W03.world.json target has no matching file; runtime is W03.tscn with W03Controller. Retain original verification criteria and reconcile target when the native W03 slice is taken."
       }
     },
     {

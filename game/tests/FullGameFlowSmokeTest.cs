@@ -28,7 +28,8 @@ public partial class FullGameFlowSmokeTest : Node
         Prefix + "quest/pw-w02",
         Prefix + "quest/pw-w03",
         Prefix + "quest/pw-w04",
-        Prefix + "quest/pw-w05"
+        Prefix + "quest/pw-w05",
+        "urman.chapter1:quest/quest_tamara_fence"
     ];
 
     public override async void _Ready()
@@ -178,7 +179,7 @@ public partial class FullGameFlowSmokeTest : Node
         {
             await CompleteRiverAsync(bridge);
             await ExpectBlockedAsync(bridge, "pw-enter-house");
-            await PrepareFirstWorldHomeAndHousePhotoAsync(bridge);
+            await PrepareFirstWorldHomeAndHousePhotoAsync(bridge, riverFirst: true);
             await CompleteHouseWorldAsync(bridge);
             await CompleteForestAsync(bridge);
         }
@@ -187,7 +188,7 @@ public partial class FullGameFlowSmokeTest : Node
             await CompleteForestAsync(bridge);
             await PrepareRiverAsync(bridge);
             await CompleteRiverWorldAsync(bridge);
-            await PrepareFirstWorldHomeAndHousePhotoAsync(bridge);
+            await PrepareFirstWorldHomeAndHousePhotoAsync(bridge, riverFirst: false);
             await CompleteHouseWorldAsync(bridge);
         }
 
@@ -235,6 +236,8 @@ public partial class FullGameFlowSmokeTest : Node
         Require(printed.GetProperty("mounted").GetBoolean()
                 && printed.GetProperty("pageId").GetString() == "PAGE-COMMON",
             "Explicit book mounting did not mount the printed page for the same PhotoId.");
+        await DialogueAsync(bridge, "pw-alsu-before-w04-talk", "pw-alsu-before-w04",
+            "d17_01", "continue_01", ("d17_02", "continue_02"), ("d17_03", "agree_to_show_view"));
         await InteractAsync(bridge, "pw-enter-common", Scene("pw-common"));
         await ExpectBlockedAsync(bridge, "pw-common-horizon");
         await InteractAsync(bridge, "pw-common-three-places");
@@ -247,7 +250,8 @@ public partial class FullGameFlowSmokeTest : Node
         await InteractAsync(bridge, "pw-common-return", Scene("pw-bank-approach"));
         await ExpectBlockedAsync(bridge, "pw-bank-to-epilogue");
         await InteractAsync(bridge, "pw-witness-summer-leaf");
-        await DialogueAsync(bridge, "pw-alsu-leaf-talk", "pw-alsu-leaf", "leaf", "agree-to-return");
+        await DialogueAsync(bridge, "pw-alsu-leaf-talk", "pw-alsu-leaf",
+            "witnessed", "witness", ("confirmed", "return-together"));
         await InteractAsync(bridge, "pw-bank-to-epilogue", Scene("pw-epilogue"));
         await InteractAsync(bridge, "pw-take-now-photo");
         Require(World(bridge.SelectRuntimeState()).GetProperty("epilogue").GetProperty("finished").GetBoolean()
@@ -335,11 +339,16 @@ public partial class FullGameFlowSmokeTest : Node
         await InteractAsync(bridge, "pw-forest-return", Scene("pw-home"));
     }
 
-    private async Task PrepareFirstWorldHomeAndHousePhotoAsync(RuntimeBridge bridge)
+    private async Task PrepareFirstWorldHomeAndHousePhotoAsync(RuntimeBridge bridge, bool riverFirst)
     {
-        await DialogueAsync(bridge, "pw-first-world-home-talk", "pw-first-world-home", "home", "answer-place");
+        if (riverFirst)
+            await DialogueAsync(bridge, "pw-first-world-home-talk", "pw-first-world-home",
+                "water-return", "describe-water-descent", ("water-return-account", "record-water-account"));
+        else
+            await DialogueAsync(bridge, "pw-first-world-home-talk", "pw-first-world-home",
+                "forest-return-resolved", "record-forest-discovery", ("forest-return-caption", "record-forest-caption"));
         await InteractAsync(bridge, "pw-house-photo-source");
-        await InteractAsync(bridge, "pw-house-photo-permission");
+        await DialogueAsync(bridge, "pw-house-photo-permission", "pw-house-photo-permission", "offer", "ask-copy");
         await InteractAsync(bridge, "pw-mount-house-photo");
     }
 
@@ -761,7 +770,7 @@ public partial class FullGameFlowSmokeTest : Node
     {
         var quests = state.GetProperty("quests").EnumerateObject().Select(item => item.Name).Order(StringComparer.Ordinal).ToArray();
         var expected = ActiveQuestIds.Order(StringComparer.Ordinal).ToArray();
-        Require(quests.SequenceEqual(expected), "The runtime initialized old/retired quests or omitted one of W01–W05.");
+        Require(quests.SequenceEqual(expected), "The runtime quest set must contain W01–W05 and the optional Tamara fence quest.");
     }
 
     private static JsonElement World(JsonElement state) => state.GetProperty("photoworlds");
@@ -777,10 +786,12 @@ public partial class FullGameFlowSmokeTest : Node
             && sourceIds.Distinct(StringComparer.Ordinal).Count() == sourceIds.Length;
     }
     private static bool BookReceived(JsonElement state) => World(state).GetProperty("book").GetProperty("received").GetBoolean();
-    private static string BeatState(JsonElement state, string localId)
+    private static string? BeatState(JsonElement state, string localId)
     {
-        var beat = state.GetProperty("beats").GetProperty(Prefix + "beat/" + localId);
-        return beat.ValueKind == JsonValueKind.String ? beat.GetString()! : beat.GetProperty("state").GetString()!;
+        if (!state.TryGetProperty("beats", out var beats)
+            || !beats.TryGetProperty(Prefix + "beat/" + localId, out var beat))
+            return null;
+        return beat.ValueKind == JsonValueKind.String ? beat.GetString() : beat.GetProperty("state").GetString();
     }
     private static bool FactObserved(JsonElement state, string id) =>
         World(state).GetProperty("facts").TryGetProperty(id, out var fact) && fact.GetProperty("sources").GetArrayLength() > 0;
