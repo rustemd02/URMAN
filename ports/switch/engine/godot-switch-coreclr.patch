@@ -1,3 +1,40 @@
+diff --git a/core/os/spin_lock.h b/core/os/spin_lock.h
+index e8e7833..8a2a86c 100644
+--- a/core/os/spin_lock.h
++++ b/core/os/spin_lock.h
+@@ -47,7 +47,7 @@
+ 
+ #include <os/lock.h>
+ 
+-class SpinLock {
++class GodotNativeSpinLock {
+ 	union {
+ 		mutable os_unfair_lock _lock = OS_UNFAIR_LOCK_INIT;
+ 		char aligner[Thread::CACHE_LINE_BYTES];
+@@ -91,7 +91,7 @@ _ALWAYS_INLINE_ static void _cpu_pause() {
+ 
+ static_assert(std::atomic_bool::is_always_lock_free);
+ 
+-class SpinLock {
++class GodotNativeSpinLock {
+ 	union {
+ #if __cplusplus >= 202002L
+ 		mutable std::atomic<bool> locked = false;
+@@ -123,10 +123,13 @@ public:
+ 
+ #else // THREADS_ENABLED
+ 
+-class SpinLock {
++class GodotNativeSpinLock {
+ public:
+ 	void lock() const {}
+ 	void unlock() const {}
+ };
+ 
+ #endif // THREADS_ENABLED
++
++// Keep native lock symbols distinct from the statically embedded CoreCLR.
++using SpinLock = GodotNativeSpinLock;
 diff --git a/core/os/thread.cpp b/core/os/thread.cpp
 index 164fb66..7461502 100644
 --- a/core/os/thread.cpp
