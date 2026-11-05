@@ -117,7 +117,7 @@ public partial class Act1DemoRoot
         label.Visible = true;
         var name = string.IsNullOrWhiteSpace(mission.TargetLabel) ? mission.Title : mission.TargetLabel;
         var destination = target.GlobalPosition;
-        var waypoint = TryGetRootPassageObjectiveWaypoint(mission, bridge, player.GlobalPosition,
+        var waypoint = TryGetPhotoWorldObjectiveWaypoint(mission, bridge, player.GlobalPosition,
             out var routePoint, out var routeLabel, out var inspectionTarget);
         if (!waypoint)
         {
@@ -215,12 +215,21 @@ public partial class Act1DemoRoot
         _objectiveMarker!.Visible = true;
     }
 
-    private bool TryGetRootPassageObjectiveWaypoint(PlayerMission mission, RuntimeBridge bridge, Vector3 playerPosition,
+    private bool TryGetPhotoWorldObjectiveWaypoint(PlayerMission mission, RuntimeBridge bridge, Vector3 playerPosition,
         out Vector3 waypoint, out string label, out bool inspectionTarget)
     {
         waypoint = default;
         label = string.Empty;
         inspectionTarget = false;
+        if (mission.InteractionId is "urman.fullgame:interaction/pw-house-door-left"
+            or "urman.fullgame:interaction/pw-house-door-right"
+            && _main.GetNodeOrNull<W03Controller>("ZoneHost/W03") is { } house
+            && GodotObject.IsInstanceValid(house) && house.IsInsideTree() && !house.IsQueuedForDeletion())
+        {
+            return house.TryGetHouseDoorObjectiveTarget(bridge.PhotoWorldPresentationIdentity,
+                playerPosition, out waypoint, out label, out inspectionTarget);
+        }
+
         if (mission.InteractionId == ForestGroupObservationInteractionId
             && bridge.ActiveSceneId == ForestSceneId
             && _main.GetNodeOrNull<W01Controller>("ZoneHost/W01") is { } cameraForest

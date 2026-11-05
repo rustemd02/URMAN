@@ -498,9 +498,9 @@ public partial class JournalUi
                 ("urman.fullgame:scene/pw-house", "house-shutter") =>
                     ("Закрытая ставня", "Откройте ставню у окна.", "pw-house-shutter", null, "Ставня"),
                 ("urman.fullgame:scene/pw-house", "house-door-left") =>
-                    ("Левый проход", "Пройдите через левую дверь и осмотрите двор с другой стороны.", "pw-house-door-left", "ZoneHost/W03/W03World/H02PassageFrame", "Левая дверь"),
+                    ("Два вида на двор", "За каждым проёмом найдите ту же яблоню и стул.", "pw-house-door-left", "ZoneHost/W03/W03World/H02PassageFrame", "Синий проём"),
                 ("urman.fullgame:scene/pw-house", "house-door-right") =>
-                    ("Правый проход", "Пройдите через правую дверь и осмотрите двор с другой стороны.", "pw-house-door-right", "ZoneHost/W03/W03World/H03PassageFrame", "Правая дверь"),
+                    ("Два вида на двор", "За каждым проёмом найдите ту же яблоню и стул.", "pw-house-door-right", "ZoneHost/W03/W03World/H03PassageFrame", "Серый проём"),
                 ("urman.fullgame:scene/pw-house", "house-two-views") =>
                     ("Яблоня и садовый стул", "Осмотрите яблоню и садовый стул из обоих проходов.", "pw-house-two-views", "ZoneHost/W03/Anchors/H04", "Яблоня и садовый стул"),
                 ("urman.fullgame:scene/pw-house", "house-camera") =>

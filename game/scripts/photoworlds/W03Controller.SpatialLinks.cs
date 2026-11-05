@@ -34,6 +34,49 @@ public partial class W03Controller
     private int _houseViewDispatchGeneration;
     private bool _houseSpatialMissingMarkerWarningSent;
 
+    internal bool TryGetHouseDoorObjectiveTarget(object? session, Vector3 playerPosition,
+        out Vector3 point, out string label, out bool inspectionPoint)
+    {
+        point = default;
+        label = string.Empty;
+        inspectionPoint = false;
+        if (session is null || _bridge is not { } bridge || !IsValidHouseWorldBridge(bridge)
+            || !ReferenceEquals(session, bridge.SessionIdentity) || bridge.ActiveSceneId != HouseSceneId
+            || _houseLinkFrames.Count != 4)
+            return false;
+
+        // The crossing already arms one view. Point to the actual witnesses,
+        // even when the player took the two entrances in the opposite order.
+        if (_pendingHouseViewPair >= 0 && ReferenceEquals(_pendingHouseViewSession, session)
+            && _houseAppleWitness is { } apple && GodotObject.IsInstanceValid(apple)
+            && _houseChairWitness is { } chair && GodotObject.IsInstanceValid(chair))
+        {
+            point = (apple.GlobalPosition + chair.GlobalPosition) * .5f;
+            label = "Посмотрите на яблоню и стул";
+            inspectionPoint = true;
+            return true;
+        }
+
+        // A save can restore the player in the garden without the unearned
+        // view. Use the nearest real passage to send them back to an entrance.
+        HouseLinkFrame? nearest = null;
+        var distance = float.PositiveInfinity;
+        foreach (var binding in _houseLinkFrames)
+        {
+            if (!GodotObject.IsInstanceValid(binding.Frame)) continue;
+            var offset = playerPosition - binding.Frame.GlobalPosition;
+            var horizontalDistance = offset.X * offset.X + offset.Z * offset.Z;
+            if (horizontalDistance >= distance) continue;
+            nearest = binding;
+            distance = horizontalDistance;
+        }
+        if (nearest is not { IsEntry: false } gardenPassage) return false;
+
+        point = gardenPassage.Frame.GlobalPosition;
+        label = "Вернитесь через проём";
+        return true;
+    }
+
     private void BuildHouseSpatialLinks()
     {
         _houseLinkFrames.Clear();
