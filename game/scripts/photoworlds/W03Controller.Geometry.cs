@@ -99,17 +99,13 @@ public partial class W03Controller
             Emit(a, c, d);
         }
 
-        var terrainMaterial = new StandardMaterial3D
-        {
-            VertexColorUseAsAlbedo = true,
-            Roughness = .96f,
-            CullMode = BaseMaterial3D.CullModeEnum.Disabled
-        };
         var terrain = new MeshInstance3D
         {
             Name = "W03GroundSurface",
             Mesh = surface.Commit(),
-            MaterialOverride = terrainMaterial,
+            // The terrain surface retains the vertex-painted paths and adds
+            // the existing ground texture and relief in world coordinates.
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("ded5c1", "terrain", sheltered: true),
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
         };
         terrain.SetMeta("presentationRole", "continuous planted ground with broad stone-and-earth walk links");
@@ -243,11 +239,32 @@ public partial class W03Controller
             throw new InvalidOperationException("The W03 authored walls do not enclose a valid room.");
         _houseRoomBounds = new Aabb(roomMin, roomMax - roomMin);
 
+        var summerMaterials = new Dictionary<string, Material>(StringComparer.Ordinal)
+        {
+            ["URMAN_Hero_Log"] = PainterlyMaterialLibrary.ForColor("8e6b4c", "wood_log_uv", sheltered: true),
+            ["URMAN_Hero_LogEnd"] = PainterlyMaterialLibrary.ForColor("896348", "wood_cut", sheltered: true),
+            ["URMAN_Wood_Weathered"] = PainterlyMaterialLibrary.ForColor("75583e", "wood_facade", sheltered: true),
+            ["URMAN_Wood_WetShadow"] = PainterlyMaterialLibrary.ForColor("624934", "wood_facade", sheltered: true),
+            ["URMAN_Hero_Trim_Teal"] = PainterlyMaterialLibrary.ForColor("739d9a", "wood_painted_trim", sheltered: true),
+            ["URMAN_Hero_Trim_Ivory"] = PainterlyMaterialLibrary.ForColor("cfc5ac", "wood_painted_trim", sheltered: true),
+            ["URMAN_Roof_WetSlate"] = PainterlyMaterialLibrary.ForColor("765147", "roof_metal", sheltered: true)
+        };
         foreach (var mesh in FindNamedNodes<MeshInstance3D>(component))
         {
-            if (!IsW03WinterDecoration(mesh.Name.ToString())) continue;
-            mesh.Visible = false;
-            mesh.SetMeta("seasonalFilter", "confirmed winter snow and icicle decoration hidden for the summer photo-world copy");
+            if (IsW03WinterDecoration(mesh.Name.ToString()))
+            {
+                mesh.Visible = false;
+                mesh.SetMeta("seasonalFilter", "confirmed winter snow and icicle decoration hidden for the summer photo-world copy");
+                continue;
+            }
+
+            if (mesh.Mesh is not { } authoredMesh) continue;
+            for (var surface = 0; surface < authoredMesh.GetSurfaceCount(); surface++)
+            {
+                var source = authoredMesh.SurfaceGetMaterial(surface);
+                if (source is null || !summerMaterials.TryGetValue(source.ResourceName, out var material)) continue;
+                mesh.SetSurfaceOverrideMaterial(surface, PainterlyMaterialLibrary.PreserveSourceCulling(material, source));
+            }
         }
 
         var houseBody = new StaticBody3D

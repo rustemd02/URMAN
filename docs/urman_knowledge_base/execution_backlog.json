@@ -120583,7 +120583,7 @@
               "Other required fronts, S-GARDEN1800×1200final, all thumbnails и scene/identity alignment; full E02 остаётся открытым.",
               "S-PRINT front/thumbnail produced and Mac imported; family folder source, copy and back-read semantic PASS both orders. Visual check of the open PC reader and acquired album card remains."
             ],
-            "next_action": "Reuse accepted P-WATER front/thumbnail 8c9e4028 and S-PRINT front/thumbnail. P-HOUSE: align W03 summer house and H00 composition in PW-055/E01, then capture faithful 3:2 scene input for source→ImageGen. All remaining images and author art/native gates stay open.",
+            "next_action": "Reuse accepted P-WATER front/thumbnail 8c9e4028 and S-PRINT front/thumbnail. Protected W03 H00 1800×1200 shows the improved facade; finish courtyard composition with the actual scene props in PW-055/E01 before source→ImageGen. All remaining images and author art/native gates stay open.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -130826,7 +130826,10 @@
             "result": "Собрать узлы H00, H01, H02, H03, H04, H05, H06, H07, H08 и все связи из level-паспорта.",
             "owner": "world_art",
             "evidence": [
-              "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-contact-sheet-and-w03-source-2026-11-06.zip#w03/H00-1280x720.png SHA256 223db0e19d2d780f5f2b1d2acf9ab6bde6db11003e4c8c1b5477ecd097c88a52"
+              "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-contact-sheet-and-w03-source-2026-11-06.zip#w03/H00-1280x720.png SHA256 223db0e19d2d780f5f2b1d2acf9ab6bde6db11003e4c8c1b5477ecd097c88a52",
+              "game/scripts/photoworlds/W03Controller.Geometry.cs",
+              "game/scenes/photoworlds/W03/W03.tscn",
+              "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-w03-summer-source-2026-11-06.zip#H00-1800x1200.png SHA256 13e19722ef91c376f45bf5a9f0c0c33237cb5ae7b299cabab17740fb0564a37e"
             ],
             "assigned_owner": "world_art",
             "active_owner": null,
@@ -130840,9 +130843,9 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "Actual ordinary traversal and safe landings across H00–H08 are not observed; scene/import/art alignment remains unaccepted.",
-              "Protected Mac W03 H00 standalone frame is 1280×720. House logs read pale blue-grey, with a bare foreground and small tree/chair. Photo alignment, exact 3:2 production capture and ordinary traversal remain open."
+              "Protected standalone Mac H00 renders 1800×1200: warm textured logs, teal/ivory trim, daylight on the full facade and an earth path. The plain surroundings and small tree/chair are still visibly unlike P-HOUSE. Physical traversal, composition and author art acceptance remain open."
             ],
-            "next_action": "Использовать текущий H00 Mac как диагностический кадр. Уточнить материалы импортированных брёвен, торцов и наличников летнего дома, сохранив геометрию и H04. Затем снять исходник 3:2. Отдельно проверить обычный проход/разворот H01, оба выхода, ставню, H05 и Continue при игровой приёмке.",
+            "next_action": "Связать видимые яблоню, стул и границы двора в кадре с настоящим маршрутом H01–H04. Сохранить проходы и конструкцию сруба. Только после этого использовать обновлённый кадр H00 как референс P-HOUSE. Отдельно принять обычный проход/разворот H01, оба выхода, ставню, H05 и Continue.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
