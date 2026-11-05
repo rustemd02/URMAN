@@ -132,7 +132,7 @@ class Pipeline:
         output = self.engine / 'bin/godot.switch.template_release.arm64.mono'
         self.run(['scons', 'platform=switch', 'target=template_release', 'arch=arm64', 'module_mono_enabled=yes',
                   'switch_coreclr_root=' + str(self.runtime), 'debug_symbols=yes', 'lto=none',
-                  'cache_path=' + str(self.scons_cache), 'cache_limit=2', f'-j{self.args.jobs}',
+                  'cache_path=' + str(self.scons_cache), 'cache_limit=6', f'-j{self.args.jobs}',
                   str(output.relative_to(self.engine))], 'godot-native', self.engine)
         require(output.is_file(), 'Expected unstripped native ELF missing')
         native = self.work / 'native'
@@ -158,7 +158,7 @@ class Pipeline:
             'optimize=none', 'debug_symbols=no',
             'x11=no', 'wayland=no', 'vulkan=no', 'opengl3=yes', 'openxr=no', 'alsa=no', 'pulseaudio=no',
             'speechd=no', 'udev=no', 'dbus=no', 'lto=none',
-            'cache_path=' + str(self.scons_cache), 'cache_limit=2', f'-j{self.args.jobs}'], 'godot-editor', self.engine)
+            'cache_path=' + str(self.scons_cache), 'cache_limit=6', f'-j{self.args.jobs}'], 'godot-editor', self.engine)
         self.editor = self.engine / 'bin/godot.linuxbsd.editor.x86_64.mono'
         require(self.editor.is_file(), 'Built Mono editor not found')
         self.run([self.editor, '--headless', '--generate-mono-glue', self.engine / 'modules/mono/glue'], 'mono-glue', self.engine)

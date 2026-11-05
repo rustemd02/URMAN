@@ -27,6 +27,7 @@ jobs:
           sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc
           df -h .
       - name: Restore pinned runtime build cache
+        id: restore_runtime
         uses: actions/cache/restore@v4
         continue-on-error: true
         with:
@@ -87,7 +88,7 @@ jobs:
               print(f"Skipping runtime cache save: checkout is {size} bytes (limit 6442450944)")
           PY
       - name: Save pinned runtime build cache
-        if: always() && steps.runtime_cache.outputs.has_complete_runtime == 'true'
+        if: always() && steps.runtime_cache.outputs.has_complete_runtime == 'true' && steps.restore_runtime.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         continue-on-error: true
         with:
