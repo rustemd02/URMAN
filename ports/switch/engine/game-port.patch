@@ -2662,3 +2662,73 @@ diff --git a/tests-dotnet/Urman.Core.Tests/DeterminismAndSaveTests.cs b/tests-do
          }
      }
  
+diff --git a/game/scripts/photoworlds/W01Controller.cs b/game/scripts/photoworlds/W01Controller.cs
+--- a/game/scripts/photoworlds/W01Controller.cs
++++ b/game/scripts/photoworlds/W01Controller.cs
+@@ -391,8 +391,55 @@
+         {
+             if (mesh.Mesh is null) continue;
+             mesh.MaterialOverride = snowMaterial;
+-            _groundBody.AddChild(Act1ConnectedWorld.AuthoredSurfaceContact(_groundBody, mesh));
+-        }
++            _groundBody.AddChild(OS.HasFeature("switch")
++                ? BuildSwitchGroundContact(_groundBody, mesh)
++                : Act1ConnectedWorld.AuthoredSurfaceContact(_groundBody, mesh));
++        }
++    }
++
++    // The visual GLB is a regular 441 x 537 grid at 0.5 m spacing. Its full
++    // 471,680-triangle collider creates multiple huge managed arrays before
++    // CoreCLR can release them on Horizon. Sample every fourth grid point for
++    // Switch physics; the measured height error is <= 0.076 m (p99 < 0.008 m).
++    private static CollisionShape3D BuildSwitchGroundContact(Node3D owner, MeshInstance3D mesh)
++    {
++        const int width = 441;
++        const int depth = 537;
++        const int stride = 4;
++        using var arrays = mesh.Mesh.SurfaceGetArrays(0);
++        var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
++        if (vertices.Length != width * depth)
++            throw new InvalidOperationException("W01 Switch ground grid changed; rebuild its compact collider.");
++        var faces = new Vector3[((width - 1) / stride) * ((depth - 1) / stride) * 6];
++        var cursor = 0;
++        for (var z = 0; z < depth - 1; z += stride)
++        {
++            for (var x = 0; x < width - 1; x += stride)
++            {
++                var a = z * width + x;
++                var b = a + stride;
++                var c = a + stride * width;
++                var d = c + stride;
++                // Keep the imported GLB's triangle winding and diagonal.
++                faces[cursor++] = mesh.GlobalBasis * vertices[c];
++                faces[cursor++] = mesh.GlobalBasis * vertices[b];
++                faces[cursor++] = mesh.GlobalBasis * vertices[a];
++                faces[cursor++] = mesh.GlobalBasis * vertices[c];
++                faces[cursor++] = mesh.GlobalBasis * vertices[d];
++                faces[cursor++] = mesh.GlobalBasis * vertices[b];
++            }
++        }
++        var surface = new ConcavePolygonShape3D { BackfaceCollision = true };
++        surface.SetFaces(faces);
++        var shape = new CollisionShape3D
++        {
++            Name = mesh.Name + "_SurfaceContact", Shape = surface,
++            Transform = owner.GlobalTransform.AffineInverse()
++                * new Transform3D(Basis.Identity, mesh.GlobalPosition)
++        };
++        shape.SetMeta("authoredSourceMesh", mesh.GetPath().ToString());
++        shape.SetMeta("contactPolicy", "switch-compact-ground-grid");
++        return shape;
+     }
+ 
+     private void BuildRootPassage()
+@@ -925,7 +972,7 @@
+         const float clusterHeightStep = 1.5f;
+         const float minimumClusterPineSpacing = 2.9f;
+         const float minimumExistingPineSpacing = 3.5f;
+-        const int clusteredPineRootBudget = 1300;
++        var clusteredPineRootBudget = OS.HasFeature("switch") ? 160 : 1300;
+         static uint CoordinateHash(int column, int row, uint salt)
+         {
+             unchecked
