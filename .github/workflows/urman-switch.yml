@@ -129,6 +129,19 @@ jobs:
             ${{ runner.temp }}/urman-build/urman/game-export/logs/
             ${{ runner.temp }}/urman-build/urman/game-export/export-report.json
             ${{ runner.temp }}/urman-build/urman/game-export/external-managed-manifest.json
+      - name: Preserve compiled engine intermediates
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: urman-switch-engine-intermediates
+          retention-days: 1
+          if-no-files-found: warn
+          path: |
+            ${{ runner.temp }}/urman-build/urman/native/
+            ${{ runner.temp }}/urman-build/urman/engine-receipt.json
+            ${{ runner.temp }}/urman-build/urman/sources/godot/bin/godot.linuxbsd.editor.x86_64.mono
+            ${{ runner.temp }}/urman-build/urman/sources/godot/bin/GodotSharp/
+            ${{ runner.temp }}/urman-build/urman/godot-nuget/
       - name: Collect build outputs for local SD assembly
         if: success()
         run: |

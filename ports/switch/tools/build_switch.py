@@ -161,7 +161,7 @@ class Pipeline:
             'cache_path=' + str(self.scons_cache), 'cache_limit=6', f'-j{self.args.jobs}'], 'godot-editor', self.engine)
         self.editor = self.engine / 'bin/godot.linuxbsd.editor.x86_64.mono'
         require(self.editor.is_file(), 'Built Mono editor not found')
-        self.run([self.editor, '--headless', '--generate-mono-glue', self.engine / 'modules/mono/glue'], 'mono-glue', self.engine)
+        self.run([self.editor, '--headless', '--rendering-driver', 'dummy', '--rendering-method', 'dummy', '--generate-mono-glue', self.engine / 'modules/mono/glue'], 'mono-glue', self.engine)
         self.nuget = self.work / 'godot-nuget'
         self.nuget.mkdir(exist_ok=True)
         self.run([sys.executable, self.engine / 'modules/mono/build_scripts/build_assemblies.py', '--godot-output-dir', self.engine / 'bin',

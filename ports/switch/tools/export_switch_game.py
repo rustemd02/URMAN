@@ -215,11 +215,11 @@ dotnet/embed_build_outputs=false
     # Existing clean-import bootstrap avoids a cold custom-font load before import.
     project.write_text(update_setting(project_text, 'gui', 'theme/custom_font', '""'))
     try:
-        run([str(args.godot_editor), '--headless', '--path', str(game), '--editor', '--import'], 'import')
+        run([str(args.godot_editor), '--headless', '--rendering-driver', 'dummy', '--rendering-method', 'dummy', '--path', str(game), '--editor', '--import'], 'import')
     finally:
         project.write_text(project_text)
     pck = args.work_dir / 'urman.pck'
-    run([str(args.godot_editor), '--headless', '--path', str(game), '--export-pack', 'URMAN Switch Resources', str(pck)], 'pck')
+    run([str(args.godot_editor), '--headless', '--rendering-driver', 'dummy', '--rendering-method', 'dummy', '--path', str(game), '--export-pack', 'URMAN Switch Resources', str(pck)], 'pck')
     require(MARKER in (logs / 'pck.log').read_text(), 'Export did not acknowledge external managed hook; refusing unverified PCK')
     require(pck.is_file() and pck.stat().st_size > 100, 'Exporter produced no resource PCK')
     with pck.open('rb') as stream:
