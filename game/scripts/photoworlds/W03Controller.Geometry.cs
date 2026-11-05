@@ -19,7 +19,7 @@ public partial class W03Controller
     [
         [new(0, 0), new(0, 7), new(0, 10), new(0, 8.6f), new(-9.5f, 8.6f), new(-10, 20)],
         [new(0, 10), new(0, 8.6f), new(3.5f, 8.6f), new(6.6f, 12), new(8.2f, 14.5f), new(9.3f, 17.4f), new(10, 20)],
-        [new(-10, 20), new(-13.5f, 22.4f), new(-18.5f, 25.4f), new(-23.5f, 28.8f), new(-25, 30)],
+        [new(-10, 20), new(-10, 21.25f), new(-13.5f, 22.4f), new(-18.5f, 25.4f), new(-23.5f, 28.8f), new(-25, 30)],
         [new(-25, 30), new(-25, 34), new(-25, 38)],
         [new(-25, 48), new(-25, 43), new(-25, 38)],
         [new(-25, 38), new(-20, 38), new(-14, 38), new(-8, 38), new(-2, 38), new(4, 38), new(10, 38), new(16, 38), new(22, 38), new(26, 39), new(28, 40)],
@@ -40,6 +40,7 @@ public partial class W03Controller
         var house = BuildImportedHeroHouse();
         BuildHouseGround();
         BuildHousePassageFrames();
+        BuildHouseYardFences();
         BuildH04AppleTree();
         BuildH04GardenTable();
         BuildH04GardenChair();
@@ -305,6 +306,69 @@ public partial class W03Controller
         BuildFrameAtAnchor("H03PassageFrame", "H03", blueAccents: false);
         BuildPortalFrame("H02PassageExitFrame", new Vector3(-25f, 0f, 30f), 0f, blueAccents: true);
         BuildPortalFrame("H03PassageExitFrame", new Vector3(-25f, 0f, 48f), 180f, blueAccents: false);
+    }
+
+    private void BuildHouseYardFences()
+    {
+        var wood = PainterlyMaterialLibrary.ForColor("987f65", "wood_fence_vertical", sheltered: true);
+        BuildHouseFenceRun("FrontFenceWest", new(-13.5f, 5.6f), new(-2.25f, 5.6f), .88f, wood);
+        BuildHouseFenceRun("FrontFenceEast", new(2.25f, 5.6f), new(13.5f, 5.6f), .88f, wood);
+
+        // The wings meet the outside of each portal's posts. Keep the approach
+        // lines, the landings and the opening on the main path clear.
+        foreach (var anchorName in new[] { "H02", "H03" })
+        {
+            var anchor = RequireAnchor(anchorName).Position;
+            var centre = new Vector2(anchor.X, anchor.Z);
+            BuildHouseFenceRun(anchorName + "WestWing", centre + new Vector2(-4.42f, 0),
+                centre + new Vector2(-1.24f, 0), 1.02f, wood);
+            BuildHouseFenceRun(anchorName + "EastWing", centre + new Vector2(1.24f, 0),
+                centre + new Vector2(4.42f, 0), 1.02f, wood);
+        }
+
+        // The open side faces both the landing path and the route to H05.
+        BuildHouseFenceRun("OrchardFence", new(-29f, 32f), new(-29f, 47f), .98f, wood);
+    }
+
+    private void BuildHouseFenceRun(string name, Vector2 start, Vector2 end, float height, Material wood)
+    {
+        var length = start.DistanceTo(end);
+        var direction = (end - start) / length;
+        var rotation = new Basis(Vector3.Up, -direction.Angle());
+        var panels = Mathf.CeilToInt(length / 2f);
+        var panelLength = length / panels;
+        using var boards = new SurfaceTool();
+        boards.Begin(Mesh.PrimitiveType.Triangles);
+
+        void Board(float offset, Vector3 size, float baseHeight)
+        {
+            var at = start + direction * offset;
+            var y = HouseGroundHeightAt(at.X, at.Y) + baseHeight + size.Y * .5f;
+            boards.AppendFrom(RuralPropGeometry.Box(size), 0,
+                new Transform3D(rotation, new Vector3(at.X, y, at.Y)));
+        }
+
+        for (var panel = 0; panel <= panels; panel++)
+            Board(panel * panelLength, new Vector3(.12f, height + .13f, .14f), -.035f);
+
+        for (var panel = 0; panel < panels; panel++)
+        {
+            var offset = panel * panelLength;
+            var rail = new Vector3(panelLength, .075f, .085f);
+            Board(offset + panelLength * .5f, rail, height * .27f);
+            Board(offset + panelLength * .5f, rail, height * .71f);
+            var slats = Mathf.FloorToInt(panelLength / .18f);
+            var spacing = panelLength / (slats + 1);
+            for (var slat = 1; slat <= slats; slat++)
+                Board(offset + slat * spacing, new Vector3(.11f, height - .04f, .06f), .04f);
+        }
+
+        var mesh = boards.Commit();
+        var body = new StaticBody3D { Name = name, CollisionLayer = 1u, CollisionMask = 1u };
+        body.SetMeta("footstepSurface", "wood");
+        _world.AddChild(body);
+        body.AddChild(new MeshInstance3D { Name = "Boards", Mesh = mesh, MaterialOverride = wood });
+        body.AddChild(new CollisionShape3D { Name = "BoardsContact", Shape = mesh.CreateTrimeshShape() });
     }
 
     private Node3D BuildFrameAtAnchor(string name, string anchorName, bool blueAccents)
