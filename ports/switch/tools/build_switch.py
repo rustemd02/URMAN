@@ -55,6 +55,10 @@ class Pipeline:
         require(self.pins.get('engine_commit') == ENGINE and self.pins.get('runtime_commit') == RUNTIME, 'Unexpected engine/runtime source pins')
         self.patch_hash = digest(self.patch)
         require(self.pins.get('godot_patch_sha256', self.pins.get('patch_sha256')) == self.patch_hash, 'Patch differs from source pins')
+        self.runtime_patch = self.project / 'engine/dotnet-build-dependencies.patch'
+        self.runtime_patch_hash = digest(self.runtime_patch)
+        require(self.pins.get('runtime_patch_sha256') == self.runtime_patch_hash, 'Runtime build dependency patch differs from source pins')
+        require(self.pins.get('game_patch_sha256') == digest(self.project / 'engine/game-port.patch'), 'Game patch differs from source pins')
         self.work.mkdir(parents=True, exist_ok=True)
         (self.work / 'logs').mkdir(exist_ok=True)
         self.engine = self.work / 'sources/godot'
@@ -84,19 +88,22 @@ class Pipeline:
         remote = subprocess.check_output(['git', '-C', path, 'remote', 'get-url', 'origin'], text=True).strip()
         require(actual == revision and remote == url, f'{name} existing checkout identity mismatch; choose fresh work directory')
 
+    def apply_patch(self, checkout, patch, patch_hash, name):
+        stamp = self.work / (name + '-patch.json')
+        if stamp.exists():
+            require(json.loads(stamp.read_text())['sha256'] == patch_hash, name + ' patch changed; use a fresh work directory')
+            self.run(['git', '-C', checkout, 'apply', '--reverse', '--check', patch], name + '-patch-present')
+        else:
+            require(not subprocess.check_output(['git', '-C', checkout, 'status', '--porcelain'], text=True).strip(), 'Unrecorded source edits; use a fresh work directory')
+            self.run(['git', '-C', checkout, 'apply', '--check', patch], name + '-patch-check')
+            self.run(['git', '-C', checkout, 'apply', patch], name + '-patch')
+            write(stamp, {'sha256': patch_hash})
+
     def prepare(self):
         self.fetch(self.runtime, RUNTIME_URL, RUNTIME, 'runtime-source')
-        require(not subprocess.check_output(['git', '-C', self.runtime, 'diff', '--name-only', 'HEAD'], text=True).strip(), 'Runtime has tracked modifications; use the pinned source')
+        self.apply_patch(self.runtime, self.runtime_patch, self.runtime_patch_hash, 'runtime')
         self.fetch(self.engine, ENGINE_URL, ENGINE, 'engine-source')
-        stamp = self.work / 'engine-patch.json'
-        if stamp.exists():
-            require(json.loads(stamp.read_text())['sha256'] == self.patch_hash, 'Engine patch changed; use a fresh work directory')
-            self.run(['git', '-C', self.engine, 'apply', '--reverse', '--check', self.patch], 'engine-patch-present')
-        else:
-            require(not subprocess.check_output(['git', '-C', self.engine, 'status', '--porcelain'], text=True).strip(), 'Unrecorded engine edits; use a fresh work directory')
-            self.run(['git', '-C', self.engine, 'apply', '--check', self.patch], 'engine-patch-check')
-            self.run(['git', '-C', self.engine, 'apply', self.patch], 'engine-patch')
-            write(stamp, {'sha256': self.patch_hash, 'engine_commit': ENGINE})
+        self.apply_patch(self.engine, self.patch, self.patch_hash, 'engine')
 
     def runtime_stage(self):
         self.run([sys.executable, self.runtime / 'eng/libnx/build.py', '--flavor', 'coreclr', '--jobs', self.args.jobs], 'runtime-build', self.runtime)
@@ -117,7 +124,7 @@ class Pipeline:
             require(files[core.name] == digest(core), 'CoreLib differs between runtime/framework outputs')
         files[core.name] = digest(core)
         self.framework_receipt = self.work / 'framework-receipt.json'
-        write(self.framework_receipt, {'schema_version': 1, 'target_os': 'libnx', 'target_arch': 'arm64', 'runtime_commit': RUNTIME, 'files': files,
+        write(self.framework_receipt, {'schema_version': 1, 'target_os': 'libnx', 'target_arch': 'arm64', 'runtime_commit': RUNTIME, 'runtime_patch_sha256': self.runtime_patch_hash, 'files': files,
              'icu': {'name': self.icu.name, 'sha256': digest(self.icu)}})
 
     def native_stage(self):
@@ -139,7 +146,7 @@ class Pipeline:
         self.run([tools / 'elf2nro', self.elf, self.nro, '--nacp=' + str(native / 'urman.nacp'), '--icon=' + str(self.engine / 'platform/switch/icon.jpg'), '--romfsdir=' + str(romfs)], 'nro')
         self.engine_receipt = self.work / 'engine-receipt.json'
         write(self.engine_receipt, {'schema_version': 1, 'engine_commit': ENGINE, 'runtime_commit': RUNTIME,
-              'godot_patch_sha256': self.patch_hash, 'files': {'urman.nro': digest(self.nro), 'urman.elf': digest(self.elf)}})
+              'godot_patch_sha256': self.patch_hash, 'runtime_patch_sha256': self.runtime_patch_hash, 'files': {'urman.nro': digest(self.nro), 'urman.elf': digest(self.elf)}})
 
     def editor_stage(self):
         self.run(['scons', 'platform=linuxbsd', 'target=editor', 'arch=x86_64', 'module_mono_enabled=yes',
@@ -157,14 +164,17 @@ class Pipeline:
         self.game_output = self.work / 'game-export'
         self.run([sys.executable, self.project / 'tools/export_switch_game.py', '--game-source', self.source, '--godot-source', self.engine,
             '--godot-editor', self.editor, '--godot-nuget', self.nuget, '--dotnet', self.dotnet,
-            '--work-dir', self.game_output, '--jobs', self.args.jobs], 'game-export')
+            '--work-dir', self.game_output, '--game-patch', self.project / 'engine/game-port.patch',
+            '--jobs', self.args.jobs], 'game-export')
 
     def package_stage(self):
         self.run([sys.executable, self.project / 'tools/package_switch.py', '--nro', self.nro, '--elf', self.elf,
             '--pck', self.game_output / 'urman.pck', '--corelib-dir', self.corelib, '--framework-dir', self.framework,
             '--framework-receipt', self.framework_receipt, '--engine-receipt', self.engine_receipt,
+            '--game-receipt', self.game_output / 'external-managed-manifest.json',
             '--managed-dir', self.game_output / 'managed', '--icu-data', self.icu, '--runtime-source', self.runtime,
-            '--source-pins', self.pins_path, '--output', self.work / 'sd-package'], 'package')
+            '--source-pins', self.pins_path, '--art-root', self.source / 'game/assets/textures',
+            '--art-manifest', self.project / 'engine/art-manifest.json', '--output', self.work / 'sd-package'], 'package')
 
     def execute(self):
         try:

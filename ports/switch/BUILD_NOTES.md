@@ -1,7 +1,7 @@
-# URMAN Switch native build — 2026-11-05
+# URMAN Switch build progress — 2026-11-05
 
-User requested a full homebrew port for Switch OLED and asked to arrange the Linux build environment independently. This branch adds the pinned Godot 4.7 / Horizon .NET 10 static host, source-build scripts, resource export and strict package validation. Nine packager tests and Python syntax checks pass. Native compilation and hardware acceptance are not yet demonstrated.
+First Linux CI run 42014867867 built coreclr_static successfully, then failed at managed-framework restore because host build tasks pulled System.Security.Cryptography.Pkcs 9.0.6. The pinned build-only patch directly references 9.0.21 in Crossgen2Tasks and installer.tasks; NuGet auditing stays enabled. See GHSA-2fmv-rv2c-59x7 and GHSA-846f-f764-76mx.
 
-The first CI run builds the runtime and engine. An engine-only NRO is not a game package: the full PhotoWorlds PCK and matching managed application/framework payload are required. No changes are merged into main.
+The next run builds runtime, engine, matching Mono editor and complete PhotoWorlds game payload. The source patch preserves the local police-art changes and adds Nintendo controls/tutorial/haptics/loading. Generated artwork stays local and is combined at final SD packaging. The Switch loader reads the 16 hash-pinned PNGs from /switch/urman/art. Desktop C# compilation passed with zero warnings/errors after the loader change; 14 package tests passed.
 
-The normal shared AGENT_CHAT.md is 1.8 MB. Automatic approval review could not process its full-file update due to review input limits, so the build record is kept here without replacing that shared history.
+No working Switch game package or on-device acceptance is claimed. Main is unchanged. This scoped log substitutes for the 1.8 MB shared journal, whose full update exceeded automatic approval review input limits.

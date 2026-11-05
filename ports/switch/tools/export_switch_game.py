@@ -65,10 +65,45 @@ def update_setting(text, section, key, value):
     return text[:start] + body + text[end:]
 
 
+def apply_game_patch(source, patch):
+    if patch is None:
+        return {'state': 'not_requested', 'sha256': None}
+    patch = patch.resolve(strict=True)
+    require(patch.is_file(), 'Game patch must be a regular file')
+    fingerprint = sha(patch)
+    env = os.environ.copy()
+    # The staged tree deliberately has no .git. Do not discover a repository
+    # above it and silently skip paths outside that repository's subdirectory.
+    for variable in ('GIT_DIR', 'GIT_WORK_TREE', 'GIT_INDEX_FILE'):
+        env.pop(variable, None)
+    env['GIT_CEILING_DIRECTORIES'] = str(source.parent)
+    def check(reverse=False):
+        command = ['git', 'apply', '--check']
+        if reverse:
+            command.append('--reverse')
+        return subprocess.run(command + [str(patch)], cwd=source, env=env,
+                              stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    forward = check()
+    if forward.returncode == 0:
+        subprocess.run(['git', 'apply', str(patch)], cwd=source, env=env, check=True)
+        require(check(reverse=True).returncode == 0, 'Applied game patch failed full reverse verification')
+        state = 'applied'
+    else:
+        reverse = check(reverse=True)
+        require(reverse.returncode == 0,
+                'Game patch is neither wholly applicable nor wholly already applied. '
+                'Mixed/conflicting input refused. Forward check: ' + forward.stderr.strip()
+                + '; reverse check: ' + reverse.stderr.strip())
+        state = 'already_applied'
+    require(sha(patch) == fingerprint, 'Game patch changed during application')
+    return {'state': state, 'sha256': fingerprint}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('game-source', 'godot-source', 'godot-editor', 'godot-nuget', 'dotnet', 'work-dir'):
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--game-patch', type=Path, help='Apply complete port patch only to staged source; fully applied input is accepted')
     parser.add_argument('--jobs', type=int, default=1)
     args = parser.parse_args()
     try:
@@ -94,6 +129,8 @@ def build(args):
     source = args.work_dir / 'source'
     # This copy is the only tree modified by builds/import/export.
     shutil.copytree(args.game_source, source, ignore=lambda _, names: set(names) & IGNORED, symlinks=False)
+    patch_record = apply_game_patch(source, args.game_patch)
+    (args.work_dir / 'game-patch.json').write_text(json.dumps(patch_record, indent=2) + '\n')
     feed = args.work_dir / 'godot-nuget'
     feed.mkdir()
     for version, path in packages.values():
@@ -136,7 +173,7 @@ def build(args):
     require(not (managed / 'System.Private.CoreLib.dll').exists(), 'Unexpected desktop framework in managed publish')
     external_manifest = args.work_dir / 'external-managed-manifest.json'
     external_manifest.write_text(json.dumps({'schema_version': 1, 'engine_commit': engine_commit,
-        'sdk_version': sdk_version, 'files': {p.relative_to(managed).as_posix(): sha(p) for p in sorted(managed.rglob('*')) if p.is_file()}}, indent=2) + '\n')
+        'sdk_version': sdk_version, 'game_patch': patch_record, 'files': {p.relative_to(managed).as_posix(): sha(p) for p in sorted(managed.rglob('*')) if p.is_file()}}, indent=2) + '\n')
     env['URMAN_SWITCH_MANAGED_MANIFEST'] = str(external_manifest)
     game = source / 'game'
     project = game / 'project.godot'
@@ -183,7 +220,7 @@ dotnet/embed_build_outputs=false
         require(stream.read(4) == b'GDPC', 'Exporter produced invalid PCK magic')
     report = {'schema_version': 1, 'status': 'exported_hardware_validation_not_run', 'engine_commit': engine_commit,
         'editor_version': editor_version, 'editor_sha256': sha(args.godot_editor), 'export_hook_sha256': sha(plugin),
-        'sdk_version': sdk_version, 'dotnet_sdk': chosen_sdk, 'godot_packages': {name: {'version': value[0], 'sha256': sha(value[1])} for name, value in packages.items()},
+        'sdk_version': sdk_version, 'game_patch': patch_record, 'dotnet_sdk': chosen_sdk, 'godot_packages': {name: {'version': value[0], 'sha256': sha(value[1])} for name, value in packages.items()},
         'pck': str(pck), 'pck_sha256': sha(pck), 'managed': str(managed), 'external_managed_manifest': str(external_manifest),
         'commands': commands, 'limitations': ['PCK export and managed compilation do not prove Horizon runtime compatibility or Switch playability.']}
     (args.work_dir / 'export-report.json').write_text(json.dumps(report, indent=2) + '\n')

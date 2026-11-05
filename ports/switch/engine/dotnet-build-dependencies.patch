@@ -1,0 +1,26 @@
+diff --git a/src/tasks/Crossgen2Tasks/Crossgen2Tasks.csproj b/src/tasks/Crossgen2Tasks/Crossgen2Tasks.csproj
+index 9f4bd49c1..036be0c73 100644
+--- a/src/tasks/Crossgen2Tasks/Crossgen2Tasks.csproj
++++ b/src/tasks/Crossgen2Tasks/Crossgen2Tasks.csproj
+@@ -18,6 +18,8 @@
+     <PackageDownloadAndReference Include="NuGet.Versioning" Version="$(NugetVersioningVersion)" Folder="lib/net8.0" /> -->
+     <PackageReference Include="NuGet.Frameworks" Version="$(NugetFrameworksVersion)" />
+     <PackageReference Include="NuGet.Packaging" Version="$(NugetPackagingVersion)" />
++    <!-- Build-host dependency: upgrade the transitive version flagged by NuGet audit. -->
++    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.21" />
+     <PackageReference Include="NuGet.ProjectModel" Version="$(NugetProjectModelVersion)" />
+     <PackageReference Include="NuGet.Versioning" Version="$(NugetVersioningVersion)" />
+   </ItemGroup>
+diff --git a/src/tasks/installer.tasks/installer.tasks.csproj b/src/tasks/installer.tasks/installer.tasks.csproj
+index 3baf62258..96e45e802 100644
+--- a/src/tasks/installer.tasks/installer.tasks.csproj
++++ b/src/tasks/installer.tasks/installer.tasks.csproj
+@@ -11,6 +11,8 @@
+     <!-- <PackageDownloadAndReference Include="NuGet.Packaging" Version="$(NugetPackagingVersion)" Folder="lib/net8.0" Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp'" />
+     <PackageDownloadAndReference Include="NuGet.Packaging" Version="$(NugetPackagingVersion)" Folder="lib/net472" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" /> -->
+     <PackageReference Include="NuGet.Packaging" Version="$(NugetPackagingVersion)" />
++    <!-- Build-host dependency: upgrade the transitive version flagged by NuGet audit. -->
++    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.21" />
+ 
+     <PackageDownloadAndReference Include="Newtonsoft.Json" Version="$(NewtonsoftJsonVersion)" Folder="lib/netstandard2.0" />
+   </ItemGroup>

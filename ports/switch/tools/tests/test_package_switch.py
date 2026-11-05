@@ -1,4 +1,6 @@
 """Packaging refusal tests; fixtures are private temporary format controls, not builds."""
+import hashlib
+import json
 import importlib.util
 from pathlib import Path
 import struct
@@ -62,6 +64,63 @@ class PackageRefusalTests(unittest.TestCase):
         (self.root / 'linked.dll').symlink_to(target)
         with self.assertRaisesRegex(ValueError, 'Symlink'):
             package.game_inputs(self.root, {})
+
+    def art_fixture(self):
+        root = (self.root / 'textures').resolve()
+        names = ['ui/switch_loading_forest_v1.png'] + [f'police_signage_imagegen_v1/sign_{i}.png' for i in range(15)]
+        # Tiny signature controls for input validation; not generated game art.
+        payload = b'\x89PNG\r\n\x1a\nunit-test-control'
+        files = {}
+        for name in names:
+            path = root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(payload)
+            files[name] = hashlib.sha256(payload).hexdigest()
+        manifest = self.root / 'art.json'
+        manifest.write_text(json.dumps({'schema_version': 1, 'files': files}))
+        return root, manifest
+
+    def test_art_accepts_exact_signature_and_hash_controls(self):
+        root, manifest = self.art_fixture()
+        inputs, receipt = package.art_inputs(root, manifest)
+        self.assertEqual(len(inputs), 16)
+        self.assertEqual(set(inputs), set(receipt['files']))
+
+    def test_art_hash_mismatch_rejected(self):
+        root, manifest = self.art_fixture()
+        with (root / 'ui/switch_loading_forest_v1.png').open('ab') as stream:
+            stream.write(b'changed')
+        with self.assertRaisesRegex(ValueError, 'hash mismatch'):
+            package.art_inputs(root, manifest)
+
+    def test_art_traversal_rejected(self):
+        root, manifest = self.art_fixture()
+        data = json.loads(manifest.read_text())
+        old = 'police_signage_imagegen_v1/sign_0.png'
+        data['files']['police_signage_imagegen_v1/../../outside.png'] = data['files'].pop(old)
+        manifest.write_text(json.dumps(data))
+        with self.assertRaisesRegex(ValueError, 'unsafe'):
+            package.art_inputs(root, manifest)
+
+    def test_art_symlink_ancestor_rejected(self):
+        root, manifest = self.art_fixture()
+        real = root / 'police_signage_imagegen_v1'
+        moved = root / 'real-signs'
+        real.rename(moved)
+        real.symlink_to(moved, target_is_directory=True)
+        with self.assertRaisesRegex(ValueError, 'Symlink'):
+            package.art_inputs(root, manifest)
+
+    def test_art_non_png_rejected_even_with_matching_hash(self):
+        root, manifest = self.art_fixture()
+        name = 'ui/switch_loading_forest_v1.png'
+        payload = b'not a PNG'
+        (root / name).write_bytes(payload)
+        data = json.loads(manifest.read_text())
+        data['files'][name] = hashlib.sha256(payload).hexdigest()
+        manifest.write_text(json.dumps(data))
+        with self.assertRaisesRegex(ValueError, 'PNG signature'):
+            package.art_inputs(root, manifest)
 
     def test_atomic_publish_cannot_replace_existing_empty_dir(self):
         stage, dest = self.root / 'stage', self.root / 'dest'

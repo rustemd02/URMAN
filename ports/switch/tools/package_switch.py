@@ -114,6 +114,36 @@ def game_inputs(directory: Path, framework: dict[str, Path]) -> dict[str, Path]:
     return files
 
 
+def art_inputs(root: Path, manifest_path: Path) -> tuple[dict[str, Path], dict]:
+    manifest = read_json(manifest_path)
+    require(manifest.get('schema_version') == 1, 'Unsupported art manifest schema')
+    files = manifest.get('files')
+    require(isinstance(files, dict) and len(files) == 16, 'Art manifest must list the 16 expected PNGs')
+    require('ui/switch_loading_forest_v1.png' in files, 'Art manifest lacks loading-screen PNG')
+    root = root.absolute()
+    require(root.is_dir(), 'Art root directory missing')
+    for parent in (root, *root.parents):
+        require(not parent.is_symlink(), f'Symlink ancestor forbidden in art root: {parent}')
+    inputs = {}
+    for relative, expected in files.items():
+        require(isinstance(relative, str), 'Art paths must be strings')
+        allowed = relative == 'ui/switch_loading_forest_v1.png' or re.fullmatch(
+            r'police_signage_imagegen_v1/[A-Za-z0-9_-]+\.png', relative) is not None
+        require(allowed, f'Art path outside approved directories or unsafe: {relative}')
+        require(isinstance(expected, str) and re.fullmatch(r'[0-9a-f]{64}', expected) is not None,
+                f'Invalid art SHA256: {relative}')
+        source = root / relative
+        for parent in (source, *source.parents):
+            require(not parent.is_symlink(), f'Symlink forbidden in art path: {parent}')
+        regular(source)
+        with source.open('rb') as stream:
+            require(stream.read(8) == b'\x89PNG\r\n\x1a\n', f'Invalid PNG signature: {relative}')
+        require(digest(source) == expected, f'Art hash mismatch: {relative}')
+        inputs[relative] = source
+    require(len({name.casefold() for name in inputs}) == len(inputs), 'Case-colliding art paths')
+    return inputs, manifest
+
+
 def check_receipts(args, framework: dict[str, Path]) -> dict:
     pins = read_json(args.source_pins)
     for key in ('engine_commit', 'runtime_commit'):
@@ -123,12 +153,15 @@ def check_receipts(args, framework: dict[str, Path]) -> dict:
     receipt = read_json(args.framework_receipt)
     require(receipt.get('schema_version') == 1 and receipt.get('target_os') == 'libnx' and receipt.get('target_arch') == 'arm64', 'Framework receipt must identify libnx/arm64 source build')
     require(receipt.get('runtime_commit') == pins['runtime_commit'], 'Framework runtime revision mismatch')
+    require(receipt.get('runtime_patch_sha256') == pins.get('runtime_patch_sha256'), 'Framework build dependency patch differs')
     expected = {name: digest(path) for name, path in framework.items()}
     require(receipt.get('files') == expected, 'Framework file set/hashes differ from source-build receipt')
     require(receipt.get('icu') == {'name': args.icu_data.name, 'sha256': digest(args.icu_data)}, 'ICU differs from framework receipt')
     engine = read_json(args.engine_receipt)
     require(engine.get('schema_version') == 1, 'Unsupported engine receipt')
     require(all(engine.get(key) == pins[key] for key in ('engine_commit', 'runtime_commit')), 'Engine receipt source pins differ')
+    require(engine.get('godot_patch_sha256') == pins.get('patch_sha256'), 'Godot adapter patch differs')
+    require(engine.get('runtime_patch_sha256') == pins.get('runtime_patch_sha256'), 'Native runtime build dependency patch differs')
     require(engine.get('files') == {'urman.nro': digest(args.nro), 'urman.elf': digest(args.elf)}, 'ELF/NRO differ from matched engine build receipt')
     return pins
 
@@ -161,6 +194,11 @@ def stage(args) -> Path:
     framework = framework_inputs(args.corelib_dir, args.framework_dir)
     game = game_inputs(args.managed_dir, framework)
     pins = check_receipts(args, framework)
+    game_receipt = read_json(args.game_receipt)
+    require(game_receipt.get('engine_commit') == pins['engine_commit'], 'Managed game engine commit differs')
+    require(game_receipt.get('game_patch', {}).get('sha256') == pins.get('game_patch_sha256'), 'Managed game source patch differs')
+    require(game_receipt.get('files') == {name: digest(path) for name, path in game.items()}, 'Managed game files differ from export receipt')
+    art, art_manifest = art_inputs(args.art_root, args.art_manifest)
     validator_root = args.runtime_source / 'src/coreclr/pal/tests/libnx/host'
     for name in ('validate-il.py', 'validate-qcalls.py'):
         regular(validator_root / name)
@@ -174,6 +212,11 @@ def stage(args) -> Path:
             dest = managed / rel
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source, dest)
+        for relative, source in art.items():
+            destination = app / 'art' / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, destination)
+            require(digest(destination) == art_manifest['files'][relative], f'Art changed during staging: {relative}')
         shutil.copyfile(args.nro, app / 'urman.nro')
         shutil.copyfile(args.pck, app / 'urman.pck')
         icu = app / 'icu'
@@ -181,6 +224,7 @@ def stage(args) -> Path:
         shutil.copyfile(args.icu_data, icu / args.icu_data.name)
         staged_framework = {name: digest(managed / name) for name in framework}
         require(staged_framework == read_json(args.framework_receipt)['files'], 'Framework changed during staging')
+        require({name: digest(managed / name) for name in game} == game_receipt['files'], 'Game changed during staging')
         require(digest(app / 'urman.nro') == read_json(args.engine_receipt)['files']['urman.nro'], 'NRO changed during staging')
         require(digest(icu / args.icu_data.name) == read_json(args.framework_receipt)['icu']['sha256'], 'ICU changed during staging')
         # Validators read the final staged bytes, not a different build directory.
@@ -189,9 +233,10 @@ def stage(args) -> Path:
             subprocess.run([sys.executable, str(validator_root / 'validate-il.py'), *map(str, dlls[index:index+100])], check=True)
         evidence = staging / 'evidence'
         evidence.mkdir()
+        (evidence / 'art-manifest.json').write_text(json.dumps(art_manifest, indent=2) + '\n')
         qcalls = subprocess.check_output([sys.executable, str(validator_root / 'validate-qcalls.py'), str(managed / 'System.Private.CoreLib.dll'), str(args.elf)], text=True)
         (evidence / 'qcall-validation.json').write_text(qcalls)
-        for source, name in ((args.source_pins, 'source-pins.json'), (args.framework_receipt, 'framework-receipt.json'), (args.engine_receipt, 'engine-receipt.json')):
+        for source, name in ((args.source_pins, 'source-pins.json'), (args.framework_receipt, 'framework-receipt.json'), (args.engine_receipt, 'engine-receipt.json'), (args.game_receipt, 'game-receipt.json')):
             shutil.copyfile(source, evidence / name)
         manifest = {'schema_version': 1, 'status': 'packaged_hardware_validation_not_run', 'source_pins': pins,
                     'elf_sha256': digest(args.elf), 'validation_tools': {name: digest(validator_root / name) for name in ('validate-il.py', 'validate-qcalls.py')}, 'files': {p.relative_to(staging).as_posix(): digest(p) for p in sorted(staging.rglob('*')) if p.is_file()},
@@ -205,7 +250,7 @@ def stage(args) -> Path:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    for name in ('nro', 'elf', 'pck', 'corelib-dir', 'framework-dir', 'framework-receipt', 'engine-receipt', 'managed-dir', 'icu-data', 'runtime-source', 'source-pins', 'output'):
+    for name in ('nro', 'elf', 'pck', 'corelib-dir', 'framework-dir', 'framework-receipt', 'engine-receipt', 'game-receipt', 'managed-dir', 'icu-data', 'runtime-source', 'source-pins', 'art-root', 'art-manifest', 'output'):
         parser.add_argument('--' + name, type=Path, required=True)
     args = parser.parse_args()
     try:

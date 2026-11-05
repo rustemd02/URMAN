@@ -46,7 +46,7 @@ index 12aa9b4..0b6f3ca 100644
  	}
  
 diff --git a/modules/mono/mono_gd/gd_mono.cpp b/modules/mono/mono_gd/gd_mono.cpp
-index 8805ab6..0c415c0 100644
+index 8805ab6..7d4b1b9 100644
 --- a/modules/mono/mono_gd/gd_mono.cpp
 +++ b/modules/mono/mono_gd/gd_mono.cpp
 @@ -53,7 +53,11 @@
@@ -146,7 +146,7 @@ index 8805ab6..0c415c0 100644
  	ERR_FAIL_NULL_V_MSG(godot_plugins_initialize, nullptr, ".NET: Failed to get GodotPlugins initialization function pointer");
  
  	return godot_plugins_initialize;
-@@ -651,6 +674,13 @@ void GDMono::initialize() {
+@@ -651,6 +674,14 @@ void GDMono::initialize() {
  	}
  #endif
  
@@ -156,11 +156,12 @@ index 8805ab6..0c415c0 100644
 +	} else {
 +		ERR_FAIL_MSG(".NET: Failed to bind the statically linked Switch CoreCLR");
 +	}
++	ERR_FAIL_NULL(godot_plugins_initialize);
 +#else
  	if (load_hostfxr(hostfxr_dll_handle)) {
  		godot_plugins_initialize = initialize_hostfxr_and_godot_plugins(runtime_initialized);
  		ERR_FAIL_NULL(godot_plugins_initialize);
-@@ -676,6 +706,7 @@ void GDMono::initialize() {
+@@ -676,6 +707,7 @@ void GDMono::initialize() {
  		ERR_FAIL_MSG(".NET: Failed to load hostfxr");
  #endif
  	}
@@ -168,7 +169,7 @@ index 8805ab6..0c415c0 100644
  
  	int32_t interop_funcs_size = 0;
  	const void **interop_funcs = godotsharp::get_runtime_interop_funcs(interop_funcs_size);
-@@ -684,7 +715,7 @@ void GDMono::initialize() {
+@@ -684,7 +716,7 @@ void GDMono::initialize() {
  
  	void *godot_dll_handle = nullptr;
  

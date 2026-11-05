@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "files": {
+    "police_signage_imagegen_v1/police_car.png": "9641263714e9ef0d06a081c660d2338b6095aacbfe5aae14e64654c4591027c7",
+    "police_signage_imagegen_v1/police_cell.png": "0349319dcb96e04cf758b9e76c2eef56c440883e1c35851b44f0846523c4b7c9",
+    "police_signage_imagegen_v1/police_district.png": "c2da7ade683097838b3d481e69bb21225611d7164933bf3c79405b9dd1e2013e",
+    "police_signage_imagegen_v1/police_files.png": "d3a7a48f622b06ddd4b7a23611f436acf4cded03d16d2335bdb023a09e44aa83",
+    "police_signage_imagegen_v1/police_form.png": "e158a4090f157b81f5cc5b512c63fb858b01792813d6bb2fc83b466fff928aaf",
+    "police_signage_imagegen_v1/police_forms.png": "258f550fb3de85b67710a718d464797266db2e102cf4d67b822496be1de03fd1",
+    "police_signage_imagegen_v1/police_hours.png": "0b0e6ecef0d86539e1f0c26c3e9edf6448b5c604eb3c95bf0a98f41766d11d2d",
+    "police_signage_imagegen_v1/police_ledger.png": "b2153df7b88c2d9284c94f1440264bf9222973765fba3afb1b67bf13cd62d9a1",
+    "police_signage_imagegen_v1/police_main.png": "db4dfdbda4692fd6ccf36162e117e8fa6b4454991018a179edddce3eba283d16",
+    "police_signage_imagegen_v1/police_notice_1.png": "9e47adb2fc4b4f0538d7d753b1f1543b5201f24e37c7cec05f26bbd8548e890c",
+    "police_signage_imagegen_v1/police_notice_2.png": "78227c39fdc1e0296d9c7e7e0ef0ce5f951f59f86e047211470cbdd7dea2c78a",
+    "police_signage_imagegen_v1/police_notice_3.png": "ef7fe8ab7f57df88354d74747805d2a47feb08a2fc77355b14e0a16d35ed3b66",
+    "police_signage_imagegen_v1/police_reception.png": "37ede23c1b8bd322dc0ef7277fe79c04bd4ae2a310eafcc4884f5bbfdd30ebd7",
+    "police_signage_imagegen_v1/police_staff.png": "2d3ac177b91b6a3a26ce015b5c89bde7f80b1c1a20f08e51a91fe5f22c0f879d",
+    "police_signage_imagegen_v1/police_store.png": "cbab6bcc2cd45c369750a74c794bd87c60e365c3aa38efcdb4bd13fe678974d0",
+    "ui/switch_loading_forest_v1.png": "ec4abd6817c20c0c6955c55f753581d95b6402e2df7577f4316cc773a00a5ac9"
+  }
+}

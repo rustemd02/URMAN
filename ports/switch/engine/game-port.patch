@@ -1,0 +1,2027 @@
+diff --git a/game/content/world/act1_police_signs_imagegen.v1.json b/game/content/world/act1_police_signs_imagegen.v1.json
+new file mode 100644
+--- /dev/null
++++ b/game/content/world/act1_police_signs_imagegen.v1.json
+@@ -0,0 +1,246 @@
++{
++  "version": 1,
++  "description": "ImageGen artwork, including all lettering; source PNGs unchanged; UV regions select central printed bands.",
++  "assets": [
++    {
++      "file": "police_main.png",
++      "uvRegion": [
++        0,
++        0.24,
++        1,
++        0.52
++      ],
++      "generator": "built-in ImageGen",
++      "sha256": "db4dfdbda4692fd6ccf36162e117e8fa6b4454991018a179edddce3eba283d16",
++      "dimensions": [
++        2048,
++        768
++      ],
++      "prompt": "Use case: photorealistic-natural. Asset type: front-facing diffuse/albedo game texture of an old rural Russian police station sign, with the grounded worn everyday material feel of My Summer Car. Create a REAL photographed painted steel/enamel sign, not a vector design, not a UI panel, not a 3D mockup scene. Wide horizontal composition, maximum available landscape resolution. The entire image is the sign surface, square-on orthographic, no surrounding wall, no perspective, no cast shadow or directional highlight. Faded dark Prussian blue enamel, slightly uneven aged paint, subtle hairline crazing, a few small edge chips exposing dull galvanized metal, faint old rain streaks and sun-faded ivory stencil/screenprinted letters. Human utilitarian manufacture, approximately 1990s rural public office, maintained but old; restrained wear, all letters fully readable. NO decorative double border, no gold, no emblem, no screwheads (those are provided by actual 3D geometry). Exact Cyrillic text generated in the image itself, large condensed utilitarian sans-serif: first line ПОЛИЦИЯ ; second line smaller УЧАСТКОВЫЙ ПУНКТ. Spell П О Л И Ц И Я accurately. Layout: the complete lettering and worn thin single rectangular edge line must be confined to the central horizontal 45% of the image height, spanning 92% width; the upper and lower 27.5% are ONLY uninterrupted same blue paint texture. This central band will be UV-cropped onto a 3.2m by 0.72m physical metal panel. Keep type naturally proportioned within that band. Do not add any other text, watermark, labels or scenery."
++    },
++    {
++      "file": "police_district.png",
++      "uvRegion": [
++        0,
++        0,
++        1,
++        1
++      ],
++      "generator": "built-in ImageGen",
++      "sha256": "c2da7ade683097838b3d481e69bb21225611d7164933bf3c79405b9dd1e2013e",
++      "dimensions": [
++        1536,
++        1024
++      ],
++      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Faded dark Prussian blue enamel, ivory industrial stencil or old screenprinted lettering, restrained chips exposing dull metal, fine crazing, tiny oxidation at perimeter. No gold, no decorative double border. No screwheads (real 3D fasteners will be added). Landscape 3:2. Fill the whole canvas with the flat sign face; text comfortably centred with small margins.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nМВД РОССИИ\nУЧАСТКОВЫЙ\nПУНКТ ПОЛИЦИИ\nКара-Урман"
++    },
++    {
++      "file": "police_store.png",
++      "uvRegion": [
++        0,
++        0.24,
++        1,
++        0.52
++      ],
++      "generator": "built-in ImageGen",
++      "sha256": "cbab6bcc2cd45c369750a74c794bd87c60e365c3aa38efcdb4bd13fe678974d0",
++      "dimensions": [
++        2048,
++        768
++      ],
++      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Faded dark Prussian blue enamel, ivory industrial stencil or old screenprinted lettering, restrained chips exposing dull metal, fine crazing, tiny oxidation at perimeter. No gold, no decorative double border. No screwheads (real 3D fasteners will be added). Very wide horizontal 2048x768 canvas. Entire sign design and single thin worn perimeter line in CENTRAL 50% HEIGHT, plain blue paint extension above/below.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nКЛАДОВАЯ"
++    },
++    {
++      "file": "police_reception.png",
++      "uvRegion": [
++        0,
++        0.24,
++        1,
++        0.52
++      ],
++      "generator": "built-in ImageGen",
++      "sha256": "37ede23c1b8bd322dc0ef7277fe79c04bd4ae2a310eafcc4884f5bbfdd30ebd7",
++      "dimensions": [
++        2048,
++        768
++      ],
++      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Faded dark Prussian blue enamel, ivory industrial stencil or old screenprinted lettering, restrained chips exposing dull metal, fine crazing, tiny oxidation at perimeter. No gold, no decorative double border. No screwheads (real 3D fasteners will be added). Very wide horizontal 2048x768 canvas. Entire sign design and its single thin worn perimeter line in the CENTRAL 50% HEIGHT, with equal plain continuation of blue paint above and below.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nПРИЁМНАЯ"
++    },
++    {
++      "file": "police_cell.png",
++      "uvRegion": [
++        0,
++        0.24,
++        1,
++        0.52
++      ],
++      "generator": "built-in ImageGen",
++      "sha256": "0349319dcb96e04cf758b9e76c2eef56c440883e1c35851b44f0846523c4b7c9",
++      "dimensions": [
++        2048,
++        768
++      ],
++      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Faded dark Prussian blue enamel, ivory industrial stencil or old screenprinted lettering, restrained chips exposing dull metal, fine crazing, tiny oxidation at perimeter. No gold, no decorative double border. No screwheads (real 3D fasteners will be added). Very wide horizontal 2048x768 canvas. Entire sign design and single thin worn perimeter line in CENTRAL 50% HEIGHT, plain blue paint extension above/below.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nВРЕМЕННОЕ ОЖИДАНИЕ"
++    },
++    {
++      "file": "police_hours.png",
++      "uvRegion": [
++        0,
++        0,
++        1,
++        1
++      ],
++      "generator": "built-in ImageGen",
++      "sha256": "0b0e6ecef0d86539e1f0c26c3e9edf6448b5c604eb3c95bf0a98f41766d11d2d",
++      "dimensions": [
++        1374,
++        1145
++      ],
++      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Off-white old office paper with authentic fine fibres, slight yellowing at edges, faint handling stains and one or two very soft fold marks, grey-black photocopied/typed ink. The readable main text stays clean. No painted metal, no screwheads, no extra decorative double frame. Near-square 6:5 format. A complete faded cream printed public information sheet, full bleed paper, no surrounding surface. A small bold title, modest body typography; thin utilitarian rule.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nПРИЁМ ГРАЖДАН\nОбращения и справки\nПорядок приёма уточняйте у сотрудника"
++    },
++    {
++      "file": "police_forms.png",
++      "uvRegion": [
++        0,
++        0.24,
++        1,
++        0.52
++      ],
++      "generator": "built-in ImageGen",
++      "sha256": "258f550fb3de85b67710a718d464797266db2e102cf4d67b822496be1de03fd1",
++      "dimensions": [
++        2048,
++        768
++      ],
++      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Faded dark Prussian blue enamel, ivory industrial stencil or old screenprinted lettering, restrained chips exposing dull metal, fine crazing, tiny oxidation at perimeter. No gold, no decorative double border. No screwheads (real 3D fasteners will be added). Very wide horizontal 2048x768 canvas. Entire sign design and single thin worn perimeter line in CENTRAL 50% HEIGHT, plain blue paint extension above/below.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nБЛАНКИ ЗАЯВЛЕНИЙ"
++    },
++    {
++      "file": "police_staff.png",
++      "uvRegion": [
++        0,
++        0.24,
++        1,
++        0.52
++      ],
++      "generator": "built-in ImageGen",
++      "sha256": "2d3ac177b91b6a3a26ce015b5c89bde7f80b1c1a20f08e51a91fe5f22c0f879d",
++      "dimensions": [
++        2048,
++        768
++      ],
++      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Faded dark Prussian blue enamel, ivory industrial stencil or old screenprinted lettering, restrained chips exposing dull metal, fine crazing, tiny oxidation at perimeter. No gold, no decorative double border. No screwheads (real 3D fasteners will be added). Very wide horizontal 2048x768 canvas. Entire sign design and single thin worn perimeter line in CENTRAL 50% HEIGHT, plain blue paint extension above/below.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nСЛУЖЕБНОЕ"
++    },
++    {
++      "file": "police_files.png",
++      "uvRegion": [
++        0,
++        0.24,
++        1,
++        0.52
++      ],
++      "generator": "built-in ImageGen",
++      "sha256": "d3a7a48f622b06ddd4b7a23611f436acf4cded03d16d2335bdb023a09e44aa83",
++      "dimensions": [
++        2048,
++        768
++      ],
++      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Faded dark Prussian blue enamel, ivory industrial stencil or old screenprinted lettering, restrained chips exposing dull metal, fine crazing, tiny oxidation at perimeter. No gold, no decorative double border. No screwheads (real 3D fasteners will be added). Very wide horizontal 2048x768 canvas. Entire sign design and single thin worn perimeter line in CENTRAL 50% HEIGHT, plain blue paint extension above/below.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nОБРАЩЕНИЯ · СПРАВКИ"
++    },
++    {
++      "file": "police_form.png",
++      "uvRegion": [
++        0,
++        0,
++        1,
++        1
++      ],
++      "generator": "built-in ImageGen",
++      "sha256": "e158a4090f157b81f5cc5b512c63fb858b01792813d6bb2fc83b466fff928aaf",
++      "dimensions": [
++        1055,
++        1491
++      ],
++      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Off-white old office paper with authentic fine fibres, slight yellowing at edges, faint handling stains and one or two very soft fold marks, grey-black photocopied/typed ink. The readable main text stays clean. No painted metal, no screwheads, no extra decorative double frame. Portrait A4 aspect ratio 210:297. Full bleed realistic empty office form with blank ruled fields and several writing lines. All fields empty, no personal data, no signatures, no handwriting.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nЗАЯВЛЕНИЕ\nКому\nОт кого\nТема обращения\nОписание\nДата\nПодпись"
++    },
++    {
++      "file": "police_notice_1.png",
++      "uvRegion": [
++        0,
++        0,
++        1,
++        1
++      ],
++      "generator": "built-in ImageGen",
++      "sha256": "9e47adb2fc4b4f0538d7d753b1f1543b5201f24e37c7cec05f26bbd8548e890c",
++      "dimensions": [
++        1055,
++        1491
++      ],
++      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Off-white old office paper with authentic fine fibres, slight yellowing at edges, faint handling stains and one or two very soft fold marks, grey-black photocopied/typed ink. The readable main text stays clean. No painted metal, no screwheads, no extra decorative double frame. Portrait A4 aspect ratio 210:297. Full bleed paper scan. Small header, practical bold heading, four short body bullet points with ample line spacing. Not a decorative poster.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nПОЛИЦЕЙСКИЙ ПУНКТ\nПорядок обращения\nКратко опишите вопрос.\nНазовите даты и места, если помните.\nПередайте обращение сотруднику.\nПри необходимости приложите заметки."
++    },
++    {
++      "file": "police_ledger.png",
++      "uvRegion": [
++        0,
++        0,
++        1,
++        1
++      ],
++      "generator": "built-in ImageGen",
++      "sha256": "b2153df7b88c2d9284c94f1440264bf9222973765fba3afb1b67bf13cd62d9a1",
++      "dimensions": [
++        1134,
++        1387
++      ],
++      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Authentic cloth-bound ledger surface, subdued wear. Portrait cover aspect ratio 9:11, full bleed book-cover texture. Dark olive-grey worn cloth binding, faded ivory stamped utilitarian title, faint spine edge on left, rubbed corners, plausible everyday office ledger, no decorative frame or illustration.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nКНИГА УЧЁТА\nОБРАЩЕНИЙ"
++    },
++    {
++      "file": "police_notice_2.png",
++      "uvRegion": [
++        0,
++        0,
++        1,
++        1
++      ],
++      "generator": "built-in ImageGen",
++      "sha256": "78227c39fdc1e0296d9c7e7e0ef0ce5f951f59f86e047211470cbdd7dea2c78a",
++      "dimensions": [
++        1054,
++        1492
++      ],
++      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Off-white old office paper with authentic fine fibres, slight yellowing at edges, faint handling stains and one or two very soft fold marks, grey-black photocopied/typed ink. The readable main text stays clean. No painted metal, no screwheads, no extra decorative double frame. Portrait A4 aspect ratio 210:297. Full bleed paper scan. Small header, practical bold heading, four short body bullet points with ample line spacing. Not a decorative poster.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nПОЛИЦЕЙСКИЙ ПУНКТ\nПолезно подготовить\nКраткое описание события.\nДаты и названия мест.\nИмеющиеся бумаги или заметки.\nВопросы, которые хотите задать."
++    },
++    {
++      "file": "police_car.png",
++      "uvRegion": [
++        0.0107421875,
++        0.3072916666666667,
++        0.9775390625,
++        0.4140625
++      ],
++      "generator": "built-in ImageGen",
++      "sha256": "9641263714e9ef0d06a081c660d2338b6095aacbfe5aae14e64654c4591027c7",
++      "dimensions": [
++        2048,
++        768
++      ],
++      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Actual translucent-free vinyl lettering cutout only, with real alpha transparency. Very wide horizontal lettering only, transparent background. Warm ivory slightly worn condensed block-cut vinyl capitals, edges naturally smooth with tiny chips. Text fills nearly full width, modest transparent margins, no sign plate, no blue stripe, no vehicle, no drop shadow.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nУЧАСТКОВЫЙ"
++    },
++    {
++      "file": "police_notice_3.png",
++      "uvRegion": [
++        0,
++        0,
++        1,
++        1
++      ],
++      "generator": "built-in ImageGen",
++      "sha256": "ef7fe8ab7f57df88354d74747805d2a47feb08a2fc77355b14e0a16d35ed3b66",
++      "dimensions": [
++        1055,
++        1491
++      ],
++      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Off-white old office paper with authentic fine fibres, slight yellowing at edges, faint handling stains and one or two very soft fold marks, grey-black photocopied/typed ink. The readable main text stays clean. No painted metal, no screwheads, no extra decorative double frame. Portrait A4 aspect ratio 210:297. Full bleed paper scan. Small header, practical bold heading, three short body bullet points with ample line spacing. Not a decorative poster.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nПОЛИЦЕЙСКИЙ ПУНКТ\nПосле приёма\nСотрудник выслушает обращение.\nПри необходимости уточнит детали.\nСотрудник подскажет, что дальше."
++    }
++  ]
++}
+diff --git a/game/project.godot b/game/project.godot
+--- a/game/project.godot
++++ b/game/project.godot
+@@ -11,6 +11,8 @@
+ [application]
+ 
+ config/name="URMAN"
++config/use_custom_user_dir=true
++config/custom_user_dir_name="URMAN-Switch"
+ run/main_scene="res://scenes/photoworlds_game.tscn"
+ config/features=PackedStringArray("4.7", "C#")
+ boot_splash/bg_color=Color(0.008, 0.012, 0.011, 1)
+@@ -40,139 +42,141 @@
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194309,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+ , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194310,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+ , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":32,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
++, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
+ ]
+ }
+ ui_cancel={
+ "deadzone": 0.5,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194305,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
++, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
+ ]
+ }
+ 
+ move_forward={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":87,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":-1.0,"script":null)
++, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":1,"axis_value":-1.0,"script":null)
+ ]
+ }
+ move_backward={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":1.0,"script":null)
++, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":1,"axis_value":1.0,"script":null)
+ ]
+ }
+ move_left={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":65,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":-1.0,"script":null)
++, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":-1.0,"script":null)
+ ]
+ }
+ move_right={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":1.0,"script":null)
++, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":1.0,"script":null)
+ ]
+ }
+ interact={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+ , Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":32,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
+-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
++, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
+ ]
+ }
+ crouch={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":67,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":7,"pressure":0.0,"pressed":false,"script":null)
++, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":8,"pressure":0.0,"pressed":false,"script":null)
+ ]
+ }
+ jump={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":10,"pressure":0.0,"pressed":false,"script":null)
++, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
+ ]
+ }
+ sprint={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":9,"pressure":0.0,"pressed":false,"script":null)
++, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":7,"pressure":0.0,"pressed":false,"script":null)
+ ]
+ }
+ carry_use={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":70,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":8,"pressure":0.0,"pressed":false,"script":null)
++, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":10,"pressure":0.0,"pressed":false,"script":null)
+ ]
+ }
+ carry_rotate={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":82,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":2,"pressure":0.0,"pressed":false,"script":null)
++, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":9,"pressure":0.0,"pressed":false,"script":null)
+ ]
+ }
+ carry_place={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":81,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
++, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":2,"pressure":0.0,"pressed":false,"script":null)
+ ]
+ }
+ journal={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":74,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":3,"pressure":0.0,"pressed":false,"script":null)
++, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":3,"pressure":0.0,"pressed":false,"script":null)
+ ]
+ }
+ inventory={
+ "deadzone": 0.2,
+-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":73,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)]
++"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":73,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null), Object(InputEventJoypadButton,"device":-1,"button_index":13,"pressed":false)
++]
+ }
+ map={
+ "deadzone": 0.2,
+-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":77,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)]
++"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":77,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null), Object(InputEventJoypadButton,"device":-1,"button_index":4,"pressed":false)
++]
+ }
+ radio_station={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":84,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":14,"pressure":0.0,"pressed":false,"script":null)
++, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":14,"pressure":0.0,"pressed":false,"script":null)
+ ]
+ }
+ vehicle_high_beam={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":72,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":11,"pressure":0.0,"pressed":false,"script":null)
++, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":11,"pressure":0.0,"pressed":false,"script":null)
+ ]
+ }
+ vehicle_wipers={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":76,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":12,"pressure":0.0,"pressed":false,"script":null)
++, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":12,"pressure":0.0,"pressed":false,"script":null)
+ ]
+ }
+ look_left={
+ "deadzone": 0.18,
+-"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":2,"axis_value":-1.0,"script":null)
++"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":2,"axis_value":-1.0,"script":null)
+ ]
+ }
+ look_right={
+ "deadzone": 0.18,
+-"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":2,"axis_value":1.0,"script":null)
++"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":2,"axis_value":1.0,"script":null)
+ ]
+ }
+ look_up={
+ "deadzone": 0.18,
+-"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":3,"axis_value":-1.0,"script":null)
++"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":3,"axis_value":-1.0,"script":null)
+ ]
+ }
+ look_down={
+ "deadzone": 0.18,
+-"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":3,"axis_value":1.0,"script":null)
++"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":3,"axis_value":1.0,"script":null)
+ ]
+ }
+ pause={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":6,"pressure":0.0,"pressed":false,"script":null)
++, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":6,"pressure":0.0,"pressed":false,"script":null)
+ ]
+ }
+ quick_save={
+@@ -183,7 +187,7 @@
+ skip_prologue={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194309,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":4,"pressure":0.0,"pressed":false,"script":null)
++, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":4,"pressure":0.0,"pressed":false,"script":null)
+ ]
+ }
+ quick_load={
+@@ -203,3 +207,7 @@
+ ; 64 MiB supports 262144 painterly meshes; Studio reloads briefly keep two worlds alive.
+ limits/global_shader_variables/buffer_size=4194304
+ textures/vram_compression/import_etc2_astc=true
++
++[urman]
++
++input/nintendo_layout=true
+diff --git a/game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs b/game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs
+--- a/game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs
++++ b/game/scripts/Act1ConnectedWorld.PolicePost.Interior.cs
+@@ -75,27 +75,37 @@
+     private void BuildPoliceCell(Node3D room)
+     {
+         var bars = new Node3D { Name = "PoliceCellBars" }; room.AddChild(bars);
+-        foreach (var x in new[] { -1.10f, 1.10f })
++        // The two fixed wings stop at the same jambs as the unchanged 1.34 m gate opening.
++        // Painted steel keeps the bars legible against the pale institutional walls.
++        foreach (var side in new[] { -1f, 1f })
+         {
+-            FacilitySolid(bars, "BarPanelContact"+x, new(.83f, 2.35f, .055f), new(x, 1.175f, -2.18f), "6c736b", "metal").Visible=false;
+-            for(var i=0;i<7;i++) FacilityRod(bars,"Bar"+x+"_"+i,new(x-.36f+i*.12f,0,-2.18f),new(x-.36f+i*.12f,2.35f,-2.18f),.014f,"646d66");
+-        }
+-        foreach (var y in new[] { .10f, 1.15f, 2.35f })
+-        {
+-            if(y>2) FacilityRod(bars,"HeaderRail",new(-1.56f,y,-2.18f),new(1.56f,y,-2.18f),.020f,"69726a");
+-            else foreach(var sign in new[]{-1f,1f}) FacilityRod(bars,"PanelRail"+sign+"_"+y,new(sign*.67f,y,-2.18f),new(sign*1.56f,y,-2.18f),.020f,"69726a");
++            var panelCenter = side * 1.10f; // Preserve the existing invisible contact box transform.
++            FacilitySolid(bars, "BarPanelContact"+panelCenter, new(.83f, 2.35f, .055f), new(panelCenter, 1.175f, -2.18f), "6c736b", "metal").Visible=false;
++            var outer = side * 1.56f;
++            var jamb = side * .67f;
++            PoliceCellRod(bars, "OuterFramePost"+side, new(outer, .08f, -2.18f), new(outer, 2.35f, -2.18f), .032f, "778078");
++            PoliceCellRod(bars, "GateJambPost"+side, new(jamb, .08f, -2.18f), new(jamb, 2.35f, -2.18f), .032f, "778078");
++            for (var i = 0; i < 6; i++)
++            {
++                var x = side * (1.45f - i * .13f);
++                PoliceCellRod(bars, "Bar"+side+"_"+i, new(x, .10f, -2.18f), new(x, 2.35f, -2.18f), .013f, "68746d");
++            }
++            foreach (var y in new[] { .10f, 1.16f, 2.35f })
++                PoliceCellRod(bars, "PanelRail"+side+"_"+y, new(outer, y, -2.18f), new(jamb, y, -2.18f), .021f, "79837b");
+         }
+         // The unused gate rests open against the cell wall, leaving a 1.36m opening.
+         var gate = new Node3D { Name="PoliceCellOpenGate", Position=new(-.67f,0,-2.18f), RotationDegrees=new(0,-105,0) };bars.AddChild(gate);
+         FacilitySolid(gate,"OpenGateContact",new(1.28f,2.3f,.05f),new(-.64f,1.175f,0),"707970","metal").Visible=false;
+-        for(var i=0;i<10;i++) FacilityRod(gate,"GateBar"+i,new(-i*.135f,.04f,0),new(-i*.135f,2.31f,0),.014f,"707970");
+-        foreach(var y in new[]{.05f,1.15f,2.32f}) FacilityRod(gate,"GateRail"+y,new(-1.28f,y,0),new(0,y,0),.02f,"707970");
++        PoliceCellRod(gate,"GateOuterPost",new(-1.28f,.08f,0),new(-1.28f,2.35f,0),.032f,"778078");
++        PoliceCellRod(gate,"GateHingePost",new(0,.08f,0),new(0,2.35f,0),.032f,"778078");
++        for(var i=1;i<10;i++) PoliceCellRod(gate,"GateBar"+i,new(-i*.128f,.10f,0),new(-i*.128f,2.35f,0),.013f,"68746d");
++        foreach(var y in new[]{.10f,1.16f,2.35f}) PoliceCellRod(gate,"GateRail"+y,new(-1.28f,y,0),new(0,y,0),.021f,"79837b");
+         // Crossbar above the door is solid; middle/bottom span only the side panels.
+         FacilitySolid(room,"PoliceCellDoorHeader",new(3.1f,.58f,.12f),new(0,2.68f,-2.18f),"b8beb0","plaster");
+         FacilityBench(room,"PoliceCellBunk",new(.95f,0,-3.38f),1.62f,90);
+         AddVisualBox(room,"PoliceFoldedBlanket",new(.31f,.09f,.40f),new(.93f,.54f,-3.80f),"888777","cloth");
+         FacilityVessel(room,"PoliceCellEmptyBasin",new(-1.10f,.12f,-4.02f),.16f,.18f,"8b9688",false);
+-        FacilityLabel(room,"PoliceCellLabel","ИЗОЛЯТОР",new(0,2.70f,-2.108f),0,.0014f);
++        FacilityLabel(room,"PoliceCellLabel","ВРЕМЕННОЕ ОЖИДАНИЕ",new(0,2.70f,-2.108f),0,.0014f);
+         var mouse = new Node3D { Name="PoliceCellMouse", Position=new(-1.0f,.012f,-3.735f), Scale=Vector3.One*.65f };room.AddChild(mouse);
+         PoliceEllipsoid(mouse,"MouseBody",new(.047f,.032f,.075f),new(0,.022f,0),"726c60","cloth");
+         PoliceEllipsoid(mouse,"MouseHead",new(.029f,.025f,.035f),new(0,.032f,.067f),"797367","cloth");
+@@ -114,6 +124,14 @@
+         target.PresentationRepeat=()=>PoliceRemark("cellRemark");
+     }
+ 
++    private static void PoliceCellRod(Node3D parent, string name, Vector3 a, Vector3 b, float radius, string tint)
++    {
++        var delta = b - a;
++        var mesh = DiscoveryCylinder(parent, name, radius, radius, delta.Length(), (a + b) * .5f, tint);
++        mesh.Quaternion = new Quaternion(Vector3.Up, delta.Normalized());
++        mesh.MaterialOverride = RuralPropMaterials.Surface("steel", tint);
++    }
++
+     private static MeshInstance3D PoliceEllipsoid(Node3D parent,string name,Vector3 radius,Vector3 at,string color,string surface)
+     {
+         var mesh=new MeshInstance3D { Name=name, Position=at, Scale=radius,
+diff --git a/game/scripts/Act1ConnectedWorld.PolicePost.Materials.cs b/game/scripts/Act1ConnectedWorld.PolicePost.Materials.cs
+--- a/game/scripts/Act1ConnectedWorld.PolicePost.Materials.cs
++++ b/game/scripts/Act1ConnectedWorld.PolicePost.Materials.cs
+@@ -4,6 +4,28 @@
+ 
+ public partial class Act1ConnectedWorld
+ {
++    private static readonly Dictionary<string,StandardMaterial3D> PoliceFinishes=new();
++
++    private static StandardMaterial3D PoliceMetricFinish(string file,string tint,Vector3 repeat,float roughness=.9f)
++    {
++        var key=file+":"+tint+":"+repeat;
++        if(PoliceFinishes.TryGetValue(key,out var saved))return saved;
++        var material=new StandardMaterial3D
++        {
++            AlbedoColor=Color.FromHtml(tint), Roughness=roughness, MetallicSpecular=.12f,
++            Uv1Triplanar=true, Uv1WorldTriplanar=true, Uv1Scale=repeat,
++            TextureFilter=BaseMaterial3D.TextureFilterEnum.LinearWithMipmapsAnisotropic
++        };
++        var path="res://assets/textures/"+file;
++        material.AlbedoTexture=ResourceLoader.Load<Texture2D>(path)
++            ??throw new InvalidOperationException("Police finish is missing: "+path);
++        PoliceFinishes[key]=material;
++        return material;
++    }
++
++    private static StandardMaterial3D PoliceExteriorBrickMaterial()=>PoliceMetricFinish(
++        "realism_20260929/public_red_brick_source_v1_basecolor.png","c4b8a8",new(1,1.5f,1));
++
+     // Opt in only this new placement; existing houses and drivable vehicles keep their materials.
+     private static void ApplyPoliceSurfaceMaterials(Node3D room)
+     {
+@@ -16,7 +38,7 @@
+                 if(mesh.Visible&&mesh.Name.ToString().StartsWith("Police",StringComparison.Ordinal)
+                     &&painted.GetMeta("surface","").AsString()=="plaster")
+                 {
+-                    mesh.MaterialOverride=PainterlyMaterialLibrary.ForColor("deded1","plaster_domestic",sheltered:true);
++                    mesh.MaterialOverride=PoliceMetricFinish("painterly/aged_plaster_v3_albedo.png","e7e5dc",new(.6f,.6f,.6f));
+                     if(mesh.Mesh is BoxMesh box&&mesh.GetParent()==room)
+                     {
+                         var bottom=mesh.Position.Y-box.Size.Y*.5f;var top=Math.Min(1.10f,mesh.Position.Y+box.Size.Y*.5f);
+@@ -31,8 +53,39 @@
+                 }
+             }
+         }
+-        PolicePaintBatch(room,"PoliceLowerWallPaint",wallPaint,PainterlyMaterialLibrary.ForColor("aabdad","wall_institution",sheltered:true));
++        PolicePaintBatch(room,"PoliceLowerWallPaint",wallPaint,PoliceMetricFinish("painterly/aged_plaster_v3_albedo.png","aebdb0",new(.6f,.6f,.6f)));
+         PolicePaintBatch(room,"PoliceSkirting",skirting,RuralPropMaterials.Surface("steel","69766b"));
++        BuildPoliceBrickFacades(room);
++    }
++
++    private static void BuildPoliceBrickFacades(Node3D room)
++    {
++        // Thin exterior finish follows the existing structural shell and its
++        // exact openings; interior paint and every physical contact stay intact.
++        void Face(string name,Vector3 size,Vector3 at)
++        {
++            var mesh=new MeshInstance3D {Name=name,Mesh=new BoxMesh {Size=size},Position=at,
++                MaterialOverride=PoliceExteriorBrickMaterial()};
++            room.AddChild(mesh);
++        }
++        foreach(var sign in new[]{-1f,1f})
++            Face("PoliceBrickSide"+sign,new(.024f,3,9.025f),new(sign*6.014f,1.5f,0));
++        Face("PoliceBrickRear",new(12.025f,3,.024f),new(0,1.5f,-4.514f));
++        foreach(var mesh in room.GetChildren().OfType<MeshInstance3D>().ToArray())
++        {
++            var name=mesh.Name.ToString();
++            if(mesh.Mesh is not BoxMesh box||!(name.StartsWith("PoliceFrontPier",StringComparison.Ordinal)
++                ||name.StartsWith("PoliceWindowBelow",StringComparison.Ordinal)
++                ||name.StartsWith("PoliceWindowAbove",StringComparison.Ordinal)||name=="PoliceDoorLintel"))continue;
++            Face("PoliceBrick_"+name,new(box.Size.X,box.Size.Y,.024f),new(mesh.Position.X,mesh.Position.Y,4.514f));
++        }
++        if(room.GetNodeOrNull<MeshInstance3D>("Plinth") is { } plinth)
++            plinth.MaterialOverride=RuralPropMaterials.Surface("concrete","aaa79e");
++        if(room.GetNodeOrNull<MeshInstance3D>("NameBoard") is { } signBoard)
++            signBoard.MaterialOverride=RuralPropMaterials.Surface("steel","234d75");
++        if(room.GetNodeOrNull<MeshInstance3D>("Canopy") is { } canopy)
++            canopy.MaterialOverride=RuralPropMaterials.Surface("steel","80534a");
++        room.SetMeta("exteriorStyle","rural Tatarstan district police point: warm brick, red-brown standing-seam gable roof, ivory trim, blue sign; reference MVD Novy Yavash");
+     }
+     private static void PolicePaintBatch(Node3D room,string name,List<Transform3D> transforms,Material material)
+     {
+@@ -49,6 +102,8 @@
+             "metal"=>RuralPropMaterials.Surface("steel",tint),
+             "rubber"=>RuralPropMaterials.Surface("rubber",tint),
+             "paper"=>CivicSurfaceLibrary.Face("quest_papers_v2_atlas.png",2,2,3),
++            "plaster"=>PoliceMetricFinish("painterly/aged_plaster_v3_albedo.png","e7e5dc",new(.6f,.6f,.6f)),
++            "floor_institution"=>RuralPropMaterials.Surface("concrete","b8b6aa"),
+             _=>null
+         };
+     }
+diff --git a/game/scripts/Act1ConnectedWorld.PolicePost.Officer.cs b/game/scripts/Act1ConnectedWorld.PolicePost.Officer.cs
+--- a/game/scripts/Act1ConnectedWorld.PolicePost.Officer.cs
++++ b/game/scripts/Act1ConnectedWorld.PolicePost.Officer.cs
+@@ -22,16 +22,16 @@
+             var name=mesh.Name.ToString();
+             if(name.Contains("_Hat_",StringComparison.Ordinal)) {mesh.Visible=false;continue;}
+             if(name.Contains("_Coat",StringComparison.Ordinal)||name.Contains("_Trousers_",StringComparison.Ordinal))
+-                mesh.MaterialOverride=PainterlyMaterialLibrary.ForColor("354858","cloth",sheltered:true);
++                mesh.MaterialOverride=RuralPropMaterials.Surface("cloth","46596b");
+             if(name.Contains("_Boot",StringComparison.Ordinal))
+-                mesh.MaterialOverride=PainterlyMaterialLibrary.ForColor("343933","leather",sheltered:true);
++                mesh.MaterialOverride=RuralPropMaterials.Surface("rubber","343933");
+         }
+         var skeleton=officer.FindChildren("*",nameof(Skeleton3D),true,false).OfType<Skeleton3D>().Single();
+         var head=skeleton.FindBone("Head");
+         if(head<0)throw new InvalidOperationException("Duty officer needs the real human head bone.");
+         var rest=skeleton.GetBoneGlobalRest(head);
+         var attachment=new BoneAttachment3D {Name="PoliceCapAttachment",BoneName="Head"};skeleton.AddChild(attachment);
+-        var cap=new Node3D {Name="PolicePeakedCap",Transform=rest.AffineInverse()*new Transform3D(Basis.Identity,rest.Origin+Vector3.Up*.19f)};
++        var cap=new Node3D {Name="PolicePeakedCap",Transform=rest.AffineInverse()*new Transform3D(Basis.Identity,rest.Origin+Vector3.Up*.15f)};
+         attachment.AddChild(cap);
+         PoliceEllipsoid(cap,"CapCrown",new(.135f,.036f,.128f),new(0,.032f,0),"354858","cloth");
+         PoliceEllipsoid(cap,"CapBand",new(.114f,.027f,.111f),Vector3.Zero,"3f4746","cloth");
+@@ -40,14 +40,28 @@
+         PoliceEllipsoid(cap,"CapPlainBadge",new(.013f,.018f,.003f),new(0,.007f,.112f),"c1af71","metal");
+         foreach(var side in new[]{"l","r"})
+         {
+-            var bone="upperarm_"+side;var index=skeleton.FindBone(bone);
++            // Place each board midway along the actual clavicle-to-upper-arm
++            // shoulder line, then lift it slightly above the coat surface.
++            // Attach to the clavicle so the board stays at the shoulder seam
++            // when the seated arm moves.
++            var bone="clavicle_"+side;var index=skeleton.FindBone(bone);
++            var armIndex=skeleton.FindBone("upperarm_"+side);
++            if(index<0||armIndex<0)throw new InvalidOperationException("Duty officer needs real shoulder bones for shoulder boards.");
+             var shoulderRest=skeleton.GetBoneGlobalRest(index);
++            var armRest=skeleton.GetBoneGlobalRest(armIndex);
++            var boardCenter=(shoulderRest.Origin+armRest.Origin)*.5f+Vector3.Up*.055f;
++            var outward=(armRest.Origin-shoulderRest.Origin).Normalized();
++            var across=Vector3.Up.Cross(outward).Normalized();
++            var boardBasis=new Basis(across,outward.Cross(across).Normalized(),outward);
+             var mount=new BoneAttachment3D {Name="PoliceEpauletteAttachment"+side,BoneName=bone};skeleton.AddChild(mount);
+             var epaulette=new Node3D {Name="PoliceShoulderBoard"+side,
+-                Transform=shoulderRest.AffineInverse()*new Transform3D(Basis.Identity,shoulderRest.Origin+new Vector3(side=="l"?-.01f:.01f,.09f,0))};mount.AddChild(epaulette);
+-            AddVisualBox(epaulette,"Board",new(.075f,.015f,.14f),Vector3.Zero,"7c514b","cloth");
+-            AddVisualBox(epaulette,"Braid",new(.051f,.016f,.116f),new(0,.002f,0),"b2a473","cloth");
+-            DiscoveryCylinder(epaulette,"Button",.009f,.009f,.005f,new(0,.014f,-.045f),"c5b57a");
++                Transform=shoulderRest.AffineInverse()*new Transform3D(boardBasis,boardCenter)};mount.AddChild(epaulette);
++            var board=AddVisualBox(epaulette,"Board",new(.075f,.012f,.14f),Vector3.Zero,"354858","cloth");
++            board.MaterialOverride=RuralPropMaterials.Surface("cloth","354858");
++            foreach(var edge in new[]{-1f,1f})
++                AddVisualBox(epaulette,"RedPiping"+edge,new(.004f,.014f,.14f),new(edge*.035f,0,0),"974e4a","cloth");
++            AddVisualBox(epaulette,"Braid",new(.051f,.003f,.010f),new(0,.008f,.03f),"b2a473","cloth");
++            DiscoveryCylinder(epaulette,"Button",.009f,.009f,.005f,new(0,.012f,-.045f),"c5b57a");
+         }
+         var presentation=new PolicePostPresentation {Name="PolicePostPresentation",Room=room,Officer=officer,
+             Mouse=room.GetNode<Node3D>("PoliceCellMouse"),IsActive=()=>FacilityExteriorActive};room.AddChild(presentation);
+diff --git a/game/scripts/Act1ConnectedWorld.PolicePost.Roof.cs b/game/scripts/Act1ConnectedWorld.PolicePost.Roof.cs
+--- a/game/scripts/Act1ConnectedWorld.PolicePost.Roof.cs
++++ b/game/scripts/Act1ConnectedWorld.PolicePost.Roof.cs
+@@ -8,20 +8,35 @@
+     {
+         // Closed primitive slopes have correct outside winding and real thickness.
+         room.GetNode<MeshInstance3D>("Roof").Visible=false;
++        // Retire the old roof and its snow together: their different pitch
++        // otherwise cuts through the replacement roof and gable.
++        room.GetNode<MeshInstance3D>("RoofSnow").Visible=false;
+         var slope=Mathf.Atan2(2.0f,6.4f);
+         foreach(var sign in new[]{-1f,1f})
+         {
+             var rotation=new Vector3(0,0,-sign*slope);
+             var roof=FacilitySolid(room,"PoliceMetalRoof"+sign,new(Mathf.Sqrt(6.4f*6.4f+4),.12f,9.8f),
+                 new(sign*3.2f,4.1f,0),"626b6b","roof_metal",rotation);
+-            roof.MaterialOverride=RuralPropMaterials.Surface("steel","68716a");
+-            AddVisualBox(room,"PoliceRoofSnow"+sign,new(6.66f,.025f,9.74f),new(sign*3.2f,4.174f,0),"dce3de","snow_roof").Rotation=rotation;
+-            AddVisualBox(room,"PoliceEaveFascia"+sign,new(.08f,.20f,9.8f),new(sign*6.38f,3.10f,0),"778274","wood_painted_trim");
++            roof.MaterialOverride=RuralPropMaterials.Surface("steel","80534a");
++            // Keep the lower metal apron visible below settled snow.
++            AddVisualBox(room,"PoliceRoofSnow"+sign,new(5.2f,.045f,9.6f),
++                new(sign*2.6f,5.1f-2.6f*2f/6.4f+.10f,0),"dce3de","snow_roof").Rotation=rotation;
++            var fascia=AddVisualBox(room,"PoliceEaveFascia"+sign,new(.10f,.20f,9.8f),new(sign*6.38f,3.10f,0),"ddd7c4","wood_painted_trim");
++            fascia.MaterialOverride=RuralPropMaterials.Surface("steel","d8d3c3");
++            for(var i=0;i<18;i++)
++            {
++                var seam=AddVisualBox(room,"PoliceRoofStandingSeam"+sign+"_"+i,
++                    new(Mathf.Sqrt(6.4f*6.4f+4),.035f,.022f),new(sign*3.2f,4.18f,-4.65f+i*.55f),"765048","metal");
++                seam.Rotation=rotation;
++                seam.MaterialOverride=RuralPropMaterials.Surface("steel","765048");
++            }
+         }
++        var ridge=AddVisualBox(room,"PoliceRoofRidgeCap",new(.26f,.10f,9.94f),new(0,5.17f,0),"80534a","metal");
++        ridge.MaterialOverride=RuralPropMaterials.Surface("steel","80534a");
+         using var st=new SurfaceTool();st.Begin(Mesh.PrimitiveType.Triangles);
+         foreach(var sign in new[]{-1f,1f})
+         {
+-            var a=new Vector3(-6,3.0f,sign*4.48f);var b=new Vector3(6,3.0f,sign*4.48f);var c=new Vector3(0,5.1f,sign*4.48f);
++            var a=new Vector3(-6,3.0f,sign*4.515f);var b=new Vector3(6,3.0f,sign*4.515f);var c=new Vector3(0,5.1f,sign*4.515f);
+             foreach(var face in new[]{new[]{a,c,b},new[]{a,b,c}})
+             {
+                 st.SetNormal((face[1]-face[0]).Cross(face[2]-face[0]).Normalized());
+@@ -29,6 +44,6 @@
+             }
+         }
+         st.Index();room.AddChild(new MeshInstance3D{Name="PoliceGableInfill",Mesh=st.Commit(),
+-            MaterialOverride=PainterlyMaterialLibrary.ForColor("c5c9be","plaster",sheltered:true)});
++            MaterialOverride=PoliceExteriorBrickMaterial()});
+     }
+ }
+diff --git a/game/scripts/Act1ConnectedWorld.PolicePost.Signage.cs b/game/scripts/Act1ConnectedWorld.PolicePost.Signage.cs
+new file mode 100644
+--- /dev/null
++++ b/game/scripts/Act1ConnectedWorld.PolicePost.Signage.cs
+@@ -0,0 +1,137 @@
++using Godot;
++
++namespace Urman.Godot;
++
++public partial class Act1ConnectedWorld
++{
++    private static readonly Dictionary<string,StandardMaterial3D> PoliceSignMaterials=new();
++    private static Dictionary<string,Rect2>? _policeSignImageRegions;
++
++    private static Rect2 PoliceSignImageRegion(string file)
++    {
++        if(_policeSignImageRegions is null)
++        {
++            using var doc=System.Text.Json.JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString(
++                "res://content/world/act1_police_signs_imagegen.v1.json"));
++            _policeSignImageRegions=new(StringComparer.Ordinal);
++            foreach(var row in doc.RootElement.GetProperty("assets").EnumerateArray())
++            {
++                var uv=row.GetProperty("uvRegion").EnumerateArray().Select(x=>x.GetSingle()).ToArray();
++                _policeSignImageRegions.Add(row.GetProperty("file").GetString()!,new(uv[0],uv[1],uv[2],uv[3]));
++            }
++        }
++        return _policeSignImageRegions[file];
++    }
++
++    private static StandardMaterial3D PolicePrintedMaterial(string file,bool paper=false,bool vinyl=false)
++    {
++        var key=file+":"+paper+":"+vinyl;
++        if(PoliceSignMaterials.TryGetValue(key,out var saved))return saved;
++        var source=SwitchArtTextures.Load("res://assets/textures/police_signage_imagegen_v1/"+file)
++            ??throw new InvalidOperationException("Missing police sign artwork: "+file);
++        using var image=source.GetImage();
++        if(image.IsCompressed())image.Decompress();
++        image.GenerateMipmaps();
++        var region=PoliceSignImageRegion(file);
++        var material=new StandardMaterial3D
++        {
++            AlbedoTexture=ImageTexture.CreateFromImage(image), Roughness=paper ? .94f:.42f,
++            MetallicSpecular=paper ? .08f:.32f,
++            CullMode=paper ? BaseMaterial3D.CullModeEnum.Disabled:BaseMaterial3D.CullModeEnum.Back,
++            TextureFilter=BaseMaterial3D.TextureFilterEnum.LinearWithMipmapsAnisotropic,
++            Uv1Scale=new(region.Size.X,region.Size.Y,1),
++            Uv1Offset=new(region.Position.X,region.Position.Y,0),
++            Transparency=vinyl?BaseMaterial3D.TransparencyEnum.Alpha:BaseMaterial3D.TransparencyEnum.Disabled,
++            AlphaScissorThreshold=.35f
++        };
++        material.SetMeta("printAspect",image.GetWidth()*region.Size.X/(image.GetHeight()*region.Size.Y));
++        material.SetMeta("artworkOrigin","built-in ImageGen; Cyrillic lettering is part of generated image");
++        PoliceSignMaterials[key]=material;
++        return material;
++    }
++
++    private static Node3D PoliceSignPlate(Node3D parent,string name,string file,Vector3 at,Vector2 size,
++        float yaw=0,bool paper=false)
++    {
++        var artwork=PolicePrintedMaterial(file,paper);
++        if(!paper)size.Y=size.X/(float)artwork.GetMeta("printAspect").AsDouble();
++        var root=new Node3D {Name=name,Position=at,RotationDegrees=new(0,yaw,0)};
++        parent.AddChild(root);
++        var thickness=paper ? .0003f:.018f;
++        RuralPropGeometry.Block(root,"Backing",new(size.X,size.Y,thickness),Vector3.Zero,
++            RuralPropMaterials.Surface(paper?"plywood":"steel",paper?"d4cebf":"afb3ad"),paper ? .00003f:.004f);
++        if(paper)
++            CivicSurfaceLibrary.Paper(root,"PrintedFace",size-Vector2.One*.001f,
++                new(0,0,thickness*.5f+.0005f),artwork,curl:.0015f);
++        else
++            root.AddChild(new MeshInstance3D {Name="PrintedFace",Position=new(0,0,thickness*.5f+.0008f),
++                Mesh=new QuadMesh {Size=size-Vector2.One*.005f},MaterialOverride=artwork,
++                CastShadow=GeometryInstance3D.ShadowCastingSetting.Off});
++        var radius=paper ? .002f:Math.Min(.006f,size.Y*.025f);
++        var inset=paper ? .012f:Math.Min(.025f,size.Y*.16f);
++        foreach(var x in new[]{-1f,1f})foreach(var y in new[]{-1f,1f})
++        {
++            if(paper&&y<0)continue;
++            var p=new Vector3(x*(size.X*.5f-inset),y*(size.Y*.5f-inset),thickness*.5f+.002f);
++            root.AddChild(new MeshInstance3D {Name="Fastener"+x+"_"+y,Position=p,Rotation=new(Mathf.Pi*.5f,0,0),
++                Mesh=new CylinderMesh {TopRadius=radius,BottomRadius=radius,Height=.002f,RadialSegments=12},
++                MaterialOverride=RuralPropMaterials.Surface("zinc","b5b9b5"),
++                CastShadow=GeometryInstance3D.ShadowCastingSetting.Off});
++            if(!paper)root.AddChild(new MeshInstance3D {Name="ScrewSlot"+x+"_"+y,
++                Position=p+Vector3.Back*.0016f,Rotation=new(0,0,.45f),
++                Mesh=new BoxMesh {Size=new(radius*1.35f,.0008f,.0003f)},
++                MaterialOverride=new StandardMaterial3D {AlbedoColor=new Color("454b4e"),Roughness=.8f},
++                CastShadow=GeometryInstance3D.ShadowCastingSetting.Off});
++        }
++        root.SetMeta("signagePolicy","printed Cyrillic artwork on a fixed physical plate; bevelled edge and real fasteners; no floating text or billboard");
++        return root;
++    }
++
++    private static void BuildPoliceSignage(Node3D room)
++    {
++        foreach(var label in room.FindChildren("*",nameof(Label3D),true,false).OfType<Label3D>())
++            if(label.Name=="NameBoardText"||label.Name.ToString().StartsWith("Police",StringComparison.Ordinal))label.Visible=false;
++        var oldBoard=room.GetNode<MeshInstance3D>("NameBoard");oldBoard.Visible=false;
++        PoliceSignPlate(room,"PoliceMainEnamelSign","police_main.png",oldBoard.Position+Vector3.Up*.15f,new(3.2f,.72f));
++        PoliceSignPlate(room,"PoliceDistrictEnamelPlaque","police_district.png",new(1.8f,2.07f,4.548f),new(.58f,.387f));
++        PoliceSignPlate(room,"PoliceReceptionInformation","police_hours.png",new(1.8f,1.49f,4.548f),new(.58f,.483f));
++        room.GetNode<MeshInstance3D>("PoliceReceptionPlaque").Visible=false;
++        PoliceSignPlate(room,"PoliceReceptionEnamelSign","police_reception.png",new(-3.1f,2.47f,2.12f),new(1.35f,.2475f));
++        foreach(var sign in new[]{-1f,1f})
++            PoliceSignPlate(room,"PoliceStaffDoorPlate"+sign,sign<0?"police_staff.png":"police_store.png",
++                new(sign*.883f,2.51f,-.58f),new(.38f,.10f),sign<0?90:-90);
++        PoliceSignPlate(room,"PoliceHoldingRoomPlate","police_cell.png",new(0,2.70f,-2.101f),new(1.72f,.263f));
++        PoliceSignPlate(room,"PoliceBlankFormsPlate","police_forms.png",new(4.7f,1.4f,1.081f),new(.56f,.124f));
++        PoliceSignPlate(room,"PoliceFilesCabinetPlate","police_files.png",new(-4.9f,1.04f,.235f),new(.72f,.158f));
++        foreach(var mesh in room.GetChildren().OfType<MeshInstance3D>())
++            if(mesh.Name.ToString().StartsWith("PoliceNotice",StringComparison.Ordinal)&&mesh.Name!="PoliceNoticeBoard")mesh.Visible=false;
++        var xs=new[]{3.10f,3.65f,4.12f};
++        for(var i=0;i<xs.Length;i++)
++            PoliceSignPlate(room,"PolicePrintedNotice"+i,"police_notice_"+(i+1)+".png",new(xs[i],1.84f,1.112f),new(.38f,.54f),paper:true);
++        PoliceDeskPrint(room,"PoliceForms","police_form.png",new(.245f,.325f));
++        PoliceDeskPrint(room,"PolicePaperStack","police_form.png",new(.215f,.295f));
++        PoliceDeskPrint(room,"PoliceLedger","police_ledger.png",new(.294f,.362f));
++        foreach(var label in room.FindChildren("DistrictDoorLettering*",nameof(Label3D),true,false).OfType<Label3D>())
++        {
++            label.Visible=false;
++            var lettering=PolicePrintedMaterial("police_car.png",vinyl:true);
++            var aspect=(float)lettering.GetMeta("printAspect").AsDouble();
++            var size=aspect>1.61f/.19f?new Vector2(1.61f,1.61f/aspect):new Vector2(.19f*aspect,.19f);
++            var decal=new MeshInstance3D {Name="PoliceDoorVinyl"+label.Name,
++                Transform=label.Transform,Mesh=new QuadMesh {Size=size},
++                MaterialOverride=lettering,
++                CastShadow=GeometryInstance3D.ShadowCastingSetting.Off};
++            label.GetParent().AddChild(decal);
++            decal.Position+=decal.Basis.Z*.0008f;
++        }
++    }
++
++    private static void PoliceDeskPrint(Node3D room,string target,string file,Vector2 size)
++    {
++        var surface=room.GetNode<MeshInstance3D>(target);
++        var height=surface.Mesh!.GetAabb().Size.Y*.5f;
++        room.AddChild(new MeshInstance3D {Name=target+"PrintedTop",Position=surface.Position+Vector3.Up*(height+.001f),
++            Rotation=new(-Mathf.Pi*.5f,0,0),Mesh=new QuadMesh {Size=size},
++            MaterialOverride=PolicePrintedMaterial(file,paper:true),CastShadow=GeometryInstance3D.ShadowCastingSetting.Off});
++    }
++}
+diff --git a/game/scripts/Act1ConnectedWorld.PolicePost.cs b/game/scripts/Act1ConnectedWorld.PolicePost.cs
+--- a/game/scripts/Act1ConnectedWorld.PolicePost.cs
++++ b/game/scripts/Act1ConnectedWorld.PolicePost.cs
+@@ -17,7 +17,8 @@
+                 || child.Name.ToString().StartsWith("Window", StringComparison.Ordinal)) child.Visible = false;
+         room.GetNode<StaticBody3D>("FarBankPublicBody").GetChildren().OfType<CollisionShape3D>().First().Disabled = true;
+         var board = room.GetNode<Label3D>("NameBoardText");
+-        board.Text = "УЧАСТКОВЫЙ"; board.PixelSize = .0033f;
++        board.Text = "ПОЛИЦИЯ"; board.PixelSize = .0033f;
++        board.Modulate=Colors.White;
+         room.SetMeta("publicRole", "приёмная участкового");
+         room.SetMeta("clearSizeMetres", new Vector2(11.7f, 8.7f));
+         room.SetMeta("corridorClearWidthMetres", 1.8f);
+@@ -46,6 +47,8 @@
+         BuildPoliceInterior(room);
+         BuildPoliceSurroundings(room);
+         ApplyPoliceSurfaceMaterials(room);
++        FacilityLabel(room,"PoliceDistrictPlaque","УЧАСТКОВЫЙ\nПУНКТ ПОЛИЦИИ",new(1.8f,2.06f,4.535f),0,.0010f);
++        BuildPoliceSignage(room);
+         foreach(var light in room.FindChildren("*",nameof(OmniLight3D),true,false).OfType<OmniLight3D>())
+             light.ShadowEnabled=light.Name=="PoliceLobbyLight";
+         EnsureFacilityTick();
+diff --git a/game/scripts/Act1DemoRoot.cs b/game/scripts/Act1DemoRoot.cs
+--- a/game/scripts/Act1DemoRoot.cs
++++ b/game/scripts/Act1DemoRoot.cs
+@@ -1526,6 +1526,13 @@
+         string? failure = null;
+         try
+         {
++            if (startNewGame)
++            {
++                var tutorial = new ControlsTutorialUi { Name = "ControlsTutorial" };
++                AddChild(tutorial);
++                await tutorial.Completion;
++                if (!OwnsMenuOperation(menu, bridge)) return;
++            }
+             var candidate = startNewGame ? null : await bridge.FindContinueAsync();
+             if (!OwnsMenuOperation(menu, bridge)) return;
+             var success = startNewGame
+diff --git a/game/scripts/ControlsTutorialUi.cs b/game/scripts/ControlsTutorialUi.cs
+new file mode 100644
+--- /dev/null
++++ b/game/scripts/ControlsTutorialUi.cs
+@@ -0,0 +1,128 @@
++using Godot;
++
++namespace Urman.Godot;
++
++/// <summary>Introductory controls guide; callers retain their existing menu/modal gate.</summary>
++public partial class ControlsTutorialUi : CanvasLayer
++{
++    private readonly TaskCompletionSource<bool> _closed = new();
++    private Label _title = null!;
++    private Label _body = null!;
++    private Button _next = null!;
++    private Button _back = null!;
++    private Button _skip = null!;
++    private int _page;
++    private bool _gamepad;
++    private bool _closing;
++    private Control? _previousFocus;
++    public Task Completion => _closed.Task;
++    public bool ReturnToPause { get; init; }
++
++    public override void _Ready()
++    {
++        Layer = 150;
++        _previousFocus = GetViewport().GuiGetFocusOwner();
++        _gamepad = InputBindingService.NintendoLayout || Input.GetConnectedJoypads().Count > 0;
++        var screen = new ColorRect { Color = new Color(.018f, .027f, .025f, .98f) };
++        screen.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
++        AddChild(screen);
++        var margin = new MarginContainer { AnchorLeft = .12f, AnchorRight = .88f,
++            AnchorTop = .12f, AnchorBottom = .88f };
++        screen.AddChild(margin);
++        var layout = new VBoxContainer();
++        layout.AddThemeConstantOverride("separation", 28);
++        margin.AddChild(layout);
++        _title = new Label { ThemeTypeVariation = UrmanUiTheme.Heading };
++        layout.AddChild(_title);
++        var scroll = new ScrollContainer { SizeFlagsVertical = Control.SizeFlags.ExpandFill,
++            HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled };
++        layout.AddChild(scroll);
++        _body = new Label { AutowrapMode = TextServer.AutowrapMode.WordSmart,
++            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
++        _body.AddThemeFontSizeOverride("font_size", 30);
++        scroll.AddChild(_body);
++        var buttons = new HBoxContainer();
++        buttons.AddThemeConstantOverride("separation", 24);
++        layout.AddChild(buttons);
++        _back = MakeButton("Назад", () => { _page--; Refresh(); });
++        _next = MakeButton("Дальше", () => { if (_page == 2) Close(); else { _page++; Refresh(); } });
++        _skip = MakeButton("Пропустить", Close);
++        buttons.AddChild(_back);
++        buttons.AddChild(_next);
++        buttons.AddChild(_skip);
++        var settings = (GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController)?.Accessibility;
++        if (settings is not null) AccessibilityPresentation.ApplyToControl(screen, settings);
++        Refresh();
++    }
++
++    private static Button MakeButton(string text, Action pressed)
++    {
++        var button = new Button { Text = text, FocusMode = Control.FocusModeEnum.All,
++            CustomMinimumSize = new Vector2(200, 60), SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
++        button.Pressed += pressed;
++        return button;
++    }
++
++    private void Refresh()
++    {
++        string H(string action) => InputBindingService.ActionHint(action, _gamepad);
++        _title.Text = $"КАК ИГРАТЬ  ·  {_page + 1} / 3";
++        _body.Text = _page switch
++        {
++            0 => $"ОСМОТРИТЕСЬ\n\n{H("move_forward")} / {H("move_backward")} — вперёд и назад.\n"
++                + $"{H("move_left")} / {H("move_right")} — влево и вправо.\n"
++                + (_gamepad ? "Правый стик — осмотреться.\n" : "Мышь — осмотреться.\n")
++                + $"{H("sprint")} — удерживать для бега.  {H("jump")} — прыжок.\n"
++                + $"{H("crouch")} — пригнуться.\n\nЧувствительность камеры можно изменить в настройках.",
++            1 => $"ИССЛЕДУЙТЕ\n\nНаведите центр экрана на человека или предмет.\n"
++                + $"Когда появится подсказка, нажмите {H("interact")} — поговорить, осмотреть или взять.\n\n"
++                + $"С предметом в руках: {H("carry_rotate")} — повернуть, {H("carry_place")} — поставить.\n"
++                + $"{H("carry_use")} — переключить фонарь.\n\nПодсказка у предмета показывает доступное действие.",
++            _ => $"ЖУРНАЛ И МЕНЮ\n\n{H("journal")} — журнал.  {H("inventory")} — инвентарь.  {H("map")} — карта.\n"
++                + $"{H("pause")} — пауза, сохранение и настройки.\n\n"
++                + (_gamepad ? "В меню выбирайте пункт крестовиной или левым стиком.\n" : "В меню выбирайте пункт мышью или стрелками.\n")
++                + $"{H("ui_accept")} — выбрать.  {H("ui_cancel")} — назад.\n\n"
++                + "Эту памятку можно снова открыть через паузу → «Как играть»."
++        };
++        _back.Disabled = _page == 0;
++        _next.Text = _page == 2 ? (ReturnToPause ? "Вернуться" : "Начать игру") : "Дальше";
++        _skip.Text = $"Пропустить {H("ui_cancel")}";
++        _next.GrabFocus();
++    }
++
++    public override void _Input(InputEvent inputEvent)
++    {
++        if (_closing) return;
++        if (inputEvent.IsActionPressed("ui_cancel") || inputEvent.IsActionPressed("pause"))
++        {
++            GetViewport().SetInputAsHandled();
++            Close();
++            return;
++        }
++        var gamepad = inputEvent is InputEventJoypadButton
++            || inputEvent is InputEventJoypadMotion motion && Math.Abs(motion.AxisValue) > .25f;
++        var keyboard = inputEvent is InputEventKey { Pressed: true } or InputEventMouseButton { Pressed: true };
++        if ((gamepad || keyboard) && gamepad != _gamepad)
++        {
++            _gamepad = gamepad;
++            Refresh();
++        }
++    }
++
++    // Keep non-GUI actions from reaching the menu/world below this overlay.
++    public override void _UnhandledInput(InputEvent inputEvent) => GetViewport().SetInputAsHandled();
++
++    private void Close()
++    {
++        if (_closing) return;
++        _closing = true;
++        QueueFree();
++    }
++
++    public override void _ExitTree()
++    {
++        if (_previousFocus is not null && IsInstanceValid(_previousFocus)
++            && _previousFocus.IsInsideTree() && _previousFocus.IsVisibleInTree()) _previousFocus.GrabFocus();
++        _closed.TrySetResult(true);
++    }
++}
+diff --git a/game/scripts/FirstPersonController.Body.cs b/game/scripts/FirstPersonController.Body.cs
+--- a/game/scripts/FirstPersonController.Body.cs
++++ b/game/scripts/FirstPersonController.Body.cs
+@@ -521,6 +521,7 @@
+             _bodyFootContactIntervalMeters = Math.Max(0, _bodyGroundTravelMeters - _bodyLastFootContactTravelMeters);
+         _bodyLastFootContactTravelMeters = _bodyGroundTravelMeters;
+         _bodyFootContactCount++;
++        if (_inputDevice == "gamepad") HapticFeedback.Instance?.Footstep();
+     }
+ 
+     private void UpdateGroundFootCycle(Vector3 hipShift, Vector3 travelDirection, Vector2 actualMovement)
+diff --git a/game/scripts/FirstPersonController.cs b/game/scripts/FirstPersonController.cs
+--- a/game/scripts/FirstPersonController.cs
++++ b/game/scripts/FirstPersonController.cs
+@@ -209,9 +209,12 @@
+     {
+         AddToGroup("player_controller");
+         AddToGroup(AccessibilityPresentation.TargetGroup);
++        var haptics = new HapticFeedback { Name = "HapticFeedback" };
++        AddChild(haptics);
+         // UIUX-008: snapshot pristine bindings before any rebind or stored
+         // settings can mutate the input map, so restore-defaults is honest.
+         InputBindingService.InitializeDefaults();
++        if (InputBindingService.NintendoLayout) _inputDevice = "gamepad";
+         _head = GetNode<Node3D>("Head");
+         _camera = GetNode<Camera3D>("Head/Camera3D");
+         _interactionRay = GetNode<RayCast3D>("Head/Camera3D/InteractionRay");
+@@ -484,7 +487,10 @@
+         }
+         KeepCrouchCameraClearBeforeMove(new Vector2(Velocity.X, Velocity.Z), (float)delta);
+         _bodyVerticalSpeedBeforeMove = Velocity.Y;
++        var wasGroundedBeforeMove = IsOnFloor();
+         if (Velocity.Y > .05f || !TryWalkUpStep((float)delta)) MoveAndSlide();
++        if (!wasGroundedBeforeMove && IsOnFloor() && _inputDevice == "gamepad")
++            HapticFeedback.Instance?.Landing(Math.Max(0f, -_bodyVerticalSpeedBeforeMove));
+         ClampToAuthoredWorld();
+         KeepCrouchCameraClearAfterMove();
+         UpdateVisibleBody(delta, moving: false);
+@@ -560,6 +566,7 @@
+ 
+     internal void SetSessionTransition(bool active)
+     {
++        if (active) HapticFeedback.Instance?.Stop();
+         if (active) ClearPhotoBookGrip();
+         _sessionTransition = active;
+         _worldInteractionNeedsRelease = true;
+@@ -572,6 +579,7 @@
+ 
+     public void SetModalOpen(bool open)
+     {
++        if (open) HapticFeedback.Instance?.Stop();
+         if (_modalOpen != open)
+             _worldInteractionNeedsRelease = true;
+         _modalOpen = open;
+@@ -718,6 +726,7 @@
+ 
+         if (candidate == target && available && Input.IsActionJustPressed(InteractionAction))
+         {
++            if (_inputDevice == "gamepad") HapticFeedback.Instance?.Interaction();
+             target.Interact();
+         }
+     }
+diff --git a/game/scripts/HapticFeedback.cs b/game/scripts/HapticFeedback.cs
+new file mode 100644
+--- /dev/null
++++ b/game/scripts/HapticFeedback.cs
+@@ -0,0 +1,193 @@
++using Godot;
++
++namespace Urman.Godot;
++
++/// <summary>Short, single-device controller vibration for discrete game events.</summary>
++public partial class HapticFeedback : Node
++{
++    private const string SettingsPath = "user://haptics.cfg";
++    private const float MaximumPulseSeconds = .18f;
++    private const ulong MinimumPulseGapMs = 55;
++
++    private enum Priority { Footstep = 1, Interaction = 2, Landing = 3, Preview = 4 }
++
++    private readonly Dictionary<Priority, ulong> _lastPulseByPriority = new();
++    private int _activeDevice = -1;
++    private ulong _activeUntilMsec;
++    private ulong _pulseStartedMsec;
++    private Priority _activePriority;
++    private bool _applicationFocused = true;
++
++    public static HapticFeedback? Instance { get; private set; }
++    public bool Enabled { get; private set; } = true;
++    public float Strength { get; private set; } = .5f;
++    public bool FootstepsEnabled { get; private set; }
++    public int ActiveDevice => IsConnected(_activeDevice) ? _activeDevice : -1;
++
++    public override void _Ready()
++    {
++        Instance = this;
++        LoadSettings();
++        Input.JoyConnectionChanged += OnJoyConnectionChanged;
++    }
++
++    public override void _ExitTree()
++    {
++        Input.JoyConnectionChanged -= OnJoyConnectionChanged;
++        Stop();
++        if (Instance == this) Instance = null;
++    }
++
++    public override void _Input(InputEvent inputEvent)
++    {
++        if (!_applicationFocused) return;
++        if (inputEvent is InputEventJoypadButton button)
++            RememberDevice(button.Device);
++        else if (inputEvent is InputEventJoypadMotion motion && Math.Abs(motion.AxisValue) >= .18f)
++            RememberDevice(motion.Device);
++        else if (inputEvent is InputEventKey { Pressed: true }
++            or InputEventMouseButton { Pressed: true }
++            || inputEvent is InputEventMouseMotion mouseMotion && mouseMotion.ScreenRelative.LengthSquared() > .1f)
++            ForgetDevice();
++    }
++
++    public override void _Notification(int what)
++    {
++        if (what is (int)NotificationApplicationFocusOut
++            or (int)NotificationWMWindowFocusOut
++            or (int)NotificationApplicationPaused)
++        {
++            _applicationFocused = false;
++            Stop();
++        }
++        else if (what is (int)NotificationApplicationFocusIn
++            or (int)NotificationWMWindowFocusIn
++            or (int)NotificationApplicationResumed)
++            _applicationFocused = true;
++    }
++
++    public void Configure(bool enabled, float strength, bool footstepsEnabled)
++    {
++        Enabled = enabled;
++        Strength = float.IsFinite(strength) ? Mathf.Clamp(strength, 0f, 1f) : .5f;
++        FootstepsEnabled = footstepsEnabled;
++        var config = new ConfigFile();
++        config.SetValue("haptics", "enabled", Enabled);
++        config.SetValue("haptics", "strength", Strength);
++        config.SetValue("haptics", "footsteps_enabled", FootstepsEnabled);
++        var error = config.Save(SettingsPath);
++        if (error != Error.Ok) GD.PushWarning($"Could not save haptics settings: {error}");
++        if (!Enabled || Strength <= 0) Stop();
++    }
++
++    public bool Preview() => Preview(Strength, Enabled);
++
++    public bool Preview(float strength, bool enabled)
++    {
++        if (!enabled || !float.IsFinite(strength) || strength <= 0) return false;
++        return RequestPulse(.30f, .78f, .13f, Priority.Preview, bypassSavedEnabled: true,
++            strengthOverride: Mathf.Clamp(strength, 0f, 1f));
++    }
++
++    public bool Interaction() => RequestPulse(.13f, .38f, .055f, Priority.Interaction);
++
++    public bool Landing(float impactSpeed)
++    {
++        if (!float.IsFinite(impactSpeed) || impactSpeed < 1.4f) return false;
++        var intensity = Mathf.Clamp(.20f + (impactSpeed - 1.4f) * .055f, .20f, .85f);
++        return RequestPulse(intensity * .45f, intensity, .07f + intensity * .07f, Priority.Landing);
++    }
++
++    public bool Footstep() => FootstepsEnabled
++        && RequestPulse(.07f, .15f, .045f, Priority.Footstep);
++
++    public void Stop()
++    {
++        var device = _activeDevice;
++        _activeUntilMsec = 0;
++        _pulseStartedMsec = 0;
++        _activePriority = default;
++        if (IsConnected(device)) Input.StopJoyVibration(device);
++    }
++
++    private bool RequestPulse(float weak, float strong, float duration, Priority priority,
++        bool bypassSavedEnabled = false, float? strengthOverride = null)
++    {
++        if (!_applicationFocused || (!bypassSavedEnabled && !Enabled)
++            || !IsConnected(_activeDevice)
++            || GetTree().GetFirstNodeInGroup("loading_ui") is not null) return false;
++        if (!bypassSavedEnabled && GetParent() is FirstPersonController player
++            && (player.ModalOpen || player.SessionTransitionActive)) return false;
++        var now = Time.GetTicksMsec();
++        var cooldown = priority switch
++        {
++            Priority.Footstep => 120UL,
++            Priority.Interaction => 85UL,
++            Priority.Landing => 110UL,
++            _ => 0UL
++        };
++        if (cooldown > 0 && _lastPulseByPriority.TryGetValue(priority, out var previous)
++            && now - previous < cooldown) return false;
++        if (_activeUntilMsec > now)
++        {
++            if (now - _pulseStartedMsec < MinimumPulseGapMs
++                && priority <= _activePriority) return false;
++            if (priority < _activePriority) return false;
++            Input.StopJoyVibration(_activeDevice);
++        }
++
++        var outputStrength = strengthOverride ?? Strength;
++        if (!float.IsFinite(outputStrength) || outputStrength <= 0) return false;
++        outputStrength = Mathf.Clamp(outputStrength, 0f, 1f);
++        weak = Mathf.Clamp(weak * outputStrength, 0f, 1f);
++        strong = Mathf.Clamp(strong * outputStrength, 0f, 1f);
++        duration = float.IsFinite(duration) ? Mathf.Clamp(duration, .02f, MaximumPulseSeconds) : .06f;
++        if (weak <= 0 && strong <= 0) return false;
++        _activePriority = priority;
++        _pulseStartedMsec = now;
++        _activeUntilMsec = now + (ulong)Math.Ceiling(duration * 1000);
++        _lastPulseByPriority[priority] = now;
++        Input.StartJoyVibration(_activeDevice, weak, strong, duration);
++        return true;
++    }
++
++    private void RememberDevice(int device)
++    {
++        if (!IsConnected(device)) return;
++        if (_activeDevice != device)
++        {
++            if (IsConnected(_activeDevice)) Input.StopJoyVibration(_activeDevice);
++            _activeUntilMsec = 0;
++            _pulseStartedMsec = 0;
++            _activePriority = default;
++            _activeDevice = device;
++        }
++    }
++
++    private void OnJoyConnectionChanged(long device, bool connected)
++    {
++        if (!connected && device == _activeDevice) ForgetDevice();
++    }
++
++    private void ForgetDevice()
++    {
++        Stop();
++        _activeDevice = -1;
++    }
++
++    private static bool IsConnected(int device) => device >= 0 && Input.GetConnectedJoypads().Contains(device);
++
++    private void LoadSettings()
++    {
++        var config = new ConfigFile();
++        if (config.Load(SettingsPath) != Error.Ok) return;
++        var enabledValue = config.GetValue("haptics", "enabled", true);
++        Enabled = enabledValue.VariantType == Variant.Type.Bool && enabledValue.AsBool();
++        var strengthValue = config.GetValue("haptics", "strength", .5f);
++        var strength = strengthValue.VariantType is Variant.Type.Float or Variant.Type.Int
++            ? (float)strengthValue.AsDouble() : .5f;
++        Strength = float.IsFinite(strength) ? Mathf.Clamp(strength, 0f, 1f) : .5f;
++        var footstepsValue = config.GetValue("haptics", "footsteps_enabled", false);
++        FootstepsEnabled = footstepsValue.VariantType == Variant.Type.Bool && footstepsValue.AsBool();
++    }
++}
+diff --git a/game/scripts/InputBindingService.cs b/game/scripts/InputBindingService.cs
+--- a/game/scripts/InputBindingService.cs
++++ b/game/scripts/InputBindingService.cs
+@@ -65,20 +65,7 @@
+             var button = events.OfType<InputEventJoypadButton>().FirstOrDefault();
+             if (button is not null)
+             {
+-                var label = button.ButtonIndex switch
+-                {
+-                    JoyButton.A or JoyButton.B or JoyButton.X or JoyButton.Y => button.ButtonIndex.ToString(),
+-                    JoyButton.LeftShoulder => "LB", JoyButton.RightShoulder => "RB",
+-                    JoyButton.LeftStick => "L3", JoyButton.RightStick => "R3",
+-                    JoyButton.DpadUp => "Крестовина ↑", JoyButton.DpadDown => "Крестовина ↓",
+-                    JoyButton.DpadLeft => "Крестовина ←", JoyButton.DpadRight => "Крестовина →",
+-                    JoyButton.Start => "Menu", JoyButton.Back => "View", JoyButton.Guide => "Главная",
+-                    JoyButton.Touchpad => "Тачпад",
+-                    JoyButton.Paddle1 => "P1", JoyButton.Paddle2 => "P2",
+-                    JoyButton.Paddle3 => "P3", JoyButton.Paddle4 => "P4",
+-                    _ => $"Кнопка {(int)button.ButtonIndex + 1}"
+-                };
+-                return $"[{label}]";
++                return ButtonHint(button.ButtonIndex);
+             }
+             var axis = events.OfType<InputEventJoypadMotion>().FirstOrDefault();
+             if (axis is null) return "[Gamepad]";
+@@ -93,6 +80,30 @@
+         }
+         var key = events.OfType<InputEventKey>().FirstOrDefault();
+         return key is null ? "[Key]" : $"[{OS.GetKeycodeString(key.PhysicalKeycode != Key.None ? key.PhysicalKeycode : key.Keycode)}]";
++    }
++
++    // Godot's enum is positional (A=south/B=east), not the printed Nintendo legend.
++    public static bool NintendoLayout => ProjectSettings.GetSetting("urman/input/nintendo_layout", false).AsBool();
++
++    public static string ButtonHint(JoyButton button)
++    {
++        var label = button switch
++        {
++            JoyButton.A => NintendoLayout ? "B" : "A",
++            JoyButton.B => NintendoLayout ? "A" : "B",
++            JoyButton.X => NintendoLayout ? "Y" : "X",
++            JoyButton.Y => NintendoLayout ? "X" : "Y",
++            JoyButton.LeftShoulder => NintendoLayout ? "L" : "LB",
++            JoyButton.RightShoulder => NintendoLayout ? "R" : "RB",
++            JoyButton.LeftStick => "Нажать левый стик",
++            JoyButton.RightStick => "Нажать правый стик",
++            JoyButton.Start => NintendoLayout ? "+" : "Menu",
++            JoyButton.Back => NintendoLayout ? "−" : "View",
++            JoyButton.DpadUp => "Крестовина ↑", JoyButton.DpadDown => "Крестовина ↓",
++            JoyButton.DpadLeft => "Крестовина ←", JoyButton.DpadRight => "Крестовина →",
++            _ => button.ToString()
++        };
++        return $"[{label}]";
+     }
+ 
+     public static void Apply(IEnumerable<InputBindingSnapshot> bindings)
+diff --git a/game/scripts/LoadingScreenUi.cs b/game/scripts/LoadingScreenUi.cs
+--- a/game/scripts/LoadingScreenUi.cs
++++ b/game/scripts/LoadingScreenUi.cs
+@@ -11,6 +11,8 @@
+     private Label _detail = null!;
+     private LoadingSpinner _spinner = null!;
+     private Label _resourceProgress = null!;
++    private ProgressBar _progressBar = null!;
++    private ScrollContainer _contentScroll = null!;
+     private Button? _cancelButton;
+     private Action? _cancel;
+     private float? _resourceFraction;
+@@ -39,6 +41,8 @@
+     public override void _Ready()
+     {
+         AddToGroup(AccessibilityPresentation.TargetGroup);
++        AddToGroup("loading_ui");
++        HapticFeedback.Instance?.Stop();
+         BuildScreen();
+         if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+             ApplyAccessibilitySettings(player.Accessibility);
+@@ -52,6 +56,18 @@
+     public override void _Input(InputEvent inputEvent)
+     {
+         if (_hidden || _screen is not { Visible: true }) return;
++        // Enlarged text can exceed the handheld column; allow deliberate scrolling
++        // while still consuming all input before the world receives it.
++        var scrollDelta = inputEvent.IsActionPressed("ui_down") ? 80
++            : inputEvent.IsActionPressed("ui_up") ? -80
++            : inputEvent is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.WheelDown } ? 80
++            : inputEvent is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.WheelUp } ? -80 : 0;
++        if (scrollDelta != 0 && _contentScroll.GetVScrollBar().MaxValue > _contentScroll.GetVScrollBar().Page)
++        {
++            _contentScroll.ScrollVertical += scrollDelta;
++            GetViewport().SetInputAsHandled();
++            return;
++        }
+         if (_cancel is not null && _cancelButton is { Disabled: false } button)
+         {
+             if (inputEvent.IsActionPressed("ui_cancel") || inputEvent.IsActionPressed("ui_accept"))
+@@ -95,6 +111,8 @@
+     {
+         if (!GodotObject.IsInstanceValid(_resourceProgress)) return;
+         _resourceProgress.Visible = _resourceFraction.HasValue;
++        _progressBar.Visible = _resourceFraction.HasValue;
++        if (_resourceFraction is { } progress) _progressBar.Value = progress * 100f;
+         if (_resourceFraction is { } fraction)
+             _resourceProgress.Text = $"Загрузка ресурсов: {Mathf.FloorToInt(fraction * 100f)}%";
+     }
+@@ -119,6 +137,7 @@
+     public new void Hide()
+     {
+         if (_hidden) return;
++        RemoveFromGroup("loading_ui");
+         _hidden = true;
+         _cancel = null;
+         _cancelPointerPressed = false;
+@@ -137,7 +156,7 @@
+         var palette = UrmanUiTheme.Colours(settings);
+         var plate = new StyleBoxFlat
+         {
+-            BgColor = palette.InkRaised,
++            BgColor = settings.HighContrast ? palette.InkRaised : new Color(.015f, .025f, .023f, .82f),
+             BorderColor = palette.Line,
+             BorderWidthLeft = settings.HighContrast ? 2 : 1,
+             BorderWidthTop = settings.HighContrast ? 2 : 1,
+@@ -157,6 +176,14 @@
+         _title.AddThemeColorOverride("font_color", palette.Text);
+         _detail.AddThemeColorOverride("font_color", palette.TextMuted);
+         _resourceProgress.AddThemeColorOverride("font_color", palette.TextMuted);
++        _title.AddThemeFontSizeOverride("font_size", (int)(34 * settings.TextScale));
++        _detail.AddThemeFontSizeOverride("font_size", (int)(28 * settings.TextScale));
++        _resourceProgress.AddThemeFontSizeOverride("font_size", (int)(24 * settings.TextScale));
++        if (_progressBar is not null)
++        {
++            _progressBar.AddThemeStyleboxOverride("background", new StyleBoxFlat { BgColor = palette.Line });
++            _progressBar.AddThemeStyleboxOverride("fill", new StyleBoxFlat { BgColor = palette.Accent });
++        }
+         _spinner.SetPresentation(palette.Accent, palette.Line, settings.ReducedMotion);
+     }
+ 
+@@ -171,17 +198,23 @@
+         shade.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+         _screen.AddChild(shade);
+ 
+-        var center = new CenterContainer { MouseFilter = Control.MouseFilterEnum.Ignore };
+-        center.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+-        _screen.AddChild(center);
+-
+-        _panel = new PanelContainer
+-        {
+-            CustomMinimumSize = new Vector2(420, 246),
+-            SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter,
+-            SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
+-        };
+-        center.AddChild(_panel);
++        var art = new TextureRect
++        {
++            Name = "WinterForest",
++            Texture = SwitchArtTextures.Load("res://assets/textures/ui/switch_loading_forest_v1.png"),
++            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
++            StretchMode = TextureRect.StretchModeEnum.KeepAspectCovered,
++            MouseFilter = Control.MouseFilterEnum.Ignore
++        };
++        art.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
++        _screen.AddChild(art);
++
++        // Keep the scene visible on the right; all readable UI stays in a safe left column.
++        var column = new MarginContainer { AnchorLeft = .055f, AnchorRight = .49f,
++            AnchorTop = .13f, AnchorBottom = .90f, MouseFilter = Control.MouseFilterEnum.Ignore };
++        _screen.AddChild(column);
++        _panel = new PanelContainer { Name = "LoadingPanel" };
++        column.AddChild(_panel);
+ 
+         var margins = new MarginContainer();
+         margins.AddThemeConstantOverride("margin_left", 36);
+@@ -190,36 +223,49 @@
+         margins.AddThemeConstantOverride("margin_bottom", 28);
+         _panel.AddChild(margins);
+ 
++        var scroll = new ScrollContainer
++        {
++            HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled,
++            FollowFocus = true
++        };
++        margins.AddChild(scroll);
++        _contentScroll = scroll;
+         var content = new VBoxContainer
+         {
++            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+             Alignment = BoxContainer.AlignmentMode.Center,
+             Theme = UrmanUiTheme.For(_accessibility)
+         };
+         content.AddThemeConstantOverride("separation", 12);
+-        margins.AddChild(content);
++        scroll.AddChild(content);
+ 
+         var brand = new Label
+         {
+-            Text = "УРМАН · КАРА-УРМАН",
+-            HorizontalAlignment = HorizontalAlignment.Center,
++            Text = "УРМАН",
++            HorizontalAlignment = HorizontalAlignment.Left,
+             ThemeTypeVariation = UrmanUiTheme.Tag
+         };
+         brand.AddThemeColorOverride("font_color", palette.Accent);
+-        brand.AddThemeFontSizeOverride("font_size", UrmanUiTheme.Size.Small);
++        brand.AddThemeFontSizeOverride("font_size", 76);
+         content.AddChild(brand);
++        var location = new Label { Text = "К А Р А - У Р М А Н", ThemeTypeVariation = UrmanUiTheme.Tag };
++        location.AddThemeColorOverride("font_color", palette.TextMuted);
++        content.AddChild(location);
++        content.AddChild(new HSeparator());
++        content.AddChild(new Control { CustomMinimumSize = new Vector2(0, 28) });
+ 
+         _spinner = new LoadingSpinner
+         {
+             CustomMinimumSize = new Vector2(64, 64),
+-            SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter,
++            SizeFlagsHorizontal = Control.SizeFlags.ShrinkBegin,
+             MouseFilter = Control.MouseFilterEnum.Ignore
+         };
+         content.AddChild(_spinner);
+ 
+         _title = new Label
+         {
+-            Text = _titleText,
+-            HorizontalAlignment = HorizontalAlignment.Center,
++            Text = _titleText == "УРМАН" ? "Возвращение" : _titleText,
++            HorizontalAlignment = HorizontalAlignment.Left,
+             AutowrapMode = TextServer.AutowrapMode.WordSmart,
+             ThemeTypeVariation = UrmanUiTheme.Heading
+         };
+@@ -228,25 +274,33 @@
+         _detail = new Label
+         {
+             Text = _detailText,
+-            HorizontalAlignment = HorizontalAlignment.Center,
++            HorizontalAlignment = HorizontalAlignment.Left,
+             AutowrapMode = TextServer.AutowrapMode.WordSmart
+         };
+         content.AddChild(_detail);
+         _resourceProgress = new Label
+         {
+             Name = "ResourceProgress",
+-            HorizontalAlignment = HorizontalAlignment.Center,
++            HorizontalAlignment = HorizontalAlignment.Left,
+             AutowrapMode = TextServer.AutowrapMode.WordSmart,
+             Visible = false
+         };
+         content.AddChild(_resourceProgress);
++        _progressBar = new ProgressBar { Name = "ResourceProgressBar", MinValue = 0, MaxValue = 100,
++            ShowPercentage = false, CustomMinimumSize = new Vector2(0, 5),
++            MouseFilter = Control.MouseFilterEnum.Ignore, Visible = false };
++        _progressBar.AddThemeStyleboxOverride("background", new StyleBoxFlat { BgColor = palette.Line });
++        _progressBar.AddThemeStyleboxOverride("fill", new StyleBoxFlat { BgColor = palette.Accent });
++        content.AddChild(_progressBar);
++        content.AddChild(new Label { Text = "Лес помнит твои шаги.",
++            ThemeTypeVariation = UrmanUiTheme.Hint, AutowrapMode = TextServer.AutowrapMode.WordSmart });
+         RefreshResourceProgress();
+         if (_cancel is not null)
+         {
+             _cancelButton = new Button
+             {
+                 Name = "CancelTransition",
+-                Text = "Отменить переход",
++                Text = $"Отменить переход {InputBindingService.ActionHint("ui_cancel", InputBindingService.NintendoLayout)}",
+                 FocusMode = Control.FocusModeEnum.All,
+                 MouseFilter = Control.MouseFilterEnum.Stop
+             };
+diff --git a/game/scripts/OldPcTetris.cs b/game/scripts/OldPcTetris.cs
+--- a/game/scripts/OldPcTetris.cs
++++ b/game/scripts/OldPcTetris.cs
+@@ -171,19 +171,38 @@
+     public override void _Input(InputEvent inputEvent)
+     {
+         if (!IsVisibleInTree() || !HasFocus()) return;
+-        if (inputEvent is not InputEventKey { Pressed: true, Echo: false } key) return;
+-        switch (key.Keycode)
+-        {
+-            case Key.Left: Move(-1); break;
+-            case Key.Right: Move(1); break;
+-            case Key.Down: SoftDrop(); break;
+-            case Key.Up or Key.X: Rotate(); break;
+-            case Key.Z: RotateBack(); break;
+-            case Key.Space: HardDrop(); break;
+-            case Key.P: TogglePause(); break;
+-            case Key.N when _over: StartGame(); break;
+-            default: return;
+-        }
++        if (inputEvent is InputEventKey { Pressed: true, Echo: false } key)
++        {
++            switch (key.Keycode)
++            {
++                case Key.Left: Move(-1); break;
++                case Key.Right: Move(1); break;
++                case Key.Down: SoftDrop(); break;
++                case Key.Up or Key.X: Rotate(); break;
++                case Key.Z: RotateBack(); break;
++                case Key.Space: HardDrop(); break;
++                case Key.P: TogglePause(); break;
++                case Key.N when _over: StartGame(); break;
++                default: return;
++            }
++        }
++        else if (inputEvent is InputEventJoypadButton { Pressed: true } button)
++        {
++            switch (button.ButtonIndex)
++            {
++                case JoyButton.DpadLeft: Move(-1); break;
++                case JoyButton.DpadRight: Move(1); break;
++                case JoyButton.DpadDown: SoftDrop(); break;
++                case JoyButton.DpadUp: Rotate(); break;
++                case JoyButton.B: Rotate(); break;
++                case JoyButton.LeftShoulder: RotateBack(); break;
++                case JoyButton.X: HardDrop(); break;
++                case JoyButton.Y: TogglePause(); break;
++                case JoyButton.Start when _over: StartGame(); break;
++                default: return;
++            }
++        }
++        else return;
+         GetViewport().SetInputAsHandled();
+     }
+ 
+@@ -300,7 +319,17 @@
+         DrawString(ThemeDB.FallbackFont, hud + new Vector2(0, cell * 6), $"Линии\n{Lines}", HorizontalAlignment.Left, -1, (int)Mathf.Max(10, cell));
+         DrawString(ThemeDB.FallbackFont, hud + new Vector2(0, cell * 10), $"Уровень\n{Level}", HorizontalAlignment.Left, -1, (int)Mathf.Max(10, cell));
+         DrawString(ThemeDB.FallbackFont, hud + new Vector2(0, cell * 14), $"Рекорд\n{Record}", HorizontalAlignment.Left, -1, (int)Mathf.Max(10, cell));
++        var helpSize = (int)Mathf.Max(8, cell * .52f);
++        var helpY = hud.Y + cell * 17;
++        DrawString(ThemeDB.FallbackFont, new Vector2(hud.X, helpY), "←/→/↓ ход", fontSize: helpSize);
++        DrawString(ThemeDB.FallbackFont, new Vector2(hud.X, helpY + cell * .7f),
++            $"{InputBindingService.ButtonHint(JoyButton.B)} поворот", fontSize: helpSize);
++        DrawString(ThemeDB.FallbackFont, new Vector2(hud.X, helpY + cell * 1.4f),
++            $"{InputBindingService.ButtonHint(JoyButton.LeftShoulder)} назад · {InputBindingService.ButtonHint(JoyButton.X)} сброс", fontSize: helpSize);
++        DrawString(ThemeDB.FallbackFont, new Vector2(hud.X, helpY + cell * 2.1f),
++            $"{InputBindingService.ButtonHint(JoyButton.Y)} пауза", fontSize: helpSize);
+         if (_paused && !_over) DrawString(ThemeDB.FallbackFont, origin + new Vector2(cell, Rows * cell * .5f), "Пауза", HorizontalAlignment.Left, -1, (int)Mathf.Max(12, cell));
+-        if (_over) DrawString(ThemeDB.FallbackFont, origin + new Vector2(cell, Rows * cell * .5f), "Игра окончена · N — заново", HorizontalAlignment.Left, -1, (int)Mathf.Max(12, cell));
++        if (_over) DrawString(ThemeDB.FallbackFont, origin + new Vector2(cell, Rows * cell * .5f),
++            $"Игра окончена · N / {InputBindingService.ButtonHint(JoyButton.Start)} — заново", HorizontalAlignment.Left, -1, (int)Mathf.Max(12, cell));
+     }
+ }
+diff --git a/game/scripts/PauseMenuUi.cs b/game/scripts/PauseMenuUi.cs
+--- a/game/scripts/PauseMenuUi.cs
++++ b/game/scripts/PauseMenuUi.cs
+@@ -115,7 +115,8 @@
+ 
+     public override void _UnhandledInput(InputEvent inputEvent)
+     {
+-        if (_shutdownRequested || !inputEvent.IsActionPressed("pause"))
++        if (_shutdownRequested || !(inputEvent.IsActionPressed("pause")
++            || _open && inputEvent.IsActionPressed("ui_cancel")))
+         {
+             return;
+         }
+@@ -257,6 +258,14 @@
+         _loadButton.Pressed += () => _ = LoadAsync();
+         layout.AddChild(_loadButton);
+ 
++        var controlsButton = ShellButton("ControlsButton", "Как играть");
++        controlsButton.Pressed += () =>
++        {
++            if (GetNodeOrNull<ControlsTutorialUi>("ControlsTutorial") is null)
++                AddChild(new ControlsTutorialUi { Name = "ControlsTutorial", ReturnToPause = true });
++        };
++        layout.AddChild(controlsButton);
++
+         _settingsButton = ShellButton("SettingsButton", "Настройки");
+         _settingsButton.Pressed += OpenSettings;
+         layout.AddChild(_settingsButton);
+diff --git a/game/scripts/SettingsUi.cs b/game/scripts/SettingsUi.cs
+--- a/game/scripts/SettingsUi.cs
++++ b/game/scripts/SettingsUi.cs
+@@ -22,6 +22,9 @@
+     private OptionButton _tatarLanguageLevel = null!;
+     private VBoxContainer _bindings = null!;
+     private Label _status = null!;
++    private CheckBox _hapticsEnabled = null!;
++    private CheckBox _hapticFootsteps = null!;
++    private HSlider _hapticStrength = null!;
+     private Button _save = null!;
+     private Button _load = null!;
+     private FirstPersonController? _player;
+@@ -90,6 +93,7 @@
+         _textScale.ValueChanged += value => _textScaleValue.Text = $"{value:0.00}×";
+         BuildBindingRows();
+         BuildVolumeRows();
++        BuildHapticsRows();
+         _save = GetNode<Button>("Screen/Panel/Layout/Buttons/Save");
+         _load = GetNode<Button>("Screen/Panel/Layout/Buttons/Load");
+         _save.Pressed += SaveQuickSlot;
+@@ -146,6 +150,42 @@
+             row.AddChild(value);
+             body.AddChild(row);
+         }
++    }
++
++    private void BuildHapticsRows()
++    {
++        var body = GetNode<VBoxContainer>("Screen/Panel/Layout/BodyScroll/Body");
++        body.AddChild(new Label { Text = "Тактильный отклик", ThemeTypeVariation = UrmanUiTheme.Heading });
++        _hapticsEnabled = new CheckBox { Text = "Вибрация контроллера" };
++        body.AddChild(_hapticsEnabled);
++        var row = new HBoxContainer();
++        row.AddChild(new Label { Text = "Сила вибрации", CustomMinimumSize = new Vector2(180, 0) });
++        _hapticStrength = new HSlider { MinValue = 0, MaxValue = 1, Step = .05,
++            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill, CustomMinimumSize = new Vector2(180, 44) };
++        row.AddChild(_hapticStrength);
++        var value = new Label();
++        row.AddChild(value);
++        _hapticStrength.ValueChanged += strength => value.Text = $"{strength:P0}";
++        _hapticStrength.Value = .5;
++        body.AddChild(row);
++        _hapticFootsteps = new CheckBox { Text = "Лёгкий отклик шагов (необязательно)" };
++        body.AddChild(_hapticFootsteps);
++        var preview = new Button { Text = "Проверить вибрацию", CustomMinimumSize = new Vector2(0, 44) };
++        preview.Pressed += () =>
++        {
++            if (HapticFeedback.Instance is not { } haptics || haptics.ActiveDevice < 0)
++            {
++                _status.Text = "Нажмите кнопку на подключённом контроллере и повторите проверку.";
++                return;
++            }
++            var sent = haptics.Preview((float)_hapticStrength.Value, _hapticsEnabled.ButtonPressed);
++            _status.Text = sent
++                ? "Короткий тест отправлен контроллеру. Изменения сохраняются кнопкой «Применить»."
++                : !_hapticsEnabled.ButtonPressed || _hapticStrength.Value <= 0
++                    ? "Вибрация выключена или её сила равна нулю."
++                    : "Тест сейчас недоступен. Вернитесь в окно игры и повторите через секунду.";
++        };
++        body.AddChild(preview);
+     }
+ 
+     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings) =>
+@@ -214,6 +254,9 @@
+     public void Open(FirstPersonController player)
+     {
+         _player = player;
++        _hapticsEnabled.ButtonPressed = HapticFeedback.Instance?.Enabled ?? true;
++        _hapticStrength.Value = HapticFeedback.Instance?.Strength ?? .5f;
++        _hapticFootsteps.ButtonPressed = HapticFeedback.Instance?.FootstepsEnabled ?? false;
+         var settings = player.CaptureSettings();
+         _bindingsBeforeOpen = settings.InputBindings.ToArray();
+         _fov.Value = settings.FieldOfView;
+@@ -335,6 +378,8 @@
+                 AudioDescriptions: _audioDescriptions.ButtonPressed),
+             TatarLanguageLevel = TatarLanguageLevelForSelection(_tatarLanguageLevel.Selected)
+         });
++        HapticFeedback.Instance?.Configure(_hapticsEnabled.ButtonPressed,
++            (float)_hapticStrength.Value, _hapticFootsteps.ButtonPressed);
+         _bindingsBeforeOpen = InputBindingService.Capture();
+         _status.Text = "Настройки применены. Они войдут в следующее сохранение.";
+     }
+diff --git a/game/scripts/SettlementMapControl.cs b/game/scripts/SettlementMapControl.cs
+--- a/game/scripts/SettlementMapControl.cs
++++ b/game/scripts/SettlementMapControl.cs
+@@ -67,7 +67,7 @@
+         _zoomOut = Tool("ZoomOut", "−", "Уменьшить масштаб", () => ZoomAt(1 / 1.35f, _canvas.Size * .5f));
+         _zoomIn = Tool("ZoomIn", "+", "Увеличить масштаб", () => ZoomAt(1.35f, _canvas.Size * .5f));
+         _fit = Tool("Fit", "Вся карта", "Показать всё, что уже дорисовано (Home)", ResetView);
+-        _hint = new Label { Text = "Перетаскивание/стрелки — сдвиг\nКолесо/+− — масштаб · Home — вся карта",
++        _hint = new Label { Text = $"Перетаскивание/стрелки — сдвиг\nКолесо/+− — масштаб · Home — вся карта\nКрестовина — сдвиг · {InputBindingService.ButtonHint(JoyButton.Y)} — вся карта · {InputBindingService.ButtonHint(JoyButton.LeftShoulder)}/{InputBindingService.ButtonHint(JoyButton.RightShoulder)} — масштаб",
+             AutowrapMode = TextServer.AutowrapMode.WordSmart, SizeFlagsHorizontal = SizeFlags.ExpandFill };
+         _toolbar.AddChild(_hint);
+         _canvas = new Control { Name = "Sketch", ClipContents = true, FocusMode = FocusModeEnum.All,
+@@ -339,6 +339,36 @@
+         }
+     }
+ 
++    public override void _Input(InputEvent input)
++    {
++        if (!IsVisibleInTree() || !_canvas.HasFocus()
++            || input is not InputEventJoypadButton { Pressed: true } button
++            || !HandleControllerMapButton(button.ButtonIndex)) return;
++        GetViewport().SetInputAsHandled();
++    }
++
++    private bool HandleControllerMapButton(JoyButton button)
++    {
++        var pan = button switch
++        {
++            JoyButton.DpadLeft => Vector2.Left,
++            JoyButton.DpadRight => Vector2.Right,
++            JoyButton.DpadUp => Vector2.Up,
++            JoyButton.DpadDown => Vector2.Down,
++            _ => Vector2.Zero
++        };
++        if (pan != Vector2.Zero)
++        {
++            _center += pan * (45 * _textScale / PixelsPerMetre);
++            _canvas.QueueRedraw();
++        }
++        else if (button == JoyButton.Y) ResetView();
++        else if (button == JoyButton.LeftShoulder) ZoomAt(1 / 1.2f, _canvas.Size * .5f);
++        else if (button == JoyButton.RightShoulder) ZoomAt(1.2f, _canvas.Size * .5f);
++        else return false;
++        return true;
++    }
++
+     public void FocusSketch() => _canvas.GrabFocus();
+ 
+     private void DrawSketch()
+diff --git a/game/scripts/SourceExcerptSelection.cs b/game/scripts/SourceExcerptSelection.cs
+--- a/game/scripts/SourceExcerptSelection.cs
++++ b/game/scripts/SourceExcerptSelection.cs
+@@ -36,6 +36,9 @@
+     private long _selectionGeneration;
+     private int _readerVisibleCharacters;
+     private bool _readerScrollActive;
++    private int _controllerAnchorLine;
++    private int _controllerAnchorColumn;
++    private bool _controllerHasAnchor;
+ 
+     public bool Selecting => _selecting;
+     public TextEdit ExcerptText => _editor;
+@@ -101,6 +104,13 @@
+         _begin = AddButton(actions, "Begin", "Выделить фрагмент", BeginSelection);
+         _back = AddButton(actions, "Back", "К чтению [Esc]", EndSelection);
+         _record = AddButton(actions, "Record", "Выписать выделенное", RecordSelection);
++        // Keep semantic actions on real Controls so GUI focus navigation works
++        // with ui_up/ui_down and ui_accept as well as Tab and mouse clicks.
++        _begin.FocusNeighborBottom = GetPathTo(_editor);
++        _editor.FocusNeighborBottom = GetPathTo(_record);
++        _record.FocusNeighborTop = GetPathTo(_editor);
++        _record.FocusNeighborRight = GetPathTo(_back);
++        _back.FocusNeighborLeft = GetPathTo(_record);
+         _feedback = new Label
+         {
+             Name = "Feedback", Visible = false, FocusMode = FocusModeEnum.All,
+@@ -167,7 +177,17 @@
+         _availability = next;
+         if (!next.Available && _selecting && !_submitting) EndSelection();
+         _hint.Text = next.Hint ?? string.Empty;
+-        if (_selecting) _hint.Text += "\nВыделите текст мышью или Shift + стрелками. Tab — к кнопке.";
++        if (_selecting)
++        {
++            var showControllerHints = InputBindingService.NintendoLayout || Input.GetConnectedJoypads().Count > 0;
++            if (showControllerHints)
++            {
++                _hint.Text += "\nКрестовина/стик: курсор и выделение · "
++                    + InputBindingService.ButtonHint(JoyButton.Y) + ": поставить или снять начало выделения · "
++                    + InputBindingService.ActionHint("ui_accept", true) + ": записать выбранный текст";
++            }
++            _hint.Text += "\nМышь или Shift + стрелки — выделить · Ctrl + Enter — записать · Tab — к кнопке";
++        }
+         Visible = _body.Visible && (next.Available || next.Recorded || !string.IsNullOrWhiteSpace(next.Hint));
+         RefreshButtons();
+     }
+@@ -187,6 +207,7 @@
+         _readerScrollActive = _body.ScrollActive;
+         _editor.Text = _body.GetParsedText();
+         _editor.Deselect();
++        _controllerHasAnchor = false;
+         _body.VisibleCharacters = 0;
+         _body.ScrollActive = false;
+         _selecting = true;
+@@ -217,19 +238,106 @@
+ 
+     public override void _Input(InputEvent input)
+     {
+-        if (!_selecting || !IsVisibleInTree() || !input.IsActionPressed("ui_cancel")) return;
+-        EndSelection();
+-        GetViewport().SetInputAsHandled();
++        if (!_selecting || !IsVisibleInTree()) return;
++        if (input.IsActionPressed("ui_cancel"))
++        {
++            EndSelection();
++            GetViewport().SetInputAsHandled();
++            return;
++        }
++        if (!_editor.HasFocus()) return;
++
++        if (input is InputEventJoypadButton { ButtonIndex: JoyButton.Y, Pressed: true })
++        {
++            if (_controllerHasAnchor)
++            {
++                _controllerHasAnchor = false;
++                _editor.Deselect();
++            }
++            else
++            {
++                _controllerAnchorLine = _editor.GetCaretLine();
++                _controllerAnchorColumn = _editor.GetCaretColumn();
++                _controllerHasAnchor = true;
++            }
++            GetViewport().SetInputAsHandled();
++            return;
++        }
++
++        // A controller has no Shift key. D-pad or left-stick UI directions
++        // move across logical lines, extending only after the player sets an
++        // explicit anchor with Nintendo X. Keyboard arrows keep TextEdit's
++        // ordinary behavior through GUI input.
++        if ((input is InputEventJoypadButton { Pressed: true }
++                || input is InputEventJoypadMotion { AxisValue: var axisValue } && Math.Abs(axisValue) >= 0.5f)
++            && (input.IsActionPressed("ui_left") || input.IsActionPressed("ui_right")
++                || input.IsActionPressed("ui_up") || input.IsActionPressed("ui_down")))
++        {
++            MoveControllerCaret(input.IsActionPressed("ui_left") ? -1
++                : input.IsActionPressed("ui_right") ? 1
++                : input.IsActionPressed("ui_up") ? -2 : 2);
++            RefreshButtons();
++            GetViewport().SetInputAsHandled();
++            return;
++        }
++
++        if (input is InputEventJoypadButton { Pressed: true } && input.IsActionPressed("ui_accept"))
++        {
++            // Idle confirm intentionally does nothing; the focused editor is
++            // not a button and cannot accidentally record an empty excerpt.
++            if (!string.IsNullOrWhiteSpace(_editor.GetSelectedText()))
++                RecordSelection();
++            GetViewport().SetInputAsHandled();
++        }
++    }
++
++    private void MoveControllerCaret(int direction)
++    {
++        var line = _editor.GetCaretLine();
++        var column = _editor.GetCaretColumn();
++        switch (direction)
++        {
++            case -1 when column > 0:
++                column--;
++                break;
++            case -1 when line > 0:
++                line--;
++                column = _editor.GetLine(line).Length;
++                break;
++            case 1 when column < _editor.GetLine(line).Length:
++                column++;
++                break;
++            case 1 when line < _editor.GetLineCount() - 1:
++                line++;
++                column = 0;
++                break;
++            case -2 when line > 0:
++                line--;
++                column = Math.Min(column, _editor.GetLine(line).Length);
++                break;
++            case 2 when line < _editor.GetLineCount() - 1:
++                line++;
++                column = Math.Min(column, _editor.GetLine(line).Length);
++                break;
++        }
++        _editor.SetCaretLine(line);
++        _editor.SetCaretColumn(column);
++        if (_controllerHasAnchor)
++            _editor.Select(_controllerAnchorLine, _controllerAnchorColumn, line, column);
++        else
++            _editor.Deselect();
+     }
+ 
+     private void SelectionInput(InputEvent input)
+     {
+         if (input is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: false })
+         {
++            _controllerHasAnchor = false;
+             Callable.From(RefreshButtons).CallDeferred();
+             return;
+         }
+         if (input is not InputEventKey { Pressed: true, Echo: false } key) return;
++        _controllerHasAnchor = false;
+         if (key.Keycode == Key.Tab)
+         {
+             (key.ShiftPressed || _record.Disabled ? _back : _record).GrabFocus();
+diff --git a/game/scripts/SwitchArtTextures.cs b/game/scripts/SwitchArtTextures.cs
+new file mode 100644
+--- /dev/null
++++ b/game/scripts/SwitchArtTextures.cs
+@@ -0,0 +1,72 @@
++using Godot;
++
++namespace Urman.Godot;
++
++/// <summary>Loads the small set of generated textures that ship beside the PCK on Switch.</summary>
++public static class SwitchArtTextures
++{
++    private const string ResourceRoot = "res://assets/textures/";
++    private const string SdRoot = "sdmc:/switch/urman/art/";
++    private const string LoadingTexture = "ui/switch_loading_forest_v1.png";
++
++    private static readonly HashSet<string> PoliceSignFiles = new(StringComparer.Ordinal)
++    {
++        "police_car.png", "police_cell.png", "police_district.png", "police_files.png",
++        "police_form.png", "police_forms.png", "police_hours.png", "police_ledger.png",
++        "police_main.png", "police_notice_1.png", "police_notice_2.png", "police_notice_3.png",
++        "police_reception.png", "police_staff.png", "police_store.png"
++    };
++
++    private static readonly Dictionary<string, Texture2D> Cache = new(StringComparer.Ordinal);
++
++    public static Texture2D? Load(string resourcePath)
++    {
++        var relativePath = RelativePath(resourcePath);
++        if (Cache.TryGetValue(relativePath, out var cached)
++            && GodotObject.IsInstanceValid(cached)) return cached;
++
++        if (!IsSwitchPlatform())
++        {
++            var desktopTexture = ResourceLoader.Load<Texture2D>(resourcePath);
++            if (desktopTexture is null)
++                GD.PushError($"Could not load generated art resource: {resourcePath}");
++            else
++                Cache[relativePath] = desktopTexture;
++            return desktopTexture;
++        }
++
++        var sdPath = SdRoot + relativePath;
++        if (!global::Godot.FileAccess.FileExists(sdPath))
++        {
++            GD.PushError($"Could not find Switch art on SD card: {sdPath}");
++            return null;
++        }
++
++        using var image = Image.LoadFromFile(sdPath);
++        if (image is null || image.IsEmpty())
++        {
++            GD.PushError($"Could not decode Switch art image: {sdPath}");
++            return null;
++        }
++
++        var texture = ImageTexture.CreateFromImage(image);
++        Cache[relativePath] = texture;
++        return texture;
++    }
++
++    private static bool IsSwitchPlatform() => OS.HasFeature("switch");
++
++    private static string RelativePath(string resourcePath)
++    {
++        if (!resourcePath.StartsWith(ResourceRoot, StringComparison.Ordinal))
++            throw new ArgumentException("Switch art path must be under res://assets/textures/.", nameof(resourcePath));
++
++        var relativePath = resourcePath[ResourceRoot.Length..];
++        if (relativePath == LoadingTexture) return relativePath;
++        if (relativePath.StartsWith("police_signage_imagegen_v1/", StringComparison.Ordinal)
++            && PoliceSignFiles.Contains(relativePath["police_signage_imagegen_v1/".Length..]))
++            return relativePath;
++
++        throw new ArgumentException("Texture path is not in the Switch art allowlist.", nameof(resourcePath));
++    }
++}
