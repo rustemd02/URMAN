@@ -6,3 +6,5 @@ The next run builds runtime, engine, matching Mono editor and complete PhotoWorl
 
 No working Switch game package or on-device acceptance is claimed. Main is unchanged. This scoped log substitutes for the 1.8 MB shared journal, whose full update exceeded automatic approval review input limits.
 Native controller follow-up: implement libnx rumble from Godot strengths with finite-time stop, style/connection refresh and focus/exit/resume cancellation; add focus notifications and neutral-input resync after HOME/resume. Physical rumble and suspend/resume remain hardware-unverified. Fix the export-hook System.Environment qualification and stream/export detailed diagnostics. Engine patch hash is updated; local whitespace and Python syntax checks passed.
+
+Enable cancellation of superseded branch builds; the second run lacks the already-fixed export compiler qualification. Preserve diagnostics on cancellation and build the current source.
