@@ -217,8 +217,8 @@ public partial class Act1MainMenuSmokeTest : Node
         var continueHint = demo.MainMenu?.GetNodeOrNull<Label>(
             "Screen/Panel/Layout/ContinueUnavailable") ?? demo.MainMenu?.FindChild("ContinueUnavailable", true, false) as Label;
         if (continueButton.Visible || continueHint is null
-            || !continueHint.Text.Contains("не удалось загрузить подходящее сохранение", StringComparison.Ordinal)
-            || !continueHint.Text.Contains("Файлы сохранений оставлены без изменений", StringComparison.Ordinal))
+            || !continueHint.Text.Contains("Не удалось загрузить найденное сохранение", StringComparison.Ordinal)
+            || !continueHint.Text.Contains("Файлы сохранений не изменены", StringComparison.Ordinal))
         {
             Fail($"The menu did not explain an unloadable save truthfully: '{(continueHint?.Text ?? "<missing label>")}'.");
             return;
