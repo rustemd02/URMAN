@@ -20,7 +20,7 @@ jobs:
           import hashlib, os, pathlib, urllib.request
           root = pathlib.Path('parts')
           root.mkdir()
-          req = urllib.request.Request('https://api.github.com/repos/rustemd02/URMAN/actions/artifacts/13448056428/zip', headers={'Accept': 'application/vnd.github+json'})
+          req = urllib.request.Request('https://api.github.com/repos/rustemd02/URMAN/actions/artifacts/13454164888/zip', headers={'Accept': 'application/vnd.github+json'})
           req.add_unredirected_header('Authorization', 'Bearer ' + os.environ['GH_TOKEN'])
           h = hashlib.sha256()
           total = 0
@@ -37,8 +37,8 @@ jobs:
                           total += len(data)
                           remaining -= len(data)
               assert not response.read(1), 'Unexpected artifact size'
-          assert total == 1073095082, total
-          assert h.hexdigest() == '8f8746b07e26a43bdc9f79047c47ba232db557016fddb0fed33c63c3eee70908', h.hexdigest()
+          assert total == 1073096382, total
+          assert h.hexdigest() == '96f61daa8f729d7de7346fb4219fded9dacc7fa6e1342e751118cf5a986d0f0e', h.hexdigest()
           print('Verified original trial ZIP and split into three download parts')
           PY
       - uses: actions/upload-artifact@v4
