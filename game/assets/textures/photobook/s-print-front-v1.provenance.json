@@ -1,0 +1,41 @@
+{
+  "asset_id": "S-PRINT",
+  "method": "Original fictional print layout using exact shipped family-photo fronts as group thumbnails.",
+  "source_spec": "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json#S-PRINT",
+  "sources": [
+    {
+      "path": "game/assets/textures/photobook/p-house-front-v1.png",
+      "sha256": "31950224adae5861f351fe8ee30091a04fd116d5cfa536ebda93f125981e4b5a"
+    },
+    {
+      "path": "game/assets/textures/photobook/p-water-front-v1.png",
+      "sha256": "9dab3cf3c3be43565310eb4443896bad43701102339409f0bc48c94e02fbec76"
+    },
+    {
+      "path": "game/assets/textures/photobook/s-garden-front-v1.png",
+      "sha256": "4a5a8d6320218c912b5f404b62a17e36d9831ee1f5ed3a33a223408b3e04362f"
+    },
+    {
+      "path": "game/assets/textures/photobook/p-forest-front-v2.png",
+      "sha256": "c4b64f07534aca8a5e021b55f9e695686cd0180379d4227ebad19d169149c60e"
+    }
+  ],
+  "font_license": "game/assets/fonts/OFL.txt",
+  "front": {
+    "path": "game/assets/textures/photobook/s-print-front-v1.png",
+    "sha256": "37ba0abd001fddde1464f04fd13dbdfb90f0ea1f5241b4f27b8a6c3ca8b43efa",
+    "size_px": [
+      1800,
+      1200
+    ]
+  },
+  "thumbnail": {
+    "path": "game/assets/textures/photobook/s-print-front-v1-thumbnail.png",
+    "sha256": "e4f1e854ad3a4f4ece2048ab082eee5aebb178579bd8c6a7449cac827cbb7131",
+    "size_px": [
+      256,
+      171
+    ]
+  },
+  "captioned_file": "общий_кадр.jpg"
+}

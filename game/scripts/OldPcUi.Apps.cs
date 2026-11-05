@@ -254,7 +254,8 @@ public partial class OldPcUi
         }
 
         _familySearchRow.Visible = folder == "family";
-        _familyReader.Visible = folder == "family" && _familyShownFile is not null;
+        _familyReader.Visible = folder == "family" && _familyShownFile is not null
+            && (_familyShownFile != "contact-sheet" || _bridge.PhotoWorldFactObserved("contact_sheet_found"));
         RefreshFamilyCopyAction();
     }
 
@@ -360,20 +361,24 @@ public partial class OldPcUi
     {
         _familyShownFile = "contact-sheet";
         var saved = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-PRINT");
-        _familyReader.Text = string.Join('\n', new List<string>
-        {
+        _familyReader.Text = string.Join('\n',
             "Контактный лист · плёнка «лето»",
             "Семейная папка · сохранённая копия",
-            "",
+            "12. Общий кадр — сохранён отдельным файлом: " + FamilyMaratFileName,
+            saved ? "Копия листа сохранена в книгу." : "Копию листа можно сохранить в книгу.",
+            "");
+        if (JournalUi.PhotoBookFrontTexture("S-PRINT") is { } front)
+        {
+            _familyReader.AddImage(front, 96f, 0f, widthUnit: RichTextLabel.ImageUnit.Percent,
+                altText: "Миниатюры семейной плёнки «лето»");
+            _familyReader.AddText("\n");
+        }
+        _familyReader.AddText(string.Join('\n',
             "Кадры плёнки:",
             "1–3. Двор со ставней.",
             "4–6. Дети у мостов.",
             "7–9. Соседский сад.",
-            "10–11. Люди у леса.",
-            "12. Общий кадр — сохранён отдельным файлом: " + FamilyMaratFileName,
-            "",
-            saved ? "Копия листа сохранена в книгу." : "Копию листа можно сохранить в книгу."
-        });
+            "10–11. Люди у леса."));
     }
 
     private void ShowFamilyMaratFile(RuntimeBridge bridge)
