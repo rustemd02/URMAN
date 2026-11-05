@@ -46,6 +46,9 @@ jobs:
             ${{ runner.temp }}/urman-build/urman/logs/
             ${{ runner.temp }}/urman-build/urman/build-status.json
             ${{ runner.temp }}/urman-build/urman/*-receipt.json
+            ${{ runner.temp }}/urman-build/urman/game-export/logs/
+            ${{ runner.temp }}/urman-build/urman/game-export/export-report.json
+            ${{ runner.temp }}/urman-build/urman/game-export/external-managed-manifest.json
       - name: Collect build outputs for local SD assembly
         if: success()
         run: |

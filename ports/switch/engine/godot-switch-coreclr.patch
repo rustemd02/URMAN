@@ -1,5 +1,5 @@
 diff --git a/modules/mono/editor/GodotTools/GodotTools/Export/ExportPlugin.cs b/modules/mono/editor/GodotTools/GodotTools/Export/ExportPlugin.cs
-index fc38b6a..55c625b 100644
+index fc38b6a..7d32f26 100644
 --- a/modules/mono/editor/GodotTools/GodotTools/Export/ExportPlugin.cs
 +++ b/modules/mono/editor/GodotTools/GodotTools/Export/ExportPlugin.cs
 @@ -171,6 +171,18 @@ namespace GodotTools.Export
@@ -11,7 +11,7 @@ index fc38b6a..55c625b 100644
 +            // _ExportFile remains active to preserve C# resource remaps.
 +            if (features.Contains("urman_switch_pck"))
 +            {
-+                string manifest = Environment.GetEnvironmentVariable("URMAN_SWITCH_MANAGED_MANIFEST") ?? "";
++                string manifest = System.Environment.GetEnvironmentVariable("URMAN_SWITCH_MANAGED_MANIFEST") ?? "";
 +                if (!features.Contains("switch") || !File.Exists(manifest))
 +                    throw new InvalidOperationException("Switch PCK export requires its external managed build manifest.");
 +                GD.Print("URMAN_SWITCH_EXTERNAL_MANAGED_V1");
@@ -400,6 +400,130 @@ index d31f5de..0380759 100644
      # Experimental deko3d RenderingDeviceDriver scaffold (drivers/deko3d/).
      # Off by default; enable with `deko3d=yes`. The default renderer stays GL.
      if env["deko3d"]:
+diff --git a/platform/switch/display_server_switch.cpp b/platform/switch/display_server_switch.cpp
+index 5e2d985..6d63b38 100644
+--- a/platform/switch/display_server_switch.cpp
++++ b/platform/switch/display_server_switch.cpp
+@@ -5,6 +5,7 @@
+ #include "display_server_switch.h"
+ 
+ #include "core/config/project_settings.h"
++#include "core/os/main_loop.h"
+ #include "core/os/os.h"
+ 
+ #include <stdio.h>
+@@ -64,6 +65,53 @@ void DisplayServerSwitch::_dispatch_input_event(const Ref<InputEvent> &p_event)
+ 	}
+ }
+ 
++void DisplayServerSwitch::_applet_hook(AppletHookType p_hook, void *p_param) {
++	DisplayServerSwitch *display_server = static_cast<DisplayServerSwitch *>(p_param);
++	if (p_hook == AppletHookType_OnFocusState) {
++		display_server->_set_window_focused(appletGetFocusState() == AppletFocusState_InFocus);
++	} else if (p_hook == AppletHookType_OnResume) {
++		display_server->_set_window_focused(appletGetFocusState() == AppletFocusState_InFocus);
++	}
++}
++
++void DisplayServerSwitch::_register_applet_focus_hook() {
++	Result rc = appletSetFocusHandlingMode(AppletFocusHandlingMode_SuspendHomeSleepNotify);
++	if (R_FAILED(rc)) {
++		ERR_PRINT("Switch: unable to enable focus notifications while suspended (error " + itos(rc) + ").");
++	}
++	appletHook(&applet_hook_cookie, _applet_hook, this);
++	applet_hook_registered = true;
++}
++
++void DisplayServerSwitch::_set_window_focused(bool p_focused) {
++	if (window_focused == p_focused) {
++		return;
++	}
++	window_focused = p_focused;
++	Input *input = Input::get_singleton();
++	if (!p_focused && input) {
++		// Ensure held controller actions are released on focus loss regardless
++		// of the project's unfocused-joypad preference. JoypadSwitch keeps
++		// sampling pad state while blurred, and Input filters those events.
++		previous_ignore_unfocused_joypad_setting = input->is_ignoring_joypad_on_unfocused_application();
++		input->set_ignore_joypad_on_unfocused_application(true);
++	}
++
++	// libnx calls applet hooks synchronously from appletProcessMessage(), which
++	// is reached from appletMainLoop() on Godot's main loop thread.
++	MainLoop *main_loop = OS::get_singleton()->get_main_loop();
++	if (main_loop) {
++		main_loop->notification(p_focused ? MainLoop::NOTIFICATION_APPLICATION_FOCUS_IN : MainLoop::NOTIFICATION_APPLICATION_FOCUS_OUT);
++	}
++	if (p_focused && input) {
++		input->set_ignore_joypad_on_unfocused_application(previous_ignore_unfocused_joypad_setting);
++	}
++
++	if (window_event_callback.is_valid()) {
++		window_event_callback.call(int(p_focused ? DisplayServerEnums::WINDOW_EVENT_FOCUS_IN : DisplayServerEnums::WINDOW_EVENT_FOCUS_OUT));
++	}
++}
++
+ bool DisplayServerSwitch::has_feature(DisplayServerEnums::Feature p_feature) const {
+ 	switch (p_feature) {
+ 		case DisplayServerEnums::FEATURE_TOUCHSCREEN:
+@@ -289,6 +337,7 @@ DisplayServerSwitch::DisplayServerSwitch(const String &p_rendering_driver, Displ
+ 		hidInitializeTouchScreen();
+ 		joypad = memnew(JoypadSwitch);
+ 		Input::get_singleton()->set_event_dispatch_function(_dispatch_input_events);
++		_register_applet_focus_hook();
+ 
+ 		r_error = OK;
+ 		return;
+@@ -330,11 +379,16 @@ DisplayServerSwitch::DisplayServerSwitch(const String &p_rendering_driver, Displ
+ 	joypad = memnew(JoypadSwitch);
+ 
+ 	Input::get_singleton()->set_event_dispatch_function(_dispatch_input_events);
++	_register_applet_focus_hook();
+ 
+ 	r_error = OK;
+ }
+ 
+ DisplayServerSwitch::~DisplayServerSwitch() {
++	if (applet_hook_registered) {
++		appletUnhook(&applet_hook_cookie);
++		applet_hook_registered = false;
++	}
+ 	if (joypad) {
+ 		memdelete(joypad);
+ 		joypad = nullptr;
+diff --git a/platform/switch/display_server_switch.h b/platform/switch/display_server_switch.h
+index b9d02b9..27ecafd 100644
+--- a/platform/switch/display_server_switch.h
++++ b/platform/switch/display_server_switch.h
+@@ -43,12 +43,19 @@ class DisplayServerSwitch : public DisplayServer {
+ 	Callable window_event_callback;
+ 
+ 	HidTouchScreenState last_touch_state = {};
++	AppletHookCookie applet_hook_cookie = {};
++	bool applet_hook_registered = false;
++	bool window_focused = true;
++	bool previous_ignore_unfocused_joypad_setting = false;
+ 
+ 	static Vector<String> get_rendering_drivers_func();
+ 	static DisplayServer *create_func(const String &p_rendering_driver, DisplayServerEnums::WindowMode p_mode, DisplayServerEnums::VSyncMode p_vsync_mode, uint32_t p_flags, const Vector2i *p_position, const Vector2i &p_resolution, int p_screen, DisplayServerEnums::Context p_context, int64_t p_parent_window, Error &r_error);
+ 
+ 	static void _dispatch_input_events(const Ref<InputEvent> &p_event);
+ 	void _dispatch_input_event(const Ref<InputEvent> &p_event);
++	static void _applet_hook(AppletHookType p_hook, void *p_param);
++	void _register_applet_focus_hook();
++	void _set_window_focused(bool p_focused);
+ 
+ 	void _process_touch();
+ 
+@@ -124,7 +131,7 @@ public:
+ 	void window_set_taskbar_progress_value(float p_value, DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) override {}
+ 	void window_set_taskbar_progress_state(DisplayServerEnums::ProgressState p_state, DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) override {}
+ 	void window_move_to_foreground(DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) override {}
+-	bool window_is_focused(DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) const override { return true; }
++	bool window_is_focused(DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) const override { return window_focused; }
+ 
+ 	bool window_can_draw(DisplayServerEnums::WindowID p_window = DisplayServerEnums::MAIN_WINDOW_ID) const override { return true; }
+ 	bool can_any_window_draw() const override { return true; }
 diff --git a/platform/switch/godot_switch.cpp b/platform/switch/godot_switch.cpp
 index 73c7872..6666427 100644
 --- a/platform/switch/godot_switch.cpp
@@ -430,3 +554,272 @@ index 73c7872..6666427 100644
  	// [Switch fork] Boot splash during engine init (application mode). Bridges the
  	// grey gap before Godot's own boot splash / first GL frame appears.
  	draw_boot_splash();
+diff --git a/platform/switch/joypad_switch.cpp b/platform/switch/joypad_switch.cpp
+index 2f2869a..bddb53e 100644
+--- a/platform/switch/joypad_switch.cpp
++++ b/platform/switch/joypad_switch.cpp
+@@ -43,6 +43,178 @@ JoypadSwitch::JoypadSwitch() {
+ 	for (int i = 0; i < JOYPADS_MAX; i++) {
+ 		padInitializeWithMask(&pads[i], pad_ids[i]);
+ 	}
++	appletHook(&applet_hook_cookie, JoypadSwitch::applet_hook, this);
++}
++
++JoypadSwitch::~JoypadSwitch() {
++	appletUnhook(&applet_hook_cookie);
++	stop_all_vibration();
++}
++
++void JoypadSwitch::applet_hook(AppletHookType hook, void *param) {
++	JoypadSwitch *self = static_cast<JoypadSwitch *>(param);
++	if (hook == AppletHookType_OnFocusState) {
++		self->application_focused = appletGetFocusState() == AppletFocusState_InFocus;
++		if (!self->application_focused) {
++			self->stop_all_vibration();
++			for (int index = 0; index < JOYPADS_MAX; index++) {
++				self->require_neutral[index] = true;
++				self->clear_joy_input(index);
++			}
++		} else {
++			for (int index = 0; index < JOYPADS_MAX; index++) {
++				self->require_neutral[index] = true;
++			}
++		}
++	} else if (hook == AppletHookType_OnResume) {
++		self->application_focused = appletGetFocusState() == AppletFocusState_InFocus;
++		self->stop_all_vibration();
++		for (int index = 0; index < JOYPADS_MAX; index++) {
++			self->require_neutral[index] = true;
++			self->clear_joy_input(index);
++		}
++	} else if (hook == AppletHookType_OnExitRequest) {
++		self->application_focused = false;
++		self->stop_all_vibration();
++		for (int index = 0; index < JOYPADS_MAX; index++) {
++			self->require_neutral[index] = true;
++			self->clear_joy_input(index);
++		}
++	}
++}
++
++void JoypadSwitch::clear_joy_input(int index) {
++	Input *input = Input::get_singleton();
++	if (input == nullptr) {
++		return;
++	}
++	for (int button = 0; button < (int)JoyButton::MAX; button++) {
++		input->joy_button(index, static_cast<JoyButton>(button), false);
++	}
++	for (int axis = 0; axis < (int)JoyAxis::MAX; axis++) {
++		input->joy_axis(index, static_cast<JoyAxis>(axis), 0.0f);
++	}
++}
++
++bool JoypadSwitch::pad_is_neutral(int index) const {
++	if (padGetButtons(&pads[index]) != 0) {
++		return false;
++	}
++	HidAnalogStickState left = padGetStickPos(&pads[index], 0);
++	HidAnalogStickState right = padGetStickPos(&pads[index], 1);
++	constexpr s32 neutral_deadzone = 4500;
++	return left.x > -neutral_deadzone && left.x < neutral_deadzone
++			&& left.y > -neutral_deadzone && left.y < neutral_deadzone
++			&& right.x > -neutral_deadzone && right.x < neutral_deadzone
++			&& right.y > -neutral_deadzone && right.y < neutral_deadzone;
++}
++
++void JoypadSwitch::configure_vibration(int index) {
++	VibrationState &state = vibration[index];
++	HidNpadIdType id = HidNpadIdType_No1;
++	if (index == 0 && padIsNpadActive(&pads[index], HidNpadIdType_Handheld)) {
++		id = HidNpadIdType_Handheld;
++	} else {
++		id = static_cast<HidNpadIdType>(index);
++	}
++
++	u32 styles = hidGetNpadStyleSet(id);
++	HidNpadStyleTag style = HidNpadStyleTag_NpadFullKey;
++	int handle_count = 2;
++	if (styles & HidNpadStyleTag_NpadFullKey) {
++		style = HidNpadStyleTag_NpadFullKey;
++	} else if (styles & HidNpadStyleTag_NpadHandheld) {
++		style = HidNpadStyleTag_NpadHandheld;
++	} else if (styles & HidNpadStyleTag_NpadJoyDual) {
++		style = HidNpadStyleTag_NpadJoyDual;
++	} else if (styles & HidNpadStyleTag_NpadJoyLeft) {
++		style = HidNpadStyleTag_NpadJoyLeft;
++		handle_count = 1;
++	} else if (styles & HidNpadStyleTag_NpadJoyRight) {
++		style = HidNpadStyleTag_NpadJoyRight;
++		handle_count = 1;
++	} else {
++		stop_vibration(index);
++		state.style_known = false;
++		state.ready = false;
++		return;
++	}
++
++	if (state.style_known && state.id == id && state.style == style && state.ready) {
++		return;
++	}
++	stop_vibration(index);
++	state.handles[0] = {};
++	state.handles[1] = {};
++	state.id = id;
++	state.style = style;
++	state.handle_count = handle_count;
++	state.style_known = true;
++	state.ready = R_SUCCEEDED(hidInitializeVibrationDevices(state.handles, handle_count, id, style));
++	state.request_timestamp = 0;
++}
++
++void JoypadSwitch::stop_vibration(int index) {
++	VibrationState &state = vibration[index];
++	if (state.ready && state.playing) {
++		HidVibrationValue stop_values[2] = {
++			{ 0.0f, 160.0f, 0.0f, 320.0f },
++			{ 0.0f, 160.0f, 0.0f, 320.0f },
++		};
++		hidSendVibrationValues(state.handles, stop_values, state.handle_count);
++	}
++	state.playing = false;
++	state.request_timestamp = 0;
++	state.weak_magnitude = 0.0f;
++	state.strong_magnitude = 0.0f;
++}
++
++void JoypadSwitch::stop_all_vibration() {
++	Input *input = Input::get_singleton();
++	for (int index = 0; index < JOYPADS_MAX; index++) {
++		stop_vibration(index);
++		if (input != nullptr) {
++			input->stop_joy_vibration(index);
++		}
++	}
++}
++
++void JoypadSwitch::process_vibration(int index) {
++	VibrationState &state = vibration[index];
++	Input *input = Input::get_singleton();
++	if (!application_focused || !connected[index] || !state.ready || input == nullptr) {
++		stop_vibration(index);
++		return;
++	}
++
++	Vector2 strength = input->get_joy_vibration_strength(index);
++	if (!input->has_joy_vibration(index)
++			|| input->get_joy_vibration_remaining_duration(index) <= 0.0f
++			|| (strength.x <= 0.0f && strength.y <= 0.0f)) {
++		stop_vibration(index);
++		return;
++	}
++
++	uint64_t timestamp = input->get_joy_vibration_timestamp(index);
++	if (state.playing && state.request_timestamp == timestamp
++			&& state.weak_magnitude == strength.x && state.strong_magnitude == strength.y) {
++		return;
++	}
++
++	// Godot's strong/weak magnitudes map to the Switch low/high frequency bands.
++	// Frequencies are fixed native band centers; Godot does not expose HD rumble.
++	HidVibrationValue values[2] = {
++		{ strength.y, 160.0f, strength.x, 320.0f },
++		{ strength.y, 160.0f, strength.x, 320.0f },
++	};
++	if (R_SUCCEEDED(hidSendVibrationValues(state.handles, values, state.handle_count))) {
++		state.playing = true;
++		state.request_timestamp = timestamp;
++		state.weak_magnitude = strength.x;
++		state.strong_magnitude = strength.y;
++	} else {
++		stop_vibration(index);
++	}
+ }
+ 
+ void JoypadSwitch::process() {
+@@ -53,12 +225,39 @@ void JoypadSwitch::process() {
+ 
+ 		bool now_connected = padIsConnected(&pads[index]);
+ 		if (now_connected != connected[index]) {
++			if (!now_connected) {
++				stop_vibration(index);
++				input->stop_joy_vibration(index);
++				vibration[index].ready = false;
++				vibration[index].style_known = false;
++				vibration[index].handle_count = 0;
++				require_neutral[index] = true;
++			}
+ 			connected[index] = now_connected;
+ 			input->joy_connection_changed(index, now_connected, now_connected ? "Switch Controller" : "");
++			if (now_connected) {
++				require_neutral[index] = true;
++				input->set_joy_features(index, this);
++			}
+ 		}
+ 		if (!now_connected) {
+ 			continue;
+ 		}
++		if (!application_focused) {
++			// Keep libnx's edge state current without reasserting gameplay input.
++			continue;
++		}
++		if (require_neutral[index]) {
++			if (!pad_is_neutral(index)) {
++				continue;
++			}
++			require_neutral[index] = false;
++		}
++
++		// Joypad style can change without a connection edge (for example, when
++		// detaching/reattaching Joy-Cons). Rebuild the native handles for that style.
++		configure_vibration(index);
++		process_vibration(index);
+ 
+ 		HidAnalogStickState l_stick = padGetStickPos(&pads[index], 0);
+ 		HidAnalogStickState r_stick = padGetStickPos(&pads[index], 1);
+diff --git a/platform/switch/joypad_switch.h b/platform/switch/joypad_switch.h
+index 0a1ddbf..e1f1293 100644
+--- a/platform/switch/joypad_switch.h
++++ b/platform/switch/joypad_switch.h
+@@ -9,13 +9,39 @@
+ 
+ #define JOYPADS_MAX 8
+ 
+-class JoypadSwitch {
++class JoypadSwitch : public Input::JoypadFeatures {
++	struct VibrationState {
++		HidVibrationDeviceHandle handles[2] = {};
++		HidNpadIdType id = HidNpadIdType_No1;
++		HidNpadStyleTag style = HidNpadStyleTag_NpadFullKey;
++		int handle_count = 0;
++		bool style_known = false;
++		bool ready = false;
++		bool playing = false;
++		uint64_t request_timestamp = 0;
++		float weak_magnitude = 0.0f;
++		float strong_magnitude = 0.0f;
++	};
++
+ 	PadState pads[JOYPADS_MAX];
+ 	bool connected[JOYPADS_MAX] = {};
++	bool require_neutral[JOYPADS_MAX] = {};
++	VibrationState vibration[JOYPADS_MAX];
++	AppletHookCookie applet_hook_cookie = {};
++	bool application_focused = true;
++
++	static void applet_hook(AppletHookType p_hook, void *p_param);
++	void configure_vibration(int p_index);
++	void process_vibration(int p_index);
++	void stop_vibration(int p_index);
++	void stop_all_vibration();
++	void clear_joy_input(int p_index);
++	bool pad_is_neutral(int p_index) const;
+ 
+ public:
+ 	void process();
++	bool has_joy_vibration() const override { return true; }
+ 
+ 	JoypadSwitch();
+-	~JoypadSwitch() {}
++	~JoypadSwitch();
+ };

@@ -163,7 +163,13 @@ def build(args):
     def run(command, name, cwd=source):
         commands.append(command)
         with (logs / (name + '.log')).open('w') as log:
-            subprocess.run(command, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT, check=True)
+            child = subprocess.Popen(command, cwd=cwd, env=env, stdout=subprocess.PIPE,
+                                     stderr=subprocess.STDOUT, text=True, errors='replace')
+            for line in child.stdout:
+                print(line, end='', flush=True)
+                log.write(line)
+            code = child.wait()
+            require(code == 0, f'{name} failed ({code}); see {logs / (name + ".log")}')
     managed = args.work_dir / 'managed'
     run([str(args.dotnet), 'publish', str(csproj), '-c', 'ExportRelease', '-o', str(managed),
          '--self-contained', 'false', '-p:PublishSelfContained=false', '-p:PublishReadyToRun=false',
