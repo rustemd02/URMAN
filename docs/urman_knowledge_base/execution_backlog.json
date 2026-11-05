@@ -108230,7 +108230,9 @@
           "path": "game/content/urman.fullgame.compiled.v1.json (photoworlds catalog, photos[])",
           "result": "Все 13 фото имеют непустые sourceId и permissionId, различающиеся по типам (pw-prologue-photo-source/pw-book-handoff, pw-water-photo-source/pw-water-photo-permission, pw-school-copy-source/pw-school-copy-permission, pw-contact-sheet-source/pw-contact-sheet-permission, pw-take-now-photo/pw-take-now-photo и др.). AcquirePhoto валидирует соответствие каталогу и provenance; повторное приобретение из другого источника отвергается.",
           "verified": "Аудит каталога: 13/13 с sourceId+permissionId, 13 уникальных pageId. Core build 0. Runtime-проверка различения типов NOT_RUN."
-        }
+        },
+        "game/scripts/DocumentUi.cs",
+        "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-school-forest-route-2026-11-06.zip SHA256 49afa1f64ae428256fbb787dacdebfb2e5dae93a10fe3b3ca06b8028e4a63baf"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-013",
       "source_requirements": [
@@ -108351,9 +108353,10 @@
       "technical_verification_state": "not_run",
       "remaining": [
         "Готово: 13 фото привязаны к sourceId/permissionId (compiled catalog); AcquirePhoto проверяет соответствие каталогу и provenance; повторное приобретение из другого источника отвергается. Редьюсер уже обрабатывает pw1.photo.acquire.",
-        "Осталось: runtime-проверка различения 13 типов источников и что оригинал остаётся на месте там, где обещана копия (школьный/сельский альбом) — нужна обычная сессия/станция (PW-054 или targeted scenario)."
+        "Осталось: runtime-проверка различения 13 типов источников и что оригинал остаётся на месте там, где обещана копия (школьный/сельский альбом) — нужна обычная сессия/станция (PW-054 или targeted scenario).",
+        "School comparison explicitly offers Место совпадает. A rejected confirmation retains the current reader with retry feedback and grants nothing. Mac compile and source review; ordinary confirmation, permission, and copy remain unverified."
       ],
-      "next_action": "Source story/receiptfeedback and tracked compiledpack synchronized. Windowsprofile actually absent, caller nowguardcopyifpresent; no compatible Continue to start from. Next necessary wholeepisode in one frozen ordinary session: directions→schoolsourceconfirm/permissioncopy→W01physicalaction→homefamilyrecord→earnedpage→Save/menu/Continue; direct single-owner input and scene-readiness beforemilestonecaptures, no repeat30minsetup pattern.",
+      "next_action": "Use earned Mac school-corridor quick seq172. In one ordinary session reach staff room, compare original and family print, deliberately confirm matching location, ask staff for the copy, then carry the route through W01 and home. Include cancellation/retry only if the situation naturally occurs; no repeated legacy school fixture.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111575,7 +111578,10 @@
           "kind": "source_compile_review",
           "path": "evidence/PW-020/source_return_ticket_20261019/affected-game-build.log",
           "result": "Fourexistingowners implement schema2 fullReturnTicket prepare/commit/return/abort/recovery; earnedfacts preserved, NewGame/Load cancel/join old I/O; initialreviewP2 durablecancelReturn compensation fixed and independentFast review clean. FinalaffectedGamecompile14.97s0warnings0errors at /private/tmp/urman-pw020-return-cancel-compile.log. Native ordinarycycle/Continue/cancel/diskfail matrix NOT_RUN. Frozen source SHA256:{\"src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs\": \"28a74e231b7848628c0e7c39713387f0d7432d2f82065fc3f104c12a28867938\", \"src-dotnet/Urman.Core/Narrative/PhotoWorldCommandHandler.cs\": \"2f58acb9aa430f854645c8cb683e0048f5c7cf36eb9eb977e7231a108f7a08c6\", \"game/scripts/RuntimeBridge.cs\": \"ef5e8d81fca4b57d43dc2bfd7aea3c20697937effbeba0ea51a87570b94480df\", \"game/scripts/Main.cs\": \"017b1558ba9b6972de81be7ad839ec8b3783732a66aae04f57264cf671a88055\"}"
-        }
+        },
+        "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
+        "game/scripts/JournalUi.Missions.cs",
+        "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-school-forest-route-2026-11-06.zip SHA256 49afa1f64ae428256fbb787dacdebfb2e5dae93a10fe3b3ca06b8028e4a63baf"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-020",
       "source_requirements": [
@@ -111700,9 +111706,10 @@
       "implementation_state": "implemented",
       "technical_verification_state": "not_run",
       "remaining": [
-        "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
+        "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020.",
+        "The book-entry marker uses the existing supported stance for explicitly anchored missions. The forest witness target used by the old marker is 5.45 m beyond that stance. Mac compile passed; current ordinary HUD, first entry and return need play verification."
       ],
-      "next_action": "Use the earned Mac school-corridor quick seq172; get original/permission/copy and enter the already mounted P-FOREST. Check actual F11 camera-back fact, forward F12 → F13, D06 and bag action → F16/ordinary return. After supported return confirm home debrief marker and save. Semantic pass is available; no replay of accepted school entrance.",
+      "next_action": "Use Mac quick seq172: obtain school copy, follow the route to the authored stance on the trail, face the three trunks and enter through the book. Verify F11 camera-back fact, F12→F13, D06 and bag→F16, ordinary return, home debrief and Save/Continue. Do not repeat accepted school entrance or unchanged semantic checks.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

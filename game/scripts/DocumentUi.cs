@@ -190,14 +190,15 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _images.SetImages([new DocumentImageContent(photoId, imagePath, description)]);
         if (comparison is not null) _images.CompareWith(comparison, comparisonCaption ?? title);
         RefitToViewport();
-        _status.Text = comparison is not null
-            ? "Сверьте стволы и перекладину: откуда сделан семейный снимок? · Esc — вернуться"
+        var comparing = _images.ComparingImages;
+        _status.Text = comparing
+            ? confirm is null ? "Место съёмки уже отмечено." : "Сравните три ствола и перекладину на двух снимках."
             : confirm is null
             ? "Осмотр снимка · Esc — вернуться к месту"
             : "Нажмите «Рассмотреть снимок», чтобы отметить находку · Esc — уйти без записи";
         _save.Visible = confirm is not null;
         _save.Disabled = confirm is null;
-        _save.Text = confirm is null ? _saveLabel : "Рассмотреть снимок";
+        _save.Text = confirm is null ? _saveLabel : comparing ? "Место совпадает" : "Рассмотреть снимок";
         UiFoley.Play(_foley, "paper_open");
         _screen.Visible = true;
         SetPlayerModal(true);
@@ -242,21 +243,29 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         {
             var revision = _sourcePhotoInspectionRevision;
             _save.Disabled = true;
+            var recorded = false;
             try
             {
                 // Confirmation, rather than opening or cancelling the reader,
                 // is the player's source action. The owner rechecks its session.
-                await confirm();
+                recorded = await confirm();
             }
             catch (Exception error)
             {
                 GD.PushWarning("Source photograph inspection failed: " + error.Message);
             }
-            finally
+            // A pending write must never close a newly opened document,
+            // another source, or the reader of a different loaded session.
+            if (revision != _sourcePhotoInspectionRevision || !IsInsideTree()) return;
+            if (recorded || _sourcePhotoInspectionCurrent?.Invoke() != true)
             {
-                // A pending write must never close a newly opened document,
-                // another source, or the reader of a different loaded session.
-                if (revision == _sourcePhotoInspectionRevision && IsInsideTree()) Close();
+                Close();
+            }
+            else
+            {
+                _status.Text = "Не удалось записать находку. Попробуйте ещё раз.";
+                _save.Disabled = false;
+                _save.GrabFocus();
             }
             return;
         }

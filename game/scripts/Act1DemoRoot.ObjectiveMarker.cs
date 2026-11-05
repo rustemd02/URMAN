@@ -752,6 +752,15 @@ public partial class Act1DemoRoot
 
     private Node3D? ResolveObjectiveMarkerTarget(PlayerMission mission, out bool usingAnchor)
     {
+        var anchor = string.IsNullOrWhiteSpace(mission.AnchorPath) ? null : _main.GetNodeOrNull<Node3D>(mission.AnchorPath);
+        // Book entrances can have separate positions for the player's stance
+        // and the object they face. Route the player to the authored stance.
+        if (mission.BookAction == PlayerBookAction.Enter && ObjectiveMarkerTargetAvailable(anchor, mission, endpoint: true))
+        {
+            usingAnchor = true;
+            return anchor;
+        }
+
         usingAnchor = false;
         if (!string.IsNullOrWhiteSpace(mission.InteractionId))
         {
@@ -766,8 +775,6 @@ public partial class Act1DemoRoot
                 foreach (var child in node.GetChildren()) pending.Push(child);
             }
         }
-        if (string.IsNullOrWhiteSpace(mission.AnchorPath)) return null;
-        var anchor = _main.GetNodeOrNull<Node3D>(mission.AnchorPath);
         if (!ObjectiveMarkerTargetAvailable(anchor, mission, endpoint: true)) return null;
         usingAnchor = true;
         return anchor;
