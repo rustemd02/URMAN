@@ -2665,7 +2665,7 @@ diff --git a/tests-dotnet/Urman.Core.Tests/DeterminismAndSaveTests.cs b/tests-do
 diff --git a/game/scripts/photoworlds/W01Controller.cs b/game/scripts/photoworlds/W01Controller.cs
 --- a/game/scripts/photoworlds/W01Controller.cs
 +++ b/game/scripts/photoworlds/W01Controller.cs
-@@ -391,8 +391,55 @@
+@@ -391,8 +391,76 @@
          {
              if (mesh.Mesh is null) continue;
              mesh.MaterialOverride = snowMaterial;
@@ -2690,6 +2690,27 @@ diff --git a/game/scripts/photoworlds/W01Controller.cs b/game/scripts/photoworld
 +        var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
 +        if (vertices.Length != width * depth)
 +            throw new InvalidOperationException("W01 Switch ground grid changed; rebuild its compact collider.");
++        // glTF importers may reorder vertices for cache locality. Locate each
++        // regular-grid vertex by position instead of assuming GLB source order.
++        var bounds = mesh.Mesh.GetAabb();
++        var stepX = bounds.Size.X / (width - 1);
++        var stepZ = bounds.Size.Z / (depth - 1);
++        var grid = new Vector3[width * depth];
++        var filled = new bool[grid.Length];
++        foreach (var vertex in vertices)
++        {
++            var x = Mathf.RoundToInt((vertex.X - bounds.Position.X) / stepX);
++            var z = Mathf.RoundToInt((vertex.Z - bounds.Position.Z) / stepZ);
++            if (x < 0 || x >= width || z < 0 || z >= depth
++                || Mathf.Abs(vertex.X - (bounds.Position.X + x * stepX)) > .03f
++                || Mathf.Abs(vertex.Z - (bounds.Position.Z + z * stepZ)) > .03f
++                || filled[z * width + x])
++                throw new InvalidOperationException("W01 Switch ground is no longer a regular grid.");
++            grid[z * width + x] = vertex;
++            filled[z * width + x] = true;
++        }
++        if (filled.Any(isFilled => !isFilled))
++            throw new InvalidOperationException("W01 Switch ground has a missing grid vertex.");
 +        var faces = new Vector3[((width - 1) / stride) * ((depth - 1) / stride) * 6];
 +        var cursor = 0;
 +        for (var z = 0; z < depth - 1; z += stride)
@@ -2701,12 +2722,12 @@ diff --git a/game/scripts/photoworlds/W01Controller.cs b/game/scripts/photoworld
 +                var c = a + stride * width;
 +                var d = c + stride;
 +                // Keep the imported GLB's triangle winding and diagonal.
-+                faces[cursor++] = mesh.GlobalBasis * vertices[c];
-+                faces[cursor++] = mesh.GlobalBasis * vertices[b];
-+                faces[cursor++] = mesh.GlobalBasis * vertices[a];
-+                faces[cursor++] = mesh.GlobalBasis * vertices[c];
-+                faces[cursor++] = mesh.GlobalBasis * vertices[d];
-+                faces[cursor++] = mesh.GlobalBasis * vertices[b];
++                faces[cursor++] = mesh.GlobalBasis * grid[c];
++                faces[cursor++] = mesh.GlobalBasis * grid[b];
++                faces[cursor++] = mesh.GlobalBasis * grid[a];
++                faces[cursor++] = mesh.GlobalBasis * grid[c];
++                faces[cursor++] = mesh.GlobalBasis * grid[d];
++                faces[cursor++] = mesh.GlobalBasis * grid[b];
 +            }
 +        }
 +        var surface = new ConcavePolygonShape3D { BackfaceCollision = true };
@@ -2723,7 +2744,7 @@ diff --git a/game/scripts/photoworlds/W01Controller.cs b/game/scripts/photoworld
      }
  
      private void BuildRootPassage()
-@@ -925,7 +972,7 @@
+@@ -925,7 +993,7 @@
          const float clusterHeightStep = 1.5f;
          const float minimumClusterPineSpacing = 2.9f;
          const float minimumExistingPineSpacing = 3.5f;
