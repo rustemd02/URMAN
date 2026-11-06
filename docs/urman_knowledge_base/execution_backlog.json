@@ -25682,7 +25682,8 @@
             "owner": "finished-act1",
             "evidence": [
               "evidence/FINISH-06/native_6280675a75da42fa98e8bf8e957ea1e4/receipt.json",
-              "evidence/FINISH-06/native_5952e534bf574551856f728c6e08b1f5/receipt.json"
+              "evidence/FINISH-06/native_5952e534bf574551856f728c6e08b1f5/receipt.json",
+              "FINISH-06/E02 → mac_pause_load_2026_11_06: обычная Новая игра на Mac, тёмный F00, заметная задача и проход до F01, отвод ветки по E и смена цели на поляну. F02–Нива остаются за пределами этой проверки."
             ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
@@ -25695,7 +25696,7 @@
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить NewGame выбранной кампании с отказом при invalid content; собственного целевого receipt пока нет."
+              "В текущей защищённой сборке обычная Новая игра прошла F00–F01 и записала сюжетное автосохранение. Остались F02–F03, экран подготовки и поездка на Ниве, а также отдельный отказ при invalid content."
             ],
             "next_action": "Когда освободится Mac, одним защищённым New Game без пропуска пройти F00→ветка→F02→F03→Нива. Оценить читаемость тропы, звуки и силуэт, затем видимость экрана подготовки до сборки деревни и его исчезновение к поездке. У дома закрыть D00, увидеть подсказку в салоне и продолжить разговор показанной кнопкой. Continue должен возвращать к машине. Прежнюю проверку размера и фокуса отдельно не повторять.",
             "prologue_arrival_loading_2026_11_06": {
@@ -25891,13 +25892,14 @@
               "evidence/FINISH-06/menu-session-20261020/game-build-final.log",
               "game/scripts/RuntimeBridge.cs",
               "game/scripts/PauseMenuUi.cs — загрузка из паузы использует тот же выбор совместимого ручного сейва или автосохранения, что и Continue. Пауза ищет только в хранилище текущей сессии, главное меню — в хранилище игрока. 06.11 изолированная сборка Mac 19,42 с, 0 ошибок и предупреждений, SHA256 DLL открытой игры совпал.",
+              "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-pause-continue-2026-11-06.log.gz SHA256 aa51023d3d7b7a7bb1cf774b6e16876f98f51010a72e1a0b173aba41780e0a2f",
               "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-profile-bootstrap-and-continue-label-2026-11-06.zip SHA256 4512d9cc5dd389f317f7a4189c215a8bd7cf7bbc05c33b0c213a9d516fae25bd"
             ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "06.11 local cold Continue, movement, ordinary Save and normal Quit reverified while advancing into school. Newest-compatible backup/primary matrix remains separate."
+              "reason": "06.11 подтверждён выбор автосохранения и более свежего ручного сейва из паузы в текущем обычном Mac-сеансе. Матрица холодного Continue с несовместимой вложенной версией остаётся открытой."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -25905,11 +25907,15 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "Общий путь Continue на Mac подтвердил выбор свежего слота, резерв и отказ без записи. Для текущего photoworlds-v1 отдельно остаётся нативный случай, где primary имеет неизвестную вложенную версию состояния, а backup пригоден.",
-              "Continue description now resolves the authored prologue, Niva and W01–W05 title from the selected snapshot scene instead of its preserved village return zone. Mac compile and all seven current compiled text IDs verified. Ordinary display and nested incompatible-primary fallback remain open.",
-              "В следующей защищённой сессии Mac после сюжетного автосохранения, до первого ручного сейва, выбрать «Загрузить последнее сохранение» из паузы. Сверить позицию и цель. Отдельно сверить выбор более свежего совместимого ручного сейва после его записи."
+              "Continue description now resolves the authored prologue, Niva and W01–W05 title from the selected snapshot scene instead of its preserved village return zone. Mac compile and all seven current compiled text IDs verified. Ordinary display and nested incompatible-primary fallback remain open."
             ],
             "next_action": "В подходящем защищённом сценарии проверить холодный Continue из резерва при несовместимой вложенной записи PhotoWorlds. После штатного сохранения сверить новый основной файл и неизменность исправной резервной копии. Предыдущая приёмка общего меню и тест повреждённого файла остаются применимы к своим сценариям.",
             "blocker": null,
+            "mac_pause_load_2026_11_06": {
+              "source": "5e691cd2, обычная сцена photoworlds_game, Godot 4.7.1 Mono, Metal Forward+, чистый штатный protected_run. Сборка 17,65 с, 0 ошибок и предупреждений.",
+              "observed": "Новая игра без пропуска, F00 → F01 по видимой тропе. Обычное E отвело ветку и записало единственный checkpoint. Кнопка «Загрузить последнее сохранение» восстановила положение и цель «Светлая поляна · 114 м», quick отсутствовал. Дальше ручной Save из паузы показал «Сохранено». Quick новее checkpoint и на 8,3 м дальше по тропе. После отхода маркер показал 102 м, загрузка из паузы вернула 107 м при неизменной цели, а не 114 м. В журнале два SaveGameV3 restored.",
+              "terminal": "Штатный выход с подтверждением, игра и guard завершились кодом 0. Guard подтвердил восстановление исходных файлов и прав. Тестовый профиль удалён штатным guard."
+            },
             "local_native_question_2026_11_01": {
               "state": "mac_ordinary_save_continue_school_route_observed_backup_matrix_open",
               "owner": "Sol/Mac-native",
