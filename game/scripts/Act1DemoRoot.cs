@@ -1467,12 +1467,13 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private void BuildMainMenu(bool allowLiveReturn = false)
     {
-        ReleasePhotoNivaArrival();
         (GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge)?.CancelRinatPresentation();
         var player = _player;
         _menuReturnBridge = allowLiveReturn && _playerSessionSelected && !_introReplay && !_photoWorldReplay
             && _bridge is { IsDebugSession: false, NeedsPhysicalRecovery: false } liveBridge ? liveBridge : null;
         _menuReturnSession = _menuReturnBridge?.SessionIdentity;
+        if (_photoNivaSession is not { } nivaSession || !ReferenceEquals(_menuReturnSession, nivaSession))
+            ReleasePhotoNivaArrival();
         // UIUX-001: gameplay input stays gated behind the menu choice.
         player?.SetModalOpen(true);
 

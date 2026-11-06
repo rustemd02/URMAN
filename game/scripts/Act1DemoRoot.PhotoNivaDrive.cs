@@ -7,6 +7,7 @@ public partial class Act1DemoRoot
     private const float PhotoNivaDriveSeconds = 20f;
     private bool _photoNivaDriving;
     private float _photoNivaDriveElapsed;
+    private double _photoNivaWakeCaptionSeconds;
     private bool _photoNivaVillageStarted;
     private float _photoNivaVillageDistance, _photoNivaVillageLength, _photoNivaDriveSpeed;
     private Vector3[] _photoNivaVillagePath = Array.Empty<Vector3>();
@@ -14,7 +15,7 @@ public partial class Act1DemoRoot
     private Transform3D _photoNivaStopTransform;
     private VehicleVisualFactory.Visual? _photoNivaDriveVisual;
     private VehicleMechanicalAudio? _photoNivaDriveAudio;
-    private bool PhotoNivaDrivePaused => _photoNivaPlayer?.ModalOpen != false || _pauseMenu?.IsOpen == true
+    private bool PhotoNivaDrivePaused => MainMenuVisible || _photoNivaPlayer?.ModalOpen != false || _pauseMenu?.IsOpen == true
         || !DisplayServer.WindowIsFocused()
         || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true };
 
@@ -52,7 +53,12 @@ public partial class Act1DemoRoot
         if (_prologueBlackout is { } blackout) blackout.Color = Colors.Black;
         PrologueVoice.SetPaused(false);
         var waking = PrologueVoice.PlayClip(this, "forest-wake-v2");
-        ShowPrologueCaption("Мансур бабай: «Айдар… Айдар, уян. Килеп җитәбез.»\n(Айдар… Айдар, проснись. Уже подъезжаем.)", Math.Max(5, waking + .3));
+        _photoNivaWakeCaptionSeconds = Math.Max(5, waking + .3);
+        if (_prologueCaption is { } caption)
+        {
+            caption.Text = "Мансур бабай: «Айдар… Айдар, уян. Килеп җитәбез.»\n(Айдар… Айдар, проснись. Уже подъезжаем.)";
+            caption.Visible = true;
+        }
         HideRouteCue();
     }
 
@@ -61,12 +67,15 @@ public partial class Act1DemoRoot
         var paused = PhotoNivaDrivePaused;
         PrologueVoice.SetPaused(paused);
         _photoNivaDriveAudio?.SetState(VehicleKind.Niva, true, _photoNivaDriveSpeed, .35f, paused);
+        if (_prologueOverlay is { } overlay)
+            overlay.Visible = !MainMenuVisible && _photoNivaPlayer?.ModalOpen == false && _pauseMenu?.IsOpen != true;
         if (paused) return;
 
         // A focus change or slow import must not jump the entire presentation.
         delta = Mathf.Clamp(delta, 0f, .1f);
         _photoNivaDriveElapsed += delta;
         var t = _photoNivaDriveElapsed;
+        if (_prologueCaption is { } caption) caption.Visible = t < _photoNivaWakeCaptionSeconds;
         if (t < PhotoNivaDriveSeconds)
         {
             if (_approachRoad is { } road && _photoNivaDriveVisual is { } visual)
@@ -148,6 +157,7 @@ public partial class Act1DemoRoot
         _photoNivaDriveAudio = null;
         ReleaseApproachRoad();
         ReleasePrologueOverlay();
+        PrologueVoice.Stop();
         PrologueVoice.SetPaused(false);
     }
 }

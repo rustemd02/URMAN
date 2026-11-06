@@ -41,14 +41,17 @@ public partial class Act1DemoRoot
         && bridge.ActiveSceneId == PhotoNivaArrivalScene && bridge.SessionIdentity is { } session
         && !ReferenceEquals(session, _photoNivaFailedSession);
 
-    private bool IsCurrentPhotoNivaArrival(object session) => PhotoNivaArrivalActive
+    private bool IsCurrentPhotoNivaArrival(object session, bool allowLiveMenu = false) => PhotoNivaArrivalActive
         && IsInsideTree() && !IsQueuedForDeletion() && !_orderlyShutdownRequested
         && ReferenceEquals(session, _photoNivaSession)
         && _bridge is { } bridge && IsInstanceValid(bridge) && bridge.IsInsideTree()
         && ReferenceEquals(session, bridge.SessionIdentity) && bridge.ActiveSceneId == PhotoNivaArrivalScene
         && !bridge.IsPhotoBookProjectionDeferred && !bridge.NeedsPhysicalRecovery
         && _photoNivaPlayer is { } player && IsInstanceValid(player) && player.IsInsideTree()
-        && !player.SessionTransitionActive && !MainMenuVisible && !_menuBusy;
+        && !player.SessionTransitionActive
+        && ((!MainMenuVisible && !_menuBusy)
+            || (allowLiveMenu && ReferenceEquals(_menuReturnSession, session)
+                && ReferenceEquals(_menuReturnBridge, bridge)));
 
     private void UpdatePhotoNivaArrival(double delta)
     {
@@ -63,8 +66,14 @@ public partial class Act1DemoRoot
             _photoNivaPrologueSession = prologueSession;
 
         if (_photoNivaPresentation is not null
-            && (_photoNivaSession is not { } activeSession || !IsCurrentPhotoNivaArrival(activeSession)))
+            && (_photoNivaSession is not { } activeSession || !IsCurrentPhotoNivaArrival(activeSession, allowLiveMenu: true)))
             ReleasePhotoNivaArrival();
+
+        if (MainMenuVisible && _photoNivaDriving)
+        {
+            UpdatePhotoNivaDrive((float)delta);
+            return;
+        }
 
         if (!UsesPhotoWorldsCampaign || StudioPreviewMode || _orderlyShutdownRequested
             || !_playerSessionSelected || MainMenuVisible || _menuBusy || _photoWorldReplay

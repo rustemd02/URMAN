@@ -26028,7 +26028,9 @@
             "result": "Подключить settings и возврат с сохранением accessibility",
             "owner": "finished-act1",
             "evidence": [
-              "evidence/FINISH-06/menu-session-20261020/game-build-final.log"
+              "evidence/FINISH-06/menu-session-20261020/game-build-final.log",
+              "game/scripts/Act1DemoRoot.PrologueNivaRide.cs",
+              "game/scripts/Act1DemoRoot.PhotoNivaDrive.cs"
             ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
@@ -26213,9 +26215,10 @@
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить эпилог→меню→возврат без второго session; собственного целевого receipt пока нет."
+              "Подключить эпилог→меню→возврат без второго session; собственного целевого receipt пока нет.",
+              "Нива остаётся в том же месте поездки при переходе в главное меню с возможностью вернуться в текущую игру. Движение, звук и время субтитров стоят на паузе. Сборка Mac 20,93 с, 0 предупреждений и ошибок; игровой сценарий ещё открыт."
             ],
-            "next_action": "В protected native current session с несохранённой позицией/состоянием проверить Pause→главное меню→Вернуться в игру без Load/NewGame/смены identity, input/audio/focus; затем actual PhotoWorlds эпилог→home и cold disk Continue. Cold/recovery/replay не получают live return.",
+            "next_action": "В защищённом обычном сеансе Mac проверить паузу → главное меню → «Вернуться в игру» посреди поездки на Ниве: тот же участок дороги, звук, субтитры, управление после выхода. Отдельно проверить возврат с несохранённой пешей позиции и эпилог → дом → холодный Continue.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
