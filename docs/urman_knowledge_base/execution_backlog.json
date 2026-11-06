@@ -109376,7 +109376,8 @@
         "evidence/PW-043/ordinary_6832013599f54d24b6588ff7626a247e.zip",
         "game/scripts/JournalUi.cs",
         "game/scripts/RuntimeBridge.PhotoBook.cs",
-        "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-photo-exit-2026-11-06.zip SHA256 8e7fb3137a8bb3e66f73c33fec12abfd599598c32c493e56fa628a15d15a1891"
+        "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-photo-exit-2026-11-06.zip SHA256 8e7fb3137a8bb3e66f73c33fec12abfd599598c32c493e56fa628a15d15a1891",
+        "JournalUi.PhotoBook.cs показывает шаг выбранного незавершённого лесного снимка или снимка сеней рядом с основной задачей, только когда шаги различаются. Сборка Mac 19,74 с, 0 предупреждений и ошибок. Вид в игре ещё не проверен."
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-016",
       "source_requirements": [

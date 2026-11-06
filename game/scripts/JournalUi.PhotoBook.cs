@@ -589,7 +589,8 @@ public partial class JournalUi
         var selectedIndex = _photoBookProjection.ToList()
             .FindIndex(photo => photo.PhotoId == _photoBookSelectedId);
         if (selectedIndex < 0 && _photoBookProjection.Count > 0) selectedIndex = 0;
-        var nextSelectedId = selectedIndex < 0 ? null : _photoBookProjection[selectedIndex].PhotoId;
+        var selected = selectedIndex < 0 ? null : _photoBookProjection[selectedIndex];
+        var nextSelectedId = selected?.PhotoId;
         if (!StringComparer.Ordinal.Equals(previousSelectedId, nextSelectedId))
         {
             CancelPhotoBookPlacementAnimation();
@@ -616,10 +617,9 @@ public partial class JournalUi
         _photoBookSeparator.Visible = hasPhotos;
         _photoBookBackHeading.Visible = hasPhotos;
         _photoBookBackText.Visible = hasPhotos;
-        if (hasPhotos)
+        if (selected is not null)
         {
             _photoBookList.Select(selectedIndex);
-            var selected = _photoBookProjection[selectedIndex];
             _photoBookSelectedId = selected.PhotoId;
             ShowPhotoBookPhoto(selected);
         }
@@ -636,7 +636,7 @@ public partial class JournalUi
         }
 
         _photoBookRefreshing = false;
-        RefreshPhotoBookPreparation(mission);
+        RefreshPhotoBookPreparation(bridge, mission, selected);
         RefreshPhotoBookActionButtons();
         RefreshBookInspection();
     }
@@ -682,9 +682,18 @@ public partial class JournalUi
         RefreshPhotoBookActionButtons();
     }
 
-    private void RefreshPhotoBookPreparation(PlayerMission? mission)
+    private void RefreshPhotoBookPreparation(RuntimeBridge? bridge, PlayerMission? mission,
+        RuntimeBridge.PhotoBookPhoto? selected)
     {
         var text = mission?.Action;
+        if (selected is { WorldCompleted: false, PhotoId: "P-FOREST" or "P-CELLAR" }
+            && PhotoBookPreparationObjectiveText(bridge, selected.PhotoId) is { } selectedAction
+            && selectedAction != text)
+        {
+            text = text is null
+                ? selectedAction
+                : $"Основная задача · {text}\nДля этого снимка · {selectedAction}";
+        }
         _photoBookPreparation.Text = text ?? string.Empty;
         _photoBookPreparation.Visible = text is not null;
     }
@@ -701,7 +710,7 @@ public partial class JournalUi
         }
         _photoBookSelectedId = selected.PhotoId;
         ShowPhotoBookPhoto(selected);
-        RefreshPhotoBookPreparation(_bridge is { } bridge ? CurrentPlayerMission(bridge) : null);
+        RefreshPhotoBookPreparation(_bridge, _bridge is { } bridge ? CurrentPlayerMission(bridge) : null, selected);
         RefreshPhotoBookActionButtons();
         RefreshBookInspection();
     }
