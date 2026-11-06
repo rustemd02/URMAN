@@ -73,7 +73,7 @@ public static class PhotoWorldState
         "W02" => safeNodeId is "R00" or "R01",
         "W03" => safeNodeId is "H00" or "H05",
         "W04" => safeNodeId is "C00" or "C03" or "C05",
-        "W05" => safeNodeId is "B00" or "B01",
+        "W05" => safeNodeId is "B00" or "B01" or "B02" or "B04" or "B06",
         _ => false
     };
 
@@ -151,12 +151,22 @@ public static class PhotoWorldState
             return false;
         }
         safeNodeId = reachedNode;
-        if (worldId != "W04") return true;
-        // Both W04 facts are earned from their physical stances. Missing the
-        // separate stopped-player poll must not send a finished view back to C00.
+        if (worldId is not ("W04" or "W05")) return true;
+        // Confirmed actions are tied to authored places even if the player
+        // did not stop on the separate checkpoint marker.
         var world = World(state);
-        if (HasFact(world, "common_horizon_seen")) safeNodeId = "C05";
-        else if (reachedNode == "C00" && HasFact(world, "common_three_relations_seen")) safeNodeId = "C03";
+        if (worldId == "W04")
+        {
+            if (HasFact(world, "common_horizon_seen")) safeNodeId = "C05";
+            else if (reachedNode == "C00" && HasFact(world, "common_three_relations_seen")) safeNodeId = "C03";
+        }
+        else
+        {
+            if (HasFact(world, "cellar_niche_seen")) safeNodeId = "B06";
+            else if (reachedNode != "B06" && HasFact(world, "cellar_response_seen")) safeNodeId = "B04";
+            else if (reachedNode is ("B00" or "B01") && HasFact(world, "cellar_box_returned")) safeNodeId = "B02";
+            else if (reachedNode == "B00" && HasFact(world, "cellar_household_pattern_seen")) safeNodeId = "B01";
+        }
         return true;
     }
 

@@ -62,7 +62,7 @@ public partial class RuntimeBridge
             "W02" => "R01",
             "W03" => "H05",
             "W04" when reachedNode != "C05" => "C03",
-            "W05" => "B01",
+            "W05" when reachedNode == "B00" => "B01",
             _ => null
         };
         if (worldId is not null && safeNodeId is not null && reachedNode != safeNodeId)

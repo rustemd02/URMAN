@@ -218,9 +218,8 @@ public partial class RuntimeBridge
                 worldId = candidateWorld;
                 safeNodeId = node;
                 // A calm revisit keeps the reached point of this visit. A
-                // first story visit can use its earned fallback even after C07.
-                return candidateWorld != "W04"
-                    || visit.TryGetProperty("worldCompletedOnEntry", out var completedOnEntry)
+                // first story visit can use an earned fallback after an action.
+                return visit.TryGetProperty("worldCompletedOnEntry", out var completedOnEntry)
                         && completedOnEntry.ValueKind == System.Text.Json.JsonValueKind.True
                     || PhotoWorldState.TryGetVisitResumeNode(state, candidateWorld, node, out safeNodeId);
             }
