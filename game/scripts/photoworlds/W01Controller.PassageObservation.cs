@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Godot;
+using Urman.Core.Persistence;
 
 namespace Urman.Godot;
 
@@ -20,6 +21,33 @@ public partial class W01Controller
     private bool _rootPassageObservationFailed;
     private Vector3 _rootPassageObservationFailedPosition;
     private Vector3 _rootPassageObservationFailedForward;
+
+    internal ForestPassageObservationSnapshot? CaptureForestPassageObservation(object session, string visitId)
+    {
+        if (!_rootPassageEnabled || _rootPassageObservedExitSide == 0f
+            || !ReferenceEquals(_rootPassageSessionIdentity, session)
+            || _bridge is not { } bridge || !IsValidCurrentBridge(bridge)
+            || bridge.PhotoWorldFactObserved(ForestBeyondFrameFactId)) return null;
+
+        var seen = _rootPassageSeenSubjects;
+        // If all three views are in flight, require a fresh look at one
+        // subject after Continue. Loading alone must never commit the fact.
+        if (seen == 0b111) seen &= 0b011;
+        return new ForestPassageObservationSnapshot(visitId, (int)_rootPassageObservedExitSide, seen);
+    }
+
+    internal void RestoreForestPassageObservation(object session, ForestPassageObservationSnapshot observation)
+    {
+        if (!ForestEpisodeReady || _bridge is not { } bridge || !IsValidCurrentBridge(bridge)
+            || bridge.CurrentW01BranchProjection() is not { ActiveSceneId: ForestSceneId } projection
+            || !ReferenceEquals(projection.SessionIdentity, session)
+            || !bridge.PhotoWorldFactObserved(ForestCameraBackFactId)
+            || bridge.PhotoWorldFactObserved(ForestBeyondFrameFactId)) return;
+
+        ApplyRootPassageProjection(projection);
+        _rootPassageObservedExitSide = observation.ExitSide;
+        _rootPassageSeenSubjects = observation.SeenSubjects;
+    }
 
     /// <summary>Projects the F11 observation route from the live W01 presentation without recording progress.</summary>
     internal bool TryGetForestCameraBackObjectiveTarget(

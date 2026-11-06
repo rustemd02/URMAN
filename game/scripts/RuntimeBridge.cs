@@ -265,7 +265,10 @@ public partial class RuntimeBridge : Node
             _rngStreams.CaptureSnapshot(), _scheduler.CaptureSnapshot(),
             _capabilities.CaptureAll(), new WorldLocationId(CurrentZoneId),
             new SpawnPointId(CurrentSpawnPointId), player.CapturePortableTransform(),
-            player.CaptureSettings(), _playTimeSeconds);
+            player.CaptureSettings(), _playTimeSeconds)
+        {
+            ForestPassageObservation = CaptureForestPassageObservation()
+        };
     }
 
     public bool IsSlotAvailable(string slot) => StoreHasSlot(SessionSaveStore, slot);
@@ -474,9 +477,11 @@ public partial class RuntimeBridge : Node
 
         await CancelPhotoVisitTransitionAsync();
         var sessionBeforeLoad = _kernel;
+        var forestObservationBeforeLoad = CaptureForestPassageObservation();
         var loadSucceeded = false;
         var recoveredFromBackup = false;
         SaveGameV3? previousSave = _physicalRecoverySave;
+        SaveGameV3? restoredSave = null;
         var previousDebugSession = IsDebugSession;
         var projectionApplied = false;
         var rolledBack = false;
@@ -521,13 +526,14 @@ public partial class RuntimeBridge : Node
             }
             if (!ReferenceEquals(sessionBeforeLoad, _kernel))
                 throw new InvalidOperationException("The runtime session changed while reading the save.");
-            previousSave ??= CaptureSessionSave(player);
+            previousSave ??= CaptureSessionSave(player) with { ForestPassageObservation = forestObservationBeforeLoad };
             _loadingSlot = true;
             _loadPreparing = false;
             projectionApplied = true;
             await RestoreLoadedWorldAsync(saveToRestore, debugSession, player);
             NeedsPhysicalRecovery = false;
             await SettleLoadedPhotoVisitAsync(saveRecoveredCheckpoint: true);
+            restoredSave = saveToRestore;
             _physicalRecoverySave = null;
             // Current profile settings remain authoritative across story loads.
             loadSucceeded = true;
@@ -547,6 +553,7 @@ public partial class RuntimeBridge : Node
                     await RestoreLoadedWorldAsync(previousSave, previousDebugSession, player);
                     NeedsPhysicalRecovery = false;
                     await SettleLoadedPhotoVisitAsync(saveRecoveredCheckpoint: false);
+                    restoredSave = previousSave;
                     _physicalRecoverySave = null;
                     rolledBack = true;
                     GD.Print("SaveGameV3 rejected the loaded placement; the previous session was restored.");
@@ -566,6 +573,10 @@ public partial class RuntimeBridge : Node
             SampleLoadingTime();
             _loadingSlot = false;
             _loadPreparing = false;
+            if (restoredSave is not null)
+                RestoreForestPassageObservation(restoredSave.ForestPassageObservation, player, restoredSave.PlayerTransform);
+            else if (!projectionApplied && ReferenceEquals(sessionBeforeLoad, _kernel))
+                RestoreForestPassageObservation(forestObservationBeforeLoad, player);
             // Pending photo visits may still recover their recorded exterior
             // origin. Keep that physical handoff covered until it is settled.
             loadingScreen.Hide();

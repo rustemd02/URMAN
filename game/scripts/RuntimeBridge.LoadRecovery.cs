@@ -93,6 +93,8 @@ public partial class RuntimeBridge
             SampleLoadingTime();
             _loadingSlot = false;
             _loadPreparing = false;
+            if (!success && previousSave is not null)
+                RestoreForestPassageObservation(previousSave.ForestPassageObservation, player, previousSave.PlayerTransform);
             player.SetSessionTransition(NeedsPhysicalRecovery);
             QueueRuntimeStateChanged();
             PlayTimeBoundary?.Invoke(success ? "load-restored" : "load-failed");

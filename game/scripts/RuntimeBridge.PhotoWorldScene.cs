@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Godot;
 using Urman.Core.Narrative;
+using Urman.Core.Persistence;
 using Urman.Core.Runtime;
 
 namespace Urman.Godot;
@@ -16,6 +17,35 @@ public partial class RuntimeBridge
     private RuntimeKernel? _photoWorldPhysicalProjectionSession;
     private double _photoSafeNodePollElapsed;
     private bool _photoSafeNodeObservationPending;
+
+    private string? ActiveForestPassageVisitId() => ActiveSceneId == "urman.fullgame:scene/pw-forest"
+        && ActivePhotoVisit() is { } visit && visit.GetProperty("worldId").GetString() == "W01"
+        && visit.GetProperty("status").GetString() == "active"
+            ? visit.GetProperty("visitId").GetString() : null;
+
+    private ForestPassageObservationSnapshot? CaptureForestPassageObservation() =>
+        _kernel is { } session && ActiveForestPassageVisitId() is { } visitId
+        && GetTree().GetFirstNodeInGroup("zone_manager") is Main main
+        && main.GetNodeOrNull<W01Controller>("ZoneHost/W01") is { } forest
+            ? forest.CaptureForestPassageObservation(session, visitId) : null;
+
+    private void RestoreForestPassageObservation(ForestPassageObservationSnapshot? observation,
+        FirstPersonController player, PlayerTransform? savedPose = null)
+    {
+        if (observation is null || SessionIdentity is not { } session
+            || observation.VisitId != ActiveForestPassageVisitId()
+            || GetTree().GetFirstNodeInGroup("zone_manager") is not Main main
+            || main.GetNodeOrNull<W01Controller>("ZoneHost/W01") is not { } forest)
+            return;
+
+        // A physical fallback at another node cannot inherit the far-side
+        // proof. Ignore vertical settlement of the saved feet on the ground.
+        if (savedPose is not null && new Vector2(player.GlobalPosition.X, player.GlobalPosition.Z)
+            .DistanceSquaredTo(new Vector2((float)savedPose.Position.X, (float)savedPose.Position.Z)) > .25f * .25f)
+            return;
+
+        forest.RestoreForestPassageObservation(session, observation);
+    }
 
     private void ProcessPhotoSafeNodeObservation(double delta)
     {
