@@ -25901,7 +25901,7 @@
               "Общий путь Continue на Mac подтвердил выбор свежего слота, резерв и отказ без записи. Для текущего photoworlds-v1 отдельно остаётся нативный случай, где primary имеет неизвестную вложенную версию состояния, а backup пригоден.",
               "Continue description now resolves the authored prologue, Niva and W01–W05 title from the selected snapshot scene instead of its preserved village return zone. Mac compile and all seven current compiled text IDs verified. Ordinary display and nested incompatible-primary fallback remain open."
             ],
-            "next_action": "Reuse the passed shared-menu recency/backup/unreadable proof and prior ordinary PhotoWorlds Save/Continue. Verify current photoworlds-v1 nested incompatible-primary fallback only on an existing applicable guarded scenario. Do not repeat the same legacy menu smoke.",
+            "next_action": "В подходящем защищённом сценарии проверить холодный Continue из резерва при несовместимой вложенной записи PhotoWorlds. После штатного сохранения сверить новый основной файл и неизменность исправной резервной копии. Предыдущая приёмка общего меню и тест повреждённого файла остаются применимы к своим сценариям.",
             "blocker": null,
             "local_native_question_2026_11_01": {
               "state": "mac_ordinary_save_continue_school_route_observed_backup_matrix_open",
@@ -113933,7 +113933,9 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-025/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "AtomicSaveGameStore и RuntimeBridge. Перед ротацией читают прежний основной файл тем же способом, что Continue, включая подготовку вложенного состояния PhotoWorlds. Если запись непригодна, атомарно заменяют только основной файл. По результату ревью очередь охватывает всю запись в пределах хранилища, начиная до первой асинхронной операции с файлом. Существующий тест AtomicStore_UsesBackupWhenNewestPrimaryIsCorrupt подтвердил новое читаемое сохранение и побайтно прежний резерв. Итоговый тест прошёл на Mac, сборка игры без предупреждений и ошибок. Холодный Continue с несовместимой вложенной записью остаётся для защищённой проверки в игре."
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-025",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",

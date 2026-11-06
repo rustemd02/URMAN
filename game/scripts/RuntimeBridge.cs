@@ -237,7 +237,7 @@ public partial class RuntimeBridge : Node
                 return false;
             cancellationToken.ThrowIfCancellationRequested();
             var save = CaptureSessionSave(player);
-            await store.SaveAsync(slot, save, cancellationToken);
+            await store.SaveAsync(slot, save, cancellationToken, prepareForLoad: PreparePhotoWorldSave);
             saved = true;
             GD.Print($"SaveGameV3 written to {store.SlotPath(slot)}");
             return true;
