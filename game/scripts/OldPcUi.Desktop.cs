@@ -252,6 +252,7 @@ public partial class OldPcUi
     {
         _restoringDesktop = true;
         _desktopSession = bridge.SessionIdentity;
+        ClearFamilyReader();
         var snapshot = bridge.OldPcState();
         _desktop = snapshot.TryGetProperty("desktop", out var value)
             ? value.Deserialize<OldPcDesktopSnapshot>(OldPcDesktopSnapshot.JsonOptions) ?? new()
@@ -377,6 +378,7 @@ public partial class OldPcUi
         _desktop.Windows.Remove(window.State);
         if (_focusedWindow == id) _focusedWindow = _desktop.ActiveWindowId = null;
         if (id == "browser") { _browserVersion++; _browserExcerpts.Clear(); }
+        if (id == "files") ClearFamilyReader();
         if (id == "notepad")
         {
             _photoCaptionRequestVersion++;

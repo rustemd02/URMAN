@@ -120686,7 +120686,8 @@
             "remaining": [
               "13backSVG produced1800×1200 and Godot rendered; protected album view/authorart+language acceptance open.",
               "Other required fronts, S-GARDEN1800×1200final, all thumbnails и scene/identity alignment; full E02 остаётся открытым.",
-              "S-PRINT front/thumbnail produced and Mac imported; family folder source, copy and back-read semantic PASS both orders. Visual check of the open PC reader and acquired album card remains."
+              "S-PRINT front/thumbnail produced and Mac imported; family folder source, copy and back-read semantic PASS both orders. Visual check of the open PC reader and acquired album card remains.",
+              "P-COMMON: до выпуска фронта согласовать реальный первый кадр C00. В W04.tscn C00 направлен по +Z, а в W04Controller.Geometry.cs дальние лес, вода и дом находятся по −Z; первые построенные рамы стоят у C01–C03. Нужен согласованный игровой кадр с читаемым первым проёмом и частями трёх опор, затем один фронт/миниатюра для разрешённого файла, отпечатка и книги."
             ],
             "next_action": "Использовать принятые P-WATER и S-PRINT. Камера H00 соответствует паспорту, но для нового P-HOUSE сначала нужна читаемая композиция реальных яблони и стула в сцене. Пробный сдвиг стула закрыт торцами брёвен и оградой. После согласования планировки снять H00 и передать этот кадр в ImageGen. Остальные снимки и авторская приёмка открыты.",
             "blocker": null,
@@ -139752,6 +139753,13 @@
           "path": "game/scripts/OldPcUi.Apps.cs + game/tests/FullGameFlowSmokeTest.cs (ui-driven family folder)",
           "result": "Обычная оболочка «Мой компьютер» проведена нажатиями тех же виджетов, что у игрока: папка «Семейные снимки» (строка контактного листа), кнопка «Сохранить разрешённую копию контактного листа» (S-PRINT acquired+back-read), поиск имени с листа «общий» находит и открывает общий_кадр.jpg (common_marat_file_found, читалка видима), печать из блокнота «Напечатать подписанный снимок для книги» монтирует PAGE-COMMON. Smoke больше не диспатчит эти шаги семантическим диспатчером.",
           "verified": "sh eng/run-smoke-guarded.sh full_game_flow_smoke_test: exit=0, строка 'SEMANTIC PASS', события pw-contact-sheet-source/pw-contact-sheet-permission/pw-print-common-photo в обоих маршрутах, 'userdata guard: original files and permissions restored and verified'. Нативные кадры папки NOT_RUN."
+        },
+        {
+          "date": "2026-11-06",
+          "kind": "source-review-and-compile",
+          "path": "game/scripts/OldPcUi.Apps.cs + game/scripts/OldPcUi.Desktop.cs",
+          "result": "Семейный просмотрщик сбрасывает старый файл при восстановлении рабочего стола и закрытии окна. Обе панели требуют факт найденного источника; асинхронное чтение проверяет сеанс, папку и актуальный запрос. Повторное открытие уже найденного источника не повторяет сюжетное действие.",
+          "verified": "Сборка Mac 18,97 с, 0 предупреждений и ошибок. Сверены обычный поиск и оба условия источников. Загрузка более раннего слота с открытой семейной папкой ещё не проверена в игре."
         }
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-075",
@@ -139882,7 +139890,7 @@
         "Готово: S-PRINT → папка «Семейные снимки» → разрешённая копия листа → поиск имени с листа находит общий_кадр.jpg → собственная подпись → печать монтирует PAGE-COMMON; всё нажатиями обычных виджетов (guarded smoke PASS, см. evidence).",
         "Осталось: нативные кадры папки/поиска/печати (пока только headless-семантика и кадр подписи); татарский ввод проверен действием (языковой гейт PW-080); физический потребитель копии после принтера PW-042 и вклейка PW-015."
       ],
-      "next_action": "После authoritative e79 terminal/userdata restoration пройти текущую папку «Семейные снимки» → собственная подпись → печать в ПК → реальный лист принтера → явная вклейка в книгу → Save/Continue. Технический source этап PW-042.physical_print_mount_stage_2026_10_20 уже принят; обычный native потребитель/книга ещё не проверены. Не ждать заново производство существующего принтера и не считать procedure PW-042/S1 отдельной задачей.",
+      "next_action": "На свободном Mac пройти обычную цепочку: контактный лист → поиск файла → разрешение → собственная подпись → печать → лист → ручная вклейка → Save/Continue. Затем открыть заработанный более ранний слот и убедиться, что семейная папка не раскрывает ещё не найденный файл. Существующий принтер и прежний технический результат PW-042 переиспользовать.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
