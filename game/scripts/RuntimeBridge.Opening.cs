@@ -1,5 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Godot;
+using Urman.Core.Runtime;
 
 namespace Urman.Godot;
 
@@ -7,6 +9,41 @@ public partial class RuntimeBridge
 {
     internal const string OpeningStateId = "act1/opening";
     internal const string NivaLanguageDialogueId = "urman.chapter1:dialogue/prologue-niva-language";
+    private bool _prologueArrivalLoading;
+
+    private bool ShouldShowPrologueArrivalLoading(CompiledInteractionContent interaction) =>
+        interaction.SourceSceneId == Main.PrologueSceneId
+        && interaction.TargetSceneId == Main.NivaArrivalSceneId
+        && _content.HasPhotoWorlds && DisplayServer.GetName() != "headless"
+        && GetTree().GetFirstNodeInGroup("zone_manager") is Main { EnableFullGamePhotoWorldRouting: true };
+
+    private async Task<bool> DispatchPrologueArrivalAsync(CompiledInteractionContent interaction, RuntimeKernel session)
+    {
+        if (_prologueArrivalLoading || _loadPreparing || !IsInteractionAvailable(interaction.Id)
+            || FindPlayer() is not { SessionTransitionActive: false } player) return false;
+
+        _prologueArrivalLoading = true;
+        _loadingTimeSampleUsec = Time.GetTicksUsec();
+        player.SetSessionTransition(true);
+        LoadingScreenUi? loading = null;
+        try
+        {
+            loading = LoadingScreenUi.Show(this, "Едем в деревню", "Подготавливаем дорогу");
+            // The scene commit queues synchronous village construction. Give the cover a frame first.
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (!ReferenceEquals(session, SessionIdentity) || !CanPhysicallyUseInteraction(interaction.Id)) return false;
+            return await DispatchInteractionWithCheckpointAsync(interaction, session);
+        }
+        finally
+        {
+            if (loading is not null && GodotObject.IsInstanceValid(loading)) loading.Hide();
+            SampleLoadingTime();
+            _prologueArrivalLoading = false;
+            if (ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing && GodotObject.IsInstanceValid(player))
+                player.SetSessionTransition(NeedsPhysicalRecovery);
+        }
+    }
 
     internal bool HasNivaLanguageResponse => _kernel is { } session
         && session.SelectState().TryGetProperty("dialogueChoices", out var choices)

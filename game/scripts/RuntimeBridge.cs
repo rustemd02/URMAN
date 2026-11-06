@@ -127,7 +127,7 @@ public partial class RuntimeBridge : Node
     {
         var blocks = PlayTimeBlock.None;
         if (_kernel is null || FindPlayer() is null || NeedsPhysicalRecovery) blocks |= PlayTimeBlock.NotReady;
-        if (_loadingSlot || _loadPreparing || _photoVisitCompletion is not null) blocks |= PlayTimeBlock.Loading;
+        if (_loadingSlot || _loadPreparing || _photoVisitCompletion is not null || _prologueArrivalLoading) blocks |= PlayTimeBlock.Loading;
         var demo = GetParent()?.GetParent() as Act1DemoRoot;
         if (demo?.MainMenuVisible == true || (demo is null && HasActiveMainMenu()))
             blocks |= PlayTimeBlock.MainMenu;
@@ -143,7 +143,7 @@ public partial class RuntimeBridge : Node
 
     private void SampleLoadingTime()
     {
-        if (!_loadingSlot && !_loadPreparing && _photoVisitCompletion is null) return;
+        if (!_loadingSlot && !_loadPreparing && _photoVisitCompletion is null && !_prologueArrivalLoading) return;
         var now = Time.GetTicksUsec();
         _loadingSecondsSinceProcess += (now - _loadingTimeSampleUsec) / 1_000_000.0;
         _loadingTimeSampleUsec = now;
@@ -382,7 +382,7 @@ public partial class RuntimeBridge : Node
     private async Task<bool> StartSessionAsync(bool debugSession)
     {
         var player = FindPlayer();
-        if (_loadingSlot || _loadPreparing || _photoVisitCanceling || _content is null || player is null)
+        if (_loadingSlot || _loadPreparing || _photoVisitCanceling || _prologueArrivalLoading || _content is null || player is null)
         {
             GD.PushWarning("New game is unavailable before the runtime and player are ready.");
             return false;
@@ -469,7 +469,7 @@ public partial class RuntimeBridge : Node
     private async Task<bool> LoadFromStoreAsync(string slot, AtomicSaveGameStore? store, bool debugSession)
     {
         if (FindPlayer()?.InIntro == true) return false;
-        if (_loadingSlot || _loadPreparing || _photoVisitCanceling || store is null || FindPlayer() is not { } player)
+        if (_loadingSlot || _loadPreparing || _photoVisitCanceling || _prologueArrivalLoading || store is null || FindPlayer() is not { } player)
         {
             GD.PushWarning("Quick load is unavailable before the runtime and player are ready.");
             return false;
@@ -1081,35 +1081,42 @@ public partial class RuntimeBridge : Node
             if (_content.HasPhotoWorlds && PhotoVisitWorldForInteraction(interactionId) is not null
                 && GetTree().GetFirstNodeInGroup("zone_manager") is Main { EnableFullGamePhotoWorldRouting: true } main)
                 return await DispatchPhotoVisitInteractionAsync(interaction, main, session);
-            var sceneBeforeDispatch = ActiveSceneId;
-            var dispatched = await DispatchCompiledInteractionAsync(interaction);
-            if (dispatched && ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing)
-            {
-                var hasEffects = interaction.Effects.GetArrayLength() > 0;
-                var committedPhotoWorldSceneTransition = _content.HasPhotoWorlds
-                    && interaction.SourceSceneId.StartsWith("urman.fullgame:scene/pw-", StringComparison.Ordinal)
-                    && interaction.TargetSceneId is { } targetSceneId
-                    && targetSceneId.StartsWith("urman.fullgame:scene/pw-", StringComparison.Ordinal)
-                    && sceneBeforeDispatch is not null
-                    && ActiveSceneId == targetSceneId
-                    && ActiveSceneId != sceneBeforeDispatch;
-                var committedPhotoWorldAction = _content.HasPhotoWorlds
-                    && interaction.WorldLocations is null
-                    && interaction.TargetSceneId is null
-                    && sceneBeforeDispatch is not null
-                    && ActiveSceneId == sceneBeforeDispatch
-                    && hasEffects;
-                await SaveCheckpointAsync(force: committedPhotoWorldSceneTransition
-                    || (hasEffects
-                        && ((interaction.WorldLocations is not null || IsSourceExcerptAction(interaction.Id))
-                            || committedPhotoWorldAction)));
-            }
-
-            return dispatched;
+            if (ShouldShowPrologueArrivalLoading(interaction))
+                return await DispatchPrologueArrivalAsync(interaction, session);
+            return await DispatchInteractionWithCheckpointAsync(interaction, session);
         }
 
         GD.PushWarning($"Ignoring interaction that is not present in the compiled campaign: {interactionId}");
         return false;
+    }
+
+    private async Task<bool> DispatchInteractionWithCheckpointAsync(CompiledInteractionContent interaction, RuntimeKernel session)
+    {
+        var sceneBeforeDispatch = ActiveSceneId;
+        var dispatched = await DispatchCompiledInteractionAsync(interaction);
+        if (dispatched && ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing)
+        {
+            var hasEffects = interaction.Effects.GetArrayLength() > 0;
+            var committedPhotoWorldSceneTransition = _content.HasPhotoWorlds
+                && interaction.SourceSceneId.StartsWith("urman.fullgame:scene/pw-", StringComparison.Ordinal)
+                && interaction.TargetSceneId is { } targetSceneId
+                && targetSceneId.StartsWith("urman.fullgame:scene/pw-", StringComparison.Ordinal)
+                && sceneBeforeDispatch is not null
+                && ActiveSceneId == targetSceneId
+                && ActiveSceneId != sceneBeforeDispatch;
+            var committedPhotoWorldAction = _content.HasPhotoWorlds
+                && interaction.WorldLocations is null
+                && interaction.TargetSceneId is null
+                && sceneBeforeDispatch is not null
+                && ActiveSceneId == sceneBeforeDispatch
+                && hasEffects;
+            await SaveCheckpointAsync(force: committedPhotoWorldSceneTransition
+                || (hasEffects
+                    && ((interaction.WorldLocations is not null || IsSourceExcerptAction(interaction.Id))
+                        || committedPhotoWorldAction)));
+        }
+
+        return dispatched;
     }
 
     internal async Task<bool> SaveCheckpointAsync(bool force = false, CancellationToken cancellationToken = default)
