@@ -45,6 +45,14 @@ light_energy = 1.08
 shadow_enabled = true
 shadow_opacity = 0.68
 
+[node name="PrologueClearingMoonlight" type="OmniLight3D" parent="."]
+position = Vector3(75, 13, 143)
+visible = false
+light_color = Color(0.66, 0.74, 0.87, 1)
+light_energy = 0.38
+omni_range = 22.0
+omni_attenuation = 1.2
+
 [node name="Anchors" type="Node3D" parent="."]
 
 [node name="F00" type="Marker3D" parent="Anchors"]
@@ -125,16 +133,18 @@ layer = 12
 [node name="SkipButton" type="Button" parent="PrologueUI"]
 layout_mode = 0
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
-offset_left = -560.0
-offset_top = 24.0
+anchor_bottom = 1.0
+offset_left = -304.0
+offset_top = -80.0
 offset_right = -24.0
-offset_bottom = 80.0
+offset_bottom = -24.0
 custom_minimum_size = Vector2(280, 56)
 focus_mode = 2
 visible = false
 disabled = true
-text = "Пропустить лесной пролог и выйти из Нивы у дома"
+text = "Пропустить лесной пролог"
 
 [node name="F01" type="Marker3D" parent="Anchors"]
 position = Vector3(12, 1, 50)

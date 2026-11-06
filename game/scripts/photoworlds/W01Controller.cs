@@ -2178,11 +2178,11 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var hintWidth = Mathf.Clamp(viewport.X * .42f, 280f, 560f);
         var height = Mathf.Max(56f, 52f * (float)_accessibility.TextScale);
         button.AnchorLeft = button.AnchorRight = 1f;
-        button.AnchorTop = button.AnchorBottom = 0f;
+        button.AnchorTop = button.AnchorBottom = 1f;
         button.OffsetLeft = -width - 24f;
         button.OffsetRight = -24f;
-        button.OffsetTop = 24f;
-        button.OffsetBottom = 24f + height;
+        button.OffsetTop = -24f - height;
+        button.OffsetBottom = -24f;
         button.CustomMinimumSize = new Vector2(width, height);
         if (_prologueHintPanel is { } hintPanel && GodotObject.IsInstanceValid(hintPanel))
         {
@@ -2190,7 +2190,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             hintPanel.AnchorTop = hintPanel.AnchorBottom = 0f;
             hintPanel.OffsetLeft = -hintWidth - 24f;
             hintPanel.OffsetRight = -24f;
-            hintPanel.OffsetTop = button.OffsetBottom + 12f;
+            hintPanel.OffsetTop = 24f;
             hintPanel.OffsetBottom = hintPanel.OffsetTop + Mathf.Max(152f, 152f * (float)_accessibility.TextScale);
         }
     }
