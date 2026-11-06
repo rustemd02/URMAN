@@ -29,6 +29,10 @@ window/stretch/mode="canvas_items"
 
 project/assembly_name="Urman.Game"
 
+[editor]
+
+import/use_multiple_threads.macos=false
+
 [gui]
 
 theme/custom_font="res://assets/fonts/PT_Sans-Web-Regular.ttf"

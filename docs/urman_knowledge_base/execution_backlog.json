@@ -150075,6 +150075,11 @@
         "cleanup": "8 raw logs/selectedscreens packed365281B; all member bytes compared then710597B loose logs/screens removed, old comparison pack removed;564930362B stopped owned import/shader/build caches removed. Temp override and Blender render removed. No screenshots/videos/archive added to Git.",
         "remaining": "Full ordinary earned W01 cycle, Continue and release target performance/art remain unverified. Measured synchronous scene build stages30.565s; repeated zero-work snow logs do not prove reconstruction hotspot."
       },
+      "mac_import_configuration_2026_11_06": {
+        "source": "game/project.godot — editor/import/use_multiple_threads.macos=false",
+        "result": "После очистки кэша импорт повторно падал в рабочем потоке Godot 4.7.1 при импорте шрифтов. Последовательный импорт завершился с кодом 0, после него обычная игра дошла до готового меню. Успешный последовательный импорт также зафиксирован в mac_import_native_2026_10_23_arrival.",
+        "verification": "Сверены macos feature tag и чтение параметра через GLOBAL_GET/get_setting_with_override в исходнике закреплённой версии Godot a13da4feb. Настройка применяется к импорту в редакторе на macOS. Штатный холодный импорт с записанной настройкой проверить при следующей необходимой сборке из пустого кэша. Открытую игровую сессию и рабочий кэш сохранили."
+      },
       "arrival_continue_native_2026_10_23": {
         "state": "two_process_guarded_acceptance_partial_release_open",
         "verification": "Source unchangede25f5b6f; necessary affected Game17.49s0warnings/0errors after previously removed cache. Existing controlled single-thread editor import exit0, temporary override exact-byte removed before native; default runtime settings/VPN unchanged. Two native processes: first pauseQuit confirmed, second appQuit; wrapper/guard exit0, restored originals+permissions verified. Native engine ERROR count0; existing Painterly warnings and late7TextureRID shutdown warning retained raw, no zero-warning claim.",
