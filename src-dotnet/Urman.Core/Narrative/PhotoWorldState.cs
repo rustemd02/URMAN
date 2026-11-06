@@ -72,7 +72,7 @@ public static class PhotoWorldState
         "W01" => safeNodeId is "F10" or "F11",
         "W02" => safeNodeId is "R00" or "R01",
         "W03" => safeNodeId is "H00" or "H05",
-        "W04" => safeNodeId is "C00" or "C03",
+        "W04" => safeNodeId is "C00" or "C03" or "C05",
         "W05" => safeNodeId is "B00" or "B01",
         _ => false
     };
@@ -137,15 +137,26 @@ public static class PhotoWorldState
     {
         if (!TryGetVisitRoute(worldId, out _, out safeNodeId)) return false;
         if (IsWorldCompleted(state, worldId)) return true;
-        if (!World(state).GetProperty("worlds").TryGetProperty(worldId, out var savedWorld)) return true;
-        var savedSafeNodeId = NullableString(savedWorld, "safeNodeId");
-        if (savedSafeNodeId is null) return true;
-        if (!IsVisitSafeNode(worldId, savedSafeNodeId))
+        var reachedNode = World(state).GetProperty("worlds").TryGetProperty(worldId, out var savedWorld)
+            ? NullableString(savedWorld, "safeNodeId") ?? safeNodeId : safeNodeId;
+        return TryGetVisitResumeNode(state, worldId, reachedNode, out safeNodeId);
+    }
+
+    /// <summary>Resolves a fallback from confirmed observations; the player still needs valid physical support there.</summary>
+    public static bool TryGetVisitResumeNode(JsonElement state, string worldId, string reachedNode, out string safeNodeId)
+    {
+        if (!IsVisitSafeNode(worldId, reachedNode))
         {
             safeNodeId = string.Empty;
             return false;
         }
-        safeNodeId = savedSafeNodeId;
+        safeNodeId = reachedNode;
+        if (worldId != "W04") return true;
+        // Both W04 facts are earned from their physical stances. Missing the
+        // separate stopped-player poll must not send a finished view back to C00.
+        var world = World(state);
+        if (HasFact(world, "common_horizon_seen")) safeNodeId = "C05";
+        else if (reachedNode == "C00" && HasFact(world, "common_three_relations_seen")) safeNodeId = "C03";
         return true;
     }
 

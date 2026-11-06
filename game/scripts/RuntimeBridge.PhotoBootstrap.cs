@@ -207,7 +207,8 @@ public partial class RuntimeBridge
             if (!PhotoWorldState.TryGetVisitRoute(candidateWorld, out var candidateScene, out var entryNode)
                 || candidateScene != sceneId) continue;
             entryNodeId = entryNode;
-            var visit = session.SelectState().GetProperty("photoworlds").GetProperty("visits").GetProperty("active");
+            var state = session.SelectState();
+            var visit = state.GetProperty("photoworlds").GetProperty("visits").GetProperty("active");
             if (visit.ValueKind == System.Text.Json.JsonValueKind.Object)
             {
                 if (visit.GetProperty("worldId").GetString() != candidateWorld
@@ -216,7 +217,12 @@ public partial class RuntimeBridge
                     || !PhotoWorldState.IsVisitSafeNode(candidateWorld, node)) return false;
                 worldId = candidateWorld;
                 safeNodeId = node;
-                return true;
+                // A calm revisit keeps the reached point of this visit. A
+                // first story visit can use its earned fallback even after C07.
+                return candidateWorld != "W04"
+                    || visit.TryGetProperty("worldCompletedOnEntry", out var completedOnEntry)
+                        && completedOnEntry.ValueKind == System.Text.Json.JsonValueKind.True
+                    || PhotoWorldState.TryGetVisitResumeNode(state, candidateWorld, node, out safeNodeId);
             }
             // Schema-1 and legacy photo saves have no visit ticket. Their
             // explicit authored entry is the only supported fallback.

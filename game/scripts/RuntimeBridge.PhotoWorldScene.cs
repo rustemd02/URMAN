@@ -55,17 +55,17 @@ public partial class RuntimeBridge
         if (_photoSafeNodeObservationPending || ActivePhotoVisit() is not { } visit
             || visit.GetProperty("status").GetString() != "active") return;
         var worldId = visit.GetProperty("worldId").GetString();
+        var reachedNode = visit.GetProperty("safeNodeId").GetString();
         var safeNodeId = worldId switch
         {
             "W01" => "F11",
             "W02" => "R01",
             "W03" => "H05",
-            "W04" => "C03",
+            "W04" when reachedNode != "C05" => "C03",
             "W05" => "B01",
             _ => null
         };
-        if (worldId is not null && safeNodeId is not null
-            && visit.GetProperty("safeNodeId").GetString() != safeNodeId)
+        if (worldId is not null && safeNodeId is not null && reachedNode != safeNodeId)
             _ = ObservePhotoSafeNodeAsync(worldId, safeNodeId);
     }
 
