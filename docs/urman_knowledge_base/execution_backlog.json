@@ -125936,6 +125936,12 @@
         "result": "Маркер и пересечение F16 используют общую с полосой ширину. Срабатывание ждёт шаг наружу на опоре после завершения квеста и не начинает переход во время загрузки.",
         "verification": "Сборка Mac 17,85 с, 0 предупреждений и ошибок. Геометрия F15→F16 и поворот плоскости 38,9909° сверены по исходникам; проверены смещения ±0,95 м в пределах тропы. В обычном защищённом проходе проверить выход рядом с краем тропы и появление домашней задачи на опушке."
       },
+      "family_photo_reveal_after_return_2026_11_06": {
+        "finding": "После записи рассказа о лесе каждый RuntimeStateChanged во время выдвижения семейного снимка запускал ещё одну анимацию поверх действующей. Та же проблема была у снимка мостков, крышки семейной коробки и снимка сеней.",
+        "result": "На одно изменение положения запускается одна анимация; новая цель отменяет прежнюю. При загрузке или за пределами дома реквизит сразу принимает положение из сохранённых фактов. Домашняя проекция читает книгу один раз за обновление вместо шести.",
+        "sources": ["game/scripts/WaterChainHomePresence.cs"],
+        "verification": "Сборка Mac 20,43 с, 0 предупреждений и ошибок. Сверены четыре владельца движения и их сохранённые условия. В обычном проходе после D14 увидеть одно выдвижение снимка, осмотреть конверт, после Continue увидеть уже открытый снимок. Визуальная проверка ещё открыта."
+      },
       "passage_observation_2026_10_18": {
         "result": "DELIVERED_SOURCE: swept physical F12→F13 arms observation only; leaving exit-plane plus all3 actual F13 trunk shapes framed/clear awards existing forest_beyond_frame_seen. Reverse crossing disarms. Grounded/current-camera/exactbridge/session/modal/generation guards; failed same-pose retry suppressed. Entry cue plus existing path hint explain look-back. Traversal retains transformed momentum/view/stance while resetting old step/foot/focus history.",
         "sources": [

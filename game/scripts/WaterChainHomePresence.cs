@@ -40,7 +40,11 @@ internal partial class WaterChainHomePresence : Node3D
     internal float CellarPhotoOutLocalZ = .17f;
 
     private RuntimeBridge? _bridge;
-    private bool _appliedOnce;
+    private object? _projectedSession;
+    private (float Goal, Tween? Tween)? _waterPrintMotion;
+    private (float Goal, Tween? Tween)? _housePrintMotion;
+    private (float Goal, Tween? Tween)? _familyLidMotion;
+    private (float Goal, Tween? Tween)? _cellarCardMotion;
     private InteractionTarget? _housePhotoEntryTarget;
     private InteractionTarget? _forestPhotoEntryTarget;
 
@@ -90,25 +94,26 @@ internal partial class WaterChainHomePresence : Node3D
         var bookReceived = bridge.CanInspectReceivedPhotoBook;
         var told = bridge.PhotoWorldFactObserved("home_water_place_told");
         var found = bridge.PhotoWorldFactObserved("water_photo_found");
-        var water = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-WATER");
+        var photos = bridge.PhotoBookPhotos();
+        var water = photos.FirstOrDefault(photo => photo.PhotoId == "P-WATER");
         var acquired = water is not null;
         var mountedAndRead = water is { Mounted: true, BackRead: true };
         var fileFound = bridge.PhotoWorldFactObserved("common_marat_file_found");
-        var commonAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-COMMON");
+        var commonAcquired = photos.Any(photo => photo.PhotoId == "P-COMMON");
         var firstHomeTalk = bridge.PhotoWorldFactObserved("first_world_home_talk");
         var housePrintFound = bridge.PhotoWorldFactObserved("house_print_found");
-        var housePhoto = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-HOUSE");
+        var housePhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-HOUSE");
         var houseAcquired = housePhoto is not null;
-        var handAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-HAND");
+        var handAcquired = photos.Any(photo => photo.PhotoId == "S-HAND");
         var cellarFound = bridge.PhotoWorldFactObserved("cellar_photo_found");
-        var cellarAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-CELLAR");
+        var cellarAcquired = photos.Any(photo => photo.PhotoId == "P-CELLAR");
         var familyBoxOpened = bridge.PhotoWorldFactObserved("family_box_opened");
         const string photographerSourceId = "urman.fullgame:interaction/pw-photographer-photo-source";
         const string photographerPermissionId = "urman.fullgame:interaction/pw-photographer-photo-permission";
         const string photographerVerifyId = "urman.fullgame:interaction/pw-verify-photographer-evidence";
         var homeActive = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home";
         var photographerFound = bridge.PhotoWorldFactObserved("photographer_copy_found");
-        var photographerPhoto = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "S-PHOTOGRAPHER");
+        var photographerPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "S-PHOTOGRAPHER");
         var photographerAcquired = photographerPhoto is not null;
         var photographerCaptionRead = photographerPhoto is { BackRead: true };
         var photographerAuthorConversation = bridge.PhotoWorldFactObserved("golsina_author_conversation");
@@ -252,48 +257,23 @@ internal partial class WaterChainHomePresence : Node3D
             houseEnvelope.Visible = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home"
                 && bookReceived && firstHomeTalk;
 
+        var projectionSession = bridge.SessionIdentity;
+        var animate = homeActive && bridge.CurrentZoneId == "house_old_pc"
+            && !bridge.IsPhotoBookProjectionDeferred && projectionSession is not null
+            && ReferenceEquals(projectionSession, _projectedSession);
+        _projectedSession = projectionSession;
+
         if (Print is { } print)
-        {
-            var goal = found ? PrintOutLocalZ : PrintInLocalZ;
-            if (!_appliedOnce || Mathf.IsEqualApprox(print.Position.Z, goal))
-            {
-                print.Position = new Vector3(print.Position.X, print.Position.Y, goal);
-            }
-            else
-            {
-                var tween = CreateTween();
-                tween.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
-                tween.TweenProperty(print, "position:z", goal, .9f);
-            }
-        }
+            ProjectMotion(print, "position:z", print.Position.Z, found ? PrintOutLocalZ : PrintInLocalZ,
+                .9, animate, ref _waterPrintMotion);
 
         if (HousePhotoPrint is { } housePrint)
-        {
-            var goal = firstHomeTalk ? PrintOutLocalZ : PrintInLocalZ;
-            if (!_appliedOnce || Mathf.IsEqualApprox(housePrint.Position.Z, goal))
-            {
-                housePrint.Position = new Vector3(housePrint.Position.X, housePrint.Position.Y, goal);
-            }
-            else
-            {
-                var tween = CreateTween();
-                tween.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
-                tween.TweenProperty(housePrint, "position:z", goal, .9f);
-            }
-        }
+            ProjectMotion(housePrint, "position:z", housePrint.Position.Z, firstHomeTalk ? PrintOutLocalZ : PrintInLocalZ,
+                .9, animate, ref _housePrintMotion);
 
         if (FamilyBoxLid is { } familyLid)
-        {
-            var goal = familyBoxOpened || photographerFound ? -105f : 0f;
-            if (!_appliedOnce || Mathf.IsEqualApprox(familyLid.RotationDegrees.X, goal))
-                familyLid.RotationDegrees = new Vector3(goal, familyLid.RotationDegrees.Y, familyLid.RotationDegrees.Z);
-            else
-            {
-                var tween = CreateTween();
-                tween.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
-                tween.TweenProperty(familyLid, "rotation_degrees:x", goal, .7f);
-            }
-        }
+            ProjectMotion(familyLid, "rotation_degrees:x", familyLid.RotationDegrees.X,
+                familyBoxOpened || photographerFound ? -105f : 0f, .7, animate, ref _familyLidMotion);
 
         if (HandPhotoCard is { } handCard)
             handCard.Visible = cellarHomeActive && handAcquired;
@@ -301,15 +281,8 @@ internal partial class WaterChainHomePresence : Node3D
         if (CellarPhotoCard is { } cellarCard)
         {
             cellarCard.Visible = cellarHomeActive && handAcquired;
-            var goal = cellarFound || cellarAcquired ? CellarPhotoOutLocalZ : CellarPhotoInLocalZ;
-            if (!_appliedOnce || Mathf.IsEqualApprox(cellarCard.Position.Z, goal))
-                cellarCard.Position = new Vector3(cellarCard.Position.X, cellarCard.Position.Y, goal);
-            else
-            {
-                var tween = CreateTween();
-                tween.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
-                tween.TweenProperty(cellarCard, "position:z", goal, .9f);
-            }
+            ProjectMotion(cellarCard, "position:z", cellarCard.Position.Z,
+                cellarFound || cellarAcquired ? CellarPhotoOutLocalZ : CellarPhotoInLocalZ, .9, animate, ref _cellarCardMotion);
         }
 
         if (PhotographerPhotoCard is { } photographerCard)
@@ -318,8 +291,24 @@ internal partial class WaterChainHomePresence : Node3D
             if (photographerCard.GetNodeOrNull<MeshInstance3D>("PhotoBack") is { } photographerBack)
                 photographerBack.Visible = photographerCaptionRead;
         }
+    }
 
-        _appliedOnce = true;
+    private void ProjectMotion(Node3D prop, string property, float current, float goal, double seconds,
+        bool animate, ref (float Goal, Tween? Tween)? motion)
+    {
+        var atGoal = Mathf.IsEqualApprox(current, goal);
+        if (motion is { } previous && previous.Goal == goal && (animate || atGoal)) return;
+        motion?.Tween?.Kill();
+        if (!animate || atGoal)
+        {
+            prop.SetIndexed(property, goal);
+            motion = (goal, null);
+            return;
+        }
+
+        var tween = CreateTween().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
+        tween.TweenProperty(prop, property, goal, seconds);
+        motion = (goal, tween);
     }
 
     public override void _ExitTree()
