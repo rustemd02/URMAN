@@ -146155,6 +146155,15 @@
         "verification": "Independent Astra source review of both producers, sole consumer, mutable road axes and Studio reload/rollback; affected Game build 0 warnings/errors. No native output comparison or timing measurement.",
         "remaining": "Measure representative protected world build and user-visible loading on target Windows only when a relevant run is possible; no time saved claimed."
       },
+      "road_profile_sampling_2026_11_06": {
+        "state": "изменение собрано, парный headless-замер Mac выполнен",
+        "source": "game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs",
+        "result": "Запрос расстояния и ширины дороги не считает снежный рельеф. В полном запросе границы колеи считаются один раз на ось, гребень — один раз для ближайшей дороги. Формула, порядок обхода и выбор при равном расстоянии сохранены; Luna отдельно сверил путь Studio и откат осей.",
+        "verification": "Исходный 625d21d2 и изменённый источник, один защищённый act1_demo_performance_smoke_test на каждый, Mac arm64, headless, Medium. Сборка 15,43 с, 0 предупреждений и ошибок. Оба запуска exit 0, журналы без ERROR/SCRIPT ERROR, guard проверил восстановление оригиналов. Ядро 15,216 → 10,540 с, деревья 3,302 → 2,950 с. Строки метрик леса, оград и снежной геометрии совпали. Причина различия общего количества узлов 89870 → 89860 неизвестна. Пробный перенос преобразований вершин дал 3,302 → 3,270 с и убран.",
+        "remaining": "Подтвердить длительность обычного возврата из снимка под Metal. Одиночная headless-пара не подтверждает FPS, время возврата целиком или бюджеты релиза.",
+        "archive": "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-road-build-2026-11-06.zip",
+        "archive_sha256": "96e9d5269b6614ba16a2e513e50d68c0ce90716720417bb914f56413dc38ba20"
+      },
       "first_village_build_2026_10_29": {
         "state": "measured_cause_not_yet_isolated",
         "evidence": [
