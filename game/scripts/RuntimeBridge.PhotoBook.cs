@@ -33,6 +33,27 @@ public partial class RuntimeBridge
             ? catalog.RequireWorld(worldId).PhotoId
             : null;
 
+    internal string? PhotoBookReturnDestination()
+    {
+        if (CurrentPhotoBookReturnInteractionId is not { } interactionId
+            || PhotoVisitWorldForInteraction(interactionId) is not { } worldId
+            || ActivePhotoVisit() is not { } visit || visit.GetProperty("worldId").GetString() != worldId
+            || visit.GetProperty("returnTicket") is not { ValueKind: JsonValueKind.Object } ticket)
+            return null;
+
+        // Completing a world changes the next visit's origin, not this visit's ticket.
+        return ticket.GetProperty("originAnchorId").GetString() switch
+        {
+            "PW_FOREST_ENTRY" => "на опушку у трёх стволов",
+            "PW_RIVER_ENTRY" => "на берег к старым мосткам",
+            "PW_HOME_PHOTO_ENTRY" => "во двор семейного дома",
+            "PW_COMMON_ENTRY" => "на берег к месту общего снимка",
+            "PW_CELLAR_ENTRY" => "к двери сухих сеней",
+            "PW_HOME_TABLE" => "к столу в семейном доме",
+            _ => null
+        };
+    }
+
     private string? CurrentPhotoBookReturnInteractionId => ActiveSceneId switch
     {
         "urman.fullgame:scene/pw-forest" => PhotoBookForestReturnInteractionId,

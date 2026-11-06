@@ -109517,7 +109517,12 @@
         "Обычное использование книги/вклейки/сравнения и сохранённое продолжение текущего first episode ещё не приняты.",
         "The ordinary journal shortcut opens the current acquired print during W01–W05; return remains a separate confirmed action. Mac compile and compiled catalog cross-check passed. Actual shortcut, close/cancel, return and restored book state remain open."
       ],
-      "next_action": "В обычной сессии Mac после школы открыть текущий снимок из W01 кнопкой книги, увидеть выход и вернуться к прохождению. Завершить W01 обычным выходом F16, проверить семейную запись и Save/Continue. В уже нужной сессии отдельного мира проверить подтверждение раннего выхода и возвращение на заработанный прогресс.",
+      "next_action": "В обычной сессии Mac после школы открыть текущий снимок из W01 кнопкой книги, увидеть, что подтверждение выхода называет опушку, и отменить выход. Завершить W01 обычным выходом F16, проверить семейную запись и Save/Continue. В уже нужной сессии отдельного мира подтвердить ранний выход, сверить показанное место с фактическим возвратом и вернуться на заработанный прогресс.",
+      "book_return_destination_2026_11_06": {
+        "result": "Подтверждение выхода в книге показывает место возвращения из билета текущего визита. Первый W01 возвращает на опушку, завершённый повторный визит из дома — к столу. Остальные четыре входа показывают свои места. Для прежнего сохранения без активного билета остаётся нейтральный вопрос.",
+        "sources": ["game/scripts/JournalUi.PhotoBook.cs", "game/scripts/RuntimeBridge.PhotoBook.cs"],
+        "verification": "Сборка Mac 20,34 с, 0 предупреждений и ошибок. Все шесть подписей сопоставлены с TryGetPhotoReturnOrigin и политикой билета. Подтверждение, отмена и фактическое возвращение ждут обычной игровой проверки. Сохранения не затронуты."
+      },
       "blocker": {
         "reason": "Old missing-uuid source defect identified and fixed by peer; root official UI2 endpoint still unverified. Configured root loopback proxy127.0.0.1:1055 currently refuses connection, so raw receipt fetch/official capture-current cannot be completed here. Clean delivered x11 viewport accepted only for its visible UI.",
         "release_condition": "Configured existing local proxy becomes reachable; station owner releases/coordinates a current protected run and current deployed worker SHA is confirmed. Get one official scoped capture-current receipt/PNG on that owned run, preserving guards. No repeated old502 or rawprobe bypass/new daemon/config changes.",

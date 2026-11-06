@@ -226,7 +226,6 @@ public partial class JournalUi
         _photoBookReturnConfirmation = new Label
         {
             Name = "ReturnConfirmation",
-            Text = "Найденное сохранится. Выйти из снимка?",
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             Visible = false
         };
@@ -1101,6 +1100,10 @@ public partial class JournalUi
             _photoBookReturnBridge = bridge;
             _photoBookReturnSession = session;
             _photoBookReturnSourceScene = bridge.ActiveSceneId;
+            var destination = bridge.PhotoBookReturnDestination();
+            _photoBookReturnConfirmation.Text = destination is null
+                ? "Выйти из снимка? Найденное сохранится."
+                : $"Выйти из снимка и вернуться {destination}? Найденное сохранится.";
             _photoBookReturnConfirmation.Visible = true;
             _photoBookReturnCancel.Visible = true;
             _photoBookActionStatus.Text = string.Empty;
