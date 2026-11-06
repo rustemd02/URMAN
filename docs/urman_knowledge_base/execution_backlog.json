@@ -125362,7 +125362,8 @@
         "evidence/PW-043/ordinary_7df64b43af054e0981f1166ed98f2a92.zip",
         "evidence/PW-043/ordinary_cb15f14baf8e4f62857487c8d8d9fde5/receipt.json",
         "evidence/PW-043/ordinary_cb15f14baf8e4f62857487c8d8d9fde5.zip",
-        "/Users/unterlantas/.codex/local_asset_archive/URMAN-home-c857b81d-2026-10-29/result.zip"
+        "/Users/unterlantas/.codex/local_asset_archive/URMAN-home-c857b81d-2026-10-29/result.zip",
+        "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-school-capture-unavailable-2026-11-06.zip SHA256 81b129be4a2d46ed4ce0d226edf08d6cc416ff2ec1ddff923774a39167c9a93b"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-046",
       "source_requirements": [
@@ -125587,7 +125588,7 @@
       "assigned_owner": "gameplay",
       "activity": {
         "state": "not_active",
-        "reason": "06.11 Codex resumed the author-requested Mac-only delivery. Prior Luna native lease ended; current protected ordinary session also completed with normal Quit and verified restoration."
+        "reason": "06.11 исходники cb308e7d в обычном окне Mac подтвердили bootstrap F00. Снимок окна недоступен для текущего процесса из-за разрешения Screen Recording. Защищённый запуск остановлен до Continue, guard подтвердил восстановление; тестовый quick seq172 сохранён."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -125597,7 +125598,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Continue the earned Mac school-corridor quick save seq172. Verify staff room → original → permission → copy and ordinary W01 entry/action/return/home. CUA keyboard and window capture worked; captured mouse drag/click returned noWindowsAvailable. A bounded v3 controller was proven 05.11 and its use in this Codex session awaits explicit author instruction. Do not replay the accepted entrance or infer physical acceptance from semantic smoke.",
+      "next_action": "Когда подтверждён доступ к кадрам и повороту камеры в обычном окне Mac, продолжить quick seq172 из школьного коридора: учительская, оригинал, разрешение, копия, W01 и возвращение домой. Последний запуск подтвердил bootstrap F00, но остановлен до Continue: у текущего процесса нет Screen Recording. Не повторять такой же запуск до изменения этого условия.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
