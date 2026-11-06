@@ -253,7 +253,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _saveButton.Pressed += () => _ = SaveAsync();
         layout.AddChild(_saveButton);
 
-        _loadButton = ShellButton("LoadButton", "Загрузить");
+        _loadButton = ShellButton("LoadButton", "Загрузить последнее сохранение");
         _loadButton.Pressed += () => _ = LoadAsync();
         layout.AddChild(_loadButton);
 
@@ -327,13 +327,24 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         try
         {
             var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
-            if (bridge is null || !bridge.HasLoadableSlot(ContinueSlot))
+            if (bridge is null)
             {
                 SetStatus("Загрузка недоступна.");
                 return;
             }
 
-            if (await bridge.LoadSlotAsync(ContinueSlot))
+            var session = bridge.SessionIdentity;
+            var candidate = await bridge.FindSessionContinueAsync();
+            if (!_open || _shutdownRequested || !ReferenceEquals(session, bridge.SessionIdentity)
+                || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true })
+                return;
+            if (candidate is null)
+            {
+                SetStatus("Нет подходящего сохранения.");
+                return;
+            }
+
+            if (await bridge.LoadSlotAsync(candidate.Value.Slot))
             {
                 Resume();
             }

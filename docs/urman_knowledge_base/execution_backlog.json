@@ -25890,6 +25890,7 @@
             "evidence": [
               "evidence/FINISH-06/menu-session-20261020/game-build-final.log",
               "game/scripts/RuntimeBridge.cs",
+              "game/scripts/PauseMenuUi.cs — загрузка из паузы использует тот же выбор совместимого ручного сейва или автосохранения, что и Continue. Пауза ищет только в хранилище текущей сессии, главное меню — в хранилище игрока. 06.11 изолированная сборка Mac 19,42 с, 0 ошибок и предупреждений, SHA256 DLL открытой игры совпал.",
               "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-profile-bootstrap-and-continue-label-2026-11-06.zip SHA256 4512d9cc5dd389f317f7a4189c215a8bd7cf7bbc05c33b0c213a9d516fae25bd"
             ],
             "assigned_owner": "finished-act1",
@@ -25904,7 +25905,8 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "Общий путь Continue на Mac подтвердил выбор свежего слота, резерв и отказ без записи. Для текущего photoworlds-v1 отдельно остаётся нативный случай, где primary имеет неизвестную вложенную версию состояния, а backup пригоден.",
-              "Continue description now resolves the authored prologue, Niva and W01–W05 title from the selected snapshot scene instead of its preserved village return zone. Mac compile and all seven current compiled text IDs verified. Ordinary display and nested incompatible-primary fallback remain open."
+              "Continue description now resolves the authored prologue, Niva and W01–W05 title from the selected snapshot scene instead of its preserved village return zone. Mac compile and all seven current compiled text IDs verified. Ordinary display and nested incompatible-primary fallback remain open.",
+              "В следующей защищённой сессии Mac после сюжетного автосохранения, до первого ручного сейва, выбрать «Загрузить последнее сохранение» из паузы. Сверить позицию и цель. Отдельно сверить выбор более свежего совместимого ручного сейва после его записи."
             ],
             "next_action": "В подходящем защищённом сценарии проверить холодный Continue из резерва при несовместимой вложенной записи PhotoWorlds. После штатного сохранения сверить новый основной файл и неизменность исправной резервной копии. Предыдущая приёмка общего меню и тест повреждённого файла остаются применимы к своим сценариям.",
             "blocker": null,

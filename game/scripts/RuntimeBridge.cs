@@ -309,18 +309,22 @@ public partial class RuntimeBridge : Node
     /// </summary>
     public bool HasLoadableSlot(string slot) => IsSlotAvailable(slot);
 
-    public async Task<(string Slot, string Description)?> FindContinueAsync()
+    public Task<(string Slot, string Description)?> FindContinueAsync() => FindContinueAsync(_saveStore);
+
+    internal Task<(string Slot, string Description)?> FindSessionContinueAsync() => FindContinueAsync(SessionSaveStore);
+
+    private async Task<(string Slot, string Description)?> FindContinueAsync(AtomicSaveGameStore? store)
     {
-        if (_saveStore is null) return null;
+        if (store is null) return null;
         (string Slot, string Description)? newest = null;
         var latestTime = DateTime.MinValue;
         foreach (var slot in new[] { "quick", CheckpointSlot })
         {
             try
             {
-                var loaded = await _saveStore.LoadAsync(slot, _content.CampaignFingerprint,
+                var loaded = await store.LoadAsync(slot, _content.CampaignFingerprint,
                     prepareForLoad: PreparePhotoWorldSave);
-                var path = loaded.RecoveredFromBackup ? _saveStore.BackupPath(slot) : _saveStore.SlotPath(slot);
+                var path = loaded.RecoveredFromBackup ? store.BackupPath(slot) : store.SlotPath(slot);
                 var time = File.GetLastWriteTimeUtc(path);
                 if (time < latestTime) continue;
                 latestTime = time;
