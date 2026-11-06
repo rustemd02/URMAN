@@ -439,7 +439,7 @@ internal partial class ArrivalPersonalProps : Node3D
             * new Vector3(0f, .06f, presence.PrintOutLocalZ);
         house.MakeInteractionBox("HousePhotoEntryTarget", new(.30f, .16f, .26f),
             entryTargetPosition, "8fa694", "urman.fullgame:interaction/pw-enter-house",
-            "Войти в знакомый двор со снимка", rayOnly: true);
+            "Открыть снимок двора", rayOnly: true);
 
         var source = house.MakeInteractionBox("HousePhotoSourceTarget", new(.26f, .14f, .24f),
             envelopePosition + Vector3.Up * .06f, "cfc4a8",
@@ -702,7 +702,7 @@ internal partial class ArrivalPersonalProps : Node3D
         var entryPosition = things.Transform * printer.Transform * new Vector3(0f, .08f, .215f);
         var entry = house.MakeInteractionBox("CommonPhotoEntryTarget", new(.22f, .14f, .18f),
             entryPosition, "8fa694", "urman.fullgame:interaction/pw-enter-common",
-            "Войти в общий кадр с распечатанного снимка", rayOnly: true);
+            "Открыть общий кадр", rayOnly: true);
         entry.SetPresentationEnabled(false);
 
         printer.AddChild(new HomePrinterPresence

@@ -111424,6 +111424,12 @@
         "verification": "Independent source async/physical/narrative review no finding; affected game compile PASS15.34s0/0. Ordinary native transition and720p layout not yet verified.",
         "layout": "Root found original bottom-of-page placement would hide primary action under230pxfront+200pxback at720p; identical Enter+hint block moved directly below title/placement, before images. Source layout inspection+diffcheck; native720p remains pending."
       },
+      "physical_anchor_opens_book_2026_11_06": {
+        "finding": "Подсказка у физического ориентира называла открытие снимка, но E передавал pw-enter-* напрямую и обходил подтверждение на развороте.",
+        "result": "Кнопка взаимодействия у готового ориентира открывает соответствующий приобретённый снимок по каталогу. Доступная кнопка входа получает фокус. Смена сцены происходит после отдельного подтверждения в книге с существующими проверками позы, контекста и билета.",
+        "sources": ["game/scripts/InteractionTarget.cs", "game/scripts/RuntimeBridge.PhotoBook.cs", "game/scripts/JournalUi.PhotoBook.cs", "game/scripts/ArrivalPersonalProps.cs"],
+        "verification": "Сборка Mac 16,19 с, 0 предупреждений и ошибок. Сверены пять входов и отдельный путь кнопки книги. В защищённом проходе у леса или окна нажать E и увидеть разворот без перехода, закрыть его, повторить открытие и подтвердить переход на странице. Также проверить J и повторный вход с геймпада. Игровая проверка ещё открыта."
+      },
       "route_cue_2026_10_20": {
         "state": "source_integrated_compiled_native_pending",
         "result": "Ordinary pw-home route cue reuses Journal canonical book progress: missing school copy points to school, acquired copy points to home spread, completed W01 uses existing next-world handoff. Initial house cue only before book acquisition; house interaction unchanged. Removed obsolete instruction to turn precisely toward table; actual entry remains near-table guarded.",

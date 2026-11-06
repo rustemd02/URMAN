@@ -532,15 +532,21 @@ public partial class JournalUi
             _photoBookScroll.ScrollVertical = 0;
     }
 
-    internal void OpenPhotoBook(RuntimeBridge bridge, string? photoId = null)
+    internal void OpenPhotoBook(RuntimeBridge bridge, string? photoId = null, bool focusEntry = false)
     {
         if (!IsInsideTree() || bridge.SessionIdentity is null || !bridge.IsPhotoWorldsCampaign) return;
         Open(bridge, selectedPhotoId: photoId);
         if (bridge.SessionIdentity is null || !bridge.IsPhotoWorldsCampaign) return;
         _tabs.CurrentTab = PhotoBookTabIndex;
         FocusCurrentPage();
-        // Only an explicit mission request directs focus; opening the physical
-        // book or switching tabs still lets the player browse freely.
+        // A physical entry anchor explicitly selects this print's action.
+        if (focusEntry && photoId is not null && _photoBookSelectedId == photoId)
+        {
+            if (!_photoBookEnterButton.Disabled && _photoBookEnterButton.IsVisibleInTree())
+                _photoBookEnterButton.GrabFocus();
+            return;
+        }
+        // The table book and tab switching still let the player browse freely.
         if (photoId is null || CurrentPlayerMission(bridge) is not { } mission
             || mission.BookPhotoId != photoId || _photoBookSelectedId != photoId) return;
         var button = mission.BookAction switch

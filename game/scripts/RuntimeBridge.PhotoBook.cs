@@ -84,6 +84,17 @@ public partial class RuntimeBridge
         or "urman.fullgame:interaction/pw-enter-house" or "urman.fullgame:interaction/pw-enter-common"
         or PhotoBookCellarEntryInteractionId;
 
+    internal bool TryOpenPhotoBookAtEntry(string interactionId)
+    {
+        if (!IsPhotoVisitEntry(interactionId)) return false;
+        if (PhotoVisitWorldForInteraction(interactionId) is { } worldId
+            && _content.PhotoWorldDefinitions is { } catalog
+            && GetTree().GetFirstNodeInGroup("journal_ui") is JournalUi journal)
+            journal.OpenPhotoBook(this, catalog.RequireWorld(worldId).PhotoId, focusEntry: true);
+        // The physical anchor opens the page. Only the book button dispatches this entry.
+        return true;
+    }
+
     private static string? PhotoBookEntryInteractionForPhoto(string photoId) => photoId switch
     {
         "P-FOREST" => PhotoBookForestEntryInteractionId,

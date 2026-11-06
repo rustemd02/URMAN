@@ -164,6 +164,8 @@ public partial class InteractionTarget : StaticBody3D
             return;
         }
 
+        if (bridge.TryOpenPhotoBookAtEntry(interactionId)) return;
+
         if (!await bridge.DispatchInteractionAsync(interactionId)
             || !IsPresentationCurrent(bridge, session))
         {
