@@ -144,7 +144,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         if (inputEvent.IsActionPressed("interact")
             && inputEvent is not InputEventKey { Echo: true })
         {
-            if (_continue.Visible)
+            if (_continue.Visible && !_continue.Disabled)
             {
                 _continue.EmitSignal(Button.SignalName.Pressed);
             }
@@ -262,13 +262,17 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         SetChoicesPending(true);
         try
         {
-            if (!await bridge.ChooseDialogueAsync(dialogue.Id, sourceNode.Id, choice.Id)) return;
+            var outcome = await bridge.ChooseDialogueWithCheckpointAsync(dialogue.Id, sourceNode.Id, choice.Id);
+            if (outcome == RuntimeBridge.DialogueChoiceOutcome.Rejected) return;
             // The answer can commit after Esc; its event belongs to that runtime session.
             if (!IsCurrentSession(bridge, session)) return;
             ChoiceAccepted?.Invoke(dialogue.Id, choice.Id);
             if (!OwnsOpening(revision, bridge, session)) return;
-            if (choice.NextNodeId is null) Close();
-            else await ShowNodeAsync(choice.NextNodeId, applyEffects: false, revision);
+            if (choice.NextNodeId is { } nextNode)
+                await ShowNodeAsync(nextNode, applyEffects: false, revision);
+            else if (outcome == RuntimeBridge.DialogueChoiceOutcome.CheckpointFailed)
+                ShowCheckpointRetry(bridge, session, revision);
+            else Close();
         }
         catch (Exception error)
         {
@@ -287,6 +291,44 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
                 else if (_continue.Visible) _continue.GrabFocus();
             }
         }
+    }
+
+    private void ShowCheckpointRetry(RuntimeBridge bridge, object session, long revision)
+    {
+        ShowUnavailableLine("Разговор завершён, но автосохранение не удалось. Повторите сохранение или продолжите игру.");
+        var retry = new Button
+        {
+            Text = "Повторить сохранение",
+            ThemeTypeVariation = UrmanUiTheme.ChoiceButton,
+            Alignment = HorizontalAlignment.Left,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
+        };
+        retry.Pressed += async () =>
+        {
+            if (_choicePending || !OwnsOpening(revision, bridge, session)) return;
+            _choicePending = true;
+            SetChoicesPending(true);
+            try
+            {
+                if (await bridge.SaveCheckpointAsync(force: true) && OwnsOpening(revision, bridge, session)) Close();
+            }
+            catch (Exception error)
+            {
+                GD.PushWarning($"Dialogue checkpoint retry failed: {error.Message}");
+            }
+            finally
+            {
+                if (OwnsOpening(revision, bridge, session))
+                {
+                    _choicePending = false;
+                    SetChoicesPending(false);
+                    retry.GrabFocus();
+                }
+            }
+        };
+        _choices.AddChild(retry);
+        _choices.Visible = true;
+        RefitToViewport();
     }
 
     private void SetChoicesPending(bool pending)

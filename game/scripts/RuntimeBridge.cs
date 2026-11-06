@@ -1692,10 +1692,15 @@ public partial class RuntimeBridge : Node
         }
     }
 
-    public async Task<bool> ChooseDialogueAsync(string dialogueId, string nodeId, string choiceId)
+    internal enum DialogueChoiceOutcome { Rejected, Committed, CheckpointFailed }
+
+    public async Task<bool> ChooseDialogueAsync(string dialogueId, string nodeId, string choiceId) =>
+        await ChooseDialogueWithCheckpointAsync(dialogueId, nodeId, choiceId) != DialogueChoiceOutcome.Rejected;
+
+    internal async Task<DialogueChoiceOutcome> ChooseDialogueWithCheckpointAsync(string dialogueId, string nodeId, string choiceId)
     {
         var session = SessionIdentity;
-        if (session is null) return false;
+        if (session is null) return DialogueChoiceOutcome.Rejected;
         var sceneBeforeDispatch = ActiveSceneId;
         var dialogue = _content.RequireDialogue(dialogueId);
         var node = dialogue.Nodes[nodeId];
@@ -1721,12 +1726,22 @@ public partial class RuntimeBridge : Node
                 ["choiceId"] = choiceId
             },
             expectedSession: session);
-        if (result.Status != CommandStatus.Committed) return false;
+        if (result.Status != CommandStatus.Committed) return DialogueChoiceOutcome.Rejected;
         if (effects.Count > 0 && _content.HasPhotoWorlds
             && ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing
             && sceneBeforeDispatch is not null && ActiveSceneId == sceneBeforeDispatch)
-            await SaveCheckpointAsync(force: true);
-        return true;
+        {
+            try
+            {
+                if (!await SaveCheckpointAsync(force: true)) return DialogueChoiceOutcome.CheckpointFailed;
+            }
+            catch (Exception error)
+            {
+                GD.PushWarning($"Dialogue checkpoint failed after commit: {error.Message}");
+                return DialogueChoiceOutcome.CheckpointFailed;
+            }
+        }
+        return DialogueChoiceOutcome.Committed;
     }
 
     public async Task<CommandDispatchResult> DispatchQuestLifecycleAsync(
