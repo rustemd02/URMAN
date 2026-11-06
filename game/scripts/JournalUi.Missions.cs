@@ -89,9 +89,15 @@ public partial class JournalUi
                 "urman.chapter1:interaction/arrival-enter-house", TargetZoneId: bridge.CurrentZoneId, TargetLabel: "Дом бабая и әби");
         if (!bridge.IsPhotoWorldsCampaign || !bridge.CanShowFamilyBookOnTable) return null;
         if (bridge.ActiveSceneId == "urman.fullgame:scene/pw-niva-arrival")
-            return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-niva-stop")
-                ? new("arrival-niva", "Разговор с бабаем", "Закончите разговор у Нивы.",
-                    "urman.fullgame:interaction/pw-niva-stop", TargetLabel: "Нива") : null;
+        {
+            const string stop = "urman.fullgame:interaction/pw-niva-stop";
+            if (!bridge.IsInteractionAvailable(stop)) return null;
+            var inCabin = bridge.GetTree().GetFirstNodeInGroup("act1_demo_root")
+                is Act1DemoRoot { PhotoNivaArrivalActive: true };
+            return inCabin
+                ? new("arrival-niva", "Разговор с бабаем", "Выслушайте бабая и выйдите из машины.", stop)
+                : new("arrival-niva", "Остановка у дома", "Подойдите к Ниве, чтобы продолжить.", stop, TargetLabel: "Нива");
+        }
         if (bridge.ActiveSceneId != "urman.fullgame:scene/pw-home") return null;
         if (bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-book-handoff"))
             return HomeMission(bridge, "arrival-book", "Семейная книга", "Возьмите семейную книгу со стола.", "pw-book-handoff", "Семейная книга");

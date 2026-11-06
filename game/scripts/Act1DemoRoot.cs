@@ -1987,7 +1987,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         if (_bridge?.ActiveSceneId == "urman.fullgame:scene/pw-home"
             && _bridge.CurrentZoneId is "village_day" or "house_old_pc")
             text += $"    {InputBindingService.ActionHint("map", gamepad)}  Карта";
-        if (_mission.InteractionId is { } interactionId && _player?.FocusedInteractionId == interactionId)
+        if (_mission.Id == "arrival-niva" && PhotoNivaArrivalActive && !_photoNivaExitPending)
+            text = $"{InputBindingService.ActionHint("interact", gamepad)}  Продолжить разговор";
+        else if (_mission.InteractionId is { } interactionId && _player?.FocusedInteractionId == interactionId)
             text += $"    {InputBindingService.ActionHint("interact", gamepad)}  Взаимодействовать";
         if (_routeCueShortcuts.Text != text) _routeCueShortcuts.Text = text;
     }
