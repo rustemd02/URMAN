@@ -44,7 +44,7 @@ public partial class RuntimeBridge
             .DistanceSquaredTo(new Vector2((float)savedPose.Position.X, (float)savedPose.Position.Z)) > .25f * .25f)
             return;
 
-        forest.RestoreForestPassageObservation(session, observation);
+        forest.RestoreForestPassageObservation(session, observation, player);
     }
 
     private void ProcessPhotoSafeNodeObservation(double delta)

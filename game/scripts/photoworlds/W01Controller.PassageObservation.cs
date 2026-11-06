@@ -18,6 +18,7 @@ public partial class W01Controller
     private float _rootPassageObservedExitSide;
     private (Vector3 Point, CollisionShape3D Contact)[] _rootPassageObservationSubjects = [];
     private int _rootPassageSeenSubjects;
+    private PlayerTransform? _rootPassageRestoredPose;
     private bool _rootPassageObservationFailed;
     private Vector3 _rootPassageObservationFailedPosition;
     private Vector3 _rootPassageObservationFailedForward;
@@ -36,7 +37,8 @@ public partial class W01Controller
         return new ForestPassageObservationSnapshot(visitId, (int)_rootPassageObservedExitSide, seen);
     }
 
-    internal void RestoreForestPassageObservation(object session, ForestPassageObservationSnapshot observation)
+    internal void RestoreForestPassageObservation(object session, ForestPassageObservationSnapshot observation,
+        FirstPersonController player)
     {
         if (!ForestEpisodeReady || _bridge is not { } bridge || !IsValidCurrentBridge(bridge)
             || bridge.CurrentW01BranchProjection() is not { ActiveSceneId: ForestSceneId } projection
@@ -47,6 +49,7 @@ public partial class W01Controller
         ApplyRootPassageProjection(projection);
         _rootPassageObservedExitSide = observation.ExitSide;
         _rootPassageSeenSubjects = observation.SeenSubjects;
+        _rootPassageRestoredPose = player.CapturePortableTransform();
     }
 
     /// <summary>Projects the F11 observation route from the live W01 presentation without recording progress.</summary>
@@ -210,6 +213,7 @@ public partial class W01Controller
     {
         _rootPassageObservedExitSide = exitSide;
         _rootPassageSeenSubjects = 0;
+        _rootPassageRestoredPose = null;
         _rootPassageObservationFailed = false;
         if (exitSide != 0f && _bridge is { } bridge
             && bridge.PhotoWorldFactObserved(ForestCameraBackFactId)
@@ -225,7 +229,8 @@ public partial class W01Controller
             || bridge.SessionIdentity is not { } session
             || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
             || !GodotObject.IsInstanceValid(player)
-            || player.ModalOpen || player.VehicleControlled || player.IsClimbingLadder || !player.IsOnFloor()
+            || player.ModalOpen || player.SessionTransitionActive || player.VehicleControlled
+            || player.IsClimbingLadder || !player.IsOnFloor()
             || MainMenuUi.AnyUndismissed(GetTree())
             || player.GetNodeOrNull<Camera3D>("Head/Camera3D") is not { Current: true } camera
             || _rootLinkFrameF13 is not { } exitFrame
@@ -254,6 +259,20 @@ public partial class W01Controller
         if (exitLocal.Z * _rootPassageObservedExitSide <= RootPassagePlaneHalfDepth
             || new Vector2(exitLocal.X, exitLocal.Z).LengthSquared() > 24f * 24f)
             return;
+
+        // A restored aim can already frame the missing trunk. Wait for a new look or step;
+        // settling on the floor and camera motion effects do not count as input.
+        if (_rootPassageRestoredPose is { } restored)
+        {
+            var current = player.CapturePortableTransform();
+            var displacement = new Vector2((float)(current.Position.X - restored.Position.X),
+                (float)(current.Position.Z - restored.Position.Z));
+            var yawChange = Math.IEEERemainder(current.RotationDegrees.Y - restored.RotationDegrees.Y, 360d);
+            var pitchChange = current.RotationDegrees.X - restored.RotationDegrees.X;
+            if (displacement.LengthSquared() < .2f * .2f && Math.Abs(yawChange) < 1d && Math.Abs(pitchChange) < 1d)
+                return;
+            _rootPassageRestoredPose = null;
+        }
 
         var forward = (-camera.GlobalBasis.Z).Normalized();
         if (_rootPassageObservationFailed
@@ -295,6 +314,7 @@ public partial class W01Controller
         _rootPassageObservationDispatching = false;
         _rootPassageObservedExitSide = 0f;
         _rootPassageSeenSubjects = 0;
+        _rootPassageRestoredPose = null;
         _rootPassageObservationFailed = false;
     }
 
