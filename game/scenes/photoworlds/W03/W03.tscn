@@ -50,9 +50,8 @@ rotation_degrees = Vector3(0, 180, 0)
 ; Production source camera: 1800x1200 photo aspect, separate from the player camera.
 [node name="PHousePhotoCamera" type="Camera3D" parent="Anchors/H00"]
 position = Vector3(0, 1.5, 0)
-rotation_degrees = Vector3(0, -4, 0)
 current = false
-fov = 53.0
+fov = 50.0
 
 ; H01 is the real porch deck centre of the imported hero house.
 [node name="H01" type="Marker3D" parent="Anchors"]

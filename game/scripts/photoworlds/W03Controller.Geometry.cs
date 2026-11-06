@@ -8,6 +8,7 @@ namespace Urman.Godot;
 public partial class W03Controller
 {
     private const string HouseKitScenePath = "res://assets/models/act1/urman_village_exterior_kit.glb";
+    private const string HouseForestEdgeScenePath = "res://assets/models/act1/urman_kara_forest_edge_kit.glb";
     private const string HeroHouseRootName = "HeroHouse_TimberPlaster";
     private const float HouseGroundMinX = -48f;
     private const float HouseGroundMaxX = 48f;
@@ -39,6 +40,7 @@ public partial class W03Controller
 
         var house = BuildImportedHeroHouse();
         BuildHouseGround();
+        BuildHouseDistantTreeLine();
         BuildHousePassageFrames();
         BuildHouseYardFences();
         BuildH04AppleTree();
@@ -131,6 +133,96 @@ public partial class W03Controller
 
     private static float HouseSmoothRange(float from, float to, float value) =>
         Mathf.SmoothStep(0f, 1f, Mathf.Clamp((value - from) / (to - from), 0f, 1f));
+
+    private void BuildHouseDistantTreeLine()
+    {
+        var packed = ResourceLoader.Load<PackedScene>(HouseForestEdgeScenePath)
+            ?? throw new InvalidOperationException("The W03 distant forest kit is missing.");
+        var source = packed.Instantiate<Node3D>();
+        var surfaces = new Dictionary<Material, SurfaceTool>();
+        var forest = new ArrayMesh();
+        try
+        {
+            (string Name, Vector3 Position, float Yaw, Vector3 Scale)[] placements =
+            [
+                ("DistantForestMass_Tall", new(-58f, 0f, 122f), -8f, new(1.55f, 1.7f, 1.7f)),
+                ("DistantForestMass_Tall", new(-24f, 0f, 114f), 14f, new(1.42f, 1.22f, 1.55f)),
+                ("DistantForestMass_Tall", new(10f, 0f, 129f), 168f, new(1.52f, 1.56f, 1.8f)),
+                ("DistantForestMass_Tall", new(49f, 0f, 116f), -17f, new(1.65f, 1.32f, 1.6f)),
+                ("DistantForestMass_Low", new(-46f, 0f, 103f), 11f, new(1.7f, 1.28f, 1.4f)),
+                ("DistantForestMass_Low", new(2f, 0f, 105f), 180f, new(1.75f, 1.55f, 1.5f)),
+                ("DistantForestMass_Low", new(44f, 0f, 101f), -9f, new(1.78f, 1.38f, 1.45f)),
+                ("BirchEdgeMass", new(-31f, 0f, 102f), 24f, Vector3.One * 1.28f),
+                ("BirchEdgeMass", new(26f, 0f, 101f), -27f, Vector3.One * 1.40f)
+            ];
+            foreach (var (name, position, yaw, scale) in placements)
+            {
+                var component = FindNamedNode<Node3D>(source, name)
+                    ?? throw new InvalidOperationException($"The W03 distant forest kit is missing {name}.");
+                var placement = new Transform3D(new Basis(Vector3.Up, Mathf.DegToRad(yaw)) * Basis.FromScale(scale), position);
+                // Published forest kit components have a ground pivot and direct mesh children.
+                foreach (var part in component.GetChildren().OfType<MeshInstance3D>())
+                {
+                    if (part.Mesh is not { } mesh) continue;
+                    for (var index = 0; index < mesh.GetSurfaceCount(); index++)
+                    {
+                        var material = mesh.SurfaceGetMaterial(index)
+                            ?? throw new InvalidOperationException($"The W03 forest part {part.Name} has no material.");
+                        if (!surfaces.TryGetValue(material, out var batch))
+                        {
+                            batch = new SurfaceTool();
+                            batch.Begin(Mesh.PrimitiveType.Triangles);
+                            surfaces.Add(material, batch);
+                        }
+                        batch.AppendFrom(mesh, index, placement * part.Transform);
+                    }
+                }
+            }
+
+            foreach (var (material, batch) in surfaces)
+            {
+                batch.SetMaterial(material);
+                batch.Index();
+                batch.Commit(forest);
+            }
+        }
+        finally
+        {
+            foreach (var batch in surfaces.Values) batch.Dispose();
+            source.Free();
+        }
+
+        _world!.AddChild(new MeshInstance3D
+        {
+            Name = "DistantSummerTreeLine",
+            Mesh = forest,
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+        });
+
+        // The rear apron seats the distant trees visually. The playable
+        // ground mesh still owns both collision and world bounds.
+        using var apron = new SurfaceTool();
+        apron.Begin(Mesh.PrimitiveType.Triangles);
+        var near = HouseGroundMaxZ - .1f;
+        var left = new Vector3(-88f, -.025f, near);
+        var right = new Vector3(88f, -.025f, near);
+        var farLeft = new Vector3(-88f, -.025f, 144f);
+        var farRight = new Vector3(88f, -.025f, 144f);
+        foreach (var vertex in new[] { left, farRight, farLeft, left, right, farRight })
+        {
+            apron.SetNormal(Vector3.Up);
+            apron.SetColor(HouseGroundColor(vertex.X, vertex.Z));
+            apron.SetUV(new Vector2(vertex.X, vertex.Z) * .12f);
+            apron.AddVertex(vertex);
+        }
+        _world.AddChild(new MeshInstance3D
+        {
+            Name = "DistantSummerMeadow",
+            Mesh = apron.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("ded5c1", "terrain", sheltered: true),
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+        });
+    }
 
     private float HouseGroundHeightAt(float x, float z)
     {

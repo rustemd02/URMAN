@@ -120638,7 +120638,7 @@
               "Other required fronts, S-GARDEN1800×1200final, all thumbnails и scene/identity alignment; full E02 остаётся открытым.",
               "S-PRINT front/thumbnail produced and Mac imported; family folder source, copy and back-read semantic PASS both orders. Visual check of the open PC reader and acquired album card remains."
             ],
-            "next_action": "Reuse accepted P-WATER front/thumbnail 8c9e4028 and S-PRINT front/thumbnail. W03 facade, earth path and yard boundaries are now present. Resolve H00 portrait visibility of actual H04 apple/chair and the passport camera alignment in PW-055/E01 before source→ImageGen. All remaining images and author art/native gates stay open.",
+            "next_action": "Использовать принятые P-WATER и S-PRINT. Камера H00 соответствует паспорту, но для нового P-HOUSE сначала нужна читаемая композиция реальных яблони и стула в сцене. Пробный сдвиг стула закрыт торцами брёвен и оградой. После согласования планировки снять H00 и передать этот кадр в ImageGen. Остальные снимки и авторская приёмка открыты.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -130903,10 +130903,10 @@
             "remaining": [
               "Actual ordinary traversal and safe landings across H00–H08 are not observed; scene/import/art alignment remains unaccepted.",
               "Protected standalone Mac H00 renders 1800×1200: warm textured logs, teal/ivory trim, daylight on the full facade and an earth path. The plain surroundings and small tree/chair are still visibly unlike P-HOUSE. Physical traversal, composition and author art acceptance remain open.",
-              "The diagnostic H00 camera currently uses 53° and −4° local yaw. Reconcile with the level passport 50° along +Z before calling a frame the P-HOUSE source.",
+              "Камера H00 приведена к паспорту: 1,5 м, 50° вдоль +Z. Прямой расчёт по треугольникам фасада находит преграду у текущих яблони и стула. Пробный сдвиг стула в (-26,5; 0,46; 38,8) оставляет на луче реальный торец бревна и крыло ограды H02, а сам стул почти у края 1800×1200. Этот вариант планировки отклонён.",
               "H00 Mac render shows the physical front pickets and paired passage wings. Fence mesh and contact use the same boards. Source clearance after the H02 path bend correction: minimum fence centreline distances to authored routes 2.250 m front, 1.197 m wings, 4.000 m orchard; added fences clear both H04 witness rays. W03 ordinary movement, save against changed contacts, and remaining garden/photo composition are open."
             ],
-            "next_action": "В обычном W03 проверить H00→H01, затем указатель после открытия ставни: отойти от фасада к дорожке и обойти дом к синему или серому проёму. Проверить обратный ход, загрузку у ограды и обе линии обзора H04. Для P-HOUSE сверить реальную видимость яблони и стула из паспортного H00 (50° вдоль +Z), сохраняя единственный общий двор и подходы к обоим проёмам.",
+            "next_action": "В обычном W03 проверить H00→H01, указатель после ставни, обратный ход, загрузку у ограды и обе линии обзора H04. Для P-HOUSE предложить новую композицию единственного двора, при которой яблоня и стул читаются из паспортного H00 и обеих точек наблюдения; сдвиг только за край фасада уже проверен и отклонён.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -131071,21 +131071,23 @@
             "title": "Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.",
             "result": "Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.",
             "owner": "world_art",
-            "evidence": [],
+            "evidence": [
+              "game/scripts/photoworlds/W03Controller.Geometry.cs — летний дальний план за двором. По GLB 4240 треугольников, семь исходных материалов в одной сетке. Координаты Z94,65–138,13 полностью за проходимой областью. Mac 15,61 с, 0 предупреждений и ошибок."
+            ],
             "assigned_owner": "world_art",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Исходники дальнего леса добавлены и скомпилированы. Предстоит осмотр кадра и дальнейшая работа по семействам."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.. Затем изменить только установленный остаток.",
+            "next_action": "В ближайшем защищённом проходе W03 осмотреть новый дальний лес из H00 и от H08. Проверить читаемость разной глубины крон, отсутствие шва за краем двора и цену кадра. Затем продолжить по оставшимся семействам ассетов.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
