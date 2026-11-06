@@ -8,20 +8,20 @@ namespace Urman.Godot;
 public partial class PhotoWorldEpiloguePresence : Node3D
 {
     private const string HomeZoneId = "house_old_pc";
-    private const string EpilogueSceneId = "urman.fullgame:scene/pw-epilogue";
+    internal const string EpilogueSceneId = "urman.fullgame:scene/pw-epilogue";
+    private const string HouseExitInteractionId = "urman.fullgame:interaction/pw-home-exit-house";
     internal const string TakeNowInteractionId = "urman.fullgame:interaction/pw-take-now-photo";
     internal const string TakeNowTargetName = "TakeNowPhotoTarget";
     internal const float CameraStanceRadius = .70f;
     private const string FamilyTalkInteractionId = "urman.fullgame:interaction/pw-home-epilogue-talk";
-    private const string ReturnHomeInteractionId = "urman.fullgame:interaction/pw-epilogue-return-home";
+    internal const string ReturnHomeInteractionId = "urman.fullgame:interaction/pw-epilogue-return-home";
+    private const string HouseExitLabelId = "urman.fullgame:text/pw-label-home-exit-house";
     private const string TakeNowLabelId = "urman.fullgame:text/pw-label-take-now-photo";
     private const string FamilyTalkLabelId = "urman.fullgame:text/pw-label-home-epilogue-talk";
-    private const string ReturnHomeLabelId = "urman.fullgame:text/pw-label-epilogue-return-home";
 
     private RuntimeBridge? _bridge;
     private InteractionTarget? _takeNowTarget;
     private InteractionTarget? _familyTalkTarget;
-    private InteractionTarget? _returnHomeTarget;
     private Node3D? _cameraStance;
     private MeshInstance3D? _table;
     private MeshInstance3D? _teaCup;
@@ -45,13 +45,13 @@ public partial class PhotoWorldEpiloguePresence : Node3D
     {
         if (!ResolveWorldReferences())
         {
-            SetTargetsEnabled(false, false, false);
+            SetTargetsEnabled(false, false);
             return;
         }
 
         if (!TryBindBridge())
         {
-            SetTargetsEnabled(false, false, false);
+            SetTargetsEnabled(false, false);
             return;
         }
 
@@ -62,7 +62,11 @@ public partial class PhotoWorldEpiloguePresence : Node3D
 
         ConfigureTarget(_takeNowTarget, bridge, TakeNowLabelId);
         ConfigureTarget(_familyTalkTarget, bridge, FamilyTalkLabelId);
-        ConfigureTarget(_returnHomeTarget, bridge, ReturnHomeLabelId);
+        // One physical door owns both actions and keeps the existing yard spawn.
+        _houseExit!.SetAuthoredBinding(
+            epilogueCurrent ? ReturnHomeInteractionId : HouseExitInteractionId,
+            bridge.ResolveText(HouseExitLabelId),
+            string.Empty);
 
         var takeNowReady = epilogueCurrent && interactionWindowOpen && !hasNowPhoto
             && ResourceLoader.Exists(JournalUi.SNowFrontImagePath)
@@ -75,10 +79,7 @@ public partial class PhotoWorldEpiloguePresence : Node3D
 
         var familyTalkReady = epilogueCurrent && interactionWindowOpen && hasNowPhoto
             && IsInteractionReady(bridge, FamilyTalkInteractionId);
-        var returnHomeReady = epilogueCurrent && interactionWindowOpen && hasNowPhoto
-            && IsInteractionReady(bridge, ReturnHomeInteractionId);
         _familyTalkTarget?.SetPresentationEnabled(familyTalkReady);
-        _returnHomeTarget?.SetPresentationEnabled(returnHomeReady);
     }
 
     private bool ResolveWorldReferences()
@@ -136,16 +137,12 @@ public partial class PhotoWorldEpiloguePresence : Node3D
         var takeNowTarget = CreateTarget(TakeNowTargetName, TakeNowInteractionId, home.ToGlobal(tablePoint), .11f);
         var familyTalkTarget = CreateTarget("HomeEpilogueTalkTarget", FamilyTalkInteractionId,
             _gulsinaBodyTarget.GlobalPosition, .24f, "urman.fullgame:dialogue/pw-home-epilogue");
-        var returnHomeTarget = CreateTarget("EpilogueReturnHomeTarget", ReturnHomeInteractionId,
-            _houseExit.GlobalPosition, .22f);
         _takeNowTarget = takeNowTarget;
         _familyTalkTarget = familyTalkTarget;
-        _returnHomeTarget = returnHomeTarget;
         takeNowTarget.PresentationGate = CanFrameFamilyTablePhoto;
         takeNowTarget.PresentationGateHint = "Встаньте у стола и наведите камеру на близких и чай.";
         takeNowTarget.SetMeta("physicalSource", "existing family tea table surface; kernel action owns S-NOW");
         familyTalkTarget.SetMeta("physicalSource", "existing Gulsina at the family tea table");
-        returnHomeTarget.SetMeta("physicalSource", "existing closed house door and threshold");
         _worldReferencesResolved = true;
         return true;
     }
@@ -271,16 +268,15 @@ public partial class PhotoWorldEpiloguePresence : Node3D
             current.Prompt = bridge.ResolveText(labelId);
     }
 
-    private void SetTargetsEnabled(bool takeNow, bool familyTalk, bool returnHome)
+    private void SetTargetsEnabled(bool takeNow, bool familyTalk)
     {
         _takeNowTarget?.SetPresentationEnabled(takeNow);
         _familyTalkTarget?.SetPresentationEnabled(familyTalk);
-        _returnHomeTarget?.SetPresentationEnabled(returnHome);
     }
 
     public override void _ExitTree()
     {
-        SetTargetsEnabled(false, false, false);
+        SetTargetsEnabled(false, false);
         _bridge = null;
     }
 }

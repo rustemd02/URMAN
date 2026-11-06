@@ -136585,6 +136585,11 @@
         "sha256": "d7c1245bd8ea6a2590e12e6e4f3eed40be6c78abffa9970ec7f6b71945d4c3fc",
         "review": "Independent visual review: improves on ordinary human/cartoon goblin but reads as a wooden masked doll; microtexture, layered textile and face may conflict with W05 style and quiet presence. Hands/shoulders/back and cup grip cannot be verified from one view. Pattern/mask are original art, not documented Tatar folklore. Candidate not accepted or uploaded.",
         "remaining": "Need art/cultural review and a riggable character with real cup contact/animations before enabling cellar response. Maintain main-campaign priority; avoid repeated concept loops."
+      },
+      "bichura_meshy_candidate_v5_2026_11_06": {
+        "result": "Новый референс ImageGen выбран для одной технической генерации Meshy 7.1. Задача 01a1afaf-e7c9-74b6-94fd-88d40e943dfe завершена, списано 30 кредитов. Исходный GLB имеет 462 382 треугольника, один материал и не содержит рига. Его SHA-256 f25b926c382527e2cd456a5f8688387783a0103d7b8b0f02d1d620b24bd89643.",
+        "evidence": "assets/source/blender/photoworlds/W05/bichura_meshy_v5/prompt_provenance.md",
+        "remaining": "Проверить форму кистей и силуэт после локального упрощения. Для W05 ещё требуются риг, клипы, контакт с чашкой, игровая интеграция и отдельная художественная и культурная приёмка."
       }
     },
     {
@@ -141322,6 +141327,11 @@
       "fixed_route_checkpoint_2026_11_06": {
         "result": "Общий барьер записи расширен с Нивы на берег и домашний эпилог. Сохранение ждёт завершения сверки сценой и проверяет физическую локацию снова перед снимком состояния. При незавершённой постановке запись возвращает ошибку вместо записи прежней позы с новой сценой.",
         "verification": "Сборка Mac 20,37 с, 0 предупреждений и ошибок. Проверены обычные связи берег → эпилог и текущий барьер Нивы по исходникам. Выход из процесса сразу после прихода домой и холодный Continue ещё предстоит проверить в игре."
+      },
+      "one_home_door_exit_2026_11_06": {
+        "result": "В эпилоге существующая дверь HouseExit принимает единственное сюжетное действие выхода после семейного снимка и заключительного разговора. Удалён конкурирующий луч. Маркер ведёт к этой двери; одно действие переводит сцену в pw-home и использует её прежний выход во двор village_day/from_house. После успешного перехода сохраняется новая позиция; предварительная запись завершённого эпилога внутри дома сохраняется на случай отказа перемещения.",
+        "verification": "Сверены authored gates S-NOW и confirmed knowledge, физический переход в InteractionTarget и разделение текущей цели выхода и статуса завершённого Акта I. Независимое ревью обнаружило запись только до физического выхода; добавлена запись после успешного SwitchZoneAsync в том же сеансе. Финальная сборка Mac 15,31 с без предупреждений и ошибок.",
+        "remaining": "Проверить в игре обычный выход по одному действию, сохранённую завершённость после закрытия процесса и Continue, доступ к W05 из свободной прогулки."
       }
     },
     {
@@ -167099,14 +167109,14 @@
     "credits": {
       "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 620,
-      "authorized_budget_remaining": 3380,
+      "agent_spent_after_purchase": 650,
+      "authorized_budget_remaining": 3350,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4100,
-      "balance_note": "29.10 spent620/4000, remaining3380, reserve0; H002 source-preserving PBR v2 reviewed, scene integration pending.",
+      "balance_note": "06.11: 650 из 4000 израсходовано, 3350 доступно по лимиту автора, резерв 0. API показал 3660 непосредственно перед списанием 30 за Бичуру v5.",
       "latest_api_balance_observed": 3660,
       "reserved_for_current_work": 0,
-      "unreserved_author_budget": 3380
+      "unreserved_author_budget": 3350
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
     "operations": [
@@ -167362,6 +167372,14 @@
         "cost_credits": 10,
         "result": "SUCCEEDED; actual10. Exploratory source↔return comparison and material review pending, all final geometry/UV/normal/native/cultural gates remain open. No repeat POST.",
         "source": "assets/source/blender/act1/neighbor_house_b_retexture_v1"
+      },
+      {
+        "task_id": "PW-066",
+        "api_task_id": "01a1afaf-e7c9-74b6-94fd-88d40e943dfe",
+        "operation": "Один Meshy 7.1 Image-to-3D с PBR по собственному референсу ImageGen Бичуры v5",
+        "cost_credits": 30,
+        "result": "SUCCEEDED, подтверждено 30 кредитов. Исходный GLB 462 382 треугольника без рига. Игровая пригодность и художественная приёмка открыты.",
+        "source": "assets/source/blender/photoworlds/W05/bichura_meshy_v5/prompt_provenance.md"
       }
     ],
     "next_large_static_candidate": {

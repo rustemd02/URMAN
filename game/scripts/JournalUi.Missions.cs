@@ -375,7 +375,7 @@ public partial class JournalUi
     private static PlayerMission? PhotoWorldAftermathMission(RuntimeBridge bridge)
     {
         if (!bridge.IsPhotoWorldsCampaign || !bridge.CanInspectReceivedPhotoBook) return null;
-        if (bridge.ActiveSceneId == "urman.fullgame:scene/pw-epilogue")
+        if (bridge.ActiveSceneId == PhotoWorldEpiloguePresence.EpilogueSceneId)
             return FinaleMission(bridge);
         if (bridge.ActiveSceneId != "urman.fullgame:scene/pw-bank-approach") return null;
         if (PhotoWorldQuestStatus(bridge.SelectRuntimeState(), "urman.fullgame:quest/pw-w04") == "completed")
@@ -387,14 +387,16 @@ public partial class JournalUi
 
     private static PlayerMission? FinaleMission(RuntimeBridge bridge)
     {
-        if (bridge.ActiveSceneId == "urman.fullgame:scene/pw-epilogue")
+        if (bridge.ActiveSceneId == PhotoWorldEpiloguePresence.EpilogueSceneId)
         {
             if (!bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-NOW"))
                 return HomeMission(bridge, "epilogue-photo", "Новый семейный снимок", "Встаньте на отмеченное место. Снимите Гөлсинә, Мансура и чай.", "pw-take-now-photo", "Место съёмки",
                     "ZoneHost/Act1ConnectedWorld/babay-abi-house/PhotoWorldEpiloguePresence/SNowCameraStance");
             if (!MissionKnowledgeConfirmed(bridge.SelectRuntimeState(), "urman.fullgame:knowledge/pw-marat-death-question-remains-open"))
                 return HomeMission(bridge, "epilogue-talk", "Разговор дома", "Расскажите Гөлсинә, что удалось узнать.", "pw-home-epilogue-talk", "Гөлсинә");
-            return new("campaign-finished", "Семейная книга дополнена", "Новый семейный снимок сохранён в книге. Можно продолжить прогулку.");
+            return HomeMission(bridge, "epilogue-exit", "Семейная книга дополнена",
+                "Снимок сохранён в книге. Выйдите во двор, чтобы продолжить прогулку.",
+                "pw-epilogue-return-home", "Выход во двор");
         }
         if (bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-NOW")
             && MissionKnowledgeConfirmed(bridge.SelectRuntimeState(), "urman.fullgame:knowledge/pw-marat-death-question-remains-open"))

@@ -221,8 +221,9 @@ public partial class InteractionTarget : StaticBody3D
             {
                 source = houseExit.GlobalPosition;
             }
-            else if ((interactionId == "urman.chapter1:interaction/house-to-route"
-                    || interactionId == "urman.fullgame:interaction/pw-home-exit-house")
+            else if (interactionId is ("urman.chapter1:interaction/house-to-route"
+                    or "urman.fullgame:interaction/pw-home-exit-house"
+                    or PhotoWorldEpiloguePresence.ReturnHomeInteractionId)
                 && main?.FindChild("HouseDoor", true, false) is Node3D houseDoor)
             {
                 source = houseDoor.GlobalPosition;
@@ -231,6 +232,12 @@ public partial class InteractionTarget : StaticBody3D
             Node host = main is not null ? main : this;
             UiFoley.PlayWorld(host, source, WorldFoleySample);
         }
+
+        // The scene transition checkpoints indoors before SwitchZoneAsync.
+        // Capture the successful yard placement for a cold Continue as well.
+        if (main is not null && interactionId == PhotoWorldEpiloguePresence.ReturnHomeInteractionId
+            && IsPresentationCurrent(bridge, session))
+            await bridge.SaveCheckpointAsync(force: true);
     }
 
     // Persistence can finish after load/restart, menu return, or zone disposal.
