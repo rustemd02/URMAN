@@ -219,9 +219,12 @@ public partial class JournalUi
     private static PlayerMission EntryMission(RuntimeBridge bridge, string id, string title,
         RuntimeBridge.PhotoBookPhoto photo, string interaction, string destination)
     {
-        var approach = interaction == "pw-enter-house"
-            ? "Встаньте во дворе лицом к окну со снимка."
-            : $"Подойдите к {destination}.";
+        var approach = interaction switch
+        {
+            "pw-enter-house" => "Встаньте во дворе лицом к окну со снимка.",
+            "pw-enter-cellar" => "Встаньте перед ступенькой и повернитесь к двери сеней.",
+            _ => $"Подойдите к {destination}."
+        };
         var bookAction = photo.HasResumePoint ? "Продолжить снимок" : "Войти в снимок";
         return StreetMission(bridge, id, title, $"{approach} В книге выберите «{bookAction}».",
             interaction, title, interaction switch
@@ -532,7 +535,7 @@ public partial class JournalUi
                 ("urman.fullgame:scene/pw-cellar", "cellar-order") =>
                     ("Следы на семейном столе", "Осмотрите сухой круг, затёртый край стола и сложенную ткань.", "pw-cellar-order", "ZoneHost/W05/W05World/B01HouseholdTable", "Стол со следами"),
                 ("urman.fullgame:scene/pw-cellar", "cellar-object") =>
-                    ("Вернуть семейную коробку", "Перенесите коробку с лавки на пустую подставку у полки.", "pw-cellar-object", "ZoneHost/W05/W05World/FamilyBoxReturnedPose", "Подставка для семейной коробки"),
+                    ("Вернуть семейную коробку", "Перенесите семейную коробку на пустую подставку у полки.", "pw-cellar-object", "ZoneHost/W05/W05World/FamilyBoxReturnedPose", "Подставка для семейной коробки"),
                 ("urman.fullgame:scene/pw-cellar", "cellar-response") =>
                     ("Чашка на столике", "Осмотрите переставленную чашку.", "pw-cellar-response", null, "Переставленная чашка"),
                 ("urman.fullgame:scene/pw-cellar", "cellar-niche") =>

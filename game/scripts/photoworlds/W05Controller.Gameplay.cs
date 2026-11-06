@@ -6,8 +6,8 @@ namespace Urman.Godot;
 
 public partial class W05Controller
 {
-    private const string OrderInteractionId = "urman.fullgame:interaction/pw-cellar-order";
-    private const string BoxInteractionId = "urman.fullgame:interaction/pw-cellar-object";
+    internal const string OrderInteractionId = "urman.fullgame:interaction/pw-cellar-order";
+    internal const string BoxInteractionId = "urman.fullgame:interaction/pw-cellar-object";
     private const string ResponseInteractionId = "urman.fullgame:interaction/pw-cellar-response";
     private const string NicheInteractionId = "urman.fullgame:interaction/pw-cellar-niche";
     private const string ReturnInteractionId = "urman.fullgame:interaction/pw-cellar-return";
@@ -24,6 +24,42 @@ public partial class W05Controller
     private object? _actionSession;
     private int _actionGeneration;
     private bool _committing;
+
+    internal bool TryGetCellarObjectiveTarget(object? identity, string interactionId, FirstPersonController player,
+        out Vector3 point, out string label, out bool inspectionPoint)
+    {
+        point = default;
+        label = string.Empty;
+        inspectionPoint = false;
+        if (!_active || identity is null || !ReferenceEquals(identity, _session)) return false;
+
+        if (interactionId == BoxInteractionId)
+        {
+            if (!_carryAttached || !_familyBox.IsVisibleInTree()) return false;
+            var holding = ReferenceEquals(_carryCoordinator.HeldItem, _familyBox);
+            point = holding ? _boxRest.GlobalPosition : _familyBox.GlobalPosition + Vector3.Up * (_familyBox.Size.Y * .5f);
+            label = holding ? "Поставьте коробку на подставку" : "Возьмите семейную коробку";
+        }
+        else
+        {
+            InteractionTarget? nearestTrace = null;
+            var nearestDistance = float.PositiveInfinity;
+            foreach (var trace in _traceTargets)
+            {
+                if (!trace.PresentationEnabled || !trace.IsVisibleInTree()) continue;
+                var distance = player.GlobalPosition.DistanceSquaredTo(trace.GlobalPosition);
+                if (distance >= nearestDistance) continue;
+                nearestTrace = trace;
+                nearestDistance = distance;
+            }
+            if (nearestTrace is null) return false;
+            point = nearestTrace.GlobalPosition;
+            label = nearestTrace.Prompt;
+        }
+
+        inspectionPoint = player.GlobalPosition.DistanceSquaredTo(point) <= 3f * 3f;
+        return true;
+    }
 
     private void BuildCellarGameplay()
     {
@@ -64,7 +100,11 @@ public partial class W05Controller
     private bool InspectHouseholdTrace(int index)
     {
         if (!CanUseCellarAction(OrderInteractionId, out var bridge, out _) || bridge.PhotoWorldFactObserved(OrderFactId)) return false;
-        _seenTraces |= 1 << index;
+        var observed = _seenTraces | (1 << index);
+        // Keep the final ray available until the authored fact is committed.
+        // A rejected dispatch must leave the player able to inspect it again.
+        if (observed == (1 << _traceTargets.Length) - 1) return true;
+        _seenTraces = observed;
         _traceTargets[index].SetPresentationEnabled(false);
         _traceTargets[index].Prompt = index switch
         {
@@ -72,8 +112,7 @@ public partial class W05Controller
             1 => "Край стола затёрт ладонями",
             _ => "Ткань аккуратно сложена после работы"
         };
-        // Only the third distinct ordinary inspection can reach the authored reducer.
-        return _seenTraces == 7;
+        return false;
     }
 
     private bool CanUseCellarAction(string interactionId, out RuntimeBridge bridge, out object session)

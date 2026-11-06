@@ -259,6 +259,7 @@ public partial class Act1DemoRoot
         {
             RuntimeBridge.PhotoBookForestEntryInteractionId => ("ForestPhotoEntryTarget", "Повернитесь к трём стволам"),
             HousePhotoEntryInteractionId => ("HousePhotoEntryTarget", "Повернитесь к окну"),
+            RuntimeBridge.PhotoBookCellarEntryInteractionId => ("CellarPhotoEntryTarget", "Повернитесь к двери сеней"),
             _ => null
         };
         if (entryWitness is { } entry
@@ -279,6 +280,12 @@ public partial class Act1DemoRoot
             && _main.GetNodeOrNull<W04Controller>("ZoneHost/W04") is { } common
             && GodotObject.IsInstanceValid(common) && common.IsInsideTree() && !common.IsQueuedForDeletion())
             return common.TryGetCommonObservationObjectiveTarget(bridge.PhotoWorldPresentationIdentity,
+                mission.InteractionId, player, out waypoint, out label, out inspectionTarget);
+
+        if (mission.InteractionId is (W05Controller.OrderInteractionId or W05Controller.BoxInteractionId)
+            && _main.GetNodeOrNull<W05Controller>("ZoneHost/W05") is { } cellar
+            && GodotObject.IsInstanceValid(cellar) && cellar.IsInsideTree() && !cellar.IsQueuedForDeletion())
+            return cellar.TryGetCellarObjectiveTarget(bridge.PhotoWorldPresentationIdentity,
                 mission.InteractionId, player, out waypoint, out label, out inspectionTarget);
 
         if (mission.InteractionId is ("urman.fullgame:interaction/pw-water-reflection"
@@ -923,13 +930,14 @@ public partial class Act1DemoRoot
 
     private Node3D? ResolveObjectiveMarkerTarget(PlayerMission mission, out bool usingAnchor)
     {
-        if (mission.InteractionId == HousePhotoEntryInteractionId)
+        if (mission.InteractionId is HousePhotoEntryInteractionId or RuntimeBridge.PhotoBookCellarEntryInteractionId)
         {
-            // The gate checks a stance computed from the live facade, not the
-            // window itself. Resolve the same stance for the HUD and the map.
+            // The entry gates use stances computed from the live façades.
+            var anchorId = mission.InteractionId == HousePhotoEntryInteractionId
+                ? "PW_HOME_PHOTO_ENTRY" : "PW_CELLAR_ENTRY";
             usingAnchor = true;
-            return _main.TryGetPhotoVisitOriginAnchor("village_day", "PW_HOME_PHOTO_ENTRY", out var windowStance)
-                && ObjectiveMarkerTargetAvailable(windowStance, mission, endpoint: true) ? windowStance : null;
+            return _main.TryGetPhotoVisitOriginAnchor("village_day", anchorId, out var stance)
+                && ObjectiveMarkerTargetAvailable(stance, mission, endpoint: true) ? stance : null;
         }
 
         var anchor = string.IsNullOrWhiteSpace(mission.AnchorPath) ? null : _main.GetNodeOrNull<Node3D>(mission.AnchorPath);

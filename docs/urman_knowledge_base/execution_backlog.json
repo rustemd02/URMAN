@@ -136940,6 +136940,11 @@
         "archive": "/Users/unterlantas/Documents/URMAN_local_archive/rejected-concepts/2026-10-27-bichura-v3-review-only.zip",
         "archive_sha256": "4efcfddd8103abfb65a963cc2becda22acad16a91bab593e7901b2b4b873f052",
         "remaining": "Culturally and artistically appropriate original concept, full character/rig/clips and real W05 response before completion."
+      },
+      "cellar_action_cues_2026_11_06": {
+        "result": "Снаружи маркер ведёт на опору перед ступенькой сеней и затем к двери, которую проверяет вход через книгу. Внутри он указывает на ближайший из ещё не осмотренных следов, затем на фактическое положение коробки. Подставка становится целью, когда CarryCoordinator подтверждает, что коробка в руках. Последний луч осмотра остаётся доступен до записи общего факта и переживает отказ команды.",
+        "verification": "Сверены те же опора, дверь, лучи и владелец переноски, которые используются обычным вводом. Сборка Mac 14,57 с, 0 предупреждений и ошибок.",
+        "remaining": "Обычный проход вход → осмотр → поднять → поставить и Save/Continue предстоит проверить на Mac. Дальше нужны риг, видимый ответ Бичуры и ниша."
       }
     },
     {
