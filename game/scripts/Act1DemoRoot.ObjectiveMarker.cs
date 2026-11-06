@@ -11,6 +11,7 @@ public partial class Act1DemoRoot
     private const string ForestGroupObservationInteractionId = "urman.fullgame:interaction/pw-forest-group";
     private const string ForestBeyondFrameInteractionId = "urman.fullgame:interaction/pw-forest-photographer";
     private const string ForestReturnInteractionId = "urman.fullgame:interaction/pw-forest-return";
+    private const string HousePhotoEntryInteractionId = "urman.fullgame:interaction/pw-enter-house";
     private const string FamilyBookHandoffInteractionId = "urman.fullgame:interaction/pw-book-handoff";
     private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
     private const string BankSceneId = "urman.fullgame:scene/pw-bank-approach";
@@ -226,16 +227,22 @@ public partial class Act1DemoRoot
         label = string.Empty;
         inspectionTarget = false;
         var playerPosition = player.GlobalPosition;
-        if (mission.InteractionId == RuntimeBridge.PhotoBookForestEntryInteractionId
+        (string Node, string TurnCue)? entryWitness = mission.InteractionId switch
+        {
+            RuntimeBridge.PhotoBookForestEntryInteractionId => ("ForestPhotoEntryTarget", "Повернитесь к трём стволам"),
+            HousePhotoEntryInteractionId => ("HousePhotoEntryTarget", "Повернитесь к окну"),
+            _ => null
+        };
+        if (entryWitness is { } entry
             && _objectiveMarkerUsingAnchor && player.IsOnFloor()
             && playerPosition.DistanceSquaredTo(target.GlobalPosition) <= 1.2f * 1.2f
-            && target.GetNodeOrNull<InteractionTarget>("ForestPhotoEntryTarget") is { } witness
+            && target.GetNodeOrNull<InteractionTarget>(entry.Node) is { } witness
             && ObjectiveMarkerTargetAvailable(witness, mission))
         {
             waypoint = witness.GlobalPosition;
             label = RuntimeBridge.IsFacingPhotoBookEntry(player, waypoint)
                 ? "Откройте книгу"
-                : "Повернитесь к трём стволам";
+                : entry.TurnCue;
             inspectionTarget = true;
             return true;
         }
@@ -758,6 +765,15 @@ public partial class Act1DemoRoot
 
     private Node3D? ResolveObjectiveMarkerTarget(PlayerMission mission, out bool usingAnchor)
     {
+        if (mission.InteractionId == HousePhotoEntryInteractionId)
+        {
+            // The gate checks a stance computed from the live facade, not the
+            // window itself. Resolve the same stance for the HUD and the map.
+            usingAnchor = true;
+            return _main.TryGetPhotoVisitOriginAnchor("village_day", "PW_HOME_PHOTO_ENTRY", out var windowStance)
+                && ObjectiveMarkerTargetAvailable(windowStance, mission, endpoint: true) ? windowStance : null;
+        }
+
         var anchor = string.IsNullOrWhiteSpace(mission.AnchorPath) ? null : _main.GetNodeOrNull<Node3D>(mission.AnchorPath);
         // Book entrances can have separate positions for the player's stance
         // and the object they face. Route the player to the authored stance.

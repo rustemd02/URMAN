@@ -131995,7 +131995,8 @@
       "evidence": [
         "game/scripts/JournalUi.Missions.cs",
         "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
-        "game/scripts/photoworlds/W03Controller.Interactions.cs"
+        "game/scripts/photoworlds/W03Controller.Interactions.cs",
+        "game/scripts/Act1DemoRoot.ObjectiveMarker.cs — HUD и карта направляют к той же точке во дворе, которую проверяет книга. Вблизи указатель ведёт к настоящему окну и подсказывает поворот, затем открытие книги. Mac 21,20 с, 0 предупреждений и ошибок."
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-057",
       "source_requirements": [
@@ -132131,7 +132132,7 @@
         "Авторство Гөлсинә подтверждается только снаружи по обороту и разговору.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W03_Дом_на_просвет_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Only after new owner instruction: ordinary Continue from saved envelope-open state → Gulsina permission → P-HOUSE mount/back/physical entry → W03 route. Do not repeat accepted opening or home loop.",
+      "next_action": "В защищённом обычном сеансе продолжить от открытого семейного конверта: получить разрешение Гөлсинә, вклеить снимок, прочитать оборот, выйти во двор. Сверить точку на карте и в HUD, поворот к окну и вход через книгу. Затем пройти W03. Использовать уже принятый участок открытия конверта.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

@@ -217,15 +217,20 @@ public partial class JournalUi
             bookPhotoId: "P-FOREST");
 
     private static PlayerMission EntryMission(RuntimeBridge bridge, string id, string title,
-        RuntimeBridge.PhotoBookPhoto photo, string interaction, string destination) =>
-        StreetMission(bridge, id, title,
-            $"Подойдите к {destination}. В книге выберите «{(photo.HasResumePoint ? "Продолжить снимок" : "Войти в снимок")}».",
+        RuntimeBridge.PhotoBookPhoto photo, string interaction, string destination)
+    {
+        var approach = interaction == "pw-enter-house"
+            ? "Встаньте во дворе лицом к окну со снимка."
+            : $"Подойдите к {destination}.";
+        var bookAction = photo.HasResumePoint ? "Продолжить снимок" : "Войти в снимок";
+        return StreetMission(bridge, id, title, $"{approach} В книге выберите «{bookAction}».",
             interaction, title, interaction switch
             {
                 "pw-enter-river" => "ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/PhotoBankApproach/BankEntry",
                 "pw-enter-common" => "ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/PhotoBankApproach/BankReturnWitness",
                 _ => null
             }, bookPhotoId: photo.PhotoId);
+    }
 
     private static PlayerMission? PhotoBookWaterMission(RuntimeBridge bridge, bool requireFirstWorldHomeTalk = true)
     {
