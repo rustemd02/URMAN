@@ -591,7 +591,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var currentSide = RootPassagePlaneSide(local.Origin.Z);
         if (currentSide == 0) return;
         _forestExitPreviousPlaneSide = currentSide;
-        if (previousSide != -1 || currentSide != 1 || _forestExitDispatching) return;
+        if (previousSide != -1 || currentSide != 1 || _forestExitDispatching
+            || !bridge.IsInteractionAvailable(ForestReturnInteractionId)) return;
 
         _ = DispatchForestReturnAsync(bridge, session);
     }
@@ -621,6 +622,9 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         }
 
         _forestExitDispatching = dispatched;
+        if (!dispatched && bridge.IsInteractionAvailable(ForestReturnInteractionId)
+            && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+            player.NotifyTraversal("Не удалось выйти. Вернитесь на тропу и пройдите в просвет ещё раз.");
     }
 
     private void TryTraverseRootPassage()

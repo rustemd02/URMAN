@@ -858,17 +858,21 @@ public partial class RuntimeBridge : Node
             && calmVisit.TryGetProperty("worldCompletedOnEntry", out var completedOnEntry)
             && completedOnEntry.ValueKind == JsonValueKind.True)
         {
-            // Keep the physical exit's own availability and checkpoint owner.
             // A calm revisit uses the existing home route instead of replaying
             // the first completion's authored meeting at the bank.
-            if (!IsInteractionAvailable(interaction.Id)
-                || !_content.TryGetInteraction(PhotoBookCommonReturnInteractionId, out var homeReturn)
+            if (!_content.TryGetInteraction(PhotoBookCommonReturnInteractionId, out var homeReturn)
                 || homeReturn.SourceSceneId != sourceScene || homeReturn.TargetSceneId != "urman.fullgame:scene/pw-home"
-                || homeReturn.Effects.GetArrayLength() != 0 || !IsInteractionAvailable(homeReturn.Id))
+                || homeReturn.Effects.GetArrayLength() != 0)
                 return false;
             returnInteraction = homeReturn;
             completedBankReturn = false;
         }
+        bool ReturnAvailable() => IsInteractionAvailable(interaction.Id)
+            && (returnInteraction.Id == interaction.Id || IsInteractionAvailable(returnInteraction.Id));
+        // A saved `returning` visit will recover to its origin on Continue.
+        // Check the authored exit before starting that durable transition.
+        if (!entering && !ReturnAvailable()) return false;
+
         // Legacy checkpoints have no invented ticket. Retain their authored
         // exit, but verify and save the actual destination after projection.
         if (!entering && ActivePhotoVisit() is null)
@@ -943,7 +947,7 @@ public partial class RuntimeBridge : Node
                     // The following dispatch may synchronously rebuild the village.
                     await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
                 }
-                if (!IsInsideTree() || IsQueuedForDeletion() || !Current()) return false;
+                if (!IsInsideTree() || IsQueuedForDeletion() || !Current() || !ReturnAvailable()) return false;
                 var visit = ActivePhotoVisit()!.Value;
                 var id = visit.GetProperty("visitId").GetString()!;
                 ownedVisitId = id;
@@ -951,8 +955,7 @@ public partial class RuntimeBridge : Node
                 if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitReturn, id) || !Current()) return false;
                 returnCheckpointSaved = await SaveCheckpointAsync(force: true, cancellationToken: cancellation.Token);
                 if (!returnCheckpointSaved || !Current()) return false;
-                if (!IsInteractionAvailable(interaction.Id) || !IsInteractionAvailable(returnInteraction.Id)
-                    || !await DispatchCompiledInteractionAsync(returnInteraction) || !Current()) return false;
+                if (!ReturnAvailable() || !await DispatchCompiledInteractionAsync(returnInteraction) || !Current()) return false;
                 if (!await main.CompletePhotoVisitProjectionAsync(session, worldId,
                     completedBankReturn ? null : ticket, completedBankReturn) || !Current()) return false;
                 if (!await RestorePhotoHouseholdScheduleAsync(session, main, ticket, cancellation.Token) || !Current()) return false;
