@@ -217,10 +217,11 @@ public partial class RuntimeBridge
                     || !PhotoWorldState.IsVisitSafeNode(candidateWorld, node)) return false;
                 worldId = candidateWorld;
                 safeNodeId = node;
-                // A calm revisit keeps the reached point of this visit. A
-                // first story visit can use an earned fallback after an action.
-                return visit.TryGetProperty("worldCompletedOnEntry", out var completedOnEntry)
-                        && completedOnEntry.ValueKind == System.Text.Json.JsonValueKind.True
+                // Older W05 tickets do not always distinguish the first visit
+                // from a completed revisit. Keep their recorded node.
+                if (!visit.TryGetProperty("worldCompletedOnEntry", out var completedOnEntry)
+                    && candidateWorld == "W05") return true;
+                return completedOnEntry.ValueKind == System.Text.Json.JsonValueKind.True
                     || PhotoWorldState.TryGetVisitResumeNode(state, candidateWorld, node, out safeNodeId);
             }
             // Schema-1 and legacy photo saves have no visit ticket. Their
