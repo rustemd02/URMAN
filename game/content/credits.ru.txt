@@ -17,6 +17,11 @@ Blender использован для создания моделей.
 
 Сведения о лицензиях компонентов Godot доступны ниже.
 
+Музыка поездки
+«There is a Place» — Scott Buckley, CC BY 4.0 International. Оригинальная запись включена без изменений. В игре звучит вступление с плавным появлением и затуханием.
+Источник: https://www.scottbuckley.com.au/library/there-is-a-place/
+Лицензия: https://creativecommons.org/licenses/by/4.0/
+
 Музыка и голоса Авыл FM
 Скрипичная запись «Aisa Hakimcan skripka.flac»: Айса Хакимджан играет на скрипке; на Wikimedia Commons запись указана за Hakimdzhan (User:Xәkim). CC BY-SA 4.0. При подготовке для игры FLAC преобразован в моно PCM16/48 кГц и ослаблен на 2,184066 дБ; полный таймлайн сохранён, производная запись остаётся под CC BY-SA 4.0. Название мелодии в источнике не указано; атрибуция не подразумевает одобрения игры.
 Источник: https://commons.wikimedia.org/wiki/File:Aisa_Hakimcan_skripka.flac

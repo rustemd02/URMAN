@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
 
@@ -6,36 +7,96 @@ namespace Urman.Godot;
 
 public partial class W01Controller
 {
-    private const double PrologueCrossingSeconds = 2.4;
-    private bool _prologueSideCrackPlayed;
-    private bool _prologueCrossingPlayed;
-    private AudioStreamPlayer3D? _prologueCrossingSound;
-    private ProloguePresence? _prologueCrossingPresence;
-    private Vector2 _prologueCrossingFrom;
-    private Vector2 _prologueCrossingTo;
-    private double _prologueCrossingElapsed;
+    private Node3D? _prologueTracks;
+    private Label? _prologueVoiceCaption;
     private object? _prologueExitSession;
     private bool _prologueExitAttempted;
     private bool _prologueExitDispatching;
-    private bool _prologueExitKnocksPlayed;
-    private double _prologueExitSecondKnockDelay;
-    private bool _prologueExitWakePlayed;
+    private bool _prologueFirstCall;
+    private bool _prologueMittenCue;
+    private bool _prologueAnswer;
+    private bool _prologueWakeCue;
+    private double _prologueCaptionRemaining;
+    private double _prologueWakeRemaining;
+    private static Vector2 PrologueMittenPoint => new(BranchF01.X + 3.5f, BranchF01.Z + 6f);
+
+    private void BuildPrologueTracks()
+    {
+        var trail = new Node3D { Name = "NightmareFootprints", Visible = false };
+        _prologueTracks = trail;
+        AddChild(trail);
+        var rims = new List<Transform3D>();
+        var soles = new List<Transform3D>();
+        var heels = new List<Transform3D>();
+        var left = true;
+        for (var i = 1; i < PrologueRouteNodes.Length; i++)
+        {
+            var start = PrologueRouteNodes[i - 1];
+            var end = PrologueRouteNodes[i];
+            var direction = new Vector3(end.X - start.X, 0, end.Z - start.Z).Normalized();
+            var side = direction.Cross(Vector3.Up);
+            var length = new Vector2(end.X - start.X, end.Z - start.Z).Length();
+            var lastPrint = i == PrologueRouteNodes.Length - 1 ? length - 4f : length;
+            for (var along = i == 1 ? 4f : 1f; along < lastPrint; along += .76f + .11f * Mathf.Sin(along * .77f))
+            {
+                var point = start + direction * along + side * ((left ? -.11f : .11f) + .24f * Mathf.Sin(along * .17f));
+                point.Y = ForestGroundHeight(point.X, point.Z);
+                var basis = new Basis(Vector3.Up, Mathf.Atan2(-direction.X, -direction.Z) + (left ? .11f : -.11f));
+                rims.Add(new Transform3D(basis * Basis.FromScale(new Vector3(.72f, 1f, 1.55f)), point + Vector3.Up * .014f));
+                soles.Add(new Transform3D(basis * Basis.FromScale(new Vector3(.85f, 1f, 1.4f)), point + basis * new Vector3(0, .018f, -.035f)));
+                heels.Add(new Transform3D(basis, point + basis * new Vector3(0, .019f, .075f)));
+                left = !left;
+            }
+        }
+
+        PrologueDeepForest.AddPrintLayer(trail, "SnowRims", rims,
+            new CylinderMesh { TopRadius = .085f, BottomRadius = .1f, Height = .005f, RadialSegments = 12 }, "a9b6c5");
+        PrologueDeepForest.AddPrintLayer(trail, "Soles", soles,
+            new CylinderMesh { TopRadius = .064f, BottomRadius = .069f, Height = .004f, RadialSegments = 12 }, "8999ac");
+        PrologueDeepForest.AddPrintLayer(trail, "Heels", heels,
+            new CylinderMesh { TopRadius = .045f, BottomRadius = .05f, Height = .004f, RadialSegments = 10 }, "7c8ca1");
+
+        PrologueDeepForest.AddMitten(trail, new Vector3(PrologueMittenPoint.X,
+            ForestGroundHeight(PrologueMittenPoint.X, PrologueMittenPoint.Y) + .046f, PrologueMittenPoint.Y),
+            new Vector3(84f, -22f, 12f));
+    }
+
+    private void BuildPrologueVoiceCaption(Node layer)
+    {
+        _prologueVoiceCaption = new Label
+        {
+            Name = "ForestVoiceCaption",
+            ThemeTypeVariation = UrmanUiTheme.Subtitle,
+            AnchorLeft = .5f,
+            AnchorRight = .5f,
+            AnchorTop = 1f,
+            AnchorBottom = 1f,
+            OffsetLeft = -290f,
+            OffsetRight = 290f,
+            OffsetTop = -160f,
+            OffsetBottom = -92f,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Visible = false
+        };
+        _prologueVoiceCaption.AddThemeConstantOverride("outline_size", 6);
+        layer.AddChild(_prologueVoiceCaption);
+    }
 
     private void ResetPrologueExitTracking(object? session)
     {
-        if (GodotObject.IsInstanceValid(_prologueCrossingSound)) _prologueCrossingSound!.QueueFree();
-        if (GodotObject.IsInstanceValid(_prologueCrossingPresence)) _prologueCrossingPresence!.QueueFree();
-        _prologueCrossingSound = null;
-        _prologueCrossingPresence = null;
-        _prologueSideCrackPlayed = false;
-        _prologueCrossingPlayed = false;
-        _prologueCrossingElapsed = 0;
+        if (_prologueExitSession is not null) PrologueVoice.StopSpatial(this);
         _prologueExitSession = session;
         _prologueExitAttempted = false;
         _prologueExitDispatching = false;
-        _prologueExitKnocksPlayed = false;
-        _prologueExitSecondKnockDelay = 0;
-        _prologueExitWakePlayed = false;
+        _prologueFirstCall = false;
+        _prologueMittenCue = false;
+        _prologueAnswer = false;
+        _prologueWakeCue = false;
+        _prologueCaptionRemaining = 0;
+        _prologueWakeRemaining = 0;
+        if (_prologueVoiceCaption is { } caption) caption.Hide();
     }
 
     private void ProcessPrologueExit()
@@ -45,15 +106,16 @@ public partial class W01Controller
             || bridge.CurrentW01BranchProjection() is not { ActiveSceneId: PrologueSceneId } projection
             || !ReferenceEquals(projection.SessionIdentity, session))
         {
+            if (_prologueTracks is { } tracks) tracks.Hide();
             ResetPrologueExitTracking(null);
             return;
         }
+        if (_prologueTracks is { } activeTracks) activeTracks.Show();
         if (!ReferenceEquals(_prologueExitSession, session)) ResetPrologueExitTracking(session);
         if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
             || !GodotObject.IsInstanceValid(player)) return;
 
         var local = ToLocal(player.GlobalPosition);
-        // The final path opens into a clearing wider than the packed core.
         var direction = new Vector2(PrologueF03.X - PrologueF02.X, PrologueF03.Z - PrologueF02.Z).Normalized();
         var offset = new Vector2(local.X - PrologueF03.X, local.Z - PrologueF03.Z);
         var along = offset.Dot(direction);
@@ -66,106 +128,78 @@ public partial class W01Controller
             || player.VehicleControlled || player.IsClimbingLadder
             || GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true }
             || GetTree().GetFirstNodeInGroup("dialogue_ui") is DialogueUi { IsOpen: true }
-            || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true }) return;
+            || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true })
+        {
+            if (_prologueVoiceCaption is { } hidden) hidden.Hide();
+            return;
+        }
+
+        var delta = GetProcessDeltaTime();
+        _prologueCaptionRemaining = Math.Max(0, _prologueCaptionRemaining - delta);
+        _prologueWakeRemaining = Math.Max(0, _prologueWakeRemaining - delta);
+        if (_prologueVoiceCaption is { } caption)
+            caption.Visible = _accessibility.Subtitles && _prologueCaptionRemaining > 0;
 
         var onTrailGround = player.IsOnFloor() && Mathf.Abs(local.Y - ForestGroundHeight(local.X, local.Z)) <= .5f;
-        ProcessPrologueForestBeats(player, new Vector2(local.X, local.Z), projection.Moved, onTrailGround);
-        if (!projection.Moved || !onTrailGround) return;
-
-        // A quiet, spatial pair points toward the opening before the familiar voice reaches it.
-        if (!_prologueExitKnocksPlayed && along >= -36f && along < -24f && lateral <= 5f)
+        if (!onTrailGround) return;
+        var feet = new Vector2(local.X, local.Z);
+        if (!projection.Moved)
         {
-            _prologueExitKnocksPlayed = true;
-            _prologueExitSecondKnockDelay = .48;
-            PlayPrologueExitKnock();
-        }
-        else if (_prologueExitSecondKnockDelay > 0)
-        {
-            _prologueExitSecondKnockDelay -= GetProcessDeltaTime();
-            if (_prologueExitSecondKnockDelay <= 0)
+            var approach = new Vector2(BranchF01.X, BranchF01.Z).Normalized();
+            if (!_prologueFirstCall && feet.Dot(approach) is >= 8f and <= 36f && Mathf.Abs(feet.Cross(approach)) <= 5f)
             {
-                _prologueExitSecondKnockDelay = 0;
-                PlayPrologueExitKnock();
+                _prologueFirstCall = true;
+                var inTrees = feet + approach * 17f + new Vector2(-approach.Y, approach.X) * 8f;
+                PlayPrologueForestVoice(inTrees, "forest-name-call", "«Айдар…»", -4f);
             }
+            return;
         }
 
-        if (!_prologueExitWakePlayed && along >= -12f && along < -2.5f && lateral <= 4f)
+        if (!_prologueMittenCue && feet.DistanceTo(PrologueMittenPoint) < 6f)
         {
-            _prologueExitWakePlayed = true;
-            PrologueVoice.PlayAt(this, ToGlobal(PrologueF03 + Vector3.Up * 1.6f), "forest-babai-name-v2", -5f, 22f);
+            _prologueMittenCue = true;
+            var source = ToGlobal(new Vector3(PrologueMittenPoint.X,
+                ForestGroundHeight(PrologueMittenPoint.X, PrologueMittenPoint.Y) + 3.4f, PrologueMittenPoint.Y));
+            UiFoley.PlayWorld(this, source, "forest/branch_crack", -12f, 20f, 4f);
         }
-        if (_prologueExitAttempted || _prologueExitDispatching || lateral > 4f || along < -2.5f || along > 6f)
+
+        if (!_prologueAnswer && along >= -55f && along < -17f && lateral <= 8f)
+        {
+            _prologueAnswer = true;
+            var behind = feet - direction * 9f + new Vector2(direction.Y, -direction.X) * 7f;
+            PlayPrologueForestVoice(behind, "forest-come-here", "«Айдар. Кил монда…»\n(Айдар, иди сюда…)", -2f);
+        }
+
+        if (_prologueExitAttempted || _prologueExitDispatching || lateral > 4f || along < -2.5f || along > 7f)
             return;
+
+        if (!_prologueWakeCue)
+        {
+            // The prints stop here. The last voice is right beside Aidar, before the car reveals its source.
+            _prologueWakeCue = true;
+            PrologueVoice.StopSpatial(this);
+            var beside = feet + new Vector2(direction.Y, -direction.X) * 1.1f;
+            _prologueWakeRemaining = Math.Clamp(PlayPrologueForestVoice(beside, "forest-babai-name-v2", "«Айдар… Айдар…»", -3f) * .65, 1.3, 2.4);
+        }
+        if (_prologueWakeRemaining > 0) return;
 
         _prologueExitAttempted = true;
         _prologueExitDispatching = true;
         _ = DispatchPrologueExitAsync(bridge, session);
     }
 
-    private void ProcessPrologueForestBeats(FirstPersonController player, Vector2 feet, bool branchMoved, bool onTrailGround)
+    private double PlayPrologueForestVoice(Vector2 point, string clip, string subtitle, float volume)
     {
-        if (!branchMoved)
+        var source = ToGlobal(new Vector3(point.X, ForestGroundHeight(point.X, point.Y) + 1.4f, point.Y));
+        var duration = PrologueVoice.PlayAt(this, source, clip, volume, 36f);
+        if (_prologueVoiceCaption is { } caption)
         {
-            var approach = new Vector2(BranchF01.X, BranchF01.Z).Normalized();
-            if (onTrailGround && !_prologueSideCrackPlayed && feet.Dot(approach) is >= 14f and <= 28f
-                && Mathf.Abs(feet.Cross(approach)) <= 5f)
-            {
-                _prologueSideCrackPlayed = true;
-                var offTrail = approach * 25f + new Vector2(-approach.Y, approach.X) * 11f;
-                UiFoley.PlayWorld(this, PrologueForestPoint(offTrail, 1.1f), "forest/branch_crack", -10f, 32f, 5f);
-            }
-            return;
+            caption.Text = subtitle;
+            _prologueCaptionRemaining = Math.Max(2.4, duration);
+            caption.Visible = _accessibility.Subtitles;
         }
-
-        if (!_prologueCrossingPlayed)
-        {
-            if (!onTrailGround) return;
-            var bend = new Vector2(PrologueF02.X, PrologueF02.Z);
-            var approach = (bend - new Vector2(BranchF01.X, BranchF01.Z)).Normalized();
-            var offset = feet - bend;
-            if (offset.Dot(approach) is < -17f or > -8f || Mathf.Abs(offset.Cross(approach)) > 5f) return;
-
-            _prologueCrossingPlayed = true;
-            var side = new Vector2(-approach.Y, approach.X);
-            var crossing = bend + approach * 4f;
-            _prologueCrossingFrom = crossing - side * 8f;
-            _prologueCrossingTo = crossing + side * 8f;
-            _prologueCrossingSound = UiFoley.PlayWorld(this, PrologueForestPoint(_prologueCrossingFrom, .6f),
-                "forest/runner_past", -9f, 40f, 6f);
-            if (!player.ReducedMotion)
-            {
-                var presence = new ProloguePresence { Name = "ProloguePeripheralCrossing" };
-                AddChild(presence);
-                presence.GlobalPosition = PrologueForestPoint(_prologueCrossingFrom, .65f);
-                presence.LookAt(player.GlobalPosition + Vector3.Up);
-                presence.SetVeil(0f, 0f);
-                _prologueCrossingPresence = presence;
-            }
-        }
-
-        if (_prologueCrossingElapsed >= PrologueCrossingSeconds) return;
-        _prologueCrossingElapsed = Math.Min(PrologueCrossingSeconds, _prologueCrossingElapsed + GetProcessDeltaTime());
-        var progress = (float)(_prologueCrossingElapsed / PrologueCrossingSeconds);
-        var point = _prologueCrossingFrom.Lerp(_prologueCrossingTo, progress);
-        if (GodotObject.IsInstanceValid(_prologueCrossingSound))
-            _prologueCrossingSound!.GlobalPosition = PrologueForestPoint(point, .6f);
-        if (_prologueCrossingPresence is not { } visible || !GodotObject.IsInstanceValid(visible)) return;
-        if (progress >= 1f || player.ReducedMotion)
-        {
-            visible.QueueFree();
-            _prologueCrossingPresence = null;
-            return;
-        }
-        visible.GlobalPosition = PrologueForestPoint(point, .65f);
-        var glimpse = Mathf.Clamp((progress - .26f) / .48f, 0f, 1f);
-        visible.SetVeil(Mathf.Sin(glimpse * Mathf.Pi) * .44f, (float)_prologueCrossingElapsed);
+        return duration;
     }
-
-    private Vector3 PrologueForestPoint(Vector2 point, float height) =>
-        ToGlobal(new Vector3(point.X, ForestGroundHeight(point.X, point.Y) + height, point.Y));
-
-    private void PlayPrologueExitKnock() =>
-        UiFoley.PlayWorld(this, ToGlobal(PrologueF03 + Vector3.Up * 1.6f), "wood_tap", -16f, 60f, 14f);
 
     private async Task DispatchPrologueExitAsync(RuntimeBridge bridge, object session)
     {

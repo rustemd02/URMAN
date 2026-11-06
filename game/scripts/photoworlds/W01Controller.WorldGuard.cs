@@ -143,13 +143,14 @@ public partial class W01Controller
         sky.SkyCoverModulate = night.Cover;
         profile.AmbientLightSource = global::Godot.Environment.AmbientSource.Color;
         profile.AmbientLightColor = night.AmbientColor;
-        profile.AmbientLightEnergy = night.AmbientEnergy;
+        profile.AmbientLightEnergy = night.AmbientEnergy * .72f;
         profile.AmbientLightSkyContribution = night.AmbientSky;
         profile.TonemapExposure = night.Exposure;
         profile.FogEnabled = true;
         profile.FogMode = global::Godot.Environment.FogModeEnum.Exponential;
-        profile.FogLightColor = night.FogColor;
-        profile.FogDensity = night.FogDensity;
+        // Hold the snow and tracks in the foreground while the tree line loses depth.
+        profile.FogLightColor = night.FogColor.Darkened(.35f);
+        profile.FogDensity = night.FogDensity * 1.32f;
         profile.FogHeight = night.FogHeight;
         profile.FogHeightDensity = night.FogHeightDensity;
         profile.FogAerialPerspective = night.FogAerial;

@@ -486,9 +486,9 @@ public partial class JournalUi
             (bridge.ActiveSceneId, hint.Key) switch
             {
                 ("urman.fullgame:scene/pw-prologue", "prologue-branch") =>
-                    ("Ветка поперёк тропы", "Подойдите к ветке и отведите её, чтобы пройти дальше.", "pw-prologue-branch-move", "ZoneHost/W01/Anchors/F01", "Ветка на тропе"),
+                    ("Чужие следы", "Идите по следам. У поваленной ветки освободите проход.", "pw-prologue-branch-move", "ZoneHost/W01/Anchors/F01", "Следы"),
                 ("urman.fullgame:scene/pw-prologue", "prologue-exit") =>
-                    ("Выход из леса", "Идите по тропе к светлой поляне.", "pw-prologue-f03-end", "ZoneHost/W01/Anchors/F03", "Светлая поляна"),
+                    ("Голос в лесу", "Продолжайте по следам до поляны.", "pw-prologue-f03-end", "ZoneHost/W01/Anchors/F03", "Поляна"),
                 ("urman.fullgame:scene/pw-forest", "camera") =>
                     ("Три ориентира на опушке", "У трёх стволов повернитесь так, чтобы видеть берёзу, перекладину и дугу корня сразу.", "pw-forest-group", "ZoneHost/W01/Anchors/F11", "За тремя стволами"),
                 ("urman.fullgame:scene/pw-forest", "path") =>

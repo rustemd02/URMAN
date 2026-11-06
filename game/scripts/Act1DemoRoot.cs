@@ -23,6 +23,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     // minimum only prevents a same-frame hard cut when a cue is unavailable.
     private const double CliffhangerMinimumDelaySeconds = 0.6;
     private const double RouteCueVisibleSeconds = 3.2;
+    private const double MissionCueToastVisibleSeconds = 5.5;
     private const double NewMissionHeaderVisibleSeconds = 4.0;
 
     private Main _main = null!;
@@ -47,6 +48,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private PlayerMission? _mission;
     private Vector2 _routeCueViewportSize;
     private Tween? _routeCueTween;
+    private double _routeCueToastRemaining;
     private string _lastRouteCue = string.Empty;
     private string? _lastRouteCueMissionId;
     private double _newMissionHeaderSeconds;
@@ -172,7 +174,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     public bool IntroVisible => _introScreen is not null || _prologueForestActive;
 
     internal bool MissionHudVisible => UsesPhotoWorldsCampaign
-        && _routeCuePanel is { Visible: true } panel && IsInstanceValid(panel);
+        && ((_routeCuePanel is { Visible: true } panel && IsInstanceValid(panel))
+            || (_objectiveMarker is { Visible: true } bearing && IsInstanceValid(bearing)));
 
     /// <summary>The forest teaser or Niva ride owns the screen; E is ignored, Esc skips.</summary>
     internal bool PrologueActive => _prologueForestActive;
@@ -212,7 +215,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         {
             var plate = UrmanUiTheme.PlateBox(
                 colours.Ink with { A = 1f }, settings.HighContrast ? colours.Line : colours.Accent,
-                settings.HighContrast ? 3 : 0, marginX: UrmanUiTheme.Space.L, marginY: UrmanUiTheme.Space.M);
+                settings.HighContrast ? 3 : 0,
+                marginX: UsesPhotoWorldsCampaign ? UrmanUiTheme.Space.S : UrmanUiTheme.Space.L,
+                marginY: UsesPhotoWorldsCampaign ? UrmanUiTheme.Space.Xs : UrmanUiTheme.Space.M);
             plate.BorderWidthLeft = settings.HighContrast ? 6 : 4;
             _routeCuePanel.AddThemeStyleboxOverride("panel", plate);
         }
@@ -220,7 +225,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         {
             (_routeCueHeader, UrmanUiTheme.Size.Small),
             (_routeCueTitle, UrmanUiTheme.Size.Heading),
-            (_routeCue, UrmanUiTheme.Size.Subtitle),
+            (_routeCue, UsesPhotoWorldsCampaign ? UrmanUiTheme.Size.Body : UrmanUiTheme.Size.Subtitle),
             (_routeCueDestination, UrmanUiTheme.Size.Subtitle),
             (_routeCueShortcuts, UrmanUiTheme.Size.Small)
         })
@@ -441,22 +446,31 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
         UpdateIntroControls();
         UpdateIntroFlyover(delta);
-        if (UsesPhotoWorldsCampaign && _mission is not null)
-        {
-            RefreshMissionShortcuts();
-            if (_routeCueViewportSize != GetViewport().GetVisibleRect().Size)
-                FitRouteCuePlate(_player?.Accessibility ?? AccessibilitySettingsSnapshot.Default);
-        }
+        if (UsesPhotoWorldsCampaign && _mission is not null
+            && _routeCueViewportSize != GetViewport().GetVisibleRect().Size)
+            FitRouteCuePlate(_player?.Accessibility ?? AccessibilitySettingsSnapshot.Default);
         UpdateObjectiveMarker(delta);
         if (_routeCue is not null
             && ((_routeCueTween is { } activeCueTween && activeCueTween.IsValid())
                 || (UsesPhotoWorldsCampaign && !string.IsNullOrWhiteSpace(_lastRouteCue))))
         {
-            // Legacy cues are interruptible toasts; PhotoWorld cues stay up as
-            // the current objective until runtime state changes or clears them.
+            // PhotoWorld actions are brief top prompts; the bearing stays up
+            // while its resolved target remains available.
             var modal = RouteCueBlockedByModal();
-            _routeCue.Visible = !modal;
-            if (_routeCuePanel is not null) _routeCuePanel.Visible = !modal;
+            var cueVisible = !modal && (!UsesPhotoWorldsCampaign || _routeCueToastRemaining > 0
+                || !_objectiveMarkerTargetResolved);
+            _routeCue.Visible = cueVisible;
+            if (_routeCuePanel is not null) _routeCuePanel.Visible = cueVisible;
+            if (UsesPhotoWorldsCampaign && cueVisible) RefreshMissionJournalHint();
+            if (UsesPhotoWorldsCampaign && !modal && _routeCueToastRemaining > 0)
+            {
+                _routeCueToastRemaining = Math.Max(0, _routeCueToastRemaining - delta);
+                if (_routeCueToastRemaining <= 0)
+                {
+                    _routeCue.Visible = false;
+                    if (_routeCuePanel is not null) _routeCuePanel.Visible = false;
+                }
+            }
             if (_routeCueTween is { } cueTween && cueTween.IsValid())
             {
                 if (modal) cueTween.Pause();
@@ -2037,12 +2051,6 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         var cueIdentity = UsesPhotoWorldsCampaign ? $"{_mission?.Id}\n{_mission?.Title}\n{text}" : text;
         if (string.Equals(cueIdentity, _lastRouteCue, StringComparison.Ordinal))
         {
-            if (UsesPhotoWorldsCampaign)
-            {
-                var visible = !RouteCueBlockedByModal();
-                _routeCue.Visible = visible;
-                _routeCuePanel.Visible = visible;
-            }
             return;
         }
 
@@ -2050,6 +2058,23 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _routeCueTween?.Kill();
         _routeCue.Text = text;
         if (_routeCueTitle is not null) _routeCueTitle.Text = _mission?.Title ?? string.Empty;
+        if (UsesPhotoWorldsCampaign)
+        {
+            _routeCueTween = null;
+            _routeCueHeader!.Visible = false;
+            _routeCueTitle!.Visible = false;
+            _routeCueDestination!.Visible = false;
+            _routeCueShortcuts!.Visible = true;
+            RefreshMissionJournalHint();
+            _newMissionHeaderSeconds = 0;
+            FitRouteCuePlate(_player?.Accessibility ?? AccessibilitySettingsSnapshot.Default);
+            _routeCuePanel.Modulate = Colors.White;
+            _routeCueToastRemaining = MissionCueToastVisibleSeconds;
+            var missionModal = RouteCueBlockedByModal();
+            _routeCue.Visible = !missionModal;
+            _routeCuePanel.Visible = !missionModal;
+            return;
+        }
         RefreshMissionShortcuts();
         FitRouteCuePlate(_player?.Accessibility ?? AccessibilitySettingsSnapshot.Default);
         var modal = RouteCueBlockedByModal();
@@ -2088,24 +2113,43 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             _routeCueHeader.Visible = false;
     }
 
+    private void RefreshMissionJournalHint()
+    {
+        if (_routeCue is null || _routeCueShortcuts is null) return;
+        var journalHint = InputBindingService.ActionHint("journal", _player?.CurrentInputDevice == "gamepad");
+        if (_mission?.Action is { } action)
+        {
+            var displayAction = action.Replace("[J]", journalHint, StringComparison.Ordinal);
+            if (_routeCue.Text != displayAction) _routeCue.Text = displayAction;
+        }
+        var text = journalHint + "  Задания";
+        if (_routeCueShortcuts.Text != text) _routeCueShortcuts.Text = text;
+    }
+
     private void FitRouteCuePlate(AccessibilitySettingsSnapshot settings)
     {
         if (_routeCue is null || _routeCuePanel is null) return;
         _routeCueViewportSize = GetViewport().GetVisibleRect().Size;
         var scale = Mathf.Clamp((float)settings.TextScale, 0.8f, 1.6f);
         var margin = _routeCueViewportSize.X < 720 ? 16f : 24f;
-        var width = Mathf.Min(UsesPhotoWorldsCampaign ? 480f * scale : 720f,
+        var width = Mathf.Min(UsesPhotoWorldsCampaign ? 600f * scale : 720f,
             Mathf.Max(1f, _routeCueViewportSize.X - margin * 2));
-        _routeCuePanel.AnchorTop = _routeCuePanel.AnchorBottom = UsesPhotoWorldsCampaign ? 0f : 1f;
-        _routeCuePanel.OffsetLeft = margin;
-        _routeCuePanel.OffsetRight = margin + width;
         if (UsesPhotoWorldsCampaign)
         {
-            // Container minimum size follows wrapped text, including large accessibility type.
-            _routeCuePanel.OffsetTop = margin;
-            _routeCuePanel.OffsetBottom = margin;
+            // Keep the temporary action prompt below the compact top bearing.
+            _routeCuePanel.AnchorLeft = _routeCuePanel.AnchorRight = .5f;
+            _routeCuePanel.AnchorTop = _routeCuePanel.AnchorBottom = 0f;
+            _routeCuePanel.OffsetLeft = -width / 2f;
+            _routeCuePanel.OffsetRight = width / 2f;
+            _routeCuePanel.OffsetTop = 112f * scale;
+            _routeCuePanel.OffsetBottom = 112f * scale;
+            FitMissionHeight();
             return;
         }
+        _routeCuePanel.AnchorLeft = _routeCuePanel.AnchorRight = 0f;
+        _routeCuePanel.AnchorTop = _routeCuePanel.AnchorBottom = 1f;
+        _routeCuePanel.OffsetLeft = margin;
+        _routeCuePanel.OffsetRight = margin + width;
         var fontSize = Mathf.RoundToInt(UrmanUiTheme.Size.Subtitle * scale);
         var charactersPerLine = Mathf.Max(1, Mathf.FloorToInt((width - 48f) / (fontSize * 0.7f)));
         var estimatedLines = Mathf.Max(1, Mathf.CeilToInt(_routeCue.Text.Length / (float)charactersPerLine));
@@ -2117,6 +2161,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     {
         _routeCueTween?.Kill();
         _routeCueTween = null;
+        _routeCueToastRemaining = 0;
         _lastRouteCue = string.Empty;
         _mission = null;
         HideObjectiveMarker();

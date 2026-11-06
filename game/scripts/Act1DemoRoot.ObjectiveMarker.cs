@@ -18,7 +18,6 @@ public partial class Act1DemoRoot
     private const string BankCopySourceInteractionId = "urman.fullgame:interaction/pw-bank-copy-source";
     private const string BankCopyPermissionInteractionId = "urman.fullgame:interaction/pw-bank-copy-permission";
     private const string CouncilOfficeDoorInteractionId = "urman.chapter1:local/council/office";
-    private static readonly Vector2[] ObjectiveDiamond = [new(0, -14), new(11, 0), new(0, 14), new(-11, 0)];
     private static readonly Vector2[] ObjectiveArrow = [new(0, -16), new(13, 13), new(0, 6), new(-13, 13)];
     private static readonly Lazy<IReadOnlyList<Vector2>> HomeObjectiveRoute = new(() => Array.AsReadOnly(
         new[]
@@ -38,6 +37,7 @@ public partial class Act1DemoRoot
     private string? _objectiveMarkerZone;
     private double _objectiveMarkerRetry;
     private bool _objectiveMarkerUsingAnchor;
+    private bool _objectiveMarkerTargetResolved;
     private AccessibilitySettingsSnapshot? _objectiveMarkerSettings;
 
     private void UpdateObjectiveMarker(double delta)
@@ -92,6 +92,7 @@ public partial class Act1DemoRoot
             HideObjectiveMarker();
             return;
         }
+        _objectiveMarkerTargetResolved = true;
 
         EnsureObjectiveMarker();
         var settings = player.Accessibility;
@@ -99,11 +100,8 @@ public partial class Act1DemoRoot
         {
             _objectiveMarkerSettings = settings;
             _objectiveMarker!.Theme = UrmanUiTheme.For(settings);
-            UrmanUiTheme.ApplyWorldText(_objectiveMarkerLabel!, settings, UrmanUiTheme.Size.WorldPrompt);
+            UrmanUiTheme.ApplyWorldText(_objectiveMarkerLabel!, settings, UrmanUiTheme.Size.Small);
             var colours = UrmanUiTheme.Colours(settings);
-            _objectiveMarkerLabel!.AddThemeFontOverride("font", UrmanUiTheme.BodyBoldFont);
-            _objectiveMarkerLabel.AddThemeStyleboxOverride("normal", UrmanUiTheme.PlateBox(
-                colours.Ink, colours.Focus, 1, marginX: UrmanUiTheme.Space.S, marginY: UrmanUiTheme.Space.Xs));
             _objectiveMarkerGlyph!.Color = colours.Focus;
             _objectiveMarkerOutline!.Color = colours.InkSunken;
         }
@@ -151,74 +149,29 @@ public partial class Act1DemoRoot
             ? name
             : $"{name} · {Mathf.CeilToInt(player.GlobalPosition.DistanceTo(destination))} м";
         label.Text = destinationText;
-        if (_routeCueDestination is { } destinationLabel)
-        {
-            if (destinationLabel.Text != destinationText) destinationLabel.Text = destinationText;
-            destinationLabel.Visible = true;
-        }
-        var labelWidth = Mathf.Min(320f * scale, viewportSize.X - 48f);
-        label.Size = new Vector2(labelWidth, 40f * scale);
-        label.Position = new Vector2(-labelWidth / 2f, 22f * scale);
+        var labelWidth = Mathf.Min(360f * scale, viewportSize.X - 32f);
+        label.Size = new Vector2(labelWidth, 28f * scale);
+        label.Position = new Vector2(-labelWidth / 2f, 24f * scale);
+        label.AutowrapMode = TextServer.AutowrapMode.Off;
 
-        // Observation subjects and the family book target already contain their exact sight point.
-        var worldPoint = destination + Vector3.Up * (inspectionTarget
-            || (!waypoint && mission.InteractionId == FamilyBookHandoffInteractionId) ? 0f
-            : !waypoint && target is InteractionTarget ? .65f : 1.5f);
-        var screenPoint = camera.UnprojectPosition(worldPoint);
-        var centre = viewportSize / 2f;
-        var inset = new Vector2(labelWidth / 2f + 24f, 64f * scale);
-        var limits = new Vector2(Mathf.Max(1f, centre.X - inset.X), Mathf.Max(1f, centre.Y - inset.Y));
-        // Leave room below the glyph for the label at the bottom edge.
-        var bottom = viewportSize.Y - 96f * scale;
-        var behind = camera.IsPositionBehind(worldPoint);
-        var onScreen = !behind && screenPoint.X >= inset.X && screenPoint.X <= viewportSize.X - inset.X
-            && screenPoint.Y >= inset.Y && screenPoint.Y <= bottom
-            && !ObjectiveMarkerOverlapsMission(screenPoint, labelWidth, scale);
-        if (onScreen)
+        var cameraForward3 = -camera.GlobalBasis.Z;
+        var forward = new Vector2(cameraForward3.X, cameraForward3.Z);
+        if (forward.LengthSquared() < .001f)
         {
-            SetObjectiveMarkerGlyph(false, 0f, scale);
-            _objectiveMarker!.Position = screenPoint;
+            var playerForward3 = -player.GlobalBasis.Z;
+            forward = new Vector2(playerForward3.X, playerForward3.Z);
         }
-        else
-        {
-            // Camera-local X/Y retain the correct turn direction behind the player.
-            var local = camera.GlobalTransform.AffineInverse() * worldPoint;
-            var direction = behind || !float.IsFinite(screenPoint.X) || !float.IsFinite(screenPoint.Y)
-                ? new Vector2(local.X, -local.Y) : screenPoint - centre;
-            if (direction.LengthSquared() < .001f) direction = Vector2.Down;
-            direction = direction.Normalized();
-            var factor = Mathf.Min(limits.X / Mathf.Max(Mathf.Abs(direction.X), .001f),
-                limits.Y / Mathf.Max(Mathf.Abs(direction.Y), .001f));
-            var edge = centre + direction * factor;
-            edge.Y = Mathf.Clamp(edge.Y, inset.Y, bottom);
-            if (ObjectiveMarkerOverlapsMission(edge, labelWidth, scale))
-            {
-                var panel = _routeCuePanel!.GetGlobalRect();
-                var below = panel.End.Y + 28f * scale;
-                if (below <= bottom)
-                    edge.Y = below;
-                else
-                {
-                    // Large task text must not erase the only direction cue.
-                    // Use the free right edge, shrinking the caption before dropping it.
-                    var availableWidth = viewportSize.X - panel.End.X - 48f * scale;
-                    if (availableWidth >= 96f * scale)
-                    {
-                        labelWidth = Mathf.Min(labelWidth, availableWidth);
-                        label.Size = new Vector2(labelWidth, label.Size.Y);
-                        label.Position = new Vector2(-labelWidth / 2f, label.Position.Y);
-                        edge.X = viewportSize.X - labelWidth / 2f - 24f * scale;
-                    }
-                    else
-                    {
-                        label.Visible = false;
-                        edge.X = viewportSize.X - 24f * scale;
-                    }
-                }
-            }
-            SetObjectiveMarkerGlyph(true, direction.Angle() + Mathf.Pi / 2f, scale);
-            _objectiveMarker!.Position = edge;
-        }
+        if (forward.LengthSquared() < .001f) forward = Vector2.Up;
+        forward = forward.Normalized();
+        var right = new Vector2(-forward.Y, forward.X);
+        var toDestination = new Vector2(destination.X - player.GlobalPosition.X,
+            destination.Z - player.GlobalPosition.Z);
+        var bearing = toDestination.LengthSquared() < .001f
+            ? Vector2.Up
+            : new Vector2(right.Dot(toDestination), -forward.Dot(toDestination));
+        if (bearing.LengthSquared() < .001f) bearing = Vector2.Up;
+        SetObjectiveBearingGlyph(bearing.Angle() + Mathf.Pi / 2f, .7f * scale);
+        _objectiveMarker!.Position = new Vector2(viewportSize.X / 2f, 32f * scale);
         _objectiveMarker!.Visible = true;
     }
 
@@ -893,11 +846,6 @@ public partial class Act1DemoRoot
         return true;
     }
 
-    private bool ObjectiveMarkerOverlapsMission(Vector2 position, float labelWidth, float scale) =>
-        _routeCuePanel is { Visible: true } panel
-        && panel.GetGlobalRect().Grow(12f * scale).Intersects(new Rect2(
-            position - new Vector2(labelWidth / 2f, 16f * scale), new Vector2(labelWidth, 82f * scale)));
-
     internal bool TryGetVillageMapNavigation(RuntimeBridge bridge, out Vector2 position, out Vector2 forward,
         out Vector2? objective, out string? label)
     {
@@ -1035,17 +983,17 @@ public partial class Act1DemoRoot
         {
             Name = "DestinationLabel", HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Top, TextOverrunBehavior = TextServer.OverrunBehavior.TrimEllipsis,
+            ThemeTypeVariation = UrmanUiTheme.Hint,
             MouseFilter = Control.MouseFilterEnum.Ignore
         };
         _objectiveMarker.AddChild(_objectiveMarkerLabel);
         _objectiveMarkerSettings = null;
     }
 
-    private void SetObjectiveMarkerGlyph(bool arrow, float rotation, float scale)
+    private void SetObjectiveBearingGlyph(float rotation, float scale)
     {
-        var points = arrow ? ObjectiveArrow : ObjectiveDiamond;
-        _objectiveMarkerGlyph!.Polygon = points;
-        _objectiveMarkerOutline!.Polygon = points;
+        _objectiveMarkerGlyph!.Polygon = ObjectiveArrow;
+        _objectiveMarkerOutline!.Polygon = ObjectiveArrow;
         _objectiveMarkerGlyph.Rotation = _objectiveMarkerOutline.Rotation = rotation;
         _objectiveMarkerGlyph.Scale = Vector2.One * scale;
         _objectiveMarkerOutline.Scale = Vector2.One * scale * 1.4f;
@@ -1053,6 +1001,7 @@ public partial class Act1DemoRoot
 
     private void HideObjectiveMarker()
     {
+        _objectiveMarkerTargetResolved = false;
         if (_objectiveMarker is not null && GodotObject.IsInstanceValid(_objectiveMarker)) _objectiveMarker.Visible = false;
         if (_routeCueDestination is not null) _routeCueDestination.Visible = false;
     }

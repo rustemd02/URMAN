@@ -2307,6 +2307,22 @@
       "releaseDisposition": "include-in-act1-release with CC BY-SA 4.0 attribution and source provenance; release/native audio acceptance remains separate"
     },
     {
+      "id": "audio.prologue.niva.there-is-a-place",
+      "source": "https://www.scottbuckley.com.au/library/wp-content/uploads/2019/04/sb_thereisaplace.mp3",
+      "sourceUrl": "https://www.scottbuckley.com.au/library/there-is-a-place/",
+      "sourceAuthor": "Scott Buckley",
+      "sourceLicenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceSha256": "2351a90357cc5746957364bceff426f0b817cf9702789ec5910888d8e6c0cb71",
+      "derived": "game/assets/audio/act1/sound_mood/there-is-a-place-scott-buckley.mp3",
+      "derivedSha256": "2351a90357cc5746957364bceff426f0b817cf9702789ec5910888d8e6c0cb71",
+      "license": "CC-BY-4.0",
+      "credit": "‘There is a Place’ by Scott Buckley — released under CC BY 4.0. www.scottbuckley.com.au",
+      "runtimeCredit": "game/content/credits.ru.txt",
+      "runtimeBinding": "Act1DemoRoot.UpdatePhotoNivaScore; fade after the wake, then out before parking",
+      "audio": "Original MP3; stereo 44.1 kHz; 325.538 seconds; source bytes unchanged. The scene uses the opening with playback gain fades.",
+      "status": "Source and license checked; native mix acceptance pending."
+    },
+    {
       "id": "audio.radio.avyl-fm.preview.avyl-ident",
       "source": "assets/source/audio/act1/radio/synthetic-preview-ecad706f6240158020fe22dad11519cc44a459a5956fbd79d611e921ee280ef7/wav/avyl-ident.wav",
       "sourceSha256": "520fa1c7b706016c9b542a1bf0146056b074ee91449b6dbfa8d13aa01742a6d3",

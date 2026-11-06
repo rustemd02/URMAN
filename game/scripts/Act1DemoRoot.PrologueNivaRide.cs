@@ -31,6 +31,44 @@ public partial class Act1DemoRoot
     private Task<bool> _photoNivaLanguageWrite = Task.FromResult(true);
     private bool _photoNivaPhysicsEnabled, _photoNivaInputEnabled, _photoNivaExitPending;
     private ulong _photoNivaReleasedFrame;
+    private AudioStreamPlayer? _photoNivaScore;
+    private float _photoNivaScoreElapsed;
+
+    private void UpdatePhotoNivaScore(float delta, bool paused, float metresToStop)
+    {
+        if (_photoNivaScore is { } playing) playing.StreamPaused = paused;
+        if (paused || DisplayServer.GetName() == "headless") return;
+        _photoNivaScoreElapsed += delta;
+        // Leave the waking voice, motor and first seconds of the road exposed.
+        if (_photoNivaScoreElapsed < 8f) return;
+        if (_photoNivaScore is null)
+        {
+            const string track = "res://assets/audio/act1/sound_mood/there-is-a-place-scott-buckley.mp3";
+            if (!ResourceLoader.Exists(track) || GD.Load<AudioStream>(track) is not { } stream) return;
+            AudioSettingsService.EnsureBuses();
+            _photoNivaScore = new AudioStreamPlayer
+            {
+                Name = "PhotoNivaScore",
+                Bus = AudioSettingsService.AmbienceBus,
+                Stream = stream,
+                VolumeDb = -60f
+            };
+            AddChild(_photoNivaScore);
+            _photoNivaScore.Play();
+        }
+        var gain = Mathf.SmoothStep(0f, 5f, _photoNivaScoreElapsed - 8f)
+            * Mathf.SmoothStep(0f, 32f, metresToStop);
+        _photoNivaScore.VolumeDb = -16f + Mathf.LinearToDb(Mathf.Max(.001f, gain));
+    }
+
+    private void ReleasePhotoNivaScore()
+    {
+        _photoNivaScoreElapsed = 0f;
+        if (_photoNivaScore is not { } score) return;
+        score.Stop();
+        score.QueueFree();
+        _photoNivaScore = null;
+    }
 
     internal bool PhotoNivaArrivalActive => _photoNivaPresentation is { } presentation
         && IsInstanceValid(presentation) && ReferenceEquals(presentation, _rideNiva);

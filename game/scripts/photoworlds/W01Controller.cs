@@ -264,6 +264,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         BuildForest();
         BuildForestHorizon();
         BuildBranch();
+        BuildPrologueTracks();
         BuildPhotoTableau();
         BuildProloguePhotoSource();
         BuildPrologueUi();
@@ -320,6 +321,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         AccessibilityPresentation.ApplyToControl(button, settings);
         if (_prologueHintPanel is { } hintPanel && GodotObject.IsInstanceValid(hintPanel))
             AccessibilityPresentation.ApplyToControl(hintPanel, settings);
+        if (_prologueVoiceCaption is { } voiceCaption && GodotObject.IsInstanceValid(voiceCaption))
+            AccessibilityPresentation.ApplyToControl(voiceCaption, settings);
         RefitPrologueSkipButton();
     }
 
@@ -2041,6 +2044,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _prologueSkipButton.Pressed += OnPrologueSkipPressed;
         _prologueSkipButton.Visible = false;
         _prologueSkipButton.Disabled = true;
+        BuildPrologueVoiceCaption(_prologueSkipButton.GetParent());
         _prologueHintPanel = new PanelContainer
         {
             Name = "HintAccessPanel",
