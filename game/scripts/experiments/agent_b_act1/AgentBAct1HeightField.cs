@@ -232,7 +232,9 @@ public static class AgentBAct1HeightField
     }
     internal static bool InsideHouseholdClearance(Vector2 point)
         => HouseholdPads.Any(pad => pad.Outside(point.X, point.Y) < pad.Feather);
-    private static Vector3[] CollisionFacesValue => _collisionFaces ??= BuildTerrainFaces();
+    // Ground queries, the visual mesh and the base collider all use the same
+    // sampled grid. Studio road and stroke edits invalidate it at the source.
+    internal static ReadOnlySpan<Vector3> TerrainFaces => _collisionFaces ??= BuildTerrainFaces();
 
     /// <summary>
     /// Author terrain strokes (URMAN Studio, spec WORLD10) from
@@ -812,7 +814,7 @@ public static class AgentBAct1HeightField
         var rows = GridRows;
         var column = (int)System.Math.Floor((x - MinX) / Step);
         var row = (int)System.Math.Floor((z - MinZ) / Step);
-        var faces = CollisionFacesValue;
+        var faces = TerrainFaces;
         // Jitter is bounded below one grid cell; only these nine cells can
         // contain the query. This is the collider's actual diagonal/winding.
         for (var iy = System.Math.Max(0, row - 1); iy <= System.Math.Min(rows - 1, row + 1); iy++)
@@ -834,7 +836,7 @@ public static class AgentBAct1HeightField
         return (float)Ground(x, z);
     }
 
-    public static Vector3[] BuildTerrainFaces()
+    private static Vector3[] BuildTerrainFaces()
     {
         var cols = GridColumns + 1;
         var rows = GridRows + 1;

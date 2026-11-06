@@ -471,7 +471,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     {
         if (GetNodeOrNull<CollisionShape3D>("AgentB_TerrainCollision/AgentB_TerrainFaces")?.Shape is ConcavePolygonShape3D shape)
         {
-            shape.SetFaces(AgentBAct1HeightField.BuildTerrainFaces());
+            shape.SetFaces(AgentBAct1HeightField.TerrainFaces);
         }
 
         var kit = GetNodeOrNull<Node3D>("AgentB_TerrainRoadKit");
@@ -479,7 +479,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         if (terrain?.Mesh is not ArrayMesh current) return;
         var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
-        foreach (var vertex in AgentBAct1HeightField.BuildTerrainFaces())
+        foreach (var vertex in AgentBAct1HeightField.TerrainFaces)
         {
             surface.SetUV(new Vector2(vertex.X, vertex.Z));
             surface.AddVertex(terrain.ToLocal(ToGlobal(vertex)));
@@ -501,7 +501,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         body.CollisionMask = 1u;
         AddChild(body);
         var shape = new ConcavePolygonShape3D();
-        shape.SetFaces(AgentBAct1HeightField.BuildTerrainFaces());
+        shape.SetFaces(AgentBAct1HeightField.TerrainFaces);
         body.AddChild(new CollisionShape3D { Name = "AgentB_TerrainFaces", Shape = shape });
         // The western shoulder now carries the Tamara board approach. Its
         // raised snow surface needs contact, not the lower base heightfield.
@@ -545,7 +545,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             {
                 var surface = new SurfaceTool();
                 surface.Begin(Mesh.PrimitiveType.Triangles);
-                foreach (var vertex in AgentBAct1HeightField.BuildTerrainFaces())
+                foreach (var vertex in AgentBAct1HeightField.TerrainFaces)
                 {
                     surface.SetUV(new Vector2(vertex.X, vertex.Z));
                     surface.AddVertex(mesh.ToLocal(ToGlobal(vertex)));
@@ -555,8 +555,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 surface.Commit(result);
                 result.SurfaceSetMaterial(0, original.SurfaceGetMaterial(0));
                 // The recessed lane is a property of the shared field, not of this
-                // mesh, and the traversal triangles below come from the very same
-                // call. Record the numbers the ground was cut with where a capture
+                // mesh, and the traversal triangles below use the same samples.
+                // Record the numbers the ground was cut with where a capture
                 // can read them instead of re-deriving them (VIS-077 proof).
                 mesh.SetMeta("snowLaneProfile", System.FormattableString.Invariant(
                     $"owner=AgentBAct1HeightField.RoadProfile depth={AgentBAct1HeightField.LaneDepthFootTrack}..{AgentBAct1HeightField.LaneDepthCarriageway} bank={AgentBAct1HeightField.BankRiseFootTrack}..{AgentBAct1HeightField.BankRiseCarriageway} reach={AgentBAct1HeightField.LaneInfluence}"));
@@ -704,7 +704,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var material = mesh.Mesh.SurfaceGetMaterial(0);
         var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
-        foreach (var vertex in AgentBAct1HeightField.BuildTerrainFaces())
+        foreach (var vertex in AgentBAct1HeightField.TerrainFaces)
         {
             surface.SetUV(new Vector2(vertex.X, vertex.Z));
             surface.AddVertex(mesh.ToLocal(ToGlobal(vertex)));
