@@ -17,7 +17,8 @@ public partial class Act1ConnectedWorld
                 || child.Name.ToString().StartsWith("Window", StringComparison.Ordinal)) child.Visible = false;
         room.GetNode<StaticBody3D>("FarBankPublicBody").GetChildren().OfType<CollisionShape3D>().First().Disabled = true;
         var board = room.GetNode<Label3D>("NameBoardText");
-        board.Text = "УЧАСТКОВЫЙ"; board.PixelSize = .0033f;
+        board.Text = "ПОЛИЦИЯ"; board.PixelSize = .0033f;
+        board.Modulate=Colors.White;
         room.SetMeta("publicRole", "приёмная участкового");
         room.SetMeta("clearSizeMetres", new Vector2(11.7f, 8.7f));
         room.SetMeta("corridorClearWidthMetres", 1.8f);
@@ -46,6 +47,8 @@ public partial class Act1ConnectedWorld
         BuildPoliceInterior(room);
         BuildPoliceSurroundings(room);
         ApplyPoliceSurfaceMaterials(room);
+        FacilityLabel(room,"PoliceDistrictPlaque","УЧАСТКОВЫЙ\nПУНКТ ПОЛИЦИИ",new(1.8f,2.06f,4.535f),0,.0010f);
+        BuildPoliceSignage(room);
         foreach(var light in room.FindChildren("*",nameof(OmniLight3D),true,false).OfType<OmniLight3D>())
             light.ShadowEnabled=light.Name=="PoliceLobbyLight";
         EnsureFacilityTick();

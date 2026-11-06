@@ -1,0 +1,246 @@
+{
+  "version": 1,
+  "description": "ImageGen artwork, including all lettering; source PNGs unchanged; UV regions select central printed bands.",
+  "assets": [
+    {
+      "file": "police_main.png",
+      "uvRegion": [
+        0,
+        0.24,
+        1,
+        0.52
+      ],
+      "generator": "built-in ImageGen",
+      "sha256": "db4dfdbda4692fd6ccf36162e117e8fa6b4454991018a179edddce3eba283d16",
+      "dimensions": [
+        2048,
+        768
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: front-facing diffuse/albedo game texture of an old rural Russian police station sign, with the grounded worn everyday material feel of My Summer Car. Create a REAL photographed painted steel/enamel sign, not a vector design, not a UI panel, not a 3D mockup scene. Wide horizontal composition, maximum available landscape resolution. The entire image is the sign surface, square-on orthographic, no surrounding wall, no perspective, no cast shadow or directional highlight. Faded dark Prussian blue enamel, slightly uneven aged paint, subtle hairline crazing, a few small edge chips exposing dull galvanized metal, faint old rain streaks and sun-faded ivory stencil/screenprinted letters. Human utilitarian manufacture, approximately 1990s rural public office, maintained but old; restrained wear, all letters fully readable. NO decorative double border, no gold, no emblem, no screwheads (those are provided by actual 3D geometry). Exact Cyrillic text generated in the image itself, large condensed utilitarian sans-serif: first line ПОЛИЦИЯ ; second line smaller УЧАСТКОВЫЙ ПУНКТ. Spell П О Л И Ц И Я accurately. Layout: the complete lettering and worn thin single rectangular edge line must be confined to the central horizontal 45% of the image height, spanning 92% width; the upper and lower 27.5% are ONLY uninterrupted same blue paint texture. This central band will be UV-cropped onto a 3.2m by 0.72m physical metal panel. Keep type naturally proportioned within that band. Do not add any other text, watermark, labels or scenery."
+    },
+    {
+      "file": "police_district.png",
+      "uvRegion": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "generator": "built-in ImageGen",
+      "sha256": "c2da7ade683097838b3d481e69bb21225611d7164933bf3c79405b9dd1e2013e",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Faded dark Prussian blue enamel, ivory industrial stencil or old screenprinted lettering, restrained chips exposing dull metal, fine crazing, tiny oxidation at perimeter. No gold, no decorative double border. No screwheads (real 3D fasteners will be added). Landscape 3:2. Fill the whole canvas with the flat sign face; text comfortably centred with small margins.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nМВД РОССИИ\nУЧАСТКОВЫЙ\nПУНКТ ПОЛИЦИИ\nКара-Урман"
+    },
+    {
+      "file": "police_store.png",
+      "uvRegion": [
+        0,
+        0.24,
+        1,
+        0.52
+      ],
+      "generator": "built-in ImageGen",
+      "sha256": "cbab6bcc2cd45c369750a74c794bd87c60e365c3aa38efcdb4bd13fe678974d0",
+      "dimensions": [
+        2048,
+        768
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Faded dark Prussian blue enamel, ivory industrial stencil or old screenprinted lettering, restrained chips exposing dull metal, fine crazing, tiny oxidation at perimeter. No gold, no decorative double border. No screwheads (real 3D fasteners will be added). Very wide horizontal 2048x768 canvas. Entire sign design and single thin worn perimeter line in CENTRAL 50% HEIGHT, plain blue paint extension above/below.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nКЛАДОВАЯ"
+    },
+    {
+      "file": "police_reception.png",
+      "uvRegion": [
+        0,
+        0.24,
+        1,
+        0.52
+      ],
+      "generator": "built-in ImageGen",
+      "sha256": "37ede23c1b8bd322dc0ef7277fe79c04bd4ae2a310eafcc4884f5bbfdd30ebd7",
+      "dimensions": [
+        2048,
+        768
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Faded dark Prussian blue enamel, ivory industrial stencil or old screenprinted lettering, restrained chips exposing dull metal, fine crazing, tiny oxidation at perimeter. No gold, no decorative double border. No screwheads (real 3D fasteners will be added). Very wide horizontal 2048x768 canvas. Entire sign design and its single thin worn perimeter line in the CENTRAL 50% HEIGHT, with equal plain continuation of blue paint above and below.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nПРИЁМНАЯ"
+    },
+    {
+      "file": "police_cell.png",
+      "uvRegion": [
+        0,
+        0.24,
+        1,
+        0.52
+      ],
+      "generator": "built-in ImageGen",
+      "sha256": "0349319dcb96e04cf758b9e76c2eef56c440883e1c35851b44f0846523c4b7c9",
+      "dimensions": [
+        2048,
+        768
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Faded dark Prussian blue enamel, ivory industrial stencil or old screenprinted lettering, restrained chips exposing dull metal, fine crazing, tiny oxidation at perimeter. No gold, no decorative double border. No screwheads (real 3D fasteners will be added). Very wide horizontal 2048x768 canvas. Entire sign design and single thin worn perimeter line in CENTRAL 50% HEIGHT, plain blue paint extension above/below.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nВРЕМЕННОЕ ОЖИДАНИЕ"
+    },
+    {
+      "file": "police_hours.png",
+      "uvRegion": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "generator": "built-in ImageGen",
+      "sha256": "0b0e6ecef0d86539e1f0c26c3e9edf6448b5c604eb3c95bf0a98f41766d11d2d",
+      "dimensions": [
+        1374,
+        1145
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Off-white old office paper with authentic fine fibres, slight yellowing at edges, faint handling stains and one or two very soft fold marks, grey-black photocopied/typed ink. The readable main text stays clean. No painted metal, no screwheads, no extra decorative double frame. Near-square 6:5 format. A complete faded cream printed public information sheet, full bleed paper, no surrounding surface. A small bold title, modest body typography; thin utilitarian rule.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nПРИЁМ ГРАЖДАН\nОбращения и справки\nПорядок приёма уточняйте у сотрудника"
+    },
+    {
+      "file": "police_forms.png",
+      "uvRegion": [
+        0,
+        0.24,
+        1,
+        0.52
+      ],
+      "generator": "built-in ImageGen",
+      "sha256": "258f550fb3de85b67710a718d464797266db2e102cf4d67b822496be1de03fd1",
+      "dimensions": [
+        2048,
+        768
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Faded dark Prussian blue enamel, ivory industrial stencil or old screenprinted lettering, restrained chips exposing dull metal, fine crazing, tiny oxidation at perimeter. No gold, no decorative double border. No screwheads (real 3D fasteners will be added). Very wide horizontal 2048x768 canvas. Entire sign design and single thin worn perimeter line in CENTRAL 50% HEIGHT, plain blue paint extension above/below.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nБЛАНКИ ЗАЯВЛЕНИЙ"
+    },
+    {
+      "file": "police_staff.png",
+      "uvRegion": [
+        0,
+        0.24,
+        1,
+        0.52
+      ],
+      "generator": "built-in ImageGen",
+      "sha256": "2d3ac177b91b6a3a26ce015b5c89bde7f80b1c1a20f08e51a91fe5f22c0f879d",
+      "dimensions": [
+        2048,
+        768
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Faded dark Prussian blue enamel, ivory industrial stencil or old screenprinted lettering, restrained chips exposing dull metal, fine crazing, tiny oxidation at perimeter. No gold, no decorative double border. No screwheads (real 3D fasteners will be added). Very wide horizontal 2048x768 canvas. Entire sign design and single thin worn perimeter line in CENTRAL 50% HEIGHT, plain blue paint extension above/below.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nСЛУЖЕБНОЕ"
+    },
+    {
+      "file": "police_files.png",
+      "uvRegion": [
+        0,
+        0.24,
+        1,
+        0.52
+      ],
+      "generator": "built-in ImageGen",
+      "sha256": "d3a7a48f622b06ddd4b7a23611f436acf4cded03d16d2335bdb023a09e44aa83",
+      "dimensions": [
+        2048,
+        768
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Faded dark Prussian blue enamel, ivory industrial stencil or old screenprinted lettering, restrained chips exposing dull metal, fine crazing, tiny oxidation at perimeter. No gold, no decorative double border. No screwheads (real 3D fasteners will be added). Very wide horizontal 2048x768 canvas. Entire sign design and single thin worn perimeter line in CENTRAL 50% HEIGHT, plain blue paint extension above/below.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nОБРАЩЕНИЯ · СПРАВКИ"
+    },
+    {
+      "file": "police_form.png",
+      "uvRegion": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "generator": "built-in ImageGen",
+      "sha256": "e158a4090f157b81f5cc5b512c63fb858b01792813d6bb2fc83b466fff928aaf",
+      "dimensions": [
+        1055,
+        1491
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Off-white old office paper with authentic fine fibres, slight yellowing at edges, faint handling stains and one or two very soft fold marks, grey-black photocopied/typed ink. The readable main text stays clean. No painted metal, no screwheads, no extra decorative double frame. Portrait A4 aspect ratio 210:297. Full bleed realistic empty office form with blank ruled fields and several writing lines. All fields empty, no personal data, no signatures, no handwriting.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nЗАЯВЛЕНИЕ\nКому\nОт кого\nТема обращения\nОписание\nДата\nПодпись"
+    },
+    {
+      "file": "police_notice_1.png",
+      "uvRegion": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "generator": "built-in ImageGen",
+      "sha256": "9e47adb2fc4b4f0538d7d753b1f1543b5201f24e37c7cec05f26bbd8548e890c",
+      "dimensions": [
+        1055,
+        1491
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Off-white old office paper with authentic fine fibres, slight yellowing at edges, faint handling stains and one or two very soft fold marks, grey-black photocopied/typed ink. The readable main text stays clean. No painted metal, no screwheads, no extra decorative double frame. Portrait A4 aspect ratio 210:297. Full bleed paper scan. Small header, practical bold heading, four short body bullet points with ample line spacing. Not a decorative poster.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nПОЛИЦЕЙСКИЙ ПУНКТ\nПорядок обращения\nКратко опишите вопрос.\nНазовите даты и места, если помните.\nПередайте обращение сотруднику.\nПри необходимости приложите заметки."
+    },
+    {
+      "file": "police_ledger.png",
+      "uvRegion": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "generator": "built-in ImageGen",
+      "sha256": "b2153df7b88c2d9284c94f1440264bf9222973765fba3afb1b67bf13cd62d9a1",
+      "dimensions": [
+        1134,
+        1387
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Authentic cloth-bound ledger surface, subdued wear. Portrait cover aspect ratio 9:11, full bleed book-cover texture. Dark olive-grey worn cloth binding, faded ivory stamped utilitarian title, faint spine edge on left, rubbed corners, plausible everyday office ledger, no decorative frame or illustration.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nКНИГА УЧЁТА\nОБРАЩЕНИЙ"
+    },
+    {
+      "file": "police_notice_2.png",
+      "uvRegion": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "generator": "built-in ImageGen",
+      "sha256": "78227c39fdc1e0296d9c7e7e0ef0ce5f951f59f86e047211470cbdd7dea2c78a",
+      "dimensions": [
+        1054,
+        1492
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Off-white old office paper with authentic fine fibres, slight yellowing at edges, faint handling stains and one or two very soft fold marks, grey-black photocopied/typed ink. The readable main text stays clean. No painted metal, no screwheads, no extra decorative double frame. Portrait A4 aspect ratio 210:297. Full bleed paper scan. Small header, practical bold heading, four short body bullet points with ample line spacing. Not a decorative poster.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nПОЛИЦЕЙСКИЙ ПУНКТ\nПолезно подготовить\nКраткое описание события.\nДаты и названия мест.\nИмеющиеся бумаги или заметки.\nВопросы, которые хотите задать."
+    },
+    {
+      "file": "police_car.png",
+      "uvRegion": [
+        0.0107421875,
+        0.3072916666666667,
+        0.9775390625,
+        0.4140625
+      ],
+      "generator": "built-in ImageGen",
+      "sha256": "9641263714e9ef0d06a081c660d2338b6095aacbfe5aae14e64654c4591027c7",
+      "dimensions": [
+        2048,
+        768
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Actual translucent-free vinyl lettering cutout only, with real alpha transparency. Very wide horizontal lettering only, transparent background. Warm ivory slightly worn condensed block-cut vinyl capitals, edges naturally smooth with tiny chips. Text fills nearly full width, modest transparent margins, no sign plate, no blue stripe, no vehicle, no drop shadow.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nУЧАСТКОВЫЙ"
+    },
+    {
+      "file": "police_notice_3.png",
+      "uvRegion": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "generator": "built-in ImageGen",
+      "sha256": "ef7fe8ab7f57df88354d74747805d2a47feb08a2fc77355b14e0a16d35ed3b66",
+      "dimensions": [
+        1055,
+        1491
+      ],
+      "prompt": "Use case: photorealistic-natural. Asset type: diffuse/albedo texture for one physical rural police-station prop in a grounded everyday game like My Summer Car. The supplied image is a MATERIAL/WEAR STYLE reference only, not an edit target: make the new asset and exact new text below. Real photographed surface square-on orthographic, full bleed, no surrounding wall, no perspective, no cast shadow, no directional specular glare. Believable aged utilitarian manufacture; NOT a clean vector graphic, UI panel, pristine branding mockup, cartoon or illustration. Text MUST be generated within the image itself in accurate Cyrillic, no programmatic text overlay. No extra writing, watermark, emblem or invented logo. Keep the required letters legible, subtle irregular ink and real surface wear, not severe destruction. Off-white old office paper with authentic fine fibres, slight yellowing at edges, faint handling stains and one or two very soft fold marks, grey-black photocopied/typed ink. The readable main text stays clean. No painted metal, no screwheads, no extra decorative double frame. Portrait A4 aspect ratio 210:297. Full bleed paper scan. Small header, practical bold heading, three short body bullet points with ample line spacing. Not a decorative poster.\nText (verbatim, preserve line hierarchy and correct Russian spelling):\nПОЛИЦЕЙСКИЙ ПУНКТ\nПосле приёма\nСотрудник выслушает обращение.\nПри необходимости уточнит детали.\nСотрудник подскажет, что дальше."
+    }
+  ]
+}

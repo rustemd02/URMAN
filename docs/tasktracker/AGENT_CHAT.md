@@ -5748,3 +5748,23 @@ H019 source fix принят: одна exact StreetStep опущена5см и �
 
 **Codex · Mac / native acceptance blocked · 24.10 02:39** → всем
 Следующая обычная приёмка остаётся недоступна в трёх последовательных goal-этапах: H019 repair→family closure→свежая проверка доступа. UnterPC offline(lastSeen21.10), desktop connector NOT_FOUND tunnel_client_not_seen; прежний CUA captured-look не заработал, повторять нечего. Независимые проверенные source этапы доставлены до a7243cb4, семейство проверено e0ccddc8; полного pleasant-play/release acceptance нет. PW095 next_action исправлен: frozen73fd НЕ содержит9c13 audio/7ba reader/c733 pad/a724 step. После доступа один current-source export и ordinary route, старый пакет сохраняется до проверки замены. Новых builds/game/tests/tempfiles нет. После доставки этой записи goal переводится blocked (не complete); объём сохранён. Монитор usage отдельный, reset не активируем, восстановление лимита не наблюдалось.
+
+
+**Codex · Mac / локальный запуск по просьбе пользователя · 25.10 12:59** → всем
+Пользователь подтвердил rustemd02/URMAN и поручил скачать и запустить игру на этом Mac. Получены необходимые runtime-файлы HEAD 9e25834, закреплённые Godot 4.7.1 Mono и .NET SDK 10.0.302 установлены локально с проверкой SHA-256, NuGet restore завершён. Запущен штатный eng/run-act1-demo.sh со встроенной защитой userdata. Production-код, трекер и удалённый GitHub не меняю; это пользовательский интерактивный запуск, не релизная приёмка.
+
+
+**Codex · Mac / срочный показ прежнего пролога · 25.10 13:22** → всем
+По прямой просьбе пользователя восстановлен локальный демонстрационный запуск retained act1_demo.tscn: прежний ночной лес/голоса/Нива, текущий Act1ConnectedWorld. Причина отсутствия прежнего вступления — cutover 9ec59428 на PhotoWorlds. Production-код и campaign state не откатывались; это отдельный маршрут Chapter I, не полный новый PhotoWorlds. Исправлена передача CLI-аргументов через локальный bootstrap/guard; исходный project.godot после импорта побайтно восстановлен. Все16 WAV валидны и совпадают с Git blobs HEAD. Native лес виден, текущая деревня заранее загружена. Автоматическое UI-нажатие Esc недоступно (CUA AX timeout/user state changed); обычный пропуск запрошен у пользователя, пока не объявлен проверенным. Локальные logs вне Git, commit/push не выполнялись.
+
+
+**Codex · Mac / Studio и ручной пропуск · 25.10 13:53** → всем
+Пользователь подтвердил ручной Esc: появился в деревне. Это подтверждает пропуск восстановленного локального маршрута АктаI. По новому прямому поручению запущена URMAN Studio через её scene/root contract и protected_run --clean; отдельный локальный запускатор сохранён в outputs чата. Studio сообщает urman-studio-editor-ready, загружается реальный preview. Production-код/трекер/GitHub не менялись.
+
+
+**Codex · Mac / срочный визуальный ремонт участка · 25.10 14:11** → всем
+По прямому запросу автора исправлен existing far-police; два GPT-6 Luna выполнили ограниченные Officer/Interior задачи, root интегрировал и проверил кадры. Кирпичный фасад/синяя вывеска по MVD НовыйЯваш, замена конфликтующих старых roof/snow, закрытые скаты/фальцы/конёк, фактура штукатурки/стали, выровненная решётка. Погоны закреплены на clavicle по реальной линии плеч; после native кадра исправлены посадка/разворот и фуражка. Final compile17.59s 0warnings/0errors. Native кадры осмотрены: exterior/officer/cell. Existing smoke прошёл дверь, приветствие и проход к клетке, затем FAIL на full runtime state equality; в логе есть отдельное arrival auto-checkpoint, точная причина не установлена, полный PASS не заявляется. Original userdata восстановлен. Existing ACT1-PUBLIC police record дополнен; источник/JSON/Git сериализовал root. Новых тестов, API-трат, commit/push нет.
+
+
+**Codex · Mac / ImageGen-таблички участка · 25.10 22:50** → всем
+По прямому требованию автора заменены все15 видов вывесок/дверных табличек/объявлений/бланков/обложки/автонадписи на built-in ImageGen PNG с буквами внутри изображения. Файлы неизменёнными скопированы в project; manifest сохраняет prompts/SHA256/UV. Прежние программно нарисованные ассеты удалены. Native6views выявили обратную сторону Paper; локально исправлен double-sided материал, повторные3views подтвердили стенд/бланк/книгу. Все9кадров осмотрены, обе сборки0warnings/0errors, exit0; userdata restored and verified. Геометрические/сюжетные контракты сохранены. ACT1-PUBLIC police subrecord дополнен, родитель/external gates не закрыты; новых тестов/commit/push нет.

@@ -75,27 +75,37 @@ public partial class Act1ConnectedWorld
     private void BuildPoliceCell(Node3D room)
     {
         var bars = new Node3D { Name = "PoliceCellBars" }; room.AddChild(bars);
-        foreach (var x in new[] { -1.10f, 1.10f })
+        // The two fixed wings stop at the same jambs as the unchanged 1.34 m gate opening.
+        // Painted steel keeps the bars legible against the pale institutional walls.
+        foreach (var side in new[] { -1f, 1f })
         {
-            FacilitySolid(bars, "BarPanelContact"+x, new(.83f, 2.35f, .055f), new(x, 1.175f, -2.18f), "6c736b", "metal").Visible=false;
-            for(var i=0;i<7;i++) FacilityRod(bars,"Bar"+x+"_"+i,new(x-.36f+i*.12f,0,-2.18f),new(x-.36f+i*.12f,2.35f,-2.18f),.014f,"646d66");
-        }
-        foreach (var y in new[] { .10f, 1.15f, 2.35f })
-        {
-            if(y>2) FacilityRod(bars,"HeaderRail",new(-1.56f,y,-2.18f),new(1.56f,y,-2.18f),.020f,"69726a");
-            else foreach(var sign in new[]{-1f,1f}) FacilityRod(bars,"PanelRail"+sign+"_"+y,new(sign*.67f,y,-2.18f),new(sign*1.56f,y,-2.18f),.020f,"69726a");
+            var panelCenter = side * 1.10f; // Preserve the existing invisible contact box transform.
+            FacilitySolid(bars, "BarPanelContact"+panelCenter, new(.83f, 2.35f, .055f), new(panelCenter, 1.175f, -2.18f), "6c736b", "metal").Visible=false;
+            var outer = side * 1.56f;
+            var jamb = side * .67f;
+            PoliceCellRod(bars, "OuterFramePost"+side, new(outer, .08f, -2.18f), new(outer, 2.35f, -2.18f), .032f, "778078");
+            PoliceCellRod(bars, "GateJambPost"+side, new(jamb, .08f, -2.18f), new(jamb, 2.35f, -2.18f), .032f, "778078");
+            for (var i = 0; i < 6; i++)
+            {
+                var x = side * (1.45f - i * .13f);
+                PoliceCellRod(bars, "Bar"+side+"_"+i, new(x, .10f, -2.18f), new(x, 2.35f, -2.18f), .013f, "68746d");
+            }
+            foreach (var y in new[] { .10f, 1.16f, 2.35f })
+                PoliceCellRod(bars, "PanelRail"+side+"_"+y, new(outer, y, -2.18f), new(jamb, y, -2.18f), .021f, "79837b");
         }
         // The unused gate rests open against the cell wall, leaving a 1.36m opening.
         var gate = new Node3D { Name="PoliceCellOpenGate", Position=new(-.67f,0,-2.18f), RotationDegrees=new(0,-105,0) };bars.AddChild(gate);
         FacilitySolid(gate,"OpenGateContact",new(1.28f,2.3f,.05f),new(-.64f,1.175f,0),"707970","metal").Visible=false;
-        for(var i=0;i<10;i++) FacilityRod(gate,"GateBar"+i,new(-i*.135f,.04f,0),new(-i*.135f,2.31f,0),.014f,"707970");
-        foreach(var y in new[]{.05f,1.15f,2.32f}) FacilityRod(gate,"GateRail"+y,new(-1.28f,y,0),new(0,y,0),.02f,"707970");
+        PoliceCellRod(gate,"GateOuterPost",new(-1.28f,.08f,0),new(-1.28f,2.35f,0),.032f,"778078");
+        PoliceCellRod(gate,"GateHingePost",new(0,.08f,0),new(0,2.35f,0),.032f,"778078");
+        for(var i=1;i<10;i++) PoliceCellRod(gate,"GateBar"+i,new(-i*.128f,.10f,0),new(-i*.128f,2.35f,0),.013f,"68746d");
+        foreach(var y in new[]{.10f,1.16f,2.35f}) PoliceCellRod(gate,"GateRail"+y,new(-1.28f,y,0),new(0,y,0),.021f,"79837b");
         // Crossbar above the door is solid; middle/bottom span only the side panels.
         FacilitySolid(room,"PoliceCellDoorHeader",new(3.1f,.58f,.12f),new(0,2.68f,-2.18f),"b8beb0","plaster");
         FacilityBench(room,"PoliceCellBunk",new(.95f,0,-3.38f),1.62f,90);
         AddVisualBox(room,"PoliceFoldedBlanket",new(.31f,.09f,.40f),new(.93f,.54f,-3.80f),"888777","cloth");
         FacilityVessel(room,"PoliceCellEmptyBasin",new(-1.10f,.12f,-4.02f),.16f,.18f,"8b9688",false);
-        FacilityLabel(room,"PoliceCellLabel","ИЗОЛЯТОР",new(0,2.70f,-2.108f),0,.0014f);
+        FacilityLabel(room,"PoliceCellLabel","ВРЕМЕННОЕ ОЖИДАНИЕ",new(0,2.70f,-2.108f),0,.0014f);
         var mouse = new Node3D { Name="PoliceCellMouse", Position=new(-1.0f,.012f,-3.735f), Scale=Vector3.One*.65f };room.AddChild(mouse);
         PoliceEllipsoid(mouse,"MouseBody",new(.047f,.032f,.075f),new(0,.022f,0),"726c60","cloth");
         PoliceEllipsoid(mouse,"MouseHead",new(.029f,.025f,.035f),new(0,.032f,.067f),"797367","cloth");
@@ -112,6 +122,14 @@ public partial class Act1ConnectedWorld
         var target=FacilityTarget("PoliceCellInspect","presentation.police-cell","Осмотреть пустой изолятор",room,new(0,1.3f,-2.12f),new(1.6f,1.8f,.08f));
         target.PresentationRepeatAvailable=()=>FacilityExteriorActive;
         target.PresentationRepeat=()=>PoliceRemark("cellRemark");
+    }
+
+    private static void PoliceCellRod(Node3D parent, string name, Vector3 a, Vector3 b, float radius, string tint)
+    {
+        var delta = b - a;
+        var mesh = DiscoveryCylinder(parent, name, radius, radius, delta.Length(), (a + b) * .5f, tint);
+        mesh.Quaternion = new Quaternion(Vector3.Up, delta.Normalized());
+        mesh.MaterialOverride = RuralPropMaterials.Surface("steel", tint);
     }
 
     private static MeshInstance3D PoliceEllipsoid(Node3D parent,string name,Vector3 radius,Vector3 at,string color,string surface)
