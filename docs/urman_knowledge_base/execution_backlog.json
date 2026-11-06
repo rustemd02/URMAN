@@ -113493,7 +113493,10 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-024/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "game/scripts/RuntimeBridge.PhotoBootstrap.cs",
+        "game/scripts/Main.PhotoSceneLoading.cs"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-024",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -113613,14 +113616,14 @@
         "reason": "Unfinished reentry source slice compiled and independently reviewed; ordinary protected native verification pending."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Загрузка до и после каждого действия восстанавливает согласованную сцену.",
         "Глава не сбрасывается и не завершается просто фактом загрузки.",
         "Save внутри после предметного действия → полное закрытие процесса → Continue → выход восстанавливает домен, safe node, билет возврата, предметные последствия, вклейку и собственный текст. Несовместимый/повреждённый тестовый слот объясняется без молчаливой перезаписи; один roundtrip не закрывает PW-085/086."
       ],
-      "next_action": "After e79 authoritative terminal/user-data restoration, ordinary unfinished action→bookreturn→newentry must preserve actions and reach saved node; occupied node may use only verified entry; continue/load unchanged, no extra reward or camera jump. Native full PW024/PW027 remains open.",
+      "next_action": "На свободном Mac в защищённом обычном сеансе проверить Save → закрытие → Continue → выход из снимка. Для отдельного сбоя проверить, что при недоступных сохранённой позиции и контрольной точке Continue использует только свободный авторский вход того же снимка и сохраняет сделанное.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -113792,6 +113795,10 @@
         }
       ],
       "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "continue_entry_fallback_2026_11_06": {
+        "result": "Continue сначала проверяет сохранённую позу, затем подтверждённую точку. Если обе недоступны, проверяет опору и капсулу у авторского входа того же снимка. Выбранная поза проходит повторную физическую проверку и восстановление сохранённого предмета. Блокировка только предмета сохраняет отказ, случайный спавн исключён.",
+        "verification": "Сборка Mac 19,18 с, 0 предупреждений и ошибок. Статически сверены пары F11/F10, R01/R00, H05/H00, C03/C00 и B01/B00 в каноническом маршруте и сценах. Сценарий занятой точки не выполнен: на Mac уже запущен пользовательский экземпляр вне guard."
+      },
       "safe_node_source_inventory_2026_10_20": {
         "state": "research_checked_implementation_pending",
         "finding": "Canonical world.safeNodeId + active.safeNodeId already exist in schema2, but only VisitCommit writes them. PhotoWorldCatalog node.id/role has no per-node safe certification; global source collision safe_node_radius_m1.2 is SPECIFIED_NOT_IMPLEMENTED, not physical evidence. Ordinary Main mount chooses entry; actual loaded pose is separately protected and must remain so. PhotoAnchorResolver only maps main/exit nodes and has no runtimecaller; do not add second progress owner or assume nearest marker safe.",
