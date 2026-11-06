@@ -136,6 +136,7 @@ public partial class Act1DemoRoot
             waypoint = waypoint
                 || TryGetHomeYardExitObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel)
                 || TryGetSchoolObjectiveWaypoint(mission, player.GlobalPosition, player.BodyRadius, out routePoint, out routeLabel)
+                || TryGetForestBridgeObjectiveWaypoint(mission, player.GlobalPosition, player.BodyRadius, out routePoint, out routeLabel)
                 || TryGetHomeObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel);
         }
         if (waypoint)
@@ -308,7 +309,10 @@ public partial class Act1DemoRoot
         label = "Калитка";
         if (_bridge?.CurrentZoneId != "village_day" || mission.TargetZoneId != "village_day"
             || mission.InteractionId is not ("urman.fullgame:interaction/pw-school-copy-source"
-                or "urman.fullgame:interaction/pw-school-copy-permission"))
+                or "urman.fullgame:interaction/pw-school-copy-permission"
+                or RuntimeBridge.PhotoBookForestEntryInteractionId
+                or "urman.fullgame:interaction/pw-enter-river"
+                or "urman.fullgame:interaction/pw-enter-common"))
             return false;
 
         var position = new Vector2(playerPosition.X, playerPosition.Z);
@@ -379,6 +383,41 @@ public partial class Act1DemoRoot
             AgentBAct1HeightField.CollisionGround(pointOnRoute.X, pointOnRoute.Y) + .05f,
             pointOnRoute.Y);
         label = recovering ? "Дорожка к калитке" : next <= 3 ? "Калитка" : "Проход во дворе";
+        return true;
+    }
+
+    private bool TryGetForestBridgeObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition, float playerRadius,
+        out Vector3 waypoint, out string label)
+    {
+        waypoint = default;
+        label = "Подвесной мост";
+        var towardsForest = mission.InteractionId == RuntimeBridge.PhotoBookForestEntryInteractionId;
+        if (_bridge?.CurrentZoneId != "village_day" || mission.TargetZoneId != "village_day"
+            || (!towardsForest && mission.InteractionId != "urman.fullgame:interaction/pw-home-enter-house")
+            || _main.ConnectedWorld is not { SuspensionBridgeBroken: false })
+            return false;
+
+        const float x = Act1ConnectedWorld.SuspensionBridgeX;
+        var nearRim = Act1ConnectedWorld.GorgeNearRim(x);
+        var farRim = Act1ConnectedWorld.GorgeFarRim(x);
+        // These are the traversable approach positions on either side of the bridge.
+        var nearApproach = nearRim + 3.5f;
+        var farApproach = farRim - 3.5f;
+        var z = playerPosition.Z;
+        var across = Mathf.Abs(playerPosition.X - x);
+        if (z < farApproach - 16f || z > nearApproach + 16f || across > 18f
+            || (towardsForest ? z <= farApproach : z >= nearApproach)) return false;
+
+        var beforeFence = towardsForest ? z >= nearRim + 1.6f : z <= farRim - 1.6f;
+        // The rope walls leave a .8 m half-gap. Align with the approach
+        // before pointing through it, so the player capsule clears the rails.
+        var align = beforeFence && across > .8f - playerRadius - .1f;
+        var entry = towardsForest ? nearApproach : farApproach;
+        var exit = towardsForest ? farApproach : nearApproach;
+        var approaching = (towardsForest ? z - entry : entry - z) > .35f;
+        var destination = approaching || align ? entry : exit;
+        waypoint = new Vector3(x, AgentBAct1HeightField.CollisionGround(x, destination) + .05f, destination);
+        if (!approaching && !align) label = "Пройдите по мосту";
         return true;
     }
 
