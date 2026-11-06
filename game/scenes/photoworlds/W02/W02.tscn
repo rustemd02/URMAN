@@ -43,20 +43,21 @@ shadow_opacity = 0.32
 
 [node name="Anchors" type="Node3D" parent="."]
 
-; R00 photo place / entry: the existing safe stand beside the R03 reflection composition.
+; R00 feet above the ReflectionOutcropPad contact at y=1.293.
 [node name="R00" type="Marker3D" parent="Anchors"]
-position = Vector3(9.4, 1.26, 29.8)
+position = Vector3(9.4, 1.30, 29.8)
 rotation_degrees = Vector3(0, 125.537678, 0)
 
+; Keep the authored photograph camera at world y=2.71.
 [node name="PWaterPhotoCamera" type="Camera3D" parent="Anchors/R00"]
-position = Vector3(0, 1.45, 0)
+position = Vector3(0, 1.41, 0)
 rotation_degrees = Vector3(-24.828357, 0, 0)
 current = false
 fov = 45.0
 
 ; PW_RIVER_ENTRY: semantic alias for R00 (PhotoWorlds W02 entry anchor).
 [node name="PW_RIVER_ENTRY" type="Marker3D" parent="Anchors"]
-position = Vector3(9.4, 1.26, 29.8)
+position = Vector3(9.4, 1.30, 29.8)
 rotation_degrees = Vector3(0, 125.537678, 0)
 
 ; R01 dry piers: the vista over the river before the bay turns away.
@@ -71,7 +72,7 @@ rotation_degrees = Vector3(0, -55.5, 0)
 
 ; R03 reflection window: the outcrop where the finished print looked down.
 [node name="R03" type="Marker3D" parent="Anchors"]
-position = Vector3(10, 1.26, 30)
+position = Vector3(10, 1.30, 30)
 rotation_degrees = Vector3(0, -128.6, 0)
 
 ; R04 reed turn: the curtain the path bent around.
@@ -86,7 +87,7 @@ rotation_degrees = Vector3(0, -158.2, 0)
 
 ; R06 far piers: the pier where the loose board waited and the water answered.
 [node name="R06" type="Marker3D" parent="Anchors"]
-position = Vector3(48, 1.38, 83)
+position = Vector3(48, 1.40, 83)
 rotation_degrees = Vector3(0, -138, 0)
 
 ; R07 summer bank: the meadow bench looking back at the piers.

@@ -70,7 +70,7 @@ public static class PhotoWorldState
     public static bool IsVisitSafeNode(string worldId, string safeNodeId) => worldId switch
     {
         "W01" => safeNodeId is "F10" or "F11" or "F13_OUT" or "F14_REST",
-        "W02" => safeNodeId is "R00" or "R01",
+        "W02" => safeNodeId is "R00" or "R01" or "R03" or "R04" or "R05" or "R06",
         "W03" => safeNodeId is "H00" or "H05" or "H06_APPROACH",
         "W04" => safeNodeId is "C00" or "C03" or "C05",
         "W05" => safeNodeId is "B00" or "B01" or "B02" or "B04" or "B06",
@@ -151,7 +151,6 @@ public static class PhotoWorldState
             return false;
         }
         safeNodeId = reachedNode;
-        if (worldId is not ("W01" or "W03" or "W04" or "W05")) return true;
         // Confirmed actions are tied to authored places even if the player
         // did not stop on the separate checkpoint marker.
         var world = World(state);
@@ -163,6 +162,14 @@ public static class PhotoWorldState
                 safeNodeId = "F13_OUT";
             else if (reachedNode == "F10" && HasFact(world, "forest_camera_back_seen"))
                 safeNodeId = "F11";
+        }
+        else if (worldId == "W02")
+        {
+            if (HasFact(world, "water_encounter_resolved")) safeNodeId = "R06";
+            else if (HasFact(world, "water_old_approach_seen")) safeNodeId = "R05";
+            else if (HasFact(world, "water_reed_opened")) safeNodeId = "R04";
+            else if (reachedNode is ("R00" or "R01") && HasFact(world, "water_reflection_relation_seen"))
+                safeNodeId = "R03";
         }
         else if (worldId == "W03")
         {
@@ -176,7 +183,7 @@ public static class PhotoWorldState
             if (HasFact(world, "common_horizon_seen")) safeNodeId = "C05";
             else if (reachedNode == "C00" && HasFact(world, "common_three_relations_seen")) safeNodeId = "C03";
         }
-        else
+        else if (worldId == "W05")
         {
             if (HasFact(world, "cellar_niche_seen")) safeNodeId = "B06";
             else if (reachedNode != "B06" && HasFact(world, "cellar_response_seen")) safeNodeId = "B04";

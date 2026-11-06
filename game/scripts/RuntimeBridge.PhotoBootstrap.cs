@@ -220,7 +220,7 @@ public partial class RuntimeBridge
                 // Older tickets can lack the visit mode. Keep their recorded
                 // node when the new rule cannot distinguish a first visit.
                 if (!visit.TryGetProperty("worldCompletedOnEntry", out var completedOnEntry)
-                    && candidateWorld is ("W01" or "W03" or "W05")) return true;
+                    && candidateWorld is ("W01" or "W02" or "W03" or "W05")) return true;
                 return completedOnEntry.ValueKind == System.Text.Json.JsonValueKind.True
                     || PhotoWorldState.TryGetVisitResumeNode(state, candidateWorld, node, out safeNodeId);
             }
