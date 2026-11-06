@@ -421,7 +421,7 @@ public partial class Act1ConnectedWorld : Node3D
         GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld")
             .ExcludeOccupiedRoomTerrain(_zoneInstances["house_old_pc"], new Vector2(
                 StyleBenchmarkInteriorFactory.ClearWidth * .5f,
-                StyleBenchmarkInteriorFactory.ClearDepth * .5f));
+                StyleBenchmarkInteriorFactory.ClearDepth * .5f), fitBabaiYard: true);
         GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld")
             .RegisterWeatherShelter(_zoneInstances["house_old_pc"],
                 new Vector3(0, StyleBenchmarkInteriorFactory.CeilingHeight * .5f, 0),
@@ -465,6 +465,10 @@ public partial class Act1ConnectedWorld : Node3D
         ProfileWorldBuildStep("clear-open", ClearOpenPartOfLegacyPresentation);
         // Relayout v3 stage 5: the babai household moves whole onto the main street.
         ProfileWorldBuildStep("relocate-babai", RelocateBabaiHousehold);
+        // Relocation rebuilds the base field to fill the old house footprint.
+        // Publish the other occupied cuts against that final terrain.
+        ExcludePolicePostTerrain();
+        ExcludeMosqueHallTerrain();
         ((StyleBenchmarkZone)_zoneInstances["village_day"]).FitHouseDoorToLeaf(
             FindDescendants<MeshInstance3D>(GetNode<Node3D>(
                 "Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade"))

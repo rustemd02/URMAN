@@ -642,7 +642,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     /// its actual rotated footprint. Both the rendered terrain and its single
     /// physics owner receive the same clipped faces; the yard remains intact.
     /// </summary>
-    public void ExcludeOccupiedRoomTerrain(Node3D room, Vector2 halfSize)
+    public void ExcludeOccupiedRoomTerrain(Node3D room, Vector2 halfSize, bool fitBabaiYard)
     {
         if (halfSize.X <= 0 || halfSize.Y <= 0
             || Math.Abs(room.GlobalBasis.Y.Normalized().Dot(Vector3.Up)) < .9999f)
@@ -662,6 +662,11 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         if (contact.Shape is not ConcavePolygonShape3D shape)
             throw new InvalidOperationException("The terrain physics owner lost its triangle surface.");
         shape.SetFaces(physicalFaces);
+        room.SetMeta("exteriorTerrainFootprintExcluded", true);
+        room.SetMeta("exteriorTerrainCutHalfSize", halfSize);
+        GD.Print($"act1-terrain-room-cut: room={room.GetPath()} half={halfSize} affectedTriangles={changedTriangles} clippedVertices={outputVertices} publishedVertices={publishedFaces.Length} physicsVertices={shape.GetFaces().Length} visualAndPhysics=shared-published-faces");
+        if (!fitBabaiYard) return;
+
         contact.SetMeta("terrainCutInputVertices", outputVertices);
         contact.SetMeta("terrainCutPublishedVertices", publishedFaces.Length);
         contact.SetMeta("terrainCutPhysicsVertices", shape.GetFaces().Length);
@@ -669,9 +674,6 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         mesh.SetMeta("occupiedRoomTerrainHalfSize", halfSize);
         contact.SetMeta("occupiedRoomTerrainCut", room.GetPath().ToString());
         contact.SetMeta("occupiedRoomTerrainHalfSize", halfSize);
-        room.SetMeta("exteriorTerrainFootprintExcluded", true);
-        room.SetMeta("exteriorTerrainCutHalfSize", halfSize);
-        GD.Print($"act1-terrain-room-cut: room={room.GetPath()} half={halfSize} affectedTriangles={changedTriangles} clippedVertices={outputVertices} publishedVertices={publishedFaces.Length} physicsVertices={shape.GetFaces().Length} visualAndPhysics=shared-published-faces");
         // The original yard apron is a separate visible surface. It must share
         // the occupied footprint cut: its uphill edge otherwise rises through
         // the timber floor beside the photograph. Terrain remains its sole
@@ -717,7 +719,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var apron = EnumerateDescendants<MeshInstance3D>(GetNode<Node3D>("AgentB_TerrainRoadKit"))
             .Single(node => node.Name == "Apron_BabaiYard");
         if (apron.HasMeta("occupiedRoomOriginalMesh")) apron.Mesh = apron.GetMeta("occupiedRoomOriginalMesh").As<ArrayMesh>();
-        ExcludeOccupiedRoomTerrain(room, halfSize);
+        ExcludeOccupiedRoomTerrain(room, halfSize, fitBabaiYard: true);
     }
 
     internal static (ArrayMesh Mesh, int ChangedTriangles, int OutputVertices) ClipGroundFootprint(

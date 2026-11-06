@@ -177,7 +177,6 @@ public partial class Act1ConnectedWorld
         FacilitySolid(_mosqueRoom, "MosqueDoorHeaderInfill", new(.55f, .85f, 1.70f), new(5.50f, 2.645f, 0), "c2bcab", "wood_painted_trim");
         var mosqueApproach = BuildMosqueEntrySteps(complex);
         GroundMosqueCourtyard(complex);
-        ExcludeMosqueHallTerrain();
         var mosqueAccess = mosqueApproach[^1];
         // Keep the chosen clear wall explicit after the qibla yaw; the shared
         // mount solver checks its full plate contour, fasteners and sightline.
