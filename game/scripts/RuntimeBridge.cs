@@ -210,21 +210,20 @@ public partial class RuntimeBridge : Node
         {
             var session = _kernel;
             var routeOwner = GetTree().GetFirstNodeInGroup("zone_manager") as Main;
-            bool NivaArrivalAwaitingPlacement() => _content.HasPhotoWorlds
-                && ActiveSceneId == Main.NivaArrivalSceneId
+            bool PhotoRouteAwaitingPlacement() => _content.HasPhotoWorlds
                 && routeOwner is { EnableFullGamePhotoWorldRouting: true }
-                && !routeOwner.IsNivaArrivalProjected(session);
+                && routeOwner.PhotoRouteAwaitingPlacement(session, ActiveSceneId);
 
-            // The prologue reducer commits before Main handles its deferred
-            // notification. Save only after the village owns the player's pose.
-            if (NivaArrivalAwaitingPlacement())
+            // Authored scene changes commit before Main's deferred placement.
+            // Save the destination's actual pose, including the bank and the house.
+            if (PhotoRouteAwaitingPlacement())
             {
                 var tree = GetTree();
                 await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
-                if (ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing && NivaArrivalAwaitingPlacement())
+                if (ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing && PhotoRouteAwaitingPlacement())
                     await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
             }
-            if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing || NivaArrivalAwaitingPlacement())
+            if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing || PhotoRouteAwaitingPlacement())
                 return false;
             if (GetTree().GetFirstNodeInGroup("vehicle_fleet") is VehicleFleet fleet
                 && !await fleet.FlushForSaveAsync()) return false;
@@ -234,7 +233,7 @@ public partial class RuntimeBridge : Node
             if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
             if (AlsuStreetWalkPresentation.SessionOwner(GetTree()) is { } companion
                 && !await companion.FlushForSaveAsync()) return false;
-            if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing || NivaArrivalAwaitingPlacement())
+            if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing || PhotoRouteAwaitingPlacement())
                 return false;
             cancellationToken.ThrowIfCancellationRequested();
             var save = CaptureSessionSave(player);

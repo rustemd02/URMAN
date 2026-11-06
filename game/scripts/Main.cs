@@ -391,13 +391,7 @@ public partial class Main : Node3D
             }
 
             if (GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge connectedBridge)
-            {
                 connectedBridge.SetWorldLocation(zoneId, spawnPointId);
-                if (connectedBridge.IsPhotoWorldsCampaign
-                    && connectedBridge.ActiveSceneId == BankApproachSceneId
-                    && zoneId == "village_day" && spawnPointId == "pw-bank-approach")
-                    AlsuStreetWalkPresentation.SessionOwner(GetTree())?.StagePhotoBankMeeting();
-            }
 
             if (GetTree().GetFirstNodeInGroup("ambient_audio") is AmbientAudioDirector connectedAmbience)
             {
@@ -542,10 +536,19 @@ public partial class Main : Node3D
         ReconcileFullGameScenePresentation();
     }
 
-    internal bool IsNivaArrivalProjected(object session) =>
-        ReferenceEquals(_lastFullGameRouteSession, session) && _lastFullGameRouteScene == NivaArrivalSceneId
-        && _fullGameRouteBridge is { CurrentZoneId: "village_day", CurrentSpawnPointId: "arrival" }
-        && IsMountedZone("village_day");
+    internal bool PhotoRouteAwaitingPlacement(object session, string? sceneId)
+    {
+        if (sceneId is not (NivaArrivalSceneId or BankApproachSceneId or PhotoEpilogueSceneId)) return false;
+        if (!ReferenceEquals(_lastFullGameRouteSession, session) || _lastFullGameRouteScene != sceneId) return true;
+        return sceneId switch
+        {
+            NivaArrivalSceneId => _fullGameRouteBridge is not { CurrentZoneId: "village_day", CurrentSpawnPointId: "arrival" }
+                || !IsMountedZone("village_day"),
+            BankApproachSceneId => _fullGameRouteBridge is not { CurrentZoneId: "village_day", CurrentSpawnPointId: "pw-bank-approach" }
+                || !IsMountedZone("village_day"),
+            _ => _fullGameRouteBridge is not { CurrentZoneId: "house_old_pc" } || !IsMountedZone("house_old_pc")
+        };
+    }
 
     internal bool MountLoadedNivaArrival()
     {
@@ -608,7 +611,12 @@ public partial class Main : Node3D
             if (needsZonePresentation)
                 SwitchZone(targetZone, targetSpawn);
 
-            if (!IsMountedZone(targetZone)) return;
+            if (!IsMountedZone(targetZone) || bridge.CurrentZoneId != targetZone
+                || bridge.CurrentSpawnPointId != targetSpawn) return;
+            // A loaded bank slot can already have the correct player spawn.
+            // Its sole Alsu still needs staging if the save predates her bank pose.
+            if (projection.ActiveSceneId == BankApproachSceneId)
+                AlsuStreetWalkPresentation.SessionOwner(GetTree())?.StagePhotoBankMeeting();
             _hasLoadedInitialZone = true;
 
             _preserveLoadedPhotoWorldTransform = false;
