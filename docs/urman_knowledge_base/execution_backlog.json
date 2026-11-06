@@ -130299,7 +130299,8 @@
       ],
       "evidence": [
         "game/scripts/JournalUi.Missions.cs",
-        "game/scripts/RuntimeBridge.PhotoWorldHints.cs"
+        "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
+        "game/scripts/photoworlds/W02Controller.Reflection.cs и W02Controller.cs — указатель с центра площадки на реальные четыре объекта отражения, а затем через вход на дальние мостки, обратный сход и тропу R07. Из старого подхода и обратно прямые направления пересекали воду. Сверены треугольники берега и углы обзора. Сборка Mac 14,25 с, 0 предупреждений и ошибок."
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-054",
       "source_requirements": [
@@ -130444,7 +130445,7 @@
       "remaining": [
         "W02: принять обычный маршрут, изображения и повторное посещение; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
       ],
-      "next_action": "W02: принять обычный маршрут, изображения и повторное посещение",
+      "next_action": "В защищённом обычном W02 проверить: взгляд вниз с площадки засчитывает отражение, после камыша указатель ведёт к началу дальних мостков, после ответа воды возвращает с настила на тропу R07 к сырому снимку и выходу. Затем проверить возврат и повторный вход. Графика и авторская приёмка отдельно.",
       "blocker": null,
       "external_gates": [
         {
@@ -150016,6 +150017,7 @@
         "transport_sha256": "c5ba3d5358b59fb965ddf7abab92b404a3dcaad6c79d3ca74e91db10d02ca7a0",
         "verification": "Windows isolated export PASS; all steps0, userdataRestored=true, snapshotverified, engineerrors0. Artifact ZIP/EXE size+SHA and ZIP CRC verified locally. Producer sourceBefore/sourceAfter identical. Nine changed source files match local hashes; compiled fullgame matches exactly after LF→WindowsCRLF conversion (same b809690 content fingerprint). Actual current mission/book/debrief code included. Built-in guarded headless main-pack bootstrap is package sanity, not Windows EXE/native gameplay acceptance.",
         "cleanup": "Removed1,065,344,036bytes verified transport/extractedduplicates; old73fd Windows ZIP+staging retired only after replacement verified and oldarchive/staging byte equality checked. Unique oldreceipt and macOS73fd ZIP retained; currentWindows ZIP/EXE/receipt retained.",
+        "cleanup_2026_11_06": "Удалён распакованный дубль windows/URMAN.exe, 590891944 байта. Размер и SHA256 55fb2821442bbe26a59009e7ac8dc851cb757e3a5ab07cd96a0670e45025af67 совпали с единственным EXE в сохранённом ZIP. SHA256 архива совпал с этой карточкой. Платформенные архивы и отчёты сохранены.",
         "not_proven": [
           "Native Windows EXE host/NewGame/Save/Continue and wholecampaign/pleasantness",
           "Current macOS package (Mac remains73fd)",

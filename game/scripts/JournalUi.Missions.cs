@@ -489,7 +489,8 @@ public partial class JournalUi
                 ("urman.fullgame:scene/pw-forest", "exit") =>
                     ("Вернуться к семье", "Идите по тропе к выходу из снимка.", "pw-forest-return", "ZoneHost/W01/Anchors/F16", "Выход из снимка"),
                 ("urman.fullgame:scene/pw-river", "river-reflection") =>
-                    ("Отражение мостков", "С берега посмотрите на отражение мостков.", "pw-water-reflection", "ZoneHost/W02/Anchors/R03", "Окно отражения"),
+                    ("Отражение мостков", "С площадки у воды посмотрите вниз на отражение стоек и настила.",
+                        "pw-water-reflection", "ZoneHost/W02/W02World/ReflectionObservationStand", "Площадка у воды"),
                 ("urman.fullgame:scene/pw-river", "river-reed") =>
                     ("Проход в камыше", "Раздвиньте камыш у поворота, чтобы открыть берег.", "pw-water-bypass", null, "Камыш у поворота"),
                 ("urman.fullgame:scene/pw-river", "river-approach") =>

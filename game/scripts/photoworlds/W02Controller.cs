@@ -58,6 +58,14 @@ public partial class W02Controller : Node3D
     private static readonly int[] MainRoute = [0, 1, 3, 4, 5, 6, 7, 8];
     private const int SpurA = 1;
     private const int SpurB = 2;
+    private const float FarPierWidth = 1.8f;
+    private static readonly Vector3[] FarPierRoute =
+    [
+        new(48f, 1.36f, 83f),
+        new(42f, 1.36f, 83.2f),
+        new(36.5f, 1.36f, 83.6f),
+        new(33.2f, 1.36f, 83.9f)
+    ];
 
     private const float WaterLevel = 0.15f;
     private const float WaterBed = -1.9f;
@@ -945,18 +953,62 @@ public partial class W02Controller : Node3D
             });
     }
 
+    private bool IsCurrentRiverObjective(object? identity) => identity is not null
+        && _bridge is { } bridge && GodotObject.IsInstanceValid(bridge)
+        && bridge.CurrentW02WaterProjection() is { ActiveSceneId: RiverSceneId } route
+        && ReferenceEquals(route.SessionIdentity, identity) && ReferenceEquals(bridge.SessionIdentity, identity);
+
+    internal bool TryGetFarPierObjectiveTarget(object? identity, Vector3 playerPosition, bool approachingBoard,
+        out Vector3 point, out string label)
+    {
+        point = default;
+        label = string.Empty;
+        if (!IsCurrentRiverObjective(identity)) return false;
+
+        var feet = ToLocal(playerPosition);
+        var mouth = FarPierRoute[0];
+        var farEnd = FarPierRoute[^1];
+        var position = new Vector2(feet.X, feet.Z);
+        var bank = new Vector2(mouth.X, mouth.Z);
+        var inward = (new Vector2(farEnd.X, farEnd.Z) - bank).Normalized();
+        var offset = position - bank;
+        var pierDistance = SampleSegment(mouth, farEnd, feet.X, feet.Z).Distance;
+        var alongPier = offset.Dot(inward);
+        const float mouthRadius = .55f;
+        var inPierCorridor = pierDistance <= FarPierWidth * .5f + .25f;
+        if (approachingBoard)
+        {
+            if (offset.LengthSquared() <= mouthRadius * mouthRadius || (alongPier > mouthRadius && inPierCorridor))
+                return false; // The existing board target is reachable from this deck.
+            point = ToGlobal(mouth);
+            label = "Вход на дальние мостки";
+            return true;
+        }
+
+        if (alongPier > -.35f && inPierCorridor)
+        {
+            // Clear the end of the railing before turning down the bank.
+            var offPier = bank - inward * .75f;
+            point = ToGlobal(new Vector3(offPier.X, TerrainHeight(offPier.X, offPier.Y), offPier.Y));
+            label = "Сойдите с мостков";
+            return true;
+        }
+
+        var meadow = RouteNodes[7];
+        var meadowPoint = new Vector2(meadow.X, meadow.Z);
+        if ((position - meadowPoint).Dot((meadowPoint - bank).Normalized()) >= -mouthRadius)
+            return false;
+
+        point = ToGlobal(meadow);
+        label = "Тропа вдоль берега";
+        return true;
+    }
+
     private void BuildFarPier()
     {
-        Vector3[] legs =
-        [
-            new(48f, 1.36f, 83f),
-            new(42f, 1.36f, 83.2f),
-            new(36.5f, 1.36f, 83.6f),
-            new(33.2f, 1.36f, 83.9f)
-        ];
-        BuildBoardwalk("FarPier", legs, 1.8f, DeckMaterial());
-        BuildLegRailing("FarPierRail", legs, 1.8f, south: true, WetPostMaterial());
-        BuildLegRailing("FarPierRailNorth", legs, 1.8f, south: false, WetPostMaterial());
+        BuildBoardwalk("FarPier", FarPierRoute, FarPierWidth, DeckMaterial());
+        BuildLegRailing("FarPierRail", FarPierRoute, FarPierWidth, south: true, WetPostMaterial());
+        BuildLegRailing("FarPierRailNorth", FarPierRoute, FarPierWidth, south: false, WetPostMaterial());
 
         var board = new MeshInstance3D
         {

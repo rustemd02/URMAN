@@ -247,6 +247,19 @@ public partial class Act1DemoRoot
             return true;
         }
 
+        if (mission.InteractionId is ("urman.fullgame:interaction/pw-water-reflection"
+                or "urman.fullgame:interaction/pw-water-encounter" or "urman.fullgame:interaction/pw-water-damp-print"
+                or "urman.fullgame:interaction/pw-water-return")
+            && _main.GetNodeOrNull<W02Controller>("ZoneHost/W02") is { } river
+            && GodotObject.IsInstanceValid(river) && river.IsInsideTree() && !river.IsQueuedForDeletion())
+        {
+            if (mission.InteractionId == "urman.fullgame:interaction/pw-water-reflection")
+                return river.TryGetReflectionObjectiveTarget(bridge.PhotoWorldPresentationIdentity, player,
+                    out waypoint, out label, out inspectionTarget);
+            return river.TryGetFarPierObjectiveTarget(bridge.PhotoWorldPresentationIdentity, playerPosition,
+                mission.InteractionId == "urman.fullgame:interaction/pw-water-encounter", out waypoint, out label);
+        }
+
         if (mission.InteractionId is "urman.fullgame:interaction/pw-house-door-left"
             or "urman.fullgame:interaction/pw-house-door-right"
             or "urman.fullgame:interaction/pw-house-camera-position"
