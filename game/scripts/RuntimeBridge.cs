@@ -209,6 +209,23 @@ public partial class RuntimeBridge : Node
         try
         {
             var session = _kernel;
+            var routeOwner = GetTree().GetFirstNodeInGroup("zone_manager") as Main;
+            bool NivaArrivalAwaitingPlacement() => _content.HasPhotoWorlds
+                && ActiveSceneId == Main.NivaArrivalSceneId
+                && routeOwner is { EnableFullGamePhotoWorldRouting: true }
+                && !routeOwner.IsNivaArrivalProjected(session);
+
+            // The prologue reducer commits before Main handles its deferred
+            // notification. Save only after the village owns the player's pose.
+            if (NivaArrivalAwaitingPlacement())
+            {
+                var tree = GetTree();
+                await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+                if (ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing && NivaArrivalAwaitingPlacement())
+                    await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+            }
+            if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing || NivaArrivalAwaitingPlacement())
+                return false;
             if (GetTree().GetFirstNodeInGroup("vehicle_fleet") is VehicleFleet fleet
                 && !await fleet.FlushForSaveAsync()) return false;
             if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
@@ -217,7 +234,8 @@ public partial class RuntimeBridge : Node
             if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
             if (AlsuStreetWalkPresentation.SessionOwner(GetTree()) is { } companion
                 && !await companion.FlushForSaveAsync()) return false;
-            if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
+            if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing || NivaArrivalAwaitingPlacement())
+                return false;
             cancellationToken.ThrowIfCancellationRequested();
             var save = CaptureSessionSave(player);
             await store.SaveAsync(slot, save, cancellationToken);
@@ -598,6 +616,7 @@ public partial class RuntimeBridge : Node
                 throw new InvalidDataException("The runtime session changed while restoring the saved fence task.");
         }
         var projectedPhoto = false;
+        var placedAtNivaArrival = false;
         if (GetTree().GetFirstNodeInGroup("zone_manager") is Main main)
         {
             var sceneId = ActiveSceneId ?? string.Empty;
@@ -608,11 +627,19 @@ public partial class RuntimeBridge : Node
                     throw new InvalidDataException("The loaded photo scene or supported player pose could not be prepared.");
                 projectedPhoto = true;
             }
+            else if (_content.HasPhotoWorlds && main.EnableFullGamePhotoWorldRouting && sceneId == Main.NivaArrivalSceneId)
+            {
+                // The cabin is presentation-only. Its one standing exit is
+                // the village arrival, including for old saves with W01 feet.
+                if (!main.MountLoadedNivaArrival() || CurrentZoneId != "village_day" || CurrentSpawnPointId != "arrival")
+                    throw new InvalidDataException("The loaded Niva arrival could not be placed at the village stop.");
+                placedAtNivaArrival = true;
+            }
             else main.SwitchZone(save.CurrentZone.Value, save.SpawnPoint.Value);
         }
         if (!projectedPhoto)
         {
-            player.ApplyPortableTransform(save.PlayerTransform);
+            if (!placedAtNivaArrival) player.ApplyPortableTransform(save.PlayerTransform);
             await ProjectPhysicalWorldAsync();
         }
         if (!player.VehicleControlled && !player.CanCrouchAt(player.GlobalPosition)

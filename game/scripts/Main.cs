@@ -16,7 +16,7 @@ public partial class Main : Node3D
     // The shared C00–C08 panorama reaches roughly 290 m at its far edge.
     private const float W04SharedPanoramaCameraFar = 320f;
     internal const string PrologueSceneId = "urman.fullgame:scene/pw-prologue";
-    private const string NivaArrivalSceneId = "urman.fullgame:scene/pw-niva-arrival";
+    internal const string NivaArrivalSceneId = "urman.fullgame:scene/pw-niva-arrival";
     private const string HomeSceneId = "urman.fullgame:scene/pw-home";
     private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
     private const string RiverSceneId = "urman.fullgame:scene/pw-river";
@@ -540,6 +540,17 @@ public partial class Main : Node3D
         if (!EnableFullGamePhotoWorldRouting || !IsInsideTree()) return;
         AttachFullGameRouteBridge();
         ReconcileFullGameScenePresentation();
+    }
+
+    internal bool IsNivaArrivalProjected(object session) =>
+        ReferenceEquals(_lastFullGameRouteSession, session) && _lastFullGameRouteScene == NivaArrivalSceneId
+        && _fullGameRouteBridge is { CurrentZoneId: "village_day", CurrentSpawnPointId: "arrival" }
+        && IsMountedZone("village_day");
+
+    internal bool MountLoadedNivaArrival()
+    {
+        SwitchZone("village_day", "arrival");
+        return IsMountedZone("village_day");
     }
 
     private void ReconcileFullGameScenePresentation()
