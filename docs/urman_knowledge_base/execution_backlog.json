@@ -23833,7 +23833,41 @@
         "report": "docs/production/police_post_2026-10-04/report.md",
         "canon": "Бытовой фоновый дежурный без имени; Ринат и его story state сохраняются. Внешний вид без дат реформы, канон зима2026.",
         "asset_correction": "Author rejects procedural art; source licensed realistic car, furniture and props, preserve non-drivable УЧАСТКОВЫЙ and reception/holding-cell behavior. Prior captures are rejected prototype evidence.",
-        "verification_v8": "Native PASS 45; build/import passed; original userdata restored and verified. Eight licensed source models integrated. Current captures licensed-v8; human art/voice and measured FPS/RSS remain open."
+        "verification_v8": "Native PASS 45; build/import passed; original userdata restored and verified. Eight licensed source models integrated. Current captures licensed-v8; human art/voice and measured FPS/RSS remain open.",
+        "visual_repair_2026_10_25": {
+          "source": "Direct user request in local Codex chat: urgently repair police building/roof/materials, holding area and officer shoulder boards for investor demonstration.",
+          "status": "implemented; native exterior/interior captures reviewed; full smoke gate remains open",
+          "changes": [
+            "Muted red brick exterior with existing licensed texture, retained openings and collisions; blue police plaque.",
+            "Old overlapping roof/snow retired together; closed metal slopes, visible eaves, standing seams and ridge cap.",
+            "Metric plaster finishes and steel bars; holding-area access and existing interactions preserved.",
+            "Shoulder boards follow clavicle animation at measured shoulder-line centres; seated cap lowered and navy cloth finish applied."
+          ],
+          "reference": "https://mvdmedia.ru/publications/police-of-russia/sluzhba-pol/politseyskie-podmenyayut-volshebnikov/",
+          "verification": {
+            "compile": "PASS, 0 warnings/errors; final build 17.59s",
+            "native_visual": "exterior/officer/cell/reception captured by existing Act1PolicePostSmokeTest and inspected",
+            "physical_checks": "existing test reached normal entrance opening, one greeting and ordinary walk into cell",
+            "full_smoke": "NOT PASS: final existing assertion local remarks do not mutate narrative state failed; log also records arrival checkpoint autosave. No conclusion that this unrelated state change is harmless.",
+            "first_attempt": "stopped at door because window was unfocused; canonical guarded smoke-background-input enabled for final run"
+          },
+          "local_evidence": [
+            "Codex chat work/police-final-capture/",
+            "Codex chat work/police-final-smoke.log",
+            "Codex chat work/police-build-final.log"
+          ],
+          "remaining": "Author visual acceptance and investigation of existing full-state equality failure; no full release readiness claimed.",
+          "imagegen_signage": {
+            "request": "Author explicitly requires ImageGen signs and all textual props; grounded worn rural style referencing My Summer Car.",
+            "result": "15 original built-in ImageGen PNGs installed: exterior/district/hours, six interior plates, three notices, application form, ledger, transparent car lettering. Cyrillic is generated inside each bitmap; previous procedural artwork removed.",
+            "runtime": "Physical plates preserve image proportions through UV regions; papers have double-sided curled surface; old Label3D nodes retained hidden for interaction/test contracts.",
+            "verification": "Two existing native DevViewCapture passes: 6 general views then 3 corrected paper/table views; all selected PNGs inspected. Final build 0 warnings/0 errors, both exits 0, original userdata restored and verified.",
+            "manifest": "game/content/world/act1_police_signs_imagegen.v1.json",
+            "assets": "game/assets/textures/police_signage_imagegen_v1/",
+            "evidence": "Local Codex chat work/police-imagegen-capture/ and work/police-imagegen-final/; selected captures and prompt set in outputs/.",
+            "limits": "Visual signage verification only; existing full narrative-state smoke gate and author art acceptance remain open."
+          }
+        }
       },
       "integration_2026_10_08": {
         "disposition": "KEEP",
