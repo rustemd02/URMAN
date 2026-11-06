@@ -288,7 +288,7 @@ public partial class Act1DemoRoot
             return cellar.TryGetCellarObjectiveTarget(bridge.PhotoWorldPresentationIdentity,
                 mission.InteractionId, player, out waypoint, out label, out inspectionTarget);
 
-        if (mission.InteractionId is ("urman.fullgame:interaction/pw-water-reflection"
+        if (mission.InteractionId is ("urman.fullgame:interaction/pw-water-reflection" or W02Controller.OldApproachInteractionId
                 or "urman.fullgame:interaction/pw-water-encounter" or "urman.fullgame:interaction/pw-water-damp-print"
                 or "urman.fullgame:interaction/pw-water-return")
             && _main.GetNodeOrNull<W02Controller>("ZoneHost/W02") is { } river
@@ -297,6 +297,9 @@ public partial class Act1DemoRoot
             if (mission.InteractionId == "urman.fullgame:interaction/pw-water-reflection")
                 return river.TryGetReflectionObjectiveTarget(bridge.PhotoWorldPresentationIdentity, player,
                     out waypoint, out label, out inspectionTarget);
+            if (mission.InteractionId == W02Controller.OldApproachInteractionId)
+                return river.TryGetOldApproachObjectiveTarget(bridge.PhotoWorldPresentationIdentity, playerPosition,
+                    target.GlobalPosition, out waypoint, out label, out inspectionTarget);
             return river.TryGetFarPierObjectiveTarget(bridge.PhotoWorldPresentationIdentity, playerPosition,
                 mission.InteractionId == "urman.fullgame:interaction/pw-water-encounter", out waypoint, out label);
         }

@@ -499,7 +499,7 @@ public partial class JournalUi
                 ("urman.fullgame:scene/pw-river", "river-reed") =>
                     ("Проход в камыше", "Раздвиньте камыш у поворота, чтобы открыть берег.", "pw-water-bypass", null, "Камыш у поворота"),
                 ("urman.fullgame:scene/pw-river", "river-approach") =>
-                    ("Старый подход к мосткам", "Осмотрите подход к мосткам за камышом.", "pw-water-old-approach", null, "Старый подход к мосткам"),
+                    ("Старый подход к мосткам", "Идите по берегу за камышом и осмотрите старые сваи.", "pw-water-old-approach", null, "Старый подход к мосткам"),
                 ("urman.fullgame:scene/pw-river", "river-encounter") =>
                     ("Дощечка у воды", RuntimeBridge.WaterEncounterActionCue, "pw-water-encounter", "ZoneHost/W02/W02World/FarPierLooseBoard", "Конец дальних мостков"),
                 ("urman.fullgame:scene/pw-river", "river-damp-print") =>

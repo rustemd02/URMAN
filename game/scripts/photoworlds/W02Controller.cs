@@ -18,7 +18,7 @@ public partial class W02Controller : Node3D
     private const string RiverSceneId = "urman.fullgame:scene/pw-river";
     private const string ReflectionInteractionId = "urman.fullgame:interaction/pw-water-reflection";
     private const string BypassInteractionId = "urman.fullgame:interaction/pw-water-bypass";
-    private const string OldApproachInteractionId = "urman.fullgame:interaction/pw-water-old-approach";
+    internal const string OldApproachInteractionId = "urman.fullgame:interaction/pw-water-old-approach";
     private const string EncounterInteractionId = "urman.fullgame:interaction/pw-water-encounter";
     private const string DampPrintInteractionId = "urman.fullgame:interaction/pw-water-damp-print";
     private const string ReturnInteractionId = "urman.fullgame:interaction/pw-water-return";
@@ -81,6 +81,7 @@ public partial class W02Controller : Node3D
 
     private RuntimeBridge? _bridge;
     private Node3D? _world;
+    private Vector3 _oldApproachWitness;
     private readonly List<StaticBody3D> _worldBodies = [];
     private readonly List<InteractionTarget> _targets = [];
     private InteractionTarget? _encounterTarget;
@@ -939,6 +940,7 @@ public partial class W02Controller : Node3D
             pillar.Mesh = new CylinderMesh { TopRadius = 0.12f, BottomRadius = 0.155f, Height = height };
             pillar.Position = new Vector3(x, bottom + height * 0.5f, z);
             pillar.RotationDegrees = new Vector3(4f * ((pile % 3) - 1), 20f * pile, 5f + 4f * ((pile % 4) - 1.5f));
+            if (pile == 0) _oldApproachWitness = ToLocal(pillar.ToGlobal(Vector3.Up * (height * .5f)));
         }
 
         for (var plank = 0; plank < 4; plank++)
@@ -957,6 +959,37 @@ public partial class W02Controller : Node3D
         && _bridge is { } bridge && GodotObject.IsInstanceValid(bridge)
         && bridge.CurrentW02WaterProjection() is { ActiveSceneId: RiverSceneId } route
         && ReferenceEquals(route.SessionIdentity, identity) && ReferenceEquals(bridge.SessionIdentity, identity);
+
+    internal bool TryGetOldApproachObjectiveTarget(object? identity, Vector3 playerPosition, Vector3 witnessPosition,
+        out Vector3 point, out string label, out bool inspectionTarget)
+    {
+        point = default;
+        label = string.Empty;
+        inspectionTarget = false;
+        if (!IsCurrentRiverObjective(identity)) return false;
+
+        var feet = ToLocal(playerPosition);
+        var position = new Vector2(feet.X, feet.Z);
+        // The old piles are over water. Stop within ray reach on the dry shelf.
+        var stance = new Vector2(36.85f, 63.55f);
+        const float stanceRadius = .30f;
+        if (position.DistanceSquaredTo(stance) <= stanceRadius * stanceRadius)
+        {
+            point = witnessPosition;
+            label = "Осмотрите старые сваи";
+            inspectionTarget = true;
+            return true;
+        }
+
+        var bank = new Vector2(RouteNodes[5].X, RouteNodes[5].Z);
+        var towardsStance = (stance - bank).Normalized();
+        var fromBank = position - bank;
+        var onApproach = fromBank.Dot(towardsStance) >= -.65f && Mathf.Abs(fromBank.Cross(towardsStance)) <= 1.2f;
+        var destination = onApproach ? stance : bank;
+        point = ToGlobal(new Vector3(destination.X, TerrainHeight(destination.X, destination.Y), destination.Y));
+        label = onApproach ? "Точка осмотра на берегу" : "Тропа вдоль берега";
+        return true;
+    }
 
     internal bool TryGetFarPierObjectiveTarget(object? identity, Vector3 playerPosition, bool approachingBoard,
         out Vector3 point, out string label)
@@ -1465,7 +1498,7 @@ public partial class W02Controller : Node3D
             EnsureTarget("WaterBypassTarget", BypassInteractionId,
                 bridge.ResolveText(BypassLabelTextId), new Vector3(25f, 2.2f, 42f), 0.7f);
             EnsureTarget("WaterOldApproachTarget", OldApproachInteractionId,
-                bridge.ResolveText(OldApproachLabelTextId), new Vector3(35.4f, 2.1f, 63.7f), 0.7f);
+                bridge.ResolveText(OldApproachLabelTextId), _oldApproachWitness, .90f);
             if (_looseBoard is { } board && GodotObject.IsInstanceValid(board))
             {
                 _encounterTarget = EnsureTarget("WaterEncounterTarget", EncounterInteractionId,
