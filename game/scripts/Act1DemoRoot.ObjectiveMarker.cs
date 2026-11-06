@@ -229,6 +229,18 @@ public partial class Act1DemoRoot
         label = string.Empty;
         inspectionTarget = false;
         var playerPosition = player.GlobalPosition;
+        if (mission.InteractionId == PhotoBankApproachPresence.LeafWitnessInteractionId
+            && _objectiveMarkerUsingAnchor && playerPosition.DistanceSquaredTo(target.GlobalPosition)
+                <= PhotoBankApproachPresence.LeafObservationRange * PhotoBankApproachPresence.LeafObservationRange)
+        {
+            // The witness follows the branch-to-snow animation. Use its real
+            // height so the cue leads the gaze that advances the event.
+            waypoint = target.GlobalPosition;
+            label = player.HasPhotoBookGrip ? "Уберите книгу" : "Следите за листом";
+            inspectionTarget = true;
+            return true;
+        }
+
         if (mission.InteractionId == PhotoWorldEpiloguePresence.TakeNowInteractionId
             && _objectiveMarkerUsingAnchor && player.IsOnFloor()
             && playerPosition.DistanceSquaredTo(target.GlobalPosition)
