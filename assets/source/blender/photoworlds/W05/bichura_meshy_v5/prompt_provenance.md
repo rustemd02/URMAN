@@ -1,6 +1,6 @@
 # Bichura v5 — Meshy technical candidate
 
-Status: one technical Meshy 7.1 image-to-3D trial authorized. Pending Meshy geometry review, root review, runtime and artistic/cultural acceptance. This is not accepted character art and does not claim folkloric authenticity.
+Status: original Meshy 7.1 result and locally simplified geometry reviewed as inputs for rigging. Deformation, runtime, artistic and cultural acceptance are pending.
 
 - ImageGen source: Codex generation UUID `01a1afac-1270-7080-a3a0-c814d0538e60`, result `exec-5bec648a-3a9e-40a6-a887-4d6f39091ea6.png`
 - Workspace copy: imagegen-reference-v5.png
@@ -9,9 +9,12 @@ Status: one technical Meshy 7.1 image-to-3D trial authorized. Pending Meshy geom
 - Generation: built-in ImageGen, one generation call.
 - Meshy task: `01a1afaf-e7c9-74b6-94fd-88d40e943dfe` (`meshy-7.1`, standard geometry, textured image-to-3D; SUCCEEDED).
 - Credits: API balance before submission was 3660; task reports 30 consumed credits.
-- Raw GLB: downloaded to a dedicated temporary directory, 27745676 bytes; SHA-256 `f25b926c382527e2cd456a5f8688387783a0103d7b8b0f02d1d620b24bd89643`.
+- Raw GLB: `bichura-v5-raw.glb`, 27745676 bytes, SHA-256 `f25b926c382527e2cd456a5f8688387783a0103d7b8b0f02d1d620b24bd89643`. Both GLBs and the Blender recipe are in the local asset archive under `URMAN-W05-concepts/bichura-meshy-v5`.
 - Static GLB inspection: 1 mesh, 1 primitive, 258477 vertices, 462382 triangles, 1 material with base-color and normal textures; no skin or rig.
-- Raw POSITION bounds are X[-0.72867, 0.72844], Y[-0.95200, 0.95088], Z[-0.45151, 0.44720] (about 1.457 × 1.903 × 0.899 scene units before node transforms). Finger shape, actual character scale, motion, and style remain unreviewed.
+- Raw POSITION bounds are X[-0.72867, 0.72844], Y[-0.95200, 0.95088], Z[-0.45151, 0.44720] (about 1.457 × 1.903 × 0.899 scene units before node transforms).
+- Local candidate: Blender 4.5.12 LTS, factory startup, background Workbench views at 640 × 640. Exact-position UV-seam vertex pairs were welded at 1e-6 before Collapse Decimate; loop UVs remain. The mesh was scaled uniformly to 0.75 m Blender-Z height and placed with its feet at Z=0. A previous non-welded 16k probe visibly split along surfaces and was replaced. No rig/remesh/retexture task was submitted.
+- Candidate GLB: `bichura-v5-optimized.glb`, 14499792 bytes; SHA-256 `0c16bcfd4a3dae0e35937c73de5424c5269848e393317080cdeae5c8ef958fa2`. It contains 1 mesh, 14955 vertices, 16000 triangles, UV coordinates, 1 material, 3 packed images/textures, and no skin/rig. Blender dimensions were about 0.574 × 0.354 × 0.751 m. The exported GLB has 0 degenerate triangles, 0 boundary edges and 0 non-manifold edges after exact XYZ welding of UV-seam duplicates.
+- Neutral review used front and side three-quarter views at 640 × 640. The welded silhouette is continuous, with visible hand and leg gaps. The next check covers separate digits, deformation and the cup grip.
 
 Exact prompt:
 
