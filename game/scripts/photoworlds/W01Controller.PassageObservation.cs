@@ -8,6 +8,9 @@ public partial class W01Controller
 {
     private const string ForestBeyondFrameInteractionId = "urman.fullgame:interaction/pw-forest-photographer";
     private const string ForestBeyondFrameFactId = "forest_beyond_frame_seen";
+    private const float RootPassageCueLookAhead = 1.5f;
+    private Vector3 _rootPassageWalkEntry;
+    private Vector3 _rootPassageWalkExit;
 
     private bool _rootPassageObservationDispatching;
     private long _rootPassageObservationGeneration;
@@ -48,7 +51,7 @@ public partial class W01Controller
             var exit = new Vector2(returnFrame.GlobalPosition.X, returnFrame.GlobalPosition.Z);
             if (position.DistanceSquaredTo(exit) < position.DistanceSquaredTo(entry))
             {
-                point = returnFrame.GlobalPosition;
+                point = RootPassageApproachCue(returnFrame, portal: 1, playerPosition);
                 label = "Вернитесь через проход";
                 return true;
             }
@@ -76,22 +79,46 @@ public partial class W01Controller
         return true;
     }
 
-    /// <summary>Projects the next real subject from live traversal proof without recording progress.</summary>
-    internal bool TryGetRootPassageInspectionTarget(object? identity, out Vector3 point, out int seenCount)
+    /// <summary>Guides the player along the actual root ribbon and then to the next observation subject.</summary>
+    internal bool TryGetRootPassageObjectiveTarget(object? identity, Vector3 playerPosition,
+        out Vector3 point, out string label, out bool inspectionPoint)
     {
         point = default;
-        seenCount = 0;
-        if (identity is null || !_rootPassageEnabled || _rootPassageObservedExitSide == 0f
+        label = string.Empty;
+        inspectionPoint = false;
+        if (identity is null || !_rootPassageEnabled
             || !ReferenceEquals(_rootPassageSessionIdentity, identity)
             || _bridge is not { } bridge || !IsValidCurrentBridge(bridge)
             || bridge.ActiveSceneId != ForestSceneId
             || !ReferenceEquals(bridge.PhotoWorldPresentationIdentity, identity)
+            || _rootLinkFrameF12 is not { } entry || !GodotObject.IsInstanceValid(entry)
+            || _rootLinkFrameF13 is not { } exit || !GodotObject.IsInstanceValid(exit)
             || _rootPassageObservationSubjects.Length != 3)
             return false;
+
+        var exitDistance = exit.ToLocal(playerPosition).Z * _rootPassageObservedExitSide;
+        if (_rootPassageObservedExitSide == 0f || exitDistance < -RootPassagePlaneHalfDepth)
+        {
+            // A save may preserve feet on the far side without the live crossing proof.
+            var returning = playerPosition.DistanceSquaredTo(exit.GlobalPosition)
+                < playerPosition.DistanceSquaredTo(entry.GlobalPosition);
+            point = RootPassageApproachCue(returning ? exit : entry, returning ? 1 : 0, playerPosition);
+            label = returning ? "Вернитесь через проход" : "Проход у корней";
+            return true;
+        }
+
+        if (exitDistance <= RootPassagePlaneHalfDepth)
+        {
+            var mouth = _rootPassageObservedExitSide > 0f ? _rootPassageWalkExit : _rootPassageWalkEntry;
+            point = exit.ToGlobal(RootPassageRibbonPoint(mouth, Mathf.Max(exitDistance, 0f) + RootPassageCueLookAhead));
+            label = "Отойдите от поворота";
+            return true;
+        }
 
         // Keep the last subject while its earned dispatch finishes, rather than pointing back into the passage.
         point = _rootPassageObservationSubjects[^1].Point;
         var unseenMask = (1 << _rootPassageObservationSubjects.Length) - 1;
+        var seenCount = 0;
         for (var bits = _rootPassageSeenSubjects & unseenMask; bits != 0; bits &= bits - 1)
             seenCount++;
         for (var index = 0; index < _rootPassageObservationSubjects.Length; index++)
@@ -100,7 +127,35 @@ public partial class W01Controller
             point = _rootPassageObservationSubjects[index].Point;
             break;
         }
+        label = $"Осмотрите стволы: {seenCount}/3";
+        inspectionPoint = true;
         return true;
+    }
+
+    private Vector3 RootPassageApproachCue(Marker3D frame, int portal, Vector3 playerPosition)
+    {
+        var position = frame.ToLocal(playerPosition);
+        var side = _rootLinkTrackedPortal == portal && _rootLinkPreviousPlaneSide != 0
+            ? _rootLinkPreviousPlaneSide : position.Z > 0f ? 1 : -1;
+        var mouth = side > 0 ? _rootPassageWalkExit : _rootPassageWalkEntry;
+        var distance = position.Z * side;
+        var centre = RootPassageRibbonPoint(mouth, distance);
+        if (distance >= Mathf.Abs(mouth.Z) || Mathf.Abs(position.X - centre.X) > 1.1f)
+            return frame.ToGlobal(mouth);
+        // Put the final cue beyond the trigger plane so walking to it crosses.
+        var next = distance > RootPassageCueLookAhead
+            ? RootPassageRibbonPoint(mouth, distance - RootPassageCueLookAhead)
+            : RootPassageRibbonPoint(side > 0 ? _rootPassageWalkEntry : _rootPassageWalkExit, .35f);
+        return frame.ToGlobal(next);
+    }
+
+    private static Vector3 RootPassageRibbonPoint(Vector3 mouth, float distance)
+    {
+        // Same centreline as the shipped HeroRoot_WalkRibbon, expressed from
+        // SpatialLinkFrame to the GLB's WalkEntry or WalkExit.
+        var progress = Mathf.Clamp(distance / Mathf.Abs(mouth.Z), 0f, 1f);
+        var bow = Mathf.Sin(progress * Mathf.Pi * .5f);
+        return new Vector3(mouth.X * bow * bow, mouth.Y * Mathf.SmoothStep(0f, 1f, progress), mouth.Z * progress);
     }
 
     private void BuildRootPassageObservationSubjects()

@@ -111720,7 +111720,7 @@
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020.",
         "Издалека лесной маркер ведёт к существующей точке на тропе. На ней маркер показывает ствол, который проверяет вход через книгу, и меняет подсказку после поворота. Поворот явно указан и для продолжения незавершённого снимка. Сборка Mac 0/0; игровой HUD, первый и повторный вход и возврат предстоит проверить."
       ],
-      "next_action": "Когда Mac свободен и окно доступно для управления, продолжить quick seq172: получить школьную копию, проверить маркер подхода и поворота у стволов, войти через книгу. Дальше F11, пешком F12 → F13, разговор и сумка, выход F16, домашний разговор и Save/Continue.",
+      "next_action": "Когда Mac свободен и окно доступно для управления, продолжить quick seq172: получить школьную копию, проверить подход к стволам и войти через книгу. После F11 проверить указатель от входа на настил через поворот F12→F13 и подсказку отойти до осмотра стволов. Затем разговор и сумка, выход F16, домашний разговор и Save/Continue.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -114899,7 +114899,8 @@
         "game/scripts/JournalUi.Missions.cs",
         "game/scripts/photoworlds/W03Controller.Interactions.cs",
         "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
-        "game/scripts/photoworlds/W01Controller.PassageObservation.cs"
+        "game/scripts/photoworlds/W01Controller.PassageObservation.cs",
+        "Маршрут указателя использует узлы WalkEntry/WalkExit текущего GLB. От F11 старое направление проходит в 4,52 м от центра входа. Новый указатель повторяет изгиб настила и просит отойти перед осмотром. Mac 23,46 с, 0 предупреждений и ошибок."
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-028",
       "source_requirements": [
@@ -115024,7 +115025,7 @@
         "Последний уровень снимает технический тупик, но не завершает главу автоматически.",
         "Смена задач/маркеров внутри миров ещё не наблюдалась на текущем candidate."
       ],
-      "next_action": "During the same necessary Mac ordinary school→W01→home run, check facts drive camera/path/talk/bag/exit cues, home-debrief target on return and one five-minute idle window without unsolicited advancement. Source chain reviewed; do not repeat unchanged semantic or station preparation.",
+      "next_action": "В защищённом проходе школа → W01 → дом проверить смену подсказок у входа на корневой настил и после F13, затем разговор, сумку, выход и указатель к домашнему разговору. Один раз проверить пять минут без подсказок по инициативе игры. Сохранить предыдущую семантическую проверку, повтор подготовки станции не нужен.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

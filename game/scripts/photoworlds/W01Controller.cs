@@ -420,6 +420,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var scene = LoadScene(HeroRootTurnScenePath);
         (_heroRootAtF12, _heroRootContactAtF12) = BuildRootPassageCopy(scene, _rootLinkFrameF12, "F12");
         (_heroRootAtF13, _heroRootContactAtF13) = BuildRootPassageCopy(scene, _rootLinkFrameF13, "F13");
+        _rootPassageWalkEntry = _rootLinkFrameF12.ToLocal(RequireDescendant<Node3D>(_heroRootAtF12, "WalkEntry").GlobalPosition);
+        _rootPassageWalkExit = _rootLinkFrameF12.ToLocal(RequireDescendant<Node3D>(_heroRootAtF12, "WalkExit").GlobalPosition);
         BuildRootPassageObservationSubjects();
     }
 

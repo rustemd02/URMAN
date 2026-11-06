@@ -272,33 +272,8 @@ public partial class Act1DemoRoot
             || !GodotObject.IsInstanceValid(forest) || !forest.IsInsideTree() || forest.IsQueuedForDeletion())
             return false;
 
-        var lookBack = forest.TryGetRootPassageInspectionTarget(
-            bridge.PhotoWorldPresentationIdentity, out var subject, out var seenCount);
-        var anchor = forest.GetNodeOrNull<Node3D>(lookBack ? "Anchors/F13" : "Anchors/F12");
-        if (!ObjectiveMarkerTargetAvailable(anchor, mission, endpoint: true)) return false;
-        if (lookBack)
-        {
-            waypoint = subject;
-            label = $"Осмотрите стволы: {seenCount}/3";
-            inspectionTarget = true;
-            return true;
-        }
-        label = "Проход у корней";
-        if (forest.GetNodeOrNull<Node3D>("Anchors/F13") is { } returnAnchor
-            && ObjectiveMarkerTargetAvailable(returnAnchor, mission, endpoint: true))
-        {
-            var position = new Vector2(playerPosition.X, playerPosition.Z);
-            var entry = new Vector2(anchor!.GlobalPosition.X, anchor.GlobalPosition.Z);
-            var exit = new Vector2(returnAnchor.GlobalPosition.X, returnAnchor.GlobalPosition.Z);
-            // Near the far end after a reset, point back through it; distance never arms inspection.
-            if (position.DistanceSquaredTo(exit) < position.DistanceSquaredTo(entry))
-            {
-                anchor = returnAnchor;
-                label = "Вернитесь через проход";
-            }
-        }
-        waypoint = anchor!.GlobalPosition;
-        return true;
+        return forest.TryGetRootPassageObjectiveTarget(bridge.PhotoWorldPresentationIdentity, playerPosition,
+            out waypoint, out label, out inspectionTarget);
     }
 
     private bool TryGetHomeYardExitObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition,
