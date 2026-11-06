@@ -108568,6 +108568,11 @@
         },
         "next_action": "Accept this whole school-source→permission/copy→W01 action→home reply→P-FOREST earned record→Save/Continue episode once an ordinary verification can answer its remaining UI/physical questions. Do not replace user walking blocker with repeated album-only checks."
       },
+      "school_photo_recognition_2026_11_06": {
+        "finding": "Школьная реплика утверждала, что снимали с другой стороны, хотя актуальные P-FOREST и S-SCHOOL показывают почти одинаковую фронтальную композицию. Просмотр просил назвать место камеры, а кнопка фиксировала совпадение места.",
+        "result": "Просмотр, реплика и книга теперь указывают на раздвоенную берёзу и низкую перекладину. Игрок подтверждает совпадение места, затем просит копию у сотрудницы школы. Условия, идентификаторы и выдача копии сохранены.",
+        "verification": "Два текущих PNG просмотрены отдельно root и Luna. Компилятор изменил только текст D04-03 и две контрольные суммы. Точная проверка совместимости покрывает предыдущий fingerprint и 24 уже разрешённых предшественника. Окончательная сборка Mac 16,63 с без предупреждений и ошибок. Школьный просмотр, выдача копии и Continue ещё требуют обычного игрового прохода."
+      },
       "school_destination_2026_10_24": {
         "problem": "ADR-SCHOOL pointed at H031 (Лесная,3), the later annex without the required S-SCHOOL album/staff. Existing directions and address-school knowledge describe the old school archive, whose actual gameplay targets are in OldSchool on the square (ADR-SQUARE-SCHOOL,Лесная,12). Following the directions could send the player to the wrong building and leave the first-image context unavailable.",
         "change": "game/content/urman.settlement.addresses.v1.json now maps ADR-SCHOOL→ADR-SQUARE-SCHOOL and contains the exact existing OldSchool registration. H031 geometry/number/identity preserved; no duplicate building or quest state.",

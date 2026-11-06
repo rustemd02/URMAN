@@ -192,7 +192,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         RefitToViewport();
         var comparing = _images.ComparingImages;
         _status.Text = comparing
-            ? confirm is null ? "Место съёмки уже отмечено." : "Сравните три ствола и перекладину на двух снимках."
+            ? confirm is null ? "Место съёмки уже отмечено." : "Если место совпадает, отметьте находку."
             : confirm is null
             ? "Осмотр снимка · Esc — вернуться к месту"
             : "Нажмите «Рассмотреть снимок», чтобы отметить находку · Esc — уйти без записи";

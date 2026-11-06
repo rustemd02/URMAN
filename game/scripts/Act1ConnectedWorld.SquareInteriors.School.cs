@@ -242,7 +242,7 @@ public partial class Act1ConnectedWorld
                 : new DocumentImageContent("P-FOREST", SchoolFamilyPhotoFront, "Из семейной книги");
             sourceInspection = InspectionCurrent;
             reader.OpenSourcePhotoInspection(inspectionBridge, "S-SCHOOL", SchoolPhotoCopyFront, sourceTitle,
-                "Сверьте три ствола и низкую перекладину. Откуда сделан снимок из семейной книги?",
+                "Найдите на обоих снимках раздвоенную берёзу и низкую перекладину.",
                 sourceInspection, inspectionBridge.PhotoWorldFactObserved("school_copy_identified") ? null : ConfirmInspection,
                 comparison, "Школьный оригинал");
             return false;

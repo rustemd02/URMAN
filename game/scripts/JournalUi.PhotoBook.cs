@@ -351,7 +351,7 @@ public partial class JournalUi
         _photoBookSharedLandmark = new Label
         {
             Name = "SharedPhotoLandmark",
-            Text = "Общий ориентир: согнутый ствол справа виден на обоих снимках.",
+            Text = "На обоих снимках слева видны раздвоенная берёза и низкая перекладина.",
             ThemeTypeVariation = UrmanUiTheme.Tag,
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,

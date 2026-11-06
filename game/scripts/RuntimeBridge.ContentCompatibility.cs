@@ -85,6 +85,9 @@ public partial class RuntimeBridge
     private const string FullGameGulsinaAuthorshipReplyFingerprint =
         "f754e4a5d29a27a357707835d6b56a78dfc71f90327d7a3912f38bd3da1df403";
 
+    private const string FullGameSchoolPhotoCueFingerprint =
+        "f8a34d7def19180baf45f1a2b94f96bdf42d01608d44a186c198e16dca86c717";
+
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
         // 80266983 -> 5b0a7ccf: 18 UI texts/provides IDs only; proof in PW-025.
@@ -433,7 +436,20 @@ public partial class RuntimeBridge
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
     {
-        if (!StringComparer.Ordinal.Equals(_content.CampaignId, FullGameCampaignId) ||
+        var isFullGame = StringComparer.Ordinal.Equals(_content.CampaignId, FullGameCampaignId);
+        if (isFullGame && StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameSchoolPhotoCueFingerprint))
+        {
+            // The compiled diff changes one text entry. Carry forward exactly
+            // the previously accepted saves as direct pairs for this revision.
+            var compatible = FullGameTextRevisionCompatibility
+                .Where(pair => pair.ExpectedFingerprint == FullGameGulsinaAuthorshipReplyFingerprint)
+                .Select(pair => pair with { ExpectedFingerprint = FullGameSchoolPhotoCueFingerprint })
+                .Append(new(FullGameGulsinaAuthorshipReplyFingerprint, FullGameSchoolPhotoCueFingerprint))
+                .ToArray();
+            return new AtomicSaveGameStore(directory, fingerprintCompatibility: compatible);
+        }
+
+        if (!isFullGame ||
             (!StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTextRevisionFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTeaTextRevisionFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameCellarReturnFingerprint) &&
