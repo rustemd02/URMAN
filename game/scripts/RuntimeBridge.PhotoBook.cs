@@ -308,22 +308,26 @@ public partial class RuntimeBridge
                     : commonOrigin ? "Подойдите ближе к месту общего снимка у берега."
                         : riverOrigin ? "Подойдите ближе к старому подходу к мосткам на берегу."
                             : "Подойдите ближе к домашнему столу с книгой.";
-        var toFacing = facingPoint is { } point ? point - player.GlobalPosition : toAnchor;
-        toFacing.Y = 0f;
-        if (!revisit && toFacing.LengthSquared() > .0001f)
-        {
-            var forward = -player.GlobalBasis.Z;
-            forward.Y = 0f;
-            if (forward.LengthSquared() < .0001f
-                || forward.Normalized().Dot(toFacing.Normalized()) < Mathf.Cos(Mathf.DegToRad(40f)))
-                return forestOrigin ? "Закройте альбом и повернитесь к трём стволам на опушке."
-                    : cellarOrigin ? "Закройте альбом и повернитесь к двери сухих сеней."
-                        : houseOrigin ? "Закройте альбом и повернитесь к наружному окну семейного дома."
-                            : commonOrigin ? "Закройте альбом и повернитесь к месту общего снимка у берега."
-                                : riverOrigin ? "Закройте альбом и повернитесь к старому подходу к мосткам."
-                                    : "Закройте альбом и повернитесь к домашнему столу с книгой.";
-        }
+        if (!revisit && !IsFacingPhotoBookEntry(player, facingPoint ?? anchor.GlobalPosition))
+            return forestOrigin ? "Закройте альбом и повернитесь к трём стволам на опушке."
+                : cellarOrigin ? "Закройте альбом и повернитесь к двери сухих сеней."
+                    : houseOrigin ? "Закройте альбом и повернитесь к наружному окну семейного дома."
+                        : commonOrigin ? "Закройте альбом и повернитесь к месту общего снимка у берега."
+                            : riverOrigin ? "Закройте альбом и повернитесь к старому подходу к мосткам."
+                                : "Закройте альбом и повернитесь к домашнему столу с книгой.";
         return null;
+    }
+
+    internal static bool IsFacingPhotoBookEntry(FirstPersonController player, Vector3 facingPoint)
+    {
+        var toFacing = facingPoint - player.GlobalPosition;
+        toFacing.Y = 0f;
+        if (toFacing.LengthSquared() <= .0001f) return true;
+
+        var forward = -player.GlobalBasis.Z;
+        forward.Y = 0f;
+        return forward.LengthSquared() >= .0001f
+            && forward.Normalized().Dot(toFacing.Normalized()) >= Mathf.Cos(Mathf.DegToRad(40f));
     }
 
     internal async Task<bool> EnterPhotoBookPhotoAsync(string photoId)

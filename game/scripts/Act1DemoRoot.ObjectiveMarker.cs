@@ -117,7 +117,7 @@ public partial class Act1DemoRoot
         label.Visible = true;
         var name = string.IsNullOrWhiteSpace(mission.TargetLabel) ? mission.Title : mission.TargetLabel;
         var destination = target.GlobalPosition;
-        var waypoint = TryGetPhotoWorldObjectiveWaypoint(mission, bridge, player.GlobalPosition,
+        var waypoint = TryGetPhotoWorldObjectiveWaypoint(mission, bridge, player, target,
             out var routePoint, out var routeLabel, out var inspectionTarget);
         if (!waypoint)
         {
@@ -141,8 +141,10 @@ public partial class Act1DemoRoot
             destination = routePoint;
             name = routeLabel;
         }
-        var distance = player.GlobalPosition.DistanceTo(destination);
-        var destinationText = $"{name} · {Mathf.CeilToInt(distance)} м";
+        // Observation markers point at what to look at from here, not where to walk.
+        var destinationText = inspectionTarget
+            ? name
+            : $"{name} · {Mathf.CeilToInt(player.GlobalPosition.DistanceTo(destination))} м";
         label.Text = destinationText;
         if (_routeCueDestination is { } destinationLabel)
         {
@@ -215,12 +217,28 @@ public partial class Act1DemoRoot
         _objectiveMarker!.Visible = true;
     }
 
-    private bool TryGetPhotoWorldObjectiveWaypoint(PlayerMission mission, RuntimeBridge bridge, Vector3 playerPosition,
+    private bool TryGetPhotoWorldObjectiveWaypoint(PlayerMission mission, RuntimeBridge bridge,
+        FirstPersonController player, Node3D target,
         out Vector3 waypoint, out string label, out bool inspectionTarget)
     {
         waypoint = default;
         label = string.Empty;
         inspectionTarget = false;
+        var playerPosition = player.GlobalPosition;
+        if (mission.InteractionId == RuntimeBridge.PhotoBookForestEntryInteractionId
+            && _objectiveMarkerUsingAnchor && player.IsOnFloor()
+            && playerPosition.DistanceSquaredTo(target.GlobalPosition) <= 1.2f * 1.2f
+            && target.GetNodeOrNull<InteractionTarget>("ForestPhotoEntryTarget") is { } witness
+            && ObjectiveMarkerTargetAvailable(witness, mission))
+        {
+            waypoint = witness.GlobalPosition;
+            label = RuntimeBridge.IsFacingPhotoBookEntry(player, waypoint)
+                ? "Откройте книгу"
+                : "Повернитесь к трём стволам";
+            inspectionTarget = true;
+            return true;
+        }
+
         if (mission.InteractionId is "urman.fullgame:interaction/pw-house-door-left"
             or "urman.fullgame:interaction/pw-house-door-right"
             or "urman.fullgame:interaction/pw-house-camera-position"

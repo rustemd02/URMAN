@@ -111588,6 +111588,7 @@
         },
         "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
         "game/scripts/JournalUi.Missions.cs",
+        "game/scripts/RuntimeBridge.PhotoBook.cs",
         "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-school-forest-route-2026-11-06.zip SHA256 49afa1f64ae428256fbb787dacdebfb2e5dae93a10fe3b3ca06b8028e4a63baf"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-020",
@@ -111714,9 +111715,9 @@
       "technical_verification_state": "not_run",
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020.",
-        "The book-entry marker uses the existing supported stance for explicitly anchored missions. The forest witness target used by the old marker is 5.45 m beyond that stance. Mac compile passed; current ordinary HUD, first entry and return need play verification."
+        "Издалека лесной маркер ведёт к существующей точке на тропе. На ней маркер показывает ствол, который проверяет вход через книгу, и меняет подсказку после поворота. Поворот явно указан и для продолжения незавершённого снимка. Сборка Mac 0/0; игровой HUD, первый и повторный вход и возврат предстоит проверить."
       ],
-      "next_action": "Use Mac quick seq172: obtain school copy, follow the route to the authored stance on the trail, face the three trunks and enter through the book. Verify F11 camera-back fact, F12→F13, D06 and bag→F16, ordinary return, home debrief and Save/Continue. Do not repeat accepted school entrance or unchanged semantic checks.",
+      "next_action": "Когда Mac свободен и окно доступно для управления, продолжить quick seq172: получить школьную копию, проверить маркер подхода и поворота у стволов, войти через книгу. Дальше F11, пешком F12 → F13, разговор и сумка, выход F16, домашний разговор и Save/Continue.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
