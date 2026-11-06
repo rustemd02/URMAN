@@ -390,7 +390,7 @@ public partial class JournalUi
         if (bridge.ActiveSceneId == "urman.fullgame:scene/pw-epilogue")
         {
             if (!bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-NOW"))
-                return HomeMission(bridge, "epilogue-photo", "Новый семейный снимок", "Встаньте у чайного стола и снимите Гөлсинә, Мансура и чай.", "pw-take-now-photo", "Чайный стол",
+                return HomeMission(bridge, "epilogue-photo", "Новый семейный снимок", "Встаньте на отмеченное место. Снимите Гөлсинә, Мансура и чай.", "pw-take-now-photo", "Место съёмки",
                     "ZoneHost/Act1ConnectedWorld/babay-abi-house/PhotoWorldEpiloguePresence/SNowCameraStance");
             if (!MissionKnowledgeConfirmed(bridge.SelectRuntimeState(), "urman.fullgame:knowledge/pw-marat-death-question-remains-open"))
                 return HomeMission(bridge, "epilogue-talk", "Разговор дома", "Расскажите Гөлсинә, что удалось узнать.", "pw-home-epilogue-talk", "Гөлсинә");

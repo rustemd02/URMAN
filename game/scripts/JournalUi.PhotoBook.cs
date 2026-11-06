@@ -23,6 +23,8 @@ public partial class JournalUi
     private const string SSchoolThumbnailPath = "res://assets/textures/photobook/s-school-front-v2-thumbnail.png";
     private const string SPrintFrontImagePath = "res://assets/textures/photobook/s-print-front-v1.png";
     private const string SPrintThumbnailPath = "res://assets/textures/photobook/s-print-front-v1-thumbnail.png";
+    internal const string SNowFrontImagePath = "res://assets/textures/photobook/s-now-front-v1.png";
+    private const string SNowThumbnailPath = "res://assets/textures/photobook/s-now-front-v1-thumbnail.png";
     private const string ForestDiscoveryKnowledgeId = "urman.fullgame:knowledge/pw-forest-inside";
     private const string CommonRelationsSourceId = "urman.fullgame:interaction/pw-common-three-places";
     private const string CommonRelationsStudyAssetId = "urman.fullgame:asset/w04-common-relations-study";
@@ -730,6 +732,7 @@ public partial class JournalUi
             "S-PHOTOGRAPHER" => thumbnail ? SPhotographerThumbnailPath : SPhotographerFrontImagePath,
             "S-SCHOOL" => thumbnail ? SSchoolThumbnailPath : SSchoolFrontImagePath,
             "S-PRINT" => thumbnail ? SPrintThumbnailPath : SPrintFrontImagePath,
+            "S-NOW" => thumbnail ? SNowThumbnailPath : SNowFrontImagePath,
             _ => null
         };
     }

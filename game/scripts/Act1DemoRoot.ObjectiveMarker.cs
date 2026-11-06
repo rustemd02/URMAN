@@ -229,6 +229,19 @@ public partial class Act1DemoRoot
         label = string.Empty;
         inspectionTarget = false;
         var playerPosition = player.GlobalPosition;
+        if (mission.InteractionId == PhotoWorldEpiloguePresence.TakeNowInteractionId
+            && _objectiveMarkerUsingAnchor && player.IsOnFloor()
+            && playerPosition.DistanceSquaredTo(target.GlobalPosition)
+                <= PhotoWorldEpiloguePresence.CameraStanceRadius * PhotoWorldEpiloguePresence.CameraStanceRadius
+            && target.GetParent()?.GetNodeOrNull<InteractionTarget>(PhotoWorldEpiloguePresence.TakeNowTargetName) is { } frameTarget
+            && ObjectiveMarkerTargetAvailable(frameTarget, mission))
+        {
+            waypoint = frameTarget.GlobalPosition;
+            label = "Наведите камеру на стол";
+            inspectionTarget = true;
+            return true;
+        }
+
         (string Node, string TurnCue)? entryWitness = mission.InteractionId switch
         {
             RuntimeBridge.PhotoBookForestEntryInteractionId => ("ForestPhotoEntryTarget", "Повернитесь к трём стволам"),
@@ -889,9 +902,10 @@ public partial class Act1DemoRoot
         }
 
         var anchor = string.IsNullOrWhiteSpace(mission.AnchorPath) ? null : _main.GetNodeOrNull<Node3D>(mission.AnchorPath);
-        // Book entrances can have separate positions for the player's stance
-        // and the object they face. Route the player to the authored stance.
-        if (mission.BookAction == PlayerBookAction.Enter && ObjectiveMarkerTargetAvailable(anchor, mission, endpoint: true))
+        // Guide players to the stance first when an action checks their position.
+        if ((mission.BookAction == PlayerBookAction.Enter
+                || mission.InteractionId == PhotoWorldEpiloguePresence.TakeNowInteractionId)
+            && ObjectiveMarkerTargetAvailable(anchor, mission, endpoint: true))
         {
             usingAnchor = true;
             return anchor;
