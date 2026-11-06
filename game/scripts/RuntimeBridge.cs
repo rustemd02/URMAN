@@ -509,6 +509,7 @@ public partial class RuntimeBridge : Node
             projectionApplied = true;
             await RestoreLoadedWorldAsync(saveToRestore, debugSession, player);
             NeedsPhysicalRecovery = false;
+            await SettleLoadedPhotoVisitAsync(saveRecoveredCheckpoint: true);
             _physicalRecoverySave = null;
             // Current profile settings remain authoritative across story loads.
             loadSucceeded = true;
@@ -527,6 +528,7 @@ public partial class RuntimeBridge : Node
                     // physics can advance at a rejected saved vehicle position.
                     await RestoreLoadedWorldAsync(previousSave, previousDebugSession, player);
                     NeedsPhysicalRecovery = false;
+                    await SettleLoadedPhotoVisitAsync(saveRecoveredCheckpoint: false);
                     _physicalRecoverySave = null;
                     rolledBack = true;
                     GD.Print("SaveGameV3 rejected the loaded placement; the previous session was restored.");
@@ -546,25 +548,6 @@ public partial class RuntimeBridge : Node
             SampleLoadingTime();
             _loadingSlot = false;
             _loadPreparing = false;
-            if (!NeedsPhysicalRecovery && ActivePhotoVisit() is not null && _kernel is { } visitSession)
-            {
-                _photoVisitCanceling = true;
-                try
-                {
-                    if (!await RecoverPhotoVisitAsync(visitSession))
-                    {
-                        NeedsPhysicalRecovery = true;
-                        loadSucceeded = false;
-                    }
-                }
-                catch (Exception error)
-                {
-                    NeedsPhysicalRecovery = true;
-                    loadSucceeded = false;
-                    GD.PushError($"PhotoWorld load recovery failed: {error.Message}");
-                }
-                finally { _photoVisitCanceling = false; }
-            }
             // Pending photo visits may still recover their recorded exterior
             // origin. Keep that physical handoff covered until it is settled.
             loadingScreen.Hide();
@@ -786,7 +769,8 @@ public partial class RuntimeBridge : Node
         }
     }
 
-    private async Task<bool> RecoverPhotoVisitAsync(RuntimeKernel session, bool abortActive = false)
+    private async Task<bool> RecoverPhotoVisitAsync(RuntimeKernel session, bool abortActive = false,
+        bool saveRecoveredCheckpoint = true)
     {
         if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
         if (ActivePhotoVisit() is not { } visit) return true;
@@ -817,7 +801,7 @@ public partial class RuntimeBridge : Node
             && !await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitFinishReturn, id,
                 new { returnPlayTimeSeconds = _playTimeSeconds })) return false;
         if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
-        await SaveCheckpointAsync(force: true);
+        if (saveRecoveredCheckpoint) await SaveCheckpointAsync(force: true);
         return ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing;
     }
 

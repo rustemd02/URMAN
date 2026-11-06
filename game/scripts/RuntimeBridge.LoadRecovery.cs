@@ -17,6 +17,28 @@ public partial class RuntimeBridge
         else FindPlayer()?.NotifyTraversal("Не удалось найти свободное место. Загрузите сохранение или начните новую игру.");
     }
 
+    private async Task SettleLoadedPhotoVisitAsync(bool saveRecoveredCheckpoint)
+    {
+        if (ActivePhotoVisit() is null || _kernel is not { } session) return;
+
+        // Visit commands need the projected session identity. Keep the player
+        // and competing loads reserved while settling the candidate.
+        SampleLoadingTime();
+        _photoVisitCanceling = true;
+        _loadingSlot = false;
+        try
+        {
+            if (!await RecoverPhotoVisitAsync(session, saveRecoveredCheckpoint: saveRecoveredCheckpoint))
+                throw new InvalidDataException("The loaded photo visit could not recover a supported destination.");
+        }
+        finally
+        {
+            _loadingSlot = true;
+            _photoVisitCanceling = false;
+            _loadingTimeSampleUsec = Time.GetTicksUsec();
+        }
+    }
+
     private async Task<bool> StartRecoverySessionAsync(bool debugSession, FirstPersonController player)
     {
         var previousSave = _physicalRecoverySave;
