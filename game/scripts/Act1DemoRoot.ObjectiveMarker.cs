@@ -274,6 +274,12 @@ public partial class Act1DemoRoot
             return true;
         }
 
+        if (mission.InteractionId is (W04Controller.RelationsInteractionId or W04Controller.HorizonInteractionId)
+            && _main.GetNodeOrNull<W04Controller>("ZoneHost/W04") is { } common
+            && GodotObject.IsInstanceValid(common) && common.IsInsideTree() && !common.IsQueuedForDeletion())
+            return common.TryGetCommonObservationObjectiveTarget(bridge.PhotoWorldPresentationIdentity,
+                mission.InteractionId, player, out waypoint, out label, out inspectionTarget);
+
         if (mission.InteractionId is ("urman.fullgame:interaction/pw-water-reflection"
                 or "urman.fullgame:interaction/pw-water-encounter" or "urman.fullgame:interaction/pw-water-damp-print"
                 or "urman.fullgame:interaction/pw-water-return")

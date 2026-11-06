@@ -518,11 +518,11 @@ public partial class JournalUi
                 ("urman.fullgame:scene/pw-house", "house-exit") =>
                     ("Вернуться к семье", "Вернитесь домой через выход из двора.", "pw-house-return", null, "Выход из снимка"),
                 ("urman.fullgame:scene/pw-common", "common-places") =>
-                    ("Лес, река и семейный дом", "С места общего снимка найдите лес, реку и семейный дом.", "pw-common-three-places", "ZoneHost/W04/Anchors/C03", "Место общего снимка"),
+                    ("Лес, река и семейный дом", "Начните осмотр у рамки. Посмотрите через проёмы на лес, реку и семейный дом.", "pw-common-three-places", "ZoneHost/W04/Anchors/C03", "Место общего снимка"),
                 ("urman.fullgame:scene/pw-common", "common-cloth") =>
                     ("Открыть вид на берег", "Отведите ткань, чтобы увидеть берег.", "pw-common-cloth", null, "Ткань перед берегом"),
                 ("urman.fullgame:scene/pw-common", "common-horizon") =>
-                    ("Линия горизонта", "Подойдите к открытому виду и посмотрите на горизонт.", "pw-common-horizon", "ZoneHost/W04/Anchors/C05", "Открытый вид"),
+                    ("Линия горизонта", "Начните осмотр на площадке и посмотрите на открывшийся горизонт.", "pw-common-horizon", "ZoneHost/W04/Anchors/C05", "Открытый вид"),
                 ("urman.fullgame:scene/pw-common", "common-note") =>
                     ("Подпись к общему снимку", "У стола закончите подпись к общему снимку.", "pw-common-note", null, "Стол с подписью"),
                 ("urman.fullgame:scene/pw-common", "common-exit") =>

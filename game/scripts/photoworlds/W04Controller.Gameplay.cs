@@ -7,9 +7,9 @@ namespace Urman.Godot;
 
 public partial class W04Controller
 {
-    private const string RelationsInteractionId = "urman.fullgame:interaction/pw-common-three-places";
+    internal const string RelationsInteractionId = "urman.fullgame:interaction/pw-common-three-places";
     private const string ClothInteractionId = "urman.fullgame:interaction/pw-common-cloth";
-    private const string HorizonInteractionId = "urman.fullgame:interaction/pw-common-horizon";
+    internal const string HorizonInteractionId = "urman.fullgame:interaction/pw-common-horizon";
     private const string NoteInteractionId = "urman.fullgame:interaction/pw-common-note";
     private const string ReturnInteractionId = "urman.fullgame:interaction/pw-common-return";
 
@@ -19,6 +19,7 @@ public partial class W04Controller
     private const string NoteFactId = "common_note_finished";
 
     private const float ObservationStanceRadius = 3.2f;
+    private const float RelationsCentredRadius = .8f;
     private const float CommonObservationLift = 0.18f;
 
     private enum ClothPhase { Idle, Moving, Committing }
@@ -68,6 +69,57 @@ public partial class W04Controller
         || _relationsDispatching
         || _horizonDispatching
         || CommonNoteOpen;
+
+    internal bool TryGetCommonObservationObjectiveTarget(object? identity, string interactionId,
+        FirstPersonController player, out Vector3 point, out string label, out bool inspectionPoint)
+    {
+        point = default;
+        label = string.Empty;
+        inspectionPoint = false;
+        var relations = interactionId == RelationsInteractionId;
+        var stance = relations ? _relationsAnchor : _horizonAnchor;
+        if (identity is null || !ReferenceEquals(identity, relations ? _relationsSession : _horizonSession)
+            || stance is null || !GodotObject.IsInstanceValid(stance) || !stance.IsVisibleInTree())
+            return false;
+
+        var distance = player.GlobalPosition.DistanceTo(stance.GlobalPosition);
+        var armed = relations ? _relationsArmed : _horizonArmed;
+        if (!armed || distance > ObservationStanceRadius)
+        {
+            var target = relations ? _relationsTarget : _horizonTarget;
+            if (player.IsOnFloor() && distance <= 2.4f && target is { PresentationEnabled: true }
+                && GodotObject.IsInstanceValid(target) && target.IsVisibleInTree())
+            {
+                point = target.GlobalPosition;
+                var hint = InputBindingService.ActionHint("interact", player.CurrentInputDevice == "gamepad");
+                label = $"Начните осмотр {hint}";
+                inspectionPoint = true;
+                return true;
+            }
+            point = stance.GlobalPosition;
+            label = relations ? "Рамка на тропе" : "Площадка с видом";
+            return true;
+        }
+
+        var offset = player.GlobalPosition - stance.GlobalPosition;
+        if (relations && new Vector2(offset.X, offset.Z).LengthSquared() > RelationsCentredRadius * RelationsCentredRadius)
+        {
+            point = stance.GlobalPosition;
+            label = "Встаньте в центре рамки";
+            return true;
+        }
+
+        var (witness, cue) = !relations ? (_commonHorizonWitness, "Посмотрите на горизонт")
+            : (_relationsSeenMask & 1) == 0 ? (_relationsForestWitness, "Посмотрите на лес")
+            : (_relationsSeenMask & 2) == 0 ? (_relationsRiverWitness, "Посмотрите на воду")
+            : (_relationsSeenMask & 4) == 0 ? (_relationsHouseWitness, "Посмотрите на дом")
+            : (null, string.Empty);
+        if (witness is null || !GodotObject.IsInstanceValid(witness) || !witness.IsVisibleInTree()) return false;
+        point = witness.GlobalPosition;
+        label = cue;
+        inspectionPoint = true;
+        return true;
+    }
 
     private void BuildCommonGameplay()
     {

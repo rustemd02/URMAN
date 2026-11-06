@@ -134067,7 +134067,7 @@
         "Завершение не требует драки или уничтожения книги.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W04_Общий_кадр_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "After authoritative e79 terminal/restoration, ordinary W04 route verifies C03 three real views→earned book studies/reader/remark and C07 priorPCcaption/default/custom1–120/cancel/confirm→bookspread/readback→Save/Continue. Reuse common_relations_book_studies_2026_10_20/source C07 accepted code and compiles; close/reopen checkpoint retry, stalevisit/load/modal and legacyfact-only must not invent text/image. Full entry/fouractions/art/external acceptance remains open.",
+      "next_action": "В обычном защищённом W04 проверить указатель к рамке, запуск осмотра, лес/воду/дом, рисунки в книге, снятие ткани и осмотр горизонта. Продолжить к записи C07 и обычному выходу C08, затем проверить Save/Continue. Переоткрытие после сбоя записи, старые записи и внешняя приёмка остаются отдельными критериями.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -134368,6 +134368,10 @@
         "fingerprint": "69cd30fe6a3bd2175deca4eb08910047df79ddac38637d9b05c6997984f156b0",
         "verification": "Independent source review confirms NPC owner, mission priority and meeting fact are consistent; ContentCli compile succeeded, affected Game compile 18.02s 0 errors/0 warnings. No game/tests.",
         "remaining": "Ordinary gameplay and Save/Continue verification remain open; no claim that the final world or Act I is accepted."
+      },
+      "common_observation_guidance_2026_11_06": {
+        "result": "C03 и C05 разделяют подход к месту, запуск осмотра с текущей клавишей/кнопкой и наведение на нужный объект. C03 показывает следующий ещё не увиденный ориентир по существующей маске наблюдения и ведёт к центру рамки, если игрок стоит сбоку. C05 указывает на тот же горизонт, который проверяет контроллер.",
+        "verification": "Сборка Mac 17,54 с, 0 предупреждений и ошибок. По точкам из сцены и геометрии лучи из зоны подсказки C03 проходят через проёмы C01/C02 с расчётным боковым отклонением до 1,13/1,29 м при полуширине 1,6 м. Приёмка видимости, клавиш и холодного Continue в игре открыта."
       }
     },
     {
