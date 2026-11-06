@@ -136,6 +136,7 @@ public partial class Act1DemoRoot
             waypoint = waypoint
                 || TryGetHomeYardExitObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel)
                 || TryGetSchoolObjectiveWaypoint(mission, player.GlobalPosition, player.BodyRadius, out routePoint, out routeLabel)
+                || TryGetSchoolToForestStreetWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel)
                 || TryGetForestBridgeObjectiveWaypoint(mission, player.GlobalPosition, player.BodyRadius, out routePoint, out routeLabel)
                 || TryGetHomeObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel);
         }
@@ -439,22 +440,53 @@ public partial class Act1DemoRoot
         var school = _objectiveMarkerSchool;
         if (!ObjectiveMarkerTargetAvailable(school, mission, endpoint: true)) return false;
         var local = school!.ToLocal(playerPosition);
+        var connectedWorld = _main.ConnectedWorld;
         // SquareInteriors.School owns the 20 x 11 shell, corridor wall Z2.9 and these four doors.
         const float corridorZ = 4.05f, staffX = -7.8f, roomSideZ = 2.35f, schoolFront = 5.5f;
         const float frontWallThickness = .35f;
         const float closedDoorStandoffZ = 7.35f;
+        const float exitPorchZ = 6.3f;
         // The 1.15 m front windows leave only .45 m of centreline clearance
         // after the .35 m player radius; clear the wall plane before crossing piers.
         var safeLateralZ = schoolFront - frontWallThickness - playerRadius;
         var inside = Mathf.Abs(local.X) < 9.65f && Mathf.Abs(local.Z) < 5.15f
             && local.Y > -.2f && local.Y < 3.4f;
-        var clearingEntrance = Mathf.Abs(local.X) <= .4f && local.Z >= 5.15f && local.Z < 6.3f
+        var clearingEntrance = Mathf.Abs(local.X) <= .85f && local.Z >= 5.15f && local.Z < exitPorchZ
             && local.Y > -.2f && local.Y < 3.4f;
+        if (!schoolCopyGoal && local.Z >= exitPorchZ && Mathf.Abs(local.X) <= 1.6f
+            && connectedWorld?.AddressApproachPath("ACC-ADR-SQUARE-SCHOOL") is { Count: > 0 } schoolExit
+            && local.Z < school.ToLocal(schoolExit[0]).Z - .15f)
+        {
+            waypoint = schoolExit[0];
+            label = "Спуститесь по ступеням";
+            return true;
+        }
         if (!schoolCopyGoal && !inside && !clearingEntrance) return false;
         if (!schoolCopyGoal) label = clearingEntrance ? "Выход из школы" : "Коридор к выходу";
+        if (!schoolCopyGoal && (clearingEntrance || local.Z >= corridorZ)
+            && connectedWorld?.TryGetSchoolEntranceObjectivePoint(school, 4.65f, exitPorchZ,
+                out var exitPoint, out var exitOpen) == true
+            && (exitOpen || local.Z < schoolFront + playerRadius))
+        {
+            var gapX = school.ToLocal(exitPoint).X;
+            if (clearingEntrance || Mathf.Abs(local.X - gapX) <= .05f)
+            {
+                waypoint = exitPoint;
+                label = exitOpen ? "Выход из школы" : "Откройте входную дверь";
+            }
+            else
+            {
+                // Line up with the open half before moving toward the door.
+                // Recover to the corridor first if close to the window piers.
+                var align = local.Z <= safeLateralZ;
+                waypoint = school.ToGlobal(align ? new Vector3(gapX, .05f, local.Z)
+                    : new Vector3(local.X, .05f, corridorZ));
+            }
+            return true;
+        }
         Vector3 destination;
         if (!schoolCopyGoal && clearingEntrance)
-            destination = new(0, .05f, 6.3f);
+            destination = new(local.X, .05f, exitPorchZ);
         else if (!inside)
         {
             label = "Вход в школу";
@@ -466,7 +498,6 @@ public partial class Act1DemoRoot
             else if (schoolCopyGoal && local.Z >= schoolFront - frontWallThickness)
             {
                 label = "Вход в школу";
-                var connectedWorld = _main.ConnectedWorld;
                 if (Mathf.Abs(local.X) > 1.25f)
                 {
                     if (connectedWorld?.AddressApproachPath("ACC-ADR-SQUARE-SCHOOL") is { Count: > 0 } schoolApproach)
@@ -536,6 +567,37 @@ public partial class Act1DemoRoot
         }
 
         waypoint = school.ToGlobal(destination);
+        return true;
+    }
+
+    private bool TryGetSchoolToForestStreetWaypoint(PlayerMission mission, Vector3 playerPosition,
+        out Vector3 waypoint, out string label)
+    {
+        waypoint = default;
+        label = "Главная улица";
+        if (_bridge?.CurrentZoneId != "village_day" || mission.TargetZoneId != "village_day"
+            || mission.InteractionId != RuntimeBridge.PhotoBookForestEntryInteractionId)
+            return false;
+
+        // The school opens onto the north side of the square. Take its
+        // pedestrian path east of the garden before resuming the forest cue.
+        var west = AgentBAct1Layout.PlazaWalkAxis[5];
+        var east = AgentBAct1Layout.PlazaWalkAxis[6];
+        var street = AgentBAct1Layout.MainRoadAxis[4];
+        var position = new Vector2(playerPosition.X, playerPosition.Z);
+        if (position.X < west.X - .5f || position.X >= street.X - .9f
+            || position.Y < east.Y - 1f || position.Y > east.Y + 6f)
+            return false;
+
+        var point = street;
+        if (position.X < east.X - .35f)
+        {
+            point = position.Y > east.Y + .45f
+                ? new Vector2(Mathf.Clamp(position.X, west.X, east.X), east.Y)
+                : east;
+            label = "Дорожка вдоль площади";
+        }
+        waypoint = new Vector3(point.X, AgentBAct1HeightField.CollisionGround(point.X, point.Y) + .05f, point.Y);
         return true;
     }
 
