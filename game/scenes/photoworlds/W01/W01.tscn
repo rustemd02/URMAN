@@ -131,6 +131,7 @@ position = Vector3(12, 1, 50)
 
 [node name="F02" type="Marker3D" parent="Anchors"]
 position = Vector3(45, 3, 95)
+rotation_degrees = Vector3(0, -142.125, 0)
 
 [node name="F03" type="Marker3D" parent="Anchors"]
 position = Vector3(80, 4, 140)

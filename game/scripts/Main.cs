@@ -15,7 +15,7 @@ public partial class Main : Node3D
     private const string W05ScenePath = "res://scenes/photoworlds/W05/W05.tscn";
     // The shared C00–C08 panorama reaches roughly 290 m at its far edge.
     private const float W04SharedPanoramaCameraFar = 320f;
-    private const string PrologueSceneId = "urman.fullgame:scene/pw-prologue";
+    internal const string PrologueSceneId = "urman.fullgame:scene/pw-prologue";
     private const string NivaArrivalSceneId = "urman.fullgame:scene/pw-niva-arrival";
     private const string HomeSceneId = "urman.fullgame:scene/pw-home";
     private const string ForestSceneId = "urman.fullgame:scene/pw-forest";

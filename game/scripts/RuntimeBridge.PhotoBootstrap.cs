@@ -112,7 +112,7 @@ public partial class RuntimeBridge
             string? visitStartNode = null;
             string? visitStartWorld = null;
             string? entryNode = null;
-            var usedAuthoredEntry = false;
+            string? recoveryNotice = null;
             if (prepareVisitStart)
             {
                 if (ActivePhotoVisit() is not { } visit || visit.GetProperty("status").GetString() != "prepared")
@@ -160,8 +160,10 @@ public partial class RuntimeBridge
                             || !main.TryPlacePlayerAtPhotoSafeNode(session, worldId, authoredEntryNodeId))
                             return (false, null);
                         safeNodeId = authoredEntryNodeId;
-                        usedAuthoredEntry = true;
+                        recoveryNotice = "Сохранённое место недоступно. Вы у входа в снимок.";
                     }
+                    if (sceneId == Main.PrologueSceneId)
+                        recoveryNotice = "Сохранённое место недоступно. Вы на безопасном участке тропы.";
                     // Restore the same saved carry owner at the verified fallback.
                     // A blocked item alone never triggers this relocation; failure
                     // here retains the ordinary load rollback and untouched slot.
@@ -176,8 +178,7 @@ public partial class RuntimeBridge
             if (carry is not null && GodotObject.IsInstanceValid(carry)
                 && carry.HeldItem is not null && !carry.HasValidHeldPose)
                 throw new InvalidDataException("The loaded carried item has no free physical pose.");
-            if (usedAuthoredEntry)
-                FindPlayer()?.NotifyTraversal("Сохранённое место недоступно. Вы у входа в снимок.");
+            if (recoveryNotice is not null) FindPlayer()?.NotifyTraversal(recoveryNotice);
             return (true, visitStartNode);
         }
         finally
@@ -187,10 +188,20 @@ public partial class RuntimeBridge
         }
     }
 
-    private static bool TryGetLoadedPhotoSafeNode(RuntimeKernel session, string sceneId,
+    private bool TryGetLoadedPhotoSafeNode(RuntimeKernel session, string sceneId,
         out string worldId, out string safeNodeId, out string entryNodeId)
     {
         worldId = safeNodeId = entryNodeId = string.Empty;
+        if (sceneId == Main.PrologueSceneId)
+        {
+            if (CurrentW01BranchProjection() is not { ActiveSceneId: Main.PrologueSceneId } prologue
+                || !ReferenceEquals(session, prologue.SessionIdentity)) return false;
+            worldId = "W01";
+            entryNodeId = "F00";
+            safeNodeId = prologue.Moved ? "F02" : entryNodeId;
+            return true;
+        }
+
         foreach (var candidateWorld in new[] { "W01", "W02", "W03", "W04", "W05" })
         {
             if (!PhotoWorldState.TryGetVisitRoute(candidateWorld, out var candidateScene, out var entryNode)

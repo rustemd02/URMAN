@@ -73,7 +73,8 @@ public partial class Main
 
     internal bool TryPlacePlayerAtPhotoSafeNode(object session, string worldId, string safeNodeId)
     {
-        if (!TryGetMountedPhotoSafeNode(session, worldId, safeNodeId, out var player, out var anchor)
+        if (!TryGetMountedPhotoSafeNode(session, worldId, safeNodeId, out var player, out var anchor,
+                allowPrologueRecovery: true)
             || !player.SessionTransitionActive || player.VehicleControlled || player.IsClimbingLadder)
             return false;
 
@@ -131,17 +132,25 @@ public partial class Main
     }
 
     private bool TryGetMountedPhotoSafeNode(object session, string worldId, string safeNodeId,
-        out FirstPersonController player, out Marker3D anchor)
+        out FirstPersonController player, out Marker3D anchor, bool allowPrologueRecovery = false)
     {
         player = null!;
         anchor = null!;
-        if (!PhotoWorldState.IsVisitSafeNode(worldId, safeNodeId)
-            || !PhotoWorldState.TryGetVisitRoute(worldId, out var sceneId, out _)
-            || !GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()
+        if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()
             || _fullGameRouteBridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
             || !bridge.IsInsideTree() || bridge.IsQueuedForDeletion()
-            || !ReferenceEquals(session, bridge.ProjectionSessionIdentity) || bridge.ActiveSceneId != sceneId
-            || !IsPhotoSceneMounted(sceneId)
+            || !ReferenceEquals(session, bridge.ProjectionSessionIdentity))
+            return false;
+
+        string sceneId;
+        if (allowPrologueRecovery && worldId == "W01" && safeNodeId is ("F00" or "F02")
+            && bridge.ActiveSceneId == PrologueSceneId)
+            sceneId = PrologueSceneId;
+        else if (!PhotoWorldState.IsVisitSafeNode(worldId, safeNodeId)
+            || !PhotoWorldState.TryGetVisitRoute(worldId, out sceneId, out _))
+            return false;
+
+        if (bridge.ActiveSceneId != sceneId || !IsPhotoSceneMounted(sceneId)
             || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController currentPlayer
             || !GodotObject.IsInstanceValid(currentPlayer) || !currentPlayer.IsInsideTree() || currentPlayer.IsQueuedForDeletion())
             return false;
