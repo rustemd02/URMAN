@@ -112480,7 +112480,10 @@
       "evidence": [
         "game/scripts/RuralPropMaterials.cs",
         "game/scripts/photoworlds/W03Controller.cs",
-        "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-w03-preload-2026-11-06.zip SHA256 c5334abb0e2cc1c1a600ee9238fa88e4a7731ca2640deec0be7d6d92d8f82594"
+        "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-w03-preload-2026-11-06.zip SHA256 c5334abb0e2cc1c1a600ee9238fa88e4a7731ca2640deec0be7d6d92d8f82594",
+        "game/scripts/Main.PhotoSceneLoading.cs",
+        "game/scripts/photoworlds/W01Controller.cs",
+        "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-w01-deferred-2026-11-06.zip SHA256 84a9f144adcec4ee3db306e8e3cb04b62cb920d76d8f89052ec0741e595b6c98"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-021",
       "source_requirements": [
@@ -112597,7 +112600,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Dynamic resource source slice compiled and independently reviewed; native station unavailable."
+        "reason": "На Mac проверены сборка и защищённый сценарий загрузки пролога и W01. Приёмка обычного управления и отмены загрузки впереди."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -112605,9 +112608,10 @@
       "remaining": [
         "Cancel возвращает управление во внешнем мире.",
         "Loading failure указывает ресурс; фоновые потоки не меняют physics server.",
-        "W03 threaded resource enumeration now derives all 8 current material textures from the existing material owners; optional maps follow the same presence checks. Mac compile and existing PCK remap inspection pass. Cold W03 entry/cancel/Continue and remaining procedural mount timings are unverified."
+        "Холодный вход W03, отмена, Continue и замер сборки геометрии остаются открыты. Восемь текстур предзагружаются из владельцев материалов; сборка Mac и проверка remap прошли.",
+        "Холодный Continue из сохранения внутри W01 и замер времени загрузки обычной версии остаются открыты. Защищённый семантический сценарий Mac подтвердил загрузку F00 и F10, но не обычное движение."
       ],
-      "next_action": "В следующей необходимой обычной сессии W03 проверить холодный вход, отмену подготовки и Continue. Сопоставить время подготовки ресурсов с оставшейся сборкой геометрии на главном потоке. Без повторения автономного кадра, который обходит предзагрузку.",
+      "next_action": "В следующей необходимой обычной сессии Mac сохранить игру внутри W01, затем проверить холодный Continue из меню, когда пролог уже загружен. Использовать действительный вход из деревни и обычный ввод.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -112671,7 +112675,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "PARTIAL: cold bootstrap and actual dynamic resource source slices compiled, independent ownership review. Full native loading/cancel/error/performance criteria open.",
+        "actual_result": "PARTIAL: пролог пропускает шесть ресурсов и сборку позднего лесного эпизода, W01 готовит их при входе. Сборка Mac 0/0, защищённый сценарий подтвердил F00 supported и два входа в F10, SEMANTIC PASS, exit 0. Обычный Continue внутри W01, отмена и измерения открыты.",
         "evidence_refs": [
           "tasks[id=PW-021].evidence"
         ],

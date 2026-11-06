@@ -54,7 +54,7 @@ public partial class Main : Node3D
     private Act1ConnectedWorld? _connectedWorld;
     private bool _zoneSwitchBusy;
     private RuntimeBridge? _fullGameRouteBridge;
-    private Node3D? _mountedW01;
+    private W01Controller? _mountedW01;
     private Node3D? _mountedW02;
     private Node3D? _mountedW03;
     private Node3D? _mountedW04;
@@ -613,19 +613,22 @@ public partial class Main : Node3D
 
     private void MountW01(RuntimeBridge.FullGamePhotoWorldRouteProjection projection, RuntimeBridge bridge)
     {
-        var entryAnchorId = projection.ActiveSceneId == ForestSceneId ? "F10" : "F00";
+        var isForestEpisode = projection.ActiveSceneId == ForestSceneId;
+        var entryAnchorId = isForestEpisode ? "F10" : "F00";
         var alreadyMounted = IsMountedW01();
         var routeSceneChanged = !string.Equals(_lastFullGameRouteScene, projection.ActiveSceneId, StringComparison.Ordinal);
         var sameSession = ReferenceEquals(_lastFullGameRouteSession, projection.SessionIdentity);
 
         if (alreadyMounted)
         {
+            var mountedWorld = _mountedW01!;
+            if (isForestEpisode) mountedWorld.PrepareForestEpisode();
             if ((routeSceneChanged || !sameSession)
                 && !(_preserveLoadedPhotoWorldTransform
                     && ReferenceEquals(_loadedPhotoWorldTransformSession, projection.SessionIdentity)))
             {
-                var resolved = ResolveEntryAnchor(_mountedW01!, entryAnchorId, "F00");
-                PlacePlayerAtW01Entry(_mountedW01!, resolved);
+                var resolved = ResolveEntryAnchor(mountedWorld, entryAnchorId, "F00");
+                PlacePlayerAtW01Entry(mountedWorld, resolved);
             }
             _preserveLoadedPhotoWorldTransform = false;
             _loadedPhotoWorldTransformSession = null;
@@ -636,14 +639,15 @@ public partial class Main : Node3D
             return;
         }
 
-        var packed = TakePreparedPhotoScene(W01ScenePath) ?? ResourceLoader.Load<PackedScene>(W01ScenePath);
+        var packed = TakePreparedPhotoScene(projection.ActiveSceneId) ?? ResourceLoader.Load<PackedScene>(W01ScenePath);
         if (packed is null)
         {
             GD.PushError($"Full-game W01 presentation is missing: {W01ScenePath}.");
             return;
         }
 
-        var world = packed.Instantiate<Node3D>();
+        var world = packed.Instantiate<W01Controller>();
+        world.BuildForestEpisodeOnReady = isForestEpisode;
         var resolvedAnchorId = entryAnchorId;
         if (world.GetNodeOrNull<Node3D>($"Anchors/{entryAnchorId}") is null)
         {
@@ -756,7 +760,7 @@ public partial class Main : Node3D
             return;
         }
 
-        var packed = TakePreparedPhotoScene(W02ScenePath) ?? ResourceLoader.Load<PackedScene>(W02ScenePath);
+        var packed = TakePreparedPhotoScene(projection.ActiveSceneId) ?? ResourceLoader.Load<PackedScene>(W02ScenePath);
         if (packed is null)
         {
             GD.PushError($"Full-game W02 presentation is missing: {W02ScenePath}.");
@@ -851,7 +855,7 @@ public partial class Main : Node3D
             return;
         }
 
-        var packed = TakePreparedPhotoScene(W03ScenePath) ?? ResourceLoader.Load<PackedScene>(W03ScenePath);
+        var packed = TakePreparedPhotoScene(projection.ActiveSceneId) ?? ResourceLoader.Load<PackedScene>(W03ScenePath);
         if (packed is null)
         {
             GD.PushError($"Full-game W03 presentation is missing: {W03ScenePath}.");
@@ -940,7 +944,7 @@ public partial class Main : Node3D
             return;
         }
 
-        var packed = TakePreparedPhotoScene(W04ScenePath) ?? ResourceLoader.Load<PackedScene>(W04ScenePath);
+        var packed = TakePreparedPhotoScene(projection.ActiveSceneId) ?? ResourceLoader.Load<PackedScene>(W04ScenePath);
         if (packed is null)
         {
             GD.PushError($"Full-game W04 presentation is missing: {W04ScenePath}.");
@@ -1071,7 +1075,7 @@ public partial class Main : Node3D
             return;
         }
 
-        var packed = TakePreparedPhotoScene(W05ScenePath) ?? ResourceLoader.Load<PackedScene>(W05ScenePath);
+        var packed = TakePreparedPhotoScene(projection.ActiveSceneId) ?? ResourceLoader.Load<PackedScene>(W05ScenePath);
         if (packed is null)
         {
             GD.PushError($"Full-game W05 presentation is missing: {W05ScenePath}.");

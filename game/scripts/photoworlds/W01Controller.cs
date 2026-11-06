@@ -18,18 +18,21 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private const string FoliageKitScenePath = "res://assets/models/agent_b_act1/agentb_foliage_kit.glb";
     private const string ProloguePhotoTexturePath = "res://assets/textures/photobook/p-forest-front-v2.png";
     /// <summary>Dynamic imports owned by the builders below, before main-thread scene construction.</summary>
-    internal static IEnumerable<string> DynamicResourcePaths()
+    internal static IEnumerable<string> DynamicResourcePaths(bool includeForestEpisode)
     {
         yield return GroundScenePath;
-        yield return HeroRootTurnScenePath;
-        yield return F14OldRootSupportScenePath;
         yield return BranchScenePath;
         yield return PhotoTableauScenePath;
         yield return FoliageKitScenePath;
-        yield return BagScenePath;
-        yield return ShuraleScenePath;
-        yield return ShuraleRootedShootScenePath;
-        yield return ShuraleWorkAudioPath;
+        if (includeForestEpisode)
+        {
+            yield return HeroRootTurnScenePath;
+            yield return F14OldRootSupportScenePath;
+            yield return BagScenePath;
+            yield return ShuraleScenePath;
+            yield return ShuraleRootedShootScenePath;
+            yield return ShuraleWorkAudioPath;
+        }
         yield return ProloguePhotoTexturePath;
         yield return FreshSnowTexturePath;
         yield return TrampledSnowTexturePath;
@@ -250,21 +253,21 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private bool _prologueHintAvailable;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
+    internal bool BuildForestEpisodeOnReady { get; set; } = true;
+    internal bool ForestEpisodeReady { get; private set; }
+
     public override void _Ready()
     {
         AddToGroup(AccessibilityPresentation.TargetGroup);
         BuildGround();
-        BuildRootPassage();
-        BuildF14OldRootSupport();
         BuildForest();
         BuildForestHorizon();
         BuildBranch();
         BuildPhotoTableau();
         BuildProloguePhotoSource();
         BuildPrologueUi();
-        BuildBagPresentation();
-        BuildShuralePresentation();
         _forestExitFrame = GetNode<Marker3D>("Anchors/F16");
+        if (BuildForestEpisodeOnReady) PrepareForestEpisode();
         SetProcess(true);
         SetPhysicsProcess(false);
         TryBindRuntimeBridge();
@@ -273,12 +276,24 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             ?? AccessibilitySettingsSnapshot.Default);
     }
 
+    internal void PrepareForestEpisode()
+    {
+        if (ForestEpisodeReady) return;
+        BuildRootPassage();
+        BuildF14OldRootSupport();
+        BuildBagPresentation();
+        BuildShuralePresentation();
+        ForestEpisodeReady = true;
+        ApplyProjection();
+    }
+
     public override void _Process(double delta)
     {
         TryBindRuntimeBridge();
         ProcessForestWorldGuard();
         ProcessPrologueExit();
         RefreshPrologueSkipButtonState();
+        if (!ForestEpisodeReady) return;
         ProcessBagPresentation(delta);
         ProcessShuralePresentation(delta);
         ProcessShuraleWorkAudio();
@@ -1527,9 +1542,12 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             return;
 
         var projection = bridge.CurrentW01BranchProjection();
-        ApplyRootPassageProjection(projection);
-        ApplyBagProjection();
-        ApplyShuraleProjection();
+        if (ForestEpisodeReady)
+        {
+            ApplyRootPassageProjection(projection);
+            ApplyBagProjection();
+            ApplyShuraleProjection();
+        }
         if (projection is null || projection.ActiveSceneId != ForestSceneId
             || !ReferenceEquals(_forestObservationFailedSession, projection.SessionIdentity))
             _forestObservationFailedSession = null;
@@ -1593,7 +1611,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         SetPrologueEndVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
         SetPrologueSkipVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
         ApplyForestWorldGuardProjection(projection);
-        SetPhysicsProcess(projection.ActiveSceneId == ForestSceneId);
+        SetPhysicsProcess(ForestEpisodeReady && projection.ActiveSceneId == ForestSceneId);
     }
 
     private void TryObserveForestCameraBack()
