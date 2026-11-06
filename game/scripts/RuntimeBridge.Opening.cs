@@ -26,17 +26,24 @@ public partial class RuntimeBridge
         _loadingTimeSampleUsec = Time.GetTicksUsec();
         player.SetSessionTransition(true);
         LoadingScreenUi? loading = null;
+        // The nightmare ends on a hard cut: its black already covers the frame,
+        // and a loading card would break the silence before the waking voice.
+        var dreamCut = PrologueDreamCut.IsActive(GetTree());
+        var dispatched = false;
         try
         {
-            loading = LoadingScreenUi.Show(this, "Едем в деревню", "Подготавливаем дорогу");
+            if (!dreamCut) loading = LoadingScreenUi.Show(this, "Едем в деревню", "Подготавливаем дорогу");
             // The scene commit queues synchronous village construction. Give the cover a frame first.
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             if (!ReferenceEquals(session, SessionIdentity) || !CanPhysicallyUseInteraction(interaction.Id)) return false;
-            return await DispatchInteractionWithCheckpointAsync(interaction, session);
+            dispatched = await DispatchInteractionWithCheckpointAsync(interaction, session);
+            return dispatched;
         }
         finally
         {
+            // A rejected exit must not leave the player in front of a black frame.
+            if (dreamCut && !dispatched) PrologueDreamCut.Release(fadeSeconds: .4);
             if (loading is not null && GodotObject.IsInstanceValid(loading)) loading.Hide();
             SampleLoadingTime();
             _prologueArrivalLoading = false;

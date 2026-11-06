@@ -5,13 +5,25 @@ namespace Urman.Godot;
 
 public partial class Act1DemoRoot
 {
-    private const float PhotoNivaApproachStartZ = -160f;
+    // Prologue direction pass (author request 2026-11-06): one unbroken shot from
+    // waking in the Niva to stepping out at babai's gate. The car starts at the
+    // district bus stop and drives the whole winter road - fields, groves, the
+    // village sign, the forest the road cuts - then hands over to the village
+    // street without a blackout. Mansur's authored road talk, the radio and the
+    // language conversation happen on the move; the score rises as the village
+    // opens up and settles under the last lines at the gate.
+    private const float PhotoNivaApproachStartZ = 18f;
     private const float PhotoNivaApproachEndZ = PrologueApproachRoad.RoadEndZ;
     private const float PhotoNivaApproachLength = PhotoNivaApproachStartZ - PhotoNivaApproachEndZ;
+    private const float PhotoNivaCruise = 7.5f;
+    private const float PhotoNivaForestCruise = 6f;
+    private const float PhotoNivaTalkingCruise = 3f;
+    private const float PhotoNivaVillageCruise = 4.2f;
+    private const float PhotoNivaLanguageAt = 262f;
+    private const double PhotoNivaWakeHold = 1.4;
     private bool _photoNivaDriving;
     private float _photoNivaDriveElapsed;
     private float _photoNivaApproachDistance;
-    private double _photoNivaWakeCaptionSeconds;
     private bool _photoNivaVillageStarted;
     private float _photoNivaVillageDistance, _photoNivaVillageLength, _photoNivaDriveSpeed;
     private Vector3[] _photoNivaVillagePath = Array.Empty<Vector3>();
@@ -19,7 +31,38 @@ public partial class Act1DemoRoot
     private Transform3D _photoNivaStopTransform;
     private VehicleVisualFactory.Visual? _photoNivaDriveVisual;
     private VehicleMechanicalAudio? _photoNivaDriveAudio;
-    private bool PhotoNivaDrivePaused => MainMenuVisible || _photoNivaPlayer?.ModalOpen != false || _pauseMenu?.IsOpen == true
+    private int _photoNivaBarkIndex;
+    private int _photoNivaVillageBarkIndex;
+    private double _photoNivaNextBarkReady;
+    private bool _photoNivaWoke;
+    private bool _photoNivaLanguageOpened;
+    private bool _photoNivaLanguageCaptioned;
+
+    // Mansur's road talk (urman.chapter1 texts with Tatar density variants), by
+    // metres driven from the bus stop. Each line waits for the previous one.
+    private static readonly (float At, string Id)[] PhotoNivaRoadBarks =
+    {
+        (10f, "prologue-ride-bark-nightmare"), (58f, "prologue-ride-bark-wake"), (100f, "prologue-ride-bark-bus"),
+        (138f, "prologue-ride-bark-radio"), (166f, "prologue-ride-bark-kazan"), (200f, "prologue-ride-bark-sign"),
+        (ApproachForestAt - 40f, "prologue-ride-bark-field"), (ApproachForestAt + 10f, "prologue-ride-bark-forest"),
+        (ApproachForestAt + 150f, "prologue-ride-bark-marat")
+    };
+
+    // Through the village: by place on the street rather than by distance.
+    private static readonly (Vector3 At, float Reach, string Id)[] PhotoNivaVillageBarks =
+    {
+        (Vector3.Inf, 0f, "prologue-ride-bark-bridge"),
+        (new Vector3(32f, 0f, -24.2f), 8f, "prologue-ride-bark-fap"),
+        (new Vector3(0f, 0f, -10f), 7f, "prologue-ride-bark-street"),
+        (new Vector3(-1.3f, 0f, 17f), 34f, "prologue-ride-bark-home")
+    };
+
+    private bool PhotoNivaDialogueOpen =>
+        GetTree().GetFirstNodeInGroup("dialogue_ui") is DialogueUi { IsOpen: true };
+
+    // A conversation in the car is part of the ride, not a pause of it.
+    private bool PhotoNivaDrivePaused => MainMenuVisible || _pauseMenu?.IsOpen == true
+        || (_photoNivaPlayer?.ModalOpen != false && !PhotoNivaDialogueOpen)
         || !DisplayServer.WindowIsFocused()
         || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true };
 
@@ -41,9 +84,13 @@ public partial class Act1DemoRoot
         _photoNivaApproachDistance = 0f;
         _photoNivaVillageStarted = false;
         _photoNivaVillageDistance = _photoNivaVillageLength = 0f;
+        _photoNivaBarkIndex = _photoNivaVillageBarkIndex = 0;
+        _photoNivaNextBarkReady = PhotoNivaWakeHold + 4.5;
+        _photoNivaWoke = false;
+        _photoNivaLanguageOpened = _photoNivaLanguageCaptioned = false;
         for (var index = 1; index < _photoNivaVillagePath.Length; index++)
             _photoNivaVillageLength += _photoNivaVillagePath[index - 1].DistanceTo(_photoNivaVillagePath[index]);
-        _photoNivaDriveSpeed = 8.5f;
+        _photoNivaDriveSpeed = PhotoNivaCruise;
         _photoNivaDriveVisual = visual;
         _photoNivaStopTransform = visual.Root.GlobalTransform;
         if (_photoNivaPlayer is { } player)
@@ -57,57 +104,79 @@ public partial class Act1DemoRoot
         PlacePhotoNivaOnApproach(_approachRoad, PhotoNivaApproachStartZ, snap: true);
         _photoNivaDriveAudio = new VehicleMechanicalAudio { Name = "PhotoNivaDriveAudio" };
         visual.Root.AddChild(_photoNivaDriveAudio);
-        _photoNivaDriveAudio.SetState(VehicleKind.Niva, true, 8.5f, .35f, false);
+        _photoNivaDriveAudio.SetState(VehicleKind.Niva, true, PhotoNivaCruise, .35f, false);
+        // A warm dome light: the cabin read as a cold grey box against the white road.
+        visual.Root.AddChild(new OmniLight3D
+        {
+            Name = "PhotoNivaCabinLight",
+            Position = new(0f, 1.5f, .05f),
+            LightColor = new Color(1f, .86f, .66f),
+            LightEnergy = .45f,
+            LightSpecular = 0f,
+            OmniRange = 2.6f,
+            ShadowEnabled = false
+        });
         BuildPrologueOverlay("пропустить поездку", "skip_prologue");
         if (_prologueBlackout is { } blackout) blackout.Color = Colors.Black;
+        // The ride's own black now covers the frame; the nightmare cut hands over without a flash.
+        PrologueDreamCut.Release();
+        // Slumped against the side window, eyes shut: the first thing is the voice.
+        _rideLook = new(62f, -30f);
+        ApplyPrologueRideLook();
         PrologueVoice.SetPaused(false);
         var waking = PrologueVoice.PlayClip(this, "forest-wake-v2");
-        _photoNivaWakeCaptionSeconds = Math.Max(5, waking + .3);
-        if (_prologueCaption is { } caption)
-        {
-            caption.Text = "Мансур бабай: «Айдар… Айдар, уян. Килеп җитәбез.»\n(Айдар… Айдар, проснись. Уже подъезжаем.)";
-            caption.Visible = true;
-        }
+        ShowPrologueCaption("Мансур бабай: «Айдар… Айдар, уян. Килеп җитәбез.»\n(Айдар… Айдар, проснись. Уже подъезжаем.)",
+            Math.Max(4.5, waking + .3));
         HideRouteCue();
     }
 
     private void UpdatePhotoNivaDrive(float delta)
     {
         var paused = PhotoNivaDrivePaused;
+        var talking = PhotoNivaDialogueOpen;
         PrologueVoice.SetPaused(paused);
         _photoNivaDriveAudio?.SetState(VehicleKind.Niva, true, _photoNivaDriveSpeed, .35f, paused);
         var metresToStop = (_photoNivaVillageStarted ? 0f : PhotoNivaApproachLength - _photoNivaApproachDistance)
             + (_photoNivaVillageLength - _photoNivaVillageDistance);
         UpdatePhotoNivaScore(delta, paused, metresToStop);
         if (_prologueOverlay is { } overlay)
-            overlay.Visible = !MainMenuVisible && _photoNivaPlayer?.ModalOpen == false && _pauseMenu?.IsOpen != true;
+            overlay.Visible = !MainMenuVisible && !talking && _photoNivaPlayer?.ModalOpen == false && _pauseMenu?.IsOpen != true;
         if (paused) return;
 
         // A focus change or slow import must not jump the entire presentation.
         delta = Mathf.Clamp(delta, 0f, .1f);
         _photoNivaDriveElapsed += delta;
         var t = _photoNivaDriveElapsed;
-        if (_prologueCaption is { } caption) caption.Visible = t < _photoNivaWakeCaptionSeconds;
+        UpdatePhotoNivaWake(t);
+        UpdatePhotoNivaLanguage(talking);
+
         if (!_photoNivaVillageStarted)
         {
             if (_approachRoad is { } road && _photoNivaDriveVisual is { } visual)
             {
                 var remaining = PhotoNivaApproachLength - _photoNivaApproachDistance;
-                var targetSpeed = Mathf.Min(8.5f, Mathf.Sqrt(4.2f * 4.2f + 2f * 1.4f * Mathf.Max(0f, remaining)));
-                _photoNivaDriveSpeed = Mathf.MoveToward(_photoNivaDriveSpeed, targetSpeed, 1.4f * delta);
+                var inForest = _photoNivaApproachDistance > ApproachForestAt - 20f;
+                var cruise = talking ? PhotoNivaTalkingCruise : inForest ? PhotoNivaForestCruise : PhotoNivaCruise;
+                // Arrive at the village street at its own speed, never with a lurch.
+                var targetSpeed = Mathf.Min(cruise,
+                    Mathf.Sqrt(PhotoNivaVillageCruise * PhotoNivaVillageCruise + 2f * 1.4f * Mathf.Max(0f, remaining)));
+                _photoNivaDriveSpeed = Mathf.MoveToward(_photoNivaDriveSpeed, targetSpeed, 1.6f * delta);
                 _photoNivaApproachDistance = Mathf.Min(PhotoNivaApproachLength,
                     _photoNivaApproachDistance + _photoNivaDriveSpeed * delta);
                 var before = visual.Root.GlobalPosition;
                 PlacePhotoNivaOnApproach(road, PhotoNivaApproachStartZ - _photoNivaApproachDistance, snap: false);
                 SpinRideWheels(visual, before);
                 if (_player?.ReducedMotion != true) TickRideRoad(delta, _photoNivaDriveSpeed);
+                // Someone stands in the snow where the forest begins - until the car is close.
+                if (road.EdgeFigure is { Visible: true } figure
+                    && visual.Root.GlobalPosition.DistanceTo(figure.GlobalPosition) < 34f)
+                    figure.Visible = false;
+                if (!talking) UpdatePhotoNivaRoadBarks();
             }
-            if (_prologueBlackout is { } blackout)
-                blackout.Color = Colors.Black with { A = 1f - Mathf.Clamp(t / .7f, 0f, 1f) };
             if (_photoNivaApproachDistance >= PhotoNivaApproachLength)
             {
                 _photoNivaVillageStarted = true;
-                _photoNivaDriveSpeed = 4.2f;
+                _photoNivaDriveSpeed = Mathf.Min(_photoNivaDriveSpeed, PhotoNivaVillageCruise);
                 // The road endpoint and this point share the same world pose;
                 // hand the route owner across without a blackout or relocation.
                 PlaceRideAt(0f, eased: false, route: _photoNivaVillagePath);
@@ -117,7 +186,7 @@ public partial class Act1DemoRoot
         {
             var remaining = _photoNivaVillageLength - _photoNivaVillageDistance;
             // Brake along the final straight into the existing parked pose.
-            var targetSpeed = Mathf.Min(4.2f, Mathf.Sqrt(2f * 1.4f * Mathf.Max(0f, remaining)));
+            var targetSpeed = Mathf.Min(PhotoNivaVillageCruise, Mathf.Sqrt(2f * 1.4f * Mathf.Max(0f, remaining)));
             _photoNivaDriveSpeed = Mathf.MoveToward(_photoNivaDriveSpeed, targetSpeed, 1.4f * delta);
             _photoNivaVillageDistance = Mathf.Min(_photoNivaVillageLength,
                 _photoNivaVillageDistance + Mathf.Max(.2f, _photoNivaDriveSpeed) * delta);
@@ -134,10 +203,107 @@ public partial class Act1DemoRoot
                 };
                 SpinRideWheels(visual, before);
                 if (_player?.ReducedMotion != true) TickRideRoad(delta, _photoNivaDriveSpeed);
+                if (!talking) UpdatePhotoNivaVillageBarks(visual.Root.GlobalPosition, remaining);
             }
-            if (_photoNivaVillageDistance >= _photoNivaVillageLength) FinishPhotoNivaDrive();
+            // Let the last line at the gate finish before the conversation opens.
+            if (_photoNivaVillageDistance >= _photoNivaVillageLength && t >= _photoNivaNextBarkReady - 1.0)
+                FinishPhotoNivaDrive();
         }
-        UpdateRideLook(false, delta);
+        UpdateRideLook(talking, delta);
+    }
+
+    // Black, the voice, then the eyes open twice - a blink, not a fade - and
+    // Aidar comes up from the window with a start.
+    private void UpdatePhotoNivaWake(float t)
+    {
+        if (_prologueBlackout is { } blackout && t < 3f)
+        {
+            float alpha;
+            if (_player?.ReducedMotion == true) alpha = 1f - Mathf.Clamp((t - (float)PhotoNivaWakeHold) / .5f, 0f, 1f);
+            else if (t < PhotoNivaWakeHold) alpha = 1f;
+            else if (t < PhotoNivaWakeHold + .22) alpha = Mathf.Lerp(1f, .32f, (t - (float)PhotoNivaWakeHold) / .22f);
+            else if (t < PhotoNivaWakeHold + .4) alpha = Mathf.Lerp(.32f, .86f, (t - (float)PhotoNivaWakeHold - .22f) / .18f);
+            else alpha = Mathf.Lerp(.86f, 0f, Mathf.Clamp((t - (float)PhotoNivaWakeHold - .4f) / .75f, 0f, 1f));
+            blackout.Color = Colors.Black with { A = alpha };
+        }
+        if (_photoNivaWoke || t < PhotoNivaWakeHold) return;
+        _photoNivaWoke = true;
+        if (_rideCamera is { } camera)
+            UiFoley.PlayWorld(this, camera.GlobalPosition, "forest/gasp", -8f, 6f, 2f);
+        if (_player?.ReducedMotion == true)
+        {
+            _rideLook = new(35f, -2f);
+            ApplyPrologueRideLook();
+            return;
+        }
+        PhotoNivaWakeLook();
+    }
+
+    private async void PhotoNivaWakeLook()
+    {
+        var from = _rideLook;
+        var to = new Vector2(35f, -2f);
+        var elapsed = 0f;
+        while (elapsed < .6f && _photoNivaDriving && _rideCamera is { } camera && IsInstanceValid(camera))
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (PhotoNivaDrivePaused) continue;
+            elapsed += (float)GetProcessDeltaTime();
+            var k = Mathf.Clamp(elapsed / .38f, 0f, 1f);
+            _rideLook = from.Lerp(to, 1f - (1f - k) * (1f - k) * (1f - k));
+            ApplyPrologueRideLook();
+            var shake = (1f - Mathf.Clamp(elapsed / .6f, 0f, 1f)) * .5f;
+            camera.RotationDegrees += new Vector3(Mathf.Sin(elapsed * 71f) * shake, Mathf.Sin(elapsed * 53f) * shake, 0);
+        }
+    }
+
+    private void UpdatePhotoNivaRoadBarks()
+    {
+        if (_photoNivaBarkIndex >= PhotoNivaRoadBarks.Length || _photoNivaDriveElapsed < _photoNivaNextBarkReady) return;
+        var (at, id) = PhotoNivaRoadBarks[_photoNivaBarkIndex];
+        if (_photoNivaApproachDistance < at) return;
+        _photoNivaBarkIndex++;
+        _photoNivaNextBarkReady = _photoNivaDriveElapsed + RideBark(_bridge, id) + 1.1;
+    }
+
+    private void UpdatePhotoNivaVillageBarks(Vector3 carAt, float metresToStop)
+    {
+        if (_photoNivaVillageBarkIndex >= PhotoNivaVillageBarks.Length || _photoNivaDriveElapsed < _photoNivaNextBarkReady) return;
+        var (at, reach, id) = PhotoNivaVillageBarks[_photoNivaVillageBarkIndex];
+        var isHome = _photoNivaVillageBarkIndex == PhotoNivaVillageBarks.Length - 1;
+        var arrived = isHome
+            ? metresToStop <= reach
+            : at == Vector3.Inf ? _photoNivaVillageDistance >= 3f
+            : new Vector2(carAt.X - at.X, carAt.Z - at.Z).Length() <= reach;
+        // A place already behind the car is no longer worth a remark.
+        var passed = !isHome && at != Vector3.Inf && metresToStop <= PhotoNivaVillageBarks[^1].Reach;
+        if (!arrived && !passed) return;
+        _photoNivaVillageBarkIndex++;
+        if (passed && !arrived) return;
+        _photoNivaNextBarkReady = _photoNivaDriveElapsed + RideBark(_bridge, id) + 1.1;
+    }
+
+    // The language talk happens on the road, between the sign and the fields,
+    // as in the authored beat sheet; the car slows while they talk.
+    private void UpdatePhotoNivaLanguage(bool talking)
+    {
+        if (!_photoNivaLanguageActive || _bridge is not { } bridge) return;
+        if (!_photoNivaLanguageOpened)
+        {
+            if (_photoNivaVillageStarted || _photoNivaApproachDistance < PhotoNivaLanguageAt
+                || _photoNivaDriveElapsed < _photoNivaNextBarkReady || talking) return;
+            _photoNivaLanguageOpened = true;
+            bridge.OpenDialogueUi(PrologueRideDialogue);
+            return;
+        }
+        if (talking || !_photoNivaLanguageWrite.IsCompleted) return;
+        // ChoiceAccepted has recorded the answer (Esc only ends the offer). The
+        // stop then opens the arrival conversation directly.
+        _photoNivaLanguageActive = false;
+        if (_photoNivaLanguageCaptioned || _player is not { } player) return;
+        _photoNivaLanguageCaptioned = true;
+        ShowPrologueCaption($"Татарский в разговорах: {LanguageLevelLabel(player.TatarLanguageLevel)}. Это можно поменять в настройках.", 5);
+        _photoNivaNextBarkReady = Math.Max(_photoNivaNextBarkReady, _photoNivaDriveElapsed + 5.5);
     }
 
     private static Vector3 PhotoNivaApproachPoint(float localZ)
@@ -200,6 +366,7 @@ public partial class Act1DemoRoot
         _photoNivaDriveAudio = null;
         ReleaseApproachRoad();
         ReleasePrologueOverlay();
+        PrologueDreamCut.Release();
         PrologueVoice.Stop();
         PrologueVoice.SetPaused(false);
     }

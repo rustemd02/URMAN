@@ -87,6 +87,7 @@ public partial class W01Controller
     private void ResetPrologueExitTracking(object? session)
     {
         if (_prologueExitSession is not null) PrologueVoice.StopSpatial(this);
+        if (!ReferenceEquals(_nightmareSession, session)) ResetNightmare(session);
         _prologueExitSession = session;
         _prologueExitAttempted = false;
         _prologueExitDispatching = false;
@@ -112,6 +113,8 @@ public partial class W01Controller
         }
         if (_prologueTracks is { } activeTracks) activeTracks.Show();
         if (!ReferenceEquals(_prologueExitSession, session)) ResetPrologueExitTracking(session);
+        // The end of the prints owns the frame, the player and its own captions.
+        if (_nightmareClimax) return;
         if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
             || !GodotObject.IsInstanceValid(player)) return;
 
@@ -138,11 +141,12 @@ public partial class W01Controller
         _prologueCaptionRemaining = Math.Max(0, _prologueCaptionRemaining - delta);
         _prologueWakeRemaining = Math.Max(0, _prologueWakeRemaining - delta);
         if (_prologueVoiceCaption is { } caption)
-            caption.Visible = _accessibility.Subtitles && _prologueCaptionRemaining > 0;
+            caption.Visible = (_accessibility.Subtitles || _prologueCaptionThought) && _prologueCaptionRemaining > 0;
 
+        var feet = new Vector2(local.X, local.Z);
+        ProcessPrologueNightmare(player, feet, projection.Moved, delta);
         var onTrailGround = player.IsOnFloor() && Mathf.Abs(local.Y - ForestGroundHeight(local.X, local.Z)) <= .5f;
         if (!onTrailGround) return;
-        var feet = new Vector2(local.X, local.Z);
         if (!projection.Moved)
         {
             var approach = new Vector2(BranchF01.X, BranchF01.Z).Normalized();
@@ -161,6 +165,7 @@ public partial class W01Controller
             var source = ToGlobal(new Vector3(PrologueMittenPoint.X,
                 ForestGroundHeight(PrologueMittenPoint.X, PrologueMittenPoint.Y) + 3.4f, PrologueMittenPoint.Y));
             UiFoley.PlayWorld(this, source, "forest/branch_crack", -12f, 20f, 4f);
+            ShowNightmareThought("На снегу — синяя детская варежка. Следы идут дальше, не останавливаясь.", 5);
         }
 
         if (!_prologueAnswer && along >= -55f && along < -17f && lateral <= 8f)
@@ -173,19 +178,11 @@ public partial class W01Controller
         if (_prologueExitAttempted || _prologueExitDispatching || lateral > 4f || along < -2.5f || along > 7f)
             return;
 
-        if (!_prologueWakeCue)
-        {
-            // The prints stop here. The last voice is right beside Aidar, before the car reveals its source.
-            _prologueWakeCue = true;
-            PrologueVoice.StopSpatial(this);
-            var beside = feet + new Vector2(direction.Y, -direction.X) * 1.1f;
-            _prologueWakeRemaining = Math.Clamp(PlayPrologueForestVoice(beside, "forest-babai-name-v2", "«Айдар… Айдар…»", -3f) * .65, 1.3, 2.4);
-        }
-        if (_prologueWakeRemaining > 0) return;
-
+        // The prints stop here: the nightmare ends on a hard cut that becomes
+        // the voice in the Niva (W01Controller.PrologueNightmare).
+        _prologueWakeCue = true;
         _prologueExitAttempted = true;
-        _prologueExitDispatching = true;
-        _ = DispatchPrologueExitAsync(bridge, session);
+        RunNightmareClimaxAsync(bridge, session, player, feet, direction);
     }
 
     private double PlayPrologueForestVoice(Vector2 point, string clip, string subtitle, float volume)
@@ -194,33 +191,11 @@ public partial class W01Controller
         var duration = PrologueVoice.PlayAt(this, source, clip, volume, 36f);
         if (_prologueVoiceCaption is { } caption)
         {
+            _prologueCaptionThought = false;
             caption.Text = subtitle;
             _prologueCaptionRemaining = Math.Max(2.4, duration);
             caption.Visible = _accessibility.Subtitles;
         }
         return duration;
-    }
-
-    private async Task DispatchPrologueExitAsync(RuntimeBridge bridge, object session)
-    {
-        try
-        {
-            await bridge.DispatchInteractionAsync(PrologueEndInteractionId);
-        }
-        catch (Exception error)
-        {
-            GD.PushWarning($"W01 F03 prologue exit dispatch failed: {error.Message}");
-        }
-        if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()
-            || !ReferenceEquals(_prologueExitSession, session)) return;
-        if (!GodotObject.IsInstanceValid(bridge) || !ReferenceEquals(bridge.SessionIdentity, session)
-            || bridge.CurrentW01BranchProjection() is not { ActiveSceneId: PrologueSceneId } projection
-            || !ReferenceEquals(projection.SessionIdentity, session))
-        {
-            ResetPrologueExitTracking(null);
-            return;
-        }
-        // A rejected attempt stays latched until the player leaves and re-enters.
-        _prologueExitDispatching = false;
     }
 }

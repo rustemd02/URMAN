@@ -88,6 +88,10 @@ public partial class RuntimeBridge
     private const string FullGameSchoolPhotoCueFingerprint =
         "f8a34d7def19180baf45f1a2b94f96bdf42d01608d44a186c198e16dca86c717";
 
+    // Six prologue hint texts only (follow the prints instead of moving the branch).
+    private const string FullGamePrologueNightmareHintFingerprint =
+        "83b0dc6c36d08be375c716bd744059cb01d5be8e57f440231964cd583fada23e";
+
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
         // 80266983 -> 5b0a7ccf: 18 UI texts/provides IDs only; proof in PW-025.
@@ -437,6 +441,19 @@ public partial class RuntimeBridge
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
     {
         var isFullGame = StringComparer.Ordinal.Equals(_content.CampaignId, FullGameCampaignId);
+        if (isFullGame && StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGamePrologueNightmareHintFingerprint))
+        {
+            // Six hint text values only; the saved schema, facts and gates are
+            // identical. Carry forward every save accepted by the previous revision.
+            var compatible = FullGameTextRevisionCompatibility
+                .Where(pair => pair.ExpectedFingerprint == FullGameGulsinaAuthorshipReplyFingerprint)
+                .Select(pair => pair with { ExpectedFingerprint = FullGamePrologueNightmareHintFingerprint })
+                .Append(new(FullGameGulsinaAuthorshipReplyFingerprint, FullGamePrologueNightmareHintFingerprint))
+                .Append(new(FullGameSchoolPhotoCueFingerprint, FullGamePrologueNightmareHintFingerprint))
+                .ToArray();
+            return new AtomicSaveGameStore(directory, fingerprintCompatibility: compatible);
+        }
+
         if (isFullGame && StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameSchoolPhotoCueFingerprint))
         {
             // The compiled diff changes one text entry. Carry forward exactly

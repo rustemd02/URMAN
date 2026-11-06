@@ -7251,9 +7251,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-prologue-branch-question",
     "value": {
-      "default": "Что мешает пройти дальше по тропе?",
+      "default": "Кто зовёт тебя по имени?",
       "translations": {
-        "ru": "Что мешает пройти дальше по тропе?"
+        "ru": "Кто зовёт тебя по имени?"
       }
     },
     "purpose": "ui"
@@ -7262,9 +7262,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-prologue-branch-area",
     "value": {
-      "default": "Тропу перекрывает низкая ветка.",
+      "default": "Свежие следы уходят вглубь леса, под низкие ветви.",
       "translations": {
-        "ru": "Тропу перекрывает низкая ветка."
+        "ru": "Свежие следы уходят вглубь леса, под низкие ветви."
       }
     },
     "purpose": "ui"
@@ -7273,9 +7273,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-prologue-branch-action",
     "value": {
-      "default": "Подойди к ветке поперёк тропы, наведи на неё взгляд и отведи в сторону.",
+      "default": "Иди по следам на голос.",
       "translations": {
-        "ru": "Подойди к ветке поперёк тропы, наведи на неё взгляд и отведи в сторону."
+        "ru": "Иди по следам на голос."
       }
     },
     "purpose": "ui"
@@ -7284,9 +7284,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-prologue-exit-question",
     "value": {
-      "default": "Куда ведёт освободившаяся тропа?",
+      "default": "Куда ведут следы?",
       "translations": {
-        "ru": "Куда ведёт освободившаяся тропа?"
+        "ru": "Куда ведут следы?"
       }
     },
     "purpose": "ui"
@@ -7295,9 +7295,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-prologue-exit-area",
     "value": {
-      "default": "Дальше по тропе, за светлым просветом между деревьями.",
+      "default": "К светлому просвету между деревьями.",
       "translations": {
-        "ru": "Дальше по тропе, за светлым просветом между деревьями."
+        "ru": "К светлому просвету между деревьями."
       }
     },
     "purpose": "ui"
@@ -7306,9 +7306,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-prologue-exit-action",
     "value": {
-      "default": "Иди дальше по тропе к светлому просвету между деревьями.",
+      "default": "Иди по следам до самого конца.",
       "translations": {
-        "ru": "Иди дальше по тропе к светлому просвету между деревьями."
+        "ru": "Иди по следам до самого конца."
       }
     },
     "purpose": "ui"

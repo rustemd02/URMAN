@@ -265,6 +265,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         BuildForestHorizon();
         BuildBranch();
         BuildPrologueTracks();
+        BuildNightmareGlints();
         BuildPhotoTableau();
         BuildProloguePhotoSource();
         BuildPrologueUi();
@@ -1578,6 +1579,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             return;
 
         var projection = bridge.CurrentW01BranchProjection();
+        ApplyPrologueMood(projection?.ActiveSceneId == PrologueSceneId);
         if (ForestEpisodeReady)
         {
             ApplyRootPassageProjection(projection);
@@ -1643,7 +1645,10 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         SetCollisionLayer(_leftRootBody, 1u);
         SetCollisionLayer(_rightRootBody, 1u);
         EnsureBranchTarget(interaction.Item1, interaction.Item2);
-        _branchTarget?.SetPresentationEnabled(!projection.Moved);
+        // In the prologue the branch is no chore: it opens by itself as Aidar
+        // comes near (W01Controller.PrologueNightmare). The W01 episode keeps
+        // the authored hand action.
+        _branchTarget?.SetPresentationEnabled(!projection.Moved && projection.ActiveSceneId != PrologueSceneId);
         SetPrologueEndVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
         SetPrologueSkipVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
         ApplyForestWorldGuardProjection(projection);

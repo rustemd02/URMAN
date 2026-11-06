@@ -38,9 +38,10 @@ public partial class Act1DemoRoot
     {
         if (_photoNivaScore is { } playing) playing.StreamPaused = paused;
         if (paused || DisplayServer.GetName() == "headless") return;
+        // The fields belong to the radio and the forest to the engine alone;
+        // the score rises as the car comes out of the trees onto the village street.
+        if (!_photoNivaVillageStarted && _photoNivaApproachDistance < PhotoNivaApproachLength - 45f) return;
         _photoNivaScoreElapsed += delta;
-        // Leave the waking voice, motor and first seconds of the road exposed.
-        if (_photoNivaScoreElapsed < 8f) return;
         if (_photoNivaScore is null)
         {
             const string track = "res://assets/audio/act1/sound_mood/there-is-a-place-scott-buckley.mp3";
@@ -56,18 +57,23 @@ public partial class Act1DemoRoot
             AddChild(_photoNivaScore);
             _photoNivaScore.Play();
         }
-        var gain = Mathf.SmoothStep(0f, 5f, _photoNivaScoreElapsed - 8f)
-            * Mathf.SmoothStep(0f, 32f, metresToStop);
-        _photoNivaScore.VolumeDb = -16f + Mathf.LinearToDb(Mathf.Max(.001f, gain));
+        // Full under the village reveal, settling under babai's last lines at the gate.
+        var gain = Mathf.SmoothStep(0f, 6f, _photoNivaScoreElapsed)
+            * Mathf.Lerp(.42f, 1f, Mathf.SmoothStep(0f, 40f, metresToStop));
+        _photoNivaScore.VolumeDb = -15f + Mathf.LinearToDb(Mathf.Max(.001f, gain));
     }
 
     private void ReleasePhotoNivaScore()
     {
         _photoNivaScoreElapsed = 0f;
         if (_photoNivaScore is not { } score) return;
-        score.Stop();
-        score.QueueFree();
         _photoNivaScore = null;
+        if (!IsInstanceValid(score)) return;
+        // Let the music breathe out under the arrival conversation instead of cutting.
+        score.StreamPaused = false;
+        var fade = score.CreateTween();
+        fade.TweenProperty(score, "volume_db", -60f, 6.0);
+        fade.TweenCallback(Callable.From(score.QueueFree));
     }
 
     internal bool PhotoNivaArrivalActive => _photoNivaPresentation is { } presentation
@@ -179,12 +185,17 @@ public partial class Act1DemoRoot
                 _rideCamera.MakeCurrent();
                 DialogueUi.ChoiceAccepted += OnPhotoNivaArrivalChoice;
                 if (droveFromPrologue) BeginPhotoNivaDrive(visual);
-                else bridge.OpenDialogueUi(offerLanguage ? PrologueRideDialogue : PhotoNivaArrivalDialogue);
+                else
+                {
+                    PrologueDreamCut.Release(fadeSeconds: .5);
+                    bridge.OpenDialogueUi(offerLanguage ? PrologueRideDialogue : PhotoNivaArrivalDialogue);
+                }
                 UpdateRouteCue();
             }
             catch (Exception error)
             {
                 _photoNivaFailedSession = session;
+                PrologueDreamCut.Release(fadeSeconds: .5);
                 ReleasePhotoNivaArrival();
                 GD.PushWarning($"PhotoWorld Niva arrival presentation failed: {error.Message}");
                 player.NotifyTraversal("Не удалось открыть разговор в Ниве. Подойдите к машине, чтобы продолжить.");
@@ -222,7 +233,7 @@ public partial class Act1DemoRoot
     private bool HandlePhotoNivaArrivalInput(InputEvent inputEvent)
     {
         if (_photoNivaDriving && _photoNivaSession is { } driveSession && IsCurrentPhotoNivaArrival(driveSession)
-            && !PhotoNivaDrivePaused
+            && !PhotoNivaDrivePaused && !PhotoNivaDialogueOpen
             && inputEvent is not InputEventKey { Echo: true }
             && !inputEvent.IsActionPressed("pause") && inputEvent.IsActionPressed("skip_prologue"))
         {
