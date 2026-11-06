@@ -735,24 +735,27 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         if (normals.Length != vertices.Length || (uv.Length != 0 && uv.Length != vertices.Length) || indices.Length % 3 != 0)
             throw new InvalidOperationException($"Ground attributes or triangle indices are incomplete: {mesh.Name}.");
         var terrainToRoom = room.GlobalTransform.AffineInverse() * mesh.GlobalTransform;
+        TerrainCutVertex ReadVertex(int index) => new(vertices[index], normals[index], uv.Length == 0 ? Vector2.Zero : uv[index]);
+
         var output = new List<TerrainCutVertex>(indices.Length + 120);
         var changedTriangles = 0;
         for (var triangle = 0; triangle < indices.Length; triangle += 3)
         {
-            var polygon = new List<TerrainCutVertex>(3);
-            for (var corner = 0; corner < 3; corner++)
+            var a = ReadVertex(indices[triangle]);
+            var b = ReadVertex(indices[triangle + 1]);
+            var c = ReadVertex(indices[triangle + 2]);
+            // Most triangles are wholly outside a room. Keep their vertices
+            // in source order and allocate a polygon only when clipping is needed.
+            if (OutsideTerrainFootprint(terrainToRoom * a.Position, terrainToRoom * b.Position,
+                    terrainToRoom * c.Position, halfSize))
             {
-                var index = indices[triangle + corner];
-                polygon.Add(new(vertices[index], normals[index], uv.Length == 0 ? Vector2.Zero : uv[index]));
-            }
-            // Preserve wholly exterior triangles and their attributes exactly.
-            if (Enumerable.Range(0, 4).Any(plane => polygon.All(vertex =>
-                TerrainFootprintDistance(terrainToRoom * vertex.Position, halfSize, plane) <= 0)))
-            {
-                output.AddRange(polygon);
+                output.Add(a);
+                output.Add(b);
+                output.Add(c);
                 continue;
             }
             changedTriangles++;
+            var polygon = new List<TerrainCutVertex>(3) { a, b, c };
             for (var plane = 0; plane < 4 && polygon.Count > 0; plane++)
             {
                 AppendTerrainPolygon(output, ClipTerrainPolygon(polygon, terrainToRoom, halfSize, plane, keepInside: false));
@@ -881,6 +884,18 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         2 => point.Z + halfSize.Y,
         _ => halfSize.Y - point.Z
     };
+
+    private static bool OutsideTerrainFootprint(Vector3 a, Vector3 b, Vector3 c, Vector2 halfSize)
+    {
+        for (var plane = 0; plane < 4; plane++)
+        {
+            if (TerrainFootprintDistance(a, halfSize, plane) <= 0
+                && TerrainFootprintDistance(b, halfSize, plane) <= 0
+                && TerrainFootprintDistance(c, halfSize, plane) <= 0)
+                return true;
+        }
+        return false;
+    }
 
     private static List<TerrainCutVertex> ClipTerrainPolygon(List<TerrainCutVertex> polygon,
         Transform3D terrainToRoom, Vector2 halfSize, int plane, bool keepInside)
