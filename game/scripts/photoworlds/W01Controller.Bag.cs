@@ -16,6 +16,7 @@ public partial class W01Controller
     private const string BagSnaggedAnimation = "strap_snagged_rest";
     private const string BagReleaseAnimation = "strap_release";
     private const string BagPlacedAnimation = "strap_placed_rest";
+    private const float BagActionReach = 3.4f;
 
     private enum BagActionPhase { Idle, Releasing, MovingToBoardwalk, Committing }
 
@@ -185,7 +186,7 @@ public partial class W01Controller
         if (_bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
             || bridge.CurrentW01BranchProjection() is not { ActiveSceneId: ForestSceneId } projection
             || bridge.PhotoWorldFactObserved(BagEncounterFactId)
-            || BagModalOpen()
+            || BagModalOpen() || !IsPlayerWithinBagReach()
             || _bagAnimation is not { } animation || !GodotObject.IsInstanceValid(animation))
             return false;
 
@@ -342,43 +343,13 @@ public partial class W01Controller
         }
 
         if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()) return;
-        var projection = GodotObject.IsInstanceValid(bridge) ? bridge.CurrentW01BranchProjection() : null;
-        if (!committed || !GodotObject.IsInstanceValid(bridge)
-            || !ReferenceEquals(session, bridge.SessionIdentity)
-            || projection is null || projection.ActiveSceneId != sceneId
-            || !bridge.PhotoWorldFactObserved(BagEncounterFactId))
-        {
-            ReconcileBagCommitIfOwned(session, sceneId);
-            return;
-        }
-
-        var checkpointSaved = false;
-        try
-        {
-            // Full-game PhotoWorld scenes are not ordinary checkpoint scenes;
-            // persist the committed encounter before opening its response.
-            checkpointSaved = await bridge.SaveCheckpointAsync(force: true);
-        }
-        catch (System.Exception exception)
-        {
-            GD.PushError($"W01 bag encounter checkpoint failed: {exception.Message}");
-        }
-
-        if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()
-            || !GodotObject.IsInstanceValid(bridge)
-            || !ReferenceEquals(session, bridge.SessionIdentity)
+        // DispatchInteractionAsync already waits for the forced checkpoint of this photo action.
+        if (!committed || !OwnsBagCommit(session, sceneId)
             || !IsBagActionCurrent(bridge, session, sceneId, allowResolved: true, allowModal: true)
-            || bridge.CurrentW01BranchProjection() is not { ActiveSceneId: var activeSceneId }
-            || activeSceneId != sceneId
             || !bridge.PhotoWorldFactObserved(BagEncounterFactId))
         {
             ReconcileBagCommitIfOwned(session, sceneId);
             return;
-        }
-
-        if (!checkpointSaved)
-        {
-            GD.PushWarning("W01 bag encounter is committed in this session, but its checkpoint was not saved.");
         }
 
         CancelBagAction();
@@ -449,6 +420,13 @@ public partial class W01Controller
         || GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true }
         || GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController { ModalOpen: true };
 
+    private bool IsPlayerWithinBagReach() =>
+        _bagSnagContact is { } contact && GodotObject.IsInstanceValid(contact)
+        && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController
+            { SessionTransitionActive: false, VehicleControlled: false, IsClimbingLadder: false } player
+        && player.GetNodeOrNull<Camera3D>("Head/Camera3D") is { Current: true } camera
+        && camera.GlobalPosition.DistanceSquaredTo(contact.GlobalPosition) <= BagActionReach * BagActionReach;
+
     private void ReconcileBagCommitIfOwned(object session, string sceneId)
     {
         if (!OwnsBagCommit(session, sceneId)) return;
@@ -479,7 +457,7 @@ public partial class W01Controller
         return projection is not null
             && ReferenceEquals(projection.SessionIdentity, session)
             && projection.ActiveSceneId == sceneId
-            && (allowResolved || !bridge.PhotoWorldFactObserved(BagEncounterFactId));
+            && (allowResolved || (!bridge.PhotoWorldFactObserved(BagEncounterFactId) && IsPlayerWithinBagReach()));
     }
 
     private Transform3D CreateBagPlacementTransform(Node3D ground)

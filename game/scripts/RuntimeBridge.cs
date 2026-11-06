@@ -1112,10 +1112,13 @@ public partial class RuntimeBridge : Node
                 && sceneBeforeDispatch is not null
                 && ActiveSceneId == sceneBeforeDispatch
                 && hasEffects;
-            await SaveCheckpointAsync(force: committedPhotoWorldSceneTransition
+            var forceCheckpoint = committedPhotoWorldSceneTransition
                 || (hasEffects
                     && ((interaction.WorldLocations is not null || IsSourceExcerptAction(interaction.Id))
-                        || committedPhotoWorldAction)));
+                        || committedPhotoWorldAction));
+            var saved = await SaveCheckpointAsync(force: forceCheckpoint);
+            if (forceCheckpoint && !saved && ReferenceEquals(session, SessionIdentity) && !_loadPreparing)
+                GD.PushWarning($"Checkpoint after {interaction.Id} was not saved.");
         }
 
         return dispatched;

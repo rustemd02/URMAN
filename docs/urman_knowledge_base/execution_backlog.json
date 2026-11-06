@@ -125919,6 +125919,11 @@
         "remaining": "Shurale/D06 encounter binding and native action/placement/save/return acceptance; no hidden fact bypass.",
         "modal_correction_2026_10_18": "Pause/player modal cancels pre-commit release/placement and reprojects snagged pose; committed fact survives, pending D07 opens only in same modal-free forest session. Source reviewed and compiled16.41s; native interruption/save still unverified."
       },
+      "bag_reach_and_checkpoint_2026_11_06": {
+        "result": "Если игрок отходит от сумки до фиксации действия, ремень остаётся зацепленным и попытку можно повторить. Успешное освобождение сумки ждёт единственный контрольный этап общего обработчика, затем открывает D07. Неудачная запись получает предупреждение и не отбирает совершённое действие в текущей сессии.",
+        "sources": ["game/scripts/photoworlds/W01Controller.Bag.cs", "game/scripts/RuntimeBridge.cs"],
+        "verification": "Сборка Mac 17,29 с, 0 предупреждений и ошибок. Проверены условия действия, повторная проекция исходной позы и единая запись через DispatchInteractionWithCheckpointAsync. В обычном W01 у F14 отойти во время анимации, увидеть прежний ремень, затем снять его и подтвердить один checkpoint и D07. Игровой сценарий ещё открыт."
+      },
       "f16_world_guard_2026_10_18": {
         "finding": "Village fallback clamps X<=147. F16 marker149/4/190 and yaw38.9909 give accepted return envelope minworldX≈147.717; current W01 ground supports throughX156. Thus fallback clamp prevents ordinary return crossing, separate from authored exit reducer.",
         "result": "DELIVERED_SOURCE: W01 owns existing DetachedWorldGuard from active geometry AABB union and ForestGroundHeight, so F16 is inside its own bounds instead of villageX147. Installed after enabled ground, exactbridge/session/scene callback, own-delegate release, active Process reassert.",
