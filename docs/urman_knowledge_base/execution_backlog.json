@@ -25869,7 +25869,9 @@
             "result": "Подключить Continue самого свежего совместимого save с unknown-version refusal",
             "owner": "finished-act1",
             "evidence": [
-              "evidence/FINISH-06/menu-session-20261020/game-build-final.log"
+              "evidence/FINISH-06/menu-session-20261020/game-build-final.log",
+              "game/scripts/RuntimeBridge.cs",
+              "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-profile-bootstrap-and-continue-label-2026-11-06.zip SHA256 4512d9cc5dd389f317f7a4189c215a8bd7cf7bbc05c33b0c213a9d516fae25bd"
             ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
@@ -25882,7 +25884,8 @@
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Общий путь Continue на Mac подтвердил выбор свежего слота, резерв и отказ без записи. Для текущего photoworlds-v1 отдельно остаётся нативный случай, где primary имеет неизвестную вложенную версию состояния, а backup пригоден."
+              "Общий путь Continue на Mac подтвердил выбор свежего слота, резерв и отказ без записи. Для текущего photoworlds-v1 отдельно остаётся нативный случай, где primary имеет неизвестную вложенную версию состояния, а backup пригоден.",
+              "Continue description now resolves the authored prologue, Niva and W01–W05 title from the selected snapshot scene instead of its preserved village return zone. Mac compile and all seven current compiled text IDs verified. Ordinary display and nested incompatible-primary fallback remain open."
             ],
             "next_action": "Reuse the passed shared-menu recency/backup/unreadable proof and prior ordinary PhotoWorlds Save/Continue. Verify current photoworlds-v1 nested incompatible-primary fallback only on an existing applicable guarded scenario. Do not repeat the same legacy menu smoke.",
             "blocker": null,
@@ -148891,7 +148894,8 @@
         "build/releases/act1-20261106-224235b2-mac/receipt.json",
         "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-release-2026-11-06.zip SHA256 def8d911fc5d6f388ecb5971b274c02a9deb3dbae2c66e8bf25ba1b0b0532a32",
         "eng/desktop_release_checks.py",
-        "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-standalone-continue-timeout-2026-11-06.zip SHA256 0bb70091b0a8e78cf5f332a5aaa9c2f3a719ba6356387bb6b203cc5da9ee977e"
+        "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-standalone-continue-timeout-2026-11-06.zip SHA256 0bb70091b0a8e78cf5f332a5aaa9c2f3a719ba6356387bb6b203cc5da9ee977e",
+        "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-profile-bootstrap-and-continue-label-2026-11-06.zip SHA256 4512d9cc5dd389f317f7a4189c215a8bd7cf7bbc05c33b0c213a9d516fae25bd"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-095",
       "source_requirements": [
@@ -149017,7 +149021,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Использовать сохранённый Mac ZIP 224235b2 и отдельный успешный пустой Metal-bootstrap. Попытка Continue профиля не дошла до подтверждённого меню: не повторять тот же способ управления. После восстановления проверяемого ввода продолжить из школьного коридора. Предзагрузка W03 появится в следующей необходимой сборке.",
+      "next_action": "Использовать Mac ZIP 224235b2 с подтверждённой готовностью пролога на пустом и на существующем тестовом профиле. При доступном управлении продолжить обычным Continue из школьного коридора. Новая предзагрузка W03 и подписи Continue войдут в следующий необходимый экспорт. Не повторять прежний вызов Computer Use, завершившийся по таймауту.",
       "blocker": null,
       "external_gates": [
         {
@@ -150039,7 +150043,12 @@
         "profile": "act1-acceptance",
         "result": "Metal and W01 material assembly logged; no bootstrap-ready marker or Continue input. Computer Use bundle identifier ambiguous and explicit candidate app path timed out. Guard deadline 480s returned exit124, original files and permissions restored. Cause of missing ready marker in this session undetermined.",
         "cleanup": "Exact owned extracted candidate removed after preserving log and checking PCK remaps. Current Mac ZIP retained.",
-        "next": "Do not repeat same Computer Use selection. Use a confirmed available native input route and wait for actual menu readiness before Continue, or check the missing bootstrap signal separately with a new causal fact."
+        "next": "Do not repeat same Computer Use selection. Use a confirmed available native input route and wait for actual menu readiness before Continue, or check the missing bootstrap signal separately with a new causal fact.",
+        "profile_isolation_recheck": {
+          "state": "bootstrap_pass_continue_unverified",
+          "result": "Same ZIP 224235b2, same launch arguments as the successful empty profile bootstrap, with existing act1-acceptance and no Computer Use. Metal, W01 assembly count 1074, prologue F00 supported, exit 0, userdata restored. The profile alone did not reproduce the previous timeout. No Continue input; root cause of previous timeout remains undetermined.",
+          "archive": "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-profile-bootstrap-and-continue-label-2026-11-06.zip SHA256 4512d9cc5dd389f317f7a4189c215a8bd7cf7bbc05c33b0c213a9d516fae25bd"
+        }
       }
     },
     {

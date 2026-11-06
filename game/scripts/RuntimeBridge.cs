@@ -304,12 +304,7 @@ public partial class RuntimeBridge : Node
                 var time = File.GetLastWriteTimeUtc(path);
                 if (time < latestTime) continue;
                 latestTime = time;
-                var place = loaded.Save.CurrentZone.Value switch
-                {
-                    "village_day" => "Деревня",
-                    "house_old_pc" => "Дом", "fap_clinic" => "ФАП",
-                    "zirat_road" => "Дорога к зирату", "kara_urman_night" => "Кромка леса", _ => "Кара-Урман"
-                };
+                var place = ContinuePlace(loaded.Save);
                 var recovery = loaded.RecoveredFromBackup ? " · резервная копия" : "";
                 newest = (slot, $"{place} · {time.ToLocalTime():dd.MM HH:mm}{recovery}");
             }
@@ -320,6 +315,35 @@ public partial class RuntimeBridge : Node
             }
         }
         return newest;
+    }
+
+    private string ContinuePlace(SaveGameV3 save)
+    {
+        // A photo visit preserves the village location for return. Its
+        // saved campaign scene identifies where Continue actually resumes.
+        if (_content.HasPhotoWorlds && save.Runtime.State.TryGetProperty("activeScene", out var scene)
+            && scene.ValueKind == JsonValueKind.String)
+        {
+            var title = scene.GetString() switch
+            {
+                "urman.fullgame:scene/pw-prologue" => "urman.fullgame:text/pw-scene-prologue-title",
+                "urman.fullgame:scene/pw-niva-arrival" => "urman.fullgame:text/pw-scene-niva-arrival-title",
+                "urman.fullgame:scene/pw-forest" => "urman.fullgame:text/pw-scene-forest-title",
+                "urman.fullgame:scene/pw-river" => "urman.fullgame:text/pw-scene-river-title",
+                "urman.fullgame:scene/pw-house" => "urman.fullgame:text/pw-scene-house-title",
+                "urman.fullgame:scene/pw-common" => "urman.fullgame:text/pw-scene-common-title",
+                "urman.fullgame:scene/pw-cellar" => "urman.fullgame:text/pw-scene-cellar-title",
+                _ => null
+            };
+            if (title is not null) return _content.ResolveText(title);
+        }
+
+        return save.CurrentZone.Value switch
+        {
+            "village_day" => "Деревня",
+            "house_old_pc" => "Дом", "fap_clinic" => "ФАП",
+            "zirat_road" => "Дорога к зирату", "kara_urman_night" => "Кромка леса", _ => "Кара-Урман"
+        };
     }
 
     /// <summary>
