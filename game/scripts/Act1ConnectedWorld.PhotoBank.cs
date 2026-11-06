@@ -10,6 +10,7 @@ namespace Urman.Godot;
 /// </summary>
 public partial class Act1ConnectedWorld
 {
+    private const float PhotoBankTrailStartZ = -25.5f;
     private const float PhotoBankApproachEntryZ = -52.5f;
     private const float PhotoBankApproachBankOffset = 7.4f;
     internal const float PhotoBankApproachEntryYawDegrees = -90f;
@@ -28,6 +29,32 @@ public partial class Act1ConnectedWorld
 
     private static float PhotoBankTrailX(float z) =>
         (float)AgentBAct1HeightField.RavineCentre(z) - PhotoBankApproachBankOffset;
+
+    internal static bool TryGetPhotoBankTrailWaypoint(Vector3 playerPosition, Vector3 destination, out Vector3 waypoint)
+    {
+        waypoint = default;
+        var z = playerPosition.Z;
+        var trailStartX = PhotoBankTrailX(PhotoBankTrailStartZ);
+        float nextZ;
+        if (z >= -26.4f && z <= -22f && playerPosition.X >= 0f && playerPosition.X < trailStartX - .5f)
+        {
+            // Take the street past the clinic fence before turning down the bank.
+            nextZ = PhotoBankTrailStartZ;
+        }
+        else if (z >= destination.Z + 4f && z <= PhotoBankTrailStartZ + 2f
+                 && Mathf.Abs(playerPosition.X - PhotoBankTrailX(z)) <= 1.4f)
+        {
+            nextZ = Mathf.Max(destination.Z, z - 5f);
+        }
+        else
+        {
+            return false;
+        }
+
+        var x = PhotoBankTrailX(nextZ);
+        waypoint = new Vector3(x, AgentBAct1HeightField.CollisionGround(x, nextZ) + .05f, nextZ);
+        return true;
+    }
 
     private void AddPhotoBankApproach(Node3D core)
     {
@@ -172,7 +199,7 @@ public partial class Act1ConnectedWorld
     private static void AddPhotoBankTrail(Node3D bank)
     {
         using var centerline = new Curve3D { BakeInterval = .3f };
-        for (var z = -25.5f; z > PhotoBankApproachEntryZ; z -= 3f)
+        for (var z = PhotoBankTrailStartZ; z > PhotoBankApproachEntryZ; z -= 3f)
             centerline.AddPoint(new Vector3(PhotoBankTrailX(z), 0f, z));
         centerline.AddPoint(new Vector3(PhotoBankTrailX(PhotoBankApproachEntryZ), 0f, PhotoBankApproachEntryZ));
 

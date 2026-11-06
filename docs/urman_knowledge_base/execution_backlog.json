@@ -137777,6 +137777,12 @@
           "kind": "code_static",
           "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
           "result": "Статическая реализация (dotnet build 0/0): VIS-009 — опора столбов (затем заменено upstream); VIS-011 — уличные валы без синус-гребёнки; VIS-015 — сопряжение моста с берегом; VIS-079 — валы после заборов. Runtime NOT_RUN; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08–09.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
+        },
+        {
+          "date": "2026-11-06",
+          "kind": "source_compile_review",
+          "path": "game/scripts/Act1ConnectedWorld.PhotoBank.cs",
+          "result": "У ФАПа маркеры осмотра старых мостков и входа в P-WATER/P-COMMON ведут по улице к открытому началу береговой тропы, затем по той же оси, по которой построена её опора. На контрольной точке улицы (30, -24) обе прежние прямые пересекали западную секцию ограды; новая ось проходит восточнее забора с минимальным зазором 1,33 м от его конца. Из домашнего двора маркер сначала ведёт через калитку. Сборка Mac 19,62 с, 0 ошибок и предупреждений. Обычный проход ФАП → берег → вход и приёмка якорей в игре открыты."
         }
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-070",

@@ -12,9 +12,9 @@ public partial class PhotoBankApproachPresence : Node3D
 {
     private const string HomeSceneId = "urman.fullgame:scene/pw-home";
     private const string BankSceneId = "urman.fullgame:scene/pw-bank-approach";
-    private const string RiverPhotoEntryInteractionId = "urman.fullgame:interaction/pw-enter-river";
-    private const string CommonPhotoEntryInteractionId = "urman.fullgame:interaction/pw-enter-common";
-    private const string EnterBankInteractionId = "urman.fullgame:interaction/pw-enter-bank-approach";
+    internal const string RiverPhotoEntryInteractionId = "urman.fullgame:interaction/pw-enter-river";
+    internal const string CommonPhotoEntryInteractionId = "urman.fullgame:interaction/pw-enter-common";
+    internal const string EnterBankInteractionId = "urman.fullgame:interaction/pw-enter-bank-approach";
     private const string WinterPilesInteractionId = "urman.fullgame:interaction/pw-winter-piles-inspected";
     private const string VerifyBankInteractionId = "urman.fullgame:interaction/pw-verify-bank-evidence";
     private const string BankReturnInteractionId = "urman.fullgame:interaction/pw-bank-return";

@@ -135,6 +135,7 @@ public partial class Act1DemoRoot
             }
             waypoint = waypoint
                 || TryGetHomeYardExitObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel)
+                || TryGetPhotoBankObjectiveWaypoint(mission, player.GlobalPosition, destination, out routePoint, out routeLabel)
                 || TryGetSchoolObjectiveWaypoint(mission, player.GlobalPosition, player.BodyRadius, out routePoint, out routeLabel)
                 || TryGetSchoolToForestStreetWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel)
                 || TryGetForestBridgeObjectiveWaypoint(mission, player.GlobalPosition, player.BodyRadius, out routePoint, out routeLabel)
@@ -334,6 +335,17 @@ public partial class Act1DemoRoot
             out waypoint, out label, out inspectionTarget);
     }
 
+    private bool TryGetPhotoBankObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition, Vector3 destination,
+        out Vector3 waypoint, out string label)
+    {
+        waypoint = default;
+        label = "Тропа к мосткам";
+        return _bridge?.CurrentZoneId == "village_day" && mission.TargetZoneId == "village_day"
+            && mission.InteractionId is (PhotoBankApproachPresence.RiverPhotoEntryInteractionId
+                or PhotoBankApproachPresence.CommonPhotoEntryInteractionId or PhotoBankApproachPresence.EnterBankInteractionId)
+            && Act1ConnectedWorld.TryGetPhotoBankTrailWaypoint(playerPosition, destination, out waypoint);
+    }
+
     private bool TryGetHomeYardExitObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition,
         out Vector3 waypoint, out string label)
     {
@@ -343,8 +355,9 @@ public partial class Act1DemoRoot
             || mission.InteractionId is not ("urman.fullgame:interaction/pw-school-copy-source"
                 or "urman.fullgame:interaction/pw-school-copy-permission"
                 or RuntimeBridge.PhotoBookForestEntryInteractionId
-                or "urman.fullgame:interaction/pw-enter-river"
-                or "urman.fullgame:interaction/pw-enter-common"))
+                or PhotoBankApproachPresence.RiverPhotoEntryInteractionId
+                or PhotoBankApproachPresence.CommonPhotoEntryInteractionId
+                or PhotoBankApproachPresence.EnterBankInteractionId))
             return false;
 
         var position = new Vector2(playerPosition.X, playerPosition.Z);
