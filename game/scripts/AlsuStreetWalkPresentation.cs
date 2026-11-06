@@ -29,6 +29,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
     private bool _saving;
     private Task<bool>? _flushTask;
     private bool _exteriorEnabled = true;
+    private bool _photoRouteOwnsTalk;
     private string _presentationZone = "village_day";
     private bool _physicalValidationPending = true;
     private ulong _validationAfterPhysicsFrame;
@@ -687,6 +688,13 @@ public partial class AlsuStreetWalkPresentation : Node3D
         if (new Vector2(at.X, at.Z).DistanceTo(point) < .002f) _pendingCheckpoint = _checkpoint + 1;
     }
 
+    internal void SetPhotoRouteTalkOverride(bool active)
+    {
+        if (_photoRouteOwnsTalk == active || !IsLiveOwner(this)) return;
+        _photoRouteOwnsTalk = active;
+        SynchronizeTarget();
+    }
+
     private void SynchronizeTarget()
     {
         // Keep the authored target under its logical zone so routing retains its
@@ -696,7 +704,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
         // The ray shell is a square column round her: it follows where she
         // stands, not which way she faces, so turning to greet someone leaves
         // every interaction target where it was.
-        _target.SetPresentationEnabled(PhysicalAccessReady && _presentationZone == "village_day");
+        _target.SetPresentationEnabled(PhysicalAccessReady && _presentationZone == "village_day" && !_photoRouteOwnsTalk);
         _target.CollisionMask = 0;
     }
 

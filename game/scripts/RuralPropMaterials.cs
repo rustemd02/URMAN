@@ -6,6 +6,7 @@ namespace Urman.Godot;
 /// Unavailable dedicated maps stay explicit in the production passports.</summary>
 public static class RuralPropMaterials
 {
+    private const string TextureRoot = "res://assets/textures/";
     private static readonly Dictionary<string, StandardMaterial3D> Cache = new();
 
     /// <summary>One authored finish. TileMetres is the physical width of one tile, so
@@ -63,12 +64,31 @@ public static class RuralPropMaterials
             .26f, "realism_20260929/concrete_v1_normal.png", "realism_20260929/concrete_v1_orm.png")
     };
 
+    private static Finish FinishFor(string kind) => Finishes.GetValueOrDefault(kind, Unknown);
+
+    private static string AlbedoPath(Finish finish) =>
+        TextureRoot + (finish.File.Contains('/') ? finish.File : "painterly/" + finish.File);
+
+    internal static IEnumerable<string> DynamicResourcePaths(IEnumerable<string> kinds)
+    {
+        foreach (var kind in kinds)
+        {
+            var finish = FinishFor(kind);
+            var albedo = AlbedoPath(finish);
+            if (ResourceLoader.Exists(albedo)) yield return albedo;
+            if (finish.NormalFile is { Length: > 0 } normalFile && ResourceLoader.Exists(TextureRoot + normalFile))
+                yield return TextureRoot + normalFile;
+            if (finish.OrmFile is { Length: > 0 } ormFile && ResourceLoader.Exists(TextureRoot + ormFile))
+                yield return TextureRoot + ormFile;
+        }
+    }
+
     public static StandardMaterial3D Surface(string kind, string tint = "ffffff")
     {
         var key = kind + ":" + tint;
         if (Cache.TryGetValue(key, out var saved)) return saved;
-        var finish = Finishes.TryGetValue(kind, out var authored) ? authored : Unknown;
-        var path = "res://assets/textures/" + (finish.File.Contains('/') ? finish.File : "painterly/" + finish.File);
+        var finish = FinishFor(kind);
+        var path = AlbedoPath(finish);
         var material = new StandardMaterial3D
         {
             ResourceName = "Rural_" + kind,
@@ -91,7 +111,7 @@ public static class RuralPropMaterials
         // channel. Requests: docs/urman_knowledge_base/art/asset_requests/MAT.md M-02..M-04.
         if (finish.NormalFile is { Length: > 0 } normalFile)
         {
-            var normalPath = "res://assets/textures/" + normalFile;
+            var normalPath = TextureRoot + normalFile;
             if (ResourceLoader.Exists(normalPath)
                 && ResourceLoader.Load<Texture2D>(normalPath) is { } normal)
             {
@@ -101,7 +121,7 @@ public static class RuralPropMaterials
         }
         if (finish.OrmFile is { Length: > 0 } ormFile)
         {
-            var ormPath = "res://assets/textures/" + ormFile;
+            var ormPath = TextureRoot + ormFile;
             if (ResourceLoader.Exists(ormPath)
                 && ResourceLoader.Load<Texture2D>(ormPath) is { } orm)
             {

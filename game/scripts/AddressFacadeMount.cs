@@ -45,9 +45,20 @@ internal static class AddressFacadeMount
         private readonly int[] _boundsOrder;
         private readonly BoundsNode[] _boundsTree;
         private readonly int _boundsRoot;
+        private readonly long _meshSnapshotTicks;
+        private readonly long _boundsTreeTicks;
+        private long _visibleQueryCount;
+        private long _visibleCandidateCount;
+        private long _visibleCandidateTicks;
+        private long _faceTransformCount;
+        private long _transformedTriangleCount;
+        private long _faceTransformTicks;
+        private long _visibleTotalTicks;
+        private bool _profileReported;
 
         internal PreparedWorldFaces(Node3D root)
         {
+            var meshSnapshotStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             _meshes=Descendants(root).OfType<MeshInstance3D>()
                 .Select(mesh=>(Instance:mesh,Mesh:mesh.Mesh))
                 .Where(pair=>pair.Mesh is not null
@@ -60,19 +71,27 @@ internal static class AddressFacadeMount
                     var worldBounds=Bounds(Enumerable.Range(0,8).Select(i=>transform*bounds.GetEndpoint(i)));
                     return new PreparedMeshFaces(pair.Instance,pair.Mesh!,transform,worldBounds,pair.Instance.GetPath().ToString());
                 }).ToArray();
+            _meshSnapshotTicks = System.Diagnostics.Stopwatch.GetTimestamp() - meshSnapshotStarted;
 
+            var boundsTreeStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             _boundsOrder=Enumerable.Range(0,_meshes.Length).ToArray();
             var nodes=new List<BoundsNode>();
             _boundsRoot=_meshes.Length==0?-1:BuildBoundsTree(_boundsOrder,0,_boundsOrder.Length,nodes);
             _boundsTree=nodes.ToArray();
+            _boundsTreeTicks = System.Diagnostics.Stopwatch.GetTimestamp() - boundsTreeStarted;
         }
 
         internal Face[] VisibleFaces(Aabb bounds)
         {
+            var visibleStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             var result=new List<Face>();
             var candidates=new List<int>();
+            var candidateStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             if(_boundsRoot>=0)CollectBoundsCandidates(_boundsRoot,bounds,CanSafelyPrune(bounds),candidates);
             candidates.Sort(); // Restore the original depth-first mesh order before materializing faces.
+            _visibleCandidateTicks += System.Diagnostics.Stopwatch.GetTimestamp() - candidateStarted;
+            _visibleCandidateCount += candidates.Count;
+            _visibleQueryCount++;
             foreach(var index in candidates)
             {
                 var prepared=_meshes[index];
@@ -80,10 +99,36 @@ internal static class AddressFacadeMount
                 var mesh=prepared.Instance;
                 if(mesh.Mesh is null||!mesh.IsVisibleInTree())continue;
                 if(mesh.GetParent() is AddressSignVisualComponent)continue;
-                prepared.Faces??=TransformFaces(prepared.Mesh,prepared.Transform,prepared.Owner);
-                result.AddRange(prepared.Faces);
+                var faces = prepared.Faces;
+                if(faces is null)
+                {
+                    var transformStarted = System.Diagnostics.Stopwatch.GetTimestamp();
+                    faces = TransformFaces(prepared.Mesh,prepared.Transform,prepared.Owner);
+                    _faceTransformTicks += System.Diagnostics.Stopwatch.GetTimestamp() - transformStarted;
+                    _faceTransformCount++;
+                    _transformedTriangleCount += faces.Length;
+                    prepared.Faces = faces;
+                }
+                result.AddRange(faces);
             }
-            return result.ToArray();
+            var visibleFaces = result.ToArray();
+            _visibleTotalTicks += System.Diagnostics.Stopwatch.GetTimestamp() - visibleStarted;
+            return visibleFaces;
+        }
+
+        internal void ReportProfile()
+        {
+            if (_profileReported) return;
+            _profileReported = true;
+            static string Seconds(long ticks) => (ticks / (double)System.Diagnostics.Stopwatch.Frequency)
+                .ToString("0.000", System.Globalization.CultureInfo.InvariantCulture);
+
+            GD.Print($"world-build-profile|address-face-snapshot|{Seconds(_meshSnapshotTicks + _boundsTreeTicks)}s"
+                + $" meshes={_meshes.Length} mesh-snapshot={Seconds(_meshSnapshotTicks)}s bvh={Seconds(_boundsTreeTicks)}s"
+                + $" visible-queries={_visibleQueryCount} broadphase-candidates={_visibleCandidateCount}"
+                + $" candidate-search={Seconds(_visibleCandidateTicks)}s face-transforms={_faceTransformCount}"
+                + $" transformed-triangles={_transformedTriangleCount} transform-faces={Seconds(_faceTransformTicks)}s"
+                + $" visible-total={Seconds(_visibleTotalTicks)}s");
         }
 
         private int BuildBoundsTree(int[] order,int start,int count,List<BoundsNode> nodes)
@@ -240,6 +285,8 @@ internal static class AddressFacadeMount
         // synchronous search; each orientation still applies its own plane test
         // and keeps the original candidate ordering.
         var preparedWallFaces=CaptureWallFaces(building,explicitExteriorWall);
+        // Candidate checks only read this building; this cache dies with the synchronous search.
+        Vector3[]? preparedCladdingVertices = null;
         // Seni-door houses face their side entry away from the street: the
         // door-facing planes are narrow and pierced while a blank street wall
         // stands around the corner. Try the door orientation first, then the
@@ -248,7 +295,7 @@ internal static class AddressFacadeMount
         var tried=new List<string>();
         foreach(var sweep in new[]{outward,-outward,new Vector3(outward.Z,0,-outward.X),new Vector3(-outward.Z,0,outward.X)})
         {
-            if(TryFindOnWallsOriented(building,door,sweep,world,out point,out owner,out var orientedFailure,explicitExteriorWall,
+            if(TryFindOnWallsOriented(building,door,sweep,world,out point,out owner,out var orientedFailure,explicitExteriorWall,ref preparedCladdingVertices,
                 oriented:sweep!=outward,preparedWorldFaces:preparedWorldFaces,preparedWallFaces:preparedWallFaces))
             {
                 mountedOutward=sweep;
@@ -261,7 +308,7 @@ internal static class AddressFacadeMount
         return false;
     }
 
-    private static bool TryFindOnWallsOriented(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure,string? explicitExteriorWall,bool oriented=false,PreparedWorldFaces? preparedWorldFaces=null,PreparedWallMeshFaces[]? preparedWallFaces=null)
+    private static bool TryFindOnWallsOriented(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure,string? explicitExteriorWall,ref Vector3[]? preparedCladdingVertices,bool oriented=false,PreparedWorldFaces? preparedWorldFaces=null,PreparedWallMeshFaces[]? preparedWallFaces=null)
     {
         point=default;owner="";failure="";outward.Y=0;outward=outward.Normalized();
         var right=new Vector3(outward.Z,0,-outward.X);
@@ -334,7 +381,8 @@ internal static class AddressFacadeMount
             var coverage=Cover(candidate.Plane.Triangles,candidate.Center,BoardJoints(candidate.Plane.Owner));
             if(!coverage.Supported){Refused(coverage.Reason+" at "+candidate.Plane.Owner);continue;}
             var p=right*candidate.Center.X+Vector3.Up*candidate.Center.Y+outward*(candidate.Plane.Depth+MountOffset);
-            var mounted=ProudOfOwnCladding(building,p,outward,right);
+            preparedCladdingVertices ??= CaptureVisibleBuildingVertices(building);
+            var mounted=ProudOfOwnCladding(preparedCladdingVertices,p,outward,right);
             if(mounted.Dot(outward)-candidate.Plane.Depth>MaxCladdingProud
                 &&!TimberFastenersSupported(building,mounted,outward,right))continue;
             // Check from the finished mount, not from behind its own cladding.
@@ -686,44 +734,56 @@ internal static class AddressFacadeMount
         return new(false,4*HalfWidth*HalfHeight,ownerPath,"plate is not wholly on the recorded fence member");
     }
 
+    private static Vector3[] CaptureVisibleBuildingVertices(Node3D building)
+    {
+        var vertices=new List<Vector3>();
+        foreach(var mesh in Descendants(building).OfType<MeshInstance3D>().Where(m=>m.Mesh is not null&&m.IsVisibleInTree()))
+        {
+            if(mesh.GetParent() is AddressSignVisualComponent)continue;
+            var raw=mesh.Mesh!.GetFaces();var transform=mesh.GlobalTransform;
+            for(var i=0;i+2<raw.Length;i+=3)
+            {
+                vertices.Add(transform*raw[i]);
+                vertices.Add(transform*raw[i+1]);
+                vertices.Add(transform*raw[i+2]);
+            }
+        }
+        return vertices.ToArray();
+    }
+
     /// <summary>The house's own cladding in front of the wall plane (hewn log
     /// courses, casings) is presentation geometry the occluder ignores; a plate
     /// on the plane behind it would be buried. Move the plate onto the
     /// frontmost near-vertical cladding face, by at most MaxCladdingProud, that
     /// overlaps its rectangle; sloped roofs, snow and canopies never carry it.</summary>
-    private static Vector3 ProudOfOwnCladding(Node3D building,Vector3 point,Vector3 outward,Vector3 right)
+    private static Vector3 ProudOfOwnCladding(Vector3[] vertices,Vector3 point,Vector3 outward,Vector3 right)
     {
         var depth=point.Dot(outward)-MountOffset;var front=depth;var cx=point.Dot(right);
-        foreach(var mesh in Descendants(building).OfType<MeshInstance3D>().Where(m=>m.Mesh is not null&&m.IsVisibleInTree()))
+        for(var i=0;i+2<vertices.Length;i+=3)
         {
-            if(mesh.GetParent() is AddressSignVisualComponent)continue;
-            var raw=mesh.Mesh!.GetFaces();
-            for(var i=0;i+2<raw.Length;i+=3)
-            {
-                var a=mesh.GlobalTransform*raw[i];var b=mesh.GlobalTransform*raw[i+1];var c=mesh.GlobalTransform*raw[i+2];
-                var hi=Math.Max(a.Dot(outward),Math.Max(b.Dot(outward),c.Dot(outward)));
-                if(hi<=front+.002f)continue;
-                if(Math.Max(a.Y,Math.Max(b.Y,c.Y))<point.Y-HalfHeight||Math.Min(a.Y,Math.Min(b.Y,c.Y))>point.Y+HalfHeight)continue;
-                // Only near-vertical faces (|n·outward| >= .94, |ny| below
-                // ~0.35) may carry the plate forward: a sloped roof verge, snow
-                // lip or canopy crossing the rectangle is not cladding, and
-                // following it would put the plate on a roof edge.
-                var normal=(b-a).Cross(c-a);
-                if(normal.LengthSquared()<.0000001f||Math.Abs(normal.Normalized().Dot(outward))<.94f)continue;
-                var ar=a.Dot(right);var br=b.Dot(right);var cr=c.Dot(right);
-                if(Math.Max(ar,Math.Max(br,cr))<cx-HalfWidth||Math.Min(ar,Math.Min(br,cr))>cx+HalfWidth)continue;
-                // A diagonal verge's bounds can overlap the plate while its
-                // actual triangle stays above it. Only the clipped surface
-                // beneath the plate may push it away from the wall.
-                var overlap=ClipDepth([a,b,c],right,cx-HalfWidth,true);
-                overlap=ClipDepth(overlap,right,cx+HalfWidth,false);
-                overlap=ClipDepth(overlap,Vector3.Up,point.Y-HalfHeight,true);
-                overlap=ClipDepth(overlap,Vector3.Up,point.Y+HalfHeight,false);
-                if(Area(overlap.Select(p=>new Vector2(p.Dot(right),p.Y)).ToList())<.00001)continue;
-                hi=overlap.Max(p=>p.Dot(outward));
-                if(hi<=front+.002f||hi>depth+MaxCladdingProud)continue;
-                front=hi;
-            }
+            var a=vertices[i];var b=vertices[i+1];var c=vertices[i+2];
+            var hi=Math.Max(a.Dot(outward),Math.Max(b.Dot(outward),c.Dot(outward)));
+            if(hi<=front+.002f)continue;
+            if(Math.Max(a.Y,Math.Max(b.Y,c.Y))<point.Y-HalfHeight||Math.Min(a.Y,Math.Min(b.Y,c.Y))>point.Y+HalfHeight)continue;
+            // Only near-vertical faces (|n·outward| >= .94, |ny| below
+            // ~0.35) may carry the plate forward: a sloped roof verge, snow
+            // lip or canopy crossing the rectangle is not cladding, and
+            // following it would put the plate on a roof edge.
+            var normal=(b-a).Cross(c-a);
+            if(normal.LengthSquared()<.0000001f||Math.Abs(normal.Normalized().Dot(outward))<.94f)continue;
+            var ar=a.Dot(right);var br=b.Dot(right);var cr=c.Dot(right);
+            if(Math.Max(ar,Math.Max(br,cr))<cx-HalfWidth||Math.Min(ar,Math.Min(br,cr))>cx+HalfWidth)continue;
+            // A diagonal verge's bounds can overlap the plate while its
+            // actual triangle stays above it. Only the clipped surface
+            // beneath the plate may push it away from the wall.
+            var overlap=ClipDepth([a,b,c],right,cx-HalfWidth,true);
+            overlap=ClipDepth(overlap,right,cx+HalfWidth,false);
+            overlap=ClipDepth(overlap,Vector3.Up,point.Y-HalfHeight,true);
+            overlap=ClipDepth(overlap,Vector3.Up,point.Y+HalfHeight,false);
+            if(Area(overlap.Select(p=>new Vector2(p.Dot(right),p.Y)).ToList())<.00001)continue;
+            hi=overlap.Max(p=>p.Dot(outward));
+            if(hi<=front+.002f||hi>depth+MaxCladdingProud)continue;
+            front=hi;
         }
         return front>depth?point+outward*(front-depth):point;
     }

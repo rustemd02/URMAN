@@ -1,0 +1,1008 @@
+using System;
+using System.Collections.Generic;
+using Godot;
+using Urman.Core.Persistence;
+using Urman.Experiments.AgentBAct1;
+
+namespace Urman.Godot;
+
+public partial class Act1DemoRoot
+{
+    private const string ForestGroupObservationInteractionId = "urman.fullgame:interaction/pw-forest-group";
+    private const string ForestBeyondFrameInteractionId = "urman.fullgame:interaction/pw-forest-photographer";
+    private const string ForestReturnInteractionId = "urman.fullgame:interaction/pw-forest-return";
+    private const string HousePhotoEntryInteractionId = "urman.fullgame:interaction/pw-enter-house";
+    private const string FamilyBookHandoffInteractionId = "urman.fullgame:interaction/pw-book-handoff";
+    private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
+    private const string BankSceneId = "urman.fullgame:scene/pw-bank-approach";
+    private const string BankCopySourceInteractionId = "urman.fullgame:interaction/pw-bank-copy-source";
+    private const string BankCopyPermissionInteractionId = "urman.fullgame:interaction/pw-bank-copy-permission";
+    private const string CouncilOfficeDoorInteractionId = "urman.chapter1:local/council/office";
+    private static readonly Vector2[] ObjectiveArrow = [new(0, -16), new(13, 13), new(0, 6), new(-13, 13)];
+    private static readonly Lazy<IReadOnlyList<Vector2>> HomeObjectiveRoute = new(() => Array.AsReadOnly(
+        new[]
+        {
+            AgentBAct1Layout.WalkChain[2], AgentBAct1Layout.WalkChain[3], AgentBAct1Layout.WalkChain[4],
+            AgentBAct1Layout.WalkChain[5], AgentBAct1Layout.WalkChain[6], AgentBAct1Layout.WalkChain[7]
+        }));
+    private Control? _objectiveMarker;
+    private Polygon2D? _objectiveMarkerGlyph;
+    private Polygon2D? _objectiveMarkerOutline;
+    private Label? _objectiveMarkerLabel;
+    private Node3D? _objectiveMarkerTarget;
+    private Node3D? _objectiveMarkerSchool;
+    private PlayerMission? _objectiveMarkerMission;
+    private object? _objectiveMarkerSession;
+    private string? _objectiveMarkerScene;
+    private string? _objectiveMarkerZone;
+    private double _objectiveMarkerRetry;
+    private bool _objectiveMarkerUsingAnchor;
+    private bool _objectiveMarkerTargetResolved;
+    private AccessibilitySettingsSnapshot? _objectiveMarkerSettings;
+
+    private void UpdateObjectiveMarker(double delta)
+    {
+        var bridge = _bridge;
+        var player = _player;
+        if (_mission is not { } mission || bridge is null || !GodotObject.IsInstanceValid(bridge)
+            || bridge.SessionIdentity is not { } session
+            || player is null || !GodotObject.IsInstanceValid(player) || !player.IsInsideTree()
+            || !GodotObject.IsInstanceValid(_main) || !_main.IsInsideTree()
+            || RouteCueBlockedByModal() || MainMenuVisible || IntroVisible || _endingShown
+            || _introReplay || _photoWorldReplay || player.SessionTransitionActive || player.VehicleControlled
+            || GetTree().Paused)
+        {
+            HideObjectiveMarker();
+            return;
+        }
+
+        if (!Equals(_objectiveMarkerMission, mission) || !ReferenceEquals(_objectiveMarkerSession, session)
+            || _objectiveMarkerScene != bridge.ActiveSceneId || _objectiveMarkerZone != bridge.CurrentZoneId)
+        {
+            _objectiveMarkerMission = mission;
+            _objectiveMarkerSession = session;
+            _objectiveMarkerScene = bridge.ActiveSceneId;
+            _objectiveMarkerZone = bridge.CurrentZoneId;
+            _objectiveMarkerTarget = null;
+            _objectiveMarkerUsingAnchor = false;
+            _objectiveMarkerRetry = 0;
+        }
+
+        var camera = GetViewport().GetCamera3D();
+        if (camera is null || camera != player.GetNodeOrNull<Camera3D>("Head/Camera3D")
+            || (!string.IsNullOrWhiteSpace(mission.TargetZoneId) && mission.TargetZoneId != bridge.CurrentZoneId))
+        {
+            HideObjectiveMarker();
+            return;
+        }
+
+        var targetCurrent = ObjectiveMarkerTargetAvailable(_objectiveMarkerTarget, mission, _objectiveMarkerUsingAnchor);
+        if (!targetCurrent || (_objectiveMarkerUsingAnchor && !string.IsNullOrWhiteSpace(mission.InteractionId)))
+        {
+            if (!targetCurrent) _objectiveMarkerTarget = null;
+            _objectiveMarkerRetry -= delta;
+            if (_objectiveMarkerRetry <= 0)
+            {
+                _objectiveMarkerRetry = .75;
+                _objectiveMarkerTarget = ResolveObjectiveMarkerTarget(mission, out _objectiveMarkerUsingAnchor);
+            }
+        }
+        if (_objectiveMarkerTarget is not { } target)
+        {
+            HideObjectiveMarker();
+            return;
+        }
+        _objectiveMarkerTargetResolved = true;
+
+        EnsureObjectiveMarker();
+        var settings = player.Accessibility;
+        if (!Equals(_objectiveMarkerSettings, settings))
+        {
+            _objectiveMarkerSettings = settings;
+            _objectiveMarker!.Theme = UrmanUiTheme.For(settings);
+            UrmanUiTheme.ApplyWorldText(_objectiveMarkerLabel!, settings, UrmanUiTheme.Size.Small);
+            var colours = UrmanUiTheme.Colours(settings);
+            _objectiveMarkerGlyph!.Color = colours.Focus;
+            _objectiveMarkerOutline!.Color = colours.InkSunken;
+        }
+
+        var scale = Mathf.Clamp((float)settings.TextScale, .8f, 1.6f);
+        var viewportSize = GetViewport().GetVisibleRect().Size;
+        if (viewportSize.X < 160 || viewportSize.Y < 160)
+        {
+            HideObjectiveMarker();
+            return;
+        }
+        var label = _objectiveMarkerLabel!;
+        label.Visible = true;
+        var name = string.IsNullOrWhiteSpace(mission.TargetLabel) ? mission.Title : mission.TargetLabel;
+        var destination = target.GlobalPosition;
+        var waypoint = TryGetPhotoWorldObjectiveWaypoint(mission, bridge, player, target,
+            out var routePoint, out var routeLabel, out var inspectionTarget);
+        if (!waypoint)
+        {
+            waypoint = TryGetPublicBuildingObjectiveWaypoint(mission, player.GlobalPosition, player.BodyRadius,
+                out routePoint, out routeLabel);
+            if (!waypoint && mission.InteractionId is BankCopySourceInteractionId or BankCopyPermissionInteractionId
+                && bridge.ActiveSceneId == BankSceneId && bridge.CurrentZoneId == "village_day")
+            {
+                // Never fall back to a straight marker through the council walls
+                // if an authored approach or office waypoint cannot be resolved.
+                HideObjectiveMarker();
+                return;
+            }
+            waypoint = waypoint
+                || TryGetHomeYardExitObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel)
+                || TryGetPhotoBankObjectiveWaypoint(mission, player.GlobalPosition, destination, out routePoint, out routeLabel)
+                || TryGetSchoolObjectiveWaypoint(mission, player.GlobalPosition, player.BodyRadius, out routePoint, out routeLabel)
+                || TryGetSchoolToForestStreetWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel)
+                || TryGetForestBridgeObjectiveWaypoint(mission, player.GlobalPosition, player.BodyRadius, out routePoint, out routeLabel)
+                || TryGetHomeObjectiveWaypoint(mission, player.GlobalPosition, out routePoint, out routeLabel);
+        }
+        if (waypoint)
+        {
+            destination = routePoint;
+            name = routeLabel;
+        }
+        // Observation markers point at what to look at from here, not where to walk.
+        var destinationText = inspectionTarget
+            ? name
+            : $"{name} · {Mathf.CeilToInt(player.GlobalPosition.DistanceTo(destination))} м";
+        label.Text = destinationText;
+        var labelWidth = Mathf.Min(360f * scale, viewportSize.X - 32f);
+        label.Size = new Vector2(labelWidth, 28f * scale);
+        label.Position = new Vector2(-labelWidth / 2f, 24f * scale);
+        label.AutowrapMode = TextServer.AutowrapMode.Off;
+
+        var cameraForward3 = -camera.GlobalBasis.Z;
+        var forward = new Vector2(cameraForward3.X, cameraForward3.Z);
+        if (forward.LengthSquared() < .001f)
+        {
+            var playerForward3 = -player.GlobalBasis.Z;
+            forward = new Vector2(playerForward3.X, playerForward3.Z);
+        }
+        if (forward.LengthSquared() < .001f) forward = Vector2.Up;
+        forward = forward.Normalized();
+        var right = new Vector2(-forward.Y, forward.X);
+        var toDestination = new Vector2(destination.X - player.GlobalPosition.X,
+            destination.Z - player.GlobalPosition.Z);
+        var bearing = toDestination.LengthSquared() < .001f
+            ? Vector2.Up
+            : new Vector2(right.Dot(toDestination), -forward.Dot(toDestination));
+        if (bearing.LengthSquared() < .001f) bearing = Vector2.Up;
+        SetObjectiveBearingGlyph(bearing.Angle() + Mathf.Pi / 2f, .7f * scale);
+        _objectiveMarker!.Position = new Vector2(viewportSize.X / 2f, 32f * scale);
+        _objectiveMarker!.Visible = true;
+    }
+
+    private bool TryGetPhotoWorldObjectiveWaypoint(PlayerMission mission, RuntimeBridge bridge,
+        FirstPersonController player, Node3D target,
+        out Vector3 waypoint, out string label, out bool inspectionTarget)
+    {
+        waypoint = default;
+        label = string.Empty;
+        inspectionTarget = false;
+        var playerPosition = player.GlobalPosition;
+        if (mission.InteractionId == PhotoBankApproachPresence.LeafWitnessInteractionId
+            && _objectiveMarkerUsingAnchor && playerPosition.DistanceSquaredTo(target.GlobalPosition)
+                <= PhotoBankApproachPresence.LeafObservationRange * PhotoBankApproachPresence.LeafObservationRange)
+        {
+            // The witness follows the branch-to-snow animation. Use its real
+            // height so the cue leads the gaze that advances the event.
+            waypoint = target.GlobalPosition;
+            label = player.HasPhotoBookGrip ? "Уберите книгу" : "Следите за листом";
+            inspectionTarget = true;
+            return true;
+        }
+
+        if (mission.InteractionId == PhotoWorldEpiloguePresence.TakeNowInteractionId
+            && _objectiveMarkerUsingAnchor && player.IsOnFloor()
+            && playerPosition.DistanceSquaredTo(target.GlobalPosition)
+                <= PhotoWorldEpiloguePresence.CameraStanceRadius * PhotoWorldEpiloguePresence.CameraStanceRadius
+            && target.GetParent()?.GetNodeOrNull<InteractionTarget>(PhotoWorldEpiloguePresence.TakeNowTargetName) is { } frameTarget
+            && ObjectiveMarkerTargetAvailable(frameTarget, mission))
+        {
+            waypoint = frameTarget.GlobalPosition;
+            label = "Наведите камеру на стол";
+            inspectionTarget = true;
+            return true;
+        }
+
+        (string Node, string TurnCue)? entryWitness = mission.InteractionId switch
+        {
+            RuntimeBridge.PhotoBookForestEntryInteractionId => ("ForestPhotoEntryTarget", "Повернитесь к трём стволам"),
+            HousePhotoEntryInteractionId => ("HousePhotoEntryTarget", "Повернитесь к окну"),
+            RuntimeBridge.PhotoBookCellarEntryInteractionId => ("CellarPhotoEntryTarget", "Повернитесь к двери сеней"),
+            _ => null
+        };
+        if (entryWitness is { } entry
+            && _objectiveMarkerUsingAnchor && player.IsOnFloor()
+            && playerPosition.DistanceSquaredTo(target.GlobalPosition) <= 1.2f * 1.2f
+            && target.GetNodeOrNull<InteractionTarget>(entry.Node) is { } witness
+            && ObjectiveMarkerTargetAvailable(witness, mission))
+        {
+            waypoint = witness.GlobalPosition;
+            label = RuntimeBridge.IsFacingPhotoBookEntry(player, waypoint)
+                ? "Откройте книгу"
+                : entry.TurnCue;
+            inspectionTarget = true;
+            return true;
+        }
+
+        if (mission.InteractionId is (W04Controller.RelationsInteractionId or W04Controller.HorizonInteractionId)
+            && _main.GetNodeOrNull<W04Controller>("ZoneHost/W04") is { } common
+            && GodotObject.IsInstanceValid(common) && common.IsInsideTree() && !common.IsQueuedForDeletion())
+            return common.TryGetCommonObservationObjectiveTarget(bridge.PhotoWorldPresentationIdentity,
+                mission.InteractionId, player, out waypoint, out label, out inspectionTarget);
+
+        if (mission.InteractionId is (W05Controller.OrderInteractionId or W05Controller.BoxInteractionId)
+            && _main.GetNodeOrNull<W05Controller>("ZoneHost/W05") is { } cellar
+            && GodotObject.IsInstanceValid(cellar) && cellar.IsInsideTree() && !cellar.IsQueuedForDeletion())
+            return cellar.TryGetCellarObjectiveTarget(bridge.PhotoWorldPresentationIdentity,
+                mission.InteractionId, player, out waypoint, out label, out inspectionTarget);
+
+        if (mission.InteractionId is ("urman.fullgame:interaction/pw-water-reflection" or W02Controller.OldApproachInteractionId
+                or "urman.fullgame:interaction/pw-water-encounter" or "urman.fullgame:interaction/pw-water-damp-print"
+                or "urman.fullgame:interaction/pw-water-return")
+            && _main.GetNodeOrNull<W02Controller>("ZoneHost/W02") is { } river
+            && GodotObject.IsInstanceValid(river) && river.IsInsideTree() && !river.IsQueuedForDeletion())
+        {
+            if (mission.InteractionId == "urman.fullgame:interaction/pw-water-reflection")
+                return river.TryGetReflectionObjectiveTarget(bridge.PhotoWorldPresentationIdentity, player,
+                    out waypoint, out label, out inspectionTarget);
+            if (mission.InteractionId == W02Controller.OldApproachInteractionId)
+                return river.TryGetOldApproachObjectiveTarget(bridge.PhotoWorldPresentationIdentity, playerPosition,
+                    target.GlobalPosition, out waypoint, out label, out inspectionTarget);
+            return river.TryGetFarPierObjectiveTarget(bridge.PhotoWorldPresentationIdentity, playerPosition,
+                mission.InteractionId == "urman.fullgame:interaction/pw-water-encounter", out waypoint, out label);
+        }
+
+        if (mission.InteractionId is "urman.fullgame:interaction/pw-house-door-left"
+            or "urman.fullgame:interaction/pw-house-door-right"
+            or "urman.fullgame:interaction/pw-house-camera-position"
+            && _main.GetNodeOrNull<W03Controller>("ZoneHost/W03") is { } house
+            && GodotObject.IsInstanceValid(house) && house.IsInsideTree() && !house.IsQueuedForDeletion())
+        {
+            if (mission.InteractionId == "urman.fullgame:interaction/pw-house-camera-position")
+            {
+                inspectionTarget = house.TryGetHousePhotographerObjectiveTarget(
+                    bridge.PhotoWorldPresentationIdentity, playerPosition, out waypoint, out label);
+                return inspectionTarget;
+            }
+            return house.TryGetHouseDoorObjectiveTarget(bridge.PhotoWorldPresentationIdentity,
+                playerPosition, mission.InteractionId == "urman.fullgame:interaction/pw-house-door-left" ? 0 : 1,
+                out waypoint, out label, out inspectionTarget);
+        }
+
+        if (mission.InteractionId == ForestGroupObservationInteractionId
+            && bridge.ActiveSceneId == ForestSceneId
+            && _main.GetNodeOrNull<W01Controller>("ZoneHost/W01") is { } cameraForest
+            && GodotObject.IsInstanceValid(cameraForest) && cameraForest.IsInsideTree() && !cameraForest.IsQueuedForDeletion())
+        {
+            return cameraForest.TryGetForestCameraBackObjectiveTarget(
+                bridge.PhotoWorldPresentationIdentity, playerPosition,
+                out waypoint, out label, out inspectionTarget);
+        }
+
+        if (mission.InteractionId is not (ForestBeyondFrameInteractionId or ForestReturnInteractionId)
+            || bridge.ActiveSceneId != ForestSceneId
+            || _main.GetNodeOrNull<W01Controller>("ZoneHost/W01") is not { } forest
+            || !GodotObject.IsInstanceValid(forest) || !forest.IsInsideTree() || forest.IsQueuedForDeletion())
+            return false;
+
+        if (mission.InteractionId == ForestReturnInteractionId)
+            return forest.TryGetForestExitObjectiveTarget(bridge.PhotoWorldPresentationIdentity, playerPosition,
+                out waypoint, out label);
+
+        return forest.TryGetRootPassageObjectiveTarget(bridge.PhotoWorldPresentationIdentity, playerPosition,
+            out waypoint, out label, out inspectionTarget);
+    }
+
+    private bool TryGetPhotoBankObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition, Vector3 destination,
+        out Vector3 waypoint, out string label)
+    {
+        waypoint = default;
+        label = "Тропа к мосткам";
+        return _bridge?.CurrentZoneId == "village_day" && mission.TargetZoneId == "village_day"
+            && mission.InteractionId is (PhotoBankApproachPresence.RiverPhotoEntryInteractionId
+                or PhotoBankApproachPresence.CommonPhotoEntryInteractionId or PhotoBankApproachPresence.EnterBankInteractionId)
+            && Act1ConnectedWorld.TryGetPhotoBankTrailWaypoint(playerPosition, destination, out waypoint);
+    }
+
+    private bool TryGetHomeYardExitObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition,
+        out Vector3 waypoint, out string label)
+    {
+        waypoint = default;
+        label = "Калитка";
+        if (_bridge?.CurrentZoneId != "village_day" || mission.TargetZoneId != "village_day"
+            || mission.InteractionId is not ("urman.fullgame:interaction/pw-school-copy-source"
+                or "urman.fullgame:interaction/pw-school-copy-permission"
+                or RuntimeBridge.PhotoBookForestEntryInteractionId
+                or PhotoBankApproachPresence.RiverPhotoEntryInteractionId
+                or PhotoBankApproachPresence.CommonPhotoEntryInteractionId
+                or PhotoBankApproachPresence.EnterBankInteractionId))
+            return false;
+
+        var position = new Vector2(playerPosition.X, playerPosition.Z);
+        // Scope this detour to the Babai parcel and the short passage through
+        // the same gate plane used by the house-entry route. The school goal
+        // resumes after the player clears that gate approach.
+        if (BabaiRelocation.OutsideNewYard(position.X, position.Y) > .001f)
+            return false;
+
+        var route = HomeObjectiveRoute.Value;
+        var inward = (route[3] - route[2]).Normalized();
+        var gateOffset = (position - route[2]).Dot(inward);
+        if (gateOffset < 0f)
+        {
+            // Keep the exit cue until the capsule clears the gate post. The
+            // existing outside approach is only 1.2 m past the gate plane, so
+            // its short, narrow corridor cannot capture the street route.
+            const float corridorHalfWidth = .45f;
+            var outsideLeg = route[1] - route[2];
+            var routeFraction = (position - route[2]).Dot(outsideLeg) / outsideLeg.LengthSquared();
+            var fraction = Mathf.Clamp(routeFraction, 0f, 1f);
+            var corridorPoint = route[2] + outsideLeg * fraction;
+            if (position.DistanceSquaredTo(corridorPoint) > corridorHalfWidth * corridorHalfWidth
+                || routeFraction >= 1f)
+                return false;
+
+            waypoint = new Vector3(route[1].X,
+                AgentBAct1HeightField.CollisionGround(route[1].X, route[1].Y) + .05f,
+                route[1].Y);
+            label = "Дорожка за калиткой";
+            return true;
+        }
+
+        var closestDistance = float.PositiveInfinity;
+        var closestProgress = -1f;
+        var closestPoint = route[4];
+        var closestSegment = -1;
+        // HomeObjectiveRoute runs from the street through the gate to the door.
+        // Follow its last three segments in reverse, ending at the gate crossing.
+        for (var index = route.Count - 2; index >= 2; index--)
+        {
+            var outwardLeg = route[index] - route[index + 1];
+            var fraction = Mathf.Clamp((position - route[index + 1]).Dot(outwardLeg) / outwardLeg.LengthSquared(), 0f, 1f);
+            var point = route[index + 1] + outwardLeg * fraction;
+            var distance = position.DistanceSquaredTo(point);
+            var progress = route.Count - 2 - index + fraction;
+            if (distance < closestDistance - .0001f
+                || (Mathf.Abs(distance - closestDistance) <= .0001f && progress >= closestProgress))
+            {
+                closestDistance = distance;
+                closestProgress = progress;
+                closestPoint = point;
+                closestSegment = index;
+            }
+        }
+
+        if (closestSegment < 2)
+            return false;
+        var next = closestSegment;
+        // Advance a corner only after reaching it; never aim at the street-side
+        // continuation of the line, which would cut across the closed fence.
+        if (next > 2 && position.DistanceSquaredTo(route[next]) <= .15f * .15f)
+            next--;
+
+        var recovering = closestDistance > .5f * .5f;
+        var pointOnRoute = recovering ? closestPoint : route[next];
+        waypoint = new Vector3(pointOnRoute.X,
+            AgentBAct1HeightField.CollisionGround(pointOnRoute.X, pointOnRoute.Y) + .05f,
+            pointOnRoute.Y);
+        label = recovering ? "Дорожка к калитке" : next <= 3 ? "Калитка" : "Проход во дворе";
+        return true;
+    }
+
+    private bool TryGetForestBridgeObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition, float playerRadius,
+        out Vector3 waypoint, out string label)
+    {
+        waypoint = default;
+        label = "Подвесной мост";
+        var towardsForest = mission.InteractionId == RuntimeBridge.PhotoBookForestEntryInteractionId;
+        if (_bridge?.CurrentZoneId != "village_day" || mission.TargetZoneId != "village_day"
+            || (!towardsForest && mission.InteractionId != "urman.fullgame:interaction/pw-home-enter-house")
+            || _main.ConnectedWorld is not { SuspensionBridgeBroken: false })
+            return false;
+
+        const float x = Act1ConnectedWorld.SuspensionBridgeX;
+        var nearRim = Act1ConnectedWorld.GorgeNearRim(x);
+        var farRim = Act1ConnectedWorld.GorgeFarRim(x);
+        // These are the traversable approach positions on either side of the bridge.
+        var nearApproach = nearRim + 3.5f;
+        var farApproach = farRim - 3.5f;
+        var z = playerPosition.Z;
+        var across = Mathf.Abs(playerPosition.X - x);
+        if (z < farApproach - 16f || z > nearApproach + 16f || across > 18f
+            || (towardsForest ? z <= farApproach : z >= nearApproach)) return false;
+
+        var beforeFence = towardsForest ? z >= nearRim + 1.6f : z <= farRim - 1.6f;
+        // The rope walls leave a .8 m half-gap. Align with the approach
+        // before pointing through it, so the player capsule clears the rails.
+        var align = beforeFence && across > .8f - playerRadius - .1f;
+        var entry = towardsForest ? nearApproach : farApproach;
+        var exit = towardsForest ? farApproach : nearApproach;
+        var approaching = (towardsForest ? z - entry : entry - z) > .35f;
+        var destination = approaching || align ? entry : exit;
+        waypoint = new Vector3(x, AgentBAct1HeightField.CollisionGround(x, destination) + .05f, destination);
+        if (!approaching && !align) label = "Пройдите по мосту";
+        return true;
+    }
+
+    private bool TryGetSchoolObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition, float playerRadius,
+        out Vector3 waypoint, out string label)
+    {
+        waypoint = default;
+        var schoolCopyGoal = mission.InteractionId is
+            "urman.fullgame:interaction/pw-school-copy-source" or "urman.fullgame:interaction/pw-school-copy-permission";
+        label = schoolCopyGoal ? "Дверь учительской" : "Выход из школы";
+        if (_bridge?.CurrentZoneId != "village_day" || (!schoolCopyGoal && mission.TargetZoneId != "village_day"))
+            return false;
+
+        if (_objectiveMarkerSchool is null || !GodotObject.IsInstanceValid(_objectiveMarkerSchool)
+            || !_objectiveMarkerSchool.IsInsideTree() || _objectiveMarkerSchool.IsQueuedForDeletion()
+            || !_main.IsAncestorOf(_objectiveMarkerSchool))
+            _objectiveMarkerSchool = _main.ConnectedWorld?.GetNodeOrNull<Node3D>(
+                "Act1CoreWorldGreybox/SovkhozSquare/OldSchool");
+        var school = _objectiveMarkerSchool;
+        if (!ObjectiveMarkerTargetAvailable(school, mission, endpoint: true)) return false;
+        var local = school!.ToLocal(playerPosition);
+        var connectedWorld = _main.ConnectedWorld;
+        // SquareInteriors.School owns the 20 x 11 shell, corridor wall Z2.9 and these four doors.
+        const float corridorZ = 4.05f, staffX = -7.8f, roomSideZ = 2.35f, schoolFront = 5.5f;
+        const float frontWallThickness = .35f;
+        const float closedDoorStandoffZ = 7.35f;
+        const float exitPorchZ = 6.3f;
+        // The 1.15 m front windows leave only .45 m of centreline clearance
+        // after the .35 m player radius; clear the wall plane before crossing piers.
+        var safeLateralZ = schoolFront - frontWallThickness - playerRadius;
+        var inside = Mathf.Abs(local.X) < 9.65f && Mathf.Abs(local.Z) < 5.15f
+            && local.Y > -.2f && local.Y < 3.4f;
+        var clearingEntrance = Mathf.Abs(local.X) <= .85f && local.Z >= 5.15f && local.Z < exitPorchZ
+            && local.Y > -.2f && local.Y < 3.4f;
+        if (!schoolCopyGoal && local.Z >= exitPorchZ && Mathf.Abs(local.X) <= 1.6f
+            && connectedWorld?.AddressApproachPath("ACC-ADR-SQUARE-SCHOOL") is { Count: > 0 } schoolExit
+            && local.Z < school.ToLocal(schoolExit[0]).Z - .15f)
+        {
+            waypoint = schoolExit[0];
+            label = "Спуститесь по ступеням";
+            return true;
+        }
+        if (!schoolCopyGoal && !inside && !clearingEntrance) return false;
+        if (!schoolCopyGoal) label = clearingEntrance ? "Выход из школы" : "Коридор к выходу";
+        if (!schoolCopyGoal && (clearingEntrance || local.Z >= corridorZ)
+            && connectedWorld?.TryGetSchoolEntranceObjectivePoint(school, 4.65f, exitPorchZ,
+                out var exitPoint, out var exitOpen) == true
+            && (exitOpen || local.Z < schoolFront + playerRadius))
+        {
+            var gapX = school.ToLocal(exitPoint).X;
+            if (clearingEntrance || Mathf.Abs(local.X - gapX) <= .05f)
+            {
+                waypoint = exitPoint;
+                label = exitOpen ? "Выход из школы" : "Откройте входную дверь";
+            }
+            else
+            {
+                // Line up with the open half before moving toward the door.
+                // Recover to the corridor first if close to the window piers.
+                var align = local.Z <= safeLateralZ;
+                waypoint = school.ToGlobal(align ? new Vector3(gapX, .05f, local.Z)
+                    : new Vector3(local.X, .05f, corridorZ));
+            }
+            return true;
+        }
+        Vector3 destination;
+        if (!schoolCopyGoal && clearingEntrance)
+            destination = new(local.X, .05f, exitPorchZ);
+        else if (!inside)
+        {
+            label = "Вход в школу";
+            var side = local.X < 0f ? -1f : 1f;
+            if (local.Z < -5.15f && Mathf.Abs(local.X) < 10.45f)
+                destination = new(side * 10.6f, .05f, -6.1f);
+            else if (Mathf.Abs(local.X) >= 9.65f && local.Z < 6.15f)
+                destination = new(side * 10.6f, .05f, 6.3f);
+            else if (schoolCopyGoal && local.Z >= schoolFront - frontWallThickness)
+            {
+                label = "Вход в школу";
+                if (Mathf.Abs(local.X) > 1.25f)
+                {
+                    if (connectedWorld?.AddressApproachPath("ACC-ADR-SQUARE-SCHOOL") is { Count: > 0 } schoolApproach)
+                    {
+                        // Align outside the dynamic stair flight before the marker resumes the centerline.
+                        waypoint = schoolApproach[0];
+                        return true;
+                    }
+                    // If the authored stair approach is unavailable, stay outside rather than aim through the wall.
+                    destination = new(0, .05f, closedDoorStandoffZ);
+                }
+                else if (connectedWorld?.TryGetSchoolEntranceObjectivePoint(school!, closedDoorStandoffZ,
+                    corridorZ, out waypoint, out _) == true)
+                    return true;
+                else
+                    destination = new(0, .05f, closedDoorStandoffZ);
+            }
+            else if (local.Z < 6.15f)
+                destination = new(local.X, .05f, 6.3f);
+            else
+                destination = new(0, .05f, 6.3f);
+        }
+        else if (local.Z < 2.82f)
+        {
+            if (schoolCopyGoal && local.X < -6.28f)
+            {
+                if (local.Z <= 2.4f) return false;
+                destination = new(staffX, .05f, roomSideZ);
+            }
+            else
+            {
+                // Leave the current class/museum through its own opening, never through a partition.
+                var doorX = local.X < -6.28f ? staffX : local.X < -.5f ? -2.5f : local.X < 5.2f ? 2.5f : 6.4f;
+                destination = Mathf.Abs(local.X - doorX) > .1f
+                    ? new(doorX, .05f, Mathf.Min(local.Z, roomSideZ))
+                    : new(doorX, .05f, corridorZ);
+            }
+        }
+        else if (schoolCopyGoal && local.Z > safeLateralZ)
+        {
+            // FrontWall's 0.35 m body ends at Z5.15; the .35 m player radius
+            // needs to clear that plane before crossing the narrow window piers.
+            label = "Коридор к учительской";
+            destination = new(local.X, .05f, corridorZ);
+        }
+        else if (schoolCopyGoal && Mathf.Abs(local.X - staffX) <= .1f)
+            destination = new(staffX, .05f, roomSideZ);
+        else if (local.Z < corridorZ)
+        {
+            // The bench's near edge is Z3.61; Z4.05 leaves .09 m beyond the
+            // player's .35 m radius. Stay on this X until clear of the bench.
+            label = schoolCopyGoal ? "Коридор к учительской" : "Коридор к выходу";
+            destination = new(local.X, .05f, corridorZ);
+        }
+        else if (!schoolCopyGoal && Mathf.Abs(local.X) <= .1f)
+            // Clear the doorway before resuming the distant street destination.
+            destination = new(0, .05f, 6.3f);
+        else if (schoolCopyGoal)
+        {
+            label = "Дверь учительской";
+            destination = new(staffX, .05f, local.Z);
+        }
+        else
+        {
+            label = "Входная дверь";
+            destination = new(0, .05f, local.Z);
+        }
+
+        waypoint = school.ToGlobal(destination);
+        return true;
+    }
+
+    private bool TryGetSchoolToForestStreetWaypoint(PlayerMission mission, Vector3 playerPosition,
+        out Vector3 waypoint, out string label)
+    {
+        waypoint = default;
+        label = "Главная улица";
+        if (_bridge?.CurrentZoneId != "village_day" || mission.TargetZoneId != "village_day"
+            || mission.InteractionId != RuntimeBridge.PhotoBookForestEntryInteractionId)
+            return false;
+
+        // The school opens onto the north side of the square. Take its
+        // pedestrian path east of the garden before resuming the forest cue.
+        var west = AgentBAct1Layout.PlazaWalkAxis[5];
+        var east = AgentBAct1Layout.PlazaWalkAxis[6];
+        var street = AgentBAct1Layout.MainRoadAxis[4];
+        var position = new Vector2(playerPosition.X, playerPosition.Z);
+        if (position.X < west.X - .5f || position.X >= street.X - .9f
+            || position.Y < east.Y - 1f || position.Y > east.Y + 6f)
+            return false;
+
+        var point = street;
+        if (position.X < east.X - .35f)
+        {
+            point = position.Y > east.Y + .45f
+                ? new Vector2(Mathf.Clamp(position.X, west.X, east.X), east.Y)
+                : east;
+            label = "Дорожка вдоль площади";
+        }
+        waypoint = new Vector3(point.X, AgentBAct1HeightField.CollisionGround(point.X, point.Y) + .05f, point.Y);
+        return true;
+    }
+
+    private bool TryGetPublicBuildingObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition,
+        float playerRadius, out Vector3 waypoint, out string label)
+    {
+        waypoint = default;
+        label = string.Empty;
+        if (mission.InteractionId is not (BankCopySourceInteractionId or BankCopyPermissionInteractionId)
+            || _bridge is not { } bridge || bridge.ActiveSceneId != BankSceneId || bridge.CurrentZoneId != "village_day"
+            || _objectiveMarkerTarget is not { } target || !IsCouncilBankNavigationTarget(target, mission)
+            || _main.ConnectedWorld is not { } world)
+            return false;
+
+        Act1ConnectedWorld.PublicBuildingRoom? council = null;
+        foreach (var room in world.PublicBuildingRooms)
+        {
+            if (room.Id != "council") continue;
+            council = room;
+            break;
+        }
+        if (council is null || !world.IsAncestorOf(council.Building)) return false;
+
+        var playerPlanar = new Vector2(playerPosition.X, playerPosition.Z);
+        var interior = world.PublicInteriorAt(playerPosition);
+        if (interior != council.Id)
+        {
+            var approach = new Vector2(council.Outside.X, council.Outside.Z);
+            var entrance = new Vector2(council.Entrance.X, council.Entrance.Z);
+            var approachDistance = approach.DistanceTo(entrance);
+            if (playerPlanar.DistanceTo(approach) > approachDistance)
+            {
+                waypoint = council.Outside;
+                label = "Сельсовет";
+            }
+            else
+            {
+                waypoint = council.OuterDoor.GlobalPosition;
+                label = "Вход в сельсовет";
+            }
+            return true;
+        }
+
+        if (council.SeniVolume.HasPoint(council.Metric.ToLocal(playerPosition)))
+        {
+            var vestibule = new Vector2(council.Vestibule.X, council.Vestibule.Z);
+            var inside = new Vector2(council.Inside.X, council.Inside.Z);
+            if (playerPlanar.DistanceTo(vestibule) > vestibule.DistanceTo(inside))
+            {
+                waypoint = council.Vestibule;
+                label = "Входной проход";
+            }
+            else
+            {
+                waypoint = council.InnerDoor.GlobalPosition;
+                label = "Дверь в зал";
+            }
+            return true;
+        }
+
+        if (_objectiveMarkerTarget is InteractionTarget { PresentationEnabled: false })
+        {
+            var sidePartition = council.Room.GetNodeOrNull<StaticBody3D>("OfficeSidePartitionBody");
+            var sideShape = sidePartition?.GetNodeOrNull<CollisionShape3D>("Contact");
+            StaticBody3D? frontPier = null;
+            CollisionShape3D? frontShape = null;
+            var doorFrame = council.Room.GetNodeOrNull<Node3D>("CouncilOfficeFrame");
+            if (doorFrame is null) return false;
+            var frameRoomX = council.Room.ToLocal(doorFrame.GlobalPosition).X;
+            var openingLeft = float.NegativeInfinity;
+            var openingRight = float.PositiveInfinity;
+            var foundLeftPier = false;
+            var foundRightPier = false;
+            foreach (var child in council.Room.GetChildren())
+            {
+                if (child is StaticBody3D body
+                    && body.Name.ToString().StartsWith("OfficeFrontPier", StringComparison.Ordinal))
+                {
+                    var contact = body.GetNodeOrNull<CollisionShape3D>("Contact");
+                    if (contact?.Shape is not BoxShape3D pierBox) return false;
+                    frontPier ??= body;
+                    frontShape ??= contact;
+                    var pierCenterX = council.Room.ToLocal(contact.GlobalPosition).X;
+                    var pierHalfWidth = pierBox.Size.X * .5f;
+                    var pierLeft = pierCenterX - pierHalfWidth;
+                    var pierRight = pierCenterX + pierHalfWidth;
+                    if (pierRight <= frameRoomX)
+                    {
+                        openingLeft = Mathf.Max(openingLeft, pierRight);
+                        foundLeftPier = true;
+                    }
+                    else if (pierLeft >= frameRoomX)
+                    {
+                        openingRight = Mathf.Min(openingRight, pierLeft);
+                        foundRightPier = true;
+                    }
+                }
+            }
+            var desk = council.Room.GetNodeOrNull<Node3D>("CouncilDesk");
+            if (sidePartition is null || sideShape is null || sideShape.Shape is not BoxShape3D sideBox
+                || frontPier is null || frontShape is null || frontShape.Shape is not BoxShape3D frontBox
+                || !foundLeftPier || !foundRightPier || openingLeft >= frameRoomX || openingRight <= frameRoomX
+                || desk is null)
+                return false;
+
+            var sidePlayer = sideShape.ToLocal(playerPosition);
+            var sideDesk = sideShape.ToLocal(desk.GlobalPosition);
+            var frontPlayer = frontShape.ToLocal(playerPosition);
+            var frontDesk = frontShape.ToLocal(desk.GlobalPosition);
+            if (Mathf.IsZeroApprox(sideDesk.X) || Mathf.IsZeroApprox(frontDesk.Z)) return false;
+            var insideOffice = sidePlayer.X * Mathf.Sign(sideDesk.X) > sideBox.Size.X * .5f
+                && frontPlayer.Z * Mathf.Sign(frontDesk.Z) > frontBox.Size.Z * .5f;
+            if (!insideOffice)
+            {
+                var officeDoor = world.GetZoneInstance("village_day")?.GetNodeOrNull<InteractionTarget>("CouncilOfficeDoorUse");
+                if (officeDoor is null || !GodotObject.IsInstanceValid(officeDoor) || !officeDoor.IsInsideTree()
+                    || officeDoor.IsQueuedForDeletion() || officeDoor.InteractionId != CouncilOfficeDoorInteractionId
+                    || !ObjectiveMarkerTargetVisible(officeDoor))
+                    return false;
+
+                var hallSideX = -Mathf.Sign(sideDesk.X);
+                var hallSideZ = -Mathf.Sign(frontDesk.Z);
+                var frontEndZ = sideShape.ToLocal(frontPier.GlobalPosition).Z;
+                const float routeMargin = .05f;
+                var frontWallClearance = frontBox.Size.Z * .5f + playerRadius + routeMargin;
+                var behindPartitionEnd = (sidePlayer.Z - frontEndZ) * hallSideZ < frontWallClearance - .02f;
+                var onHallSide = sidePlayer.X * hallSideX > sideBox.Size.X * .5f;
+                if (onHallSide && behindPartitionEnd)
+                {
+                    var detour = sideShape.ToGlobal(new Vector3(
+                        hallSideX * (sideBox.Size.X * .5f + playerRadius + routeMargin), 0,
+                        frontEndZ + hallSideZ * frontWallClearance));
+                    var roomPoint = council.Room.ToLocal(detour);
+                    roomPoint.Y = council.Room.ToLocal(council.Inside).Y;
+                    waypoint = council.Room.ToGlobal(roomPoint);
+                    label = "Обойдите перегородку";
+                    return true;
+                }
+
+                var frameInFrontWall = frontShape.ToLocal(doorFrame.GlobalPosition);
+                var insideHeightInFrontWall = frontShape.ToLocal(council.Inside).Y;
+                var doorwayApproach = frontShape.ToGlobal(new Vector3(frameInFrontWall.X, insideHeightInFrontWall,
+                    hallSideZ * frontWallClearance));
+                var safeStripLeft = openingLeft + playerRadius + routeMargin;
+                var safeStripRight = openingRight - playerRadius - routeMargin;
+                if (safeStripLeft >= safeStripRight) return false;
+                var playerInRoom = council.Room.ToLocal(playerPosition);
+                var inSafeDoorwayStrip = playerInRoom.X >= safeStripLeft && playerInRoom.X <= safeStripRight;
+                var approachSideDistance = (frontPlayer.Z - hallSideZ * frontWallClearance) * hallSideZ;
+                if (!inSafeDoorwayStrip || approachSideDistance > -.02f)
+                {
+                    waypoint = doorwayApproach;
+                    label = "Подойдите к проёму";
+                    return true;
+                }
+
+                waypoint = officeDoor.GlobalPosition;
+                label = "Дверь в кабинет";
+                return true;
+            }
+        }
+
+        waypoint = target.GlobalPosition;
+        label = string.IsNullOrWhiteSpace(mission.TargetLabel) ? "Схема на столе" : mission.TargetLabel;
+        return true;
+    }
+
+    private bool TryGetHomeObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition,
+        out Vector3 waypoint, out string label)
+    {
+        waypoint = default;
+        label = "Вход в дом";
+        if (_bridge?.CurrentZoneId != "village_day" || mission.InteractionId is not
+            ("urman.fullgame:interaction/pw-home-enter-house" or "urman.chapter1:interaction/arrival-enter-house"))
+            return false;
+
+        // If the player can already aim at the actual door, do not send them
+        // back to an intermediate gate waypoint on the other side of the yard.
+        if (_player is { } player && player.FocusedInteractionId == mission.InteractionId
+            && _objectiveMarkerTarget is InteractionTarget doorTarget && doorTarget.IsAvailable())
+            return false;
+
+        var route = HomeObjectiveRoute.Value;
+        var position = new Vector2(playerPosition.X, playerPosition.Z);
+        var door = _objectiveMarkerTarget!.GlobalPosition;
+        var fromDoor = playerPosition - door;
+        // The gate's infinite plane also cuts through the porch. Once in the
+        // narrow front-door approach, the door is the destination, not the gate behind us.
+        if (fromDoor.X >= 0f && fromDoor.X <= 3f && Mathf.Abs(fromDoor.Z) <= 1f)
+            return false;
+        var inward = (route[3] - route[2]).Normalized();
+        // Once across the gate plane, never send the player back to the street approach.
+        var insideYard = (position - route[2]).Dot(inward) >= 0f;
+        var firstSegment = insideYard ? 2 : 0;
+        var lastSegment = insideYard ? route.Count - 2 : 1;
+        var closestDistance = float.PositiveInfinity;
+        var closestProgress = -1f;
+        var closestPoint = route[firstSegment];
+        var closestSegment = firstSegment;
+        var next = firstSegment + 1;
+        for (var index = firstSegment; index <= lastSegment; index++)
+        {
+            var leg = route[index + 1] - route[index];
+            var fraction = Mathf.Clamp((position - route[index]).Dot(leg) / leg.LengthSquared(), 0f, 1f);
+            var distance = position.DistanceSquaredTo(route[index] + leg * fraction);
+            var progress = index + fraction;
+            if (distance < closestDistance - .0001f
+                || (Mathf.Abs(distance - closestDistance) <= .0001f && progress >= closestProgress))
+            {
+                closestDistance = distance;
+                closestProgress = progress;
+                closestPoint = route[index] + leg * fraction;
+                closestSegment = index;
+                next = index + 1;
+            }
+        }
+
+        // The inside node is only .85 m beyond the gate: .15 m leaves .70 m before the turn,
+        // keeping the .35 m capsule clear instead of cutting the corner through the fence.
+        if (position.DistanceSquaredTo(route[next]) <= .15f * .15f) next++;
+        if (next >= route.Count || closestProgress >= route.Count - 1) return false;
+        var point = route[next];
+        var recovering = closestDistance > .5f * .5f;
+        if (recovering)
+        {
+            // Recover onto the authored approach before aiming at its next corner through a fence.
+            point = closestPoint;
+            if (!insideYard && closestSegment == 1)
+            {
+                var approach = route[2] - route[1];
+                // Leave room outside the gate for the .35 m capsule to clear the fence end.
+                var lastRecoveryFraction = Mathf.Max(0f, 1f - .6f / approach.Dot(inward));
+                point = route[1] + approach * Mathf.Min(closestProgress - 1f, lastRecoveryFraction);
+            }
+        }
+        waypoint = new Vector3(point.X, AgentBAct1HeightField.CollisionGround(point.X, point.Y) + .05f, point.Y);
+        label = recovering ? "Дорожка к дому" : next == 1 ? "Подход к дому"
+            : next == 2 ? "Калитка" : next <= 4 ? "Проход во дворе" : "Вход в дом";
+        return true;
+    }
+
+    internal bool TryGetVillageMapNavigation(RuntimeBridge bridge, out Vector2 position, out Vector2 forward,
+        out Vector2? objective, out string? label)
+    {
+        position = forward = default;
+        objective = null;
+        label = null;
+        if (!ReferenceEquals(_bridge, bridge) || !bridge.IsPhotoWorldsCampaign
+            || bridge.SessionIdentity is null || bridge.IsPhotoWorldPresentationDeferred
+            || bridge.ActiveSceneId != "urman.fullgame:scene/pw-home"
+            || bridge.CurrentZoneId is not ("village_day" or "house_old_pc")
+            || !GodotObject.IsInstanceValid(_main) || !_main.IsInsideTree()
+            || _player is not { } player || !GodotObject.IsInstanceValid(player)
+            || !player.IsInsideTree() || player.IsQueuedForDeletion() || player.SessionTransitionActive
+            || player.GetNodeOrNull<Camera3D>("Head/Camera3D") is not { } camera)
+            return false;
+
+        position = new Vector2(player.GlobalPosition.X, player.GlobalPosition.Z);
+        var direction = -camera.GlobalBasis.Z;
+        forward = new Vector2(direction.X, direction.Z).Normalized();
+        if (JournalUi.CurrentPlayerMission(bridge) is not { } mission
+            || (!string.IsNullOrWhiteSpace(mission.TargetZoneId) && mission.TargetZoneId != bridge.CurrentZoneId))
+            return true;
+
+        // A map marks the authored approach stance; the world cue may point at its facing witness.
+        var anchor = string.IsNullOrWhiteSpace(mission.AnchorPath) ? null : _main.GetNodeOrNull<Node3D>(mission.AnchorPath);
+        var target = ObjectiveMarkerTargetAvailable(anchor, mission, endpoint: true)
+            ? anchor : ResolveObjectiveMarkerTarget(mission, out _);
+        if (target is null) return true;
+        objective = new Vector2(target.GlobalPosition.X, target.GlobalPosition.Z);
+        label = string.IsNullOrWhiteSpace(mission.TargetLabel) ? mission.Title : mission.TargetLabel;
+        return true;
+    }
+
+    private Node3D? ResolveObjectiveMarkerTarget(PlayerMission mission, out bool usingAnchor)
+    {
+        if (mission.InteractionId is HousePhotoEntryInteractionId or RuntimeBridge.PhotoBookCellarEntryInteractionId)
+        {
+            // The entry gates use stances computed from the live façades.
+            var anchorId = mission.InteractionId == HousePhotoEntryInteractionId
+                ? "PW_HOME_PHOTO_ENTRY" : "PW_CELLAR_ENTRY";
+            usingAnchor = true;
+            return _main.TryGetPhotoVisitOriginAnchor("village_day", anchorId, out var stance)
+                && ObjectiveMarkerTargetAvailable(stance, mission, endpoint: true) ? stance : null;
+        }
+
+        var anchor = string.IsNullOrWhiteSpace(mission.AnchorPath) ? null : _main.GetNodeOrNull<Node3D>(mission.AnchorPath);
+        // Guide players to the stance first when an action checks their position.
+        if ((mission.BookAction == PlayerBookAction.Enter
+                || mission.InteractionId == PhotoWorldEpiloguePresence.TakeNowInteractionId)
+            && ObjectiveMarkerTargetAvailable(anchor, mission, endpoint: true))
+        {
+            usingAnchor = true;
+            return anchor;
+        }
+
+        usingAnchor = false;
+        if (!string.IsNullOrWhiteSpace(mission.InteractionId))
+        {
+            // The HUD caches this lookup; the map resolves once when its notebook projection refreshes.
+            var pending = new Stack<Node>();
+            pending.Push(_main);
+            while (pending.TryPop(out var node))
+            {
+                if (node.IsQueuedForDeletion() || (node is Node3D { Visible: false } spatial
+                    && !IsActiveSuppressedObjectiveZone(spatial))) continue;
+                if (node is InteractionTarget target && ObjectiveMarkerTargetAvailable(target, mission)) return target;
+                foreach (var child in node.GetChildren()) pending.Push(child);
+            }
+        }
+        if (!ObjectiveMarkerTargetAvailable(anchor, mission, endpoint: true)) return null;
+        usingAnchor = true;
+        return anchor;
+    }
+
+    private bool ObjectiveMarkerTargetAvailable(Node3D? target, PlayerMission mission, bool endpoint = false)
+    {
+        if (target is null || !GodotObject.IsInstanceValid(target) || target.IsQueuedForDeletion()
+            || !target.IsInsideTree() || !ObjectiveMarkerTargetVisible(target) || !_main.IsAncestorOf(target)) return false;
+        if (target is InteractionTarget { PresentationEnabled: false }
+            && !IsCouncilBankNavigationTarget(target, mission)) return false;
+        // The mission owns semantic unlocks; proximity/aim gates must not hide a known destination.
+        return endpoint || string.IsNullOrWhiteSpace(mission.InteractionId)
+            || target is InteractionTarget interaction && interaction.InteractionId == mission.InteractionId;
+    }
+
+    private bool IsCouncilBankNavigationTarget(Node3D target, PlayerMission mission)
+    {
+        if (target is not InteractionTarget interaction || !GodotObject.IsInstanceValid(interaction)
+            || interaction.InteractionId != mission.InteractionId
+            || mission.InteractionId is not (BankCopySourceInteractionId or BankCopyPermissionInteractionId)
+            || !interaction.IsInsideTree() || interaction.IsQueuedForDeletion()
+            || _bridge is not { } bridge || bridge.ActiveSceneId != BankSceneId || bridge.CurrentZoneId != "village_day"
+            || !GodotObject.IsInstanceValid(_main) || !_main.IsInsideTree()
+            || _main.ConnectedWorld is not { } world || !world.IsAncestorOf(interaction))
+            return false;
+
+        foreach (var room in world.PublicBuildingRooms)
+            if (room.Id == "council" && room.Building.IsAncestorOf(interaction)) return true;
+        return false;
+    }
+
+    private static bool ObjectiveMarkerTargetVisible(Node3D target)
+    {
+        if (!target.Visible) return false;
+        for (var ancestor = target.GetParent(); ancestor is not null; ancestor = ancestor.GetParent())
+        {
+            if (ancestor.IsQueuedForDeletion()
+                || (ancestor is Node3D { Visible: false } spatial && !IsActiveSuppressedObjectiveZone(spatial)))
+                return false;
+        }
+        return true;
+    }
+
+    // The active legacy street hides its old visuals while retaining the real interaction owners.
+    private static bool IsActiveSuppressedObjectiveZone(Node3D node) => node is StyleBenchmarkZone
+        && node.GetMeta("legacyPresentationSuppressed", false).AsBool()
+        && node.GetMeta("activePresentation", false).AsBool();
+
+    private void EnsureObjectiveMarker()
+    {
+        if (_objectiveMarker is not null && GodotObject.IsInstanceValid(_objectiveMarker)) return;
+        var layer = GetNodeOrNull<CanvasLayer>("Act1DemoRouteCue");
+        if (layer is null)
+        {
+            layer = new CanvasLayer { Name = "Act1ObjectiveMarker", Layer = 84 };
+            AddChild(layer);
+        }
+        _objectiveMarker = new Control { Name = "ObjectiveMarker", MouseFilter = Control.MouseFilterEnum.Ignore, Visible = false };
+        layer.AddChild(_objectiveMarker);
+        _objectiveMarkerOutline = new Polygon2D { Name = "Outline" };
+        _objectiveMarkerGlyph = new Polygon2D { Name = "Destination" };
+        _objectiveMarker.AddChild(_objectiveMarkerOutline);
+        _objectiveMarker.AddChild(_objectiveMarkerGlyph);
+        _objectiveMarkerLabel = new Label
+        {
+            Name = "DestinationLabel", HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Top, TextOverrunBehavior = TextServer.OverrunBehavior.TrimEllipsis,
+            ThemeTypeVariation = UrmanUiTheme.Hint,
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        };
+        _objectiveMarker.AddChild(_objectiveMarkerLabel);
+        _objectiveMarkerSettings = null;
+    }
+
+    private void SetObjectiveBearingGlyph(float rotation, float scale)
+    {
+        _objectiveMarkerGlyph!.Polygon = ObjectiveArrow;
+        _objectiveMarkerOutline!.Polygon = ObjectiveArrow;
+        _objectiveMarkerGlyph.Rotation = _objectiveMarkerOutline.Rotation = rotation;
+        _objectiveMarkerGlyph.Scale = Vector2.One * scale;
+        _objectiveMarkerOutline.Scale = Vector2.One * scale * 1.4f;
+    }
+
+    private void HideObjectiveMarker()
+    {
+        _objectiveMarkerTargetResolved = false;
+        if (_objectiveMarker is not null && GodotObject.IsInstanceValid(_objectiveMarker)) _objectiveMarker.Visible = false;
+        if (_routeCueDestination is not null) _routeCueDestination.Visible = false;
+    }
+}

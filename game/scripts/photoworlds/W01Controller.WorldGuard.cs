@@ -7,21 +7,33 @@ public partial class W01Controller
 {
     private const float ForestWorldGuardInset = 0.5f;
     private const string ForestWorldGroundName = "F00F16GroundVisual";
+    private const string PrologueNightAtmosphereId = "kara-winter-night-edge";
 
     private Aabb _forestWorldGroundBoundsLocal;
     private bool _forestWorldGroundBoundsCached;
     private Func<Vector3, (Vector3 Position, float Ground)>? _ownedForestWorldGuard;
     private object? _forestWorldGuardSessionIdentity;
     private bool _forestWorldGuardBoundsErrorReported;
+    private WorldEnvironment? _w01EnvironmentOwner;
+    private global::Godot.Environment? _authoredW01Environment;
+    private global::Godot.Environment? _prologueW01Environment;
+    private DirectionalLight3D? _w01Daylight;
+    private OmniLight3D? _prologueClearingMoonlight;
+    private (Color Color, float Energy, float ShadowOpacity, Vector3 Rotation) _authoredW01Sun;
+    private bool _w01AtmosphereOwnerErrorReported;
+    private bool _prologueW01EnvironmentCreationAttempted;
+    private bool _prologueAtmosphereApplied;
 
     private void ApplyForestWorldGuardProjection(RuntimeBridge.W01BranchProjection? projection)
     {
         if (!IsCurrentForestWorldProjection(projection, out var bridge))
         {
+            ApplyW01AtmosphereProjection(null);
             ReleaseForestWorldGuard();
             return;
         }
 
+        ApplyW01AtmosphereProjection(projection);
         _forestWorldGuardSessionIdentity = projection!.SessionIdentity;
         EnsureForestWorldGuardInstalled(bridge);
     }
@@ -31,6 +43,7 @@ public partial class W01Controller
         if (!IsInsideTree() || IsQueuedForDeletion()
             || _bridge is not { } bridge || !IsValidCurrentBridge(bridge))
         {
+            ApplyW01AtmosphereProjection(null);
             ReleaseForestWorldGuard();
             return;
         }
@@ -38,12 +51,116 @@ public partial class W01Controller
         var projection = bridge.CurrentW01BranchProjection();
         if (!IsCurrentForestWorldProjection(projection, out bridge))
         {
+            ApplyW01AtmosphereProjection(null);
             ReleaseForestWorldGuard();
             return;
         }
 
+        ApplyW01AtmosphereProjection(projection);
         _forestWorldGuardSessionIdentity = projection!.SessionIdentity;
         EnsureForestWorldGuardInstalled(bridge);
+    }
+
+    private void ApplyW01AtmosphereProjection(RuntimeBridge.W01BranchProjection? projection)
+    {
+        if (_w01EnvironmentOwner is null || _authoredW01Environment is null || _w01Daylight is null)
+        {
+            if (_w01AtmosphereOwnerErrorReported) return;
+            var foundOwner = GetNodeOrNull<WorldEnvironment>("WorldEnvironment");
+            var foundDaylight = GetNodeOrNull<DirectionalLight3D>("Daylight");
+            var clearingMoonlight = GetNodeOrNull<OmniLight3D>("PrologueClearingMoonlight");
+            if (foundOwner?.Environment is not { } environment || foundDaylight is null || clearingMoonlight is null)
+            {
+                GD.PushError("W01 atmosphere requires its authored environment and lights.");
+                _w01AtmosphereOwnerErrorReported = true;
+                return;
+            }
+
+            _w01EnvironmentOwner = foundOwner;
+            _authoredW01Environment = environment;
+            _w01Daylight = foundDaylight;
+            _prologueClearingMoonlight = clearingMoonlight;
+            _authoredW01Sun = (foundDaylight.LightColor, foundDaylight.LightEnergy,
+                foundDaylight.ShadowOpacity, foundDaylight.RotationDegrees);
+        }
+
+        var owner = _w01EnvironmentOwner!;
+        var authoredEnvironment = _authoredW01Environment!;
+        var daylight = _w01Daylight!;
+
+        if (projection is { ActiveSceneId: PrologueSceneId })
+        {
+            if (_prologueAtmosphereApplied) return;
+            var night = AtmosphereProfiles.Get(PrologueNightAtmosphereId);
+            if (!_prologueW01EnvironmentCreationAttempted)
+            {
+                _prologueW01EnvironmentCreationAttempted = true;
+                _prologueW01Environment = CreatePrologueW01Environment(authoredEnvironment, night);
+            }
+            if (_prologueW01Environment is null) return;
+
+            owner.Environment = _prologueW01Environment;
+            // The scene-authored environment is also the full-forest look, so only the prologue uses this clone.
+            daylight.LightColor = night.SunColor;
+            daylight.LightEnergy = night.SunEnergy;
+            daylight.ShadowOpacity = night.ShadowOpacity;
+            daylight.RotationDegrees = night.SunRotation;
+            _prologueClearingMoonlight!.Show();
+            GraphicsQuality.ConfigureEnvironment(_prologueW01Environment);
+            GraphicsQuality.ConfigureSun(daylight);
+            _prologueAtmosphereApplied = true;
+        }
+        else if (_prologueAtmosphereApplied)
+        {
+            owner.Environment = authoredEnvironment;
+            daylight.LightColor = _authoredW01Sun.Color;
+            daylight.LightEnergy = _authoredW01Sun.Energy;
+            daylight.ShadowOpacity = _authoredW01Sun.ShadowOpacity;
+            daylight.RotationDegrees = _authoredW01Sun.Rotation;
+            _prologueClearingMoonlight!.Hide();
+            GraphicsQuality.ConfigureEnvironment(authoredEnvironment);
+            GraphicsQuality.ConfigureSun(daylight);
+            _prologueAtmosphereApplied = false;
+        }
+    }
+
+    private static global::Godot.Environment? CreatePrologueW01Environment(
+        global::Godot.Environment authoredEnvironment, AtmosphereProfile night)
+    {
+        if (authoredEnvironment.Duplicate(true) is not global::Godot.Environment profile
+            || profile.Sky?.SkyMaterial is not ProceduralSkyMaterial sky)
+        {
+            GD.PushError("W01 prologue atmosphere could not clone its authored procedural-sky environment.");
+            return null;
+        }
+
+        sky.SkyTopColor = night.SkyTop;
+        sky.SkyHorizonColor = night.SkyHorizon;
+        sky.GroundHorizonColor = night.GroundHorizon;
+        sky.GroundBottomColor = night.GroundBottom;
+        sky.SunAngleMax = night.SunAngleMax;
+        sky.SunCurve = night.SunCurve;
+        sky.SkyCoverModulate = night.Cover;
+        profile.AmbientLightSource = global::Godot.Environment.AmbientSource.Color;
+        profile.AmbientLightColor = night.AmbientColor;
+        profile.AmbientLightEnergy = night.AmbientEnergy * .72f;
+        profile.AmbientLightSkyContribution = night.AmbientSky;
+        profile.TonemapExposure = night.Exposure;
+        profile.FogEnabled = true;
+        profile.FogMode = global::Godot.Environment.FogModeEnum.Exponential;
+        // Hold the snow and tracks in the foreground while the tree line loses depth.
+        profile.FogLightColor = night.FogColor.Darkened(.35f);
+        profile.FogDensity = night.FogDensity * 1.32f;
+        profile.FogHeight = night.FogHeight;
+        profile.FogHeightDensity = night.FogHeightDensity;
+        profile.FogAerialPerspective = night.FogAerial;
+        profile.FogSkyAffect = night.FogSkyAffect;
+        profile.FogSunScatter = night.FogSunScatter;
+        profile.SsaoIntensity = night.SsaoIntensity;
+        profile.SsaoRadius = night.SsaoRadius;
+        // Record this variant's authored ambient once; reapplying a quality preset must not compound it.
+        GraphicsQuality.ConfigureEnvironment(profile, authoredSsao: true);
+        return profile;
     }
 
     private void ReleaseForestWorldGuard()

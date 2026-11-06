@@ -12,7 +12,7 @@ public partial class Main
 {
     private static int _photoSceneRequestSequence;
     private int _photoScenePreloadGeneration;
-    private string? _preparedPhotoScenePath;
+    private string? _preparedPhotoSceneId;
     private PackedScene? _preparedPhotoScene;
     private int _preparedPhotoGeneration;
     private readonly List<Resource> _preparedPhotoResources = new();
@@ -73,7 +73,8 @@ public partial class Main
 
     internal bool TryPlacePlayerAtPhotoSafeNode(object session, string worldId, string safeNodeId)
     {
-        if (!TryGetMountedPhotoSafeNode(session, worldId, safeNodeId, out var player, out var anchor)
+        if (!TryGetMountedPhotoSafeNode(session, worldId, safeNodeId, out var player, out var anchor,
+                allowPrologueRecovery: true)
             || !player.SessionTransitionActive || player.VehicleControlled || player.IsClimbingLadder)
             return false;
 
@@ -131,17 +132,25 @@ public partial class Main
     }
 
     private bool TryGetMountedPhotoSafeNode(object session, string worldId, string safeNodeId,
-        out FirstPersonController player, out Marker3D anchor)
+        out FirstPersonController player, out Marker3D anchor, bool allowPrologueRecovery = false)
     {
         player = null!;
         anchor = null!;
-        if (!PhotoWorldState.IsVisitSafeNode(worldId, safeNodeId)
-            || !PhotoWorldState.TryGetVisitRoute(worldId, out var sceneId, out _)
-            || !GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()
+        if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()
             || _fullGameRouteBridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
             || !bridge.IsInsideTree() || bridge.IsQueuedForDeletion()
-            || !ReferenceEquals(session, bridge.ProjectionSessionIdentity) || bridge.ActiveSceneId != sceneId
-            || !IsPhotoSceneMounted(sceneId)
+            || !ReferenceEquals(session, bridge.ProjectionSessionIdentity))
+            return false;
+
+        string sceneId;
+        if (allowPrologueRecovery && worldId == "W01" && safeNodeId is ("F00" or "F02")
+            && bridge.ActiveSceneId == PrologueSceneId)
+            sceneId = PrologueSceneId;
+        else if (!PhotoWorldState.IsVisitSafeNode(worldId, safeNodeId)
+            || !PhotoWorldState.TryGetVisitRoute(worldId, out sceneId, out _))
+            return false;
+
+        if (bridge.ActiveSceneId != sceneId || !IsPhotoSceneMounted(sceneId)
             || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController currentPlayer
             || !GodotObject.IsInstanceValid(currentPlayer) || !currentPlayer.IsInsideTree() || currentPlayer.IsQueuedForDeletion())
             return false;
@@ -164,11 +173,11 @@ public partial class Main
 
     private bool TryMountPhotoScene(RuntimeBridge.FullGamePhotoWorldRouteProjection projection, RuntimeBridge bridge)
     {
-        var path = PhotoScenePath(projection.ActiveSceneId);
+        var sceneId = projection.ActiveSceneId;
         var preparedGeneration = _preparedPhotoGeneration;
         try
         {
-            switch (projection.ActiveSceneId)
+            switch (sceneId)
             {
                 case PrologueSceneId:
                 case ForestSceneId: MountW01(projection, bridge); return true;
@@ -183,7 +192,7 @@ public partial class Main
         {
             // AddChild runs the controller's synchronous _Ready builders. Hold
             // their resources until those builders have taken their own refs.
-            if (path is not null && _preparedPhotoScenePath == path
+            if (_preparedPhotoSceneId == sceneId
                 && _preparedPhotoGeneration == preparedGeneration)
                 ClearPreparedPhotoScene();
         }
@@ -192,7 +201,8 @@ public partial class Main
     private bool IsPhotoSceneMounted(string sceneId) => ActiveZoneScenePath == PhotoScenePath(sceneId)
         && (sceneId switch
         {
-            PrologueSceneId or ForestSceneId => IsMountedW01(),
+            PrologueSceneId => IsMountedW01(),
+            ForestSceneId => IsMountedW01() && _mountedW01!.ForestEpisodeReady,
             RiverSceneId => IsMountedW02(),
             HousePhotoSceneId => IsMountedW03(),
             CommonPhotoSceneId => IsMountedW04(),
@@ -223,7 +233,7 @@ public partial class Main
         var resources = new List<Resource>();
         try
         {
-            if (_preparedPhotoScenePath == path && _preparedPhotoScene is { } prepared
+            if (_preparedPhotoSceneId == sceneId && _preparedPhotoScene is { } prepared
                 && GodotObject.IsInstanceValid(prepared)
                 && _preparedPhotoResources.All(resource => GodotObject.IsInstanceValid(resource)))
             {
@@ -251,7 +261,7 @@ public partial class Main
             }
             _preparedPhotoResources.AddRange(resources);
             _preparedPhotoScene = packed;
-            _preparedPhotoScenePath = path;
+            _preparedPhotoSceneId = sceneId;
             _preparedPhotoGeneration = generation;
             progress?.Invoke(1f);
             succeeded = Current();
@@ -274,7 +284,7 @@ public partial class Main
         yield return scenePath;
         var dynamicPaths = sceneId switch
         {
-            PrologueSceneId or ForestSceneId => W01Controller.DynamicResourcePaths(),
+            PrologueSceneId or ForestSceneId => W01Controller.DynamicResourcePaths(sceneId == ForestSceneId),
             RiverSceneId => W02Controller.DynamicResourcePaths(),
             HousePhotoSceneId => W03Controller.DynamicResourcePaths(),
             CommonPhotoSceneId => W04Controller.DynamicResourcePaths(),
@@ -394,9 +404,9 @@ public partial class Main
         }
     }
 
-    private PackedScene? TakePreparedPhotoScene(string path)
+    private PackedScene? TakePreparedPhotoScene(string sceneId)
     {
-        if (_preparedPhotoScenePath != path) return null;
+        if (_preparedPhotoSceneId != sceneId) return null;
         var packed = _preparedPhotoScene;
         _preparedPhotoScene = null;
         return packed is not null && GodotObject.IsInstanceValid(packed) ? packed : null;
@@ -405,7 +415,7 @@ public partial class Main
     private void ClearPreparedPhotoScene()
     {
         _preparedPhotoScene = null;
-        _preparedPhotoScenePath = null;
+        _preparedPhotoSceneId = null;
         _preparedPhotoResources.Clear();
     }
 

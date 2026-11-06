@@ -249,6 +249,17 @@ def assert_scope(raw: bytes, entries: dict[str, tuple[int, int]], label: str) ->
             or b'"id": "urman.fullgame"' not in fullgame_payload
             or b'"entrypoint": "urman.fullgame:scene/pw-prologue"' not in fullgame_payload):
         fail(f"{label} content does not contain the current PhotoWorlds campaign entrypoint")
+    if fullgame_payload != Path("game", fullgame_name).read_bytes():
+        fail(f"{label} contains a stale PhotoWorlds campaign: {fullgame_name}")
+
+    # The book and the Old PC resolve these images by string, outside Godot's
+    # scene dependency graph. Verify the actual remaps from their shared owner.
+    photo_book_source = Path("game/scripts/JournalUi.PhotoBook.cs").read_text(encoding="utf-8")
+    book_images = set(re.findall(r'"res://(assets/textures/photobook/[^"\r\n]+\.(?:png|svg))"', photo_book_source))
+    if not book_images:
+        fail("No family-book images found in the runtime source")
+    for image in sorted(book_images):
+        require_imported_resource(raw, entries, image, ".ctex")
 
     # These owners load JSON dynamically; all_resources alone is not evidence
     # that the native package retained their complete registered dependencies.
@@ -315,7 +326,8 @@ def assert_scope(raw: bytes, entries: dict[str, tuple[int, int]], label: str) ->
         for image in (asset, *asset.get("variants", [])):
             require_imported_resource(raw, entries, "assets/" + image["file"], ".ctex")
     print(f"act1-release: {label} registered dependencies PASS vehicle-json=2 "
-          f"radio-rows={len(programme)} unique-wav={len(radio_paths)} public-photos={len(public_photo_ids)}; "
+          f"radio-rows={len(programme)} unique-wav={len(radio_paths)} public-photos={len(public_photo_ids)} "
+          f"book-images={len(book_images)}; "
           "presence only, not listening/art acceptance")
 
     for root, kit in act1_kits:

@@ -127,7 +127,7 @@ public partial class RuntimeBridge : Node
     {
         var blocks = PlayTimeBlock.None;
         if (_kernel is null || FindPlayer() is null || NeedsPhysicalRecovery) blocks |= PlayTimeBlock.NotReady;
-        if (_loadingSlot || _loadPreparing || _photoVisitCompletion is not null) blocks |= PlayTimeBlock.Loading;
+        if (_loadingSlot || _loadPreparing || _photoVisitCompletion is not null || _prologueArrivalLoading) blocks |= PlayTimeBlock.Loading;
         var demo = GetParent()?.GetParent() as Act1DemoRoot;
         if (demo?.MainMenuVisible == true || (demo is null && HasActiveMainMenu()))
             blocks |= PlayTimeBlock.MainMenu;
@@ -143,7 +143,7 @@ public partial class RuntimeBridge : Node
 
     private void SampleLoadingTime()
     {
-        if (!_loadingSlot && !_loadPreparing && _photoVisitCompletion is null) return;
+        if (!_loadingSlot && !_loadPreparing && _photoVisitCompletion is null && !_prologueArrivalLoading) return;
         var now = Time.GetTicksUsec();
         _loadingSecondsSinceProcess += (now - _loadingTimeSampleUsec) / 1_000_000.0;
         _loadingTimeSampleUsec = now;
@@ -209,6 +209,22 @@ public partial class RuntimeBridge : Node
         try
         {
             var session = _kernel;
+            var routeOwner = GetTree().GetFirstNodeInGroup("zone_manager") as Main;
+            bool PhotoRouteAwaitingPlacement() => _content.HasPhotoWorlds
+                && routeOwner is { EnableFullGamePhotoWorldRouting: true }
+                && routeOwner.PhotoRouteAwaitingPlacement(session, ActiveSceneId);
+
+            // Authored scene changes commit before Main's deferred placement.
+            // Save the destination's actual pose, including the bank and the house.
+            if (PhotoRouteAwaitingPlacement())
+            {
+                var tree = GetTree();
+                await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+                if (ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing && PhotoRouteAwaitingPlacement())
+                    await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+            }
+            if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing || PhotoRouteAwaitingPlacement())
+                return false;
             if (GetTree().GetFirstNodeInGroup("vehicle_fleet") is VehicleFleet fleet
                 && !await fleet.FlushForSaveAsync()) return false;
             if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
@@ -217,10 +233,11 @@ public partial class RuntimeBridge : Node
             if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
             if (AlsuStreetWalkPresentation.SessionOwner(GetTree()) is { } companion
                 && !await companion.FlushForSaveAsync()) return false;
-            if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
+            if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing || PhotoRouteAwaitingPlacement())
+                return false;
             cancellationToken.ThrowIfCancellationRequested();
             var save = CaptureSessionSave(player);
-            await store.SaveAsync(slot, save, cancellationToken);
+            await store.SaveAsync(slot, save, cancellationToken, prepareForLoad: PreparePhotoWorldSave);
             saved = true;
             GD.Print($"SaveGameV3 written to {store.SlotPath(slot)}");
             return true;
@@ -247,7 +264,10 @@ public partial class RuntimeBridge : Node
             _rngStreams.CaptureSnapshot(), _scheduler.CaptureSnapshot(),
             _capabilities.CaptureAll(), new WorldLocationId(CurrentZoneId),
             new SpawnPointId(CurrentSpawnPointId), player.CapturePortableTransform(),
-            player.CaptureSettings(), _playTimeSeconds);
+            player.CaptureSettings(), _playTimeSeconds)
+        {
+            ForestPassageObservation = CaptureForestPassageObservation()
+        };
     }
 
     public bool IsSlotAvailable(string slot) => StoreHasSlot(SessionSaveStore, slot);
@@ -289,27 +309,26 @@ public partial class RuntimeBridge : Node
     /// </summary>
     public bool HasLoadableSlot(string slot) => IsSlotAvailable(slot);
 
-    public async Task<(string Slot, string Description)?> FindContinueAsync()
+    public Task<(string Slot, string Description)?> FindContinueAsync() => FindContinueAsync(_saveStore);
+
+    internal Task<(string Slot, string Description)?> FindSessionContinueAsync() => FindContinueAsync(SessionSaveStore);
+
+    private async Task<(string Slot, string Description)?> FindContinueAsync(AtomicSaveGameStore? store)
     {
-        if (_saveStore is null) return null;
+        if (store is null) return null;
         (string Slot, string Description)? newest = null;
         var latestTime = DateTime.MinValue;
         foreach (var slot in new[] { "quick", CheckpointSlot })
         {
             try
             {
-                var loaded = await _saveStore.LoadAsync(slot, _content.CampaignFingerprint,
+                var loaded = await store.LoadAsync(slot, _content.CampaignFingerprint,
                     prepareForLoad: PreparePhotoWorldSave);
-                var path = loaded.RecoveredFromBackup ? _saveStore.BackupPath(slot) : _saveStore.SlotPath(slot);
+                var path = loaded.RecoveredFromBackup ? store.BackupPath(slot) : store.SlotPath(slot);
                 var time = File.GetLastWriteTimeUtc(path);
                 if (time < latestTime) continue;
                 latestTime = time;
-                var place = loaded.Save.CurrentZone.Value switch
-                {
-                    "village_day" => "Деревня",
-                    "house_old_pc" => "Дом", "fap_clinic" => "ФАП",
-                    "zirat_road" => "Дорога к зирату", "kara_urman_night" => "Кромка леса", _ => "Кара-Урман"
-                };
+                var place = ContinuePlace(loaded.Save);
                 var recovery = loaded.RecoveredFromBackup ? " · резервная копия" : "";
                 newest = (slot, $"{place} · {time.ToLocalTime():dd.MM HH:mm}{recovery}");
             }
@@ -320,6 +339,35 @@ public partial class RuntimeBridge : Node
             }
         }
         return newest;
+    }
+
+    private string ContinuePlace(SaveGameV3 save)
+    {
+        // A photo visit preserves the village location for return. Its
+        // saved campaign scene identifies where Continue actually resumes.
+        if (_content.HasPhotoWorlds && save.Runtime.State.TryGetProperty("activeScene", out var scene)
+            && scene.ValueKind == JsonValueKind.String)
+        {
+            var title = scene.GetString() switch
+            {
+                "urman.fullgame:scene/pw-prologue" => "urman.fullgame:text/pw-scene-prologue-title",
+                "urman.fullgame:scene/pw-niva-arrival" => "urman.fullgame:text/pw-scene-niva-arrival-title",
+                "urman.fullgame:scene/pw-forest" => "urman.fullgame:text/pw-scene-forest-title",
+                "urman.fullgame:scene/pw-river" => "urman.fullgame:text/pw-scene-river-title",
+                "urman.fullgame:scene/pw-house" => "urman.fullgame:text/pw-scene-house-title",
+                "urman.fullgame:scene/pw-common" => "urman.fullgame:text/pw-scene-common-title",
+                "urman.fullgame:scene/pw-cellar" => "urman.fullgame:text/pw-scene-cellar-title",
+                _ => null
+            };
+            if (title is not null) return _content.ResolveText(title);
+        }
+
+        return save.CurrentZone.Value switch
+        {
+            "village_day" => "Деревня",
+            "house_old_pc" => "Дом", "fap_clinic" => "ФАП",
+            "zirat_road" => "Дорога к зирату", "kara_urman_night" => "Кромка леса", _ => "Кара-Урман"
+        };
     }
 
     /// <summary>
@@ -337,7 +385,7 @@ public partial class RuntimeBridge : Node
     private async Task<bool> StartSessionAsync(bool debugSession)
     {
         var player = FindPlayer();
-        if (_loadingSlot || _loadPreparing || _photoVisitCanceling || _content is null || player is null)
+        if (_loadingSlot || _loadPreparing || _photoVisitCanceling || _prologueArrivalLoading || _content is null || player is null)
         {
             GD.PushWarning("New game is unavailable before the runtime and player are ready.");
             return false;
@@ -424,7 +472,7 @@ public partial class RuntimeBridge : Node
     private async Task<bool> LoadFromStoreAsync(string slot, AtomicSaveGameStore? store, bool debugSession)
     {
         if (FindPlayer()?.InIntro == true) return false;
-        if (_loadingSlot || _loadPreparing || _photoVisitCanceling || store is null || FindPlayer() is not { } player)
+        if (_loadingSlot || _loadPreparing || _photoVisitCanceling || _prologueArrivalLoading || store is null || FindPlayer() is not { } player)
         {
             GD.PushWarning("Quick load is unavailable before the runtime and player are ready.");
             return false;
@@ -432,9 +480,11 @@ public partial class RuntimeBridge : Node
 
         await CancelPhotoVisitTransitionAsync();
         var sessionBeforeLoad = _kernel;
+        var forestObservationBeforeLoad = CaptureForestPassageObservation();
         var loadSucceeded = false;
         var recoveredFromBackup = false;
         SaveGameV3? previousSave = _physicalRecoverySave;
+        SaveGameV3? restoredSave = null;
         var previousDebugSession = IsDebugSession;
         var projectionApplied = false;
         var rolledBack = false;
@@ -479,12 +529,14 @@ public partial class RuntimeBridge : Node
             }
             if (!ReferenceEquals(sessionBeforeLoad, _kernel))
                 throw new InvalidOperationException("The runtime session changed while reading the save.");
-            previousSave ??= CaptureSessionSave(player);
+            previousSave ??= CaptureSessionSave(player) with { ForestPassageObservation = forestObservationBeforeLoad };
             _loadingSlot = true;
             _loadPreparing = false;
             projectionApplied = true;
             await RestoreLoadedWorldAsync(saveToRestore, debugSession, player);
             NeedsPhysicalRecovery = false;
+            await SettleLoadedPhotoVisitAsync(saveRecoveredCheckpoint: true);
+            restoredSave = saveToRestore;
             _physicalRecoverySave = null;
             // Current profile settings remain authoritative across story loads.
             loadSucceeded = true;
@@ -503,6 +555,8 @@ public partial class RuntimeBridge : Node
                     // physics can advance at a rejected saved vehicle position.
                     await RestoreLoadedWorldAsync(previousSave, previousDebugSession, player);
                     NeedsPhysicalRecovery = false;
+                    await SettleLoadedPhotoVisitAsync(saveRecoveredCheckpoint: false);
+                    restoredSave = previousSave;
                     _physicalRecoverySave = null;
                     rolledBack = true;
                     GD.Print("SaveGameV3 rejected the loaded placement; the previous session was restored.");
@@ -522,25 +576,10 @@ public partial class RuntimeBridge : Node
             SampleLoadingTime();
             _loadingSlot = false;
             _loadPreparing = false;
-            if (!NeedsPhysicalRecovery && ActivePhotoVisit() is not null && _kernel is { } visitSession)
-            {
-                _photoVisitCanceling = true;
-                try
-                {
-                    if (!await RecoverPhotoVisitAsync(visitSession))
-                    {
-                        NeedsPhysicalRecovery = true;
-                        loadSucceeded = false;
-                    }
-                }
-                catch (Exception error)
-                {
-                    NeedsPhysicalRecovery = true;
-                    loadSucceeded = false;
-                    GD.PushError($"PhotoWorld load recovery failed: {error.Message}");
-                }
-                finally { _photoVisitCanceling = false; }
-            }
+            if (restoredSave is not null)
+                RestoreForestPassageObservation(restoredSave.ForestPassageObservation, player, restoredSave.PlayerTransform);
+            else if (!projectionApplied && ReferenceEquals(sessionBeforeLoad, _kernel))
+                RestoreForestPassageObservation(forestObservationBeforeLoad, player);
             // Pending photo visits may still recover their recorded exterior
             // origin. Keep that physical handoff covered until it is settled.
             loadingScreen.Hide();
@@ -591,6 +630,7 @@ public partial class RuntimeBridge : Node
                 throw new InvalidDataException("The runtime session changed while restoring the saved fence task.");
         }
         var projectedPhoto = false;
+        var placedAtNivaArrival = false;
         if (GetTree().GetFirstNodeInGroup("zone_manager") is Main main)
         {
             var sceneId = ActiveSceneId ?? string.Empty;
@@ -601,11 +641,19 @@ public partial class RuntimeBridge : Node
                     throw new InvalidDataException("The loaded photo scene or supported player pose could not be prepared.");
                 projectedPhoto = true;
             }
+            else if (_content.HasPhotoWorlds && main.EnableFullGamePhotoWorldRouting && sceneId == Main.NivaArrivalSceneId)
+            {
+                // The cabin is presentation-only. Its one standing exit is
+                // the village arrival, including for old saves with W01 feet.
+                if (!main.MountLoadedNivaArrival() || CurrentZoneId != "village_day" || CurrentSpawnPointId != "arrival")
+                    throw new InvalidDataException("The loaded Niva arrival could not be placed at the village stop.");
+                placedAtNivaArrival = true;
+            }
             else main.SwitchZone(save.CurrentZone.Value, save.SpawnPoint.Value);
         }
         if (!projectedPhoto)
         {
-            player.ApplyPortableTransform(save.PlayerTransform);
+            if (!placedAtNivaArrival) player.ApplyPortableTransform(save.PlayerTransform);
             await ProjectPhysicalWorldAsync();
         }
         if (!player.VehicleControlled && !player.CanCrouchAt(player.GlobalPosition)
@@ -762,7 +810,8 @@ public partial class RuntimeBridge : Node
         }
     }
 
-    private async Task<bool> RecoverPhotoVisitAsync(RuntimeKernel session, bool abortActive = false)
+    private async Task<bool> RecoverPhotoVisitAsync(RuntimeKernel session, bool abortActive = false,
+        bool saveRecoveredCheckpoint = true)
     {
         if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
         if (ActivePhotoVisit() is not { } visit) return true;
@@ -793,7 +842,7 @@ public partial class RuntimeBridge : Node
             && !await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitFinishReturn, id,
                 new { returnPlayTimeSeconds = _playTimeSeconds })) return false;
         if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
-        await SaveCheckpointAsync(force: true);
+        if (saveRecoveredCheckpoint) await SaveCheckpointAsync(force: true);
         return ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing;
     }
 
@@ -812,17 +861,21 @@ public partial class RuntimeBridge : Node
             && calmVisit.TryGetProperty("worldCompletedOnEntry", out var completedOnEntry)
             && completedOnEntry.ValueKind == JsonValueKind.True)
         {
-            // Keep the physical exit's own availability and checkpoint owner.
             // A calm revisit uses the existing home route instead of replaying
             // the first completion's authored meeting at the bank.
-            if (!IsInteractionAvailable(interaction.Id)
-                || !_content.TryGetInteraction(PhotoBookCommonReturnInteractionId, out var homeReturn)
+            if (!_content.TryGetInteraction(PhotoBookCommonReturnInteractionId, out var homeReturn)
                 || homeReturn.SourceSceneId != sourceScene || homeReturn.TargetSceneId != "urman.fullgame:scene/pw-home"
-                || homeReturn.Effects.GetArrayLength() != 0 || !IsInteractionAvailable(homeReturn.Id))
+                || homeReturn.Effects.GetArrayLength() != 0)
                 return false;
             returnInteraction = homeReturn;
             completedBankReturn = false;
         }
+        bool ReturnAvailable() => IsInteractionAvailable(interaction.Id)
+            && (returnInteraction.Id == interaction.Id || IsInteractionAvailable(returnInteraction.Id));
+        // A saved `returning` visit will recover to its origin on Continue.
+        // Check the authored exit before starting that durable transition.
+        if (!entering && !ReturnAvailable()) return false;
+
         // Legacy checkpoints have no invented ticket. Retain their authored
         // exit, but verify and save the actual destination after projection.
         if (!entering && ActivePhotoVisit() is null)
@@ -891,6 +944,13 @@ public partial class RuntimeBridge : Node
             }
             else
             {
+                if (DisplayServer.GetName() != "headless")
+                {
+                    resourceLoading = LoadingScreenUi.Show(this, "Возвращение в деревню", "Готовим место возвращения");
+                    // The following dispatch may synchronously rebuild the village.
+                    await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+                }
+                if (!IsInsideTree() || IsQueuedForDeletion() || !Current() || !ReturnAvailable()) return false;
                 var visit = ActivePhotoVisit()!.Value;
                 var id = visit.GetProperty("visitId").GetString()!;
                 ownedVisitId = id;
@@ -898,8 +958,7 @@ public partial class RuntimeBridge : Node
                 if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitReturn, id) || !Current()) return false;
                 returnCheckpointSaved = await SaveCheckpointAsync(force: true, cancellationToken: cancellation.Token);
                 if (!returnCheckpointSaved || !Current()) return false;
-                if (!IsInteractionAvailable(interaction.Id) || !IsInteractionAvailable(returnInteraction.Id)
-                    || !await DispatchCompiledInteractionAsync(returnInteraction) || !Current()) return false;
+                if (!ReturnAvailable() || !await DispatchCompiledInteractionAsync(returnInteraction) || !Current()) return false;
                 if (!await main.CompletePhotoVisitProjectionAsync(session, worldId,
                     completedBankReturn ? null : ticket, completedBankReturn) || !Current()) return false;
                 if (!await RestorePhotoHouseholdScheduleAsync(session, main, ticket, cancellation.Token) || !Current()) return false;
@@ -1028,27 +1087,45 @@ public partial class RuntimeBridge : Node
             if (_content.HasPhotoWorlds && PhotoVisitWorldForInteraction(interactionId) is not null
                 && GetTree().GetFirstNodeInGroup("zone_manager") is Main { EnableFullGamePhotoWorldRouting: true } main)
                 return await DispatchPhotoVisitInteractionAsync(interaction, main, session);
-            var sceneBeforeDispatch = ActiveSceneId;
-            var dispatched = await DispatchCompiledInteractionAsync(interaction);
-            if (dispatched && ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing)
-            {
-                var hasEffects = interaction.Effects.GetArrayLength() > 0;
-                var committedPhotoWorldAction = _content.HasPhotoWorlds
-                    && interaction.WorldLocations is null
-                    && interaction.TargetSceneId is null
-                    && sceneBeforeDispatch is not null
-                    && ActiveSceneId == sceneBeforeDispatch
-                    && hasEffects;
-                await SaveCheckpointAsync(force: hasEffects
-                    && ((interaction.WorldLocations is not null || IsSourceExcerptAction(interaction.Id))
-                        || committedPhotoWorldAction));
-            }
-
-            return dispatched;
+            if (ShouldShowPrologueArrivalLoading(interaction))
+                return await DispatchPrologueArrivalAsync(interaction, session);
+            return await DispatchInteractionWithCheckpointAsync(interaction, session);
         }
 
         GD.PushWarning($"Ignoring interaction that is not present in the compiled campaign: {interactionId}");
         return false;
+    }
+
+    private async Task<bool> DispatchInteractionWithCheckpointAsync(CompiledInteractionContent interaction, RuntimeKernel session)
+    {
+        var sceneBeforeDispatch = ActiveSceneId;
+        var dispatched = await DispatchCompiledInteractionAsync(interaction);
+        if (dispatched && ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing)
+        {
+            var hasEffects = interaction.Effects.GetArrayLength() > 0;
+            var committedPhotoWorldSceneTransition = _content.HasPhotoWorlds
+                && interaction.SourceSceneId.StartsWith("urman.fullgame:scene/pw-", StringComparison.Ordinal)
+                && interaction.TargetSceneId is { } targetSceneId
+                && targetSceneId.StartsWith("urman.fullgame:scene/pw-", StringComparison.Ordinal)
+                && sceneBeforeDispatch is not null
+                && ActiveSceneId == targetSceneId
+                && ActiveSceneId != sceneBeforeDispatch;
+            var committedPhotoWorldAction = _content.HasPhotoWorlds
+                && interaction.WorldLocations is null
+                && interaction.TargetSceneId is null
+                && sceneBeforeDispatch is not null
+                && ActiveSceneId == sceneBeforeDispatch
+                && hasEffects;
+            var forceCheckpoint = committedPhotoWorldSceneTransition
+                || (hasEffects
+                    && ((interaction.WorldLocations is not null || IsSourceExcerptAction(interaction.Id))
+                        || committedPhotoWorldAction));
+            var saved = await SaveCheckpointAsync(force: forceCheckpoint);
+            if (forceCheckpoint && !saved && ReferenceEquals(session, SessionIdentity) && !_loadPreparing)
+                GD.PushWarning($"Checkpoint after {interaction.Id} was not saved.");
+        }
+
+        return dispatched;
     }
 
     internal async Task<bool> SaveCheckpointAsync(bool force = false, CancellationToken cancellationToken = default)
@@ -1595,18 +1672,18 @@ public partial class RuntimeBridge : Node
 
     public async Task<bool> RecordJournalEntryAsync(string entryId, string sourceId)
     {
-        if (_kernel is null)
+        if (_kernel is not { } session)
         {
             return false;
         }
 
-        var result = await _kernel.DispatchAsync(new GameCommand(
+        var result = await session.DispatchAsync(new GameCommand(
             $"journal-record:{entryId}:{Interlocked.Increment(ref _interactionSequence):D8}",
             NarrativeCommandHandlers.JournalRecord,
             JsonSerializer.SerializeToElement(new { entryId, sourceId })));
         if (result.Status == CommandStatus.Committed)
         {
-            PresentRuntimeEvents(result.Events);
+            PresentRuntimeEvents(result.Events, session);
             QueueRuntimeStateChanged();
         }
 
@@ -1621,10 +1698,15 @@ public partial class RuntimeBridge : Node
         }
     }
 
-    public async Task<bool> ChooseDialogueAsync(string dialogueId, string nodeId, string choiceId)
+    internal enum DialogueChoiceOutcome { Rejected, Committed, CheckpointFailed }
+
+    public async Task<bool> ChooseDialogueAsync(string dialogueId, string nodeId, string choiceId) =>
+        await ChooseDialogueWithCheckpointAsync(dialogueId, nodeId, choiceId) != DialogueChoiceOutcome.Rejected;
+
+    internal async Task<DialogueChoiceOutcome> ChooseDialogueWithCheckpointAsync(string dialogueId, string nodeId, string choiceId)
     {
         var session = SessionIdentity;
-        if (session is null) return false;
+        if (session is null) return DialogueChoiceOutcome.Rejected;
         var sceneBeforeDispatch = ActiveSceneId;
         var dialogue = _content.RequireDialogue(dialogueId);
         var node = dialogue.Nodes[nodeId];
@@ -1650,12 +1732,22 @@ public partial class RuntimeBridge : Node
                 ["choiceId"] = choiceId
             },
             expectedSession: session);
-        if (result.Status != CommandStatus.Committed) return false;
+        if (result.Status != CommandStatus.Committed) return DialogueChoiceOutcome.Rejected;
         if (effects.Count > 0 && _content.HasPhotoWorlds
             && ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing
             && sceneBeforeDispatch is not null && ActiveSceneId == sceneBeforeDispatch)
-            await SaveCheckpointAsync(force: true);
-        return true;
+        {
+            try
+            {
+                if (!await SaveCheckpointAsync(force: true)) return DialogueChoiceOutcome.CheckpointFailed;
+            }
+            catch (Exception error)
+            {
+                GD.PushWarning($"Dialogue checkpoint failed after commit: {error.Message}");
+                return DialogueChoiceOutcome.CheckpointFailed;
+            }
+        }
+        return DialogueChoiceOutcome.Committed;
     }
 
     public async Task<CommandDispatchResult> DispatchQuestLifecycleAsync(
@@ -1715,7 +1807,7 @@ public partial class RuntimeBridge : Node
 
     public async Task<JsonElement> HandleOldPcInputAsync(JsonElement input)
     {
-        if (_kernel is null || _capabilities is null)
+        if (_kernel is not { } session || _capabilities is null)
         {
             throw new InvalidOperationException("Old PC capability is unavailable.");
         }
@@ -1771,14 +1863,14 @@ public partial class RuntimeBridge : Node
             _ => throw new ArgumentException($"Unknown old PC input {inputType}.")
         };
         var command = new GameCommand($"{OldPcInstanceId}:oldpc.{inputType}:{sequence}", commandType, payload);
-        var result = await _kernel.DispatchAsync(command);
+        var result = await session.DispatchAsync(command);
         if (result.Status != CommandStatus.Committed)
         {
             throw new InvalidOperationException(result.Error?.Message ?? "Old PC command was rejected.");
         }
 
         await ReconcileQuestsAsync();
-        PresentRuntimeEvents(result.Events);
+        PresentRuntimeEvents(result.Events, session);
         QueueRuntimeStateChanged();
 
         return _capabilities.Handle(OldPcInstanceId, input);
@@ -1908,7 +2000,7 @@ public partial class RuntimeBridge : Node
             GD.Print($"vocabulary.observe: term={entry.Term} status={result.Status} error={result.Error?.Message}");
             if (result.Status == CommandStatus.Committed)
             {
-                PresentRuntimeEvents(result.Events);
+                PresentRuntimeEvents(result.Events, session);
                 if (!Current()) return;
                 QueueRuntimeStateChanged();
             }
@@ -2110,7 +2202,7 @@ public partial class RuntimeBridge : Node
             {
                 return SessionInvalidatedResult();
             }
-            PresentRuntimeEvents(result.Events);
+            PresentRuntimeEvents(result.Events, session);
             QueueRuntimeStateChanged();
         }
 
@@ -2451,18 +2543,27 @@ public partial class RuntimeBridge : Node
         _questCapabilities.Reconcile(runtime.State, runtime.Claims);
     }
 
-    private void PresentRuntimeEvents(IEnumerable<GameEvent> events)
+    private void PresentRuntimeEvents(IEnumerable<GameEvent> events, RuntimeKernel session)
     {
-        if (GetTree().GetFirstNodeInGroup("audio_cue_ui") is not AudioCueUi audioCueUi)
-        {
-            return;
-        }
+        if (!ReferenceEquals(session, SessionIdentity)) return;
+        var audioCueUi = GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi;
+        var exploration = GetNodeOrNull<ExplorationFeedbackUi>("ExplorationFeedback");
 
-        foreach (var gameEvent in events.Where(item => item.Type == "runtime.audio.requested"))
+        foreach (var gameEvent in events)
         {
-            var assetId = gameEvent.Payload.GetProperty("assetId").GetString()
-                ?? throw new InvalidOperationException("Audio request event is missing assetId.");
-            audioCueUi.Present(_content.ResolveAudio(assetId, $"runtime-event:{gameEvent.Sequence}"));
+            if (gameEvent.Type == "runtime.audio.requested" && audioCueUi is not null)
+            {
+                var assetId = gameEvent.Payload.GetProperty("assetId").GetString()
+                    ?? throw new InvalidOperationException("Audio request event is missing assetId.");
+                audioCueUi.Present(_content.ResolveAudio(assetId, $"runtime-event:{gameEvent.Sequence}"));
+            }
+            else if (gameEvent.Type == "photoworlds.photo.acquired" && exploration is not null
+                && !IsPhotoBookProjectionDeferred)
+            {
+                var photoId = gameEvent.Payload.GetProperty("photoId").GetString();
+                var photo = PhotoBookPhotos().FirstOrDefault(item => item.PhotoId == photoId);
+                if (photo is not null) exploration.QueuePhotoAcquired(session, photo.PhotoId, photo.Title);
+            }
         }
     }
 

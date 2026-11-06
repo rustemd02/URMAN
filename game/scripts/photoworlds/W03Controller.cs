@@ -14,6 +14,12 @@ public partial class W03Controller : Node3D
     internal static IEnumerable<string> DynamicResourcePaths()
     {
         yield return HouseKitScenePath;
+        yield return HouseForestEdgeScenePath;
+        foreach (var path in PainterlyMaterialLibrary.DynamicResourcePaths(
+            ["terrain", "wood_log_uv", "wood_cut", "wood_facade", "wood_painted_trim", "roof_metal", "wood_fence_vertical"]))
+            yield return path;
+        foreach (var path in RuralPropMaterials.DynamicResourcePaths(["wood", "concrete", "metal", "cloth"]))
+            yield return path;
     }
 
     public override void _Ready()

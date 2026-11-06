@@ -326,19 +326,19 @@ internal partial class ArrivalPersonalProps : Node3D
         var entry = house.MakeInteractionBox("WaterRiverEntryTarget", new(.30f, .16f, .26f),
             envelopeCenter, "8fa694", "urman.fullgame:interaction/pw-enter-river",
             "Открыть снимок у мостков", rayOnly: true);
-        var npcAnchor = StyleBenchmarkInteriorFactory.GulsinaAnchor + Vector3.Up * .84f;
-        var talk = house.MakeInteractionBox("WaterPlaceTalkTarget", new(.62f, 1.68f, .46f),
+        var npcAnchor = StyleBenchmarkInteriorFactory.GulsinaAnchor + Vector3.Up * .95f;
+        var talk = house.MakeInteractionBox("WaterPlaceTalkTarget", new(.62f, 1.90f, .46f),
             npcAnchor, "6f6257", "urman.fullgame:interaction/pw-water-place-talk",
             "Спросить әби, как она называет старые мостки",
             dialogueId: "urman.fullgame:dialogue/pw-water-place", rayOnly: true);
-        var permission = house.MakeInteractionBox("WaterPhotoPermissionTarget", new(.62f, 1.68f, .46f),
+        var permission = house.MakeInteractionBox("WaterPhotoPermissionTarget", new(.62f, 1.90f, .46f),
             npcAnchor, "6f6257", "urman.fullgame:interaction/pw-water-photo-permission",
             "Получить разрешение на копию снимка",
             dialogueId: "urman.fullgame:dialogue/pw-water-photo-permission", rayOnly: true);
         // The same әби keeps the later family-file question. Only one of the
         // three boxes at this anchor is projected at a time, so the ray never
         // has to choose between the water chain and the common file.
-        var filePermission = house.MakeInteractionBox("CommonFilePermissionTarget", new(.62f, 1.68f, .46f),
+        var filePermission = house.MakeInteractionBox("CommonFilePermissionTarget", new(.62f, 1.90f, .46f),
             npcAnchor, "6f6257", "urman.fullgame:interaction/pw-common-file-permission",
             "Попросить разрешённую копию файла Марата",
             dialogueId: "urman.fullgame:dialogue/pw-common-file-permission", rayOnly: true);
@@ -379,7 +379,7 @@ internal partial class ArrivalPersonalProps : Node3D
         };
         envelope.SetMeta("geometryOwner", nameof(ArrivalPersonalProps));
         envelope.SetMeta("presentationRole", "family envelope with the authored P-HOUSE back print");
-        envelope.SetMeta("assetStatus", "project-original envelope; P-HOUSE front remains specified, not produced");
+        envelope.SetMeta("assetStatus", "project-original envelope; P-HOUSE generated front candidate is available in the book; world print remains back-up");
         things.AddChild(envelope);
 
         var envelopePaper = paper.Duplicate() as ShaderMaterial ?? throw new InvalidOperationException(
@@ -432,29 +432,30 @@ internal partial class ArrivalPersonalProps : Node3D
         };
         back.SetMeta("visualOnly", true);
         back.SetMeta("assetSource", backPath);
-        back.SetMeta("assetStatus", "authored back face only; P-HOUSE front remains specified, not produced");
+        back.SetMeta("assetStatus", "authored back-up print; generated P-HOUSE book front awaits W03 correspondence and author acceptance");
         print.AddChild(back);
 
         var entryTargetPosition = things.Transform * envelope.Transform
             * new Vector3(0f, .06f, presence.PrintOutLocalZ);
         house.MakeInteractionBox("HousePhotoEntryTarget", new(.30f, .16f, .26f),
             entryTargetPosition, "8fa694", "urman.fullgame:interaction/pw-enter-house",
-            "Войти в знакомый двор со снимка", rayOnly: true);
+            "Открыть снимок двора", rayOnly: true);
 
         var source = house.MakeInteractionBox("HousePhotoSourceTarget", new(.26f, .14f, .24f),
             envelopePosition + Vector3.Up * .06f, "cfc4a8",
             "urman.fullgame:interaction/pw-house-photo-source", "Узнать старый снимок собственного двора",
             rayOnly: true);
         source.SetPresentationEnabled(false);
-        var npcAnchor = StyleBenchmarkInteriorFactory.GulsinaAnchor + Vector3.Up * .84f;
-        var homeTalk = house.MakeInteractionBox("FirstWorldHomeTalkTarget", new(.62f, 1.68f, .46f),
+        var npcAnchor = StyleBenchmarkInteriorFactory.GulsinaAnchor + Vector3.Up * .95f;
+        var homeTalk = house.MakeInteractionBox("FirstWorldHomeTalkTarget", new(.62f, 1.90f, .46f),
             npcAnchor, "6f6257", "urman.fullgame:interaction/pw-first-world-home-talk",
             "Поговорить о первом возвращении из снимка",
             dialogueId: "urman.fullgame:dialogue/pw-first-world-home", rayOnly: true);
         homeTalk.SetPresentationEnabled(false);
-        var permission = house.MakeInteractionBox("HousePhotoPermissionTarget", new(.62f, 1.68f, .46f),
+        var permission = house.MakeInteractionBox("HousePhotoPermissionTarget", new(.62f, 1.90f, .46f),
             npcAnchor, "6f6257", "urman.fullgame:interaction/pw-house-photo-permission",
-            "Попросить семейную копию снимка двора", rayOnly: true);
+            "Попросить семейную копию снимка двора",
+            dialogueId: "urman.fullgame:dialogue/pw-house-photo-permission", rayOnly: true);
         permission.SetPresentationEnabled(false);
 
         presence.HomeReturnTarget = homeTalk;
@@ -701,7 +702,7 @@ internal partial class ArrivalPersonalProps : Node3D
         var entryPosition = things.Transform * printer.Transform * new Vector3(0f, .08f, .215f);
         var entry = house.MakeInteractionBox("CommonPhotoEntryTarget", new(.22f, .14f, .18f),
             entryPosition, "8fa694", "urman.fullgame:interaction/pw-enter-common",
-            "Войти в общий кадр с распечатанного снимка", rayOnly: true);
+            "Открыть общий кадр", rayOnly: true);
         entry.SetPresentationEnabled(false);
 
         printer.AddChild(new HomePrinterPresence

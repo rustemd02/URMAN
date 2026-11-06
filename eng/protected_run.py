@@ -4,7 +4,9 @@
 The original directory is kept outside the child's path and restored by rename,
 including on a failing child or SIGINT/SIGTERM. An interrupted recovery is never
 silently discarded. --clean gives smoke tests a separate, empty session; normal
-invocations begin with a copy of the player's data. Backups stay outside git.
+invocations begin with a copy of the player's data. A named clean acceptance
+profile moves only its own data into and out of the protected session. Backups
+stay outside git.
 """
 
 from __future__ import annotations
@@ -14,6 +16,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import signal
 import stat
@@ -21,6 +24,11 @@ import subprocess
 import sys
 import tempfile
 import time
+
+
+ACCEPTANCE_PROFILE_KIND = "urman.protected-run.acceptance-profile"
+ACCEPTANCE_PROFILE_VERSION = 1
+ACCEPTANCE_PROFILE_METADATA = "profile.json"
 
 if sys.platform == "win32":
     import ctypes
@@ -285,6 +293,107 @@ def rename_userdata(source: Path, destination: Path) -> None:
             time.sleep(0.1)
 
 
+def path_entry_exists(path: Path) -> bool:
+    try:
+        path.lstat()
+        return True
+    except FileNotFoundError:
+        return False
+
+
+def is_link_or_junction(path: Path) -> bool:
+    return path.is_symlink() or getattr(path, "is_junction", lambda: False)()
+
+
+def require_plain_directory(path: Path, label: str) -> None:
+    if is_link_or_junction(path):
+        raise RuntimeError(f"{label} cannot be a symlink or junction: {path}")
+    try:
+        metadata = path.lstat()
+    except FileNotFoundError as error:
+        raise RuntimeError(f"{label} is missing: {path}") from error
+    if not stat.S_ISDIR(metadata.st_mode):
+        raise RuntimeError(f"{label} is not a directory: {path}")
+
+
+def validate_acceptance_profile_data(path: Path) -> None:
+    require_plain_directory(path, "acceptance profile data")
+    pending = [path]
+    while pending:
+        directory = pending.pop()
+        with os.scandir(directory) as entries:
+            for entry in entries:
+                child = Path(entry.path)
+                if is_link_or_junction(child):
+                    raise RuntimeError(f"acceptance profile data cannot contain links or junctions: {child}")
+                metadata = entry.stat(follow_symlinks=False)
+                if stat.S_ISDIR(metadata.st_mode):
+                    pending.append(child)
+                elif not stat.S_ISREG(metadata.st_mode):
+                    raise RuntimeError(f"unsupported acceptance profile entry: {child}")
+
+
+def acceptance_profile_paths(userdata: Path, name: str) -> tuple[Path, Path]:
+    namespace = userdata.parent / f".{userdata.name}-acceptance-profiles"
+    if is_link_or_junction(userdata.parent):
+        raise RuntimeError(f"acceptance profile parent cannot be a symlink or junction: {userdata.parent}")
+    require_plain_directory(userdata.parent, "acceptance profile parent")
+    if is_link_or_junction(namespace):
+        raise RuntimeError(f"acceptance profile namespace cannot be a symlink or junction: {namespace}")
+    if not path_entry_exists(namespace):
+        namespace.mkdir(mode=0o700)
+    require_plain_directory(namespace, "acceptance profile namespace")
+
+    profile = namespace / name
+    if is_link_or_junction(profile):
+        raise RuntimeError(f"acceptance profile cannot be a symlink or junction: {profile}")
+    if not path_entry_exists(profile):
+        profile.mkdir(mode=0o700)
+        metadata_path = profile / ACCEPTANCE_PROFILE_METADATA
+        metadata = {
+            "kind": ACCEPTANCE_PROFILE_KIND,
+            "version": ACCEPTANCE_PROFILE_VERSION,
+            "name": name,
+        }
+        with metadata_path.open("x", encoding="utf-8", newline="\n") as stream:
+            stream.write(json.dumps(metadata, sort_keys=True) + "\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+
+    require_plain_directory(profile, "acceptance profile")
+    metadata_path = profile / ACCEPTANCE_PROFILE_METADATA
+    if is_link_or_junction(metadata_path):
+        raise RuntimeError(f"acceptance profile metadata cannot be a symlink or junction: {metadata_path}")
+    try:
+        metadata_stat = metadata_path.lstat()
+    except FileNotFoundError as error:
+        raise RuntimeError(f"acceptance profile is unowned (metadata missing): {profile}") from error
+    if not stat.S_ISREG(metadata_stat.st_mode) or metadata_stat.st_size > 4096:
+        raise RuntimeError(f"acceptance profile metadata is invalid: {metadata_path}")
+    try:
+        metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as error:
+        raise RuntimeError(f"acceptance profile metadata is unreadable: {metadata_path}") from error
+    if (not isinstance(metadata, dict)
+            or set(metadata) != {"kind", "version", "name"}
+            or metadata.get("kind") != ACCEPTANCE_PROFILE_KIND
+            or type(metadata.get("version")) is not int
+            or metadata.get("version") != ACCEPTANCE_PROFILE_VERSION
+            or metadata.get("name") != name):
+        raise RuntimeError(f"acceptance profile metadata does not match its owner: {profile}")
+
+    data = profile / "data"
+    expected = {ACCEPTANCE_PROFILE_METADATA, "data"}
+    for child in profile.iterdir():
+        if child.name not in expected:
+            raise RuntimeError(f"acceptance profile contains an unowned entry: {child}")
+    if is_link_or_junction(data):
+        raise RuntimeError(f"acceptance profile data cannot be a symlink or junction: {data}")
+    if path_entry_exists(data):
+        validate_acceptance_profile_data(data)
+    return profile, data
+
+
 def default_userdata() -> Path:
     if sys.platform == "win32":
         if not os.environ.get("APPDATA"):
@@ -318,6 +427,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--clean", action="store_true")
     parser.add_argument("--userdata", type=Path, help="explicit userdata path for an isolated guard test")
+    parser.add_argument("--acceptance-profile", metavar="NAME",
+                        help="use a named clean acceptance profile without using player userdata")
     parser.add_argument("--timeout", type=float, default=0.0,
                         help="stop the child after this many seconds and exit 124 after confirmed cleanup")
     parser.add_argument("command", nargs=argparse.REMAINDER)
@@ -325,6 +436,13 @@ def main() -> int:
     command = args.command[1:] if args.command[:1] == ["--"] else args.command
     if not command:
         parser.error("a child command is required")
+    if args.acceptance_profile is not None:
+        if not args.clean:
+            parser.error("--acceptance-profile requires --clean")
+        if args.userdata is not None:
+            parser.error("--acceptance-profile cannot be combined with --userdata")
+        if re.fullmatch(r"[a-z0-9][a-z0-9-]{0,47}", args.acceptance_profile) is None:
+            parser.error("--acceptance-profile NAME must match [a-z0-9][a-z0-9-]{0,47}")
     userdata = (args.userdata or default_userdata()).absolute()
     if (userdata.is_symlink() or getattr(userdata, "is_junction", lambda: False)()
             or len(userdata.parts) < 4 or userdata == Path.home()):
@@ -355,11 +473,19 @@ def main() -> int:
         if unfinished:
             raise RuntimeError(f"userdata recovery is pending; inspect {lock_path} before another run")
 
+        profile: Path | None = None
+        profile_data: Path | None = None
+        if args.acceptance_profile is not None:
+            profile, profile_data = acceptance_profile_paths(userdata, args.acceptance_profile)
         existed = userdata.exists()
         before = fingerprint(userdata) if existed else None
         backup = Path(tempfile.mkdtemp(prefix=f".{userdata.name}-protected-", dir=userdata.parent))
         original = backup / "original"
-        lock.write(json.dumps({"pid": os.getpid(), "userdata": str(userdata), "backup": str(backup), "existed": existed}))
+        recovery = {"pid": os.getpid(), "userdata": str(userdata), "backup": str(backup), "existed": existed}
+        if profile is not None:
+            recovery.update(acceptance_profile_name=args.acceptance_profile,
+                            acceptance_profile_path=str(profile))
+        lock.write(json.dumps(recovery))
         lock.flush()
         os.fsync(lock.fileno())
         child: subprocess.Popen | None = None
@@ -368,6 +494,7 @@ def main() -> int:
         interrupted = 0
         interrupted_at = 0.0
         original_moved = False
+        profile_active_ready = False
         timed_out = False
         code = 1
 
@@ -397,7 +524,17 @@ def main() -> int:
             if existed:
                 rename_userdata(userdata, original)
                 original_moved = True
-            if args.clean or not existed:
+            if profile is not None:
+                if path_entry_exists(userdata):
+                    raise RuntimeError(f"acceptance userdata destination is unexpectedly occupied: {userdata}")
+                profile, profile_data = acceptance_profile_paths(userdata, args.acceptance_profile)
+                if path_entry_exists(profile_data):
+                    validate_acceptance_profile_data(profile_data)
+                    rename_userdata(profile_data, userdata)
+                else:
+                    userdata.mkdir(mode=0o700)
+                profile_active_ready = True
+            elif args.clean or not existed:
                 userdata.mkdir(mode=0o700)
             else:
                 # Dereference links in the child copy so it cannot write through
@@ -489,14 +626,42 @@ def main() -> int:
                             signal_restore_error = error
             if restore_allowed:
                 try:
-                    if original_moved or not existed:
-                        if userdata.exists() or userdata.is_symlink():
-                            rename_userdata(userdata, backup / "test-userdata")
+                    if profile is not None:
+                        test_userdata = backup / "test-userdata"
+                        test_userdata_staged = False
+                        if profile_active_ready and path_entry_exists(userdata):
+                            if path_entry_exists(test_userdata):
+                                raise RuntimeError(f"acceptance recovery destination already exists: {test_userdata}")
+                            rename_userdata(userdata, test_userdata)
+                            test_userdata_staged = True
                         if original_moved:
+                            if path_entry_exists(userdata):
+                                raise RuntimeError(f"original userdata restore destination is occupied: {userdata}")
                             rename_userdata(original, userdata)
-                    after = fingerprint(userdata) if userdata.exists() else None
-                    if after != before:
-                        raise RuntimeError(f"userdata verification failed; preserved recovery directory: {backup}")
+                        after = fingerprint(userdata) if path_entry_exists(userdata) else None
+                        if after != before:
+                            raise RuntimeError(f"userdata verification failed; preserved recovery directory: {backup}")
+                        if profile_active_ready:
+                            if not test_userdata_staged:
+                                raise RuntimeError(f"acceptance test userdata disappeared; preserved recovery directory: {backup}")
+                            validate_acceptance_profile_data(test_userdata)
+                            profile, profile_data = acceptance_profile_paths(userdata, args.acceptance_profile)
+                            if path_entry_exists(profile_data):
+                                raise RuntimeError(f"acceptance profile data destination already exists: {profile_data}")
+                            test_fingerprint = fingerprint(test_userdata)
+                            rename_userdata(test_userdata, profile_data)
+                            validate_acceptance_profile_data(profile_data)
+                            if fingerprint(profile_data) != test_fingerprint:
+                                raise RuntimeError(f"acceptance profile verification failed; preserved recovery directory: {backup}")
+                    else:
+                        if original_moved or not existed:
+                            if userdata.exists() or userdata.is_symlink():
+                                rename_userdata(userdata, backup / "test-userdata")
+                            if original_moved:
+                                rename_userdata(original, userdata)
+                        after = fingerprint(userdata) if userdata.exists() else None
+                        if after != before:
+                            raise RuntimeError(f"userdata verification failed; preserved recovery directory: {backup}")
                     shutil.rmtree(backup)
                     lock.seek(metadata_offset)
                     lock.truncate()

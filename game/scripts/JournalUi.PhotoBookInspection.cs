@@ -8,6 +8,7 @@ public partial class JournalUi
     private const string InspectionHandsPath = "res://assets/models/photoworlds/book-hands-v1.glb";
     private Button _bookInspectionToggle = null!;
     private Button _bookInspectionGripToggle = null!;
+    private Button _photoSceneReferenceButton = null!;
     private VBoxContainer _bookInspectionPanel = null!;
     private SubViewportContainer? _bookInspectionView;
     private SubViewport? _bookInspectionViewport;
@@ -53,6 +54,13 @@ public partial class JournalUi
         _photoBookSpread.AddChild(_bookInspectionToggle);
         _bookInspectionGripToggle = new Button { Text = "Нести книгу", Visible = false };
         _photoBookSpread.AddChild(_bookInspectionGripToggle);
+        _photoSceneReferenceButton = new Button
+        {
+            Text = "Сверять снимок на месте", Visible = false,
+            TooltipText = "Оставить снимок рядом с видом на лес. Можно идти и осматриваться."
+        };
+        _photoBookSpread.AddChild(_photoSceneReferenceButton);
+        _photoSceneReferenceButton.Pressed += OpenPhotoSceneReference;
         _bookInspectionPanel = new VBoxContainer { Name = "PhysicalBookInspection", Visible = false };
         _photoBookSpread.AddChild(_bookInspectionPanel);
         _bookInspectionToggle.Pressed += () =>
@@ -77,6 +85,12 @@ public partial class JournalUi
         var available = CanInspectBook();
         _bookInspectionToggle.Visible = available;
         var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        _photoSceneReferenceButton.Visible = !_notesLoadInProgress && _screen.Visible
+            && _photoBookPage.Visible && _tabs.CurrentTab == PhotoBookTabIndex
+            && _photoBookSelectedId is { } photoId && _bridge is { } bridge && player is not null
+            && ReferenceEquals(_photoBookSession, bridge.SessionIdentity)
+            && player.CanShowPhotoSceneReference(bridge, photoId, allowJournalModal: true)
+            && PhotoBookFrontTexture(photoId) is not null;
         var canPutAway = _screen.Visible && _photoBookPage.Visible
             && _tabs.CurrentTab == PhotoBookTabIndex && player?.HasPhotoBookGrip == true;
         _bookInspectionGripToggle.Visible = available || canPutAway;
@@ -89,6 +103,27 @@ public partial class JournalUi
             return;
         }
         RefreshBookInspectionPhoto();
+    }
+
+    private async void OpenPhotoSceneReference()
+    {
+        if (_notesLoadInProgress || !_screen.Visible || !_photoBookPage.Visible
+            || _tabs.CurrentTab != PhotoBookTabIndex || _photoBookSelectedId is not { } photoId
+            || _bridge is not { } bridge || bridge.SessionIdentity is not { } session
+            || !ReferenceEquals(_photoBookSession, session)
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
+            || !player.CanShowPhotoSceneReference(bridge, photoId, allowJournalModal: true)
+            || PhotoBookFrontTexture(photoId) is not { } front) return;
+
+        if (!await CloseAsync(session, _photoBookVisibilityGeneration))
+        {
+            if (GodotObject.IsInstanceValid(this) && IsInsideTree()) RefreshBookInspection();
+            return;
+        }
+        if (!GodotObject.IsInstanceValid(this) || !IsInsideTree()
+            || !GodotObject.IsInstanceValid(bridge) || !GodotObject.IsInstanceValid(player)) return;
+        CloseBookInspection();
+        player.TryShowPhotoSceneReference(bridge, session, photoId, front);
     }
 
     private async void TogglePhotoBookGrip()

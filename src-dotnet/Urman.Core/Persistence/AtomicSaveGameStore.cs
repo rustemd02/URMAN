@@ -7,6 +7,7 @@ public sealed partial class AtomicSaveGameStore
     private readonly string _directory;
     private readonly SaveGameV3Codec _codec;
     private readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> _fingerprintCompatibility;
+    private readonly SemaphoreSlim _writeGate = new(1, 1);
 
     public AtomicSaveGameStore(
         string directory,
@@ -19,17 +20,22 @@ public sealed partial class AtomicSaveGameStore
         _fingerprintCompatibility = fingerprintCompatibility?.ToArray() ?? Array.Empty<SaveGameFingerprintCompatibility>();
     }
 
-    public async Task SaveAsync(string slot, SaveGameV3 save, CancellationToken cancellationToken = default)
+    public async Task SaveAsync(
+        string slot,
+        SaveGameV3 save,
+        CancellationToken cancellationToken = default,
+        Func<SaveGameV3, SaveGameV3>? prepareForLoad = null)
     {
         ValidateSlot(slot);
-        Directory.CreateDirectory(_directory);
         var target = SlotPath(slot);
         var backup = BackupPath(slot);
         var temporary = Path.Combine(_directory, $".{slot}.{Guid.NewGuid():N}.tmp");
-        var bytes = _codec.Encode(save);
 
+        await _writeGate.WaitAsync(cancellationToken);
         try
         {
+            Directory.CreateDirectory(_directory);
+            var bytes = _codec.Encode(save);
             await using (var stream = new FileStream(
                              temporary,
                              FileMode.CreateNew,
@@ -43,17 +49,29 @@ public sealed partial class AtomicSaveGameStore
                 stream.Flush(flushToDisk: true);
             }
 
-            if (File.Exists(target))
+            if (!File.Exists(target))
             {
-                File.Replace(temporary, target, backup, ignoreMetadataErrors: true);
-            }
-            else
-            {
+                cancellationToken.ThrowIfCancellationRequested();
                 File.Move(temporary, target);
+                return;
             }
+
+            string? backupDestination = backup;
+            try
+            {
+                await ReadCandidateAsync(target, save.CampaignFingerprint, prepareForLoad, cancellationToken);
+            }
+            catch (Exception exception) when (exception is IOException or InvalidDataException or UnauthorizedAccessException)
+            {
+                // Preserve the last usable backup when replacing a damaged primary.
+                backupDestination = null;
+            }
+            cancellationToken.ThrowIfCancellationRequested();
+            File.Replace(temporary, target, backupDestination, ignoreMetadataErrors: true);
         }
         finally
         {
+            _writeGate.Release();
             if (File.Exists(temporary))
             {
                 File.Delete(temporary);
@@ -71,9 +89,7 @@ public sealed partial class AtomicSaveGameStore
         Exception? primaryFailure = null;
         try
         {
-            var primary = await File.ReadAllBytesAsync(SlotPath(slot), cancellationToken);
-            var save = _codec.Decode(primary, expectedCampaignFingerprint, _fingerprintCompatibility);
-            return new(prepareForLoad is null ? save : prepareForLoad(save), false);
+            return new(await ReadCandidateAsync(SlotPath(slot), expectedCampaignFingerprint, prepareForLoad, cancellationToken), false);
         }
         catch (Exception exception) when (exception is IOException or InvalidDataException or UnauthorizedAccessException)
         {
@@ -82,14 +98,20 @@ public sealed partial class AtomicSaveGameStore
 
         try
         {
-            var backup = await File.ReadAllBytesAsync(BackupPath(slot), cancellationToken);
-            var save = _codec.Decode(backup, expectedCampaignFingerprint, _fingerprintCompatibility);
-            return new(prepareForLoad is null ? save : prepareForLoad(save), true);
+            return new(await ReadCandidateAsync(BackupPath(slot), expectedCampaignFingerprint, prepareForLoad, cancellationToken), true);
         }
         catch (Exception backupFailure) when (backupFailure is IOException or InvalidDataException or UnauthorizedAccessException)
         {
             throw new InvalidDataException("Neither the primary nor backup SaveGameV3 slot is readable.", new AggregateException(primaryFailure, backupFailure));
         }
+    }
+
+    private async Task<SaveGameV3> ReadCandidateAsync(string path, string expectedCampaignFingerprint,
+        Func<SaveGameV3, SaveGameV3>? prepareForLoad, CancellationToken cancellationToken)
+    {
+        var bytes = await File.ReadAllBytesAsync(path, cancellationToken);
+        var save = _codec.Decode(bytes, expectedCampaignFingerprint, _fingerprintCompatibility);
+        return prepareForLoad is null ? save : prepareForLoad(save);
     }
 
     public string SlotPath(string slot)

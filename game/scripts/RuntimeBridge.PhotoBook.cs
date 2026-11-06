@@ -26,6 +26,34 @@ public partial class RuntimeBridge
     internal const string PhotoBookCommonReturnInteractionId = "urman.fullgame:interaction/pw-common-book-return";
 
     internal bool IsPhotoBookReturnScene => CurrentPhotoBookReturnInteractionId is not null;
+    internal string? CurrentPhotoBookVisitPhotoId =>
+        CurrentPhotoBookReturnInteractionId is { } interactionId
+        && PhotoVisitWorldForInteraction(interactionId) is { } worldId
+        && _content.PhotoWorldDefinitions is { } catalog
+            ? catalog.RequireWorld(worldId).PhotoId
+            : null;
+
+    internal string? PhotoBookReturnDestination()
+    {
+        if (CurrentPhotoBookReturnInteractionId is not { } interactionId
+            || PhotoVisitWorldForInteraction(interactionId) is not { } worldId
+            || ActivePhotoVisit() is not { } visit || visit.GetProperty("worldId").GetString() != worldId
+            || visit.GetProperty("returnTicket") is not { ValueKind: JsonValueKind.Object } ticket)
+            return null;
+
+        // Completing a world changes the next visit's origin, not this visit's ticket.
+        return ticket.GetProperty("originAnchorId").GetString() switch
+        {
+            "PW_FOREST_ENTRY" => "на опушку у трёх стволов",
+            "PW_RIVER_ENTRY" => "на берег к старым мосткам",
+            "PW_HOME_PHOTO_ENTRY" => "во двор семейного дома",
+            "PW_COMMON_ENTRY" => "на берег к месту общего снимка",
+            "PW_CELLAR_ENTRY" => "к двери сухих сеней",
+            "PW_HOME_TABLE" => "к столу в семейном доме",
+            _ => null
+        };
+    }
+
     private string? CurrentPhotoBookReturnInteractionId => ActiveSceneId switch
     {
         "urman.fullgame:scene/pw-forest" => PhotoBookForestReturnInteractionId,
@@ -55,6 +83,17 @@ public partial class RuntimeBridge
         PhotoBookForestEntryInteractionId or "urman.fullgame:interaction/pw-enter-river"
         or "urman.fullgame:interaction/pw-enter-house" or "urman.fullgame:interaction/pw-enter-common"
         or PhotoBookCellarEntryInteractionId;
+
+    internal bool TryOpenPhotoBookAtEntry(string interactionId)
+    {
+        if (!IsPhotoVisitEntry(interactionId)) return false;
+        if (PhotoVisitWorldForInteraction(interactionId) is { } worldId
+            && _content.PhotoWorldDefinitions is { } catalog
+            && GetTree().GetFirstNodeInGroup("journal_ui") is JournalUi journal)
+            journal.OpenPhotoBook(this, catalog.RequireWorld(worldId).PhotoId, focusEntry: true);
+        // The physical anchor opens the page. Only the book button dispatches this entry.
+        return true;
+    }
 
     private static string? PhotoBookEntryInteractionForPhoto(string photoId) => photoId switch
     {
@@ -301,22 +340,26 @@ public partial class RuntimeBridge
                     : commonOrigin ? "Подойдите ближе к месту общего снимка у берега."
                         : riverOrigin ? "Подойдите ближе к старому подходу к мосткам на берегу."
                             : "Подойдите ближе к домашнему столу с книгой.";
-        var toFacing = facingPoint is { } point ? point - player.GlobalPosition : toAnchor;
-        toFacing.Y = 0f;
-        if (!revisit && toFacing.LengthSquared() > .0001f)
-        {
-            var forward = -player.GlobalBasis.Z;
-            forward.Y = 0f;
-            if (forward.LengthSquared() < .0001f
-                || forward.Normalized().Dot(toFacing.Normalized()) < Mathf.Cos(Mathf.DegToRad(40f)))
-                return forestOrigin ? "Закройте альбом и повернитесь к трём стволам на опушке."
-                    : cellarOrigin ? "Закройте альбом и повернитесь к двери сухих сеней."
-                        : houseOrigin ? "Закройте альбом и повернитесь к наружному окну семейного дома."
-                            : commonOrigin ? "Закройте альбом и повернитесь к месту общего снимка у берега."
-                                : riverOrigin ? "Закройте альбом и повернитесь к старому подходу к мосткам."
-                                    : "Закройте альбом и повернитесь к домашнему столу с книгой.";
-        }
+        if (!revisit && !IsFacingPhotoBookEntry(player, facingPoint ?? anchor.GlobalPosition))
+            return forestOrigin ? "Закройте альбом и повернитесь к трём стволам на опушке."
+                : cellarOrigin ? "Закройте альбом и повернитесь к двери сухих сеней."
+                    : houseOrigin ? "Закройте альбом и повернитесь к наружному окну семейного дома."
+                        : commonOrigin ? "Закройте альбом и повернитесь к месту общего снимка у берега."
+                            : riverOrigin ? "Закройте альбом и повернитесь к старому подходу к мосткам."
+                                : "Закройте альбом и повернитесь к домашнему столу с книгой.";
         return null;
+    }
+
+    internal static bool IsFacingPhotoBookEntry(FirstPersonController player, Vector3 facingPoint)
+    {
+        var toFacing = facingPoint - player.GlobalPosition;
+        toFacing.Y = 0f;
+        if (toFacing.LengthSquared() <= .0001f) return true;
+
+        var forward = -player.GlobalBasis.Z;
+        forward.Y = 0f;
+        return forward.LengthSquared() >= .0001f
+            && forward.Normalized().Dot(toFacing.Normalized()) >= Mathf.Cos(Mathf.DegToRad(40f));
     }
 
     internal async Task<bool> EnterPhotoBookPhotoAsync(string photoId)

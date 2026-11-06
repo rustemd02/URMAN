@@ -34,6 +34,67 @@ public partial class W03Controller
     private int _houseViewDispatchGeneration;
     private bool _houseSpatialMissingMarkerWarningSent;
 
+    internal bool TryGetHouseDoorObjectiveTarget(object? session, Vector3 playerPosition, int targetPair,
+        out Vector3 point, out string label, out bool inspectionPoint)
+    {
+        point = default;
+        label = string.Empty;
+        inspectionPoint = false;
+        if (session is null || _bridge is not { } bridge || !IsValidHouseWorldBridge(bridge)
+            || !ReferenceEquals(session, bridge.SessionIdentity) || bridge.ActiveSceneId != HouseSceneId
+            || _houseLinkFrames.Count != 4)
+            return false;
+
+        // The crossing already arms one view. Point to the actual witnesses,
+        // even when the player took the two entrances in the opposite order.
+        if (_pendingHouseViewPair >= 0 && ReferenceEquals(_pendingHouseViewSession, session)
+            && _houseAppleWitness is { } apple && GodotObject.IsInstanceValid(apple)
+            && _houseChairWitness is { } chair && GodotObject.IsInstanceValid(chair))
+        {
+            point = (apple.GlobalPosition + chair.GlobalPosition) * .5f;
+            label = "Посмотрите на яблоню и стул";
+            inspectionPoint = true;
+            return true;
+        }
+
+        // A save can restore the player in the garden without the unearned
+        // view. Use the nearest real passage to send them back to an entrance.
+        HouseLinkFrame? nearest = null;
+        var distance = float.PositiveInfinity;
+        foreach (var binding in _houseLinkFrames)
+        {
+            if (!GodotObject.IsInstanceValid(binding.Frame)) continue;
+            var offset = playerPosition - binding.Frame.GlobalPosition;
+            var horizontalDistance = offset.X * offset.X + offset.Z * offset.Z;
+            if (horizontalDistance >= distance) continue;
+            nearest = binding;
+            distance = horizontalDistance;
+        }
+        if (nearest is { IsEntry: false } gardenPassage)
+        {
+            point = gardenPassage.Frame.GlobalPosition;
+            label = "Вернитесь через проём";
+            return true;
+        }
+
+        // The street window and porch sit right against the facade. Clear
+        // the porch first, then follow the authored bend on the target side.
+        var position = ToLocal(playerPosition);
+        var route = HouseWalkRoutes[targetPair];
+        var apron = route[3];
+        var bend = route[4];
+        const float arrivalTolerance = .22f;
+        if (position.Z < route[1].Y - .7f || position.Z > route[2].Y + .48f
+            || position.X < HouseWalkRoutes[0][4].X || position.X > HouseWalkRoutes[1][4].X
+            || (targetPair == 0 ? position.X <= bend.X + arrivalTolerance : position.X >= bend.X - arrivalTolerance))
+            return false;
+
+        var destination = position.Z > apron.Y + arrivalTolerance ? new Vector2(position.X, apron.Y) : bend;
+        point = ToGlobal(new Vector3(destination.X, HouseGroundHeightAt(destination.X, destination.Y), destination.Y));
+        label = "Дорожка вдоль дома";
+        return true;
+    }
+
     private void BuildHouseSpatialLinks()
     {
         _houseLinkFrames.Clear();

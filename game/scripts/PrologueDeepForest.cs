@@ -252,20 +252,20 @@ public partial class PrologueDeepForest : Node3D
             heels.Add(new Transform3D(basis, at + basis * new Vector3(0, .014f, .1f)));
             left = !left;
         }
-        AddPrintLayer("DeepForestPrintRims", rims, new CylinderMesh { TopRadius = .085f, BottomRadius = .1f, Height = .012f, RadialSegments = 14 }, "e9eef3", "snow_trampled");
-        AddPrintLayer("DeepForestPrintSoles", soles, new CylinderMesh { TopRadius = .06f, BottomRadius = .065f, Height = .01f, RadialSegments = 14 }, "8795a8", "snow_trampled");
-        AddPrintLayer("DeepForestPrintHeels", heels, new CylinderMesh { TopRadius = .045f, BottomRadius = .05f, Height = .01f, RadialSegments = 12 }, "6e7c90", "snow_trampled");
+        AddPrintLayer(this, "DeepForestPrintRims", rims, new CylinderMesh { TopRadius = .085f, BottomRadius = .1f, Height = .012f, RadialSegments = 14 }, "e9eef3");
+        AddPrintLayer(this, "DeepForestPrintSoles", soles, new CylinderMesh { TopRadius = .06f, BottomRadius = .065f, Height = .01f, RadialSegments = 14 }, "8795a8");
+        AddPrintLayer(this, "DeepForestPrintHeels", heels, new CylinderMesh { TopRadius = .045f, BottomRadius = .05f, Height = .01f, RadialSegments = 12 }, "6e7c90");
     }
 
-    private void AddPrintLayer(string name, List<Transform3D> transforms, Mesh mesh, string color, string surface)
+    internal static void AddPrintLayer(Node3D owner, string name, List<Transform3D> transforms, Mesh mesh, string color)
     {
         var multi = new MultiMesh { TransformFormat = MultiMesh.TransformFormatEnum.Transform3D, Mesh = mesh, InstanceCount = transforms.Count };
         for (var index = 0; index < transforms.Count; index++) multi.SetInstanceTransform(index, transforms[index]);
-        AddChild(new MultiMeshInstance3D
+        owner.AddChild(new MultiMeshInstance3D
         {
             Name = name,
             Multimesh = multi,
-            MaterialOverride = PainterlyMaterialLibrary.ForColor(color, surface),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor(color, "snow_trampled"),
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
         });
     }
@@ -309,8 +309,13 @@ public partial class PrologueDeepForest : Node3D
     {
         const float z = -58f;
         var x = TrackX(z) + 2.1f;
-        var root = new Node3D { Name = "HighBranchMitten", Position = new Vector3(x, Ground(x, z), z) };
-        AddChild(root);
+        Mitten = AddMittenProp(this, new Vector3(x, Ground(x, z), z));
+    }
+
+    private static Node3D AddMittenProp(Node3D owner, Vector3 position)
+    {
+        var root = new Node3D { Name = "HighBranchMitten", Position = position };
+        owner.AddChild(root);
         var trunk = new MeshInstance3D
         {
             Position = new Vector3(.9f, 6f, 0),
@@ -324,12 +329,18 @@ public partial class PrologueDeepForest : Node3D
             Mesh = new CylinderMesh { TopRadius = .025f, BottomRadius = .06f, Height = 1.1f, RadialSegments = 6 },
             MaterialOverride = PainterlyMaterialLibrary.ForColor("3b3129", "wood_bark")
         });
-        Mitten = new Node3D { Name = "Mitten", Position = new Vector3(.08f, 3.18f, 0), RotationDegrees = new Vector3(0, 0, -8) };
-        root.AddChild(Mitten);
+        return AddMitten(root, new Vector3(.08f, 3.18f, 0), new Vector3(0, 0, -8));
+    }
+
+    internal static Node3D AddMitten(Node3D owner, Vector3 position, Vector3 rotation)
+    {
+        var mitten = new Node3D { Name = "Mitten", Position = position, RotationDegrees = rotation };
+        owner.AddChild(mitten);
         var wool = PainterlyMaterialLibrary.ForColor("2f4f8a", "fabric");
-        Mitten.AddChild(new MeshInstance3D { Mesh = new CapsuleMesh { Radius = .065f, Height = .24f }, MaterialOverride = wool });
-        Mitten.AddChild(new MeshInstance3D { Position = new Vector3(.06f, .02f, 0), RotationDegrees = new Vector3(0, 0, -35), Mesh = new CapsuleMesh { Radius = .028f, Height = .1f }, MaterialOverride = wool });
-        Mitten.AddChild(new MeshInstance3D { Position = new Vector3(0, .12f, 0), Mesh = new CylinderMesh { TopRadius = .068f, BottomRadius = .068f, Height = .05f }, MaterialOverride = PainterlyMaterialLibrary.ForColor("d8d2c4", "fabric") });
+        mitten.AddChild(new MeshInstance3D { Mesh = new CapsuleMesh { Radius = .065f, Height = .24f }, MaterialOverride = wool });
+        mitten.AddChild(new MeshInstance3D { Position = new Vector3(.06f, .02f, 0), RotationDegrees = new Vector3(0, 0, -35), Mesh = new CapsuleMesh { Radius = .028f, Height = .1f }, MaterialOverride = wool });
+        mitten.AddChild(new MeshInstance3D { Position = new Vector3(0, .12f, 0), Mesh = new CylinderMesh { TopRadius = .068f, BottomRadius = .068f, Height = .05f }, MaterialOverride = PainterlyMaterialLibrary.ForColor("d8d2c4", "fabric") });
+        return mitten;
     }
 
     // Something tall and thin between the trunks - a figure only in outline,

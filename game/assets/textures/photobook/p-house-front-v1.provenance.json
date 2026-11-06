@@ -1,0 +1,73 @@
+{
+  "asset_id": "P-HOUSE",
+  "world_id": "W03",
+  "status": "generated_art_candidate_runtime_and_author_acceptance_pending",
+  "created_date": "2026-10-26",
+  "tool": "image_gen.imagegen",
+  "generation_id": "exec-09f0d885-5672-450c-80ae-5fdc2d69319d",
+  "method": "Built-in ImageGen generation using project images as style/architecture references; no Meshy or paid API fallback. Not a game screenshot or historical family photograph.",
+  "prompt": "Use case: stylized-concept. Asset type: P-HOUSE front photograph illustration for the URMAN in-game family album; one finished landscape 3:2 full-frame image, 1800x1200 target. Create an original intimate summer rural Tatarstan family courtyard memory. Reference image 1 is the accepted URMAN house material/architecture language ONLY: modest low single-storey timber house, coherent horizontal log courses with clear interlocking corner ends, low pitched roof firmly bearing on walls, deep white carved window trim and restrained decorative roof edge; do NOT reproduce snow, NPC, exact winter facade or mosque. Reference image 2 is the existing P-FOREST album picture and supplies ONLY chromatic painterly realism, coherent brushwork and believable materials, not its winter landscape or people. Scene: eye-level quiet view toward the open low veranda of a lived-in Tatar log house, a worn blue-painted door jamb and one recognizable blue-painted wooden shutter at a window, an ordinary weathered brown garden chair in the yard and one mature crooked apple tree clearly behind the chair, with sparse small red/ochre apples among its leaves. These three landmarks must be immediately readable as a related courtyard composition, with real ground contact and believable scale. Shutter construction: three vertical weathered blue wooden planks joined by two horizontal wooden rails and one diagonal brace, attached with real dark metal pin hinges, naturally partly open, no floating panel. Chair: one modest hand-built brown wooden garden chair with three seat slats, two back slats and four legs. Light: paper-warm daylight, pale blue and lilac shadows, moss/olive greens and muted blue painted accents, warm wood but no yellow overall wash or sepia. Clear three layers of depth: close path and chair, material house/blue jamb/shutter in middle distance, apple tree and softened garden fence. Respect the humane contemplative feeling of the album: no horror, no magic, no portals. Keep architecture structurally plausible: each horizontal log bears on the next, consistent corner joints, properly framed rectangular windows, roof supported on walls and veranda supported on posts. No ornamental Russian onion domes, no fantasy cottage, no chalet. Painterly material realism with confident textured brushwork like reference 2, never toy-like low-poly. No people, no photographer, no photographer shadow, no camera equipment, no second impossible doorway, no writing, captions, border, watermark. This is an art candidate for W03 landmarks, NOT a documentary game screenshot; do not imply exact scene geometry.",
+  "inputs": [
+    {
+      "path": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/frames/babai_shape_front_high.png",
+      "sha256": "146035efec8364cf654d773259d17a3dd538acb4cba3549e1a85204a50239adb",
+      "role": "accepted house architecture/material language only; winter scene and actor not copied"
+    },
+    {
+      "path": "game/assets/textures/photobook/p-forest-front-v2.png",
+      "sha256": "c4b64f07534aca8a5e021b55f9e695686cd0180379d4227ebad19d169149c60e",
+      "role": "existing family-album painterly surface treatment only; no copied people or winter setting"
+    }
+  ],
+  "contract_inputs": [
+    "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json#P-HOUSE",
+    "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W03_Дом_на_просвет_RU.md#6",
+    "game/scripts/photoworlds/W03Controller.Geometry.cs#BuildH04AppleTree",
+    "game/scripts/photoworlds/W03Controller.Geometry.cs#BuildH04GardenChair",
+    "game/scripts/photoworlds/W03Controller.Geometry.cs#BuildHouseShutter"
+  ],
+  "original_generated_source": {
+    "local_path": "/Users/unterlantas/.codex/generated_images/01a1799f-33a0-7ee0-903c-423603080c98/exec-09f0d885-5672-450c-80ae-5fdc2d69319d.png",
+    "sha256": "83c92b96c1537374b10d1d17f96d35db1008ccbeb02ebbf37b0220f0b24286ad",
+    "size_px": [
+      1536,
+      1024
+    ],
+    "preservation": "Unique generated source retained in the built-in ImageGen output directory; runtime front is the selected mechanically resized copy."
+  },
+  "runtime_front": {
+    "path": "game/assets/textures/photobook/p-house-front-v1.png",
+    "sha256": "31950224adae5861f351fe8ee30091a04fd116d5cfa536ebda93f125981e4b5a",
+    "size_px": [
+      1800,
+      1200
+    ],
+    "export": "sips mechanical resample, same 3:2 aspect; no further visual edits"
+  },
+  "runtime_thumbnail": {
+    "path": "game/assets/textures/photobook/p-house-front-v1-thumbnail.png",
+    "sha256": "ecbdc38cc13cd8d51178131c4e18c2cb1e4aacb2c53250cd62211610d40368d1",
+    "size_px": [
+      256,
+      171
+    ],
+    "export": "sips mechanical downscale of runtime front"
+  },
+  "observed_landmarks": [
+    "blue-painted veranda door jamb",
+    "blue plank shutter with two cross rails and diagonal brace beside a trimmed window",
+    "one weathered brown garden chair",
+    "apple tree behind the chair with visible apples",
+    "coherent horizontal log courses, corner end stack, supported roof and veranda posts",
+    "no people, photographer, camera or photographer shadow"
+  ],
+  "geometry_limit": "No exact W03 courtyard/F0 screenshot was found among available evidence/docs image paths. The accepted winter house reference supplies architecture/material language only. Runtime source confirms the blue shutter, garden chair and apple-tree families, but does not prove this generated camera, relative arrangement or exact house shape matches W03. This is a candidate, not accepted F0-to-level correspondence.",
+  "physical_representation": "The existing P-HOUSE world print is deliberately back-up on its envelope. This slice supplies the book front and list thumbnail; no physical-card flip or new interaction is invented.",
+  "remaining_acceptance": [
+    "native book/full-image/thumbnail layout and import",
+    "W03 F0 camera and three-landmark correspondence, or a deliberate scene/art alignment decision",
+    "author artistic and cultural/rights acceptance",
+    "physical front presentation if the authored interaction later exposes that face"
+  ],
+  "rights": "Original project-generated fictional courtyard art; project-owned reference images used for declared style/architecture properties. No real people or documentary family claims. Final human artistic/cultural/rights gates remain open."
+}

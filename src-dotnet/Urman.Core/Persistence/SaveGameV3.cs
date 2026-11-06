@@ -45,6 +45,8 @@ public sealed record GameSettingsSnapshot(
     public string TatarLanguageLevel { get; init; } = "none";
 }
 
+public sealed record ForestPassageObservationSnapshot(string VisitId, int ExitSide, int SeenSubjects);
+
 public sealed record SaveGameV3(
     int SaveSchemaVersion,
     string CampaignFingerprint,
@@ -61,6 +63,9 @@ public sealed record SaveGameV3(
     double PlayTimeSeconds)
 {
     public const int CurrentSchemaVersion = 3;
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ForestPassageObservationSnapshot? ForestPassageObservation { get; init; }
 }
 
 public sealed record SaveLoadResult(SaveGameV3 Save, bool RecoveredFromBackup);
@@ -167,6 +172,11 @@ public sealed class SaveGameV3Codec
         {
             throw new InvalidDataException("SaveGameV3 saved sequence must equal the runtime event sequence.");
         }
+
+        if (save.ForestPassageObservation is { } forest
+            && (string.IsNullOrWhiteSpace(forest.VisitId) || forest.ExitSide is not (-1 or 1)
+                || forest.SeenSubjects is < 0 or >= 7))
+            throw new InvalidDataException("SaveGameV3 forest passage observation is malformed.");
 
         if (save.Runtime.SchemaVersion != Runtime.RuntimeKernel.SnapshotSchemaVersion ||
             save.Runtime.State.ValueKind != JsonValueKind.Object || save.Runtime.Claims is null ||

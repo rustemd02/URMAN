@@ -18,7 +18,7 @@ public partial class W02Controller : Node3D
     private const string RiverSceneId = "urman.fullgame:scene/pw-river";
     private const string ReflectionInteractionId = "urman.fullgame:interaction/pw-water-reflection";
     private const string BypassInteractionId = "urman.fullgame:interaction/pw-water-bypass";
-    private const string OldApproachInteractionId = "urman.fullgame:interaction/pw-water-old-approach";
+    internal const string OldApproachInteractionId = "urman.fullgame:interaction/pw-water-old-approach";
     private const string EncounterInteractionId = "urman.fullgame:interaction/pw-water-encounter";
     private const string DampPrintInteractionId = "urman.fullgame:interaction/pw-water-damp-print";
     private const string ReturnInteractionId = "urman.fullgame:interaction/pw-water-return";
@@ -58,6 +58,14 @@ public partial class W02Controller : Node3D
     private static readonly int[] MainRoute = [0, 1, 3, 4, 5, 6, 7, 8];
     private const int SpurA = 1;
     private const int SpurB = 2;
+    private const float FarPierWidth = 1.8f;
+    private static readonly Vector3[] FarPierRoute =
+    [
+        new(48f, 1.36f, 83f),
+        new(42f, 1.36f, 83.2f),
+        new(36.5f, 1.36f, 83.6f),
+        new(33.2f, 1.36f, 83.9f)
+    ];
 
     private const float WaterLevel = 0.15f;
     private const float WaterBed = -1.9f;
@@ -73,6 +81,7 @@ public partial class W02Controller : Node3D
 
     private RuntimeBridge? _bridge;
     private Node3D? _world;
+    private Vector3 _oldApproachWitness;
     private readonly List<StaticBody3D> _worldBodies = [];
     private readonly List<InteractionTarget> _targets = [];
     private InteractionTarget? _encounterTarget;
@@ -931,6 +940,7 @@ public partial class W02Controller : Node3D
             pillar.Mesh = new CylinderMesh { TopRadius = 0.12f, BottomRadius = 0.155f, Height = height };
             pillar.Position = new Vector3(x, bottom + height * 0.5f, z);
             pillar.RotationDegrees = new Vector3(4f * ((pile % 3) - 1), 20f * pile, 5f + 4f * ((pile % 4) - 1.5f));
+            if (pile == 0) _oldApproachWitness = ToLocal(pillar.ToGlobal(Vector3.Up * (height * .5f)));
         }
 
         for (var plank = 0; plank < 4; plank++)
@@ -945,18 +955,93 @@ public partial class W02Controller : Node3D
             });
     }
 
+    private bool IsCurrentRiverObjective(object? identity) => identity is not null
+        && _bridge is { } bridge && GodotObject.IsInstanceValid(bridge)
+        && bridge.CurrentW02WaterProjection() is { ActiveSceneId: RiverSceneId } route
+        && ReferenceEquals(route.SessionIdentity, identity) && ReferenceEquals(bridge.SessionIdentity, identity);
+
+    internal bool TryGetOldApproachObjectiveTarget(object? identity, Vector3 playerPosition, Vector3 witnessPosition,
+        out Vector3 point, out string label, out bool inspectionTarget)
+    {
+        point = default;
+        label = string.Empty;
+        inspectionTarget = false;
+        if (!IsCurrentRiverObjective(identity)) return false;
+
+        var feet = ToLocal(playerPosition);
+        var position = new Vector2(feet.X, feet.Z);
+        // The old piles are over water. Stop within ray reach on the dry shelf.
+        var stance = new Vector2(36.85f, 63.55f);
+        const float stanceRadius = .30f;
+        if (position.DistanceSquaredTo(stance) <= stanceRadius * stanceRadius)
+        {
+            point = witnessPosition;
+            label = "Осмотрите старые сваи";
+            inspectionTarget = true;
+            return true;
+        }
+
+        var bank = new Vector2(RouteNodes[5].X, RouteNodes[5].Z);
+        var towardsStance = (stance - bank).Normalized();
+        var fromBank = position - bank;
+        var onApproach = fromBank.Dot(towardsStance) >= -.65f && Mathf.Abs(fromBank.Cross(towardsStance)) <= 1.2f;
+        var destination = onApproach ? stance : bank;
+        point = ToGlobal(new Vector3(destination.X, TerrainHeight(destination.X, destination.Y), destination.Y));
+        label = onApproach ? "Точка осмотра на берегу" : "Тропа вдоль берега";
+        return true;
+    }
+
+    internal bool TryGetFarPierObjectiveTarget(object? identity, Vector3 playerPosition, bool approachingBoard,
+        out Vector3 point, out string label)
+    {
+        point = default;
+        label = string.Empty;
+        if (!IsCurrentRiverObjective(identity)) return false;
+
+        var feet = ToLocal(playerPosition);
+        var mouth = FarPierRoute[0];
+        var farEnd = FarPierRoute[^1];
+        var position = new Vector2(feet.X, feet.Z);
+        var bank = new Vector2(mouth.X, mouth.Z);
+        var inward = (new Vector2(farEnd.X, farEnd.Z) - bank).Normalized();
+        var offset = position - bank;
+        var pierDistance = SampleSegment(mouth, farEnd, feet.X, feet.Z).Distance;
+        var alongPier = offset.Dot(inward);
+        const float mouthRadius = .55f;
+        var inPierCorridor = pierDistance <= FarPierWidth * .5f + .25f;
+        if (approachingBoard)
+        {
+            if (offset.LengthSquared() <= mouthRadius * mouthRadius || (alongPier > mouthRadius && inPierCorridor))
+                return false; // The existing board target is reachable from this deck.
+            point = ToGlobal(mouth);
+            label = "Вход на дальние мостки";
+            return true;
+        }
+
+        if (alongPier > -.35f && inPierCorridor)
+        {
+            // Clear the end of the railing before turning down the bank.
+            var offPier = bank - inward * .75f;
+            point = ToGlobal(new Vector3(offPier.X, TerrainHeight(offPier.X, offPier.Y), offPier.Y));
+            label = "Сойдите с мостков";
+            return true;
+        }
+
+        var meadow = RouteNodes[7];
+        var meadowPoint = new Vector2(meadow.X, meadow.Z);
+        if ((position - meadowPoint).Dot((meadowPoint - bank).Normalized()) >= -mouthRadius)
+            return false;
+
+        point = ToGlobal(meadow);
+        label = "Тропа вдоль берега";
+        return true;
+    }
+
     private void BuildFarPier()
     {
-        Vector3[] legs =
-        [
-            new(48f, 1.36f, 83f),
-            new(42f, 1.36f, 83.2f),
-            new(36.5f, 1.36f, 83.6f),
-            new(33.2f, 1.36f, 83.9f)
-        ];
-        BuildBoardwalk("FarPier", legs, 1.8f, DeckMaterial());
-        BuildLegRailing("FarPierRail", legs, 1.8f, south: true, WetPostMaterial());
-        BuildLegRailing("FarPierRailNorth", legs, 1.8f, south: false, WetPostMaterial());
+        BuildBoardwalk("FarPier", FarPierRoute, FarPierWidth, DeckMaterial());
+        BuildLegRailing("FarPierRail", FarPierRoute, FarPierWidth, south: true, WetPostMaterial());
+        BuildLegRailing("FarPierRailNorth", FarPierRoute, FarPierWidth, south: false, WetPostMaterial());
 
         var board = new MeshInstance3D
         {
@@ -1413,7 +1498,7 @@ public partial class W02Controller : Node3D
             EnsureTarget("WaterBypassTarget", BypassInteractionId,
                 bridge.ResolveText(BypassLabelTextId), new Vector3(25f, 2.2f, 42f), 0.7f);
             EnsureTarget("WaterOldApproachTarget", OldApproachInteractionId,
-                bridge.ResolveText(OldApproachLabelTextId), new Vector3(35.4f, 2.1f, 63.7f), 0.7f);
+                bridge.ResolveText(OldApproachLabelTextId), _oldApproachWitness, .90f);
             if (_looseBoard is { } board && GodotObject.IsInstanceValid(board))
             {
                 _encounterTarget = EnsureTarget("WaterEncounterTarget", EncounterInteractionId,

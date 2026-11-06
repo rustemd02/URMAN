@@ -40,8 +40,6 @@ public partial class Act1ConnectedWorld
             FacilityRadiator(room, "PoliceRadiator" + x, new(x, .58f, 4.20f), 0);
         }
         FacilityManualDoor(room, "PoliceEntrance", "police.entrance", new(-.59f, 0, 4.42f), 1.15f, 2.20f, 90, 80);
-        GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld")
-            .ExcludeOccupiedRoomTerrain(room, new(5.79f, 4.29f));
         SquareWeatherShelter(room, new(0, 1.5f, 0), new(5.8f, 1.5f, 4.3f));
         BuildPoliceRoof(room);
         BuildPoliceInterior(room);
@@ -53,6 +51,10 @@ public partial class Act1ConnectedWorld
             light.ShadowEnabled=light.Name=="PoliceLobbyLight";
         EnsureFacilityTick();
     }
+
+    private void ExcludePolicePostTerrain() =>
+        GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld")
+            .ExcludeOccupiedRoomTerrain(_policePost!, new(5.79f, 4.29f), fitBabaiYard: false);
 
     private bool InPolicePost(Vector3 point)
     {

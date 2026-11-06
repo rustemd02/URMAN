@@ -36,6 +36,7 @@ public partial class Act1ConnectedWorld
                 if (!layout.RootElement.TryGetProperty("executor", out var executor) || executor.GetString() != "generic") continue;
                 RegisterAuthoredPlotAddresses(layout.RootElement, preparedWorldFaces);
             }
+            preparedWorldFaces.ReportProfile();
         });
         foreach (var anchor in KitPlacementTakeover.Unmatched())
         {

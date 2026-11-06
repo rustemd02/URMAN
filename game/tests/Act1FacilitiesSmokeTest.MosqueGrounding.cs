@@ -140,7 +140,7 @@ public partial class Act1FacilitiesSmokeTest
         var source = MosqueRenderedFaces(cut.Source);
         var contactPublication = cut.Published.GetFaces();
         var physicalTerrain = ((ConcavePolygonShape3D)cut.Contact.Shape).GetFaces();
-        var toRoom = cut.RoomTransform.AffineInverse() * cut.MeshTransform;
+        var toRoom = cut.CutTransform.AffineInverse() * cut.MeshTransform;
         var sourceInsideArea = 0d;
         var sourceArea = 0d;
         var publishedInsideArea = 0d;

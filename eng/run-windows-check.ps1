@@ -11,6 +11,7 @@ param(
     [string]$ToolsRoot,
     [string]$Provenance,
     [string]$CandidateRoot,
+    [string]$AcceptanceProfile,
     [switch]$CandidateSession,
     [string]$Output,
     [string]$Python = 'python'
@@ -63,7 +64,26 @@ if ($candidateMode) {
         -not (Test-Path (Join-Path "$Root/game" $Scene.Substring(6))))) { throw 'Invalid or missing scene.' }
 }
 $studioPlay = $Mode -eq 'play' -and $Scene -eq 'res://studio/studio_main.tscn'
-if ($Mode -eq 'play' -and $TimeoutSeconds -gt 3600) { throw 'play timeout must be 1..3600 seconds.' }
+$photoWorldsProductPlay = $Mode -eq 'play' -and $Scene -ceq 'res://scenes/photoworlds_game.tscn'
+$acceptanceProfileSupplied = $PSBoundParameters.ContainsKey('AcceptanceProfile')
+if ($acceptanceProfileSupplied) {
+    if ($AcceptanceProfile -cnotmatch '\A[a-z0-9][a-z0-9-]{0,47}\z') {
+        throw 'AcceptanceProfile must match [a-z0-9][a-z0-9-]{0,47}.'
+    }
+    if ($Mode -cne 'play' -or $Scene -cne 'res://scenes/photoworlds_game.tscn' -or $Headless -or
+        $PSBoundParameters.ContainsKey('ViewPoints') -or
+        $PSBoundParameters.ContainsKey('AtmospherePhase') -or
+        $PSBoundParameters.ContainsKey('ViewFov') -or
+        $PSBoundParameters.ContainsKey('StudioRestarts') -or
+        $PSBoundParameters.ContainsKey('CandidateRoot') -or
+        $PSBoundParameters.ContainsKey('CandidateSession')) {
+        throw 'AcceptanceProfile is only valid for ordinary native PhotoWorlds play with no capture or candidate options.'
+    }
+}
+$playTimeoutMaximum = if ($photoWorldsProductPlay) { 7200 } else { 3600 }
+if ($Mode -eq 'play' -and $TimeoutSeconds -gt $playTimeoutMaximum) {
+    throw "play timeout must be 1..$playTimeoutMaximum seconds."
+}
 if ($PSBoundParameters.ContainsKey('StudioRestarts') -and -not $studioPlay) {
     throw 'StudioRestarts is only valid for a native Studio play run.'
 }
@@ -414,10 +434,23 @@ try {
         }
     }
     if ($Mode -in @('play', 'smoke', 'capture')) {
-        $baseArguments = @($guard, '--clean', '--timeout', "$TimeoutSeconds", $godot, '--path', "$Root/game")
+        $ordinaryPhotoWorldsPlay = $Mode -eq 'play' -and $Scene -eq 'res://scenes/photoworlds_game.tscn'
+        $baseArguments = @($guard)
+        if ($acceptanceProfileSupplied) {
+            $baseArguments += @('--clean', '--acceptance-profile', $AcceptanceProfile)
+            $receipt.userdataPreparation = 'guard-clean-acceptance-profile'
+            $receipt.acceptanceProfile = $AcceptanceProfile
+        } elseif ($ordinaryPhotoWorldsPlay) {
+            # The guard uses a disposable copy and restores the original; Continue needs that copy.
+            $receipt.userdataPreparation = 'guard-default-copy-if-present'
+        } else {
+            $baseArguments += '--clean'
+            $receipt.userdataPreparation = 'guard-clean'
+        }
+        $baseArguments += @('--timeout', "$TimeoutSeconds", $godot, '--path', "$Root/game")
         # Ordinary PhotoWorlds play uses the same window settings as the shipped
         # project. A forced desktop-sized client can put its caption off-screen.
-        if ($Mode -eq 'play' -and $Scene -eq 'res://scenes/photoworlds_game.tscn') {
+        if ($ordinaryPhotoWorldsPlay) {
             $receipt.nativeWindowSizePolicy = 'project-default'
         } else {
             $baseArguments += @('--resolution', '1920x1080')
@@ -478,7 +511,8 @@ try {
             $runRecord = [ordered]@{ run = $runIndex + 1; step = $stepName; log = "$stepName.log";
                 startedUtc = $runStarted; finishedUtc = $null; exitCode = $null; status = 'RUNNING'; engineErrors = @() }
             $runArguments = @($baseArguments)
-            $runArguments[3] = "$runTimeout"
+            $timeoutValueIndex = [Array]::IndexOf($runArguments, '--timeout') + 1
+            $runArguments[$timeoutValueIndex] = "$runTimeout"
             $receipt.userdataRestored = $false
             try {
                 Invoke-Logged $stepName $Python $runArguments ($runTimeout + 30) -DeferEngineErrors:($studioPlay -and $StudioRestarts -gt 0)

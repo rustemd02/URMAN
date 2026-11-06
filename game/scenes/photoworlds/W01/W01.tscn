@@ -6,7 +6,7 @@
 sky_top_color = Color(0.33, 0.48, 0.65, 1)
 sky_horizon_color = Color(0.64, 0.70, 0.77, 1)
 ground_bottom_color = Color(0.30, 0.35, 0.44, 1)
-ground_horizon_color = Color(0.49, 0.57, 0.67, 1)
+ground_horizon_color = Color(0.64, 0.70, 0.77, 1)
 
 [sub_resource type="Sky" id="Sky_W01Winter"]
 sky_material = SubResource("ProceduralSkyMaterial_W01Winter")
@@ -44,6 +44,14 @@ light_color = Color(0.93, 0.94, 0.82, 1)
 light_energy = 1.08
 shadow_enabled = true
 shadow_opacity = 0.68
+
+[node name="PrologueClearingMoonlight" type="OmniLight3D" parent="."]
+position = Vector3(75, 13, 143)
+visible = false
+light_color = Color(0.66, 0.74, 0.87, 1)
+light_energy = 0.38
+omni_range = 22.0
+omni_attenuation = 1.2
 
 [node name="Anchors" type="Node3D" parent="."]
 
@@ -83,6 +91,11 @@ rotation_degrees = Vector3(0, 27.853843, 0)
 position = Vector3(95, 3.555555556, 120)
 rotation_degrees = Vector3(0, 27.853843, 0)
 
+; Four metres past the transformed WalkExit on the trail to F14, on the terrain collision mesh.
+[node name="F13_OUT" type="Marker3D" parent="Anchors"]
+position = Vector3(104.579553, 3.743913, 128.476097)
+rotation_degrees = Vector3(0, -159.18971, 0)
+
 ; Passport X/Z retained; Y=4 is sampled from the continuous terrain (passport Y=7 is design-local).
 [node name="F14" type="Marker3D" parent="Anchors"]
 position = Vector3(112, 4, 148)
@@ -101,6 +114,11 @@ position = Vector3(2.45, 0, 0.46)
 position = Vector3(2.9, 0, 0.15)
 rotation_degrees = Vector3(0, 90, 0)
 
+; On the flat trail, 45 cm to the left of the encounter frame and clear of the old root.
+[node name="F14_REST" type="Marker3D" parent="Anchors"]
+position = Vector3(111.61543, 4, 148.23368)
+rotation_degrees = Vector3(0, -95, 0)
+
 ; F15/F16 retain passport X/Z and use the continuous F00–F03 terrain fit (Y=4).
 [node name="F15" type="Marker3D" parent="Anchors"]
 position = Vector3(132, 4, 169)
@@ -115,22 +133,25 @@ layer = 12
 [node name="SkipButton" type="Button" parent="PrologueUI"]
 layout_mode = 0
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
-offset_left = -560.0
-offset_top = 24.0
+anchor_bottom = 1.0
+offset_left = -304.0
+offset_top = -80.0
 offset_right = -24.0
-offset_bottom = 80.0
+offset_bottom = -24.0
 custom_minimum_size = Vector2(280, 56)
 focus_mode = 2
 visible = false
 disabled = true
-text = "Пропустить лесной пролог и выйти из Нивы у дома"
+text = "Пропустить лесной пролог"
 
 [node name="F01" type="Marker3D" parent="Anchors"]
 position = Vector3(12, 1, 50)
 
 [node name="F02" type="Marker3D" parent="Anchors"]
 position = Vector3(45, 3, 95)
+rotation_degrees = Vector3(0, -142.125, 0)
 
 [node name="F03" type="Marker3D" parent="Anchors"]
 position = Vector3(80, 4, 140)

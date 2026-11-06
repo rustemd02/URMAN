@@ -24,12 +24,14 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private const string KitDirectory = "res://assets/models/agent_b_act1/";
     private const string GeneratedWinterPinePath = "res://assets/models/act1/urman_winter_pine_meshy_v1.glb";
     private const string PhysicalWinterPinePath = "res://assets/models/act1/urman_winter_pine.glb";
+    private const string GeneratedWinterBirchPath = "res://assets/models/act1/urman_winter_birch_meshy_v2.glb";
 
     internal static IEnumerable<string> WinterPineResourcePaths
     {
         get
         {
             yield return GeneratedWinterPinePath;
+            yield return GeneratedWinterBirchPath;
             yield return PhysicalWinterPinePath;
         }
     }
@@ -44,9 +46,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private SnowTrampleField? _snowTrample;
     private readonly List<OmniLight3D> _karaAccentLights = new();
     private readonly Dictionary<(string Variant, string Region), ArrayMesh> _foliageMeshes = new();
-    private const int MaximumGeneratedPineFits = 9;
-    private sealed record GeneratedPineFit(PackedScene Scene, ArrayMesh Source, ArrayMesh Fitted, Action Invalidated);
-    private static readonly Dictionary<(ulong Scene, ulong Mesh, int Lod, Vector3 Scale), GeneratedPineFit> GeneratedPineFits = new();
+    private const int MaximumGeneratedFoliageFits = 12;
+    private sealed record GeneratedFoliageFit(PackedScene Scene, ArrayMesh Source, ArrayMesh Fitted, Action Invalidated);
+    private static readonly Dictionary<(ulong Scene, ulong Mesh, int Lod, Vector3 Scale), GeneratedFoliageFit> GeneratedFoliageFits = new();
     internal static Aabb[] BuildingRoofBounds(Node root) => EnumerateDescendants<MeshInstance3D>(root)
         .Where(mesh => mesh.IsVisibleInTree() && mesh.Mesh is not null
             && mesh.Name.ToString().Contains("Roof", StringComparison.OrdinalIgnoreCase))
@@ -93,7 +95,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     }
 
     internal ArrayMesh FoliageMesh(string variant, string region) =>
-        LoadFoliageMesh(variant, region, generatedPine: true);
+        LoadFoliageMesh(variant, region, generatedVisual: true);
 
     private static bool IsWinterSpruceVariant(string variant) =>
         variant.StartsWith("WinterSpruce_", StringComparison.Ordinal)
@@ -105,9 +107,35 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         : variant.StartsWith("WinterFarSpruce_", StringComparison.Ordinal) ? "WinterFarPine"
         : "WinterPine";
 
-    private ArrayMesh LoadFoliageMesh(string variant, string region, bool generatedPine)
+    private static bool IsWinterBirchVariant(string variant) =>
+        variant is "WinterBirch" or "WinterLightBirch" or "WinterFarBirch"
+        || variant.StartsWith("WinterBirch_", StringComparison.Ordinal)
+        || variant.StartsWith("WinterLightBirch_", StringComparison.Ordinal)
+        || variant.StartsWith("WinterFarBirch_", StringComparison.Ordinal);
+
+    private static string BirchVisualTier(string variant) =>
+        variant.StartsWith("WinterLightBirch", StringComparison.Ordinal) ? "WinterLightBirch"
+        : variant.StartsWith("WinterFarBirch", StringComparison.Ordinal) ? "WinterFarBirch"
+        : "WinterBirch";
+
+    private static string BirchNearVariant(string variant) =>
+        variant.StartsWith("WinterLightBirch", StringComparison.Ordinal) ? "WinterBirch" + variant["WinterLightBirch".Length..]
+        : variant.StartsWith("WinterFarBirch", StringComparison.Ordinal) ? "WinterBirch" + variant["WinterFarBirch".Length..]
+        : variant;
+
+    private static string BirchTierVariant(string nearVariant, int lod) => lod switch
     {
-        if (generatedPine && IsWinterSpruceVariant(variant))
+        0 => nearVariant,
+        1 => "WinterLightBirch" + nearVariant["WinterBirch".Length..],
+        2 => "WinterFarBirch" + nearVariant["WinterBirch".Length..],
+        _ => throw new ArgumentOutOfRangeException(nameof(lod))
+    };
+
+    private ArrayMesh LoadFoliageMesh(string variant, string region, bool generatedVisual)
+    {
+        if (generatedVisual && IsWinterBirchVariant(variant))
+            return LoadGeneratedWinterBirchMesh(variant, region);
+        if (generatedVisual && IsWinterSpruceVariant(variant))
         {
             // Spruce aliases keep their authored dimensions and physical source;
             // every visible tier uses the generated family, including distant bands.
@@ -115,7 +143,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             if (_foliageMeshes.TryGetValue(visualKey, out var fitted)) return fitted;
             if (!_foliageMeshes.TryGetValue(("physical/" + variant, region), out var physical))
                 throw new InvalidOperationException($"Missing winter foliage envelope: {variant}");
-            var pineVisual = LoadFoliageMesh(PineVisualTier(variant), region, generatedPine: true);
+            var pineVisual = LoadFoliageMesh(PineVisualTier(variant), region, generatedVisual: true);
             var physicalSize = physical.GetAabb().Size;
             var visualSize = pineVisual.GetAabb().Size;
             fitted = FitMeshFromRoot(pineVisual, new Vector3(physicalSize.X / visualSize.X,
@@ -124,12 +152,12 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             return fitted;
         }
         var pine = variant is "WinterPine" or "WinterLightPine" or "WinterFarPine";
-        generatedPine &= pine;
-        var cacheVariant = pine && !generatedPine ? "physical/" + variant : variant;
+        generatedVisual &= pine;
+        var cacheVariant = pine && !generatedVisual ? "physical/" + variant : variant;
         if (_foliageMeshes.TryGetValue((cacheVariant, region), out var cached)) return cached;
         if (!pine && variant is not ("WinterDeadTree" or "WinterLightDeadTree" or "WinterFarDeadTree"))
             throw new InvalidOperationException($"Missing winter foliage geometry: {variant}");
-        var path = generatedPine ? GeneratedWinterPinePath
+        var path = generatedVisual ? GeneratedWinterPinePath
             : pine ? PhysicalWinterPinePath
             : "res://assets/models/act1/urman_winter_dead_tree.glb";
         var sourceScene = ResourceLoader.Load<PackedScene>(path);
@@ -139,38 +167,26 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var names = pine ? new[] { "WinterPine", "WinterLightPine", "WinterFarPine" }
                 : new[] { "WinterDeadTree", "WinterLightDeadTree", "WinterFarDeadTree" };
             var visualScale = Vector3.One;
-            if (generatedPine)
+            if (generatedVisual)
             {
                 // One root-preserving fit for every LOD. The old mesh remains
                 // authoritative for planting clearance and physical stem faces.
-                var envelope = LoadFoliageMesh("WinterPine", region, generatedPine: false).GetAabb();
+                var envelope = LoadFoliageMesh("WinterPine", region, generatedVisual: false).GetAabb();
                 var visualBounds = EnumerateDescendants<MeshInstance3D>(source)
                     .Single(node => node.Name == "WinterPine_LOD0").Mesh!.GetAabb();
-                static float FitAxis(float minimum, float maximum, float limitMinimum, float limitMaximum)
-                {
-                    var scale = float.PositiveInfinity;
-                    if (minimum < 0f) scale = Mathf.Min(scale, limitMinimum / minimum);
-                    if (maximum > 0f) scale = Mathf.Min(scale, limitMaximum / maximum);
-                    if (!float.IsFinite(scale) || scale <= 0f)
-                        throw new InvalidOperationException("Generated pine must have usable rooted geometry on every axis.");
-                    return scale;
-                }
-                visualScale = new Vector3(
-                    FitAxis(visualBounds.Position.X, visualBounds.End.X, envelope.Position.X, envelope.End.X),
-                    FitAxis(visualBounds.Position.Y, visualBounds.End.Y, envelope.Position.Y, envelope.End.Y),
-                    FitAxis(visualBounds.Position.Z, visualBounds.End.Z, envelope.Position.Z, envelope.End.Z));
+                visualScale = RootedFoliageFitScale(visualBounds, envelope);
             }
             for (var lod = 0; lod < names.Length; lod++)
             {
                 var template = EnumerateDescendants<MeshInstance3D>(source).Single(node => node.Name == $"{(pine ? "WinterPine" : "WinterDeadTree")}_LOD{lod}");
-                var mesh = generatedPine ? FitGeneratedPineMesh(sourceScene, (ArrayMesh)template.Mesh!, visualScale, lod)
+                var mesh = generatedVisual ? FitGeneratedFoliageMesh(sourceScene, (ArrayMesh)template.Mesh!, visualScale, lod)
                     : (ArrayMesh)template.Mesh!.Duplicate();
-                if (generatedPine && mesh.GetSurfaceCount() is < 1 or > 2)
+                if (generatedVisual && mesh.GetSurfaceCount() is < 1 or > 2)
                     throw new InvalidOperationException("Generated pine requires one or two shared PBR surfaces.");
                 for (var surface = 0; surface < mesh.GetSurfaceCount(); surface++)
                 {
                     var imported = mesh.SurfaceGetMaterial(surface) as StandardMaterial3D;
-                    if (generatedPine)
+                    if (generatedVisual)
                     {
                         if (imported is null)
                             throw new InvalidOperationException("Generated pine is missing its imported PBR material.");
@@ -192,11 +208,66 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                         mesh.SurfaceSetMaterial(surface, RegionalFoliageMaterial(variant, "bark", region));
                     }
                 }
-                _foliageMeshes[(pine && !generatedPine ? "physical/" + names[lod] : names[lod], region)] = mesh;
+                _foliageMeshes[(pine && !generatedVisual ? "physical/" + names[lod] : names[lod], region)] = mesh;
             }
         }
         finally { source.Free(); }
         return _foliageMeshes[(cacheVariant, region)];
+    }
+
+    private ArrayMesh LoadGeneratedWinterBirchMesh(string variant, string region)
+    {
+        if (_foliageMeshes.TryGetValue((variant, region), out var cached)) return cached;
+
+        var nearVariant = BirchNearVariant(variant);
+        var scene = ResourceLoader.Load<PackedScene>(GeneratedWinterBirchPath);
+        var sourceRoot = scene.Instantiate<Node3D>();
+        try
+        {
+            var sourceMeshes = Enumerable.Range(0, 3).Select(lod =>
+                EnumerateDescendants<MeshInstance3D>(sourceRoot)
+                    .Single(node => node.Name == $"WinterBirch_LOD{lod}").Mesh as ArrayMesh
+                    ?? throw new InvalidOperationException($"Generated birch LOD{lod} must use an ArrayMesh."))
+                .ToArray();
+            var fitScale = Vector3.One;
+            if (nearVariant != "WinterBirch")
+            {
+                if (!_foliageMeshes.TryGetValue(("physical/" + nearVariant, region), out var physical))
+                    throw new InvalidOperationException($"Missing winter birch envelope: {nearVariant}");
+                fitScale = RootedFoliageFitScale(sourceMeshes[0].GetAabb(), physical.GetAabb());
+            }
+
+            for (var lod = 0; lod < sourceMeshes.Length; lod++)
+            {
+                var mesh = FitGeneratedFoliageMesh(scene, sourceMeshes[lod], fitScale, lod);
+                if (mesh.GetSurfaceCount() is < 1 or > 2)
+                    throw new InvalidOperationException("Generated birch requires one or two shared PBR surfaces.");
+                for (var surface = 0; surface < mesh.GetSurfaceCount(); surface++)
+                    if (mesh.SurfaceGetMaterial(surface) is not StandardMaterial3D)
+                        throw new InvalidOperationException("Generated birch is missing its imported PBR material.");
+                _foliageMeshes[(BirchTierVariant(nearVariant, lod), region)] = mesh;
+            }
+        }
+        finally { sourceRoot.Free(); }
+        return _foliageMeshes[(variant, region)];
+    }
+
+    internal static Vector3 RootedFoliageFitScale(Aabb source, Aabb envelope)
+    {
+        static float FitAxis(float minimum, float maximum, float limitMinimum, float limitMaximum)
+        {
+            var scale = float.PositiveInfinity;
+            if (minimum < 0f) scale = Mathf.Min(scale, limitMinimum / minimum);
+            if (maximum > 0f) scale = Mathf.Min(scale, limitMaximum / maximum);
+            if (!float.IsFinite(scale) || scale <= 0f)
+                throw new InvalidOperationException("Generated foliage must have usable rooted geometry on every axis.");
+            return scale;
+        }
+
+        return new Vector3(
+            FitAxis(source.Position.X, source.End.X, envelope.Position.X, envelope.End.X),
+            FitAxis(source.Position.Y, source.End.Y, envelope.Position.Y, envelope.End.Y),
+            FitAxis(source.Position.Z, source.End.Z, envelope.Position.Z, envelope.End.Z));
     }
     private bool _built;
     private bool _exteriorPresentationEnabled;
@@ -400,7 +471,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     {
         if (GetNodeOrNull<CollisionShape3D>("AgentB_TerrainCollision/AgentB_TerrainFaces")?.Shape is ConcavePolygonShape3D shape)
         {
-            shape.SetFaces(AgentBAct1HeightField.BuildTerrainFaces());
+            shape.SetFaces(AgentBAct1HeightField.TerrainFaces);
         }
 
         var kit = GetNodeOrNull<Node3D>("AgentB_TerrainRoadKit");
@@ -408,7 +479,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         if (terrain?.Mesh is not ArrayMesh current) return;
         var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
-        foreach (var vertex in AgentBAct1HeightField.BuildTerrainFaces())
+        foreach (var vertex in AgentBAct1HeightField.TerrainFaces)
         {
             surface.SetUV(new Vector2(vertex.X, vertex.Z));
             surface.AddVertex(terrain.ToLocal(ToGlobal(vertex)));
@@ -430,7 +501,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         body.CollisionMask = 1u;
         AddChild(body);
         var shape = new ConcavePolygonShape3D();
-        shape.SetFaces(AgentBAct1HeightField.BuildTerrainFaces());
+        shape.SetFaces(AgentBAct1HeightField.TerrainFaces);
         body.AddChild(new CollisionShape3D { Name = "AgentB_TerrainFaces", Shape = shape });
         // The western shoulder now carries the Tamara board approach. Its
         // raised snow surface needs contact, not the lower base heightfield.
@@ -474,7 +545,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             {
                 var surface = new SurfaceTool();
                 surface.Begin(Mesh.PrimitiveType.Triangles);
-                foreach (var vertex in AgentBAct1HeightField.BuildTerrainFaces())
+                foreach (var vertex in AgentBAct1HeightField.TerrainFaces)
                 {
                     surface.SetUV(new Vector2(vertex.X, vertex.Z));
                     surface.AddVertex(mesh.ToLocal(ToGlobal(vertex)));
@@ -484,8 +555,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 surface.Commit(result);
                 result.SurfaceSetMaterial(0, original.SurfaceGetMaterial(0));
                 // The recessed lane is a property of the shared field, not of this
-                // mesh, and the traversal triangles below come from the very same
-                // call. Record the numbers the ground was cut with where a capture
+                // mesh, and the traversal triangles below use the same samples.
+                // Record the numbers the ground was cut with where a capture
                 // can read them instead of re-deriving them (VIS-077 proof).
                 mesh.SetMeta("snowLaneProfile", System.FormattableString.Invariant(
                     $"owner=AgentBAct1HeightField.RoadProfile depth={AgentBAct1HeightField.LaneDepthFootTrack}..{AgentBAct1HeightField.LaneDepthCarriageway} bank={AgentBAct1HeightField.BankRiseFootTrack}..{AgentBAct1HeightField.BankRiseCarriageway} reach={AgentBAct1HeightField.LaneInfluence}"));
@@ -571,7 +642,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     /// its actual rotated footprint. Both the rendered terrain and its single
     /// physics owner receive the same clipped faces; the yard remains intact.
     /// </summary>
-    public void ExcludeOccupiedRoomTerrain(Node3D room, Vector2 halfSize)
+    public void ExcludeOccupiedRoomTerrain(Node3D room, Vector2 halfSize, bool fitBabaiYard)
     {
         if (halfSize.X <= 0 || halfSize.Y <= 0
             || Math.Abs(room.GlobalBasis.Y.Normalized().Dot(Vector3.Up)) < .9999f)
@@ -591,6 +662,11 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         if (contact.Shape is not ConcavePolygonShape3D shape)
             throw new InvalidOperationException("The terrain physics owner lost its triangle surface.");
         shape.SetFaces(physicalFaces);
+        room.SetMeta("exteriorTerrainFootprintExcluded", true);
+        room.SetMeta("exteriorTerrainCutHalfSize", halfSize);
+        GD.Print($"act1-terrain-room-cut: room={room.GetPath()} half={halfSize} affectedTriangles={changedTriangles} clippedVertices={outputVertices} publishedVertices={publishedFaces.Length} physicsVertices={shape.GetFaces().Length} visualAndPhysics=shared-published-faces");
+        if (!fitBabaiYard) return;
+
         contact.SetMeta("terrainCutInputVertices", outputVertices);
         contact.SetMeta("terrainCutPublishedVertices", publishedFaces.Length);
         contact.SetMeta("terrainCutPhysicsVertices", shape.GetFaces().Length);
@@ -598,9 +674,6 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         mesh.SetMeta("occupiedRoomTerrainHalfSize", halfSize);
         contact.SetMeta("occupiedRoomTerrainCut", room.GetPath().ToString());
         contact.SetMeta("occupiedRoomTerrainHalfSize", halfSize);
-        room.SetMeta("exteriorTerrainFootprintExcluded", true);
-        room.SetMeta("exteriorTerrainCutHalfSize", halfSize);
-        GD.Print($"act1-terrain-room-cut: room={room.GetPath()} half={halfSize} affectedTriangles={changedTriangles} clippedVertices={outputVertices} publishedVertices={publishedFaces.Length} physicsVertices={shape.GetFaces().Length} visualAndPhysics=shared-published-faces");
         // The original yard apron is a separate visible surface. It must share
         // the occupied footprint cut: its uphill edge otherwise rises through
         // the timber floor beside the photograph. Terrain remains its sole
@@ -633,7 +706,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var material = mesh.Mesh.SurfaceGetMaterial(0);
         var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
-        foreach (var vertex in AgentBAct1HeightField.BuildTerrainFaces())
+        foreach (var vertex in AgentBAct1HeightField.TerrainFaces)
         {
             surface.SetUV(new Vector2(vertex.X, vertex.Z));
             surface.AddVertex(mesh.ToLocal(ToGlobal(vertex)));
@@ -646,7 +719,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var apron = EnumerateDescendants<MeshInstance3D>(GetNode<Node3D>("AgentB_TerrainRoadKit"))
             .Single(node => node.Name == "Apron_BabaiYard");
         if (apron.HasMeta("occupiedRoomOriginalMesh")) apron.Mesh = apron.GetMeta("occupiedRoomOriginalMesh").As<ArrayMesh>();
-        ExcludeOccupiedRoomTerrain(room, halfSize);
+        ExcludeOccupiedRoomTerrain(room, halfSize, fitBabaiYard: true);
     }
 
     internal static (ArrayMesh Mesh, int ChangedTriangles, int OutputVertices) ClipGroundFootprint(
@@ -662,24 +735,27 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         if (normals.Length != vertices.Length || (uv.Length != 0 && uv.Length != vertices.Length) || indices.Length % 3 != 0)
             throw new InvalidOperationException($"Ground attributes or triangle indices are incomplete: {mesh.Name}.");
         var terrainToRoom = room.GlobalTransform.AffineInverse() * mesh.GlobalTransform;
+        TerrainCutVertex ReadVertex(int index) => new(vertices[index], normals[index], uv.Length == 0 ? Vector2.Zero : uv[index]);
+
         var output = new List<TerrainCutVertex>(indices.Length + 120);
         var changedTriangles = 0;
         for (var triangle = 0; triangle < indices.Length; triangle += 3)
         {
-            var polygon = new List<TerrainCutVertex>(3);
-            for (var corner = 0; corner < 3; corner++)
+            var a = ReadVertex(indices[triangle]);
+            var b = ReadVertex(indices[triangle + 1]);
+            var c = ReadVertex(indices[triangle + 2]);
+            // Most triangles are wholly outside a room. Keep their vertices
+            // in source order and allocate a polygon only when clipping is needed.
+            if (OutsideTerrainFootprint(terrainToRoom * a.Position, terrainToRoom * b.Position,
+                    terrainToRoom * c.Position, halfSize))
             {
-                var index = indices[triangle + corner];
-                polygon.Add(new(vertices[index], normals[index], uv.Length == 0 ? Vector2.Zero : uv[index]));
-            }
-            // Preserve wholly exterior triangles and their attributes exactly.
-            if (Enumerable.Range(0, 4).Any(plane => polygon.All(vertex =>
-                TerrainFootprintDistance(terrainToRoom * vertex.Position, halfSize, plane) <= 0)))
-            {
-                output.AddRange(polygon);
+                output.Add(a);
+                output.Add(b);
+                output.Add(c);
                 continue;
             }
             changedTriangles++;
+            var polygon = new List<TerrainCutVertex>(3) { a, b, c };
             for (var plane = 0; plane < 4 && polygon.Count > 0; plane++)
             {
                 AppendTerrainPolygon(output, ClipTerrainPolygon(polygon, terrainToRoom, halfSize, plane, keepInside: false));
@@ -808,6 +884,18 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         2 => point.Z + halfSize.Y,
         _ => halfSize.Y - point.Z
     };
+
+    private static bool OutsideTerrainFootprint(Vector3 a, Vector3 b, Vector3 c, Vector2 halfSize)
+    {
+        for (var plane = 0; plane < 4; plane++)
+        {
+            if (TerrainFootprintDistance(a, halfSize, plane) <= 0
+                && TerrainFootprintDistance(b, halfSize, plane) <= 0
+                && TerrainFootprintDistance(c, halfSize, plane) <= 0)
+                return true;
+        }
+        return false;
+    }
 
     private static List<TerrainCutVertex> ClipTerrainPolygon(List<TerrainCutVertex> polygon,
         Transform3D terrainToRoom, Vector2 halfSize, int plane, bool keepInside)
@@ -1388,6 +1476,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         return true;
     }
 
+    private readonly record struct FoliagePlanEntry(Vector2 Position, string Variant, (double Distance, double HalfWidth) Road);
+
     private void PlantFoliage()
     {
         var kit = GetNode<Node3D>("AgentB_FoliageKit");
@@ -1417,7 +1507,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             if (geometry.TryGetValue(variant, out var cached)) return cached;
             if (variant is "WinterPine" or "WinterLightPine" or "WinterFarPine")
             {
-                var mesh = LoadFoliageMesh(variant, "kara", generatedPine: false);
+                var mesh = LoadFoliageMesh(variant, "kara", generatedVisual: false);
                 var lowVertices = Enumerable.Range(0, mesh.GetSurfaceCount()).SelectMany(surface =>
                     SurfaceVertices(mesh, surface)).Distinct().ToArray();
                 cached = (mesh, Enumerable.Range(0, mesh.GetSurfaceCount()).Select(mesh.SurfaceGetName).ToArray(),
@@ -1482,6 +1572,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         }
         ArrayMesh RegionalMesh(string variant, string region)
         {
+            if (IsWinterBirchVariant(variant))
+            {
+                var nearVariant = BirchNearVariant(variant);
+                if (nearVariant != "WinterBirch")
+                    graded[("physical/" + nearVariant, region)] = Geometry(nearVariant).Mesh;
+                return FoliageMesh(variant, region);
+            }
             if (IsWinterSpruceVariant(variant))
             {
                 graded[("physical/" + variant, region)] = Geometry(variant).Mesh;
@@ -1509,7 +1606,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         kit.SetMeta("templateSourcePolicy", "hidden source library; shared geometry is rebased once per variant");
         var batches = new Dictionary<(Vector2I Cell, string Variant, string Region, int Lod), List<Transform3D>>();
         var roofs = BuildingRoofBounds(GetParent());
-        var plan = new List<(Vector2 Position, string Variant)>();
+        var plan = new List<FoliagePlanEntry>();
         Act1ConnectedWorld.ProfileWorldBuildStep("agent-b-densified-plan", () => plan = BuildDensifiedPlan());
         var maxRoadHalfWidth = AgentBAct1HeightField.MaxRoadHalfWidth;
         var architecture = GetNode<StaticBody3D>("AgentB_ArchitectureCollision");
@@ -1517,7 +1614,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var suppressed = 0;
         var suppressedKara = 0;
         var minimumClearance = float.MaxValue;
-        foreach (var (position, sourceVariant) in plan)
+        foreach (var (position, sourceVariant, road) in plan)
         {
             var smallShrub = sourceVariant.StartsWith("Shrub_", StringComparison.Ordinal);
             var woodlandRegrowth = smallShrub && position.X <= -44f && position.X >= -64f && Mathf.Abs(position.Y) <= 24f;
@@ -1541,7 +1638,6 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                     ? variant.StartsWith("WinterSpruce_", StringComparison.Ordinal) ? variant : "WinterSpruce_1"
                     : "WinterLinden_1";
             var template = Geometry(variant);
-            var road = AgentBAct1HeightField.RoadInfo(position.X, position.Y);
             var clearance = (float)(road.Distance - road.HalfWidth);
             if (clearance < .25f) throw new InvalidOperationException($"Foliage placement enters road: {variant}@{position}");
             minimumClearance = Mathf.Min(minimumClearance, clearance);
@@ -1673,6 +1769,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             }
             var region = forestRim || variant == "FallenBranch_2" || position.Y <= -86f ? "kara" : position.Y <= -58f ? "zirat" : "village";
             var hasLods = variant.StartsWith("Winter", StringComparison.Ordinal);
+            var generatedBirchVisual = IsWinterBirchVariant(variant);
             var generatedConiferVisual = IsWinterSpruceVariant(variant);
             var tiers = hasLods ? new[] { variant, variant.Replace("Winter", "WinterLight", StringComparison.Ordinal), variant.Replace("Winter", "WinterFar", StringComparison.Ordinal) }
                 : new[] { variant };
@@ -1682,7 +1779,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 plants.AddChild(tree);
                 tree.SetMeta("presentationOnly", true);
                 tree.SetMeta("plantVariant", variant);
-                tree.SetMeta("plantVisualVariant", generatedConiferVisual ? "WinterPine" : variant);
+                tree.SetMeta("plantVisualVariant", generatedBirchVisual ? BirchVisualTier(variant)
+                    : generatedConiferVisual ? "WinterPine" : variant);
                 tree.SetMeta("plantPosition", target);
             }
             for (var lod = 0; lod < tiers.Length; lod++)
@@ -1698,7 +1796,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 else
                 {
                     var instance = new MeshInstance3D { Name = $"{variant}_LOD{lod}", Mesh = mesh };
-                    instance.SetMeta("visualMeshVariant", generatedConiferVisual ? PineVisualTier(tiers[lod]) : tiers[lod]);
+                    instance.SetMeta("visualMeshVariant", generatedBirchVisual ? BirchVisualTier(tiers[lod])
+                        : generatedConiferVisual ? PineVisualTier(tiers[lod]) : tiers[lod]);
                     // VIS-029: the far tier only ever exists beyond its own begin
                     // distance, and on every authored profile that is inside fog the
                     // shadow of that trunk cannot be read. The near silhouette the
@@ -1797,9 +1896,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             ConfigureFoliageRange(group, key.Lod, true, 0f);
         }
         foreach (var region in new[] { "village", "zirat", "kara" })
-        foreach (var variant in new[] { "WinterBirch_1", "WinterLinden_1", "WinterBirdCherry_1",
-                     "WinterLightBirch_1", "WinterLightLinden_1", "WinterLightBirdCherry_1",
-                     "WinterFarBirch_1", "WinterFarLinden_1", "WinterFarBirdCherry_1",
+        foreach (var variant in new[] { "WinterBirch_1", "WinterBirch_2", "WinterLinden_1", "WinterBirdCherry_1",
+                     "WinterLightBirch_1", "WinterLightBirch_2", "WinterLightLinden_1", "WinterLightBirdCherry_1",
+                     "WinterFarBirch_1", "WinterFarBirch_2", "WinterFarLinden_1", "WinterFarBirdCherry_1",
                      "WinterSpruce_1", "WinterLightSpruce_1", "WinterFarSpruce_1",
                      "WinterSpruce_2", "WinterLightSpruce_2", "WinterFarSpruce_2" })
             RegionalMesh(variant, region);
@@ -1833,17 +1932,17 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         return arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
     }
 
-    private static ArrayMesh FitGeneratedPineMesh(PackedScene scene, ArrayMesh source, Vector3 scale, int lod)
+    private static ArrayMesh FitGeneratedFoliageMesh(PackedScene scene, ArrayMesh source, Vector3 scale, int lod)
     {
         // Reuse only the immutable fit, including between W01's temporary provider
         // and the village. Resource identity and exact scale keep imports distinct.
         var key = (scene.GetInstanceId(), source.GetInstanceId(), lod, scale);
-        if (GeneratedPineFits.TryGetValue(key, out var cached)) return cached.Fitted;
+        if (GeneratedFoliageFits.TryGetValue(key, out var cached)) return cached.Fitted;
         var fitted = FitMeshFromRoot(source, scale);
-        if (GeneratedPineFits.Count >= MaximumGeneratedPineFits)
-            ForgetGeneratedPineFit(GeneratedPineFits.Keys.First());
-        Action invalidated = () => ForgetGeneratedPineFit(key);
-        GeneratedPineFits.Add(key, new(scene, source, fitted, invalidated));
+        if (GeneratedFoliageFits.Count >= MaximumGeneratedFoliageFits)
+            ForgetGeneratedFoliageFit(GeneratedFoliageFits.Keys.First());
+        Action invalidated = () => ForgetGeneratedFoliageFit(key);
+        GeneratedFoliageFits.Add(key, new(scene, source, fitted, invalidated));
         // In-place resource reloads can retain their native identity. Invalidate
         // those too; dropping cache ownership never disposes a mesh still in use.
         scene.Changed += invalidated;
@@ -1851,9 +1950,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         return fitted;
     }
 
-    private static void ForgetGeneratedPineFit((ulong Scene, ulong Mesh, int Lod, Vector3 Scale) key)
+    private static void ForgetGeneratedFoliageFit((ulong Scene, ulong Mesh, int Lod, Vector3 Scale) key)
     {
-        if (!GeneratedPineFits.Remove(key, out var entry)) return;
+        if (!GeneratedFoliageFits.Remove(key, out var entry)) return;
         entry.Scene.Changed -= entry.Invalidated;
         entry.Source.Changed -= entry.Invalidated;
     }
@@ -1861,10 +1960,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     internal static void ReleaseGeneratedPineFitsAfterSceneDisposal()
     {
         // Called only after Main and its tree instances have left the scene.
-        foreach (var key in GeneratedPineFits.Keys.ToArray())
+        foreach (var key in GeneratedFoliageFits.Keys.ToArray())
         {
-            var fitted = GeneratedPineFits[key].Fitted;
-            ForgetGeneratedPineFit(key);
+            var fitted = GeneratedFoliageFits[key].Fitted;
+            ForgetGeneratedFoliageFit(key);
             if (GodotObject.IsInstanceValid(fitted)) fitted.Dispose();
         }
     }
@@ -2054,13 +2153,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     /// passes the same road-envelope clearance check as the base plan.
     /// Deterministic seed keeps captures reproducible.
     /// </summary>
-    private List<(Vector2 Position, string Variant)> BuildDensifiedPlan()
+    private List<FoliagePlanEntry> BuildDensifiedPlan()
     {
         // VIS-085 evidence list: rebuilt with the plan, never carried over from a
         // previous world instance.
         _forestRingTrees.Clear();
         _outerRowUnderstorySkipped = 0;
-        var baseEntries = new List<(Vector2, string)>();
+        var baseEntries = new List<FoliagePlanEntry>();
         var generated = new List<(Vector2, string)>();
         var rng = new RandomNumberGenerator { Seed = 20260910 };
         var families = new Dictionary<string, string[]>(StringComparer.Ordinal)
@@ -2100,7 +2199,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             if (isAuthoredTree && !sourceClear) continue;
             // Ground-cover removal must not consume a different random stream:
             // later garden fixtures retain their authored roots and positions.
-            if (sourceClear) baseEntries.Add((position, winterVariant));
+            if (sourceClear) baseEntries.Add(new(position, winterVariant, authoredRoad));
             min = new Vector2(Mathf.Min(min.X, position.X), Mathf.Min(min.Y, position.Y));
             max = new Vector2(Mathf.Max(max.X, position.X), Mathf.Max(max.Y, position.Y));
 
@@ -2132,7 +2231,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         // street stops reading as empty. Density falls off with distance
         // from the road edge; a spacing check keeps it from clumping.
         var spacing = new List<Vector2>();
-        foreach (var (position, _) in baseEntries)
+        foreach (var (position, _, _) in baseEntries)
         {
             spacing.Add(position);
         }
@@ -2579,7 +2678,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var required = isTree ? 2.6f : 0.75f;
             if (clearance >= required)
             {
-                baseEntries.Add((position, variant));
+                baseEntries.Add(new(position, variant, roadInfo));
             }
             else if (isTree)
             {

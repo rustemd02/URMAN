@@ -15,8 +15,16 @@ public partial class JournalUi
     private const string PForestThumbnailPath = "res://assets/textures/photobook/p-forest-front-v2-thumbnail.png";
     private const string PWaterFrontImagePath = "res://assets/textures/photobook/p-water-front-v1.png";
     private const string PWaterThumbnailPath = "res://assets/textures/photobook/p-water-front-v1-thumbnail.png";
+    private const string PHouseFrontImagePath = "res://assets/textures/photobook/p-house-front-v1.png";
+    private const string PHouseThumbnailPath = "res://assets/textures/photobook/p-house-front-v1-thumbnail.png";
+    private const string SPhotographerFrontImagePath = "res://assets/textures/photobook/s-photographer-front-v1.png";
+    private const string SPhotographerThumbnailPath = "res://assets/textures/photobook/s-photographer-front-v1-thumbnail.png";
     private const string SSchoolFrontImagePath = "res://assets/textures/photobook/s-school-front-v2.png";
     private const string SSchoolThumbnailPath = "res://assets/textures/photobook/s-school-front-v2-thumbnail.png";
+    private const string SPrintFrontImagePath = "res://assets/textures/photobook/s-print-front-v1.png";
+    private const string SPrintThumbnailPath = "res://assets/textures/photobook/s-print-front-v1-thumbnail.png";
+    internal const string SNowFrontImagePath = "res://assets/textures/photobook/s-now-front-v1.png";
+    private const string SNowThumbnailPath = "res://assets/textures/photobook/s-now-front-v1-thumbnail.png";
     private const string ForestDiscoveryKnowledgeId = "urman.fullgame:knowledge/pw-forest-inside";
     private const string CommonRelationsSourceId = "urman.fullgame:interaction/pw-common-three-places";
     private const string CommonRelationsStudyAssetId = "urman.fullgame:asset/w04-common-relations-study";
@@ -38,7 +46,9 @@ public partial class JournalUi
             ["S-NOW"] = ("res://assets/textures/photobook/backs-v1/s-now-back.svg", "Сегодня. Снимал Айдар.")
         };
     private VBoxContainer _photoBookPage = null!;
+    private HSplitContainer _photoBookAlbumSplit = null!;
     private ItemList _photoBookList = null!;
+    private VBoxContainer _photoBookRightPane = null!;
     private ScrollContainer _photoBookScroll = null!;
     private VBoxContainer _photoBookSpread = null!;
     private Label _photoBookEmpty = null!;
@@ -52,6 +62,13 @@ public partial class JournalUi
     private PanelContainer _photoBookFrontCard = null!;
     private Label _photoBookFrontHeading = null!;
     private TextureRect _photoBookFrontImage = null!;
+    private Label _photoBookComparisonHeading = null!;
+    private HBoxContainer _photoBookComparisonRow = null!;
+    private Label _photoBookSelectedPhotoLabel = null!;
+    private VBoxContainer _photoBookComparisonPhotoColumn = null!;
+    private Label _photoBookComparisonPhotoLabel = null!;
+    private TextureRect _photoBookComparisonImage = null!;
+    private Label _photoBookSharedLandmark = null!;
     private Label _photoBookFrontBrief = null!;
     private Label _photoBookFoldMarker = null!;
     private HSeparator _photoBookSeparator = null!;
@@ -88,7 +105,7 @@ public partial class JournalUi
     {
         var layout = GetNode<VBoxContainer>("Screen/Book/Layout");
         _tabs.AddTab("Фотоальбом");
-        var spread = new HSplitContainer
+        _photoBookAlbumSplit = new HSplitContainer
         {
             Name = "PhotoBook",
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
@@ -97,7 +114,7 @@ public partial class JournalUi
         _photoBookPage = new VBoxContainer { Name = "PhotoBookPage", Visible = false,
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
             SizeFlagsVertical = Control.SizeFlags.ExpandFill };
-        _photoBookPage.AddChild(new Label { Text = "Найденные снимки и записи на обороте",
+        _photoBookPage.AddChild(new Label { Text = "Семейная книга · Места и люди на снимках",
             AutowrapMode = TextServer.AutowrapMode.WordSmart });
         _photoBookPreparation = new Label
         {
@@ -106,7 +123,7 @@ public partial class JournalUi
             Visible = false
         };
         _photoBookPage.AddChild(_photoBookPreparation);
-        _photoBookPage.AddChild(spread);
+        _photoBookPage.AddChild(_photoBookAlbumSplit);
         layout.AddChild(_photoBookPage);
 
         _photoBookList = new ItemList
@@ -119,9 +136,16 @@ public partial class JournalUi
             MaxColumns = 1,
             FixedIconSize = new Vector2I(60, 40)
         };
-        spread.AddChild(_photoBookList);
+        _photoBookAlbumSplit.AddChild(_photoBookList);
         _photoBookList.ItemSelected += SelectPhotoBookPhoto;
 
+        _photoBookRightPane = new VBoxContainer
+        {
+            Name = "PhotoBookRightPane",
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            SizeFlagsVertical = Control.SizeFlags.ExpandFill
+        };
+        _photoBookAlbumSplit.AddChild(_photoBookRightPane);
         _photoBookScroll = new ScrollContainer
         {
             Name = "PhotoSpreadScroll",
@@ -129,7 +153,7 @@ public partial class JournalUi
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
             SizeFlagsVertical = Control.SizeFlags.ExpandFill
         };
-        spread.AddChild(_photoBookScroll);
+        _photoBookRightPane.AddChild(_photoBookScroll);
         _photoBookSpread = new VBoxContainer
         {
             Name = "PhotoSpread",
@@ -190,7 +214,6 @@ public partial class JournalUi
             Disabled = true,
             FocusMode = Control.FocusModeEnum.All
         };
-        _photoBookSpread.AddChild(_photoBookEnterButton);
         _photoBookEnterButton.Pressed += () => _ = EnterSelectedPhotoBookAsync();
         _photoBookEntryHint = new Label
         {
@@ -198,17 +221,14 @@ public partial class JournalUi
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             Visible = false
         };
-        _photoBookSpread.AddChild(_photoBookEntryHint);
         // Match the pause shell's two-step confirmation inside the existing
         // book modal; a second modal would contend for the player input gate.
         _photoBookReturnConfirmation = new Label
         {
             Name = "ReturnConfirmation",
-            Text = "Найденное сохранится. Выйти из снимка?",
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             Visible = false
         };
-        _photoBookSpread.AddChild(_photoBookReturnConfirmation);
         _photoBookReturnCancel = new Button
         {
             Name = "CancelReturn",
@@ -216,7 +236,6 @@ public partial class JournalUi
             Visible = false,
             FocusMode = Control.FocusModeEnum.All
         };
-        _photoBookSpread.AddChild(_photoBookReturnCancel);
         _photoBookReturnCancel.Pressed += () =>
         {
             ClearPhotoBookReturnConfirmation();
@@ -268,7 +287,79 @@ public partial class JournalUi
             MouseFilter = Control.MouseFilterEnum.Ignore,
             Visible = false
         };
-        frontCardContent.AddChild(_photoBookFrontImage);
+        _photoBookComparisonHeading = new Label
+        {
+            Name = "PhotoComparisonHeading",
+            Text = "Сравните снимки",
+            ThemeTypeVariation = UrmanUiTheme.Heading,
+            Visible = false
+        };
+        frontCardContent.AddChild(_photoBookComparisonHeading);
+        _photoBookComparisonRow = new HBoxContainer
+        {
+            Name = "PhotoComparisonRow",
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            Visible = false
+        };
+        _photoBookComparisonRow.AddThemeConstantOverride("separation", 12);
+        frontCardContent.AddChild(_photoBookComparisonRow);
+        var selectedPhotoColumn = new VBoxContainer
+        {
+            Name = "SelectedPhotoColumn",
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
+        };
+        selectedPhotoColumn.AddThemeConstantOverride("separation", 4);
+        _photoBookComparisonRow.AddChild(selectedPhotoColumn);
+        _photoBookSelectedPhotoLabel = new Label
+        {
+            Name = "SelectedPhotoLabel",
+            ThemeTypeVariation = UrmanUiTheme.Tag,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
+        };
+        selectedPhotoColumn.AddChild(_photoBookSelectedPhotoLabel);
+        selectedPhotoColumn.AddChild(_photoBookFrontImage);
+        _photoBookComparisonPhotoColumn = new VBoxContainer
+        {
+            Name = "ComparisonPhotoColumn",
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            Visible = false
+        };
+        _photoBookComparisonPhotoColumn.AddThemeConstantOverride("separation", 4);
+        _photoBookComparisonRow.AddChild(_photoBookComparisonPhotoColumn);
+        _photoBookComparisonPhotoLabel = new Label
+        {
+            Name = "ComparisonPhotoLabel",
+            ThemeTypeVariation = UrmanUiTheme.Tag,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
+        };
+        _photoBookComparisonPhotoColumn.AddChild(_photoBookComparisonPhotoLabel);
+        _photoBookComparisonImage = new TextureRect
+        {
+            Name = "ComparisonPhotoImage",
+            CustomMinimumSize = new Vector2(0f, 230f),
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            SizeFlagsVertical = Control.SizeFlags.ShrinkBegin,
+            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Visible = false
+        };
+        _photoBookComparisonPhotoColumn.AddChild(_photoBookComparisonImage);
+        _photoBookSharedLandmark = new Label
+        {
+            Name = "SharedPhotoLandmark",
+            Text = "На обоих снимках слева видны раздвоенная берёза и низкая перекладина.",
+            ThemeTypeVariation = UrmanUiTheme.Tag,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            FocusMode = Control.FocusModeEnum.All,
+            Visible = false
+        };
+        frontCardContent.AddChild(_photoBookSharedLandmark);
         _photoBookFrontBrief = new Label { Name = "FrontDescription",
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
@@ -341,8 +432,23 @@ public partial class JournalUi
         };
         _photoBookSpread.AddChild(_photoBookCommonRelationsInspectButton);
         _photoBookCommonRelationsInspectButton.Pressed += OpenSelectedPhotoBookCommonRelationsReader;
-        var photoActions = new HBoxContainer { Name = "PhotoActions" };
-        _photoBookSpread.AddChild(photoActions);
+        var photoBookFooter = new VBoxContainer
+        {
+            Name = "PhotoBookActionFooter",
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            SizeFlagsVertical = Control.SizeFlags.ShrinkEnd
+        };
+        photoBookFooter.AddThemeConstantOverride("separation", 4);
+        _photoBookRightPane.AddChild(photoBookFooter);
+        photoBookFooter.AddChild(new HSeparator());
+        var photoActions = new HFlowContainer
+        {
+            Name = "PhotoActions",
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
+        };
+        photoBookFooter.AddChild(photoActions);
+        photoActions.AddChild(_photoBookEnterButton);
+        photoActions.AddChild(_photoBookReturnCancel);
         _photoBookReadBackButton = new Button
         {
             Name = "ReadBack",
@@ -360,8 +466,6 @@ public partial class JournalUi
         photoActions.AddChild(_photoBookMountButton);
         _photoBookMountButton.Pressed += () => _ = PerformPhotoBookActionAsync(readBack: false);
 
-        var photoBackActions = new HBoxContainer { Name = "PhotoBackActions" };
-        _photoBookSpread.AddChild(photoBackActions);
         _photoBookInspectBackButton = new Button
         {
             Name = "InspectPhotoBack",
@@ -370,11 +474,13 @@ public partial class JournalUi
             Disabled = true,
             FocusMode = Control.FocusModeEnum.All
         };
-        photoBackActions.AddChild(_photoBookInspectBackButton);
+        photoActions.AddChild(_photoBookInspectBackButton);
         _photoBookInspectBackButton.Pressed += OpenSelectedPhotoBookBackReader;
         _photoBookActionStatus = new Label { Name = "ActionStatus",
             AutowrapMode = TextServer.AutowrapMode.WordSmart };
-        _photoBookSpread.AddChild(_photoBookActionStatus);
+        photoBookFooter.AddChild(_photoBookEntryHint);
+        photoBookFooter.AddChild(_photoBookReturnConfirmation);
+        photoBookFooter.AddChild(_photoBookActionStatus);
 
         BuildBookInspection();
         BuildPhotoBookImageReader();
@@ -414,13 +520,43 @@ public partial class JournalUi
         };
     }
 
-    internal void OpenPhotoBook(RuntimeBridge bridge)
+    internal static bool HasConfirmedBankEvidence(RuntimeBridge bridge) =>
+        bridge.IsPhotoWorldsCampaign && bridge.SessionIdentity is { } session
+        && MissionEvidenceConfirmed(session.SelectState(), "E-BANK-OUTSIDE");
+
+    internal void OpenBankEvidenceResult(RuntimeBridge bridge)
+    {
+        if (!HasConfirmedBankEvidence(bridge) || bridge.IsPhotoBookProjectionDeferred || _notesLoadInProgress) return;
+        OpenPhotoBook(bridge, "S-BANK");
+        if (_photoBookSelectedId == "S-BANK" && ReferenceEquals(_photoBookSession, bridge.SessionIdentity))
+            _photoBookScroll.ScrollVertical = 0;
+    }
+
+    internal void OpenPhotoBook(RuntimeBridge bridge, string? photoId = null, bool focusEntry = false)
     {
         if (!IsInsideTree() || bridge.SessionIdentity is null || !bridge.IsPhotoWorldsCampaign) return;
-        Open(bridge);
+        Open(bridge, selectedPhotoId: photoId);
         if (bridge.SessionIdentity is null || !bridge.IsPhotoWorldsCampaign) return;
         _tabs.CurrentTab = PhotoBookTabIndex;
         FocusCurrentPage();
+        // A physical entry anchor explicitly selects this print's action.
+        if (focusEntry && photoId is not null && _photoBookSelectedId == photoId)
+        {
+            if (!_photoBookEnterButton.Disabled && _photoBookEnterButton.IsVisibleInTree())
+                _photoBookEnterButton.GrabFocus();
+            return;
+        }
+        // The table book and tab switching still let the player browse freely.
+        if (photoId is null || CurrentPlayerMission(bridge) is not { } mission
+            || mission.BookPhotoId != photoId || _photoBookSelectedId != photoId) return;
+        var button = mission.BookAction switch
+        {
+            PlayerBookAction.Mount => _photoBookMountButton,
+            PlayerBookAction.ReadBack => _photoBookReadBackButton,
+            PlayerBookAction.Enter => _photoBookEnterButton,
+            _ => null
+        };
+        if (button is { Disabled: false } && button.IsVisibleInTree()) button.GrabFocus();
     }
 
     private void RefreshPhotoBookPage()
@@ -454,11 +590,14 @@ public partial class JournalUi
         }
 
         _photoBookProjection = bridge.PhotoBookPhotos();
+        var mission = CurrentPlayerMission(bridge);
+        var missionPhotoId = mission?.BookPhotoId;
         var previousSelectedId = _photoBookSelectedId;
         var selectedIndex = _photoBookProjection.ToList()
             .FindIndex(photo => photo.PhotoId == _photoBookSelectedId);
         if (selectedIndex < 0 && _photoBookProjection.Count > 0) selectedIndex = 0;
-        var nextSelectedId = selectedIndex < 0 ? null : _photoBookProjection[selectedIndex].PhotoId;
+        var selected = selectedIndex < 0 ? null : _photoBookProjection[selectedIndex];
+        var nextSelectedId = selected?.PhotoId;
         if (!StringComparer.Ordinal.Equals(previousSelectedId, nextSelectedId))
         {
             CancelPhotoBookPlacementAnimation();
@@ -471,7 +610,8 @@ public partial class JournalUi
         for (var index = 0; index < _photoBookProjection.Count; index++)
         {
             var photo = _photoBookProjection[index];
-            _photoBookList.AddItem($"{index + 1:D2} · {photo.Title}", PhotoBookFrontTexture(photo.PhotoId, thumbnail: true));
+            var rowTitle = photo.PhotoId == missionPhotoId ? $"Сейчас · {photo.Title}" : photo.Title;
+            _photoBookList.AddItem($"{index + 1:D2} · {rowTitle}", PhotoBookFrontTexture(photo.PhotoId, thumbnail: true));
             _photoBookList.SetItemTooltip(index, photo.Title);
         }
 
@@ -484,10 +624,9 @@ public partial class JournalUi
         _photoBookSeparator.Visible = hasPhotos;
         _photoBookBackHeading.Visible = hasPhotos;
         _photoBookBackText.Visible = hasPhotos;
-        if (hasPhotos)
+        if (selected is not null)
         {
             _photoBookList.Select(selectedIndex);
-            var selected = _photoBookProjection[selectedIndex];
             _photoBookSelectedId = selected.PhotoId;
             ShowPhotoBookPhoto(selected);
         }
@@ -504,7 +643,7 @@ public partial class JournalUi
         }
 
         _photoBookRefreshing = false;
-        RefreshPhotoBookPreparation();
+        RefreshPhotoBookPreparation(bridge, mission, selected);
         RefreshPhotoBookActionButtons();
         RefreshBookInspection();
     }
@@ -550,9 +689,18 @@ public partial class JournalUi
         RefreshPhotoBookActionButtons();
     }
 
-    private void RefreshPhotoBookPreparation()
+    private void RefreshPhotoBookPreparation(RuntimeBridge? bridge, PlayerMission? mission,
+        RuntimeBridge.PhotoBookPhoto? selected)
     {
-        var text = PhotoBookPreparationObjectiveText(_bridge, _photoBookSelectedId);
+        var text = mission?.Action;
+        if (selected is { WorldCompleted: false, PhotoId: "P-FOREST" or "P-CELLAR" }
+            && PhotoBookPreparationObjectiveText(bridge, selected.PhotoId) is { } selectedAction
+            && selectedAction != text)
+        {
+            text = text is null
+                ? selectedAction
+                : $"Основная задача · {text}\nДля этого снимка · {selectedAction}";
+        }
         _photoBookPreparation.Text = text ?? string.Empty;
         _photoBookPreparation.Visible = text is not null;
     }
@@ -569,7 +717,7 @@ public partial class JournalUi
         }
         _photoBookSelectedId = selected.PhotoId;
         ShowPhotoBookPhoto(selected);
-        RefreshPhotoBookPreparation();
+        RefreshPhotoBookPreparation(_bridge, _bridge is { } bridge ? CurrentPlayerMission(bridge) : null, selected);
         RefreshPhotoBookActionButtons();
         RefreshBookInspection();
     }
@@ -585,12 +733,16 @@ public partial class JournalUi
             "S-BANK" => SBankFrontImagePath,
             "P-FOREST" => thumbnail ? PForestThumbnailPath : PForestFrontImagePath,
             "P-WATER" => thumbnail ? PWaterThumbnailPath : PWaterFrontImagePath,
+            "P-HOUSE" => thumbnail ? PHouseThumbnailPath : PHouseFrontImagePath,
+            "S-PHOTOGRAPHER" => thumbnail ? SPhotographerThumbnailPath : SPhotographerFrontImagePath,
             "S-SCHOOL" => thumbnail ? SSchoolThumbnailPath : SSchoolFrontImagePath,
+            "S-PRINT" => thumbnail ? SPrintThumbnailPath : SPrintFrontImagePath,
+            "S-NOW" => thumbnail ? SNowThumbnailPath : SNowFrontImagePath,
             _ => null
         };
     }
 
-    private static Texture2D? PhotoBookFrontTexture(string photoId, bool thumbnail = false)
+    internal static Texture2D? PhotoBookFrontTexture(string photoId, bool thumbnail = false)
     {
         var path = PhotoBookFrontImageResourcePath(photoId, thumbnail);
         return path is not null && ResourceLoader.Exists(path)
@@ -604,17 +756,32 @@ public partial class JournalUi
         {
             _photoBookFrontImage.Texture = frontImage;
             _photoBookFrontImage.Visible = true;
+            _photoBookComparisonRow.Visible = true;
         }
         _photoBookTitle.Text = photo.Title;
         var placement = photo.Mounted
             ? "Место в альбоме: снимок вклеен на свою страницу."
             : "Место в альбоме: снимок пока не вклеен.";
+        if (photo.WorldCompleted)
+            placement = photo.PhotoId switch
+            {
+                "P-FOREST" => "Место съёмки найдено. За корневым поворотом освобождена сумка.",
+                "P-WATER" => "Итог: старый спуск найден, дощечка возвращена.",
+                "P-HOUSE" => "Итог: место фотографа найдено, вид из окна открыт.",
+                "P-COMMON" => "Итог: подпись к общему снимку сохранена.",
+                "P-CELLAR" => "Итог: коробка возвращена на место.",
+                _ => placement
+            };
+        if (photo.PhotoId is "P-WATER" or "S-BANK"
+            && _bridge is { } bridge && HasConfirmedBankEvidence(bridge))
+            placement += "\n\nСтарый подход к мосткам подтверждён. Сверил спуск из снимка со схемой и сваями на зимнем берегу.";
         _photoBookPlacement.Text = string.IsNullOrWhiteSpace(photo.OriginLabel)
             ? placement
             : $"{placement}\nПроисхождение: {photo.OriginLabel}.";
         _photoBookFrontBrief.Text = string.IsNullOrWhiteSpace(photo.FrontBrief)
             ? "Описание снимка пока не добавлено."
             : photo.FrontBrief;
+        RefreshPhotoBookComparison(photo);
         _photoBookBackText.Text = !photo.BackRead
             ? "Оборот ещё не прочитан."
             : string.IsNullOrWhiteSpace(photo.BackTextRu)
@@ -643,6 +810,7 @@ public partial class JournalUi
 
     private void ClearPhotoBookImages()
     {
+        ClearPhotoBookComparison();
         if (GodotObject.IsInstanceValid(_photoBookForestDiscovery))
         {
             _photoBookForestDiscovery.Text = string.Empty;
@@ -672,6 +840,67 @@ public partial class JournalUi
             _photoBookBackImage.Texture = null;
             _photoBookBackImage.Visible = false;
         }
+    }
+
+    private void RefreshPhotoBookComparison(RuntimeBridge.PhotoBookPhoto selected)
+    {
+        if (_photoBookSession is null || _bridge is not { } bridge
+            || !ReferenceEquals(_photoBookSession, bridge.SessionIdentity)
+            || selected.PhotoId is not ("P-FOREST" or "S-SCHOOL"))
+        {
+            return;
+        }
+
+        var hasForestPhoto = _photoBookProjection.Any(photo => photo.PhotoId == "P-FOREST");
+        var hasSchoolPhoto = _photoBookProjection.Any(photo => photo.PhotoId == "S-SCHOOL");
+        if (!hasForestPhoto || !hasSchoolPhoto || _photoBookFrontImage.Texture is null)
+            return;
+
+        var comparisonPhotoId = selected.PhotoId == "P-FOREST" ? "S-SCHOOL" : "P-FOREST";
+        var comparisonImage = PhotoBookFrontTexture(comparisonPhotoId);
+        if (comparisonImage is null)
+            return;
+
+        _photoBookSelectedPhotoLabel.Text = selected.PhotoId == "P-FOREST"
+            ? "Семейный снимок"
+            : "Школьная копия";
+        _photoBookComparisonPhotoLabel.Text = comparisonPhotoId == "P-FOREST"
+            ? "Семейный снимок"
+            : "Школьная копия";
+        _photoBookComparisonPhotoLabel.Visible = true;
+        _photoBookComparisonImage.Texture = comparisonImage;
+        _photoBookComparisonImage.Visible = true;
+        _photoBookComparisonPhotoColumn.Visible = true;
+        _photoBookComparisonHeading.Visible = true;
+        _photoBookSelectedPhotoLabel.Visible = true;
+        _photoBookSharedLandmark.Visible = true;
+    }
+
+    private void ClearPhotoBookComparison()
+    {
+        if (GodotObject.IsInstanceValid(_photoBookComparisonHeading))
+            _photoBookComparisonHeading.Visible = false;
+        if (GodotObject.IsInstanceValid(_photoBookComparisonRow))
+            _photoBookComparisonRow.Visible = false;
+        if (GodotObject.IsInstanceValid(_photoBookSelectedPhotoLabel))
+        {
+            _photoBookSelectedPhotoLabel.Text = string.Empty;
+            _photoBookSelectedPhotoLabel.Visible = false;
+        }
+        if (GodotObject.IsInstanceValid(_photoBookComparisonPhotoColumn))
+            _photoBookComparisonPhotoColumn.Visible = false;
+        if (GodotObject.IsInstanceValid(_photoBookComparisonPhotoLabel))
+        {
+            _photoBookComparisonPhotoLabel.Text = string.Empty;
+            _photoBookComparisonPhotoLabel.Visible = false;
+        }
+        if (GodotObject.IsInstanceValid(_photoBookComparisonImage))
+        {
+            _photoBookComparisonImage.Texture = null;
+            _photoBookComparisonImage.Visible = false;
+        }
+        if (GodotObject.IsInstanceValid(_photoBookSharedLandmark))
+            _photoBookSharedLandmark.Visible = false;
     }
 
     private ResolvedJournalEntry? CurrentForestDiscovery()
@@ -738,7 +967,9 @@ public partial class JournalUi
         if (_photoBookImageReaderTitle is { } titleLabel) titleLabel.Text = "Мои наброски к общему кадру";
         reader.SetImages(new[] { study });
         _photoBookImageReaderLaunchButton = _photoBookCommonRelationsInspectButton;
-        _photoBookSpread.Visible = false;
+        _photoBookRightPane.Visible = false;
+        if (_photoBookAlbumSplit is { } albumSplit && GodotObject.IsInstanceValid(albumSplit))
+            albumSplit.Visible = false;
         header.Visible = true;
         reader.ShowPicture(true);
     }
@@ -765,12 +996,18 @@ public partial class JournalUi
             _photoBookTitle,
             _photoBookPlacement,
             _photoBookFrontHeading,
+            _photoBookComparisonHeading,
+            _photoBookSelectedPhotoLabel,
+            _photoBookComparisonPhotoLabel,
+            _photoBookSharedLandmark,
             _photoBookFrontBrief,
             _photoBookBackHeading,
             _photoBookBackText,
             _photoBookForestDiscovery,
             _photoBookCommonNote,
             _photoBookCommonRelationsCaption,
+            _photoBookEntryHint,
+            _photoBookReturnConfirmation,
             _photoBookActionStatus
         })
         {
@@ -869,6 +1106,10 @@ public partial class JournalUi
             _photoBookReturnBridge = bridge;
             _photoBookReturnSession = session;
             _photoBookReturnSourceScene = bridge.ActiveSceneId;
+            var destination = bridge.PhotoBookReturnDestination();
+            _photoBookReturnConfirmation.Text = destination is null
+                ? "Выйти из снимка? Найденное сохранится."
+                : $"Выйти из снимка и вернуться {destination}? Найденное сохранится.";
             _photoBookReturnConfirmation.Visible = true;
             _photoBookReturnCancel.Visible = true;
             _photoBookActionStatus.Text = string.Empty;

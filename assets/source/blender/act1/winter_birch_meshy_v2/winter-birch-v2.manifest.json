@@ -1,0 +1,426 @@
+{
+  "asset_id": "ACT1-GENERATED-WINTER-BIRCH-V2",
+  "status": "root_source_family_accepted_runtime_source_integrated_native_art_performance_open",
+  "generator": "Own current WinterBirch example + selected own-house style → built-in image_gen reference and one targeted edit → Meshy7.1 textured image-to3D30 + same-task25K remesh5 → pinnedBlender4.5.12 sharedLOD source family",
+  "selected_input": {
+    "path": "assets/source/blender/act1/winter_birch_meshy_v2/input-winter-birch-v2-threequarter.png",
+    "sha256": "965d8fa3b1ed0c9402de464ec70998006900ed82db9b4cf722104fbabde9cf24",
+    "provenance": "assets/source/blender/act1/winter_birch_meshy_v2/input-winter-birch-v2.provenance.json",
+    "full_initial_prompt": {
+      "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+      "member": "reference-receipt.json",
+      "bytes": 5721,
+      "sha256": "634230e9b66c693845107dde08833bd392d688ce6f64a8db48ff7fcfc5a5256f"
+    },
+    "full_selected_edit_prompt": {
+      "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+      "member": "reference-edit-receipt.json",
+      "bytes": 3891,
+      "sha256": "998662f3a4449ae5fbae9bfa0a7688820be99b783f5ef807f3bf8a0dc5e6f246"
+    }
+  },
+  "source_original": {
+    "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+    "member": "meshy71-birch-original.glb",
+    "bytes": 105258236,
+    "sha256": "3618cb70c9bbe1e8568d014ea6429698e3d774a6bb75500ee64039b9e657349a",
+    "triangles": 2494420,
+    "static_inspection": {
+      "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+      "member": "raw-static-inspection.json",
+      "bytes": 4438,
+      "sha256": "7f6946f759e824c35f3ab0af3e2e522ebeb555f4440177850aee34011de435ca"
+    },
+    "three_view_receipt": {
+      "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+      "member": "raw-preview-receipt.json",
+      "bytes": 1942,
+      "sha256": "c73d32d1276124f8e59473dcdb32aef1b496e6a41959de56a642278cc115e92a"
+    }
+  },
+  "source_input": {
+    "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+    "member": "meshy71-birch-remesh-25k.glb",
+    "bytes": 62345164,
+    "sha256": "3df252f7be0c96076d9f3c0d788fb1efda0740adef708b85bafa393a0c73af49",
+    "triangles": 24730,
+    "static_inspection": {
+      "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+      "member": "remesh-static-inspection.json",
+      "bytes": 2694,
+      "sha256": "2afa15d29965d355820444aa969d2c7604f4f53dd6d607c07a8fc6d3cf13d9e9"
+    }
+  },
+  "meshy_tasks": [
+    {
+      "type": "image-to-3d",
+      "task_id": "01a175ad-5bc0-7560-a1e0-1fcfbb0c46e5",
+      "status": "SUCCEEDED",
+      "actual_consumed_credits": 30,
+      "terminal_receipt": {
+        "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+        "member": "status-02.json",
+        "bytes": 337,
+        "sha256": "9eedc87c617ba0bb3c70fdb0540c5edb52984d76810c1b34f984e951faf3ae75"
+      }
+    },
+    {
+      "type": "remesh",
+      "task_id": "01a175b9-840c-7357-bd85-03fb0586f8c1",
+      "input_task_id": "01a175ad-5bc0-7560-a1e0-1fcfbb0c46e5",
+      "target_polycount": 25000,
+      "status": "SUCCEEDED",
+      "actual_consumed_credits": 5,
+      "terminal_receipt": {
+        "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+        "member": "remesh-status-02.json",
+        "bytes": 331,
+        "sha256": "6636b2d79950595cacb863195c21c242238c40e81d4d88e965ba5fc546793d73"
+      }
+    }
+  ],
+  "budget": {
+    "owner_cap": 4000,
+    "accounted_before_this_stage": 475,
+    "this_stage_actual": 35,
+    "accounted_after_stage": 510,
+    "remaining_after_stage": 3490,
+    "unspent_stage_reserve": 0,
+    "further_paid_calls": false
+  },
+  "candidate": {
+    "path": "game/assets/models/act1/urman_winter_birch_meshy_v2.glb",
+    "sha256": "b10cc1900d89a5259d55547e82641d7a443e125c5ed482c10ba056546889a28c",
+    "bytes": 15474844,
+    "nodes": [
+      "WinterBirch_LOD0",
+      "WinterBirch_LOD1",
+      "WinterBirch_LOD2"
+    ],
+    "triangles": [
+      24730,
+      7999,
+      4
+    ],
+    "normalization": "All three identity nodes, shared rootXZ0, baseY0,height1. Source world transforms vertex-baked; lower1.2% footcentroid determines root. Runtime integration retains native roots/placement/support owner.",
+    "materials": [
+      "One shared OPAQUE PBR for near/mid",
+      "One shared lit far PBR alpha MASK at.5; zero emission, no BLEND/unlit"
+    ],
+    "textures": "Embedded PNG2Kbasecolor +1Knormal +1KpackedMR, one1024×512RGBAfaratlas containing two512square neutralalbedo views",
+    "far_projection": "Four triangles, same near XYZ envelope and shared root. Actual per-axis near bounds determine projected UV intervals within padded square bake fields; avoids wide-birch cropping and enlarged cullingAABB.",
+    "producer": "assets/source/blender/act1/winter_birch_meshy_v2/prepare_candidate.py",
+    "structure": {
+      "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+      "member": "candidate-structure.json",
+      "bytes": 9794,
+      "sha256": "6efc80710325d398f2ed4fce9a50f03c8369a42678cf7f4cb412903edf33da8d"
+    },
+    "actual_export_structure": {
+      "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+      "member": "exported-glb-structure.json",
+      "bytes": 3244,
+      "sha256": "45a1cbb1e745850363d0026d7a562ab049c83df5a8a192c491b73caa982ef342"
+    },
+    "actual_export_bounds_y_up": [
+      {
+        "node": "WinterBirch_LOD0",
+        "min": [
+          -0.3201278746128082,
+          0,
+          -0.2088063657283783
+        ],
+        "max": [
+          0.4090246260166168,
+          1,
+          0.2637915015220642
+        ]
+      },
+      {
+        "node": "WinterBirch_LOD1",
+        "min": [
+          -0.31923380494117737,
+          0,
+          -0.2088063657283783
+        ],
+        "max": [
+          0.4090246260166168,
+          1,
+          0.2637915015220642
+        ]
+      },
+      {
+        "node": "WinterBirch_LOD2",
+        "min": [
+          -0.3201278746128082,
+          0,
+          -0.2088063657283783
+        ],
+        "max": [
+          0.4090246260166168,
+          1,
+          0.2637915015220642
+        ]
+      }
+    ],
+    "bounds_note": "Archived Blender vertex bounds include a middecimator-unused extremal vertex; exported GLB positions above are authoritative. Same origin/height retained.",
+    "source_views": [
+      {
+        "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+        "member": "candidate-near-front.png",
+        "bytes": 950549,
+        "sha256": "e63cbb2b4c779e31c6a88cf6a677e39f51cae338e8d0e72f67aa08b6dcd54bd4"
+      },
+      {
+        "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+        "member": "candidate-near-right.png",
+        "bytes": 848312,
+        "sha256": "8775bcca1029dc294f41744771d865ad6eae7e04f4532d08d76e2367c9adf1cf"
+      },
+      {
+        "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+        "member": "candidate-mid-front.png",
+        "bytes": 941711,
+        "sha256": "edaf1991bcf82cc25e632a07615963f73845ec88fc7d3cd7bfbf7abe4bff83f6"
+      },
+      {
+        "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+        "member": "candidate-mid-right.png",
+        "bytes": 843306,
+        "sha256": "9ea5a0ad2284d1b9865b6b78af7bb9eacf18bab4cc26b86a1f54b095e2ed7f1f"
+      },
+      {
+        "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+        "member": "far-albedo-atlas.png",
+        "bytes": 449776,
+        "sha256": "0a94b673aabf57c9e43f5be9e548588d0fc1ba96f4106166adb87ff815cc3bb4"
+      }
+    ]
+  },
+  "runtime_contract": {
+    "hook": "AgentBAct1ExteriorLayer.PlantFoliage→RegionalMesh; publicFoliageMesh→BindAuthoredWinterTrees; root-owned W01 integration. Native Geometry variant_Root/physicalsource/LowVertices/placement remain authoritative.",
+    "native_source": "game/assets/models/agent_b_act1/agentb_foliage_kit.glb",
+    "native_source_sha256": "2e04434de764ece1cdb72367636cf0daafd1c0d539e59d9e417ad4dc255b5529",
+    "native_six_alias_root_bounds": {
+      "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+      "member": "candidate-structure.json",
+      "bytes": 9794,
+      "sha256": "6efc80710325d398f2ed4fce9a50f03c8369a42678cf7f4cb412903edf33da8d"
+    },
+    "consumer_paths": [
+      "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+      "game/scripts/Act1ConnectedWorld.cs",
+      "game/scripts/photoworlds/W01Controller.cs"
+    ]
+  },
+  "rights": {
+    "basis": "Owner-authorized own URMAN/ImageGen inputs under paid Meshy plan; applicable Meshy terms and final PW-093 rights/author acceptance remain. No thirdparty photograph/community publication. Not CC0 or freeplanCCBY.",
+    "existing_paid_license_provenance": "assets/source/blender/act1/winter_spruce_meshy_v1/winter-pine-v1.manifest.json",
+    "official_sources": [
+      "https://www.meshy.ai/terms-of-use",
+      "https://help.meshy.ai/en/articles/10137554-what-is-the-ownership-of-the-generated-models"
+    ],
+    "verification_limit": "No claim of FOSS externalAsset gate PASS; existing checker does not support paid Meshy licensing."
+  },
+  "verification": {
+    "raw_shape": "Horizontal crown above25%height: raw principalextent ratio.677913/PCAσ.509235; remesh.677326/.503429. Both exactXYZseamweld surface graphs onecomponent100%. Trunk/base volumetric; not an anatomical/manifold proof.",
+    "source_gate": "Root personally accepted raw3views and prepared near/midfront/side+faratlas. Thin endings remain angular; no twigpolish loop.",
+    "source_prepare": "One pinnedBlender4.5.12 batch11.855s exit0, two necessary neutralbakes/four whole-tree previews/onefinalexport; source and native kitSHA unchanged.",
+    "exported_contract": "Actual GLB3identitynodes,24730/7999/4tri,2OPAQUE/MASKmaterials,4embeddedPNGs,UV/normal/tangentattributes,noanimations/skins/unlit/emission.",
+    "runtime_integration": "Root reported installed exactb10candidate, affectedcompile16.43s0warnings0errors and independent code review withoutP1/P2.",
+    "native_import_scene_motion": "PENDING protectedWindows result; source preview does not establish native acceptance.",
+    "author_art_and_performance": "PENDING; no sustainedperformance or final author acceptance claimed."
+  },
+  "local_archive": {
+    "path": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+    "bytes": 149456355,
+    "sha256": "732ac8bb1b80eca77f9dff0dfdd9568043209746f148a44631a955c5693fe552",
+    "compression": "ZIP DEFLATE level6",
+    "member_count": 33,
+    "uncompressed_bytes": 176444250,
+    "verification": "ZIP CRC + full decompressed SHA and byte-for-byte comparison for every member against retained originals passed before extraction cleanup. Blender/client/source handles closed. Archive remains local/untracked; no raw API data or preview PNGs selected for Git.",
+    "members": [
+      {
+        "member": "candidate-mid-front.png",
+        "bytes": 941711,
+        "sha256": "edaf1991bcf82cc25e632a07615963f73845ec88fc7d3cd7bfbf7abe4bff83f6"
+      },
+      {
+        "member": "candidate-mid-right.png",
+        "bytes": 843306,
+        "sha256": "9ea5a0ad2284d1b9865b6b78af7bb9eacf18bab4cc26b86a1f54b095e2ed7f1f"
+      },
+      {
+        "member": "candidate-near-front.png",
+        "bytes": 950549,
+        "sha256": "e63cbb2b4c779e31c6a88cf6a677e39f51cae338e8d0e72f67aa08b6dcd54bd4"
+      },
+      {
+        "member": "candidate-near-right.png",
+        "bytes": 848312,
+        "sha256": "8775bcca1029dc294f41744771d865ad6eae7e04f4532d08d76e2367c9adf1cf"
+      },
+      {
+        "member": "candidate-structure.json",
+        "bytes": 9794,
+        "sha256": "6efc80710325d398f2ed4fce9a50f03c8369a42678cf7f4cb412903edf33da8d"
+      },
+      {
+        "member": "download-original.json",
+        "bytes": 236,
+        "sha256": "d3729a056a79d14f42a2c52ed3f518e9940b7eac41f3b3219ec5c58b210830d7"
+      },
+      {
+        "member": "download-original.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "member": "download-remesh.json",
+        "bytes": 237,
+        "sha256": "d5b55452d5ddd1f2235498cabaf2b7d9592b92eb891925a931b9fa9ea25da5fc"
+      },
+      {
+        "member": "download-remesh.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "member": "exported-glb-structure.json",
+        "bytes": 3244,
+        "sha256": "45a1cbb1e745850363d0026d7a562ab049c83df5a8a192c491b73caa982ef342"
+      },
+      {
+        "member": "far-albedo-atlas.png",
+        "bytes": 449776,
+        "sha256": "0a94b673aabf57c9e43f5be9e548588d0fc1ba96f4106166adb87ff815cc3bb4"
+      },
+      {
+        "member": "input-winter-birch-v2.png",
+        "bytes": 1956030,
+        "sha256": "aaf2de853fcb4a8c5fc21ac109ab53048ef33644e8365b2ba47a4ec1b350d403"
+      },
+      {
+        "member": "meshy71-birch-original.glb",
+        "bytes": 105258236,
+        "sha256": "3618cb70c9bbe1e8568d014ea6429698e3d774a6bb75500ee64039b9e657349a"
+      },
+      {
+        "member": "meshy71-birch-remesh-25k.glb",
+        "bytes": 62345164,
+        "sha256": "3df252f7be0c96076d9f3c0d788fb1efda0740adef708b85bafa393a0c73af49"
+      },
+      {
+        "member": "prepare-candidate.log",
+        "bytes": 44767,
+        "sha256": "3cfd2af62a05cb06907d1b611c470e9375dfe12ee288be07fda66c7157e02c5a"
+      },
+      {
+        "member": "raw-front.png",
+        "bytes": 964936,
+        "sha256": "ed478c3dc0adabd6a19b92fd81305e37e83fbd63e304095dda341b95af427004"
+      },
+      {
+        "member": "raw-preview-receipt.json",
+        "bytes": 1942,
+        "sha256": "c73d32d1276124f8e59473dcdb32aef1b496e6a41959de56a642278cc115e92a"
+      },
+      {
+        "member": "raw-preview.log",
+        "bytes": 20258,
+        "sha256": "2a422897bb39c4a74db0ef2a372c585dfefd91f4a770f32ff502fac6b5cdcc59"
+      },
+      {
+        "member": "raw-right.png",
+        "bytes": 860505,
+        "sha256": "4ecf7a3d6201ed60664a9b89696913e0c98db24389eb6cea6ba51291f71639a7"
+      },
+      {
+        "member": "raw-static-inspection.json",
+        "bytes": 4438,
+        "sha256": "7f6946f759e824c35f3ab0af3e2e522ebeb555f4440177850aee34011de435ca"
+      },
+      {
+        "member": "raw-three-quarter.png",
+        "bytes": 921138,
+        "sha256": "2410ec24bf034dd345edf6cc4bb2379de810a6e94a5b1f41d010d88af612ca8a"
+      },
+      {
+        "member": "reference-edit-receipt.json",
+        "bytes": 3891,
+        "sha256": "998662f3a4449ae5fbae9bfa0a7688820be99b783f5ef807f3bf8a0dc5e6f246"
+      },
+      {
+        "member": "reference-receipt.json",
+        "bytes": 5721,
+        "sha256": "634230e9b66c693845107dde08833bd392d688ce6f64a8db48ff7fcfc5a5256f"
+      },
+      {
+        "member": "remesh-static-inspection.json",
+        "bytes": 2694,
+        "sha256": "2afa15d29965d355820444aa969d2c7604f4f53dd6d607c07a8fc6d3cf13d9e9"
+      },
+      {
+        "member": "remesh-status-01.json",
+        "bytes": 269,
+        "sha256": "2cf46ec9b09d16418365029def66a226b429e43d8893e42bff251785400e875b"
+      },
+      {
+        "member": "remesh-status-02.json",
+        "bytes": 331,
+        "sha256": "6636b2d79950595cacb863195c21c242238c40e81d4d88e965ba5fc546793d73"
+      },
+      {
+        "member": "remesh-submit.json",
+        "bytes": 82,
+        "sha256": "cc0fe9d9f8c0eecb98aec4eb6c861027b124d5f9a60c899a1fd80bc135e8ceff"
+      },
+      {
+        "member": "remesh-submit.log",
+        "bytes": 65,
+        "sha256": "1d0dd001be97f75a966a32cea068d3116d73918974ded9d704a47ed92b20f292"
+      },
+      {
+        "member": "status-01.json",
+        "bytes": 275,
+        "sha256": "e35fa284c837091c728afd3f625aa0989bfad56941497d439474899fa636609e"
+      },
+      {
+        "member": "status-02.json",
+        "bytes": 337,
+        "sha256": "9eedc87c617ba0bb3c70fdb0540c5edb52984d76810c1b34f984e951faf3ae75"
+      },
+      {
+        "member": "submit.json",
+        "bytes": 83,
+        "sha256": "07b78f0f0c2d0537c080f59ae7881a0d3466a8d9c82788eb67115a6a566ff310"
+      },
+      {
+        "member": "submit.log",
+        "bytes": 81,
+        "sha256": "c199720817cd0c7c55477f324da7f18087b262e5b36c7b628995621ada7c1fdc"
+      },
+      {
+        "member": "historical-winter-birch-v2.manifest.json",
+        "bytes": 5842,
+        "sha256": "ee7aee2d3b8d3e1c748de6c180e61e3381422299197d190823bc275e7c184be0"
+      }
+    ],
+    "restore": "Restore only required named members into this source folder without overwriting existing files, verify member size/SHA before running the pinned source recipes. prepare_candidate.py needs meshy71-birch-remesh-25k.glb; render_raw_source.py needs meshy71-birch-original.glb. Never overwrite canonical runtime."
+  },
+  "source_candidate_copy": "The prepared source GLB is a byte-identical duplicate of the canonical b10runtime model above. Canonical model preserves exact prepared bytes; no second archived copy needed.",
+  "next_action": "Root owns protectedWindows result and separate scene/movement/LOD/performance/art acceptance. No new paid calls, reference generation, renders or twigpolish authorized by this manifest.",
+  "native_integration_2026_10_26": {
+    "status": "technical_import_and_existing_scene_capture_passed",
+    "job_id": "de8bcb03f2f14fca9ed5583db5fc3f4e",
+    "snapshot_id": "ccc635267e691fb89ad5f361865e2c790544436454596f06e2f95540e49ecabb",
+    "evidence": "evidence/PW-093/native_birch_de8bcb03f2f14fca9ed5583db5fc3f4e.zip",
+    "receipt": {
+      "status": "PASS",
+      "gameExitCode": 0,
+      "userdataRestored": true
+    },
+    "view": "Root personally viewed one existing village composition; birches visible beside/behind houses, some canopy/roots occluded or cropped. No matched before/after or isolated full-tree scale proof.",
+    "limits": "Movement/LOD switches, W01 in-scene birch route, sustained performance, final author style and paid-output rights acceptance remain open. Existing VIS107FOSS-only gate cannot establish paidMeshy licence; no legal/FOSS PASS claimed."
+  }
+}

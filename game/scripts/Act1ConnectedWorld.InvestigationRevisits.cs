@@ -79,6 +79,9 @@ public partial class Act1ConnectedWorld
         // Visiting the family never locks the player inside an unfinished tea.
         // This only revisits the physical door: house-to-route still owns the
         // completed meal's story transition and grants no progress on a detour.
+        // The epilogue uses that same door for its authored exit after the talk.
+        if (target.Name == "HouseExit" && _runtimeBridge.ActiveSceneId == PhotoWorldEpiloguePresence.EpilogueSceneId)
+            return false;
         if (target.Name == "HouseExit" || target.Name == "ReturnToHouseRegister")
             return _runtimeBridge.ActiveSceneId != "urman.chapter1:scene/arrival_vehicle_dusk";
 

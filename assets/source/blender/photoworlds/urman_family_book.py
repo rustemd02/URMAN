@@ -65,6 +65,59 @@ def hash_file(path):
     return digest.hexdigest()
 
 
+def apply_gltf_base_color_factors(glb_path, colors_srgb):
+    # glTF baseColorFactor is linear and multiplies baseColorTexture. The
+    # exporter omits this tint when the Blender source routes it through nodes.
+    data = glb_path.read_bytes()
+    magic, version, total_length = struct.unpack_from("<4sII", data, 0)
+    if magic != b"glTF" or version != 2 or total_length != len(data):
+        raise RuntimeError("Expected a complete GLB 2.0 export before material correction")
+
+    chunks = []
+    document = None
+    offset = 12
+    json_chunk_type = 0x4E4F534A
+    while offset < len(data):
+        chunk_length, chunk_type = struct.unpack_from("<II", data, offset)
+        start = offset + 8
+        end = start + chunk_length
+        if end > len(data):
+            raise RuntimeError("GLB chunk extends past the file")
+        payload = data[start:end]
+        if chunk_type == json_chunk_type:
+            if document is not None:
+                raise RuntimeError("GLB contains more than one JSON chunk")
+            document = json.loads(payload.rstrip(b" \t\r\n\0"))
+        chunks.append((chunk_type, payload))
+        offset = end
+    if document is None:
+        raise RuntimeError("GLB has no JSON chunk")
+
+    found = {name: 0 for name in colors_srgb}
+    for material in document.get("materials", []):
+        name = material.get("name")
+        if name not in colors_srgb:
+            continue
+        pbr = material.get("pbrMetallicRoughness")
+        if not isinstance(pbr, dict) or "baseColorTexture" not in pbr:
+            raise RuntimeError(f"Material {name!r} has no glTF base-color texture")
+        pbr["baseColorFactor"] = [*hex_rgb(colors_srgb[name]), 1.0]
+        found[name] += 1
+    missing = [name for name, count in found.items() if count != 1]
+    if missing:
+        raise RuntimeError(f"Expected one material for each base-color factor: {missing}")
+
+    updated = bytearray(struct.pack("<4sII", b"glTF", version, 0))
+    for chunk_type, payload in chunks:
+        if chunk_type == json_chunk_type:
+            payload = json.dumps(document, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+            payload += b" " * ((-len(payload)) % 4)
+        updated.extend(struct.pack("<II", len(payload), chunk_type))
+        updated.extend(payload)
+    struct.pack_into("<I", updated, 8, len(updated))
+    glb_path.write_bytes(updated)
+
+
 def reset_scene():
     bpy.ops.object.select_all(action="SELECT")
     bpy.ops.object.delete(use_global=False)
@@ -86,7 +139,7 @@ def reset_scene():
     scene.world.color = (0.08, 0.08, 0.08)
 
 
-def make_material(name, color_hex, texture_path, texture_strength, roughness):
+def make_material(name, color_hex, texture_path, roughness):
     material = bpy.data.materials.new(name=name)
     material.diffuse_color = (*hex_rgb(color_hex), 1.0)
     material.use_nodes = True
@@ -118,29 +171,14 @@ def make_material(name, color_hex, texture_path, texture_strength, roughness):
     texture.image = image
     texture.extension = "REPEAT"
     texture.location = (-380, 0)
-    grayscale = nodes.new("ShaderNodeRGBToBW")
-    grayscale.location = (-160, -160)
-    value_range = nodes.new("ShaderNodeMapRange")
-    value_range.clamp = True
-    value_range.inputs["From Min"].default_value = 0.0
-    value_range.inputs["From Max"].default_value = 1.0
-    value_range.inputs["To Min"].default_value = 1.0 - texture_strength
-    value_range.inputs["To Max"].default_value = 1.0 + texture_strength
-    value_range.location = (30, -160)
     multiplier = nodes.new("ShaderNodeVectorMath")
     multiplier.operation = "MULTIPLY"
-    multiplier.inputs[0].default_value = hex_rgb(color_hex)
+    multiplier.inputs[1].default_value = hex_rgb(color_hex)
     multiplier.location = (220, 0)
-    factor_vector = nodes.new("ShaderNodeCombineXYZ")
-    factor_vector.location = (30, -340)
     links = material.node_tree.links
     links.new(texcoord.outputs["UV"], uv_scale.inputs[0])
     links.new(uv_scale.outputs["Vector"], texture.inputs["Vector"])
-    links.new(texture.outputs["Color"], grayscale.inputs["Color"])
-    links.new(grayscale.outputs["Val"], value_range.inputs["Value"])
-    for axis in ("X", "Y", "Z"):
-        links.new(value_range.outputs["Result"], factor_vector.inputs[axis])
-    links.new(factor_vector.outputs["Vector"], multiplier.inputs[1])
+    links.new(texture.outputs["Color"], multiplier.inputs[0])
     links.new(multiplier.outputs["Vector"], shader.inputs["Base Color"])
     return material, image
 
@@ -426,8 +464,8 @@ def build_asset(output_dir):
     output_dir.mkdir(parents=True, exist_ok=False)
 
     reset_scene()
-    cloth, cloth_image = make_material("cloth", "674b45", cloth_path, 0.10, 0.91)
-    paper, paper_image = make_material("paper", "d6ccb3", paper_path, 0.08, 0.84)
+    cloth, cloth_image = make_material("cloth", "674b45", cloth_path, 0.91)
+    paper, paper_image = make_material("paper", "d6ccb3", paper_path, 0.84)
     scene = bpy.context.scene
     book = new_empty("FamilyBook_Root", display="CUBE", size=0.025)
     book["asset_role"] = "original neutral family literary volume; no title or portrait imagery"
@@ -670,6 +708,11 @@ def build_asset(output_dir):
     if not glb_path.is_file():
         raise RuntimeError("glTF exporter did not create the GLB")
 
+    apply_gltf_base_color_factors(glb_path, {
+        "cloth": "674b45",
+        "paper": "d6ccb3",
+    })
+
     glb_bytes = glb_path.read_bytes()
     if glb_bytes[:4] != b"glTF":
         raise RuntimeError("Export is not a GLB")
@@ -708,10 +751,10 @@ def build_asset(output_dir):
         "materials": {
             "cloth": {"base_color_srgb": "#674b45", "source_map": "game/assets/textures/painterly/urman_t01_v02_basecolor.png",
                       "source_sha256": hash_file(cloth_path), "source_size_px": list(cloth_image.size),
-                      "tile_metres": TILE_METRES, "texture_strength": 0.10},
+                      "tile_metres": TILE_METRES},
             "paper": {"base_color_srgb": "#d6ccb3", "source_map": "game/assets/textures/painterly/book_paper_fibers_v1_albedo.png",
                       "source_sha256": hash_file(paper_path), "source_size_px": list(paper_image.size),
-                      "tile_metres": TILE_METRES, "texture_strength": 0.08}
+                      "tile_metres": TILE_METRES}
         },
         "meshes": mesh_inventory,
         "clips": clips,

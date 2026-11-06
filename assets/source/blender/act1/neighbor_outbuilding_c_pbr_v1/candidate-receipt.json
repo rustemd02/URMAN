@@ -1,0 +1,230 @@
+{
+  "schema": "urman-variant-c-outbuilding-pbr-candidate/v1",
+  "status": "SOURCE_CANDIDATE_NOT_SCENE_OR_CULTURE_ACCEPTED",
+  "task_id": "01a17a56-47d1-7382-bbea-c68e05f08856",
+  "consumed_credits": 10,
+  "source_triangles": 248,
+  "returned_triangles": 248,
+  "uv_comparison": {
+    "missing": 0,
+    "extra": 0,
+    "exact": true
+  },
+  "source": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_outbuilding_c_pbr_v1/variant-c-support-fixed-uv.glb",
+  "source_sha256": "18b82d05fcc8ebc806a1b5111eb79a567cd2e6af85a8d7a818b50b4a8601c238",
+  "returned_sha256": "a36f4bf0981fde180ba6b315a009a4d109454bdeb1c3af0a9b9edb9bec2d61f8",
+  "runtime_integrated": false,
+  "material": {
+    "name": "URMAN_VariantC_Outbuilding_GeneratedPBR",
+    "principled_bsdf": true,
+    "image_bindings": {
+      "Base Color": [
+        {
+          "name": "Image_0",
+          "size": [
+            4096,
+            4096
+          ],
+          "colorspace": "sRGB",
+          "channels": 4
+        }
+      ],
+      "Metallic": [
+        {
+          "name": "Image_1",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "Non-Color",
+          "channels": 4
+        }
+      ],
+      "Roughness": [
+        {
+          "name": "Image_1",
+          "size": [
+            2048,
+            2048
+          ],
+          "colorspace": "Non-Color",
+          "channels": 4
+        }
+      ],
+      "Normal": [
+        {
+          "name": "Image_2",
+          "size": [
+            4096,
+            4096
+          ],
+          "colorspace": "Non-Color",
+          "channels": 4
+        }
+      ]
+    },
+    "images": [
+      {
+        "name": "Image_0",
+        "size": [
+          4096,
+          4096
+        ],
+        "colorspace": "sRGB",
+        "channels": 4
+      },
+      {
+        "name": "Image_1",
+        "size": [
+          2048,
+          2048
+        ],
+        "colorspace": "Non-Color",
+        "channels": 4
+      },
+      {
+        "name": "Image_2",
+        "size": [
+          4096,
+          4096
+        ],
+        "colorspace": "Non-Color",
+        "channels": 4
+      }
+    ]
+  },
+  "candidate_geometry_comparison": {
+    "missing": 0,
+    "extra": 0,
+    "exact": true
+  },
+  "candidate_paired_uv_comparison": {
+    "missing": 0,
+    "extra": 0,
+    "exact": true
+  },
+  "candidate": "variant-c-outbuilding-generated-pbr-2k.glb",
+  "candidate_sha256": "0e07cd4f7ce41201b63ece3a68dd9b3e3deb315c987f2ffbacb1410c4c192aa0",
+  "candidate_bytes": 8000616,
+  "candidate_nodes": 10,
+  "candidate_triangles": 248,
+  "bounds_blender": [
+    [
+      -2.3399999,
+      -1.53,
+      0.015
+    ],
+    [
+      2.3599999,
+      1.28,
+      2.48
+    ]
+  ],
+  "source_semantic_nodes_preserved": true,
+  "remaining": "Source candidate saved; scene/style/culture/construction-in-scene/performance and any runtime integration remain unaccepted. No additional POST or local art variations.",
+  "candidate_embedded_images": [
+    {
+      "name": "Image_2",
+      "size": [
+        2048,
+        2048
+      ],
+      "mode": "RGB",
+      "sha256": "b8dea0e05b5208bb40b1e586e0efc2b53474d8a013699b4cdb5d63f55af8af15"
+    },
+    {
+      "name": "Image_0",
+      "size": [
+        2048,
+        2048
+      ],
+      "mode": "RGB",
+      "sha256": "55645fbfbf0e68bf56d2e6f02f80c2e29e359205e4c82be3e3dc063a10bb7614"
+    },
+    {
+      "name": "Image_1",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGB",
+      "sha256": "7d8608ba95ed45654514ba4991423edaecdd22c9e62527ecd5c10fc7b8023aa0"
+    }
+  ],
+  "comparison_precision": {
+    "position_decimal_places": 5,
+    "UV_decimal_places": 7,
+    "method": "Existing hero-house triangle_signatures Counter equality after actual final GLB reimport; no byte-identity claim for vertices/normals."
+  },
+  "actual_source_review": {
+    "view": "candidate-front-right.png",
+    "result": "Root inspected: restrained timber, but structure remains very boxy and roof smooth. Separate render does not prove scene/style or cultural authenticity. Preserve as source candidate only; no runtime promotion.",
+    "construction": "Source wall top contacts actual existing roof underside; bottom vertices, other nine meshes, original transforms and entire bounds retained. This source/DCC proof does not prove engine LOD/ShadowMesh/collision integration.",
+    "canon": "Ordinary fictional Kara-Urman,Tatarstan,winter2026. No invented ethnic ornament/script; no claim of measured/historically authenticated regional shed type."
+  },
+  "local_source_archive": {
+    "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-variantc-pbr-2026-10-27.zip",
+    "bytes": 16230954,
+    "sha256": "1849e61d32bdc907f58e0a319d2c24996efc96c534ba30dbdde0a8ed0711aa35",
+    "members": [
+      {
+        "member": "meshy-retexture-returned.glb",
+        "bytes": 14016420,
+        "sha256": "a36f4bf0981fde180ba6b315a009a4d109454bdeb1c3af0a9b9edb9bec2d61f8"
+      },
+      {
+        "member": "variant-c-support-fixed-uv.glb",
+        "bytes": 27316,
+        "sha256": "18b82d05fcc8ebc806a1b5111eb79a567cd2e6af85a8d7a818b50b4a8601c238"
+      },
+      {
+        "member": "prepare-source.log",
+        "bytes": 136236,
+        "sha256": "dcf074374e747aa721134146a3ebfa376dd5a5d9daf8ce28cfe0a6c27a197eb4"
+      },
+      {
+        "member": "attach-generated-material.log",
+        "bytes": 10800,
+        "sha256": "1e5aa9d0c77f9dca8f8a38a9580d7fc4028abb876708eaadc279fa287b15ce3e"
+      },
+      {
+        "member": "source-front-right.png",
+        "bytes": 1213836,
+        "sha256": "204b8b74237248eaa8c375b113412153514dcdb6c4ab3fd1c9402d75e703859f"
+      },
+      {
+        "member": "candidate-front-right.png",
+        "bytes": 1391744,
+        "sha256": "8277c72d337a46dd4a9eddd227a3bea9b5fe2d97f63828734863521826a2ae81"
+      },
+      {
+        "member": "submit-retexture.json",
+        "bytes": 83,
+        "sha256": "b62e8a065727fb6bfe251b72029e6528635f1616514d0c8662773e4e6152a77f"
+      },
+      {
+        "member": "status-01.json",
+        "bytes": 335,
+        "sha256": "706b64a463fdab5241b1297cc8b4476df96464295c7647912eb542084e63cb5a"
+      },
+      {
+        "member": "download-retexture.json",
+        "bytes": 245,
+        "sha256": "f77240b027448de75e7b373e4bd6f06bfe1c599496eec496b3a4b5315a74880f"
+      },
+      {
+        "member": "balance-before.json",
+        "bytes": 116,
+        "sha256": "4a642f2c1ce89fda4c7b2dfa1387e6500247792eef506f9000160c39c2252a7f"
+      },
+      {
+        "member": "balance-after.json",
+        "bytes": 116,
+        "sha256": "d7444f0f8c7696f0cf272a4381e7c3ad49f6dc2ac60287e1d3df09d698669d61"
+      }
+    ],
+    "verification": "Every decompressed archive member matched original bytes and SHA256 before unlink. Only own stopped pipeline files; final GLB, selected reference, recipes/provenance preserved.",
+    "loose_bytes_removed": 16797247
+  },
+  "archive_notice": "Named loose paid-source/receipt/log/view paths are now archive members; extract exact member and verify recorded SHA before reuse."
+}

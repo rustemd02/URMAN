@@ -2307,6 +2307,22 @@
       "releaseDisposition": "include-in-act1-release with CC BY-SA 4.0 attribution and source provenance; release/native audio acceptance remains separate"
     },
     {
+      "id": "audio.prologue.niva.there-is-a-place",
+      "source": "https://www.scottbuckley.com.au/library/wp-content/uploads/2019/04/sb_thereisaplace.mp3",
+      "sourceUrl": "https://www.scottbuckley.com.au/library/there-is-a-place/",
+      "sourceAuthor": "Scott Buckley",
+      "sourceLicenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceSha256": "2351a90357cc5746957364bceff426f0b817cf9702789ec5910888d8e6c0cb71",
+      "derived": "game/assets/audio/act1/sound_mood/there-is-a-place-scott-buckley.mp3",
+      "derivedSha256": "2351a90357cc5746957364bceff426f0b817cf9702789ec5910888d8e6c0cb71",
+      "license": "CC-BY-4.0",
+      "credit": "‘There is a Place’ by Scott Buckley — released under CC BY 4.0. www.scottbuckley.com.au",
+      "runtimeCredit": "game/content/credits.ru.txt",
+      "runtimeBinding": "Act1DemoRoot.UpdatePhotoNivaScore; fade after the wake, then out before parking",
+      "audio": "Original MP3; stereo 44.1 kHz; 325.538 seconds; source bytes unchanged. The scene uses the opening with playback gain fades.",
+      "status": "Source and license checked; native mix acceptance pending."
+    },
+    {
       "id": "audio.radio.avyl-fm.preview.avyl-ident",
       "source": "assets/source/audio/act1/radio/synthetic-preview-ecad706f6240158020fe22dad11519cc44a459a5956fbd79d611e921ee280ef7/wav/avyl-ident.wav",
       "sourceSha256": "520fa1c7b706016c9b542a1bf0146056b074ee91449b6dbfa8d13aa01742a6d3",
@@ -4585,7 +4601,7 @@
       "id": "photoworlds.w01.route-ground-f00-f16.v1",
       "source": "assets/source/blender/photoworlds/W01/urman_forest_ground_f16.py",
       "derived": "game/assets/photoworlds/forest_ground/prologue-ground-f00-f16-v1.glb",
-      "generator": "Existing Blender4.5.12 W01 single terrain producer: preserved first32m snow shoulders plus compact off-route F15 hollow; same grid/masks/materials and one visual/contact surface",
+      "generator": "Existing Blender4.5.12 W01 single terrain producer: first32m shoulders, stronger F02/F03 off-route banks and rear ridge, F15 hollow; same grid/masks/materials and visual/contact surface",
       "license": "Original code-authored terrain; texture inputs retain their existing individual registry/provenance terms. No Meshy generation or new credit spend.",
       "scale": 1.0,
       "triangleBudget": 471680,
@@ -4597,8 +4613,8 @@
       "lod": "Existing0.5m singleterrain grid;236817vertices/471680triangles. No new terrain/collision owner.",
       "status": "F15 source integrated:236817vertices/471680triangles unchanged;1369actual existing-F16 vertices lowered only atXZ[134.5,153.5]×[152.5,173.5], min−1.4000001m. Current F16 indices/XZ and all5terrain textures unchanged. Blender source preview does not prove fullscene readability; native/art remain open.",
       "releaseDisposition": "candidate-native-scene-and-contact-review-pending",
-      "sourceSha256": "d6e972fbf0f4cfcee916541f248e6d4f9f641aeb62b590296de04f95e7ca49ab",
-      "derivedSha256": "d787194398914ceca7412663e4b614b2190158f49ab4a85b8765c2f3ac6c2619"
+      "sourceSha256": "7b719c61b546bdf4e55ded3a4bebd960ee650b2f4001a32a17de5317d25087d2",
+      "derivedSha256": "efde9960f215cb8ddbc1f287d5175b6c1818b29f27f3aafb4be9785b071da66b"
     },
     {
       "id": "photoworlds.w01.first-action-bough.v1",
@@ -4815,6 +4831,95 @@
       "provenance": "game/assets/textures/photobook/p-water-front-v1.provenance.json",
       "sourceSha256": "4639cb04a15eff0bd98f9b63298e5d849d44e30eceba1b7621326311e12823b1",
       "derivedSha256": "9dab3cf3c3be43565310eb4443896bad43701102339409f0bc48c94e02fbec76"
+    },
+    {
+      "id": "winter.birch.meshy.v2",
+      "source": "assets/source/blender/act1/winter_birch_meshy_v2/winter-birch-v2.manifest.json",
+      "derived": "game/assets/models/act1/urman_winter_birch_meshy_v2.glb",
+      "generator": "Own-game reference → built-in image_gen targetedthreequarter → Meshy7.1/PBR+25Kremesh → Blender4.5.12 normalized sharedLOD+farimpostor",
+      "license": "Owner generated from own-game/ImageGen inputs under paid Meshy plan; subject to applicable Meshy terms, not CC0 or free-plan CCBY. Final rights acceptance remains open.",
+      "scale": 1.0,
+      "triangleBudget": 24730,
+      "textureBudget": 2048,
+      "materials": [
+        "Shared imported PBR OPAQUE, 2Kbase/1KnormalORM",
+        "Lit two-view faratlas MASK,1024x512; no emission/BLEND"
+      ],
+      "collision": "Visual family only; native rooted Geometry/LowVertices/stem collision and authored placements remain authoritative. One near-derived root-preserving fit for all3LODs.",
+      "lod": "LOD0 24730,LOD1 7999,LOD2 4 crosscards fromsamepreparednear; nativealiases1/2 and normalizedW01 sharedfamily.",
+      "status": "Sourcefront/side/threequarter and preparednear/mid/far rootreviewed. Game16.43s0/0, independentcode review noP1/P2; native de8 import/scene capturePASS exit0/userdataRestored. Motion/fullscale/art/performance pending.",
+      "releaseDisposition": "technical-integration-verified-full-art-motion-performance-rights-pending",
+      "provenanceGate": "Paid generated-output provenance recorded; VIS107 checker is FOSS-only, so paid licence coverage not verified and no external-provenance PASS claimed.",
+      "consumerPaths": [
+        "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+        "game/scripts/Act1ConnectedWorld.cs",
+        "game/scripts/photoworlds/W01Controller.cs"
+      ],
+      "sourceSha256": "3125fae0159fc410a639168a1d72db11e5d9121a824eb729408b732a50a96efc",
+      "derivedSha256": "b10cc1900d89a5259d55547e82641d7a443e125c5ed482c10ba056546889a28c"
+    },
+    {
+      "id": "village.neighbor.variant-c.outbuilding.meshy-pbr.v1",
+      "source": "assets/source/blender/act1/neighbor_outbuilding_c_pbr_v1/variant-c-outbuilding-generated-pbr-2k.glb",
+      "derived": "game/assets/models/act1/neighbor-outbuilding-c-pbr-v1.glb",
+      "generator": "Existing own-game VariantC utility shed with source wall-top roof contact repair and unique UV atlas → built-in image_gen material reference → existing paid Meshy retexture10 → source-semantic PBR attachment; runtime copy is byte-identical to retained final candidate",
+      "license": "Owner-authorized own-game/ImageGen inputs and paid Meshy generation; applicable Meshy terms and final rights/author acceptance remain PW-093. Not CC0 or free-plan CCBY.",
+      "scale": 1.0,
+      "triangleBudget": 248,
+      "textureBudget": 2048,
+      "materials": [
+        "One shared OPAQUE double-sided PBR: embedded2048color/normal and1024packedMR. Roof alone uses existing snow NextPass on a local material copy."
+      ],
+      "collision": "Late visual-only graft on visible default addressed VariantC outbuildings and exact connective parcel; original kit nodes, OpenBay/repairbench/bypass anchors, source colliders and live transforms retained. Explicit Studio model overrides retain their own model.",
+      "lod": "Ten semantic mesh nodes,248triangles. Engine-imported lower LOD/ShadowMesh and native performance are unverified; original per-mesh CastShadow setting is copied.",
+      "status": "Archived paid receipt and all11 archive members checked by SHA256; current canonical kit input matches source receipt. Final candidate copied by exact SHA. Graft source reviewed; compilation, actual engine import, scene/art/construction/cultural/movement/performance acceptance remain pending.",
+      "releaseDisposition": "source-integration-native-art-culture-performance-pending",
+      "provenance": "assets/source/blender/act1/neighbor_outbuilding_c_pbr_v1/candidate-receipt.json",
+      "sourceSha256": "0e07cd4f7ce41201b63ece3a68dd9b3e3deb315c987f2ffbacb1410c4c192aa0",
+      "derivedSha256": "0e07cd4f7ce41201b63ece3a68dd9b3e3deb315c987f2ffbacb1410c4c192aa0"
+    },
+    {
+      "id": "village.fence.painted-palisadnik.meshy-pbr.v1",
+      "source": "assets/source/blender/act1/painted_palisadnik_pbr_v1/candidate-receipt.json",
+      "derived": "game/assets/materials/act1/painted_palisadnik_pbr_v1/painted_palisadnik.tres",
+      "generator": "Own procedural fence reference → built-in image_gen → paid Meshy retexture → atlas image extraction and source-member UV mapping for existing procedural box geometry",
+      "license": "Owner-generated from own-game/ImageGen inputs under paid Meshy plan, subject to applicable Meshy terms; final rights and cultural acceptance remain open.",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "textureBudget": 2048,
+      "materials": [
+        "One shared shader/material with unmodified 2K albedo and normal, 1K metallic/roughness atlas; per-lot linear pigment in CUSTOM0, pale caps unchanged."
+      ],
+      "collision": "Original procedural ground support, authored openings, gates, wickets and collision remain authoritative; atlas changes visual batch only.",
+      "lod": "One additional family surface estimated, 12 bytes per indexed vertex; packaged GPU performance and memory are not measured.",
+      "status": "Archive/source/material hashes and UV mapping reviewed; native shader import, scene/motion, snow response, artistic and cultural acceptance and performance remain open.",
+      "releaseDisposition": "source-integration-native-art-culture-performance-pending",
+      "provenance": "game/assets/materials/act1/painted_palisadnik_pbr_v1/provenance.json",
+      "sourceSha256": "0d54b3b8078ad8947938f1f0f359b7f7d6149ae5769c5bc5fec8bff639f971fd",
+      "derivedSha256": "0d54b3b8078ad8947938f1f0f359b7f7d6149ae5769c5bc5fec8bff639f971fd"
+    },
+    {
+      "id": "house.cupboard.meshy-pbr.v1",
+      "source": "assets/source/blender/act1/home_cupboard_pbr_v1/source-receipt.json",
+      "derived": "game/assets/models/act1/home-cupboard-generated-pbr-2k.glb",
+      "generator": "Existing own-game cupboard → built-in image_gen material reference → paid Meshy keepUV retexture10 → generated PBR maps on original three source mesh surfaces",
+      "license": "Owner-authorized own-game/ImageGen inputs and paid Meshy generation; subject to applicable Meshy terms. Final rights/cultural/author acceptance remains open. Not CC0 or free-plan CCBY.",
+      "scale": 1.0,
+      "triangleBudget": 352,
+      "textureBudget": 2048,
+      "materials": [
+        "Shared opaque generated PBR; embedded2K basecolor/normal and1K packed scalar texture."
+      ],
+      "collision": "Original nodes/transforms and existing contact construction retained; oriented local triangle surfaces unchanged despite four UV seam vertex splits in body. No new physics/interaction owner.",
+      "lod": "Only existing LOD0 mesh resources replaced; authored LOD1 retained. Room max distance10.646m below first LOD1 fade15m; external viewpoint review pending.",
+      "status": "Source geometry/UV/bounds/TRS checked; GLB names/material inspected; narrow Game build0warnings0errors. Actual Godot import, room/movement/performance, artistic and cultural acceptance pending.",
+      "releaseDisposition": "source-integration-native-art-culture-performance-rights-pending",
+      "consumerPaths": [
+        "game/scripts/StyleBenchmarkInteriorFactory.cs"
+      ],
+      "apiTaskId": "01a184a4-5aca-7534-8851-0323465d09d3",
+      "sourceSha256": "07a3fbf29766d26a59ed4da750e43839fdf4922b9259bc87ac59bcb085d420a1",
+      "derivedSha256": "00af029d49bfa21bdca77514ab7db983e5249e67ddf8f9e14ba2af21ff68ee3f"
     }
   ]
 }

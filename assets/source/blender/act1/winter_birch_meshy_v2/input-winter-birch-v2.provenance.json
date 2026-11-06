@@ -1,0 +1,74 @@
+{
+  "schema": "urman-selected-generated-input/v1",
+  "asset_id": "ACT1-GENERATED-WINTER-BIRCH-V2",
+  "state": "root_selected_source_reference_and_prepared_family_accepted_native_art_performance_open",
+  "selected_image": {
+    "path": "assets/source/blender/act1/winter_birch_meshy_v2/input-winter-birch-v2-threequarter.png",
+    "sha256": "965d8fa3b1ed0c9402de464ec70998006900ed82db9b4cf722104fbabde9cf24",
+    "bytes": 1980186,
+    "dimensions": [
+      1154,
+      1363
+    ]
+  },
+  "tool": "OpenAI built-in image_gen, no external image API or thirdparty photograph",
+  "generation_outputs": [
+    {
+      "role": "Initial reference, held as too frontal; historical input to the selected edit",
+      "tool_output_id": "exec-33b23377-9b95-4885-bb0c-fa4293950b28",
+      "image": {
+        "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+        "member": "input-winter-birch-v2.png",
+        "bytes": 1956030,
+        "sha256": "aaf2de853fcb4a8c5fc21ac109ab53048ef33644e8365b2ba47a4ec1b350d403"
+      },
+      "full_prompt_and_inputs": {
+        "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+        "member": "reference-receipt.json",
+        "bytes": 5721,
+        "sha256": "634230e9b66c693845107dde08833bd392d688ce6f64a8db48ff7fcfc5a5256f"
+      }
+    },
+    {
+      "role": "One targeted camera/depth edit selected by root",
+      "tool_output_id": "exec-869e502a-f138-43d9-a911-4480320077de",
+      "image": "assets/source/blender/act1/winter_birch_meshy_v2/input-winter-birch-v2-threequarter.png",
+      "input_sha256": "aaf2de853fcb4a8c5fc21ac109ab53048ef33644e8365b2ba47a4ec1b350d403",
+      "full_prompt_and_input_provenance": {
+        "archive": "assets/source/blender/act1/winter_birch_meshy_v2/local-winter-birch-v2-source-stage.zip",
+        "member": "reference-edit-receipt.json",
+        "bytes": 3891,
+        "sha256": "998662f3a4449ae5fbae9bfa0a7688820be99b783f5ef807f3bf8a0dc5e6f246"
+      }
+    }
+  ],
+  "own_game_inputs": {
+    "geometry": {
+      "path": "game/assets/models/agent_b_act1/agentb_foliage_kit.glb",
+      "sha256": "2e04434de764ece1cdb72367636cf0daafd1c0d539e59d9e417ad4dc255b5529",
+      "variant": "WinterBirch_1",
+      "role": "Functional scale/root and true front/right source scaffold; both viewed before generation."
+    },
+    "style": {
+      "path": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/frames/babai_shape_front_high.png",
+      "role": "Owner-selected own runtime house material/rendering family, actually viewed before generation."
+    },
+    "source_views": {
+      "archive": "assets/source/blender/act1/winter_birch_meshy_v1/local-as05-source-attempts.tar.xz",
+      "members": [
+        {
+          "member": "multiview_v2/source-front.png",
+          "sha256": "242a2833d9b6cfc42a16c754806dbc5509b11b705b04e2052383c31d7855fca5"
+        },
+        {
+          "member": "multiview_v2/source-right.png",
+          "sha256": "fee10c3d96cade0eabb886807cf465cf3f94bb3786c393f5923feee35700f94c"
+        }
+      ],
+      "reuse": "Temporary exact copies used as builtin inputs were removed after archive-byte comparison; original archived views preserved."
+    }
+  },
+  "prompt_summary": "One leafless weathered winter birch in the accepted house material family. One authorized edit makes a large foreground bough foreshortened and rear branches occluded by the trunk; preserve bark, restrained snow, natural root flare and full-tree framing. Full exact prompts and IDs remain in the named archived receipts.",
+  "root_gate": "Root personally selected corrected965d8 as sufficient input to one structural3Dcandidate, then separately accepted raw and prepared near/mid/front/side plus far atlas. No final runtime scene/art/performance acceptance inferred.",
+  "rights": "Original builtin image output based solely on own URMAN inputs. Owner-authorized upload to paid Meshy; applicable Meshy terms and final PW-093 rights/author acceptance remain. Not CC0/freeplanCCBY."
+}

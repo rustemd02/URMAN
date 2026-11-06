@@ -234,6 +234,7 @@ public partial class Act1ConnectedWorld : Node3D
     private readonly Dictionary<string, IReadOnlyList<Light3D>> _lightsByZone = new(StringComparer.Ordinal);
     private readonly Dictionary<string, IReadOnlyList<InteractionBinding>> _interactionsByZone = new(StringComparer.Ordinal);
     private readonly Dictionary<string, Node3D> _interiorLandmarksByZone = new(StringComparer.Ordinal);
+    private Node3D? _activeVillageExteriorKitRoot;
     private RuntimeBridge? _runtimeBridge;
     private bool _runtimeBridgeSubscribed;
     private CarryCoordinator? _carryCoordinator;
@@ -420,7 +421,7 @@ public partial class Act1ConnectedWorld : Node3D
         GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld")
             .ExcludeOccupiedRoomTerrain(_zoneInstances["house_old_pc"], new Vector2(
                 StyleBenchmarkInteriorFactory.ClearWidth * .5f,
-                StyleBenchmarkInteriorFactory.ClearDepth * .5f));
+                StyleBenchmarkInteriorFactory.ClearDepth * .5f), fitBabaiYard: true);
         GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld")
             .RegisterWeatherShelter(_zoneInstances["house_old_pc"],
                 new Vector3(0, StyleBenchmarkInteriorFactory.CeilingHeight * .5f, 0),
@@ -464,6 +465,14 @@ public partial class Act1ConnectedWorld : Node3D
         ProfileWorldBuildStep("clear-open", ClearOpenPartOfLegacyPresentation);
         // Relayout v3 stage 5: the babai household moves whole onto the main street.
         ProfileWorldBuildStep("relocate-babai", RelocateBabaiHousehold);
+        // Relocation rebuilds the base field to fill the old house footprint.
+        // Publish the other occupied cuts against that final terrain.
+        ExcludePolicePostTerrain();
+        ExcludeMosqueHallTerrain();
+        ((StyleBenchmarkZone)_zoneInstances["village_day"]).FitHouseDoorToLeaf(
+            FindDescendants<MeshInstance3D>(GetNode<Node3D>(
+                "Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade"))
+                .Single(mesh => mesh.Name == "HeroHouse_StreetDoorClosed_LOD0"));
         BindYardSnagWithHollows(GetNode<Node3D>("Act1CoreWorldGreybox"));
         ProfileWorldBuildStep("storage", BuildCozyBabaiStorage);
         BuildShopUses();
@@ -540,6 +549,8 @@ public partial class Act1ConnectedWorld : Node3D
         // contact and collision pass, then graft their opaque PBR presentation.
         GraftPrivateVariantAPbrFamily();
         GraftH049OutbuildingPbr();
+        GraftPrivateVariantBOutbuildingPbrFamily();
+        GraftPrivateVariantCOutbuildingPbrFamily();
         CallDeferred(nameof(DisableBlockersUnderHiddenPresentation));
         CallDeferred(nameof(ReapplyLogicalZonePresentationSuppressions));
         // Parcel facades are attached across several build steps, so the painted
@@ -793,29 +804,6 @@ public partial class Act1ConnectedWorld : Node3D
             var isActiveZone = string.Equals(candidateZoneId, ActiveZoneId, StringComparison.Ordinal);
             foreach (var binding in bindings)
             {
-                if (_runtimeBridge?.IsPhotoWorldsCampaign == true
-                    && candidateZoneId == "house_old_pc"
-                    && binding.Node.Name == "GulsinaNpc")
-                {
-                    const string authorInteraction = "urman.fullgame:interaction/pw-gulsina-author-talk";
-                    var authorAvailable = _runtimeBridge.IsInteractionAvailable(authorInteraction);
-                    var interaction = authorAvailable
-                        ? authorInteraction
-                        : "urman.fullgame:interaction/pw-arrival-tea-talk";
-                    var prompt = authorAvailable
-                        ? "Уточнить у Гөлсинә, кто стоял за камерой"
-                        : "Поприветствовать әби и остаться на чай";
-                    var dialogue = authorAvailable
-                        ? "urman.fullgame:dialogue/pw-gulsina-author"
-                        : "urman.fullgame:dialogue/pw-arrival-tea";
-                    if (binding.Node.InteractionId != interaction
-                        || binding.Node.Prompt != prompt
-                        || binding.Node.DialogueId != dialogue)
-                    {
-                        binding.Node.SetAuthoredBinding(interaction, prompt, dialogue);
-                    }
-                }
-
                 // A suppressed legacy target keeps layer 0 for good: this pass
                 // re-applies the captured layer on every scene change, so a
                 // one-shot suppression is undone the next time the zone routes.
@@ -1157,6 +1145,47 @@ public partial class Act1ConnectedWorld : Node3D
     /// without touching route targets, spawns or RuntimeBridge state.
     /// </summary>
     private void BuildAct1CoreWorldGreybox()
+    {
+        var packed = ResourceLoader.Load<PackedScene>(VillageExteriorKitScenePath)
+            ?? throw new InvalidOperationException(
+                $"Act I village exterior neighbor parcel kit is missing: {VillageExteriorKitScenePath}.");
+        var importedRoot = packed.Instantiate<Node3D>()
+            ?? throw new InvalidOperationException(
+                $"Act I village exterior neighbor parcel kit did not instantiate: {VillageExteriorKitScenePath}.");
+
+        try
+        {
+            var kitRoot = importedRoot;
+            if (!string.Equals(importedRoot.Name.ToString(), VillageExteriorKitRootName, StringComparison.Ordinal))
+            {
+                kitRoot = importedRoot.GetNodeOrNull<Node3D>(VillageExteriorKitRootName)
+                    ?? throw new InvalidOperationException(
+                        $"Act I village exterior neighbor parcel is missing authored root '{VillageExteriorKitRootName}'.");
+            }
+
+            var collisionNodes = FindDescendants<Node>(kitRoot)
+                .Where(node => node is CollisionObject3D or CollisionShape3D)
+                .ToArray();
+            if (collisionNodes.Length > 0)
+            {
+                throw new InvalidOperationException(
+                    $"Act I village exterior neighbor parcel kit must be presentation-only; found {collisionNodes.Length} collision nodes.");
+            }
+
+            _activeVillageExteriorKitRoot = kitRoot;
+            BuildAct1CoreWorldGreyboxContent();
+        }
+        finally
+        {
+            _activeVillageExteriorKitRoot = null;
+            if (GodotObject.IsInstanceValid(importedRoot))
+            {
+                importedRoot.Free();
+            }
+        }
+    }
+
+    private void BuildAct1CoreWorldGreyboxContent()
     {
         var core = new Node3D { Name = "Act1CoreWorldGreybox" };
         core.SetMeta("presentationOnly", true);
@@ -5722,7 +5751,7 @@ public partial class Act1ConnectedWorld : Node3D
         parcel.SetMeta("presentationOnly", true);
         parcel.SetMeta("visualOnly", true);
         parcel.SetMeta("presentationOnlySubmount", true);
-        parcel.SetMeta("assetInstancePolicy", "fresh packed asset instance; components detached before imported root is freed");
+        parcel.SetMeta("assetInstancePolicy", "fresh component nodes detached from packed source before its owning scope frees the root");
         parcel.SetMeta("assetSource", VillageExteriorKitScenePath);
         parcel.SetMeta("logicalAnchor", logicalAnchor);
         parcel.SetMeta("collisionOwner", "none");
@@ -5738,30 +5767,50 @@ public partial class Act1ConnectedWorld : Node3D
         Node3D parcel,
         params Act1ExteriorParcelComponentPlacement[] placements)
     {
-        var packed = ResourceLoader.Load<PackedScene>(VillageExteriorKitScenePath)
-            ?? throw new InvalidOperationException(
-                $"Act I village exterior neighbor parcel kit is missing: {VillageExteriorKitScenePath}.");
-        var importedRoot = packed.Instantiate<Node3D>()
-            ?? throw new InvalidOperationException(
-                $"Act I village exterior neighbor parcel kit did not instantiate: {VillageExteriorKitScenePath}.");
+        Node3D? sharedKitRoot = null;
+        for (Node? ancestor = parcel; ancestor is not null; ancestor = ancestor.GetParent())
+        {
+            if (ancestor is Act1ConnectedWorld world
+                && world._activeVillageExteriorKitRoot is { } activeKitRoot)
+            {
+                sharedKitRoot = activeKitRoot;
+                break;
+            }
+        }
 
+        Node3D? importedRoot = null;
         try
         {
-            var kitRoot = importedRoot;
-            if (!string.Equals(importedRoot.Name.ToString(), VillageExteriorKitRootName, StringComparison.Ordinal))
+            Node3D kitRoot;
+            if (sharedKitRoot is not null)
             {
-                kitRoot = importedRoot.GetNodeOrNull<Node3D>(VillageExteriorKitRootName)
-                    ?? throw new InvalidOperationException(
-                        $"Act I village exterior neighbor parcel is missing authored root '{VillageExteriorKitRootName}'.");
+                kitRoot = sharedKitRoot;
             }
-
-            var collisionNodes = FindDescendants<Node>(kitRoot)
-                .Where(node => node is CollisionObject3D or CollisionShape3D)
-                .ToArray();
-            if (collisionNodes.Length > 0)
+            else
             {
-                throw new InvalidOperationException(
-                    $"Act I village exterior neighbor parcel kit must be presentation-only; found {collisionNodes.Length} collision nodes.");
+                var packed = ResourceLoader.Load<PackedScene>(VillageExteriorKitScenePath)
+                    ?? throw new InvalidOperationException(
+                        $"Act I village exterior neighbor parcel kit is missing: {VillageExteriorKitScenePath}.");
+                importedRoot = packed.Instantiate<Node3D>()
+                    ?? throw new InvalidOperationException(
+                        $"Act I village exterior neighbor parcel kit did not instantiate: {VillageExteriorKitScenePath}.");
+
+                kitRoot = importedRoot;
+                if (!string.Equals(importedRoot.Name.ToString(), VillageExteriorKitRootName, StringComparison.Ordinal))
+                {
+                    kitRoot = importedRoot.GetNodeOrNull<Node3D>(VillageExteriorKitRootName)
+                        ?? throw new InvalidOperationException(
+                            $"Act I village exterior neighbor parcel is missing authored root '{VillageExteriorKitRootName}'.");
+                }
+
+                var collisionNodes = FindDescendants<Node>(kitRoot)
+                    .Where(node => node is CollisionObject3D or CollisionShape3D)
+                    .ToArray();
+                if (collisionNodes.Length > 0)
+                {
+                    throw new InvalidOperationException(
+                        $"Act I village exterior neighbor parcel kit must be presentation-only; found {collisionNodes.Length} collision nodes.");
+                }
             }
 
             var missingComponents = placements
@@ -5777,15 +5826,31 @@ public partial class Act1ConnectedWorld : Node3D
 
             foreach (var placement in placements)
             {
+                var component = kitRoot.GetNode<Node3D>(placement.ComponentName);
+                string? originalComponentName = null;
+                if (sharedKitRoot is not null)
+                {
+                    originalComponentName = component.Name.ToString();
+                    var sourceParent = component.GetParent()
+                        ?? throw new InvalidOperationException(
+                            $"Act I authored kit component '{component.Name}' has no authored root parent.");
+                    component = component.Duplicate() as Node3D
+                        ?? throw new InvalidOperationException(
+                            $"Act I village exterior neighbor parcel component '{placement.ComponentName}' could not be duplicated.");
+                    // Preserve the complete imported ancestor chain for Attach's basis composition.
+                    sourceParent.AddChild(component);
+                }
+
                 var attached = AttachAct1ExteriorKitComponent(
                     parcel,
-                    kitRoot.GetNode<Node3D>(placement.ComponentName),
+                    component,
                     placement.PlacementName,
                     placement.LocalAnchor,
                     placement.YawDegrees,
                     placement.Scale,
                     placement.LogicalAnchor,
-                    VillageExteriorKitScenePath);
+                    VillageExteriorKitScenePath,
+                    originalComponentName);
                 if (placement.ComponentName.StartsWith("VillageParcel_", StringComparison.Ordinal))
                 {
                     // Core street parcels used to get warm windows only. Reuse
@@ -5812,23 +5877,13 @@ public partial class Act1ConnectedWorld : Node3D
                     }
                 }
             }
-
-            // Every component has now been detached and reparented below the
-            // named parcel. The temporary imported source root is never kept as
-            // a second presentation owner or as a preview-board transform.
-            // All authored components have been detached at this point, so a
-            // synchronous free avoids leaving one queued wrapper per parcel in
-            // headless shutdown when the connected world owns many parcels.
-            importedRoot.Free();
         }
-        catch
+        finally
         {
-            if (GodotObject.IsInstanceValid(importedRoot))
+            if (importedRoot is not null && GodotObject.IsInstanceValid(importedRoot))
             {
                 importedRoot.Free();
             }
-
-            throw;
         }
     }
 
@@ -5840,7 +5895,8 @@ public partial class Act1ConnectedWorld : Node3D
         float yawDegrees,
         Vector3 scale,
         string logicalAnchor,
-        string assetSource = VillageExteriorKitScenePath)
+        string assetSource = VillageExteriorKitScenePath,
+        string? originalComponentName = null)
     {
         var sourceParent = component.GetParent()
             ?? throw new InvalidOperationException(
@@ -5848,6 +5904,10 @@ public partial class Act1ConnectedWorld : Node3D
         var authoredPreviewOrigin = component.Position;
         var importedAncestorBasis = ComposeImportedAncestorBasis(component);
         sourceParent.RemoveChild(component);
+        if (originalComponentName is not null)
+        {
+            component.Name = originalComponentName;
+        }
 
         // An extracted GLB subtree still carries the imported scene root as
         // Owner. That owner is no longer an ancestor after extraction, so

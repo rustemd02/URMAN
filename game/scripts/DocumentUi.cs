@@ -137,6 +137,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _title.Text = document.Title;
         _body.Text = SourceExcerptSelection.FormatSourceText(document.BodyMarkdown);
         _images.SetImages(document.Images);
+        RefitToViewport();
         _excerpts.Bind(bridge, document.Id);
         _status.Text = "Документ найден в зоне · можно добавить в журнал";
         _save.Visible = true;
@@ -165,7 +166,8 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
 
     /// <summary>Inspects an original in place; only an explicit optional confirmation may publish its existing source action.</summary>
     internal bool OpenSourcePhotoInspection(RuntimeBridge bridge, string photoId, string imagePath,
-        string title, string description, Func<bool> current, Func<Task<bool>>? confirm = null)
+        string title, string description, Func<bool> current, Func<Task<bool>>? confirm = null,
+        DocumentImageContent? comparison = null, string? comparisonCaption = null)
     {
         if (!IsInsideTree() || !GodotObject.IsInstanceValid(bridge) || bridge.IsQueuedForDeletion()
             || !bridge.IsPhotoWorldsCampaign || bridge.SessionIdentity is not { } session || !current())
@@ -186,10 +188,17 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _title.Text = title;
         _body.Text = title == description ? title : title + "\n\n" + description;
         _images.SetImages([new DocumentImageContent(photoId, imagePath, description)]);
-        _status.Text = "Рассмотрите снимок · Esc или «Закрыть» — вернуться к месту";
+        if (comparison is not null) _images.CompareWith(comparison, comparisonCaption ?? title);
+        RefitToViewport();
+        var comparing = _images.ComparingImages;
+        _status.Text = comparing
+            ? confirm is null ? "Место съёмки уже отмечено." : "Если место совпадает, отметьте находку."
+            : confirm is null
+            ? "Осмотр снимка · Esc — вернуться к месту"
+            : "Нажмите «Рассмотреть снимок», чтобы отметить находку · Esc — уйти без записи";
         _save.Visible = confirm is not null;
         _save.Disabled = confirm is null;
-        _save.Text = confirm is null ? _saveLabel : "Рассмотреть снимок";
+        _save.Text = confirm is null ? _saveLabel : comparing ? "Место совпадает" : "Рассмотреть снимок";
         UiFoley.Play(_foley, "paper_open");
         _screen.Visible = true;
         SetPlayerModal(true);
@@ -234,21 +243,29 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         {
             var revision = _sourcePhotoInspectionRevision;
             _save.Disabled = true;
+            var recorded = false;
             try
             {
                 // Confirmation, rather than opening or cancelling the reader,
                 // is the player's source action. The owner rechecks its session.
-                await confirm();
+                recorded = await confirm();
             }
             catch (Exception error)
             {
                 GD.PushWarning("Source photograph inspection failed: " + error.Message);
             }
-            finally
+            // A pending write must never close a newly opened document,
+            // another source, or the reader of a different loaded session.
+            if (revision != _sourcePhotoInspectionRevision || !IsInsideTree()) return;
+            if (recorded || _sourcePhotoInspectionCurrent?.Invoke() != true)
             {
-                // A pending write must never close a newly opened document,
-                // another source, or the reader of a different loaded session.
-                if (revision == _sourcePhotoInspectionRevision && IsInsideTree()) Close();
+                Close();
+            }
+            else
+            {
+                _status.Text = "Не удалось записать находку. Попробуйте ещё раз.";
+                _save.Disabled = false;
+                _save.GrabFocus();
             }
             return;
         }
@@ -306,8 +323,10 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
             return;
         }
 
+        var comparing = _images is { ComparingImages: true };
         var size = new Vector2(
-            Mathf.Max(1f, Mathf.Min(viewport.X * 0.72f, 860f * Mathf.Clamp((float)_accessibility.TextScale, 0.8f, 1.6f))),
+            Mathf.Max(1f, Mathf.Min(viewport.X * (comparing ? 0.92f : 0.72f),
+                (comparing ? 1560f : 860f) * Mathf.Clamp((float)_accessibility.TextScale, 0.8f, 1.6f))),
             Mathf.Max(1f, Mathf.Min(viewport.Y * 0.84f, viewport.Y - 24f)));
         _documentView.AnchorLeft = 0.5f;
         _documentView.AnchorTop = 0.5f;

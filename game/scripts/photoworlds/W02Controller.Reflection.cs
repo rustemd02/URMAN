@@ -33,6 +33,43 @@ public partial class W02Controller
     private object? _reflectionRemarkShownSession;
     private object? _reflectionRemarkPendingSession;
 
+    internal bool TryGetReflectionObjectiveTarget(object? identity, FirstPersonController player,
+        out Vector3 point, out string label, out bool inspectionPoint)
+    {
+        point = default;
+        label = string.Empty;
+        inspectionPoint = false;
+        if (!IsCurrentRiverObjective(identity)
+            || _reflectionObservationStand is not { } stand || !GodotObject.IsInstanceValid(stand)
+            || !stand.IsVisibleInTree() || _reflectionObservationPoints.Length != 4)
+            return false;
+
+        var offset = stand.ToLocal(player.GlobalPosition);
+        // The centre has an unobstructed view of the underwater samples even
+        // when the shallow bank hides one at the outer edge of the pad.
+        const float centredRadius = .55f;
+        if (!player.IsOnFloor() || offset.X * offset.X + offset.Z * offset.Z > centredRadius * centredRadius)
+        {
+            point = stand.GlobalPosition;
+            label = "Площадка у воды";
+            return true;
+        }
+
+        // Frame the same three reflected posts and walkway that earn the finding.
+        foreach (var subject in _reflectionObservationPoints) point += subject;
+        point /= _reflectionObservationPoints.Length;
+        label = "Посмотрите вниз на отражение";
+        inspectionPoint = true;
+        return true;
+    }
+
+    private bool IsInsideReflectionStand(Node3D stand, Vector3 position)
+    {
+        var local = stand.ToLocal(position);
+        return Math.Abs(local.X) <= _reflectionObservationStandHalfExtents.X
+            && Math.Abs(local.Z) <= _reflectionObservationStandHalfExtents.Y;
+    }
+
     private void ResetReflectionObservation(object? sessionIdentity)
     {
         if (sessionIdentity is null)
@@ -152,9 +189,7 @@ public partial class W02Controller
             _reflectionObservationArmed = true;
         }
 
-        var standLocal = stand.ToLocal(playerPosition);
-        if (Math.Abs(standLocal.X) > _reflectionObservationStandHalfExtents.X
-            || Math.Abs(standLocal.Z) > _reflectionObservationStandHalfExtents.Y)
+        if (!IsInsideReflectionStand(stand, playerPosition))
         {
             _reflectionObservationFailedSession = null;
             return;

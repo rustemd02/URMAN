@@ -35,6 +35,7 @@ public partial class InteractionTarget : StaticBody3D
     private bool? _available;
     private RuntimeBridge? _bridge;
     private bool _presentationEnabled = true;
+    internal bool PresentationEnabled => _presentationEnabled;
 
     // The existing world router also uses IsSemanticallyAvailable, so an owner
     // waiting for a physical projection cannot be re-enabled by a later refresh.
@@ -163,6 +164,8 @@ public partial class InteractionTarget : StaticBody3D
             return;
         }
 
+        if (bridge.TryOpenPhotoBookAtEntry(interactionId)) return;
+
         if (!await bridge.DispatchInteractionAsync(interactionId)
             || !IsPresentationCurrent(bridge, session))
         {
@@ -220,8 +223,9 @@ public partial class InteractionTarget : StaticBody3D
             {
                 source = houseExit.GlobalPosition;
             }
-            else if ((interactionId == "urman.chapter1:interaction/house-to-route"
-                    || interactionId == "urman.fullgame:interaction/pw-home-exit-house")
+            else if (interactionId is ("urman.chapter1:interaction/house-to-route"
+                    or "urman.fullgame:interaction/pw-home-exit-house"
+                    or PhotoWorldEpiloguePresence.ReturnHomeInteractionId)
                 && main?.FindChild("HouseDoor", true, false) is Node3D houseDoor)
             {
                 source = houseDoor.GlobalPosition;
@@ -230,6 +234,12 @@ public partial class InteractionTarget : StaticBody3D
             Node host = main is not null ? main : this;
             UiFoley.PlayWorld(host, source, WorldFoleySample);
         }
+
+        // The scene transition checkpoints indoors before SwitchZoneAsync.
+        // Capture the successful yard placement for a cold Continue as well.
+        if (main is not null && interactionId == PhotoWorldEpiloguePresence.ReturnHomeInteractionId
+            && IsPresentationCurrent(bridge, session))
+            await bridge.SaveCheckpointAsync(force: true);
     }
 
     // Persistence can finish after load/restart, menu return, or zone disposal.

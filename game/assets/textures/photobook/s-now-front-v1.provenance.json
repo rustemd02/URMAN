@@ -1,0 +1,46 @@
+{
+  "asset_id": "S-NOW",
+  "status": "runtime_art_candidate; native and author acceptance open",
+  "tool": "image_gen.imagegen (built-in)",
+  "generation_id": "exec-75e1c3d6-74db-4104-8a97-690105688457",
+  "prompt": "Create the in-universe color family photograph S-NOW for the game URMAN, aspect ratio 3:2 horizontal edge-to-edge. Treat both attached actual game frames as the visual references for this very same room and the very same two stylized low-poly 3D game characters. Re-stage their candid framing only. Gulsina, elderly Tatar grandmother, wears her distinctive warm brick-red headscarf tied closely under chin and muted mauve-gray knitted top. Mansur, older Tatar grandfather, wears his brown flat cap, modest brown pullover, and has short gray facial hair. Preserve their game silhouettes, body scale and features. Only these two people. The unseen camera is held by their grandson Aidar from standing height across the near end of the same rectangular table. Both grandparents should be clearly recognizable near the table, mid-conversation with the photographer, naturally relaxed, hands understated. Foreground shows the existing plain small cup of tea on the white cloth; let the same beige CRT computer and cream lamp sit unobtrusively to one side of the table. Match the reference room: honey-brown horizontal walls with faded wallpaper, pale green curtains, winter through the window, dark green-backed sofa, warm single pendant, modest used furniture. Present-day Tatar village, straightforward domestic life. Match the screenshot's grounded stylized 3D in-engine rendering, simple materials, soft shading, quiet warm interior light, lightly cool winter window. Natural unposed contemporary snapshot of a familiar ordinary moment, low visual drama, restrained contrast, subjects easily readable when small. The entire canvas is the photo image, no border, no text, no logos, no labels or game UI, no third person, no new costumes, no folkloric decorations, no horror symbols.",
+  "references": {
+    "capture_id": "24d781f2029a4e97b867b0d80ff41ec9",
+    "files": [
+      {
+        "name": "gulsine-facing.png",
+        "sha256": "0534394e5b537b54d6e983aac8ecfb2d71e5a7e97e799f7a7ffa1e830cbe56a1"
+      },
+      {
+        "name": "tea-target.png",
+        "sha256": "42f0d3758b38a65c4c9d5927601ed47c1bfab5c9e9dc55bc114efa9681ea0b9d"
+      }
+    ]
+  },
+  "original": {
+    "size_px": [
+      1536,
+      1024
+    ],
+    "sha256": "8352e930043ad18f4a4849c0d9999d66e96c7e7d05c1b4bb83d9a3bc6d9dcb79"
+  },
+  "runtime_front": {
+    "name": "s-now-front-v1.png",
+    "size_px": [
+      1800,
+      1200
+    ],
+    "sha256": "66424260f3af15e318a7146c319055ae19ad0c0bb854ab76290a48e635510d8e"
+  },
+  "runtime_thumbnail": {
+    "name": "s-now-front-v1-thumbnail.png",
+    "size_px": [
+      256,
+      171
+    ],
+    "sha256": "76ebbaba9f7a725b85c6508f77139e3adf36071b08b1b14c8c3d5ff6a3d0030d"
+  },
+  "export": "sips resampling only; unchanged composition",
+  "rights": "Project-generated fictional artwork based on existing project gameplay. No outside likeness or source.",
+  "limits": "Staged print. The generated seated poses and exact framing are an interpretation of the actual room and character reference, not a live view from the player camera."
+}

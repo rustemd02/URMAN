@@ -1,4 +1,5 @@
 using Godot;
+using System.Threading.Tasks;
 using Urman.Core.Narrative;
 
 namespace Urman.Godot;
@@ -11,14 +12,14 @@ public partial class PhotoBankApproachPresence : Node3D
 {
     private const string HomeSceneId = "urman.fullgame:scene/pw-home";
     private const string BankSceneId = "urman.fullgame:scene/pw-bank-approach";
-    private const string RiverPhotoEntryInteractionId = "urman.fullgame:interaction/pw-enter-river";
-    private const string CommonPhotoEntryInteractionId = "urman.fullgame:interaction/pw-enter-common";
-    private const string EnterBankInteractionId = "urman.fullgame:interaction/pw-enter-bank-approach";
+    internal const string RiverPhotoEntryInteractionId = "urman.fullgame:interaction/pw-enter-river";
+    internal const string CommonPhotoEntryInteractionId = "urman.fullgame:interaction/pw-enter-common";
+    internal const string EnterBankInteractionId = "urman.fullgame:interaction/pw-enter-bank-approach";
     private const string WinterPilesInteractionId = "urman.fullgame:interaction/pw-winter-piles-inspected";
     private const string VerifyBankInteractionId = "urman.fullgame:interaction/pw-verify-bank-evidence";
     private const string BankReturnInteractionId = "urman.fullgame:interaction/pw-bank-return";
     private const string BankToEpilogueInteractionId = "urman.fullgame:interaction/pw-bank-to-epilogue";
-    private const string LeafWitnessInteractionId = "urman.fullgame:interaction/pw-witness-summer-leaf";
+    internal const string LeafWitnessInteractionId = "urman.fullgame:interaction/pw-witness-summer-leaf";
     private const string AlsuLeafInteractionId = "urman.fullgame:interaction/pw-alsu-leaf-talk";
     private const string AlsuBeforeW04InteractionId = "urman.fullgame:interaction/pw-alsu-before-w04-talk";
     private const string WinterPilesFactId = "winter_piles_inspected";
@@ -41,9 +42,7 @@ public partial class PhotoBankApproachPresence : Node3D
     private InteractionTarget? _enterBankTarget;
     private InteractionTarget? _riverPhotoEntryTarget;
     private InteractionTarget? _commonPhotoEntryTarget;
-    private InteractionTarget? _legacyAlsuTarget;
-    private Node3D? _alsuActor;
-    private bool _legacyAlsuSuppressed;
+    private AlsuStreetWalkPresentation? _alsuWalk;
     private bool _bankCollisionsEnabled;
     private bool _markersChecked;
     private bool _warnedMissingMarkers;
@@ -101,8 +100,24 @@ public partial class PhotoBankApproachPresence : Node3D
             _winterPilesTarget = CreateTarget("WinterPilesTarget", WinterPilesInteractionId,
                 "urman.fullgame:text/pw-label-winter-piles-inspected", piles, .52f, .30f);
         if (_verifyBankTarget is null && _oldPilesWitness is { } verifyPiles)
+        {
             _verifyBankTarget = CreateTarget("VerifyBankEvidenceTarget", VerifyBankInteractionId,
                 "urman.fullgame:text/pw-label-verify-bank-evidence", verifyPiles, .52f, .30f);
+            if (_verifyBankTarget is { } verifyTarget)
+            {
+                verifyTarget.PresentationBeforeDispatch = () =>
+                {
+                    if (_bridge is not { } bridge || !JournalUi.HasConfirmedBankEvidence(bridge)) return true;
+                    OpenBankEvidenceResult();
+                    return false;
+                };
+                verifyTarget.AfterDispatch = () =>
+                {
+                    OpenBankEvidenceResult();
+                    return Task.FromResult(true);
+                };
+            }
+        }
         if (_bankReturnTarget is null && _bankReturnWitness is { } bankReturn)
             _bankReturnTarget = CreateTarget("BankReturnTarget", BankReturnInteractionId,
                 "urman.fullgame:text/pw-label-bank-return", bankReturn, .55f, .82f);
@@ -120,24 +135,12 @@ public partial class PhotoBankApproachPresence : Node3D
     private void EnsureAlsuTarget()
     {
         var walk = AlsuStreetWalkPresentation.SessionOwner(GetTree());
-        var actor = walk?.Actor;
-        var village = (GetTree().GetFirstNodeInGroup("act1_connected_world") as Act1ConnectedWorld)
-            ?.GetZoneInstance("village_day");
-        var legacyTarget = walk?.Target ?? village?.GetNodeOrNull<InteractionTarget>("AlsuNpc");
-        if (walk is null || actor is null || legacyTarget is null)
+        if (!ReferenceEquals(walk, _alsuWalk))
         {
-            RestoreLegacyAlsuTarget();
-            _alsuActor = null;
-            _legacyAlsuTarget = legacyTarget;
-            return;
+            UpdateAlsuTalkOverride(false);
+            _alsuWalk = walk;
         }
-
-        if (!ReferenceEquals(actor, _alsuActor) || !ReferenceEquals(legacyTarget, _legacyAlsuTarget))
-        {
-            RestoreLegacyAlsuTarget();
-            _alsuActor = actor;
-            _legacyAlsuTarget = legacyTarget;
-        }
+        if (walk?.Actor is not { } actor) return;
 
         if (_alsuLeafTarget is null && _bankReturnWitness is { } bankReturn)
             _alsuLeafTarget = CreateTarget("AlsuLeafTalkTarget", AlsuLeafInteractionId,
@@ -180,6 +183,17 @@ public partial class PhotoBankApproachPresence : Node3D
         return target;
     }
 
+    private void OpenBankEvidenceResult()
+    {
+        if (!IsInsideTree() || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || bridge.ActiveSceneId != BankSceneId || bridge.CurrentZoneId != "village_day"
+            || !JournalUi.HasConfirmedBankEvidence(bridge) || MainMenuUi.AnyUndismissed(GetTree())
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController { ModalOpen: false, VehicleControlled: false })
+            return;
+        if (GetTree().GetFirstNodeInGroup("journal_ui") is JournalUi journal)
+            journal.OpenBankEvidenceResult(bridge);
+    }
+
     private void ApplyProjection()
     {
         if (_bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
@@ -187,7 +201,6 @@ public partial class PhotoBankApproachPresence : Node3D
 
         var route = bridge.CurrentFullGamePhotoWorldRouteProjection();
         var session = bridge.SessionIdentity;
-        var connectedWorld = GetTree().GetFirstNodeInGroup("act1_connected_world") as Act1ConnectedWorld;
         var villagePhotoWorldRouteActive = bridge.IsPhotoWorldsCampaign
             && string.Equals(bridge.CurrentZoneId, "village_day", System.StringComparison.Ordinal)
             && route is not null && session is not null
@@ -226,6 +239,8 @@ public partial class PhotoBankApproachPresence : Node3D
                 && IsInteractionReady(bridge, WinterPilesInteractionId));
         SetTarget(_verifyBankTarget, bridge, "urman.fullgame:text/pw-label-verify-bank-evidence",
             bankRouteActive && interactionWindowOpen && IsInteractionReady(bridge, VerifyBankInteractionId));
+        if (_verifyBankTarget is { } verifyTarget && JournalUi.HasConfirmedBankEvidence(bridge))
+            verifyTarget.Prompt = "Посмотреть результат сверки мостков";
         var epilogueReady = bankRouteActive && interactionWindowOpen
             && IsInteractionReady(bridge, BankToEpilogueInteractionId);
         SetTarget(_bankToEpilogueTarget, bridge, "urman.fullgame:text/pw-label-bank-to-epilogue", epilogueReady);
@@ -233,31 +248,26 @@ public partial class PhotoBankApproachPresence : Node3D
             bankRouteActive && interactionWindowOpen && !epilogueReady
                 && IsInteractionReady(bridge, BankReturnInteractionId));
 
-        var alsuReady = _alsuActor is { } actor && GodotObject.IsInstanceValid(actor)
+        var actor = _alsuWalk?.Actor;
+        var alsuReady = actor is not null && GodotObject.IsInstanceValid(actor)
             && actor.IsVisibleInTree()
-            && actor.GetNodeOrNull<AlsuStreetWalkPresentation>("AlsuStreetWalk") is { PhysicalAccessReady: true };
+            && _alsuWalk is { PhysicalAccessReady: true };
         var alsuTalkReady = bankRouteActive && interactionWindowOpen && alsuReady
             && IsInteractionReady(bridge, AlsuLeafInteractionId);
         var alsuBeforeW04Available = homeRouteActive && alsuReady
             && IsInteractionReady(bridge, AlsuBeforeW04InteractionId);
         var alsuBeforeW04Ready = alsuBeforeW04Available && interactionWindowOpen;
-        if (_alsuLeafTarget is { } alsuTarget && GodotObject.IsInstanceValid(alsuTarget)
-            && _alsuActor is { } movingActor && GodotObject.IsInstanceValid(movingActor))
+        if (actor is not null && GodotObject.IsInstanceValid(actor))
         {
-            alsuTarget.GlobalPosition = movingActor.GlobalPosition + Vector3.Up * .84f;
+            var talkPoint = actor.GlobalPosition + Vector3.Up * .84f;
+            if (_alsuLeafTarget is { } leafTarget && GodotObject.IsInstanceValid(leafTarget))
+                leafTarget.GlobalPosition = talkPoint;
+            if (_alsuBeforeW04Target is { } beforeTarget && GodotObject.IsInstanceValid(beforeTarget))
+                beforeTarget.GlobalPosition = talkPoint;
         }
         SetTarget(_alsuLeafTarget, bridge, "urman.fullgame:text/pw-label-alsu-leaf-talk", alsuTalkReady);
-        if (_alsuBeforeW04Target is { } beforeTarget && GodotObject.IsInstanceValid(beforeTarget)
-            && _alsuActor is { } beforeActor && GodotObject.IsInstanceValid(beforeActor))
-        {
-            beforeTarget.GlobalPosition = beforeActor.GlobalPosition + Vector3.Up * .84f;
-        }
         SetTarget(_alsuBeforeW04Target, bridge, "urman.fullgame:text/pw-label-alsu-before-w04-talk", alsuBeforeW04Ready);
-
-        if (bankRouteActive || alsuBeforeW04Available)
-            SuppressLegacyAlsuTarget();
-        else if (connectedWorld?.ActiveZoneId == "village_day")
-            RestoreLegacyAlsuTarget();
+        UpdateAlsuTalkOverride(bankRouteActive || alsuBeforeW04Available);
     }
 
     private static bool IsInteractionReady(RuntimeBridge bridge, string interactionId) =>
@@ -291,7 +301,7 @@ public partial class PhotoBankApproachPresence : Node3D
             if (target is { } current && GodotObject.IsInstanceValid(current) && !current.IsQueuedForDeletion())
                 current.SetPresentationEnabled(false);
         }
-        RestoreLegacyAlsuTarget();
+        UpdateAlsuTalkOverride(false);
     }
 
     private static void SetTarget(InteractionTarget? target, RuntimeBridge bridge, string labelTextId, bool enabled)
@@ -301,20 +311,10 @@ public partial class PhotoBankApproachPresence : Node3D
         target.SetPresentationEnabled(enabled);
     }
 
-    private void SuppressLegacyAlsuTarget()
+    private void UpdateAlsuTalkOverride(bool active)
     {
-        if (_legacyAlsuTarget is not { } target || !GodotObject.IsInstanceValid(target)
-            || target.IsQueuedForDeletion()) return;
-        target.SetPresentationEnabled(false);
-        _legacyAlsuSuppressed = true;
-    }
-
-    private void RestoreLegacyAlsuTarget()
-    {
-        if (_legacyAlsuSuppressed && _legacyAlsuTarget is { } target
-            && GodotObject.IsInstanceValid(target) && !target.IsQueuedForDeletion())
-            target.SetPresentationEnabled(true);
-        _legacyAlsuSuppressed = false;
+        if (_alsuWalk is { } walk && GodotObject.IsInstanceValid(walk))
+            walk.SetPhotoRouteTalkOverride(active);
     }
 
     public override void _ExitTree()

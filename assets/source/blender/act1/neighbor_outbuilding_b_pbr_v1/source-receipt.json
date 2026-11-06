@@ -1,0 +1,88 @@
+{
+  "schema": "urman-neighbor-outbuilding-b-pbr/v1",
+  "source": "game/assets/models/act1/urman_village_exterior_kit.glb",
+  "source_sha256": "fdc69de9f580276f6a9c831bde60a0dad1728acdc533f00320e8a9009c233bf8",
+  "source_rights": "Project-original, assets/asset_registry.json urman.act1.village_exterior_kit",
+  "component": "VillageParcel_VariantB_PlasterAnnex_Outbuilding",
+  "excluded_original_glass": [
+    "VariantB_Banya_RearWindow_LOD0",
+    "VariantB_Banya_WindowFront_Inset_LOD0"
+  ],
+  "opaque_nodes": 18,
+  "triangles": 444,
+  "bounds_blender": [
+    [
+      -1.85,
+      -2.48,
+      0.02
+    ],
+    [
+      1.85,
+      1.64,
+      3.9450002
+    ]
+  ],
+  "geometry_unchanged_during_uv": true,
+  "mesh_names": [
+    "VariantB_Banya_ChimneyCap_LOD0",
+    "VariantB_Banya_Chimney_LOD0",
+    "VariantB_Banya_DoorHandle_LOD0",
+    "VariantB_Banya_Door_LOD0",
+    "VariantB_Banya_EntryRoof_LOD0",
+    "VariantB_Banya_EntryStep_LOD0",
+    "VariantB_Banya_Foundation_LOD0",
+    "VariantB_Banya_GableFront_LOD0",
+    "VariantB_Banya_Roof_LOD0",
+    "VariantB_Banya_SideRepair_LOD0",
+    "VariantB_Banya_Wall_LOD0",
+    "VariantB_Banya_WindowFront_Bottom_LOD0",
+    "VariantB_Banya_WindowFront_Left_LOD0",
+    "VariantB_Banya_WindowFront_MullionH_LOD0",
+    "VariantB_Banya_WindowFront_MullionV_LOD0",
+    "VariantB_Banya_WindowFront_Right_LOD0",
+    "VariantB_Banya_WindowFront_Sill_LOD0",
+    "VariantB_Banya_WindowFront_Top_LOD0"
+  ],
+  "intended_operation": "Meshy retexture4KPBR, keepUV; maps-only attachment to this exact donor after geometry verification",
+  "runtime_promotion": false,
+  "output_sha256": "8f0ef5140a434954d76a6754627eb96e8fab4d633b39b1590a353279d42268c6",
+  "material_reference": {
+    "path": "assets/source/blender/act1/neighbor_outbuilding_b_pbr_v1/input-material-reference-v1.png",
+    "sha256": "48757e8be9cbcb0d04f05abb402feb870b0c302c1f77f5a5c1dff31b7da3f633",
+    "tool": "built-in image_gen",
+    "original": "/Users/unterlantas/.codex/generated_images/01a1799b-bfd6-75c0-a6fe-f42d5065d715/exec-8ca44456-b379-4c10-b10b-ef60574b6a23.png",
+    "review": "Same source silhouette/camera, weathered timber and dull metal consistent with accepted house. Surface/style donor only; new 3D geometry not inferred from this image.",
+    "prompt": "Use case: stylized-concept. Asset type: one production material reference for retexturing an existing URMAN village bathhouse 3D model with Meshy, not an advertising concept. Image 1 is the exact existing geometry and camera: keep its outline, proportions, roof slope, chimney, one door under the small entry canopy, one small square front window and side repair patch exactly as given. Image 2 is the accepted in-game house and visual material language: restrained coarse painterly realism, warm weathered village timber, matte low-contrast materials; use only its color/material character, no scenery or architecture transfer. Render the same isolated outbuilding as image1 on a neutral gray background with soft even studio illumination. Change only surface finish: quiet weathered dark brown wooden plank walls and gable with vertical grain, simple warm weathered timber door/window frame and side repaired plank panel, muted dark gray standing-seam metal roof and canopy with limited dull oxidation, gray stone plinth, rough pale gray chimney with a little soot at its cap. Broad readable natural material shapes and restrained hand-painted detail; no microscopic photo noise or glossy game-marketplace style. It is a maintained working Tatar village bathhouse beside the accepted home, not an abandoned ruin. Keep the door, frame, roof and all physical pieces distinct; do not add objects, log courses, decorations, extra doors, protruding beams, plants, snow, signs, symbols or text. Do not bake strong shadows into wall pigment. Output one image, same whole-object three-quarter composition with every roof edge and base visible.",
+    "reference_paths": [
+      "source-front-right.png",
+      "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/frames/babai_shape_front_high.png"
+    ],
+    "rights": "Project-original source image and accepted own URMAN game frame, generated through built-in OpenAI image_gen; no third-party reference included. No new third-party license asserted."
+  },
+  "cost_before_submit": {
+    "author_cap": 4000,
+    "actual_consumed": 550,
+    "remaining": 3450,
+    "api_balance": 3730,
+    "monthly": 2580,
+    "permanent": 1150,
+    "reserve": 10,
+    "operation": "4K PBR retexture",
+    "official_pricing": "https://docs.meshy.ai/en/api/pricing",
+    "confirmed_credits": 10
+  },
+  "cost_after_success": {
+    "author_cap": 4000,
+    "actual_consumed": 560,
+    "remaining": 3440,
+    "api_balance": 3720,
+    "monthly": 2570,
+    "permanent": 1150,
+    "reserve": 0,
+    "task_id": "01a179a0-681b-7511-ba53-59866f70651c",
+    "consumed_credits": 10,
+    "terminal_status": "SUCCEEDED",
+    "terminal_receipt": "status-02.json",
+    "balance_receipt": "balance-after.json"
+  }
+}

@@ -51,6 +51,14 @@ public sealed class DeterminismAndSaveTests
             Assert.True(loaded.RecoveredFromBackup);
             Assert.Equal("house", loaded.Save.CurrentZone.Value);
             Assert.Equal(1, loaded.Save.SavedSequence);
+
+            var intactBackup = await File.ReadAllBytesAsync(store.BackupPath("slot-1"), TestContext.Current.CancellationToken);
+            await store.SaveAsync("slot-1", CreateSave("forest", 3), TestContext.Current.CancellationToken);
+            var repaired = await store.LoadAsync("slot-1", CampaignFingerprint, TestContext.Current.CancellationToken);
+            Assert.False(repaired.RecoveredFromBackup);
+            Assert.Equal(3, repaired.Save.SavedSequence);
+            Assert.Equal(intactBackup,
+                await File.ReadAllBytesAsync(store.BackupPath("slot-1"), TestContext.Current.CancellationToken));
         }
         finally
         {

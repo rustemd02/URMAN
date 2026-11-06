@@ -14,6 +14,8 @@ public partial class W04Controller
     private const float GroundMaxZ = 190f;
     private const float GroundStep = 1f;
     private const float GroundAnchorSigma = 22f;
+    private const float EntryFrameZ = 8f;
+    private const float EntryForkZ = 10f;
 
     private static readonly Vector3[] GroundAnchors =
     [
@@ -24,7 +26,8 @@ public partial class W04Controller
 
     private static readonly Vector2[][] CommonWalkRoutes =
     [
-        [new(0f, 0f), new(-25f, 25f)], [new(0f, 0f), new(24f, 30f)],
+        [new(0f, 0f), new(0f, EntryForkZ)],
+        [new(0f, EntryForkZ), new(-25f, 25f)], [new(0f, EntryForkZ), new(24f, 30f)],
         [new(-25f, 25f), new(0f, 54f)], [new(24f, 30f), new(0f, 54f)],
         [new(0f, 54f), new(0f, 83f)], [new(0f, 83f), new(0f, 112f)],
         [new(0f, 112f), new(-22f, 140f)], [new(0f, 112f), new(25f, 143f)],
@@ -210,53 +213,62 @@ public partial class W04Controller
 
     private void BuildCommonFrames()
     {
-        BuildCommonFrame("C01ForestFrame", "C01", "765b42", "60777a");
-        BuildCommonFrame("C02RiverFrame", "C02", "6e5740", "55747b");
-        BuildCommonFrame("C03HouseFrame", "C03", "765843", "697586");
+        // Keep the entrance wide enough for the C03 view back through it to
+        // the family house. It belongs on the common approach before the fork.
+        BuildCommonFrame("C00EntryFrame", new Vector3(0f, CommonGroundHeightAt(0f, EntryFrameZ), EntryFrameZ),
+            "726049", "697586", postX: 3.2f);
+        foreach (var (name, anchorName, wood, blue) in new[]
+        {
+            ("C01ForestFrame", "C01", "765b42", "60777a"),
+            ("C02RiverFrame", "C02", "6e5740", "55747b"),
+            ("C03HouseFrame", "C03", "765843", "697586")
+        })
+        {
+            var anchor = GetNodeOrNull<Node3D>($"Anchors/{anchorName}")
+                ?? throw new InvalidOperationException($"W04 is missing its fixed passport anchor: {anchorName}");
+            BuildCommonFrame(name, _world.ToLocal(anchor.GlobalPosition), wood, blue);
+        }
     }
 
-    private void BuildCommonFrame(string name, string anchorName, string woodTint, string blueTint)
+    private void BuildCommonFrame(string name, Vector3 origin, string woodTint, string blueTint, float postX = 1.76f)
     {
-        var anchor = GetNodeOrNull<Node3D>($"Anchors/{anchorName}")
-            ?? throw new InvalidOperationException($"W04 is missing its fixed passport anchor: {anchorName}");
+        var extraWidth = 2f * (postX - 1.76f);
         var frame = new StaticBody3D
         {
             Name = name,
-            Position = anchor.GlobalPosition,
+            Position = origin,
             CollisionLayer = 1u,
             CollisionMask = 1u
         };
-        frame.SetMeta("presentationRole", "full-scale timber sight frame with an unobstructed 3.2 metre passage");
+        frame.SetMeta("presentationRole", "full-scale timber sight frame with a physical passage");
         frame.SetMeta("footstepSurface", "grass");
-        frame.SetMeta("apertureWidthMetres", 3.2f);
+        frame.SetMeta("apertureWidthMetres", 3.2f + extraWidth);
         frame.SetMeta("apertureHeadroomMetres", 3.8f);
         _world.AddChild(frame);
 
         var timber = RuralPropMaterials.Surface("wood", woodTint);
         var blue = RuralPropMaterials.Surface("wood", blueTint);
         var stone = RuralPropMaterials.Surface("concrete", "c9beaa");
-        const float postX = 1.76f;
         const float postHeight = 3.9f;
         foreach (var side in new[] { -1f, 1f })
         {
             var x = side * postX;
-            var groundDelta = CommonGroundHeightAt(anchor.Position.X + x, anchor.Position.Z) - anchor.Position.Y;
+            var groundDelta = CommonGroundHeightAt(origin.X + x, origin.Z) - origin.Y;
             AddCommonSolidBlock(frame, side < 0 ? "WestFoot" : "EastFoot",
                 new Vector3(.52f, .18f, .58f), new Vector3(x, groundDelta + .09f, 0f), stone, .025f);
             AddCommonSolidBlock(frame, side < 0 ? "WestPost" : "EastPost",
                 new Vector3(.28f, postHeight, .32f), new Vector3(x, groundDelta + postHeight * .5f + .12f, 0f), timber, .022f);
             AddCommonSolidBlock(frame, side < 0 ? "WestBlueCollar" : "EastBlueCollar",
                 new Vector3(.34f, .20f, .36f), new Vector3(x, groundDelta + .38f, .015f), blue, .014f);
+            AddCommonSolidTube(frame, side < 0 ? "WestShoulderBrace" : "EastShoulderBrace",
+                new Vector3(side * (postX - .21f), 2.95f, .08f),
+                new Vector3(side * (postX - .84f), 3.82f, .08f), .065f, timber);
         }
 
-        AddCommonSolidBlock(frame, "DeepTimberLintel", new Vector3(3.98f, .38f, .48f),
+        AddCommonSolidBlock(frame, "DeepTimberLintel", new Vector3(3.98f + extraWidth, .38f, .48f),
             new Vector3(0f, 4.06f, 0f), timber, .028f);
-        AddCommonSolidBlock(frame, "BlueLintelInlay", new Vector3(2.32f, .09f, .51f),
+        AddCommonSolidBlock(frame, "BlueLintelInlay", new Vector3(2.32f + extraWidth, .09f, .51f),
             new Vector3(0f, 4.08f, .015f), blue, .015f);
-        AddCommonSolidTube(frame, "WestShoulderBrace", new Vector3(-1.55f, 2.95f, .08f),
-            new Vector3(-.92f, 3.82f, .08f), .065f, timber);
-        AddCommonSolidTube(frame, "EastShoulderBrace", new Vector3(1.55f, 2.95f, .08f),
-            new Vector3(.92f, 3.82f, .08f), .065f, timber);
     }
 
     private void BuildCommonHorizon()

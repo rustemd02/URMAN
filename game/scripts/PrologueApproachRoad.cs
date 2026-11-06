@@ -7,18 +7,21 @@ namespace Urman.Godot;
 /// road from the district bus stop to Kara-Urman - open snow fields, birch
 /// and pine groves, a power line, the village sign - and then the forest wall
 /// the road cuts through before the bridge. This is the "far half shown in
-/// transit": a presentation location away from the village terrain, never a
-/// free-roam area. It writes no story or save state.
+/// transit": normally isolated from the village terrain, but attachable to the
+/// real village-road endpoint for the photo-world arrival. It writes no story or save state.
 /// </summary>
 public partial class PrologueApproachRoad : Node3D
 {
     public static readonly Vector3 Origin = new(0f, 0f, 6000f);
     public const float RoadLength = 640f;
+    public const float RoadEndZ = -RoadLength - 40f;
     public const float ForestStart = -390f;
     private const float FieldHalfWidth = 170f;
 
     private readonly RandomNumberGenerator _rng = new() { Seed = 0x55524d32 };
 
+    /// <summary>Ends the field mesh where the rendered road meets existing terrain.</summary>
+    public bool TrimGroundAtRoadEnd { get; set; }
     public Node3D? EdgeFigure { get; private set; }
     public float EdgeFigureZ { get; private set; }
 
@@ -54,7 +57,8 @@ public partial class PrologueApproachRoad : Node3D
         const float cell = 5f;
         var st = new SurfaceTool();
         st.Begin(Mesh.PrimitiveType.Triangles);
-        for (var z = 40f; z > -RoadLength - 60f; z -= cell)
+        var groundEndZ = TrimGroundAtRoadEnd ? RoadEndZ : -RoadLength - 60f;
+        for (var z = 40f; z > groundEndZ; z -= cell)
         for (var x = -FieldHalfWidth; x < FieldHalfWidth; x += cell)
         {
             Vector3 P(float px, float pz) => new(px, Ground(px, pz), pz);
@@ -70,7 +74,7 @@ public partial class PrologueApproachRoad : Node3D
         var st = new SurfaceTool();
         st.Begin(Mesh.PrimitiveType.Triangles);
         const float step = 3f;
-        for (var z = 40f; z > -RoadLength - 40f; z -= step)
+        for (var z = 40f; z > RoadEndZ; z -= step)
         {
             Vector3 E(float zz, float side) { var x = RoadX(zz) + side; return new Vector3(x, Ground(x, zz) + .04f, zz); }
             var z2 = z - step;
@@ -132,7 +136,7 @@ public partial class PrologueApproachRoad : Node3D
                 Tree(gx + _rng.RandfRange(-9f, 9f), gz + _rng.RandfRange(-9f, 9f), leafless ? _rng.RandfRange(9f, 15f) : _rng.RandfRange(12f, 22f), leafless);
         }
         // The forest wall: tall and close to both shoulders.
-        for (var z = ForestStart + 25f; z > -RoadLength - 40f; z -= 4.2f)
+        for (var z = ForestStart + 25f; z > RoadEndZ; z -= 4.2f)
         for (var offset = 7f; offset < 110f; offset += 4.2f)
         foreach (var side in new[] { -1f, 1f })
         {

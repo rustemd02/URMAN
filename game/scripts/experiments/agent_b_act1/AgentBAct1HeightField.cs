@@ -232,7 +232,9 @@ public static class AgentBAct1HeightField
     }
     internal static bool InsideHouseholdClearance(Vector2 point)
         => HouseholdPads.Any(pad => pad.Outside(point.X, point.Y) < pad.Feather);
-    private static Vector3[] CollisionFacesValue => _collisionFaces ??= BuildTerrainFaces();
+    // Ground queries, the visual mesh and the base collider all use the same
+    // sampled grid. Studio road and stroke edits invalidate it at the source.
+    internal static ReadOnlySpan<Vector3> TerrainFaces => _collisionFaces ??= BuildTerrainFaces();
 
     /// <summary>
     /// Author terrain strokes (URMAN Studio, spec WORLD10) from
@@ -363,7 +365,7 @@ public static class AgentBAct1HeightField
     /// <summary>(distance to nearest road axis, half width of that axis).</summary>
     public static (double Distance, double HalfWidth) RoadInfo(float x, float z)
     {
-        var (distance, halfWidth, _) = RoadProfile(x, z);
+        var (distance, halfWidth, _) = SampleRoad(x, z, includeRelief: false);
         return (distance, halfWidth);
     }
 
@@ -424,10 +426,6 @@ public static class AgentBAct1HeightField
         return t * t * (3.0 - 2.0 * t);
     }
 
-    /// <summary>1 on the floor of a lane, 0 outside its wall.</summary>
-    private static double LaneOccupancy(double distance, double halfWidth)
-        => 1.0 - Smooth(FloorEdge(halfWidth), WallTop(halfWidth), distance);
-
     /// <summary>1 on the crest of the bank a lane threw out, 0 inside and beyond.</summary>
     private static double CrestOccupancy(double distance, double halfWidth)
         => Smooth(FloorEdge(halfWidth), CrestEdge(halfWidth), distance)
@@ -438,31 +436,40 @@ public static class AgentBAct1HeightField
     /// that axis's half width, and the signed offset to add to the natural
     /// ground - negative inside the lane, positive on its windward bank.
     /// </summary>
-    public static (double Distance, double HalfWidth, double Relief) RoadProfile(float x, float z)
+    public static (double Distance, double HalfWidth, double Relief) RoadProfile(float x, float z) =>
+        SampleRoad(x, z, includeRelief: true);
+
+    private static (double Distance, double HalfWidth, double Relief) SampleRoad(
+        float x, float z, bool includeRelief)
     {
-        double best = double.MaxValue, width = 3.0, crest = 0.0, lane = 0.0;
+        double best = double.MaxValue, width = 3.0, lane = 0.0;
         foreach (var (points, halfWidth) in RoadAxes)
         {
+            var floorEdge = includeRelief ? FloorEdge(halfWidth) : 0.0;
+            var wallTop = includeRelief ? WallTop(halfWidth) : 0.0;
             for (var i = 0; i < points.Length - 1; i++)
             {
                 var d = DistanceToSegment(x, z, points[i].X, points[i].Z,
                     points[i + 1].X, points[i + 1].Z);
                 // The trough is the deepest influence over every route meeting
                 // here, so two lanes that cross cut one recess, never two.
-                var occupancy = LaneOccupancy(d, halfWidth);
-                if (occupancy > lane) lane = occupancy;
+                if (includeRelief)
+                {
+                    var occupancy = 1.0 - Smooth(floorEdge, wallTop, d);
+                    if (occupancy > lane) lane = occupancy;
+                }
                 if (d < best)
                 {
                     best = d;
                     width = halfWidth;
-                    crest = CrestOccupancy(d, halfWidth);
                 }
             }
         }
-        if (best == double.MaxValue) return (best, width, 0.0);
+        if (!includeRelief || best == double.MaxValue) return (best, width, 0.0);
         // The bank belongs to the nearest route but never stands inside a lane:
         // that is what cuts the crest away where a route crosses another, so an
         // intersection stays one recessed surface instead of a wall across it.
+        var crest = CrestOccupancy(best, width);
         return (best, width,
             -LaneDepth(width) * lane + BankRise(width) * crest * (1.0 - lane));
     }
@@ -807,7 +814,7 @@ public static class AgentBAct1HeightField
         var rows = GridRows;
         var column = (int)System.Math.Floor((x - MinX) / Step);
         var row = (int)System.Math.Floor((z - MinZ) / Step);
-        var faces = CollisionFacesValue;
+        var faces = TerrainFaces;
         // Jitter is bounded below one grid cell; only these nine cells can
         // contain the query. This is the collider's actual diagonal/winding.
         for (var iy = System.Math.Max(0, row - 1); iy <= System.Math.Min(rows - 1, row + 1); iy++)
@@ -829,7 +836,7 @@ public static class AgentBAct1HeightField
         return (float)Ground(x, z);
     }
 
-    public static Vector3[] BuildTerrainFaces()
+    private static Vector3[] BuildTerrainFaces()
     {
         var cols = GridColumns + 1;
         var rows = GridRows + 1;

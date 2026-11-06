@@ -31,6 +31,44 @@ public partial class Act1DemoRoot
     private Task<bool> _photoNivaLanguageWrite = Task.FromResult(true);
     private bool _photoNivaPhysicsEnabled, _photoNivaInputEnabled, _photoNivaExitPending;
     private ulong _photoNivaReleasedFrame;
+    private AudioStreamPlayer? _photoNivaScore;
+    private float _photoNivaScoreElapsed;
+
+    private void UpdatePhotoNivaScore(float delta, bool paused, float metresToStop)
+    {
+        if (_photoNivaScore is { } playing) playing.StreamPaused = paused;
+        if (paused || DisplayServer.GetName() == "headless") return;
+        _photoNivaScoreElapsed += delta;
+        // Leave the waking voice, motor and first seconds of the road exposed.
+        if (_photoNivaScoreElapsed < 8f) return;
+        if (_photoNivaScore is null)
+        {
+            const string track = "res://assets/audio/act1/sound_mood/there-is-a-place-scott-buckley.mp3";
+            if (!ResourceLoader.Exists(track) || GD.Load<AudioStream>(track) is not { } stream) return;
+            AudioSettingsService.EnsureBuses();
+            _photoNivaScore = new AudioStreamPlayer
+            {
+                Name = "PhotoNivaScore",
+                Bus = AudioSettingsService.AmbienceBus,
+                Stream = stream,
+                VolumeDb = -60f
+            };
+            AddChild(_photoNivaScore);
+            _photoNivaScore.Play();
+        }
+        var gain = Mathf.SmoothStep(0f, 5f, _photoNivaScoreElapsed - 8f)
+            * Mathf.SmoothStep(0f, 32f, metresToStop);
+        _photoNivaScore.VolumeDb = -16f + Mathf.LinearToDb(Mathf.Max(.001f, gain));
+    }
+
+    private void ReleasePhotoNivaScore()
+    {
+        _photoNivaScoreElapsed = 0f;
+        if (_photoNivaScore is not { } score) return;
+        score.Stop();
+        score.QueueFree();
+        _photoNivaScore = null;
+    }
 
     internal bool PhotoNivaArrivalActive => _photoNivaPresentation is { } presentation
         && IsInstanceValid(presentation) && ReferenceEquals(presentation, _rideNiva);
@@ -41,14 +79,17 @@ public partial class Act1DemoRoot
         && bridge.ActiveSceneId == PhotoNivaArrivalScene && bridge.SessionIdentity is { } session
         && !ReferenceEquals(session, _photoNivaFailedSession);
 
-    private bool IsCurrentPhotoNivaArrival(object session) => PhotoNivaArrivalActive
+    private bool IsCurrentPhotoNivaArrival(object session, bool allowLiveMenu = false) => PhotoNivaArrivalActive
         && IsInsideTree() && !IsQueuedForDeletion() && !_orderlyShutdownRequested
         && ReferenceEquals(session, _photoNivaSession)
         && _bridge is { } bridge && IsInstanceValid(bridge) && bridge.IsInsideTree()
         && ReferenceEquals(session, bridge.SessionIdentity) && bridge.ActiveSceneId == PhotoNivaArrivalScene
         && !bridge.IsPhotoBookProjectionDeferred && !bridge.NeedsPhysicalRecovery
         && _photoNivaPlayer is { } player && IsInstanceValid(player) && player.IsInsideTree()
-        && !player.SessionTransitionActive && !MainMenuVisible && !_menuBusy;
+        && !player.SessionTransitionActive
+        && ((!MainMenuVisible && !_menuBusy)
+            || (allowLiveMenu && ReferenceEquals(_menuReturnSession, session)
+                && ReferenceEquals(_menuReturnBridge, bridge)));
 
     private void UpdatePhotoNivaArrival(double delta)
     {
@@ -63,8 +104,14 @@ public partial class Act1DemoRoot
             _photoNivaPrologueSession = prologueSession;
 
         if (_photoNivaPresentation is not null
-            && (_photoNivaSession is not { } activeSession || !IsCurrentPhotoNivaArrival(activeSession)))
+            && (_photoNivaSession is not { } activeSession || !IsCurrentPhotoNivaArrival(activeSession, allowLiveMenu: true)))
             ReleasePhotoNivaArrival();
+
+        if (MainMenuVisible && _photoNivaDriving)
+        {
+            UpdatePhotoNivaDrive((float)delta);
+            return;
+        }
 
         if (!UsesPhotoWorldsCampaign || StudioPreviewMode || _orderlyShutdownRequested
             || !_playerSessionSelected || MainMenuVisible || _menuBusy || _photoWorldReplay
@@ -89,7 +136,8 @@ public partial class Act1DemoRoot
             try
             {
                 _ = bridge.RequireDialogue(PhotoNivaArrivalDialogue);
-                var offerLanguage = ReferenceEquals(session, _photoNivaPrologueSession) && !bridge.HasNivaLanguageResponse;
+                var droveFromPrologue = ReferenceEquals(session, _photoNivaPrologueSession);
+                var offerLanguage = droveFromPrologue && !bridge.HasNivaLanguageResponse;
                 if (offerLanguage) _ = bridge.RequireDialogue(PrologueRideDialogue);
                 if (GetTree().GetFirstNodeInGroup("dialogue_ui") is not DialogueUi dialogue || dialogue.IsOpen)
                     return;
@@ -130,7 +178,8 @@ public partial class Act1DemoRoot
                 player.SetProcessUnhandledInput(false);
                 _rideCamera.MakeCurrent();
                 DialogueUi.ChoiceAccepted += OnPhotoNivaArrivalChoice;
-                bridge.OpenDialogueUi(offerLanguage ? PrologueRideDialogue : PhotoNivaArrivalDialogue);
+                if (droveFromPrologue) BeginPhotoNivaDrive(visual);
+                else bridge.OpenDialogueUi(offerLanguage ? PrologueRideDialogue : PhotoNivaArrivalDialogue);
                 UpdateRouteCue();
             }
             catch (Exception error)
@@ -140,6 +189,12 @@ public partial class Act1DemoRoot
                 GD.PushWarning($"PhotoWorld Niva arrival presentation failed: {error.Message}");
                 player.NotifyTraversal("Не удалось открыть разговор в Ниве. Подойдите к машине, чтобы продолжить.");
             }
+        }
+
+        if (_photoNivaDriving)
+        {
+            UpdatePhotoNivaDrive((float)delta);
+            return;
         }
 
         if (_photoNivaLanguageActive && IsCurrentPhotoNivaArrival(session)
@@ -166,6 +221,16 @@ public partial class Act1DemoRoot
 
     private bool HandlePhotoNivaArrivalInput(InputEvent inputEvent)
     {
+        if (_photoNivaDriving && _photoNivaSession is { } driveSession && IsCurrentPhotoNivaArrival(driveSession)
+            && !PhotoNivaDrivePaused
+            && inputEvent is not InputEventKey { Echo: true }
+            && !inputEvent.IsActionPressed("pause") && inputEvent.IsActionPressed("skip_prologue"))
+        {
+            FinishPhotoNivaDrive();
+            GetViewport().SetInputAsHandled();
+            return true;
+        }
+        if (_photoNivaDriving) return false;
         if (_photoNivaSession is not { } session || !IsCurrentPhotoNivaArrival(session)
             || _photoNivaExitPending || _photoNivaPlayer?.ModalOpen != false
             || _pauseMenu?.IsOpen == true || inputEvent is InputEventKey { Echo: true }
@@ -243,6 +308,7 @@ public partial class Act1DemoRoot
     private void ReleasePhotoNivaArrival()
     {
         if (_photoNivaPresentation is not { } presentation) return;
+        ReleasePhotoNivaDrive();
         var player = _photoNivaPlayer;
         _photoNivaPresentation = null;
         _photoNivaSession = null;
@@ -671,27 +737,28 @@ public partial class Act1DemoRoot
     // Distance-parameterised placement over the authored polyline with
     // smooth ends; the car banks its yaw toward the active segment and the
     // body rests on the terrain like the parked runtime vehicles.
-    private void PlaceRideAt(float progress, bool eased = true)
+    private void PlaceRideAt(float progress, bool eased = true, IReadOnlyList<Vector3>? route = null)
     {
         if (_rideNiva is null) return;
+        route ??= PrologueRidePath;
         var shaped = eased ? progress * progress * (3f - 2f * progress) : progress;
         var total = 0f;
-        for (var index = 1; index < PrologueRidePath.Length; index++)
+        for (var index = 1; index < route.Count; index++)
         {
-            total += PrologueRidePath[index - 1].DistanceTo(PrologueRidePath[index]);
+            total += route[index - 1].DistanceTo(route[index]);
         }
         var target = shaped * total;
         var walked = 0f;
-        var position = PrologueRidePath[0];
-        var forward = PrologueRidePath[1] - PrologueRidePath[0];
-        for (var index = 1; index < PrologueRidePath.Length; index++)
+        var position = route[0];
+        var forward = route[1] - route[0];
+        for (var index = 1; index < route.Count; index++)
         {
-            var segment = PrologueRidePath[index] - PrologueRidePath[index - 1];
+            var segment = route[index] - route[index - 1];
             var length = segment.Length();
-            if (walked + length >= target || index == PrologueRidePath.Length - 1)
+            if (walked + length >= target || index == route.Count - 1)
             {
                 var local = Mathf.Clamp((target - walked) / MathF.Max(length, .0001f), 0f, 1f);
-                position = PrologueRidePath[index - 1] + segment * local;
+                position = route[index - 1] + segment * local;
                 forward = segment;
                 break;
             }
@@ -745,7 +812,8 @@ public partial class Act1DemoRoot
             (GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi)?.CloseIfDialogue(PrologueRideDialogue);
         }
         if (restoreSessionTransition && _player is not null && IsInstanceValid(_player)) _player.SetSessionTransition(false);
-        if (_player?.GetNodeOrNull<Camera3D>("Head/Camera3D") is { } playerCamera
+        if (_player is { } player && IsInstanceValid(player)
+            && player.GetNodeOrNull<Camera3D>("Head/Camera3D") is { } playerCamera
             && GodotObject.IsInstanceValid(playerCamera))
         {
             playerCamera.MakeCurrent();

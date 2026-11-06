@@ -8,19 +8,20 @@ namespace Urman.Godot;
 public partial class PhotoWorldEpiloguePresence : Node3D
 {
     private const string HomeZoneId = "house_old_pc";
-    private const string EpilogueSceneId = "urman.fullgame:scene/pw-epilogue";
-    private const string TakeNowInteractionId = "urman.fullgame:interaction/pw-take-now-photo";
+    internal const string EpilogueSceneId = "urman.fullgame:scene/pw-epilogue";
+    private const string HouseExitInteractionId = "urman.fullgame:interaction/pw-home-exit-house";
+    internal const string TakeNowInteractionId = "urman.fullgame:interaction/pw-take-now-photo";
+    internal const string TakeNowTargetName = "TakeNowPhotoTarget";
+    internal const float CameraStanceRadius = .70f;
     private const string FamilyTalkInteractionId = "urman.fullgame:interaction/pw-home-epilogue-talk";
-    private const string ReturnHomeInteractionId = "urman.fullgame:interaction/pw-epilogue-return-home";
+    internal const string ReturnHomeInteractionId = "urman.fullgame:interaction/pw-epilogue-return-home";
+    private const string HouseExitLabelId = "urman.fullgame:text/pw-label-home-exit-house";
     private const string TakeNowLabelId = "urman.fullgame:text/pw-label-take-now-photo";
     private const string FamilyTalkLabelId = "urman.fullgame:text/pw-label-home-epilogue-talk";
-    private const string ReturnHomeLabelId = "urman.fullgame:text/pw-label-epilogue-return-home";
-    private const string NowPhotoFrontPath = "res://assets/textures/photobook/s-now-front-v1.png";
 
     private RuntimeBridge? _bridge;
     private InteractionTarget? _takeNowTarget;
     private InteractionTarget? _familyTalkTarget;
-    private InteractionTarget? _returnHomeTarget;
     private Node3D? _cameraStance;
     private MeshInstance3D? _table;
     private MeshInstance3D? _teaCup;
@@ -44,13 +45,13 @@ public partial class PhotoWorldEpiloguePresence : Node3D
     {
         if (!ResolveWorldReferences())
         {
-            SetTargetsEnabled(false, false, false);
+            SetTargetsEnabled(false, false);
             return;
         }
 
         if (!TryBindBridge())
         {
-            SetTargetsEnabled(false, false, false);
+            SetTargetsEnabled(false, false);
             return;
         }
 
@@ -61,10 +62,14 @@ public partial class PhotoWorldEpiloguePresence : Node3D
 
         ConfigureTarget(_takeNowTarget, bridge, TakeNowLabelId);
         ConfigureTarget(_familyTalkTarget, bridge, FamilyTalkLabelId);
-        ConfigureTarget(_returnHomeTarget, bridge, ReturnHomeLabelId);
+        // One physical door owns both actions and keeps the existing yard spawn.
+        _houseExit!.SetAuthoredBinding(
+            epilogueCurrent ? ReturnHomeInteractionId : HouseExitInteractionId,
+            bridge.ResolveText(HouseExitLabelId),
+            string.Empty);
 
         var takeNowReady = epilogueCurrent && interactionWindowOpen && !hasNowPhoto
-            && ResourceLoader.Exists(NowPhotoFrontPath)
+            && ResourceLoader.Exists(JournalUi.SNowFrontImagePath)
             && IsInteractionReady(bridge, TakeNowInteractionId);
         if (_takeNowTarget is { } takeNow && GodotObject.IsInstanceValid(takeNow))
         {
@@ -74,10 +79,7 @@ public partial class PhotoWorldEpiloguePresence : Node3D
 
         var familyTalkReady = epilogueCurrent && interactionWindowOpen && hasNowPhoto
             && IsInteractionReady(bridge, FamilyTalkInteractionId);
-        var returnHomeReady = epilogueCurrent && interactionWindowOpen && hasNowPhoto
-            && IsInteractionReady(bridge, ReturnHomeInteractionId);
         _familyTalkTarget?.SetPresentationEnabled(familyTalkReady);
-        _returnHomeTarget?.SetPresentationEnabled(returnHomeReady);
     }
 
     private bool ResolveWorldReferences()
@@ -114,7 +116,7 @@ public partial class PhotoWorldEpiloguePresence : Node3D
             return false;
         }
 
-        var vertices = _table.Mesh.GetFaces().Select(vertex => _table.ToGlobal(vertex)).ToArray();
+        var vertices = _table.Mesh.GetFaces().Select(vertex => home.ToLocal(_table.ToGlobal(vertex))).ToArray();
         if (vertices.Length == 0)
             return false;
 
@@ -126,24 +128,21 @@ public partial class PhotoWorldEpiloguePresence : Node3D
         var minX = topVertices.Min(vertex => vertex.X);
         var maxX = topVertices.Max(vertex => vertex.X);
         var maxZ = topVertices.Max(vertex => vertex.Z);
-        var tablePoint = new Vector3(minX + Mathf.Min(.50f, (maxX - minX) * .35f), top + .035f, maxZ - .08f);
-        var stance = new Vector3(minX - 1.9f, home.GlobalPosition.Y, maxZ + .45f);
+        var tablePoint = new Vector3(minX + Mathf.Min(.25f, (maxX - minX) * .35f), top + .035f, maxZ - .04f);
+        // Frame from the short end, behind the storage basket's floor contact.
+        var stance = new Vector3(minX - 1.9f, 0f, maxZ - .60f);
 
-        _cameraStance = new Node3D { Name = "SNowCameraStance", Position = home.ToLocal(stance) };
+        _cameraStance = new Node3D { Name = "SNowCameraStance", Position = stance };
         AddChild(_cameraStance);
-        var takeNowTarget = CreateTarget("TakeNowPhotoTarget", TakeNowInteractionId, tablePoint, .11f);
+        var takeNowTarget = CreateTarget(TakeNowTargetName, TakeNowInteractionId, home.ToGlobal(tablePoint), .11f);
         var familyTalkTarget = CreateTarget("HomeEpilogueTalkTarget", FamilyTalkInteractionId,
             _gulsinaBodyTarget.GlobalPosition, .24f, "urman.fullgame:dialogue/pw-home-epilogue");
-        var returnHomeTarget = CreateTarget("EpilogueReturnHomeTarget", ReturnHomeInteractionId,
-            _houseExit.GlobalPosition, .22f);
         _takeNowTarget = takeNowTarget;
         _familyTalkTarget = familyTalkTarget;
-        _returnHomeTarget = returnHomeTarget;
         takeNowTarget.PresentationGate = CanFrameFamilyTablePhoto;
         takeNowTarget.PresentationGateHint = "Встаньте у стола и наведите камеру на близких и чай.";
         takeNowTarget.SetMeta("physicalSource", "existing family tea table surface; kernel action owns S-NOW");
         familyTalkTarget.SetMeta("physicalSource", "existing Gulsina at the family tea table");
-        returnHomeTarget.SetMeta("physicalSource", "existing closed house door and threshold");
         _worldReferencesResolved = true;
         return true;
     }
@@ -176,7 +175,7 @@ public partial class PhotoWorldEpiloguePresence : Node3D
     {
         if (_bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
             || !IsEpilogueCurrent(bridge, out var session)
-            || !ResourceLoader.Exists(NowPhotoFrontPath)
+            || !ResourceLoader.Exists(JournalUi.SNowFrontImagePath)
             || !IsInteractionReady(bridge, TakeNowInteractionId)
             || _cameraStance is not { } stance || !GodotObject.IsInstanceValid(stance)
             || _takeNowTarget is not { } target || !GodotObject.IsInstanceValid(target))
@@ -185,7 +184,7 @@ public partial class PhotoWorldEpiloguePresence : Node3D
         if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
             || !GodotObject.IsInstanceValid(player) || player.ModalOpen || player.VehicleControlled
             || player.IsClimbingLadder || !player.IsOnFloor()
-            || player.GlobalPosition.DistanceTo(stance.GlobalPosition) > .70f
+            || player.GlobalPosition.DistanceTo(stance.GlobalPosition) > CameraStanceRadius
             || player.GetNodeOrNull<Camera3D>("Head/Camera3D") is not { Current: true } camera
             || player.GetNodeOrNull<RayCast3D>("Head/Camera3D/InteractionRay") is not { } interactionRay)
             return false;
@@ -269,16 +268,15 @@ public partial class PhotoWorldEpiloguePresence : Node3D
             current.Prompt = bridge.ResolveText(labelId);
     }
 
-    private void SetTargetsEnabled(bool takeNow, bool familyTalk, bool returnHome)
+    private void SetTargetsEnabled(bool takeNow, bool familyTalk)
     {
         _takeNowTarget?.SetPresentationEnabled(takeNow);
         _familyTalkTarget?.SetPresentationEnabled(familyTalk);
-        _returnHomeTarget?.SetPresentationEnabled(returnHome);
     }
 
     public override void _ExitTree()
     {
-        SetTargetsEnabled(false, false, false);
+        SetTargetsEnabled(false, false);
         _bridge = null;
     }
 }

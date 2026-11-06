@@ -8,6 +8,7 @@ namespace Urman.Godot;
 public partial class W03Controller
 {
     private const string HouseKitScenePath = "res://assets/models/act1/urman_village_exterior_kit.glb";
+    private const string HouseForestEdgeScenePath = "res://assets/models/act1/urman_kara_forest_edge_kit.glb";
     private const string HeroHouseRootName = "HeroHouse_TimberPlaster";
     private const float HouseGroundMinX = -48f;
     private const float HouseGroundMaxX = 48f;
@@ -19,7 +20,7 @@ public partial class W03Controller
     [
         [new(0, 0), new(0, 7), new(0, 10), new(0, 8.6f), new(-9.5f, 8.6f), new(-10, 20)],
         [new(0, 10), new(0, 8.6f), new(3.5f, 8.6f), new(6.6f, 12), new(8.2f, 14.5f), new(9.3f, 17.4f), new(10, 20)],
-        [new(-10, 20), new(-13.5f, 22.4f), new(-18.5f, 25.4f), new(-23.5f, 28.8f), new(-25, 30)],
+        [new(-10, 20), new(-10, 21.25f), new(-13.5f, 22.4f), new(-18.5f, 25.4f), new(-23.5f, 28.8f), new(-25, 30)],
         [new(-25, 30), new(-25, 34), new(-25, 38)],
         [new(-25, 48), new(-25, 43), new(-25, 38)],
         [new(-25, 38), new(-20, 38), new(-14, 38), new(-8, 38), new(-2, 38), new(4, 38), new(10, 38), new(16, 38), new(22, 38), new(26, 39), new(28, 40)],
@@ -39,7 +40,9 @@ public partial class W03Controller
 
         var house = BuildImportedHeroHouse();
         BuildHouseGround();
+        BuildHouseDistantTreeLine();
         BuildHousePassageFrames();
+        BuildHouseYardFences();
         BuildH04AppleTree();
         BuildH04GardenTable();
         BuildH04GardenChair();
@@ -99,17 +102,13 @@ public partial class W03Controller
             Emit(a, c, d);
         }
 
-        var terrainMaterial = new StandardMaterial3D
-        {
-            VertexColorUseAsAlbedo = true,
-            Roughness = .96f,
-            CullMode = BaseMaterial3D.CullModeEnum.Disabled
-        };
         var terrain = new MeshInstance3D
         {
             Name = "W03GroundSurface",
             Mesh = surface.Commit(),
-            MaterialOverride = terrainMaterial,
+            // The terrain surface retains the vertex-painted paths and adds
+            // the existing ground texture and relief in world coordinates.
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("ded5c1", "terrain", sheltered: true),
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
         };
         terrain.SetMeta("presentationRole", "continuous planted ground with broad stone-and-earth walk links");
@@ -134,6 +133,96 @@ public partial class W03Controller
 
     private static float HouseSmoothRange(float from, float to, float value) =>
         Mathf.SmoothStep(0f, 1f, Mathf.Clamp((value - from) / (to - from), 0f, 1f));
+
+    private void BuildHouseDistantTreeLine()
+    {
+        var packed = ResourceLoader.Load<PackedScene>(HouseForestEdgeScenePath)
+            ?? throw new InvalidOperationException("The W03 distant forest kit is missing.");
+        var source = packed.Instantiate<Node3D>();
+        var surfaces = new Dictionary<Material, SurfaceTool>();
+        var forest = new ArrayMesh();
+        try
+        {
+            (string Name, Vector3 Position, float Yaw, Vector3 Scale)[] placements =
+            [
+                ("DistantForestMass_Tall", new(-58f, 0f, 122f), -8f, new(1.55f, 1.7f, 1.7f)),
+                ("DistantForestMass_Tall", new(-24f, 0f, 114f), 14f, new(1.42f, 1.22f, 1.55f)),
+                ("DistantForestMass_Tall", new(10f, 0f, 129f), 168f, new(1.52f, 1.56f, 1.8f)),
+                ("DistantForestMass_Tall", new(49f, 0f, 116f), -17f, new(1.65f, 1.32f, 1.6f)),
+                ("DistantForestMass_Low", new(-46f, 0f, 103f), 11f, new(1.7f, 1.28f, 1.4f)),
+                ("DistantForestMass_Low", new(2f, 0f, 105f), 180f, new(1.75f, 1.55f, 1.5f)),
+                ("DistantForestMass_Low", new(44f, 0f, 101f), -9f, new(1.78f, 1.38f, 1.45f)),
+                ("BirchEdgeMass", new(-31f, 0f, 102f), 24f, Vector3.One * 1.28f),
+                ("BirchEdgeMass", new(26f, 0f, 101f), -27f, Vector3.One * 1.40f)
+            ];
+            foreach (var (name, position, yaw, scale) in placements)
+            {
+                var component = FindNamedNode<Node3D>(source, name)
+                    ?? throw new InvalidOperationException($"The W03 distant forest kit is missing {name}.");
+                var placement = new Transform3D(new Basis(Vector3.Up, Mathf.DegToRad(yaw)) * Basis.FromScale(scale), position);
+                // Published forest kit components have a ground pivot and direct mesh children.
+                foreach (var part in component.GetChildren().OfType<MeshInstance3D>())
+                {
+                    if (part.Mesh is not { } mesh) continue;
+                    for (var index = 0; index < mesh.GetSurfaceCount(); index++)
+                    {
+                        var material = mesh.SurfaceGetMaterial(index)
+                            ?? throw new InvalidOperationException($"The W03 forest part {part.Name} has no material.");
+                        if (!surfaces.TryGetValue(material, out var batch))
+                        {
+                            batch = new SurfaceTool();
+                            batch.Begin(Mesh.PrimitiveType.Triangles);
+                            surfaces.Add(material, batch);
+                        }
+                        batch.AppendFrom(mesh, index, placement * part.Transform);
+                    }
+                }
+            }
+
+            foreach (var (material, batch) in surfaces)
+            {
+                batch.SetMaterial(material);
+                batch.Index();
+                batch.Commit(forest);
+            }
+        }
+        finally
+        {
+            foreach (var batch in surfaces.Values) batch.Dispose();
+            source.Free();
+        }
+
+        _world!.AddChild(new MeshInstance3D
+        {
+            Name = "DistantSummerTreeLine",
+            Mesh = forest,
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+        });
+
+        // The rear apron seats the distant trees visually. The playable
+        // ground mesh still owns both collision and world bounds.
+        using var apron = new SurfaceTool();
+        apron.Begin(Mesh.PrimitiveType.Triangles);
+        var near = HouseGroundMaxZ - .1f;
+        var left = new Vector3(-88f, -.025f, near);
+        var right = new Vector3(88f, -.025f, near);
+        var farLeft = new Vector3(-88f, -.025f, 144f);
+        var farRight = new Vector3(88f, -.025f, 144f);
+        foreach (var vertex in new[] { left, farRight, farLeft, left, right, farRight })
+        {
+            apron.SetNormal(Vector3.Up);
+            apron.SetColor(HouseGroundColor(vertex.X, vertex.Z));
+            apron.SetUV(new Vector2(vertex.X, vertex.Z) * .12f);
+            apron.AddVertex(vertex);
+        }
+        _world.AddChild(new MeshInstance3D
+        {
+            Name = "DistantSummerMeadow",
+            Mesh = apron.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("ded5c1", "terrain", sheltered: true),
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+        });
+    }
 
     private float HouseGroundHeightAt(float x, float z)
     {
@@ -243,11 +332,32 @@ public partial class W03Controller
             throw new InvalidOperationException("The W03 authored walls do not enclose a valid room.");
         _houseRoomBounds = new Aabb(roomMin, roomMax - roomMin);
 
+        var summerMaterials = new Dictionary<string, Material>(StringComparer.Ordinal)
+        {
+            ["URMAN_Hero_Log"] = PainterlyMaterialLibrary.ForColor("8e6b4c", "wood_log_uv", sheltered: true),
+            ["URMAN_Hero_LogEnd"] = PainterlyMaterialLibrary.ForColor("896348", "wood_cut", sheltered: true),
+            ["URMAN_Wood_Weathered"] = PainterlyMaterialLibrary.ForColor("75583e", "wood_facade", sheltered: true),
+            ["URMAN_Wood_WetShadow"] = PainterlyMaterialLibrary.ForColor("624934", "wood_facade", sheltered: true),
+            ["URMAN_Hero_Trim_Teal"] = PainterlyMaterialLibrary.ForColor("739d9a", "wood_painted_trim", sheltered: true),
+            ["URMAN_Hero_Trim_Ivory"] = PainterlyMaterialLibrary.ForColor("cfc5ac", "wood_painted_trim", sheltered: true),
+            ["URMAN_Roof_WetSlate"] = PainterlyMaterialLibrary.ForColor("765147", "roof_metal", sheltered: true)
+        };
         foreach (var mesh in FindNamedNodes<MeshInstance3D>(component))
         {
-            if (!IsW03WinterDecoration(mesh.Name.ToString())) continue;
-            mesh.Visible = false;
-            mesh.SetMeta("seasonalFilter", "confirmed winter snow and icicle decoration hidden for the summer photo-world copy");
+            if (IsW03WinterDecoration(mesh.Name.ToString()))
+            {
+                mesh.Visible = false;
+                mesh.SetMeta("seasonalFilter", "confirmed winter snow and icicle decoration hidden for the summer photo-world copy");
+                continue;
+            }
+
+            if (mesh.Mesh is not { } authoredMesh) continue;
+            for (var surface = 0; surface < authoredMesh.GetSurfaceCount(); surface++)
+            {
+                var source = authoredMesh.SurfaceGetMaterial(surface);
+                if (source is null || !summerMaterials.TryGetValue(source.ResourceName, out var material)) continue;
+                mesh.SetSurfaceOverrideMaterial(surface, PainterlyMaterialLibrary.PreserveSourceCulling(material, source));
+            }
         }
 
         var houseBody = new StaticBody3D
@@ -290,6 +400,69 @@ public partial class W03Controller
         BuildPortalFrame("H03PassageExitFrame", new Vector3(-25f, 0f, 48f), 180f, blueAccents: false);
     }
 
+    private void BuildHouseYardFences()
+    {
+        var wood = PainterlyMaterialLibrary.ForColor("987f65", "wood_fence_vertical", sheltered: true);
+        BuildHouseFenceRun("FrontFenceWest", new(-13.5f, 5.6f), new(-2.25f, 5.6f), .88f, wood);
+        BuildHouseFenceRun("FrontFenceEast", new(2.25f, 5.6f), new(13.5f, 5.6f), .88f, wood);
+
+        // The wings meet the outside of each portal's posts. Keep the approach
+        // lines, the landings and the opening on the main path clear.
+        foreach (var anchorName in new[] { "H02", "H03" })
+        {
+            var anchor = RequireAnchor(anchorName).Position;
+            var centre = new Vector2(anchor.X, anchor.Z);
+            BuildHouseFenceRun(anchorName + "WestWing", centre + new Vector2(-4.42f, 0),
+                centre + new Vector2(-1.24f, 0), 1.02f, wood);
+            BuildHouseFenceRun(anchorName + "EastWing", centre + new Vector2(1.24f, 0),
+                centre + new Vector2(4.42f, 0), 1.02f, wood);
+        }
+
+        // The open side faces both the landing path and the route to H05.
+        BuildHouseFenceRun("OrchardFence", new(-29f, 32f), new(-29f, 47f), .98f, wood);
+    }
+
+    private void BuildHouseFenceRun(string name, Vector2 start, Vector2 end, float height, Material wood)
+    {
+        var length = start.DistanceTo(end);
+        var direction = (end - start) / length;
+        var rotation = new Basis(Vector3.Up, -direction.Angle());
+        var panels = Mathf.CeilToInt(length / 2f);
+        var panelLength = length / panels;
+        using var boards = new SurfaceTool();
+        boards.Begin(Mesh.PrimitiveType.Triangles);
+
+        void Board(float offset, Vector3 size, float baseHeight)
+        {
+            var at = start + direction * offset;
+            var y = HouseGroundHeightAt(at.X, at.Y) + baseHeight + size.Y * .5f;
+            boards.AppendFrom(RuralPropGeometry.Box(size), 0,
+                new Transform3D(rotation, new Vector3(at.X, y, at.Y)));
+        }
+
+        for (var panel = 0; panel <= panels; panel++)
+            Board(panel * panelLength, new Vector3(.12f, height + .13f, .14f), -.035f);
+
+        for (var panel = 0; panel < panels; panel++)
+        {
+            var offset = panel * panelLength;
+            var rail = new Vector3(panelLength, .075f, .085f);
+            Board(offset + panelLength * .5f, rail, height * .27f);
+            Board(offset + panelLength * .5f, rail, height * .71f);
+            var slats = Mathf.FloorToInt(panelLength / .18f);
+            var spacing = panelLength / (slats + 1);
+            for (var slat = 1; slat <= slats; slat++)
+                Board(offset + slat * spacing, new Vector3(.11f, height - .04f, .06f), .04f);
+        }
+
+        var mesh = boards.Commit();
+        var body = new StaticBody3D { Name = name, CollisionLayer = 1u, CollisionMask = 1u };
+        body.SetMeta("footstepSurface", "wood");
+        _world.AddChild(body);
+        body.AddChild(new MeshInstance3D { Name = "Boards", Mesh = mesh, MaterialOverride = wood });
+        body.AddChild(new CollisionShape3D { Name = "BoardsContact", Shape = mesh.CreateTrimeshShape() });
+    }
+
     private Node3D BuildFrameAtAnchor(string name, string anchorName, bool blueAccents)
     {
         var anchor = GetNodeOrNull<Node3D>($"Anchors/{anchorName}")
@@ -324,21 +497,22 @@ public partial class W03Controller
         frameBody.SetMeta("footstepSurface", "grass");
         frame.AddChild(frameBody);
         var timber = RuralPropMaterials.Surface("wood", "765a43");
-        var blue = RuralPropMaterials.Surface("wood", blueAccents ? "506b7a" : "6d7184");
+        var paint = PainterlyMaterialLibrary.ForColor(blueAccents ? "5788a2" : "b0aaa0",
+            "wood_painted_trim", sheltered: true);
         var lime = RuralPropMaterials.Surface("concrete", "ddd0b3");
         AddSolidBlock(frameBody, "LeftStoneFoot", new Vector3(.52f, .12f, .48f), new Vector3(-1.12f, .02f, 0f), lime, .025f);
         AddSolidBlock(frameBody, "RightStoneFoot", new Vector3(.52f, .12f, .48f), new Vector3(1.12f, .02f, 0f), lime, .025f);
-        AddSolidBlock(frameBody, "LeftOakPost", new Vector3(.22f, 2.62f, .26f), new Vector3(-1.08f, 1.31f, 0f), timber, .016f);
-        AddSolidBlock(frameBody, "RightOakPost", new Vector3(.22f, 2.62f, .26f), new Vector3(1.08f, 1.31f, 0f), timber, .016f);
+        AddSolidBlock(frameBody, "LeftOakPost", new Vector3(.22f, 2.62f, .26f), new Vector3(-1.08f, 1.31f, 0f), paint, .016f);
+        AddSolidBlock(frameBody, "RightOakPost", new Vector3(.22f, 2.62f, .26f), new Vector3(1.08f, 1.31f, 0f), paint, .016f);
         AddSolidBlock(frameBody, "DeepLintel", new Vector3(2.56f, .24f, .32f), new Vector3(0f, 2.61f, 0f), timber, .025f);
-        AddSolidBlock(frameBody, "BlueLintelInlay", new Vector3(1.43f, .075f, .345f), new Vector3(0f, 2.60f, .005f), blue, .014f);
-        AddSolidBlock(frameBody, "LeftFootIronCollar", new Vector3(.27f, .16f, .31f), new Vector3(-1.08f, .30f, 0f), blue, .012f);
-        AddSolidBlock(frameBody, "RightFootIronCollar", new Vector3(.27f, .16f, .31f), new Vector3(1.08f, .30f, 0f), blue, .012f);
+        AddSolidBlock(frameBody, "BlueLintelInlay", new Vector3(1.43f, .075f, .345f), new Vector3(0f, 2.60f, .005f), paint, .014f);
+        AddSolidBlock(frameBody, "LeftFootIronCollar", new Vector3(.27f, .16f, .31f), new Vector3(-1.08f, .30f, 0f), paint, .012f);
+        AddSolidBlock(frameBody, "RightFootIronCollar", new Vector3(.27f, .16f, .31f), new Vector3(1.08f, .30f, 0f), paint, .012f);
         AddSolidBlock(frameBody, "FlushStoneSill", new Vector3(1.78f, .035f, .26f), new Vector3(0f, .008f, 0f), lime, .012f);
         AddSolidTube(frameBody, "LeftDiagonalBrace", new Vector3(-.96f, 2.02f, .12f), new Vector3(-.48f, 2.48f, .12f), .048f, timber);
         AddSolidTube(frameBody, "RightDiagonalBrace", new Vector3(.96f, 2.02f, .12f), new Vector3(.48f, 2.48f, .12f), .048f, timber);
-        AddSolidBlock(frameBody, "CarvedLintelEndLeft", new Vector3(.20f, .31f, .36f), new Vector3(-1.16f, 2.62f, .02f), blue, .02f);
-        AddSolidBlock(frameBody, "CarvedLintelEndRight", new Vector3(.20f, .31f, .36f), new Vector3(1.16f, 2.62f, .02f), blue, .02f);
+        AddSolidBlock(frameBody, "CarvedLintelEndLeft", new Vector3(.20f, .31f, .36f), new Vector3(-1.16f, 2.62f, .02f), paint, .02f);
+        AddSolidBlock(frameBody, "CarvedLintelEndRight", new Vector3(.20f, .31f, .36f), new Vector3(1.16f, 2.62f, .02f), paint, .02f);
         frame.SetMeta("portalClearWidthMetres", 1.86f);
         frame.SetMeta("portalClearHeightMetres", 2.37f);
         frame.SetMeta("landingPolicy", "flush stone apron over the same continuous ground height field");

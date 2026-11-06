@@ -30,7 +30,8 @@ public static class PhotoWorldState
         "photoworlds.fact.observed",
         "photoworlds.evidence.confirmed",
         "photoworlds.caption.prepared",
-        "photoworlds.prologue.completed"
+        "photoworlds.prologue.completed",
+        "photoworlds.world.visited"
     };
 
     private static readonly HashSet<string> EffectOperations = new(StringComparer.Ordinal)
@@ -68,11 +69,11 @@ public static class PhotoWorldState
     /// <summary>Authored checkpoint IDs only; the caller must verify the actual physical pose and support.</summary>
     public static bool IsVisitSafeNode(string worldId, string safeNodeId) => worldId switch
     {
-        "W01" => safeNodeId is "F10" or "F11",
-        "W02" => safeNodeId is "R00" or "R01",
-        "W03" => safeNodeId is "H00" or "H05",
-        "W04" => safeNodeId is "C00" or "C03",
-        "W05" => safeNodeId is "B00" or "B01",
+        "W01" => safeNodeId is "F10" or "F11" or "F13_OUT" or "F14_REST",
+        "W02" => safeNodeId is "R00" or "R01" or "R03" or "R04" or "R05" or "R06",
+        "W03" => safeNodeId is "H00" or "H05" or "H06_APPROACH",
+        "W04" => safeNodeId is "C00" or "C03" or "C05",
+        "W05" => safeNodeId is "B00" or "B01" or "B02" or "B04" or "B06",
         _ => false
     };
 
@@ -136,15 +137,59 @@ public static class PhotoWorldState
     {
         if (!TryGetVisitRoute(worldId, out _, out safeNodeId)) return false;
         if (IsWorldCompleted(state, worldId)) return true;
-        if (!World(state).GetProperty("worlds").TryGetProperty(worldId, out var savedWorld)) return true;
-        var savedSafeNodeId = NullableString(savedWorld, "safeNodeId");
-        if (savedSafeNodeId is null) return true;
-        if (!IsVisitSafeNode(worldId, savedSafeNodeId))
+        var reachedNode = World(state).GetProperty("worlds").TryGetProperty(worldId, out var savedWorld)
+            ? NullableString(savedWorld, "safeNodeId") ?? safeNodeId : safeNodeId;
+        return TryGetVisitResumeNode(state, worldId, reachedNode, out safeNodeId);
+    }
+
+    /// <summary>Resolves a fallback from confirmed observations; the player still needs valid physical support there.</summary>
+    public static bool TryGetVisitResumeNode(JsonElement state, string worldId, string reachedNode, out string safeNodeId)
+    {
+        if (!IsVisitSafeNode(worldId, reachedNode))
         {
             safeNodeId = string.Empty;
             return false;
         }
-        safeNodeId = savedSafeNodeId;
+        safeNodeId = reachedNode;
+        // Confirmed actions are tied to authored places even if the player
+        // did not stop on the separate checkpoint marker.
+        var world = World(state);
+        if (worldId == "W01")
+        {
+            if (HasFact(world, "forest_encounter_resolved") || HasFact(world, "forest_shurale_instructions_heard"))
+                safeNodeId = "F14_REST";
+            else if (reachedNode != "F14_REST" && HasFact(world, "forest_beyond_frame_seen"))
+                safeNodeId = "F13_OUT";
+            else if (reachedNode == "F10" && HasFact(world, "forest_camera_back_seen"))
+                safeNodeId = "F11";
+        }
+        else if (worldId == "W02")
+        {
+            if (HasFact(world, "water_encounter_resolved")) safeNodeId = "R06";
+            else if (HasFact(world, "water_old_approach_seen")) safeNodeId = "R05";
+            else if (HasFact(world, "water_reed_opened")) safeNodeId = "R04";
+            else if (reachedNode is ("R00" or "R01") && HasFact(world, "water_reflection_relation_seen"))
+                safeNodeId = "R03";
+        }
+        else if (worldId == "W03")
+        {
+            if (HasFact(world, "cloth_cleared") || HasFact(world, "house_frame_seen"))
+                safeNodeId = "H06_APPROACH";
+            else if (reachedNode == "H00" && HasFact(world, "house_camera_position_seen"))
+                safeNodeId = "H05";
+        }
+        else if (worldId == "W04")
+        {
+            if (HasFact(world, "common_horizon_seen")) safeNodeId = "C05";
+            else if (reachedNode == "C00" && HasFact(world, "common_three_relations_seen")) safeNodeId = "C03";
+        }
+        else if (worldId == "W05")
+        {
+            if (HasFact(world, "cellar_niche_seen")) safeNodeId = "B06";
+            else if (reachedNode != "B06" && HasFact(world, "cellar_response_seen")) safeNodeId = "B04";
+            else if (reachedNode is ("B00" or "B01") && HasFact(world, "cellar_box_returned")) safeNodeId = "B02";
+            else if (reachedNode == "B00" && HasFact(world, "cellar_household_pattern_seen")) safeNodeId = "B01";
+        }
         return true;
     }
 
@@ -166,7 +211,7 @@ public static class PhotoWorldState
                 && HasEvidence(world, "E-BANK-OUTSIDE") && HasEvidence(world, "E-PHOTOGRAPHER-OUTSIDE")
                 && CaptionPrepared(world, "P-COMMON", "urman.chapter1:character/marat")
                 && PhotoStateIs(world, "P-COMMON", "mounted")
-                && (HasFact(world, "alsu_bank_meeting_planned") || Quest("pw-w04", "active") || Quest("pw-w04")),
+                && (HasFact(world, "alsu_bank_meeting_planned") || HasVisitedWorld(world, "W04") || Quest("pw-w04")),
             "W05" => Book() && PhotoStateIs(world, "P-CELLAR", "mounted") && PhotoStateIs(world, "S-HAND", "acquired"),
             _ => false
         };
@@ -889,6 +934,7 @@ public static class PhotoWorldState
             "photoworlds.caption.prepared" => CaptionPrepared(world, RequiredString(condition, "photoId"),
                 condition.TryGetProperty("sourceAuthorId", out var author) ? author.GetString() : null),
             "photoworlds.prologue.completed" => world.GetProperty("prologue").GetProperty("completed").GetBoolean(),
+            "photoworlds.world.visited" => HasVisitedWorld(world, RequiredString(condition, "worldId")),
             _ => throw new ArgumentException($"Unknown PhotoWorlds condition operation {operation}.")
         };
     }
@@ -1312,6 +1358,17 @@ public static class PhotoWorldState
         world.GetProperty("facts").TryGetProperty(id, out var fact)
         && fact.TryGetProperty("sources", out var sources)
         && sources.ValueKind == JsonValueKind.Array && sources.GetArrayLength() > 0;
+
+    private static bool HasVisitedWorld(JsonElement world, string worldId)
+    {
+        if (!TryGetVisitRoute(worldId, out _, out _)
+            || !world.GetProperty("worlds").TryGetProperty(worldId, out var savedWorld)
+            || RequiredString(savedWorld, "worldId") != worldId
+            || NullableString(savedWorld, "safeNodeId") is not { } safeNodeId)
+            return false;
+
+        return IsVisitSafeNode(worldId, safeNodeId);
+    }
 
     private static bool HasEvidence(JsonElement world, string id) =>
         world.GetProperty("evidence").TryGetProperty(id, out var evidence)

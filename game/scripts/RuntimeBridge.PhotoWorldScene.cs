@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Godot;
 using Urman.Core.Narrative;
+using Urman.Core.Persistence;
 using Urman.Core.Runtime;
 
 namespace Urman.Godot;
@@ -17,6 +18,35 @@ public partial class RuntimeBridge
     private double _photoSafeNodePollElapsed;
     private bool _photoSafeNodeObservationPending;
 
+    private string? ActiveForestPassageVisitId() => ActiveSceneId == "urman.fullgame:scene/pw-forest"
+        && ActivePhotoVisit() is { } visit && visit.GetProperty("worldId").GetString() == "W01"
+        && visit.GetProperty("status").GetString() == "active"
+            ? visit.GetProperty("visitId").GetString() : null;
+
+    private ForestPassageObservationSnapshot? CaptureForestPassageObservation() =>
+        _kernel is { } session && ActiveForestPassageVisitId() is { } visitId
+        && GetTree().GetFirstNodeInGroup("zone_manager") is Main main
+        && main.GetNodeOrNull<W01Controller>("ZoneHost/W01") is { } forest
+            ? forest.CaptureForestPassageObservation(session, visitId) : null;
+
+    private void RestoreForestPassageObservation(ForestPassageObservationSnapshot? observation,
+        FirstPersonController player, PlayerTransform? savedPose = null)
+    {
+        if (observation is null || SessionIdentity is not { } session
+            || observation.VisitId != ActiveForestPassageVisitId()
+            || GetTree().GetFirstNodeInGroup("zone_manager") is not Main main
+            || main.GetNodeOrNull<W01Controller>("ZoneHost/W01") is not { } forest)
+            return;
+
+        // A physical fallback at another node cannot inherit the far-side
+        // proof. Ignore vertical settlement of the saved feet on the ground.
+        if (savedPose is not null && new Vector2(player.GlobalPosition.X, player.GlobalPosition.Z)
+            .DistanceSquaredTo(new Vector2((float)savedPose.Position.X, (float)savedPose.Position.Z)) > .25f * .25f)
+            return;
+
+        forest.RestoreForestPassageObservation(session, observation, player);
+    }
+
     private void ProcessPhotoSafeNodeObservation(double delta)
     {
         _photoSafeNodePollElapsed += Math.Max(0, delta);
@@ -25,17 +55,17 @@ public partial class RuntimeBridge
         if (_photoSafeNodeObservationPending || ActivePhotoVisit() is not { } visit
             || visit.GetProperty("status").GetString() != "active") return;
         var worldId = visit.GetProperty("worldId").GetString();
+        var reachedNode = visit.GetProperty("safeNodeId").GetString();
         var safeNodeId = worldId switch
         {
-            "W01" => "F11",
-            "W02" => "R01",
-            "W03" => "H05",
-            "W04" => "C03",
-            "W05" => "B01",
+            "W01" when reachedNode == "F10" => "F11",
+            "W02" when reachedNode == "R00" => "R01",
+            "W03" when reachedNode == "H00" => "H05",
+            "W04" when reachedNode != "C05" => "C03",
+            "W05" when reachedNode == "B00" => "B01",
             _ => null
         };
-        if (worldId is not null && safeNodeId is not null
-            && visit.GetProperty("safeNodeId").GetString() != safeNodeId)
+        if (worldId is not null && safeNodeId is not null && reachedNode != safeNodeId)
             _ = ObservePhotoSafeNodeAsync(worldId, safeNodeId);
     }
 

@@ -594,9 +594,9 @@ OldPc UI и его контент; семейная книга B01, единое
 | `LEN01.6` | aggregate | Ритм и содержательность новой кампании: LEN01.6; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
 | `LEN01.7` | aggregate | Ритм и содержательность новой кампании: LEN01.7; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
 | `LEN01.8` | aggregate | Ритм и содержательность новой кампании: LEN01.8; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
-| `ACT1-QUEST-ADDR` | aggregate | Квесты ведутся адресной системой (без маркеров и автопути); [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
+| `ACT1-QUEST-ADDR` | aggregate | Понятная цель, адрес и маркер без автопрохождения; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
 | `ACT1-QUEST-ADDR.1` | research | Аудит квестов на адресность; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
-| `ACT1-QUEST-ADDR.2` | engineering | Убрать маркеры и автопуть с обязательного пути; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
+| `ACT1-QUEST-ADDR.2` | engineering | Понятные маркеры текущей цели без автопрохождения; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
 | `ACT1-QUEST-ADDR.3` | engineering | Живой краткий адрес в реплике, запись источника и физическая табличка; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
 | `ACT1-QUEST-ADDR.4` | integration_check | Приёмочный адресный проход квестов; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
 | `ACT1-MECH-AUDIT` | aggregate | Аудит механик: ни одна не висит без дела; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |

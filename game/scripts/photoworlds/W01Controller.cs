@@ -18,18 +18,21 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private const string FoliageKitScenePath = "res://assets/models/agent_b_act1/agentb_foliage_kit.glb";
     private const string ProloguePhotoTexturePath = "res://assets/textures/photobook/p-forest-front-v2.png";
     /// <summary>Dynamic imports owned by the builders below, before main-thread scene construction.</summary>
-    internal static IEnumerable<string> DynamicResourcePaths()
+    internal static IEnumerable<string> DynamicResourcePaths(bool includeForestEpisode)
     {
         yield return GroundScenePath;
-        yield return HeroRootTurnScenePath;
-        yield return F14OldRootSupportScenePath;
         yield return BranchScenePath;
         yield return PhotoTableauScenePath;
         yield return FoliageKitScenePath;
-        yield return BagScenePath;
-        yield return ShuraleScenePath;
-        yield return ShuraleRootedShootScenePath;
-        yield return ShuraleWorkAudioPath;
+        if (includeForestEpisode)
+        {
+            yield return HeroRootTurnScenePath;
+            yield return F14OldRootSupportScenePath;
+            yield return BagScenePath;
+            yield return ShuraleScenePath;
+            yield return ShuraleRootedShootScenePath;
+            yield return ShuraleWorkAudioPath;
+        }
         yield return ProloguePhotoTexturePath;
         yield return FreshSnowTexturePath;
         yield return TrampledSnowTexturePath;
@@ -58,6 +61,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private const string BranchBlockingRestAnimationName = "rest_blocking";
     private const string BranchMovedRestAnimationName = "rest_moved";
     private const double ForestObservationPollSeconds = 0.2;
+    private const float ForestStandingLaneHalfWidth = 1.05f;
     private const float RootPassageCenterHalfWidth = 0.72f;
     private const float RootPassageGroundTolerance = 0.32f;
     private const float RootPassagePlaneHalfDepth = 1.15f;
@@ -250,20 +254,22 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private bool _prologueHintAvailable;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
+    internal bool BuildForestEpisodeOnReady { get; set; } = true;
+    internal bool ForestEpisodeReady { get; private set; }
+
     public override void _Ready()
     {
         AddToGroup(AccessibilityPresentation.TargetGroup);
         BuildGround();
-        BuildRootPassage();
-        BuildF14OldRootSupport();
         BuildForest();
+        BuildForestHorizon();
         BuildBranch();
+        BuildPrologueTracks();
         BuildPhotoTableau();
         BuildProloguePhotoSource();
         BuildPrologueUi();
-        BuildBagPresentation();
-        BuildShuralePresentation();
         _forestExitFrame = GetNode<Marker3D>("Anchors/F16");
+        if (BuildForestEpisodeOnReady) PrepareForestEpisode();
         SetProcess(true);
         SetPhysicsProcess(false);
         TryBindRuntimeBridge();
@@ -272,11 +278,24 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             ?? AccessibilitySettingsSnapshot.Default);
     }
 
+    internal void PrepareForestEpisode()
+    {
+        if (ForestEpisodeReady) return;
+        BuildRootPassage();
+        BuildF14OldRootSupport();
+        BuildBagPresentation();
+        BuildShuralePresentation();
+        ForestEpisodeReady = true;
+        ApplyProjection();
+    }
+
     public override void _Process(double delta)
     {
         TryBindRuntimeBridge();
         ProcessForestWorldGuard();
+        ProcessPrologueExit();
         RefreshPrologueSkipButtonState();
+        if (!ForestEpisodeReady) return;
         ProcessBagPresentation(delta);
         ProcessShuralePresentation(delta);
         ProcessShuraleWorkAudio();
@@ -302,6 +321,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         AccessibilityPresentation.ApplyToControl(button, settings);
         if (_prologueHintPanel is { } hintPanel && GodotObject.IsInstanceValid(hintPanel))
             AccessibilityPresentation.ApplyToControl(hintPanel, settings);
+        if (_prologueVoiceCaption is { } voiceCaption && GodotObject.IsInstanceValid(voiceCaption))
+            AccessibilityPresentation.ApplyToControl(voiceCaption, settings);
         RefitPrologueSkipButton();
     }
 
@@ -356,6 +377,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _rootPassageEnabled = false;
         ResetRootPassageTracking(null);
         ResetForestExitTracking(null);
+        ResetPrologueExitTracking(null);
         _forestExitFrame = null;
         _heroRootContactAtF12 = null;
         _heroRootContactAtF13 = null;
@@ -402,6 +424,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var scene = LoadScene(HeroRootTurnScenePath);
         (_heroRootAtF12, _heroRootContactAtF12) = BuildRootPassageCopy(scene, _rootLinkFrameF12, "F12");
         (_heroRootAtF13, _heroRootContactAtF13) = BuildRootPassageCopy(scene, _rootLinkFrameF13, "F13");
+        _rootPassageWalkEntry = _rootLinkFrameF12.ToLocal(RequireDescendant<Node3D>(_heroRootAtF12, "WalkEntry").GlobalPosition);
+        _rootPassageWalkExit = _rootLinkFrameF12.ToLocal(RequireDescendant<Node3D>(_heroRootAtF12, "WalkExit").GlobalPosition);
         BuildRootPassageObservationSubjects();
     }
 
@@ -495,6 +519,38 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _forestExitDispatching = false;
     }
 
+    internal bool TryGetForestExitObjectiveTarget(object? session, Vector3 playerPosition,
+        out Vector3 point, out string label)
+    {
+        point = default;
+        label = string.Empty;
+        if (session is null || _bridge is not { } bridge || !IsValidCurrentBridge(bridge)
+            || !ReferenceEquals(session, bridge.SessionIdentity) || bridge.ActiveSceneId != ForestSceneId
+            || _forestExitFrame is not { } exit || !GodotObject.IsInstanceValid(exit))
+            return false;
+
+        // F15 is the bend of the walkable snow track, not on the straight chord to F16.
+        var feet = ToLocal(playerPosition);
+        var horizontal = new Vector2(feet.X, feet.Z);
+        var hollow = ForestExitRouteNodes[1];
+        var intoHollow = (hollow - ForestExitRouteNodes[0]).Normalized();
+        var atExit = exit.ToLocal(playerPosition);
+        if (atExit.Z < -3f && (horizontal - hollow).Dot(intoHollow) < -.55f)
+        {
+            point = ToGlobal(new Vector3(hollow.X, ForestGroundHeight(hollow.X, hollow.Y), hollow.Y));
+            label = "Тропа через ложбину";
+            return true;
+        }
+
+        // First approach the trigger from the trail. Only after the exit
+        // tracker observes that side does the marker go beyond the plane.
+        var crossing = ReferenceEquals(session, _forestExitSessionIdentity) && _forestExitPreviousPlaneSide < 0
+            && IsInsideCrossingVolume(atExit, ForestStandingLaneHalfWidth);
+        point = exit.ToGlobal(new Vector3(0f, 0f, crossing ? .65f : -.65f));
+        label = crossing ? "Пройдите в просвет" : "Подойдите к просвету";
+        return true;
+    }
+
     private void TryExitForestAtF16()
     {
         if (_forestExitFrame is not { } exitFrame || !GodotObject.IsInstanceValid(exitFrame)
@@ -521,7 +577,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             return;
         }
 
-        if (MainMenuUi.AnyUndismissed(GetTree()) || player.ModalOpen || player.VehicleControlled
+        if (MainMenuUi.AnyUndismissed(GetTree()) || player.ModalOpen || player.SessionTransitionActive || player.VehicleControlled
             || player.IsClimbingLadder || !player.IsOnFloor())
         {
             _forestExitPreviousPlaneSide = 0;
@@ -529,9 +585,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         }
 
         var local = exitFrame.GlobalTransform.AffineInverse() * player.GlobalTransform;
-        if (Math.Abs(local.Origin.X) > RootPassageCenterHalfWidth
-            || Math.Abs(local.Origin.Y) > RootPassageGroundTolerance
-            || Math.Abs(local.Origin.Z) > RootPassagePlaneHalfDepth)
+        if (!IsInsideCrossingVolume(local.Origin, ForestStandingLaneHalfWidth))
         {
             _forestExitPreviousPlaneSide = 0;
             return;
@@ -541,7 +595,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var currentSide = RootPassagePlaneSide(local.Origin.Z);
         if (currentSide == 0) return;
         _forestExitPreviousPlaneSide = currentSide;
-        if (previousSide != -1 || currentSide != 1 || _forestExitDispatching) return;
+        if (previousSide != -1 || currentSide != 1 || _forestExitDispatching
+            || !bridge.IsInteractionAvailable(ForestReturnInteractionId)) return;
 
         _ = DispatchForestReturnAsync(bridge, session);
     }
@@ -571,6 +626,9 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         }
 
         _forestExitDispatching = dispatched;
+        if (!dispatched && bridge.IsInteractionAvailable(ForestReturnInteractionId)
+            && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+            player.NotifyTraversal("Не удалось выйти. Вернитесь на тропу и пройдите в просвет ещё раз.");
     }
 
     private void TryTraverseRootPassage()
@@ -606,8 +664,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         var f12Local = f12.GlobalTransform.AffineInverse() * player.GlobalTransform;
         var f13Local = f13.GlobalTransform.AffineInverse() * player.GlobalTransform;
-        if (_rootLinkCooldownPortal == 0 && IsInsideRootPassageLinkVolume(f12Local)) return;
-        if (_rootLinkCooldownPortal == 1 && IsInsideRootPassageLinkVolume(f13Local)) return;
+        if (_rootLinkCooldownPortal == 0 && IsInsideCrossingVolume(f12Local.Origin)) return;
+        if (_rootLinkCooldownPortal == 1 && IsInsideCrossingVolume(f13Local.Origin)) return;
         if (_rootLinkCooldownPortal >= 0)
         {
             _rootLinkCooldownPortal = -1;
@@ -616,12 +674,12 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         var portal = -1;
         var localTransform = Transform3D.Identity;
-        if (IsInsideRootPassageLinkVolume(f12Local))
+        if (IsInsideCrossingVolume(f12Local.Origin))
         {
             portal = 0;
             localTransform = f12Local;
         }
-        else if (IsInsideRootPassageLinkVolume(f13Local))
+        else if (IsInsideCrossingVolume(f13Local.Origin))
         {
             portal = 1;
             localTransform = f13Local;
@@ -660,6 +718,11 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var destinationTransform = destinationFrame.GlobalTransform * localTransform;
         var destinationMotion = destinationFrame.GlobalBasis.Z.Normalized()
             * crossingDirection * RootPassageExitSweepDistance;
+        // Keep the capsule clearance sweep on the authored grade without bypassing terrain contacts.
+        var sweepStartLocal = ToLocal(destinationTransform.Origin);
+        var sweepEndLocal = ToLocal(destinationTransform.Origin + destinationMotion);
+        destinationMotion.Y = ForestGroundHeight(sweepEndLocal.X, sweepEndLocal.Z)
+            - ForestGroundHeight(sweepStartLocal.X, sweepStartLocal.Z);
         if (player.TestMove(destinationTransform, destinationMotion, _rootLinkExitSweep, .001f, false, 4))
             return;
 
@@ -680,19 +743,16 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         return 0;
     }
 
-    private static bool IsInsideRootPassageLinkVolume(Transform3D localTransform)
-    {
-        var point = localTransform.Origin;
-        return Math.Abs(point.X) <= RootPassageCenterHalfWidth
+    private static bool IsInsideCrossingVolume(Vector3 point, float halfWidth = RootPassageCenterHalfWidth) =>
+        Math.Abs(point.X) <= halfWidth
             && Math.Abs(point.Y) <= RootPassageGroundTolerance
             && Math.Abs(point.Z) <= RootPassagePlaneHalfDepth;
-    }
 
     private void BuildForest()
     {
         _forestVisual = new Node3D { Name = "F00F03ForestVisual", Visible = false };
         _forestVisual.SetMeta("presentationOnly", true);
-        _forestVisual.SetMeta("sourceAssets", "urman.act1.agentb.foliage_kit; winter.pine.v1");
+        _forestVisual.SetMeta("sourceAssets", "urman.act1.agentb.foliage_kit; winter.pine.v1; winter.birch.meshy.v2");
         _forestVisual.SetMeta("routeClearance", "2.1 m standing lane retained from measured lower-2m triangles for every pine tier; presentation only");
         AddChild(_forestVisual);
 
@@ -700,11 +760,18 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         ArrayMesh pineMesh;
         ArrayMesh lightPineMesh;
         ArrayMesh farPineMesh;
+        ArrayMesh[] birchMeshes;
         try
         {
             pineMesh = pineProvider.FoliageMesh("WinterPine", "kara");
             lightPineMesh = pineProvider.FoliageMesh("WinterLightPine", "kara");
             farPineMesh = pineProvider.FoliageMesh("WinterFarPine", "kara");
+            birchMeshes = new[]
+            {
+                pineProvider.FoliageMesh("WinterBirch", "kara"),
+                pineProvider.FoliageMesh("WinterLightBirch", "kara"),
+                pineProvider.FoliageMesh("WinterFarBirch", "kara")
+            };
         }
         finally
         {
@@ -723,6 +790,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var roots = Descendants<Node3D>(kit)
             .Where(node => node.Name.ToString().EndsWith("_Root", StringComparison.Ordinal))
             .ToDictionary(node => node.Name.ToString(), StringComparer.Ordinal);
+        var birchFits = new Dictionary<string, (Vector3 Scale, float Height)>(StringComparer.Ordinal);
         var groundMesh = Descendants<MeshInstance3D>(_groundVisual!)
             .FirstOrDefault(node => node.Mesh is not null)
             ?? throw new InvalidOperationException("W01 prologue ground mesh is missing.");
@@ -799,7 +867,6 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         const float minimumPineHeight = 9f;
         const float minimumClusterPineHeight = 12f;
-        const float standingLaneHalfWidth = 1.05f;
         var pineStandingFootprintRadius = MeasurePineStandingFootprintRadius(
             pineMesh, pineSourceBounds, minimumPineHeight, 2f);
         var clusteredPineStandingFootprintRadius = Mathf.Max(
@@ -878,7 +945,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                 pine.SetMeta("forestLayer", layer);
 
                 var standingFootprintRadius = pineStandingFootprintRadius * horizontalScale;
-                if (RouteDistance(position) < standingFootprintRadius + standingLaneHalfWidth)
+                if (RouteDistance(position) < standingFootprintRadius + ForestStandingLaneHalfWidth)
                     throw new InvalidOperationException($"W01 pine violates the 2.1 m route clearance: {position}.");
 
                 _forestVisual.AddChild(pine);
@@ -890,7 +957,37 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             if (!roots.TryGetValue(rootName, out var template))
                 throw new InvalidOperationException($"Registered foliage kit is missing native root: {rootName}");
 
-            var tree = (Node3D)template.Duplicate();
+            var generatedBirch = variant.StartsWith("WinterBirch_", StringComparison.Ordinal);
+            Node3D tree;
+            if (generatedBirch)
+            {
+                if (!birchFits.TryGetValue(variant, out var fit))
+                {
+                    Aabb? envelope = null;
+                    var toRoot = template.GlobalTransform.AffineInverse();
+                    foreach (var mesh in Descendants<MeshInstance3D>(template))
+                    {
+                        if (mesh.Mesh is null) continue;
+                        var bounds = (toRoot * mesh.GlobalTransform) * mesh.Mesh.GetAabb();
+                        envelope = envelope is { } previous ? previous.Merge(bounds) : bounds;
+                    }
+                    if (envelope is not { } nativeBounds || nativeBounds.Size.Y <= 0f)
+                        throw new InvalidOperationException($"Missing native birch envelope: {variant}");
+                    fit = (AgentBAct1ExteriorLayer.RootedFoliageFitScale(birchMeshes[0].GetAabb(), nativeBounds),
+                        nativeBounds.Size.Y);
+                    birchFits.Add(variant, fit);
+                }
+                tree = new Node3D();
+                for (var lod = 0; lod < birchMeshes.Length; lod++)
+                {
+                    var mesh = new MeshInstance3D { Name = $"WinterBirch_LOD{lod}", Mesh = birchMeshes[lod], Scale = fit.Scale };
+                    if (lod == 2) mesh.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
+                    tree.AddChild(mesh);
+                    AgentBAct1ExteriorLayer.ConfigureFoliageRange(mesh, lod, false, fit.Height);
+                }
+                tree.SetMeta("sourceAsset", "winter.birch.meshy.v2");
+            }
+            else tree = (Node3D)template.Duplicate();
             tree.Name = $"PrologueForest_{layer}_{variant}_{index + 1:00}";
             tree.Position = new Vector3(position.X, groundY, position.Y);
             tree.RotationDegrees = new Vector3(0f, yawDegrees, 0f);
@@ -993,7 +1090,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                         var horizontalScale = heightScale * Mathf.Lerp(0.72f, 0.98f,
                             UnitHash(keyColumn, keyRow, 0x94D049BBu));
                         var standingFootprintRadius = clusteredPineStandingFootprintRadius * horizontalScale;
-                        if (RouteDistance(position) < standingFootprintRadius + standingLaneHalfWidth)
+                        if (RouteDistance(position) < standingFootprintRadius + ForestStandingLaneHalfWidth)
                             continue;
 
                         var groundY = ForestGroundHeight(position.X, position.Y)
@@ -1065,7 +1162,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             if (position.X < groundBounds.Position.X || position.X > groundBounds.End.X
                 || position.Y < groundBounds.Position.Z || position.Y > groundBounds.End.Z
                 || position.DistanceSquaredTo(f15) > f15CompositionRadius * f15CompositionRadius
-                || ForestExitRouteDistance(position) < radius + standingLaneHalfWidth
+                || ForestExitRouteDistance(position) < radius + ForestStandingLaneHalfWidth
                 || position.DistanceTo(f15) < radius + 1.2f
                 || NearExistingTree(position, radius + minimumExistingPineSpacing)
                 || f15Replacements.Values.Any(other => F15RootsOverlap(position, radius, other))
@@ -1089,7 +1186,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         {
             var candidate = selectedClusterCandidates[index];
             var radius = F15RootRadius(candidate.Transform);
-            if (ForestExitRouteDistance(candidate.Position) < radius + standingLaneHalfWidth
+            if (ForestExitRouteDistance(candidate.Position) < radius + ForestStandingLaneHalfWidth
                 || candidate.Position.DistanceTo(f15) < radius + 1.2f
                 || f15Replacements.Values.Any(other => F15RootsOverlap(candidate.Position, radius, other)))
                 f15Removed.Add(index);
@@ -1107,12 +1204,12 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         }
 
         // Compose only selected local clusters, after the unchanged global seed/stride.
-        // F01 frames the approach; F02/F03 open the canopy. Authored trees stay put.
+        // F01 frames the approach; taller western masses frame the F02/F03 opening. Authored trees stay put.
         var compositionStandingRadius = Mathf.Max(
             MeasurePineStandingFootprintRadius(lightPineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f),
             MeasurePineStandingFootprintRadius(farPineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f));
-        // Transparent far-card corners are not wood; F01 spacing measures the opaque near/mid tree.
-        var f01StandingRadius = Mathf.Max(
+        // Separate opaque near/mid wood spacing from the conservative all-LOD route envelope.
+        var compositionWoodRadius = Mathf.Max(
             MeasurePineStandingFootprintRadius(pineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f, opaqueOnly: true),
             MeasurePineStandingFootprintRadius(lightPineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f, opaqueOnly: true));
         static float HorizontalRadius(Aabb bounds) => Mathf.Max(
@@ -1136,17 +1233,17 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                 || NearHint(MainSpawnRouteF11, ForestCrossbarObservationHint)
                 || NearHint(MainSpawnRouteF11, ForestRootArchObservationHint);
         }
-        var compositions = new (string Name, Vector2 Center, Vector2 Previous, float Radius, float OpeningRadius)[]
+        var compositions = new (string Name, Vector2 Center, float Radius, float OpeningRadius)[]
         {
-            ("F01", new Vector2(BranchF01.X, BranchF01.Z), Vector2.Zero, 26f, 0f),
-            ("F02", new Vector2(PrologueF02.X, PrologueF02.Z), new Vector2(BranchF01.X, BranchF01.Z), 26f, 7.5f),
-            ("F03", new Vector2(PrologueF03.X, PrologueF03.Z), new Vector2(PrologueF02.X, PrologueF02.Z), 30f, 7.5f)
+            ("F01", new Vector2(BranchF01.X, BranchF01.Z), 26f, 0f),
+            ("F02", new Vector2(PrologueF02.X, PrologueF02.Z), 35f, 7.5f),
+            ("F03", new Vector2(PrologueF03.X, PrologueF03.Z), 39f, 10f)
         };
         var compositionSummary = string.Empty;
         foreach (var composition in compositions)
         {
             var protectPhoto = composition.Name == "F01";
-            var standingRadius = protectPhoto ? f01StandingRadius : compositionStandingRadius;
+            var standingRadius = compositionWoodRadius;
             float CompositionRootRadius(Transform3D transform) => standingRadius * transform.Basis.X.Length();
             bool CompositionRootsOverlap(Vector2 point, float radius,
                 (Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand) other) =>
@@ -1158,21 +1255,33 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                     && (!protectPhoto || !TouchesPhotoSightline(selectedClusterCandidates[index].Position,
                         compositionStandingRadius * selectedClusterCandidates[index].Transform.Basis.X.Length()))).ToArray();
             var localSet = localIndices.ToHashSet();
-            var forward = (composition.Center - composition.Previous).Normalized();
-            var side = new Vector2(-forward.Y, forward.X);
             var placements = protectPhoto
                 ? new (Vector2 Position, float Height, float YawDegrees, float Girth)[]
                 {
                     (new(0f, 29f), 16.4f, 34f, .78f),
                     (new(16.7f, 37f), 18f, 211f, .80f)
                 }
-                : new (Vector2 Position, float Height, float YawDegrees, float Girth)[]
-                {
-                    (composition.Center + forward * 8f + side * 22f, 19.2f, 34f, .82f),
-                    (composition.Center + forward * 8f - side * 22f, 17.8f, 221f, .78f),
-                    (composition.Center - forward * 8f - side * 22f, 20.2f, 128f, .85f),
-                    (composition.Center - forward * 8f + side * 22f, 18.4f, 303f, .80f)
-                };
+                : composition.Name == "F02"
+                    ? new (Vector2 Position, float Height, float YawDegrees, float Girth)[]
+                    {
+                        (new(21f, 99f), 22f, 34f, .78f),
+                        (new(24f, 116f), 21.4f, 128f, .80f),
+                        (new(30f, 119f), 23.6f, 303f, .76f),
+                        (new(38f, 115f), 22.8f, 256f, .74f),
+                        (new(63f, 103f), 18.6f, 143f, .74f)
+                    }
+                    : new (Vector2 Position, float Height, float YawDegrees, float Girth)[]
+                    {
+                        (new(48f, 139f), 22.6f, 34f, .78f),
+                        (new(49f, 149f), 23.6f, 221f, .76f),
+                        (new(50f, 158f), 22.4f, 128f, .80f),
+                        (new(61f, 163f), 22.6f, 79f, .78f),
+                        (new(69f, 171f), 20.8f, 256f, .78f),
+                        (new(76f, 166f), 19f, 143f, .74f),
+                        (new(98f, 157f), 18f, 17f, .74f),
+                        (new(104f, 162f), 19.2f, 194f, .74f),
+                        (new(107f, 151f), 18.4f, 52f, .74f)
+                    };
             var replacements = new Dictionary<int,
                 (Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand)>();
             var removed = new HashSet<int>();
@@ -1189,7 +1298,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                     || (composition.OpeningRadius > 0f && position.DistanceTo(composition.Center)
                         < composition.OpeningRadius + compositionCanopyRadius * horizontalScale)
                     || (protectPhoto && TouchesPhotoSightline(position, compositionStandingRadius * horizontalScale))
-                    || RouteDistance(position) < radius + standingLaneHalfWidth
+                    || RouteDistance(position) < compositionStandingRadius * horizontalScale + ForestStandingLaneHalfWidth
                     || NearExistingTree(position, radius + minimumExistingPineSpacing)
                     || replacements.Values.Any(other => CompositionRootsOverlap(position, radius, other))
                     || selectedClusterCandidates.Where((_, index) => !localSet.Contains(index))
@@ -1215,7 +1324,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                 var canopyRadius = compositionCanopyRadius * candidate.Transform.Basis.X.Length();
                 if ((composition.OpeningRadius > 0f && candidate.Position.DistanceTo(composition.Center)
                         < composition.OpeningRadius + canopyRadius)
-                    || (!protectPhoto && RouteDistance(candidate.Position) < radius + standingLaneHalfWidth)
+                    || (!protectPhoto && RouteDistance(candidate.Position)
+                        < compositionStandingRadius * candidate.Transform.Basis.X.Length() + ForestStandingLaneHalfWidth)
                     || replacements.Values.Any(other => CompositionRootsOverlap(candidate.Position, radius, other)))
                     removed.Add(index);
             }
@@ -1468,9 +1578,12 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             return;
 
         var projection = bridge.CurrentW01BranchProjection();
-        ApplyRootPassageProjection(projection);
-        ApplyBagProjection();
-        ApplyShuraleProjection();
+        if (ForestEpisodeReady)
+        {
+            ApplyRootPassageProjection(projection);
+            ApplyBagProjection();
+            ApplyShuraleProjection();
+        }
         if (projection is null || projection.ActiveSceneId != ForestSceneId
             || !ReferenceEquals(_forestObservationFailedSession, projection.SessionIdentity))
             _forestObservationFailedSession = null;
@@ -1534,7 +1647,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         SetPrologueEndVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
         SetPrologueSkipVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
         ApplyForestWorldGuardProjection(projection);
-        SetPhysicsProcess(projection.ActiveSceneId == ForestSceneId);
+        SetPhysicsProcess(ForestEpisodeReady && projection.ActiveSceneId == ForestSceneId);
     }
 
     private void TryObserveForestCameraBack()
@@ -1931,6 +2044,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _prologueSkipButton.Pressed += OnPrologueSkipPressed;
         _prologueSkipButton.Visible = false;
         _prologueSkipButton.Disabled = true;
+        BuildPrologueVoiceCaption(_prologueSkipButton.GetParent());
         _prologueHintPanel = new PanelContainer
         {
             Name = "HintAccessPanel",
@@ -2015,7 +2129,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         if (!string.Equals(button.Text, caption, StringComparison.Ordinal)) button.Text = caption;
         if (_prologueHintPanel is { } hintPanel && GodotObject.IsInstanceValid(hintPanel))
         {
-            hintPanel.Visible = !button.Disabled && _prologueHintAvailable;
+            var missionRoot = (GetTree().GetFirstNodeInGroup("zone_manager") as Main)?.GetParent() as Act1DemoRoot;
+            hintPanel.Visible = missionRoot?.MissionHudVisible != true && !button.Disabled && _prologueHintAvailable;
             var showBranchQuestion = _prologueHintKey != "prologue-branch"
                 || GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController hintPlayer
                     && IsPrologueBranchFramedForQuestion(hintPlayer);
@@ -2067,11 +2182,11 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var hintWidth = Mathf.Clamp(viewport.X * .42f, 280f, 560f);
         var height = Mathf.Max(56f, 52f * (float)_accessibility.TextScale);
         button.AnchorLeft = button.AnchorRight = 1f;
-        button.AnchorTop = button.AnchorBottom = 0f;
+        button.AnchorTop = button.AnchorBottom = 1f;
         button.OffsetLeft = -width - 24f;
         button.OffsetRight = -24f;
-        button.OffsetTop = 24f;
-        button.OffsetBottom = 24f + height;
+        button.OffsetTop = -24f - height;
+        button.OffsetBottom = -24f;
         button.CustomMinimumSize = new Vector2(width, height);
         if (_prologueHintPanel is { } hintPanel && GodotObject.IsInstanceValid(hintPanel))
         {
@@ -2079,7 +2194,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             hintPanel.AnchorTop = hintPanel.AnchorBottom = 0f;
             hintPanel.OffsetLeft = -hintWidth - 24f;
             hintPanel.OffsetRight = -24f;
-            hintPanel.OffsetTop = button.OffsetBottom + 12f;
+            hintPanel.OffsetTop = 24f;
             hintPanel.OffsetBottom = hintPanel.OffsetTop + Mathf.Max(152f, 152f * (float)_accessibility.TextScale);
         }
     }
@@ -2168,7 +2283,36 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         }
 
         return routeY + TerrainRelief(x, z) - TerrainRelief(routeX, z) + TerrainMacroRelief(x, z)
-            + F15HollowRelief(x, z);
+            + F15HollowRelief(x, z) + TerrainVistaRelief(x, z);
+    }
+
+    private static float TerrainVistaRelief(float x, float z)
+    {
+        if (x <= 10f || x >= 84f || z <= 82f || z >= 178f) return 0f;
+        // Matches the terrain producer: compact bounds protect fixed roots;
+        // 3 m protects the 2 m anchor pads plus a 0.5 m grid-triangle diagonal.
+        var point = new Vector2(x, z);
+        var nearest = float.MaxValue;
+        for (var index = 1; index < PrologueRouteNodes.Length; index++)
+        {
+            var first = PrologueRouteNodes[index - 1];
+            var second = PrologueRouteNodes[index];
+            var start = new Vector2(first.X, first.Z);
+            var segment = new Vector2(second.X - first.X, second.Z - first.Z);
+            var t = Mathf.Clamp((point - start).Dot(segment) / segment.LengthSquared(), 0f, 1f);
+            nearest = Mathf.Min(nearest, point.DistanceTo(start + segment * t));
+        }
+        var clearance = TerrainSmoothStep(3f, 14f, nearest);
+        if (clearance == 0f) return 0f;
+        var window = TerrainSmoothStep(10f, 20f, x) * (1f - TerrainSmoothStep(72f, 84f, x))
+            * TerrainSmoothStep(82f, 92f, z) * (1f - TerrainSmoothStep(166f, 178f, z));
+        var left = MathF.Pow((x - 39f) / 13f, 2f) + MathF.Pow((z - 116f) / 16f, 2f);
+        var right = MathF.Pow((x - 72f) / 10f, 2f) + MathF.Pow((z - 103f) / 12f, 2f);
+        var hollow = MathF.Pow((x - 59f) / 9f, 2f) + MathF.Pow((z - 131f) / 10f, 2f);
+        var ridge = MathF.Pow((x - 66f) / 18f, 2f) + MathF.Pow((z - 159f) / 12f, 2f);
+        return window * clearance * (3.4f * MathF.Exp(-left * 0.5f)
+            + 2.5f * MathF.Exp(-right * 0.5f) - 0.6f * MathF.Exp(-hollow * 0.5f)
+            + 3.1f * MathF.Exp(-ridge * 0.5f));
     }
 
     private static float F15HollowRelief(float x, float z)

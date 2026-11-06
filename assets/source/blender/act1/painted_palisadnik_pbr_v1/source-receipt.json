@@ -1,0 +1,852 @@
+{
+  "schema": "urman-painted-palisadnik-source/v1",
+  "status": "SOURCE_CANDIDATE_NOT_SCENE_OR_CULTURE_ACCEPTED",
+  "runtime_source": "game/scripts/Act1ConnectedWorld.YardFences.cs",
+  "runtime_source_sha256": "62dd74dab97ba7d6906ee647a4314a2900d513644305419491b2a1b80554cdba",
+  "source_helper": "assets/source/blender/act1/rough_picket_family_reference_v3/prepare_source.py",
+  "source_helper_sha256": "0f16ac18ea2ba3f7b602f03b51d5d688f80a9a61f8e886ec134a09b719a740eb",
+  "source_rights": "Project-original runtime/Blender geometry, existing box primitive. No third-party mesh.",
+  "family": "painted-palisadnik",
+  "runtime_consumer": "RebuildYardFences→StreetDesigns[1]→BuildTimberFenceRun; street-frontage designs distributed in street order. This is a nominal flat2.10m bay, not a captured live lot.",
+  "nominal_metrics": {
+    "length": 2.1,
+    "height": 1.1,
+    "posts": 2,
+    "pickets": 12,
+    "picket_pitch": 0.17500000000000002,
+    "clear_gap": 0.08000000000000002,
+    "runtime_original_picket_bottom": 0.305,
+    "candidate_picket_bottom": 0.2,
+    "source_only_adjustment": "Extend12lowerboardends105mm so they overlap bothbearingrails; source-only, not a runtime change.",
+    "picket_width": 0.095,
+    "picket_thickness": 0.026,
+    "board_top": "1.10-.16*sin(pi*t)",
+    "bearing_rails": [
+      0.26,
+      0.89
+    ],
+    "cap_rail": true,
+    "post_lean_degrees": 0.8,
+    "post_foot": -0.015
+  },
+  "parity_limits": [
+    "Flat nominal support datum; actual runtime terrain/run lengths remain root responsibility.",
+    "Existing source box helper adds2mm arris inside the runtime member envelope.",
+    "Source member objects reconstruct existing batched primitives; future integration must preserve batching/terrain/boundaries.",
+    "No gate/wicket/iron parts or interaction semantics are replaced.",
+    "No claim of historically documented local construction; current project Kara-Urman,Tatarstan,winter2026. Low painted street fence follows selectedT1 property, not invented ethnic ornament."
+  ],
+  "triangulation": "Source primitive caps/quads explicitly triangulated before UV so exporter cannot switch coplanar diagonals; no vertex or member-envelope changes.",
+  "mesh_nodes": 19,
+  "triangles": 532,
+  "UV_overlap_faces": {},
+  "local_vertices_exact_during_UV": true,
+  "matrix_roundtrip_max_abs_delta": 1.6292068494294654e-07,
+  "world_geometry_decimal_places": 5,
+  "bounds_blender": [
+    [
+      -0.0575805,
+      -0.075,
+      -0.0157679
+    ],
+    [
+      2.1924195,
+      0.075,
+      1.255
+    ]
+  ],
+  "members": {
+    "Palisadnik_Post_0": {
+      "role": "existing tilted timber post",
+      "runtime_size_m": [
+        0.11,
+        1.2251194197291588,
+        0.11
+      ],
+      "runtime_position_in_assembly": [
+        0.008552669547498226,
+        0.5975000262260437,
+        0.0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.013962292112410069,
+          0.9999025464057922
+        ],
+        [
+          0.0,
+          0.9999025464057922,
+          -0.013962292112410069
+        ],
+        [
+          -1.0,
+          1.0541237882577548e-09,
+          7.54905471467282e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_PostCap_0": {
+      "role": "existing pale post cap",
+      "runtime_size_m": [
+        0.15,
+        0.045,
+        0.15
+      ],
+      "runtime_position_in_assembly": [
+        0.017419517040252686,
+        1.2324999570846558,
+        0.0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "e6dfc6",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_Post_1": {
+      "role": "existing tilted timber post",
+      "runtime_size_m": [
+        0.11,
+        1.2251194197291588,
+        0.11
+      ],
+      "runtime_position_in_assembly": [
+        2.1085526943206787,
+        0.5975000262260437,
+        0.0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.013962292112410069,
+          0.9999025464057922
+        ],
+        [
+          0.0,
+          0.9999025464057922,
+          -0.013962292112410069
+        ],
+        [
+          -1.0,
+          1.0541237882577548e-09,
+          7.54905471467282e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_PostCap_1": {
+      "role": "existing pale post cap",
+      "runtime_size_m": [
+        0.15,
+        0.045,
+        0.15
+      ],
+      "runtime_position_in_assembly": [
+        2.117419481277466,
+        1.2324999570846558,
+        0.0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "e6dfc6",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_BearingRail_0": {
+      "role": "existing two bearing rails",
+      "runtime_size_m": [
+        0.04,
+        0.07,
+        2.099999850136888
+      ],
+      "runtime_position_in_assembly": [
+        1.0536305904388428,
+        0.24500000476837158,
+        0.0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_BearingRail_1": {
+      "role": "existing two bearing rails",
+      "runtime_size_m": [
+        0.04,
+        0.07,
+        2.099999850136888
+      ],
+      "runtime_position_in_assembly": [
+        1.0624275207519531,
+        0.875,
+        0.0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_Picket_00": {
+      "role": "existing scalloped-height vertical timber board",
+      "runtime_size_m": [
+        0.026,
+        0.8791158092447919,
+        0.095
+      ],
+      "runtime_position_in_assembly": [
+        0.0875,
+        0.6395579046223959,
+        0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_Picket_01": {
+      "role": "existing scalloped-height vertical timber board",
+      "runtime_size_m": [
+        0.026,
+        0.8387706508215858,
+        0.095
+      ],
+      "runtime_position_in_assembly": [
+        0.2625,
+        0.6193853254107928,
+        0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_Picket_02": {
+      "role": "existing scalloped-height vertical timber board",
+      "runtime_size_m": [
+        0.026,
+        0.8025981713586048,
+        0.095
+      ],
+      "runtime_position_in_assembly": [
+        0.43750000000000006,
+        0.6012990856793023,
+        0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_Picket_03": {
+      "role": "existing scalloped-height vertical timber board",
+      "runtime_size_m": [
+        0.026,
+        0.7730634655534026,
+        0.095
+      ],
+      "runtime_position_in_assembly": [
+        0.6125,
+        0.5865317327767012,
+        0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_Picket_04": {
+      "role": "existing scalloped-height vertical timber board",
+      "runtime_size_m": [
+        0.026,
+        0.7521792747981942,
+        0.095
+      ],
+      "runtime_position_in_assembly": [
+        0.7875000000000001,
+        0.5760896373990971,
+        0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_Picket_05": {
+      "role": "existing scalloped-height vertical timber board",
+      "runtime_size_m": [
+        0.026,
+        0.7413688221801904,
+        0.095
+      ],
+      "runtime_position_in_assembly": [
+        0.9625,
+        0.5706844110900952,
+        0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_Picket_06": {
+      "role": "existing scalloped-height vertical timber board",
+      "runtime_size_m": [
+        0.026,
+        0.7413688221801904,
+        0.095
+      ],
+      "runtime_position_in_assembly": [
+        1.1375,
+        0.5706844110900952,
+        0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_Picket_07": {
+      "role": "existing scalloped-height vertical timber board",
+      "runtime_size_m": [
+        0.026,
+        0.7521792747981942,
+        0.095
+      ],
+      "runtime_position_in_assembly": [
+        1.3125,
+        0.5760896373990971,
+        0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_Picket_08": {
+      "role": "existing scalloped-height vertical timber board",
+      "runtime_size_m": [
+        0.026,
+        0.7730634655534026,
+        0.095
+      ],
+      "runtime_position_in_assembly": [
+        1.4875,
+        0.5865317327767012,
+        0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_Picket_09": {
+      "role": "existing scalloped-height vertical timber board",
+      "runtime_size_m": [
+        0.026,
+        0.8025981713586048,
+        0.095
+      ],
+      "runtime_position_in_assembly": [
+        1.6625,
+        0.6012990856793023,
+        0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_Picket_10": {
+      "role": "existing scalloped-height vertical timber board",
+      "runtime_size_m": [
+        0.026,
+        0.8387706508215858,
+        0.095
+      ],
+      "runtime_position_in_assembly": [
+        1.8375000000000001,
+        0.6193853254107928,
+        0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_Picket_11": {
+      "role": "existing scalloped-height vertical timber board",
+      "runtime_size_m": [
+        0.026,
+        0.8791158092447919,
+        0.095
+      ],
+      "runtime_position_in_assembly": [
+        2.0125,
+        0.6395579046223959,
+        0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "7f9a74",
+      "arris_chamfer_m": 0.002
+    },
+    "Palisadnik_CapRail": {
+      "role": "existing straight pale cap rail",
+      "runtime_size_m": [
+        0.055,
+        0.06,
+        2.1
+      ],
+      "runtime_position_in_assembly": [
+        1.0653598308563232,
+        1.0850000381469727,
+        0.0
+      ],
+      "runtime_basis": [
+        [
+          7.549790126404332e-08,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          7.549790126404332e-08
+        ]
+      ],
+      "owner": "PaintedPalisadnik_Bay210",
+      "surface": "wood_painted_trim",
+      "colour": "e3d6b8",
+      "arris_chamfer_m": 0.002
+    }
+  },
+  "runtime_integrated": false,
+  "actual_bounds_roundtrip_max_abs_delta": 0.0,
+  "output": "painted-palisadnik-uv.glb",
+  "output_sha256": "b7eda17d8f0ba43635d7ef8a5f36c891a39218db925032d06c630501f75c0f15",
+  "actual_reimport_geometry_equal": true,
+  "material_reference": {
+    "path": "assets/source/blender/act1/painted_palisadnik_pbr_v1/input-material-reference-v1.png",
+    "sha256": "f5be9eb6c7e3ab286fc404e125f40b385b68270ddf193f9d0172c56dd8a6f44d",
+    "tool": "built-in image_gen",
+    "original": "/Users/unterlantas/.codex/generated_images/01a1799b-bfd6-75c0-a6fe-f42d5065d715/exec-63bbd645-f08a-4503-9db1-37874e2de8db.png",
+    "prompt": "Use case: stylized-concept. Asset type: one exact material-only reference for Meshy retexturing of the prepared URMAN painted-palisadnik street fence bay. Image1 is the actual source geometry and camera: preserve exactly two square posts with simple square caps, twelve separate narrow vertical boards whose heights dip gently at the centre, two horizontal bearing rails, and one straight pale top cap rail. Preserve the full silhouette, every gap, board count, bottom rail contact, mild post lean and all dimensions. Image2 is the accepted actual URMAN village house/frame: match its restrained coarse painterly material language and maintained rural character, not its house shape. Setting is ordinary inhabited Kara-Urman, Tatarstan, winter2026. The project-selected T1 supports low painted picket fencing, but no historic/ethnographic authenticity of this exact construction is claimed. Give the existing posts, twelve pickets and bearing rails a calm muted sage-green protective paint, mostly intact matte colour, subdued visible longitudinal timber grain and very limited pale wear where handled or at exposed edges. The two post caps and the single straight upper cap rail remain maintained warm off-white paint. Keep the two colour roles clearly separate. Wood grain runs along each actual timber member. This is a kept street-front garden boundary, not a ruined fence or shiny suburban vinyl. No orange/yellow varnish, gloss, dark grime, extreme peeling, heavy cracks, knots with black rings, photorealistic micro-noise or new rusty hardware. Do not add pointed/curved shapes, ornaments, flowers, script, religious marks, nails, hinges, gate leaves, extra rails or boards. Open spaces between boards remain plain grey background, not painted panels. Soft even neutral studio lighting and grey background; same full front-three-quarter composition as image1, every piece visible, no snow, landscape, people, text, watermark or collage.",
+    "rights": "Own prepared runtime-derived geometry and own accepted game frame; no third-party bitmap.",
+    "review": "Twelve boards, two rails, two posts, cream caps and caprail remain distinct. Muted sage paint, matte modest wear, open spaces; no invented ornament or hardware. Actual Meshy still needs review."
+  },
+  "accepted_reference": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/frames/babai_shape_front_high.png",
+  "budget_before_submit": {
+    "author_cap": 4000,
+    "actual_spent": 580,
+    "remaining": 3420,
+    "reserve": 0,
+    "API_balance": 3700,
+    "monthly": 2550,
+    "permanent": 1150,
+    "operation": "One4KPBRretexturekeepUV",
+    "confirmed_cost": 10,
+    "pricing": "https://docs.meshy.ai/en/api/pricing",
+    "ledger_reconciliation": "SharedJSON570isbefore separatelyconfirmedVariantC10. OwnterminalVariantCid01a17a56-47d1-7382-bbea-c68e05f08856 establishes580. Accountbalance notbudget."
+  },
+  "existing_result_check": "No painted-palisadnik-specific MeshyPBR found. Existing rough-picket has different geometry and frozen whole-family materialHOLD; existing Babai gate and B/C outbuildings are separate inputs and not regenerated.",
+  "cost_after_success": {
+    "task_id": "01a17a75-f06d-72b4-801e-27e80073bdb8",
+    "status": "SUCCEEDED",
+    "consumed_credits": 10,
+    "POST_count": 1,
+    "author_cap": 4000,
+    "total_spent": 590,
+    "remaining": 3410,
+    "reserve": 0,
+    "api_balance": 3690,
+    "monthly": 2540,
+    "permanent": 1150,
+    "terminal_receipt": "status-01.json",
+    "balance_receipt": "balance-after.json"
+  },
+  "art_review": {
+    "root_result": "Calm texture, but a standalone bay does not prove village fit or coherence with current gates/parcels. No runtime, scene/style or cultural acceptance.",
+    "worker_source_result": "Muted green and cream role separation, twelve boards and80mm through-gaps retained; no invented ornament/hardware. Source-only lower-board105mm extension is disclosed in source receipt.",
+    "current_limit": "Nominal flat2.10m bay, not runtime run/terrain/batching replacement or gate-family acceptance."
+  },
+  "final_candidate": {
+    "path": "painted-palisadnik-literal-pbr-2k.glb",
+    "bytes": 8076152,
+    "sha256": "c22936292504bf5c94e31153348ba7d8e434d5cee2010b19564bfa676583b27a"
+  },
+  "local_source_archive": {
+    "path": "/Users/unterlantas/.codex/local_asset_archive/URMAN-painted-palisadnik-2026-10-27.zip",
+    "bytes": 18344923,
+    "sha256": "b6c328a880a91a314e38087f1132dfac407840ab6036573f45dfc331977ad7e5",
+    "members": [
+      {
+        "member": "painted-palisadnik-uv.glb",
+        "bytes": 46276,
+        "sha256": "b7eda17d8f0ba43635d7ef8a5f36c891a39218db925032d06c630501f75c0f15"
+      },
+      {
+        "member": "meshy-retexture-returned.glb",
+        "bytes": 16071056,
+        "sha256": "756062bafe01bd06b390cef9605ad07e7fff0c842e83e68f3a8c03ff2c32221b"
+      },
+      {
+        "member": "prepare-source.log",
+        "bytes": 11387,
+        "sha256": "213cfbb42dace24d52da11d089a763a38e4e227d7d451fbf02c8d921d90d6f93"
+      },
+      {
+        "member": "attach-generated-material.log",
+        "bytes": 5859,
+        "sha256": "4599c8e532653f504a206fc6fb5c84e27cf340bb1370b315fbc2737a28ea0b4a"
+      },
+      {
+        "member": "prepare-literal-candidate.log",
+        "bytes": 9585,
+        "sha256": "1b3ecd255da0de5a9fdab65d45fb0e0cff2de58df13a5220e1251e30422a23d3"
+      },
+      {
+        "member": "source-front-right.png",
+        "bytes": 1342752,
+        "sha256": "ee0f94548de9058ea605a78e5a80fb179af77725becb050154eebc6d3e3eda41"
+      },
+      {
+        "member": "candidate-front-right.png",
+        "bytes": 1420352,
+        "sha256": "8edf1394b98cb11ec2a49df9b5828e544d3594077b04f97119135b495652c660"
+      },
+      {
+        "member": "source-preflight-hold.json",
+        "bytes": 4705,
+        "sha256": "33814c6bd3e07fe8050ee90e68f12c4bfc40c39df9ff9bee6550ad08ab78ac4a"
+      },
+      {
+        "member": "submit-retexture.json",
+        "bytes": 83,
+        "sha256": "9186bb0f6703a26f7bbb6b93d0a281b4dd0cdba6e4a5419ce6b0edc54fcfaff2"
+      },
+      {
+        "member": "status-01.json",
+        "bytes": 335,
+        "sha256": "7f7e99ff016651f69ba4b6d82478561530c1129dc54d6ec687e8233023b37c5c"
+      },
+      {
+        "member": "download-retexture.json",
+        "bytes": 241,
+        "sha256": "900e1745f58f59b3e1f0f00b6cce5de8905448fec25d3afdff44d8eb7d6520da"
+      },
+      {
+        "member": "balance-before.json",
+        "bytes": 116,
+        "sha256": "d7444f0f8c7696f0cf272a4381e7c3ad49f6dc2ac60287e1d3df09d698669d61"
+      },
+      {
+        "member": "balance-after.json",
+        "bytes": 116,
+        "sha256": "bac13638d44799428c248b1dbf9282fffb02ee4d0d1d68a15cf737026f15be80"
+      }
+    ],
+    "loose_bytes_removed": 18912863,
+    "verification": "All13decompressedmembers matched original bytes/SHA before removal; own stopped pipeline only. No runtime/shared files changed."
+  },
+  "archive_notice": "Former loose paid-source/raw-return/log/receipt/view paths refer to exact archived members; restore and verify recorded SHA before reuse.",
+  "cleanup": {
+    "imagegen_duplicate_bytes": 1639899,
+    "selected_reference_sha256": "f5be9eb6c7e3ab286fc404e125f40b385b68270ddf193f9d0172c56dd8a6f44d",
+    "intermediate_map_donor_bytes": 8075908,
+    "total_loose_bytes_removed": 28628670,
+    "archive_bytes": 18344923,
+    "net_bytes_reclaimed": 10283747,
+    "remaining_files": [
+      "attach_generated_material.py",
+      "candidate-receipt.json",
+      "input-material-reference-v1.png",
+      "painted-palisadnik-literal-pbr-2k.glb",
+      "prepare_literal_candidate.py",
+      "prepare_source.py",
+      "source-receipt.json"
+    ]
+  }
+}

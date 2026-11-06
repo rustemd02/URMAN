@@ -177,7 +177,6 @@ public partial class Act1ConnectedWorld
         FacilitySolid(_mosqueRoom, "MosqueDoorHeaderInfill", new(.55f, .85f, 1.70f), new(5.50f, 2.645f, 0), "c2bcab", "wood_painted_trim");
         var mosqueApproach = BuildMosqueEntrySteps(complex);
         GroundMosqueCourtyard(complex);
-        ExcludeMosqueHallTerrain();
         var mosqueAccess = mosqueApproach[^1];
         // Keep the chosen clear wall explicit after the qibla yaw; the shared
         // mount solver checks its full plate contour, fasteners and sightline.
@@ -502,6 +501,40 @@ public partial class Act1ConnectedWorld
         }
         ApplyBathhouseState();
         ApplyPlayerFootwearState();
+    }
+
+    internal bool TryGetSchoolEntranceObjectivePoint(Node3D school, float closedStandoffZ,
+        float openPassageZ, out Vector3 worldPoint, out bool passageOpen)
+    {
+        passageOpen = false;
+        FacilityDoor? left = null;
+        FacilityDoor? right = null;
+        foreach (var door in _facilityDoors)
+        {
+            if (door.Key == "square/school/entrance-l") left = door;
+            else if (door.Key == "square/school/entrance-r") right = door;
+            if (left is not null && right is not null) break;
+        }
+        if (left is null || right is null)
+        {
+            worldPoint = default;
+            return false;
+        }
+
+        // Use the projected door state; keep the cue outside until its real swing settles.
+        var leftOpen = left.Open && Mathf.IsEqualApprox(left.Hinge.Rotation.Y, left.OpenYaw);
+        var rightOpen = right.Open && Mathf.IsEqualApprox(right.Hinge.Rotation.Y, right.OpenYaw);
+        passageOpen = leftOpen || rightOpen;
+        var leftX = school.ToLocal(left.Hinge.GlobalPosition).X;
+        var rightX = school.ToLocal(right.Hinge.GlobalPosition).X;
+        var openingCentreX = (leftX + rightX) * .5f;
+        var gapCentreX = leftOpen && rightOpen ? openingCentreX
+            : leftOpen ? (openingCentreX + leftX) * .5f
+            : rightOpen ? (openingCentreX + rightX) * .5f
+            : openingCentreX;
+        var z = passageOpen ? openPassageZ : closedStandoffZ;
+        worldPoint = school.ToGlobal(new Vector3(gapCentreX, .05f, z));
+        return true;
     }
 
     private void TickFacilities(double delta)

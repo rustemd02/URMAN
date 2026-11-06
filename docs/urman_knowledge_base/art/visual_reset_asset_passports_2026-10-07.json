@@ -127,11 +127,15 @@
     "urman_f01_v03_basecolor.png (bark_birch_winter)",
     "bark_birch_v1/v2, leaf_birch_v1/v2 (не подключены)"
    ],
-   "reuse_audit": "pending",
-   "new_files": [],
+   "reuse_audit": "Existing true3D nativebirches retained as physical/scale donors; oldMeshybirchv1 planar (.196depth/width) held. One targeted ownImageGen/paidMeshy v2 repairs wholecrown volume (.677PCAextent), conifers reused without newgeneration.",
+   "new_files": [
+    "game/assets/models/act1/urman_winter_birch_meshy_v2.glb",
+    "assets/source/blender/act1/winter_birch_meshy_v2/winter-birch-v2.manifest.json",
+    "assets/source/blender/act1/winter_birch_meshy_v2/input-winter-birch-v2-threequarter.png"
+   ],
    "provenance_gate": "eng/verify-asset-registry.sh externalAsset (VIS-107) for any downloaded file",
-   "runtime_status": "not-run",
-   "art_acceptance": "pending"
+   "runtime_status": "Birch subfamily imported/integrated and one native village composition technicalPASS de8; full AS05 linden/rowan/willow scope not closed.",
+   "art_acceptance": "pending: author style, movement/LOD/performance/wholeAS05 and externalpaidlicence gate remain open"
   },
   {
    "id": "AS-06",

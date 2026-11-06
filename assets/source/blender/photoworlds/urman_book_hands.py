@@ -778,6 +778,59 @@ def read_glb(path: Path) -> dict:
     return json.loads(data[20:20 + json_length])
 
 
+def apply_gltf_base_color_factors(path: Path, colors_srgb: dict[str, str]) -> None:
+    # glTF baseColorFactor is linear and multiplies baseColorTexture. The
+    # exporter omits this tint when the Blender source routes it through nodes.
+    data = path.read_bytes()
+    magic, version, total_length = struct.unpack_from("<4sII", data, 0)
+    if magic != b"glTF" or version != 2 or total_length != len(data):
+        raise RuntimeError("Expected a complete GLB 2.0 export before material correction")
+
+    chunks = []
+    document = None
+    offset = 12
+    json_chunk_type = 0x4E4F534A
+    while offset < len(data):
+        chunk_length, chunk_type = struct.unpack_from("<II", data, offset)
+        start = offset + 8
+        end = start + chunk_length
+        if end > len(data):
+            raise RuntimeError("GLB chunk extends past the file")
+        payload = data[start:end]
+        if chunk_type == json_chunk_type:
+            if document is not None:
+                raise RuntimeError("GLB contains more than one JSON chunk")
+            document = json.loads(payload.rstrip(b" \t\r\n\0"))
+        chunks.append((chunk_type, payload))
+        offset = end
+    if document is None:
+        raise RuntimeError("GLB has no JSON chunk")
+
+    found = {name: 0 for name in colors_srgb}
+    for material in document.get("materials", []):
+        name = material.get("name")
+        if name not in colors_srgb:
+            continue
+        pbr = material.get("pbrMetallicRoughness")
+        if not isinstance(pbr, dict) or "baseColorTexture" not in pbr:
+            raise RuntimeError(f"Material {name!r} has no glTF base-color texture")
+        pbr["baseColorFactor"] = list(hex_rgba(colors_srgb[name]))
+        found[name] += 1
+    missing = [name for name, count in found.items() if count != 1]
+    if missing:
+        raise RuntimeError(f"Expected one material for each base-color factor: {missing}")
+
+    updated = bytearray(struct.pack("<4sII", b"glTF", version, 0))
+    for chunk_type, payload in chunks:
+        if chunk_type == json_chunk_type:
+            payload = json.dumps(document, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+            payload += b" " * ((-len(payload)) % 4)
+        updated.extend(struct.pack("<II", len(payload), chunk_type))
+        updated.extend(payload)
+    struct.pack_into("<I", updated, 8, len(updated))
+    path.write_bytes(updated)
+
+
 def build(output_dir: Path, book_glb: Path) -> None:
     root = project_root()
     cloth_texture = root / "game/assets/textures/painterly/urman_t01_v02_basecolor.png"
@@ -821,6 +874,11 @@ def build(output_dir: Path, book_glb: Path) -> None:
         export_animations=True, export_nla_strips=True,
         export_force_sampling=True, export_current_frame=False, export_yup=True,
     )
+    apply_gltf_base_color_factors(glb_path, {
+        "WinterSleeveCloth": "3c4546",
+        "WinterGloveCloth": "454d4b",
+        "WinterCuffCloth": "4a514e",
+    })
     gltf = read_glb(glb_path)
     exported_names = [animation.get("name") for animation in gltf.get("animations", [])]
     expected_names = [clip["name"] for clip in clips]

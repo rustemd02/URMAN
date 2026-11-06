@@ -15,8 +15,8 @@ public partial class Main : Node3D
     private const string W05ScenePath = "res://scenes/photoworlds/W05/W05.tscn";
     // The shared C00–C08 panorama reaches roughly 290 m at its far edge.
     private const float W04SharedPanoramaCameraFar = 320f;
-    private const string PrologueSceneId = "urman.fullgame:scene/pw-prologue";
-    private const string NivaArrivalSceneId = "urman.fullgame:scene/pw-niva-arrival";
+    internal const string PrologueSceneId = "urman.fullgame:scene/pw-prologue";
+    internal const string NivaArrivalSceneId = "urman.fullgame:scene/pw-niva-arrival";
     private const string HomeSceneId = "urman.fullgame:scene/pw-home";
     private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
     private const string RiverSceneId = "urman.fullgame:scene/pw-river";
@@ -54,7 +54,7 @@ public partial class Main : Node3D
     private Act1ConnectedWorld? _connectedWorld;
     private bool _zoneSwitchBusy;
     private RuntimeBridge? _fullGameRouteBridge;
-    private Node3D? _mountedW01;
+    private W01Controller? _mountedW01;
     private Node3D? _mountedW02;
     private Node3D? _mountedW03;
     private Node3D? _mountedW04;
@@ -391,13 +391,7 @@ public partial class Main : Node3D
             }
 
             if (GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge connectedBridge)
-            {
                 connectedBridge.SetWorldLocation(zoneId, spawnPointId);
-                if (connectedBridge.IsPhotoWorldsCampaign
-                    && connectedBridge.ActiveSceneId == BankApproachSceneId
-                    && zoneId == "village_day" && spawnPointId == "pw-bank-approach")
-                    AlsuStreetWalkPresentation.SessionOwner(GetTree())?.StagePhotoBankMeeting();
-            }
 
             if (GetTree().GetFirstNodeInGroup("ambient_audio") is AmbientAudioDirector connectedAmbience)
             {
@@ -542,6 +536,26 @@ public partial class Main : Node3D
         ReconcileFullGameScenePresentation();
     }
 
+    internal bool PhotoRouteAwaitingPlacement(object session, string? sceneId)
+    {
+        if (sceneId is not (NivaArrivalSceneId or BankApproachSceneId or PhotoEpilogueSceneId)) return false;
+        if (!ReferenceEquals(_lastFullGameRouteSession, session) || _lastFullGameRouteScene != sceneId) return true;
+        return sceneId switch
+        {
+            NivaArrivalSceneId => _fullGameRouteBridge is not { CurrentZoneId: "village_day", CurrentSpawnPointId: "arrival" }
+                || !IsMountedZone("village_day"),
+            BankApproachSceneId => _fullGameRouteBridge is not { CurrentZoneId: "village_day", CurrentSpawnPointId: "pw-bank-approach" }
+                || !IsMountedZone("village_day"),
+            _ => _fullGameRouteBridge is not { CurrentZoneId: "house_old_pc" } || !IsMountedZone("house_old_pc")
+        };
+    }
+
+    internal bool MountLoadedNivaArrival()
+    {
+        SwitchZone("village_day", "arrival");
+        return IsMountedZone("village_day");
+    }
+
     private void ReconcileFullGameScenePresentation()
     {
         if (_routingFullGameScene || !EnableFullGamePhotoWorldRouting || !IsInsideTree()) return;
@@ -597,7 +611,12 @@ public partial class Main : Node3D
             if (needsZonePresentation)
                 SwitchZone(targetZone, targetSpawn);
 
-            if (!IsMountedZone(targetZone)) return;
+            if (!IsMountedZone(targetZone) || bridge.CurrentZoneId != targetZone
+                || bridge.CurrentSpawnPointId != targetSpawn) return;
+            // A loaded bank slot can already have the correct player spawn.
+            // Its sole Alsu still needs staging if the save predates her bank pose.
+            if (projection.ActiveSceneId == BankApproachSceneId)
+                AlsuStreetWalkPresentation.SessionOwner(GetTree())?.StagePhotoBankMeeting();
             _hasLoadedInitialZone = true;
 
             _preserveLoadedPhotoWorldTransform = false;
@@ -613,19 +632,22 @@ public partial class Main : Node3D
 
     private void MountW01(RuntimeBridge.FullGamePhotoWorldRouteProjection projection, RuntimeBridge bridge)
     {
-        var entryAnchorId = projection.ActiveSceneId == ForestSceneId ? "F10" : "F00";
+        var isForestEpisode = projection.ActiveSceneId == ForestSceneId;
+        var entryAnchorId = isForestEpisode ? "F10" : "F00";
         var alreadyMounted = IsMountedW01();
         var routeSceneChanged = !string.Equals(_lastFullGameRouteScene, projection.ActiveSceneId, StringComparison.Ordinal);
         var sameSession = ReferenceEquals(_lastFullGameRouteSession, projection.SessionIdentity);
 
         if (alreadyMounted)
         {
+            var mountedWorld = _mountedW01!;
+            if (isForestEpisode) mountedWorld.PrepareForestEpisode();
             if ((routeSceneChanged || !sameSession)
                 && !(_preserveLoadedPhotoWorldTransform
                     && ReferenceEquals(_loadedPhotoWorldTransformSession, projection.SessionIdentity)))
             {
-                var resolved = ResolveEntryAnchor(_mountedW01!, entryAnchorId, "F00");
-                PlacePlayerAtW01Entry(_mountedW01!, resolved);
+                var resolved = ResolveEntryAnchor(mountedWorld, entryAnchorId, "F00");
+                PlacePlayerAtW01Entry(mountedWorld, resolved);
             }
             _preserveLoadedPhotoWorldTransform = false;
             _loadedPhotoWorldTransformSession = null;
@@ -636,14 +658,15 @@ public partial class Main : Node3D
             return;
         }
 
-        var packed = TakePreparedPhotoScene(W01ScenePath) ?? ResourceLoader.Load<PackedScene>(W01ScenePath);
+        var packed = TakePreparedPhotoScene(projection.ActiveSceneId) ?? ResourceLoader.Load<PackedScene>(W01ScenePath);
         if (packed is null)
         {
             GD.PushError($"Full-game W01 presentation is missing: {W01ScenePath}.");
             return;
         }
 
-        var world = packed.Instantiate<Node3D>();
+        var world = packed.Instantiate<W01Controller>();
+        world.BuildForestEpisodeOnReady = isForestEpisode;
         var resolvedAnchorId = entryAnchorId;
         if (world.GetNodeOrNull<Node3D>($"Anchors/{entryAnchorId}") is null)
         {
@@ -756,7 +779,7 @@ public partial class Main : Node3D
             return;
         }
 
-        var packed = TakePreparedPhotoScene(W02ScenePath) ?? ResourceLoader.Load<PackedScene>(W02ScenePath);
+        var packed = TakePreparedPhotoScene(projection.ActiveSceneId) ?? ResourceLoader.Load<PackedScene>(W02ScenePath);
         if (packed is null)
         {
             GD.PushError($"Full-game W02 presentation is missing: {W02ScenePath}.");
@@ -851,7 +874,7 @@ public partial class Main : Node3D
             return;
         }
 
-        var packed = TakePreparedPhotoScene(W03ScenePath) ?? ResourceLoader.Load<PackedScene>(W03ScenePath);
+        var packed = TakePreparedPhotoScene(projection.ActiveSceneId) ?? ResourceLoader.Load<PackedScene>(W03ScenePath);
         if (packed is null)
         {
             GD.PushError($"Full-game W03 presentation is missing: {W03ScenePath}.");
@@ -940,7 +963,7 @@ public partial class Main : Node3D
             return;
         }
 
-        var packed = TakePreparedPhotoScene(W04ScenePath) ?? ResourceLoader.Load<PackedScene>(W04ScenePath);
+        var packed = TakePreparedPhotoScene(projection.ActiveSceneId) ?? ResourceLoader.Load<PackedScene>(W04ScenePath);
         if (packed is null)
         {
             GD.PushError($"Full-game W04 presentation is missing: {W04ScenePath}.");
@@ -1071,7 +1094,7 @@ public partial class Main : Node3D
             return;
         }
 
-        var packed = TakePreparedPhotoScene(W05ScenePath) ?? ResourceLoader.Load<PackedScene>(W05ScenePath);
+        var packed = TakePreparedPhotoScene(projection.ActiveSceneId) ?? ResourceLoader.Load<PackedScene>(W05ScenePath);
         if (packed is null)
         {
             GD.PushError($"Full-game W05 presentation is missing: {W05ScenePath}.");

@@ -13,7 +13,7 @@ public partial class Act1ConnectedWorld
     internal sealed record MosqueGroundingRecord(MeshInstance3D Mesh, Vector3 OriginalSize,
         Transform3D OriginalTransform, float HeightAboveTerrain, bool VisualOnly, MosqueGroundSpan[] Spans);
     internal sealed record MosqueTerrainCutRecord(MeshInstance3D Mesh, ArrayMesh Source, ArrayMesh Published,
-        CollisionShape3D Contact, Transform3D MeshTransform, Transform3D RoomTransform, Vector2 HalfSize,
+        CollisionShape3D Contact, Transform3D MeshTransform, Transform3D RoomTransform, Transform3D CutTransform, Vector2 HalfSize,
         int ChangedTriangles, int OutputVertices, float SourcePhysicsMaximumError,
         MeshInstance3D BabaiApron, Mesh BabaiApronMesh, Transform3D BabaiApronTransform);
     private readonly List<MosqueGroundingRecord> _mosqueGrounding = new();
@@ -200,7 +200,7 @@ public partial class Act1ConnectedWorld
         mesh.SetMeta("mosqueRoomTerrainCut", room.GetPath().ToString());
         contact.SetMeta("mosqueRoomTerrainCut", room.GetPath().ToString());
         room.SetMeta("mosqueTerrainCutHalfSize", halfSize);
-        MosqueTerrainCut = new(mesh, original, result, contact, mesh.GlobalTransform, cutFrame.GlobalTransform,
+        MosqueTerrainCut = new(mesh, original, result, contact, mesh.GlobalTransform, room.GlobalTransform, cutFrame.GlobalTransform,
             halfSize, changed, vertices, priorError, apron, apronMesh, apronTransform);
         GD.Print($"act1-mosque-terrain-cut: affectedTriangles={changed} publishedVertices={published.Length} physicsVertices={terrain.GetFaces().Length} sameOwner=true");
     }

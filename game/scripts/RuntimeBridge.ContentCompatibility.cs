@@ -31,6 +31,62 @@ public partial class RuntimeBridge
 
     private const string FullGameArrivalSkipTextFingerprint =
         "616285e8447ea98c3ac0cdc06c6b79bc2234342952f4327f9f7b33c4e97f37c9";
+    private const string FullGameShuraleReplyTextFingerprint =
+        "b0b8a60bea20a44dc51dbdea24359a17a4819d37e5943f0b5c609ea07e5ef4b7";
+    private const string FullGameWaterHomeAccountFingerprint =
+        "b809690b74181a9813e5e54034ebc57388b65e8d4b64f546be187dbb680380e9";
+    private const string FullGameNaturalDialogueFingerprint =
+        "319fd5302df4c4d03f7b56ab97385a46871e2f75e47b8c5f889a205752788c1c";
+    private const string FullGameForestPhotoComparisonFingerprint =
+        "378d33f0f990a6b48495a81b936e2d1f81738b8f29a80e321c1e54c972c0b869";
+    private const string FullGameForestEncounterDialogueFingerprint =
+        "15ca5c10b2c8104f938cfefb3ea09281257b99ad8311d5b3646ae3208b66278a";
+    private const string FullGamePhotographerReadingFingerprint =
+        "bf01a8888a23b642a9c83f07ae0aa96c424b015f213c867b0288fae80c90d554";
+    private const string FullGameCommonVisitGateFingerprint =
+        "5b053ac4d7dbaf15c21df7cfa20bec960a3371e2afc8529c02f57fe570a6b49c";
+    private const string FullGameAlsuMeetingGateFingerprint =
+        "69cd30fe6a3bd2175deca4eb08910047df79ddac38637d9b05c6997984f156b0";
+    private const string FullGameForestAccountFingerprint =
+        "4f6637ef1dfa32ca3901ff203df239f2372438788a7a59741c147d50adbea3f8";
+    private const string FullGameFamilyPurposeFingerprint =
+        "eaf6dfe0f2e40408ad62d5a0c690b86abcd771136818f91fd5af4b923939a236";
+    private const string FullGameBankPathLabelFingerprint =
+        "9964e2bab600dc89687f59ce4d954eb4a20be0306fdc0ae29bfc83ecd34970a7";
+    private const string FullGameForestDebriefTextFingerprint =
+        "45252546936e55fc2ed3dd0a0f1acc932de81c2d6b3c3bdfe0562e0a443cbac0";
+    private const string FullGameFamilyPhotoMysteryFingerprint =
+        "cb879d82d9682d6fe6ecd197b502842932fc448ee463d28acc7a3d66ae541c9d";
+    private const string FullGameRiverExitHintFingerprint =
+        "2f926961623352380d14ea65967d819d3654678b193dbf071759b2dcee978e48";
+    private const string FullGameAlsuMountedPhotoGateFingerprint =
+        "e43f1b40b2789894b5ce349d10ebd8e50643e26f7584a53d812d355cc92f3dba";
+    private const string FullGameHousePhotoDialogueFingerprint =
+        "cdbeb28dd3f267a7b2e43248b7e040f46deb98dd40ff2d0609744ee6e3b84be3";
+    private const string FullGameAlsuLeafDialogueFingerprint =
+        "2e2b6ed2af43e5fede13491fa26e70c6f83f08d59cc9ea149d30eed44990860d";
+    private const string FullGameTeaCompletionGateFingerprint =
+        "b0896377883d7ca17d35d84a3e318021df9c870c092f83a249c7998642c67f54";
+    private const string FullGameEarlyDialogueRevisionFingerprint =
+        "8099af9f968add2f31e1a1f25bf814d6c3783e1b9fa3ea5abeaf12f802b6d3b2";
+
+    private const string FullGameAtmosphericDialogueFingerprint =
+        "f4184929e58e22f95e542c32d11a1210720dc5fbff2f701c2bd718470c01351f";
+
+    private const string FullGameEncounterContinuityFingerprint =
+        "d4b2cce8c2be61dc6c1a002040f7d76011651786c2aa6de904ca88772df5e337";
+
+    private const string FullGameNivaLanguageReplyFingerprint =
+        "2b2a65f4508663ee6ca3fe40600f15de181461d4b194555d0b1c4ad53c398dd3";
+
+    private const string FullGameShuraleQuestionFingerprint =
+        "d1835802606570985fe48b2a2cd63c5c1fbc7385c646a78c2bca1792450e960e";
+
+    private const string FullGameGulsinaAuthorshipReplyFingerprint =
+        "f754e4a5d29a27a357707835d6b56a78dfc71f90327d7a3912f38bd3da1df403";
+
+    private const string FullGameSchoolPhotoCueFingerprint =
+        "f8a34d7def19180baf45f1a2b94f96bdf42d01608d44a186c198e16dca86c717";
 
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
@@ -73,12 +129,327 @@ public partial class RuntimeBridge
         new(FullGameEntryPromptTextFingerprint, FullGameArrivalSkipTextFingerprint),
         new(FullGamePhotoReturnTextFingerprint, FullGameArrivalSkipTextFingerprint),
         new("d10e86231a472351cbbcf5ffaa46f18820269037acecaf17678e6472c0b8e710",
-            FullGameArrivalSkipTextFingerprint)
+            FullGameArrivalSkipTextFingerprint),
+        // D07 reply only: two localized values and generated hashes; state definitions are identical.
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameShuraleReplyTextFingerprint),
+        // Optional family account and dialogue only; saved catalog, quests, photos and world rules are unchanged.
+        new(FullGameShuraleReplyTextFingerprint, FullGameWaterHomeAccountFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameWaterHomeAccountFingerprint),
+        // 45 dialogue/choice text values only; all saved-state definitions are identical.
+        new(FullGameWaterHomeAccountFingerprint, FullGameNaturalDialogueFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameNaturalDialogueFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameNaturalDialogueFingerprint),
+        // Two dialogue lines only; the saved campaign state and gates are unchanged.
+        new(FullGameNaturalDialogueFingerprint, FullGameForestPhotoComparisonFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameForestPhotoComparisonFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameForestPhotoComparisonFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameForestPhotoComparisonFingerprint),
+        // W01 encounter dialogue only; the save schema, facts and gates remain unchanged.
+        new(FullGameForestPhotoComparisonFingerprint, FullGameForestEncounterDialogueFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameForestEncounterDialogueFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameForestEncounterDialogueFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameForestEncounterDialogueFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameForestEncounterDialogueFingerprint),
+        // Existing saves retain their earned back-read flag; new copies are read explicitly.
+        new(FullGameForestEncounterDialogueFingerprint, FullGamePhotographerReadingFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGamePhotographerReadingFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGamePhotographerReadingFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGamePhotographerReadingFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGamePhotographerReadingFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGamePhotographerReadingFingerprint),
+        // W04 re-entry uses recorded visit state rather than the initial active quest.
+        new(FullGamePhotographerReadingFingerprint, FullGameCommonVisitGateFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameCommonVisitGateFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameCommonVisitGateFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameCommonVisitGateFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameCommonVisitGateFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameCommonVisitGateFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameCommonVisitGateFingerprint),
+        // Meeting eligibility changes; existing quest and visit state are retained.
+        new(FullGameCommonVisitGateFingerprint, FullGameAlsuMeetingGateFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameAlsuMeetingGateFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameAlsuMeetingGateFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameAlsuMeetingGateFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameAlsuMeetingGateFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameAlsuMeetingGateFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameAlsuMeetingGateFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameAlsuMeetingGateFingerprint),
+        // Journal wording no longer asserts an optional dialogue response; saved state is unchanged.
+        new(FullGameAlsuMeetingGateFingerprint, FullGameForestAccountFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameForestAccountFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameForestAccountFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameForestAccountFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameForestAccountFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameForestAccountFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameForestAccountFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameForestAccountFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameForestAccountFingerprint),
+        // Three dialogue texts clarify the existing family objective; saved state is unchanged.
+        new(FullGameForestAccountFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameFamilyPurposeFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameFamilyPurposeFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameFamilyPurposeFingerprint),
+        // The bank exit label describes the existing transition; saved state is unchanged.
+        new(FullGameFamilyPurposeFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameBankPathLabelFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameBankPathLabelFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameBankPathLabelFingerprint),
+        // Three wording revisions and D17 eligibility only; saved state and completed dialogue effects remain valid.
+        new(FullGameRiverExitHintFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameAlsuMountedPhotoGateFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameAlsuMountedPhotoGateFingerprint),
+        // Existing acquired photos and story state remain valid after adding the permission dialogue.
+        new(FullGameAlsuMountedPhotoGateFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameRiverExitHintFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameHousePhotoDialogueFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameHousePhotoDialogueFingerprint),
+        // The leaf conversation preserves historical nodes and its persisted fact.
+        new(FullGameHousePhotoDialogueFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new(FullGameAlsuMountedPhotoGateFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new(FullGameRiverExitHintFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameAlsuLeafDialogueFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameAlsuLeafDialogueFingerprint),
+        // The completed arrival beat already exists in saved progress.
+        new(FullGameAlsuLeafDialogueFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameHousePhotoDialogueFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameAlsuMountedPhotoGateFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameRiverExitHintFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameTeaCompletionGateFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameTeaCompletionGateFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameTeaCompletionGateFingerprint),
+        // Wording changes retain the same saved story state.
+        new(FullGameTeaCompletionGateFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameAlsuLeafDialogueFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameHousePhotoDialogueFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameAlsuMountedPhotoGateFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameRiverExitHintFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameEarlyDialogueRevisionFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameEarlyDialogueRevisionFingerprint),
+        // Thirteen dialogue texts only; compiled state definitions are unchanged.
+        new(FullGameEarlyDialogueRevisionFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameTeaCompletionGateFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameAlsuLeafDialogueFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameHousePhotoDialogueFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameAlsuMountedPhotoGateFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameRiverExitHintFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameAtmosphericDialogueFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameAtmosphericDialogueFingerprint),
+        // Twelve RU/default text values only; exact compiled-pack comparison in PW-043.
+        new(FullGameAtmosphericDialogueFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameEarlyDialogueRevisionFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameTeaCompletionGateFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameAlsuLeafDialogueFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameHousePhotoDialogueFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameAlsuMountedPhotoGateFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameRiverExitHintFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameEncounterContinuityFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameEncounterContinuityFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameEncounterContinuityFingerprint),
+        // Four Niva language replies only; exact compiled-pack comparison in PW-043.
+        new(FullGameEncounterContinuityFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameAtmosphericDialogueFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameEarlyDialogueRevisionFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameTeaCompletionGateFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameAlsuLeafDialogueFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameHousePhotoDialogueFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameAlsuMountedPhotoGateFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameRiverExitHintFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameNivaLanguageReplyFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0", FullGameNivaLanguageReplyFingerprint),
+        // D06 question wording only; saved definitions and state remain unchanged.
+        new(FullGameNivaLanguageReplyFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameEncounterContinuityFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameAtmosphericDialogueFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameEarlyDialogueRevisionFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameTeaCompletionGateFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameAlsuLeafDialogueFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameHousePhotoDialogueFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameAlsuMountedPhotoGateFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameRiverExitHintFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameShuraleQuestionFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameShuraleQuestionFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameShuraleQuestionFingerprint),
+        // W03 authorship reply wording only; source state and effects are unchanged.
+        new(FullGameShuraleQuestionFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameNivaLanguageReplyFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameEncounterContinuityFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameAtmosphericDialogueFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameEarlyDialogueRevisionFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameTeaCompletionGateFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameAlsuLeafDialogueFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameHousePhotoDialogueFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameAlsuMountedPhotoGateFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameRiverExitHintFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameFamilyPhotoMysteryFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameForestDebriefTextFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameBankPathLabelFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameFamilyPurposeFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameForestAccountFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameAlsuMeetingGateFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameCommonVisitGateFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGamePhotographerReadingFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameForestEncounterDialogueFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameForestPhotoComparisonFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameNaturalDialogueFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameWaterHomeAccountFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new(FullGameShuraleReplyTextFingerprint, FullGameGulsinaAuthorshipReplyFingerprint),
+        new("95c93823b37f267e529aa99760089d1576f313cb0dcaa813e8aefada07dad2d0",
+            FullGameGulsinaAuthorshipReplyFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
     {
-        if (!StringComparer.Ordinal.Equals(_content.CampaignId, FullGameCampaignId) ||
+        var isFullGame = StringComparer.Ordinal.Equals(_content.CampaignId, FullGameCampaignId);
+        if (isFullGame && StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameSchoolPhotoCueFingerprint))
+        {
+            // The compiled diff changes one text entry. Carry forward exactly
+            // the previously accepted saves as direct pairs for this revision.
+            var compatible = FullGameTextRevisionCompatibility
+                .Where(pair => pair.ExpectedFingerprint == FullGameGulsinaAuthorshipReplyFingerprint)
+                .Select(pair => pair with { ExpectedFingerprint = FullGameSchoolPhotoCueFingerprint })
+                .Append(new(FullGameGulsinaAuthorshipReplyFingerprint, FullGameSchoolPhotoCueFingerprint))
+                .ToArray();
+            return new AtomicSaveGameStore(directory, fingerprintCompatibility: compatible);
+        }
+
+        if (!isFullGame ||
             (!StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTextRevisionFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTeaTextRevisionFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameCellarReturnFingerprint) &&
@@ -87,7 +458,28 @@ public partial class RuntimeBridge
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGamePhotoReturnTextFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEntryPromptTextFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameNivaArrivalFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameArrivalSkipTextFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameArrivalSkipTextFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameShuraleReplyTextFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameWaterHomeAccountFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameNaturalDialogueFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameForestPhotoComparisonFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameForestEncounterDialogueFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGamePhotographerReadingFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameCommonVisitGateFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAlsuMeetingGateFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameForestAccountFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameFamilyPurposeFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameBankPathLabelFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAlsuMountedPhotoGateFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameHousePhotoDialogueFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAlsuLeafDialogueFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTeaCompletionGateFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEarlyDialogueRevisionFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAtmosphericDialogueFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameEncounterContinuityFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameNivaLanguageReplyFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameShuraleQuestionFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameGulsinaAuthorshipReplyFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }

@@ -155,6 +155,7 @@ public partial class Act1ConnectedWorld
             // Leave the internally atomic interior replacement until exterior preparation/routing succeeds.
             StyleBenchmarkInteriorFactory.RefreshWindowShell(room, nextRecipe,
                 bodies => SetInteriorStaticCollisionEnabled(bodies, ActiveZoneId == "house_old_pc"));
+            ((StyleBenchmarkZone)_zoneInstances["village_day"]).FitHouseDoorToLeaf(door[0]);
             committed = true;
             return true;
         }

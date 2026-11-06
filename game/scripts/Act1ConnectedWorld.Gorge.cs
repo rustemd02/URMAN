@@ -8,8 +8,9 @@ namespace Urman.Godot;
 /// <summary>
 /// Relayout v3 (author, 2026-10-01): no river. The village ends in the south at a wide,
 /// deep gorge; the only way to the Kara-Urman forest is an old suspension bridge that
-/// barely holds. Aidar crosses it; on his way back after the night of the blizzard it
-/// gives way behind him (world prop <see cref="SuspensionBridgeStateId"/>). The terrain
+/// barely holds. In Chapter I, it gives way on the return after the blizzard
+/// (world prop <see cref="SuspensionBridgeStateId"/>). PhotoWorlds keeps the
+/// crossing available for the forest photograph. The terrain
 /// cut lives in <see cref="AgentBAct1HeightField.RiverChannel"/>; this part dresses the
 /// gorge, fences both rims and builds the bridge.
 /// </summary>
@@ -537,7 +538,8 @@ public partial class Act1ConnectedWorld
         if (_suspensionGapBlocker is not null) _suspensionGapBlocker.CollisionLayer = broken ? 2u : 0u;
     }
 
-    internal bool SuspensionBridgeBroken => _runtimeBridge?.SelectWorldProps() is { } props
+    internal bool SuspensionBridgeBroken => _runtimeBridge is { IsPhotoWorldsCampaign: false } bridge
+        && bridge.SelectWorldProps() is { } props
         && props.TryGetProperty(SuspensionBridgeStateId, out var state) && state.ValueKind == JsonValueKind.Object
         && state.TryGetProperty("broken", out var broken) && broken.ValueKind == JsonValueKind.True;
 
@@ -545,13 +547,14 @@ public partial class Act1ConnectedWorld
     /// blizzard, stepping back onto the village rim brings the bridge down behind him.</summary>
     private void WatchSuspensionBridge()
     {
-        if (_suspensionIntact is null || _suspensionCollapsing || _runtimeBridge is null) return;
+        if (_suspensionIntact is null || _suspensionCollapsing
+            || _runtimeBridge is not { IsPhotoWorldsCampaign: false } bridge) return;
         if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player || ActiveZoneId is not ("village_day" or "zirat_road" or "kara_urman_night")) return;
         // Ordered cheap-to-expensive: both properties read the same immutable kernel
         // snapshot, but SuspensionBridgeBroken additionally walks into the nested
         // "broken" object. All four conditions are conjunctive guards with no side
         // effects, so the set of frames that reaches the collapse code is identical.
-        if (!_runtimeBridge.FirstNightPassed) return;
+        if (!bridge.FirstNightPassed) return;
         if (SuspensionBridgeBroken) return;
         var z = player.GlobalPosition.Z;
         var x = player.GlobalPosition.X;

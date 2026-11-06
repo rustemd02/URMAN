@@ -8,6 +8,7 @@ from pathlib import Path, PurePosixPath
 import re
 import shutil
 import stat
+import subprocess
 import sys
 import tempfile
 import time
@@ -16,15 +17,16 @@ import urllib.parse
 import urllib.request
 import uuid
 import zipfile
-from remote_common import (MAX_ARCHIVE, MAX_SOURCE, REPOSITORY, canonical, candidates,
-                           digest, git, make_candidate_upload, validate_candidate_guard_project,
-                           source_state, STUDIO_AUTHORING_FILES,
-                           studio_authoring_path, MAX_RESULT_BYTES, MAX_RESULT_FILES)
+from remote_common import (MAX_ARCHIVE, MAX_BLOB, MAX_SOURCE, REPOSITORY, allowed, canonical,
+                           candidates, digest, git, make_candidate_upload,
+                           source_state, STUDIO_AUTHORING_FILES, studio_authoring_path,
+                           validate_candidate_guard_project, validate_manifest,
+                           MAX_RESULT_BYTES, MAX_RESULT_FILES)
 
 STUDIO_SCENE = 'res://studio/studio_main.tscn'
 FULL_GAME_SCENE = 'res://scenes/full_game.tscn'
 PHOTO_WORLDS_GAME_SCENE = 'res://scenes/photoworlds_game.tscn'
-NORMAL_UI_TRANSPORT_VERSION = 3
+NORMAL_UI_TRANSPORT_VERSION = 4
 UI_KEY_BASES = ('{ENTER}', '{ESC}', '{DOWN}', '{UP}', '{SPACE}', 'a', 'f', 'v', 'z')
 UI_KEY_ADDITIONS = ('c', 'j', '{TAB}', '+{TAB}', '{LEFT}', '{RIGHT}')
 UI_KEY_CHORDS = frozenset(
@@ -34,6 +36,7 @@ UI_KEY_CHORDS = frozenset(
 UI_MOVE_KEYS = frozenset(('w', 'a', 's', 'd', 'e'))
 UI_LOOK_DELTA_LIMIT = 300
 INTERACTIVE_FRAME_PNG_LIMIT = 16 * 1024**2
+GIT_LFS_POINTER_HEADER = b'version https://git-lfs.github.com/spec/v1\n'
 
 def check_result_destination(path):
     try:
@@ -91,6 +94,104 @@ def build_manifest(root, *, studio_authoring=False):
     manifest['snapshot_id']=hashlib.sha256(canonical(manifest)).hexdigest()
     return manifest
 
+def git_no_replace(root, *args):
+    return subprocess.check_output(['git', '--no-replace-objects', '-C', str(root), *args])
+
+# Keep this committed-tree filter aligned with remote_common.candidates; the station worker loads that shared module.
+def is_source_candidate(name, *, studio_authoring=False):
+    if not allowed(name):
+        return False
+    authoring_file = studio_authoring and name in STUDIO_AUTHORING_FILES
+    parts = PurePosixPath(name).parts
+    if len(parts) == 1 and parts[0] not in {'global.json','Directory.Build.props','Directory.Build.targets',
+            'Directory.Packages.props','NuGet.Config','nuget.config','Urman.slnx','AGENTS.md'}:
+        return False
+    if len(parts) > 1 and parts[0] not in {'content','game','src-dotnet','tools-dotnet','eng'} and not authoring_file:
+        return False
+    if PurePosixPath(name).suffix.lower() in {'.blend', '.blend1', '.blend2'} and not authoring_file:
+        return False
+    return True
+
+def committed_candidates(root, commit, *, studio_authoring=False):
+    result = {}
+    records = git_no_replace(root, 'ls-tree', '-r', '-z', '--full-tree', commit).split(b'\0')
+    for record in records:
+        if not record:
+            continue
+        metadata, separator, path = record.partition(b'\t')
+        if not separator:
+            raise ValueError('invalid committed source tree entry')
+        try:
+            name = path.decode('utf-8')
+            mode, kind, object_id = metadata.decode('ascii').split()
+        except (UnicodeDecodeError, ValueError) as error:
+            raise ValueError('invalid committed source tree entry') from error
+        if not is_source_candidate(name, studio_authoring=studio_authoring):
+            continue
+        if mode == '120000':
+            raise ValueError('source links are unsupported: ' + name)
+        if mode == '160000' or kind != 'blob':
+            raise ValueError('source submodules or non-file Git entries are unsupported: ' + name)
+        if mode not in {'100644', '100755'}:
+            raise ValueError('unsupported committed source mode: ' + name)
+        result[name] = object_id
+    if studio_authoring:
+        missing = sorted(STUDIO_AUTHORING_FILES.difference(result))
+        if missing:
+            raise ValueError('missing required Studio authoring source(s): ' + ', '.join(missing))
+    return result
+
+def stream_git_blob(root, object_id, *, name):
+    process = subprocess.Popen(
+        ['git', '--no-replace-objects', '-C', str(Path(root).resolve()), 'cat-file', 'blob', object_id],
+        stdout=subprocess.PIPE)
+    digest = hashlib.sha256()
+    size = 0
+    try:
+        prefix = process.stdout.read(len(GIT_LFS_POINTER_HEADER))
+        if prefix == GIT_LFS_POINTER_HEADER:
+            raise ValueError('Git LFS pointer cannot be used as a runtime source: ' + name)
+        size += len(prefix)
+        if size > MAX_BLOB:
+            raise ValueError('source file exceeds blob size limit: ' + name)
+        digest.update(prefix)
+        for chunk in iter(lambda: process.stdout.read(1024**2), b''):
+            size += len(chunk)
+            if size > MAX_BLOB:
+                raise ValueError('source file exceeds blob size limit: ' + name)
+            digest.update(chunk)
+        if process.wait() != 0:
+            raise ValueError('could not read committed Git blob: ' + name)
+        actual_sha = digest.hexdigest()
+        return actual_sha, size
+    except BaseException:
+        if process.poll() is None:
+            process.kill()
+        process.communicate()
+        raise
+    finally:
+        if process.stdout is not None and not process.stdout.closed:
+            process.stdout.close()
+
+def build_committed_head_manifest(root, *, studio_authoring=False):
+    root=Path(root).resolve()
+    origin=git_no_replace(root,'remote','get-url','origin').decode().strip()
+    if origin not in (REPOSITORY,'git@github.com:rustemd02/URMAN.git','ssh://git@github.com/rustemd02/URMAN.git'):
+        raise ValueError('unexpected repository origin')
+    commit=git_no_replace(root,'rev-parse','--verify','HEAD^{commit}').decode().strip()
+    blobs=committed_candidates(root,commit,studio_authoring=studio_authoring)
+    manifest={'schema':1,'repository':REPOSITORY,'base_commit':commit,'dirty_paths':[],'files':{}}
+    total=0
+    for name,object_id in sorted(blobs.items()):
+        sha,size=stream_git_blob(root,object_id,name=name)
+        total+=size
+        if total>MAX_SOURCE:
+            raise ValueError('snapshot exceeds source limit')
+        manifest['files'][name]={'sha256':sha,'bytes':size}
+    manifest['snapshot_id']=hashlib.sha256(canonical(manifest)).hexdigest()
+    validate_manifest(manifest)
+    return manifest,blobs
+
 def write_archive(root, manifest, archive):
     """Write the archive for an already hashed manifest; every byte is verified again."""
     root=Path(root).resolve()
@@ -107,7 +208,7 @@ def write_archive(root, manifest, archive):
     if archive.stat().st_size>MAX_ARCHIVE:
         raise ValueError('snapshot exceeds upload limit')
 
-def publish_snapshot(client, root, manifest, log=print):
+def publish_snapshot(client, root, manifest, log=print, committed_blobs=None):
     """Send only the files the station lacks; fall back to the whole archive for a
     station that does not support incremental snapshots yet."""
     try:
@@ -117,6 +218,8 @@ def publish_snapshot(client, root, manifest, log=print):
             raise
         plan=None
     if plan is None:
+        if committed_blobs is not None:
+            raise ValueError('committed-head mode requires station incremental snapshot support')
         with tempfile.TemporaryDirectory(prefix='urman-snapshot-') as tmp:
             archive=Path(tmp)/'source.zip'
             write_archive(root,manifest,archive)
@@ -136,10 +239,29 @@ def publish_snapshot(client, root, manifest, log=print):
         f'of {len(manifest["files"])} files, sending {len(missing)} ({sent/1024**2:.1f} MB)')
     for index,sha in enumerate(missing,1):
         name=names[sha]; size=manifest['files'][name]['bytes']
+        if size == 0 and committed_blobs is not None:
+            raise ValueError('station incremental blob API cannot upload an empty source file: '+name)
         log(f'  [{index}/{len(missing)}] {name} ({size/1024**2:.2f} MB)')
-        path=studio_authoring_path(root,name) if name in STUDIO_AUTHORING_FILES else Path(root)/name
-        with path.open('rb') as stream:
-            stored=client.request('/blobs/'+sha,stream)
+        if committed_blobs is None:
+            path=studio_authoring_path(root,name) if name in STUDIO_AUTHORING_FILES else Path(root)/name
+            with path.open('rb') as stream:
+                stored=client.request('/blobs/'+sha,stream)
+        else:
+            object_id=committed_blobs[name]
+            process=subprocess.Popen(['git','--no-replace-objects','-C',str(Path(root).resolve()),
+                                      'cat-file','blob',object_id],
+                                     stdout=subprocess.PIPE)
+            try:
+                stored=client.request('/blobs/'+sha,process.stdout,content_length=size)
+            except BaseException:
+                if process.poll() is None:
+                    process.kill()
+                process.communicate()
+                raise
+            else:
+                process.stdout.close()
+                if process.wait()!=0:
+                    raise ValueError('could not stream committed Git blob: '+name)
         if stored.get('sha256')!=sha:
             raise ValueError('blob acknowledgement mismatch')
 
@@ -157,24 +279,29 @@ class Client:
             handlers.append(urllib.request.ProxyHandler({'http':self.proxy,'https':self.proxy}))
         self.opener=urllib.request.build_opener(*handlers)
 
-    def request(self,path,data=None,raw=False):
+    def request(self,path,data=None,raw=False,timeout=None,content_length=None):
         headers={'Authorization':'Bearer '+self.token}
         if hasattr(data,'read'):
-            headers.update({'Content-Type':'application/zip','Content-Length':str(os.fstat(data.fileno()).st_size)})
+            # Pipes from git cat-file have an exact manifest length but no useful fstat size.
+            if content_length is None:
+                content_length=os.fstat(data.fileno()).st_size
+            if type(content_length) is not int or content_length < 0:
+                raise ValueError('invalid request body length')
+            headers.update({'Content-Type':'application/zip','Content-Length':str(content_length)})
         elif data is not None:
             data=canonical(data);headers['Content-Type']='application/json'
         req=urllib.request.Request(self.url+path,data=data,headers=headers)
-        response=self.opener.open(req,timeout=300 if data is not None else 30)
+        response=self.opener.open(req,timeout=timeout if timeout is not None else (300 if data is not None else 30))
         if raw:
             return response
         with response:
             return json.load(response)
 
     def ui_action(self,jid,action):
-        return self.request('/jobs/'+jid+'/ui',action)
+        return self.request('/jobs/'+jid+'/ui',action,timeout=45)
 
-    def capture_current(self,jid):
-        return self.request('/jobs/'+jid+'/ui',{'action':'capture-current'},raw=True)
+    def capture_current(self,jid,request_id):
+        return self.request('/jobs/'+jid+'/ui',{'action':'capture-current','requestId':request_id},raw=True,timeout=45)
 
     def fetch(self,jid,dest):
         status=self.request('/jobs/'+jid)
@@ -286,6 +413,7 @@ def main():
     p.add_argument('--fov',help="capture only: 'player' (player camera FOV) or a number; default control views use 70")
     p.add_argument('--headless',action='store_true');p.add_argument('--wait',type=int)
     p.add_argument('--output',type=Path);p.add_argument('--submit-only',action='store_true')
+    p.add_argument('--request-id',help='capture-current only: resume the same 32-character capture ID after a lost response')
     p.add_argument('--candidate-dir',type=Path,help='one verified export directory directly under build/releases')
     p.add_argument('--ui-action',choices=['keys','move','look'])
     p.add_argument('--keys',help='ui keys only: one fixed key or key chord')
@@ -295,11 +423,23 @@ def main():
     p.add_argument('--dy',type=int,help='ui look only: relative vertical mouse delta, -300..300')
     p.add_argument('--studio-authoring',action='store_true',
                    help='include the two fixed house generator inputs in the source snapshot')
+    p.add_argument('--committed-head',action='store_true',
+                   help='source snapshot commands only: use committed HEAD files, excluding worktree changes and untracked files')
     p.add_argument('--studio-readiness',action='store_true',
                    help='doctor only: check redacted native Studio, Codex, and Blender readiness')
     p.add_argument('--studio-restarts',type=int,default=0,
                    help='studio only: reopen the same authored workspace 0..2 times after clean exits')
+    p.add_argument('--acceptance-profile',
+                   help='play-product only: select a named clean protected userdata profile')
     args=p.parse_args()
+    if args.acceptance_profile is not None:
+        if args.command != 'play-product':
+            p.error('--acceptance-profile requires play-product')
+        if not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,47}', args.acceptance_profile):
+            p.error('--acceptance-profile must match [a-z0-9][a-z0-9-]{0,47}')
+    source_snapshot_commands={'smoke','capture','studio','play','play-full','play-product','export-release'}
+    if args.committed_head and args.command not in source_snapshot_commands:
+        p.error('--committed-head requires a source-snapshot command')
     candidate_boot=args.command=='candidate-boot'
     candidate_play=args.command=='candidate-play'
     candidate_run=candidate_boot or candidate_play
@@ -346,6 +486,8 @@ def main():
     native_interactive=native_full or native_product
     play=args.command in ('play','play-full','play-product')
     capture_current=args.command=='capture-current'
+    if args.request_id is not None and not capture_current:
+        p.error('--request-id requires capture-current')
     capture_destination=None
     if native_interactive and args.job_id is not None and not re.fullmatch('[a-f0-9]{32}',args.job_id):
         p.error('play job IDs must be 32 lowercase hexadecimal characters')
@@ -391,6 +533,8 @@ def main():
             p.error('capture-current requires a 32-character lowercase hexadecimal --job-id from your own native play or candidate-play job')
         if args.output is None:
             p.error('capture-current requires --output with an absolute file path')
+        if args.request_id is not None and not re.fullmatch('[a-f0-9]{32}',args.request_id):
+            p.error('capture-current --request-id must be 32 lowercase hexadecimal characters')
         if (args.scene is not None or args.points is not None or args.phase is not None
                 or args.fov is not None or args.headless or args.timeout is not None
                 or args.wait is not None or args.submit_only or args.studio_authoring
@@ -402,8 +546,9 @@ def main():
             p.error(str(error))
     if studio and args.timeout is not None and not 1<=args.timeout<=3600:
         p.error('studio timeout must be 1..3600 seconds')
-    if play and args.timeout is not None and not 1<=args.timeout<=3600:
-        p.error('play/play-full/play-product timeout must be 1..3600 seconds')
+    play_timeout_max=7200 if native_product else 3600
+    if play and args.timeout is not None and not 1<=args.timeout<=play_timeout_max:
+        p.error(args.command+' timeout must be 1..'+str(play_timeout_max)+' seconds')
     if args.command!='ui' and (args.ui_action is not None or args.keys is not None
                                or args.key is not None or args.duration_ms is not None
                                or args.dx is not None or args.dy is not None):
@@ -484,7 +629,10 @@ def main():
         return 0 if result.get('ok') is True else 1
     if capture_current:
         native_ui_readiness(c,require_idle_ready=False)
-        with c.capture_current(args.job_id) as response:
+        capture_request_id=args.request_id or uuid.uuid4().hex
+        print('Capture request:',capture_request_id,'Job:',args.job_id,flush=True)
+        print('If no verified PNG is saved, resume with the same --request-id; do not create another capture.',flush=True)
+        with c.capture_current(args.job_id,capture_request_id) as response:
             if response.headers.get_content_type()!='image/png':
                 raise ValueError('station did not return a verified PNG viewport')
             try:
@@ -493,6 +641,7 @@ def main():
                 raise ValueError('station viewport length is invalid') from error
             expected_hash=response.headers.get('X-URMAN-Frame-SHA256','')
             if (not 1<=content_length<=INTERACTIVE_FRAME_PNG_LIMIT
+                    or response.headers.get('X-URMAN-Frame-Request-Id')!=capture_request_id
                     or not re.fullmatch('[a-f0-9]{64}',expected_hash)):
                 raise ValueError('station viewport response is outside its verified bounds')
             png=response.read(INTERACTIVE_FRAME_PNG_LIMIT+1)
@@ -525,8 +674,13 @@ def main():
     # those are uploaded, so a rebuild after a code change costs kilobytes, not the
     # whole tree. The identity is printed before POST: a lost reply is recovered with
     # status/fetch on this job_id instead of a second run.
-    manifest=build_manifest(args.root, studio_authoring=studio or args.studio_authoring)
-    publish_snapshot(c,args.root,manifest)
+    committed_blobs=None
+    if args.committed_head:
+        manifest,committed_blobs=build_committed_head_manifest(
+            args.root,studio_authoring=studio or args.studio_authoring)
+    else:
+        manifest=build_manifest(args.root, studio_authoring=studio or args.studio_authoring)
+    publish_snapshot(c,args.root,manifest,committed_blobs=committed_blobs)
     jid=args.job_id or uuid.uuid4().hex
     if export_release:
         spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':'export-release','timeout':timeout}
@@ -534,6 +688,8 @@ def main():
         spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':'play' if play else args.command,
               'scene':'res://scenes/act1_demo.tscn' if args.command=='capture' else scene,
               'timeout':timeout,'headless':args.headless,'points':args.points or ''}
+    if args.acceptance_profile is not None:
+        spec['acceptance_profile']=args.acceptance_profile
     if args.studio_restarts:
         spec['studio_restarts']=args.studio_restarts
     if args.phase:

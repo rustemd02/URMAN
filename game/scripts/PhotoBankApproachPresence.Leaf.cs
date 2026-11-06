@@ -8,6 +8,7 @@ public partial class PhotoBankApproachPresence
     private const float LeafRevealDuration = .6f;
     private const float LeafFallArc = .18f;
     private const float LeafAlsuSightRadius = 4.5f;
+    internal const float LeafObservationRange = 6f;
 
     private enum LeafPhase { Hidden, Falling, Committing, Landed }
 
@@ -218,7 +219,7 @@ public partial class PhotoBankApproachPresence
     private bool LeafFullyFramedAndVisible(Camera3D camera, FirstPersonController player)
     {
         if (_winterLeaf is not { } leaf || !GodotObject.IsInstanceValid(leaf) || !leaf.IsVisibleInTree()) return false;
-        if (camera.GlobalPosition.DistanceTo(leaf.GlobalPosition) > 6f) return false;
+        if (camera.GlobalPosition.DistanceTo(leaf.GlobalPosition) > LeafObservationRange) return false;
         var bounds = leaf.GetAabb();
         for (var corner = 0; corner < 8; corner++)
         {
