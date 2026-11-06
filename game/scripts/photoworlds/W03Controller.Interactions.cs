@@ -22,6 +22,7 @@ public partial class W03Controller
     private const string CameraPositionFactId = "house_camera_position_seen";
     private const string ClothFactId = "cloth_cleared";
     private const string FrameFactId = "house_frame_seen";
+    private const float HousePhotographerStanceRadius = 1.65f;
 
     private enum HousePhysicalAction { None, Shutter, Cloth }
     private enum HousePhysicalPhase { Idle, Moving, Committing }
@@ -498,6 +499,27 @@ public partial class W03Controller
                 ? _clothShelfTransform : _clothHookTransform;
     }
 
+    internal bool TryGetHousePhotographerObjectiveTarget(object? session, Vector3 playerPosition,
+        out Vector3 point, out string label)
+    {
+        point = default;
+        label = string.Empty;
+        if (session is null || _bridge is not { } bridge || !IsValidHouseWorldBridge(bridge)
+            || !ReferenceEquals(session, bridge.SessionIdentity) || bridge.ActiveSceneId != HouseSceneId
+            || _cameraWitness is not { } stance || !GodotObject.IsInstanceValid(stance)
+            || !stance.IsVisibleInTree() || playerPosition.DistanceTo(stance.GlobalPosition) > HousePhotographerStanceRadius)
+            return false;
+
+        var sawStrap = ReferenceEquals(_housePhotographerObservationSession, session) && _houseSawPhotographerShadow;
+        var witness = sawStrap ? _cameraWindowWitness : _cameraShadowWitness;
+        if (witness is null || !GodotObject.IsInstanceValid(witness) || !witness.IsVisibleInTree())
+            return false;
+
+        point = witness.GlobalPosition;
+        label = sawStrap ? "Окно дома" : "Ремешок фотоаппарата";
+        return true;
+    }
+
     private void ProcessHousePhotographerObservation()
     {
         if (_bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
@@ -530,7 +552,7 @@ public partial class W03Controller
             return;
         }
 
-        if (player.GlobalPosition.DistanceTo(stance.GlobalPosition) > 1.65f)
+        if (player.GlobalPosition.DistanceTo(stance.GlobalPosition) > HousePhotographerStanceRadius)
         {
             ClearHousePhotographerSightings();
             return;

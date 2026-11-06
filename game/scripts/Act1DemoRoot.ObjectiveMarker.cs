@@ -223,9 +223,16 @@ public partial class Act1DemoRoot
         inspectionTarget = false;
         if (mission.InteractionId is "urman.fullgame:interaction/pw-house-door-left"
             or "urman.fullgame:interaction/pw-house-door-right"
+            or "urman.fullgame:interaction/pw-house-camera-position"
             && _main.GetNodeOrNull<W03Controller>("ZoneHost/W03") is { } house
             && GodotObject.IsInstanceValid(house) && house.IsInsideTree() && !house.IsQueuedForDeletion())
         {
+            if (mission.InteractionId == "urman.fullgame:interaction/pw-house-camera-position")
+            {
+                inspectionTarget = house.TryGetHousePhotographerObjectiveTarget(
+                    bridge.PhotoWorldPresentationIdentity, playerPosition, out waypoint, out label);
+                return inspectionTarget;
+            }
             return house.TryGetHouseDoorObjectiveTarget(bridge.PhotoWorldPresentationIdentity,
                 playerPosition, out waypoint, out label, out inspectionTarget);
         }

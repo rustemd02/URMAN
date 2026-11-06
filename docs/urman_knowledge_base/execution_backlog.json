@@ -131563,6 +131563,7 @@
       ],
       "evidence": [
         "game/scripts/photoworlds/W03Controller.SpatialLinks.cs",
+        "game/scripts/photoworlds/W03Controller.Interactions.cs",
         "game/scripts/Act1DemoRoot.ObjectiveMarker.cs",
         "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-w03-portal-cues-2026-11-06.zip SHA256 09079760c21c84f509e4c295c538d7de9bd4c019c8c3fce273b3b208119812f2"
       ],
@@ -131690,9 +131691,10 @@
         "Невозможность осмысленна, а не является парой несвязанных картинок.",
         "Шов не меняет поле зрения и наклон камеры.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W03_Дом_на_просвет_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
-        "Source-proven cue defect addressed: fixed entry marker formerly remained after crossing. Mac compile and standalone render show visibly different blue and light-grey gates; the actual HUD change, both crossing directions and cold Continue inside the garden remain unverified."
+        "Source-proven cue defect addressed: fixed entry marker formerly remained after crossing. Mac compile and standalone render show visibly different blue and light-grey gates; the actual HUD change, both crossing directions and cold Continue inside the garden remain unverified.",
+        "У H05 маркер после подхода указывает на ремешок, затем на окно. Использует тот же радиус, объекты и текущий сеанс, что и физическая проверка взгляда. Mac compile 0/0; обычная видимость подсказки и срабатывание обоих взглядов ещё открыты."
       ],
-      "next_action": "Continue ordinary Mac school→W01→home first, then obtain/mount/read P-HOUSE. In W03 verify shutter, blue and grey portals in either order, HUD follows apple/chair after each crossing, unfinished garden Continue guides back through a portal, and H05→cloth/frame→H08 return/save. Track photo composition separately.",
+      "next_action": "После обычной цепочки школа → W01 → дом получить, вклеить и прочитать P-HOUSE. В W03 проверить ставню, оба проёма, цели у яблони и стула и Continue в саду. У H05 проверить маркер места → ремешок → окно, затем ткань, раму, выход H08 и сохранение. Композиция фото принимается отдельно.",
       "blocker": null,
       "local_verification_2026_10_31": {
         "authority": "Explicit live user instruction: continue goal and test on user's Mac, not UnterPC; overrides default Windows routing for this run only.",
