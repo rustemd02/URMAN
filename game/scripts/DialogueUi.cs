@@ -146,7 +146,11 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         {
             if (_continue.Visible && !_continue.Disabled)
             {
-                _continue.EmitSignal(Button.SignalName.Pressed);
+                // The save-retry screen offers both a choice and Continue.
+                // Respect focus instead of closing it when Retry is selected.
+                var action = GetViewport().GuiGetFocusOwner() is Button { Disabled: false } focused
+                    && focused.GetParent() == _choices ? focused : _continue;
+                action.EmitSignal(Button.SignalName.Pressed);
             }
 
             GetViewport().SetInputAsHandled();
