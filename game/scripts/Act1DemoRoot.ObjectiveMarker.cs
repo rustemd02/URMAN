@@ -10,6 +10,7 @@ public partial class Act1DemoRoot
 {
     private const string ForestGroupObservationInteractionId = "urman.fullgame:interaction/pw-forest-group";
     private const string ForestBeyondFrameInteractionId = "urman.fullgame:interaction/pw-forest-photographer";
+    private const string ForestReturnInteractionId = "urman.fullgame:interaction/pw-forest-return";
     private const string FamilyBookHandoffInteractionId = "urman.fullgame:interaction/pw-book-handoff";
     private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
     private const string BankSceneId = "urman.fullgame:scene/pw-bank-approach";
@@ -266,11 +267,15 @@ public partial class Act1DemoRoot
                 out waypoint, out label, out inspectionTarget);
         }
 
-        if (mission.InteractionId != ForestBeyondFrameInteractionId
+        if (mission.InteractionId is not (ForestBeyondFrameInteractionId or ForestReturnInteractionId)
             || bridge.ActiveSceneId != ForestSceneId
             || _main.GetNodeOrNull<W01Controller>("ZoneHost/W01") is not { } forest
             || !GodotObject.IsInstanceValid(forest) || !forest.IsInsideTree() || forest.IsQueuedForDeletion())
             return false;
+
+        if (mission.InteractionId == ForestReturnInteractionId)
+            return forest.TryGetForestExitObjectiveTarget(bridge.PhotoWorldPresentationIdentity, playerPosition,
+                out waypoint, out label);
 
         return forest.TryGetRootPassageObjectiveTarget(bridge.PhotoWorldPresentationIdentity, playerPosition,
             out waypoint, out label, out inspectionTarget);

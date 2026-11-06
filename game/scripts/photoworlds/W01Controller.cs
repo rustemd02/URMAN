@@ -515,6 +515,38 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _forestExitDispatching = false;
     }
 
+    internal bool TryGetForestExitObjectiveTarget(object? session, Vector3 playerPosition,
+        out Vector3 point, out string label)
+    {
+        point = default;
+        label = string.Empty;
+        if (session is null || _bridge is not { } bridge || !IsValidCurrentBridge(bridge)
+            || !ReferenceEquals(session, bridge.SessionIdentity) || bridge.ActiveSceneId != ForestSceneId
+            || _forestExitFrame is not { } exit || !GodotObject.IsInstanceValid(exit))
+            return false;
+
+        // F15 is the bend of the walkable snow track, not on the straight chord to F16.
+        var feet = ToLocal(playerPosition);
+        var horizontal = new Vector2(feet.X, feet.Z);
+        var hollow = ForestExitRouteNodes[1];
+        var intoHollow = (hollow - ForestExitRouteNodes[0]).Normalized();
+        var atExit = exit.ToLocal(playerPosition);
+        if (atExit.Z < -3f && (horizontal - hollow).Dot(intoHollow) < -.55f)
+        {
+            point = ToGlobal(new Vector3(hollow.X, ForestGroundHeight(hollow.X, hollow.Y), hollow.Y));
+            label = "Тропа через ложбину";
+            return true;
+        }
+
+        // First approach the trigger from the trail. Only after the exit
+        // tracker observes that side does the marker go beyond the plane.
+        var crossing = ReferenceEquals(session, _forestExitSessionIdentity) && _forestExitPreviousPlaneSide < 0
+            && IsInsideRootPassageLinkVolume(atExit);
+        point = exit.ToGlobal(new Vector3(0f, 0f, crossing ? .65f : -.65f));
+        label = crossing ? "Пройдите в просвет" : "Подойдите к просвету";
+        return true;
+    }
+
     private void TryExitForestAtF16()
     {
         if (_forestExitFrame is not { } exitFrame || !GodotObject.IsInstanceValid(exitFrame)
@@ -549,9 +581,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         }
 
         var local = exitFrame.GlobalTransform.AffineInverse() * player.GlobalTransform;
-        if (Math.Abs(local.Origin.X) > RootPassageCenterHalfWidth
-            || Math.Abs(local.Origin.Y) > RootPassageGroundTolerance
-            || Math.Abs(local.Origin.Z) > RootPassagePlaneHalfDepth)
+        if (!IsInsideRootPassageLinkVolume(local.Origin))
         {
             _forestExitPreviousPlaneSide = 0;
             return;
@@ -626,8 +656,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         var f12Local = f12.GlobalTransform.AffineInverse() * player.GlobalTransform;
         var f13Local = f13.GlobalTransform.AffineInverse() * player.GlobalTransform;
-        if (_rootLinkCooldownPortal == 0 && IsInsideRootPassageLinkVolume(f12Local)) return;
-        if (_rootLinkCooldownPortal == 1 && IsInsideRootPassageLinkVolume(f13Local)) return;
+        if (_rootLinkCooldownPortal == 0 && IsInsideRootPassageLinkVolume(f12Local.Origin)) return;
+        if (_rootLinkCooldownPortal == 1 && IsInsideRootPassageLinkVolume(f13Local.Origin)) return;
         if (_rootLinkCooldownPortal >= 0)
         {
             _rootLinkCooldownPortal = -1;
@@ -636,12 +666,12 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         var portal = -1;
         var localTransform = Transform3D.Identity;
-        if (IsInsideRootPassageLinkVolume(f12Local))
+        if (IsInsideRootPassageLinkVolume(f12Local.Origin))
         {
             portal = 0;
             localTransform = f12Local;
         }
-        else if (IsInsideRootPassageLinkVolume(f13Local))
+        else if (IsInsideRootPassageLinkVolume(f13Local.Origin))
         {
             portal = 1;
             localTransform = f13Local;
@@ -705,13 +735,10 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         return 0;
     }
 
-    private static bool IsInsideRootPassageLinkVolume(Transform3D localTransform)
-    {
-        var point = localTransform.Origin;
-        return Math.Abs(point.X) <= RootPassageCenterHalfWidth
+    private static bool IsInsideRootPassageLinkVolume(Vector3 point) =>
+        Math.Abs(point.X) <= RootPassageCenterHalfWidth
             && Math.Abs(point.Y) <= RootPassageGroundTolerance
             && Math.Abs(point.Z) <= RootPassagePlaneHalfDepth;
-    }
 
     private void BuildForest()
     {
