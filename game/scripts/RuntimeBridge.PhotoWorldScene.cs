@@ -60,7 +60,7 @@ public partial class RuntimeBridge
         {
             "W01" when reachedNode == "F10" => "F11",
             "W02" => "R01",
-            "W03" => "H05",
+            "W03" when reachedNode == "H00" => "H05",
             "W04" when reachedNode != "C05" => "C03",
             "W05" when reachedNode == "B00" => "B01",
             _ => null

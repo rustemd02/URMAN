@@ -77,6 +77,11 @@ rotation_degrees = Vector3(0, 40, 0)
 [node name="H06" type="Marker3D" parent="Anchors"]
 position = Vector3(30, 0.2, 53)
 
+; On the level path in front of the window, clear of its wall and roof.
+[node name="H06_APPROACH" type="Marker3D" parent="Anchors"]
+position = Vector3(30, 0.2, 50.5)
+rotation_degrees = Vector3(0, 180, 0)
+
 [node name="H07" type="Marker3D" parent="Anchors"]
 position = Vector3(12, 0, 72)
 rotation_degrees = Vector3(0, 45, 0)
