@@ -61,6 +61,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private const string BranchBlockingRestAnimationName = "rest_blocking";
     private const string BranchMovedRestAnimationName = "rest_moved";
     private const double ForestObservationPollSeconds = 0.2;
+    private const float ForestStandingLaneHalfWidth = 1.05f;
     private const float RootPassageCenterHalfWidth = 0.72f;
     private const float RootPassageGroundTolerance = 0.32f;
     private const float RootPassagePlaneHalfDepth = 1.15f;
@@ -541,7 +542,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         // First approach the trigger from the trail. Only after the exit
         // tracker observes that side does the marker go beyond the plane.
         var crossing = ReferenceEquals(session, _forestExitSessionIdentity) && _forestExitPreviousPlaneSide < 0
-            && IsInsideRootPassageLinkVolume(atExit);
+            && IsInsideCrossingVolume(atExit, ForestStandingLaneHalfWidth);
         point = exit.ToGlobal(new Vector3(0f, 0f, crossing ? .65f : -.65f));
         label = crossing ? "Пройдите в просвет" : "Подойдите к просвету";
         return true;
@@ -573,7 +574,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             return;
         }
 
-        if (MainMenuUi.AnyUndismissed(GetTree()) || player.ModalOpen || player.VehicleControlled
+        if (MainMenuUi.AnyUndismissed(GetTree()) || player.ModalOpen || player.SessionTransitionActive || player.VehicleControlled
             || player.IsClimbingLadder || !player.IsOnFloor())
         {
             _forestExitPreviousPlaneSide = 0;
@@ -581,7 +582,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         }
 
         var local = exitFrame.GlobalTransform.AffineInverse() * player.GlobalTransform;
-        if (!IsInsideRootPassageLinkVolume(local.Origin))
+        if (!IsInsideCrossingVolume(local.Origin, ForestStandingLaneHalfWidth))
         {
             _forestExitPreviousPlaneSide = 0;
             return;
@@ -660,8 +661,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         var f12Local = f12.GlobalTransform.AffineInverse() * player.GlobalTransform;
         var f13Local = f13.GlobalTransform.AffineInverse() * player.GlobalTransform;
-        if (_rootLinkCooldownPortal == 0 && IsInsideRootPassageLinkVolume(f12Local.Origin)) return;
-        if (_rootLinkCooldownPortal == 1 && IsInsideRootPassageLinkVolume(f13Local.Origin)) return;
+        if (_rootLinkCooldownPortal == 0 && IsInsideCrossingVolume(f12Local.Origin)) return;
+        if (_rootLinkCooldownPortal == 1 && IsInsideCrossingVolume(f13Local.Origin)) return;
         if (_rootLinkCooldownPortal >= 0)
         {
             _rootLinkCooldownPortal = -1;
@@ -670,12 +671,12 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         var portal = -1;
         var localTransform = Transform3D.Identity;
-        if (IsInsideRootPassageLinkVolume(f12Local.Origin))
+        if (IsInsideCrossingVolume(f12Local.Origin))
         {
             portal = 0;
             localTransform = f12Local;
         }
-        else if (IsInsideRootPassageLinkVolume(f13Local.Origin))
+        else if (IsInsideCrossingVolume(f13Local.Origin))
         {
             portal = 1;
             localTransform = f13Local;
@@ -739,8 +740,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         return 0;
     }
 
-    private static bool IsInsideRootPassageLinkVolume(Vector3 point) =>
-        Math.Abs(point.X) <= RootPassageCenterHalfWidth
+    private static bool IsInsideCrossingVolume(Vector3 point, float halfWidth = RootPassageCenterHalfWidth) =>
+        Math.Abs(point.X) <= halfWidth
             && Math.Abs(point.Y) <= RootPassageGroundTolerance
             && Math.Abs(point.Z) <= RootPassagePlaneHalfDepth;
 
@@ -863,7 +864,6 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         const float minimumPineHeight = 9f;
         const float minimumClusterPineHeight = 12f;
-        const float standingLaneHalfWidth = 1.05f;
         var pineStandingFootprintRadius = MeasurePineStandingFootprintRadius(
             pineMesh, pineSourceBounds, minimumPineHeight, 2f);
         var clusteredPineStandingFootprintRadius = Mathf.Max(
@@ -942,7 +942,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                 pine.SetMeta("forestLayer", layer);
 
                 var standingFootprintRadius = pineStandingFootprintRadius * horizontalScale;
-                if (RouteDistance(position) < standingFootprintRadius + standingLaneHalfWidth)
+                if (RouteDistance(position) < standingFootprintRadius + ForestStandingLaneHalfWidth)
                     throw new InvalidOperationException($"W01 pine violates the 2.1 m route clearance: {position}.");
 
                 _forestVisual.AddChild(pine);
@@ -1087,7 +1087,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                         var horizontalScale = heightScale * Mathf.Lerp(0.72f, 0.98f,
                             UnitHash(keyColumn, keyRow, 0x94D049BBu));
                         var standingFootprintRadius = clusteredPineStandingFootprintRadius * horizontalScale;
-                        if (RouteDistance(position) < standingFootprintRadius + standingLaneHalfWidth)
+                        if (RouteDistance(position) < standingFootprintRadius + ForestStandingLaneHalfWidth)
                             continue;
 
                         var groundY = ForestGroundHeight(position.X, position.Y)
@@ -1159,7 +1159,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             if (position.X < groundBounds.Position.X || position.X > groundBounds.End.X
                 || position.Y < groundBounds.Position.Z || position.Y > groundBounds.End.Z
                 || position.DistanceSquaredTo(f15) > f15CompositionRadius * f15CompositionRadius
-                || ForestExitRouteDistance(position) < radius + standingLaneHalfWidth
+                || ForestExitRouteDistance(position) < radius + ForestStandingLaneHalfWidth
                 || position.DistanceTo(f15) < radius + 1.2f
                 || NearExistingTree(position, radius + minimumExistingPineSpacing)
                 || f15Replacements.Values.Any(other => F15RootsOverlap(position, radius, other))
@@ -1183,7 +1183,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         {
             var candidate = selectedClusterCandidates[index];
             var radius = F15RootRadius(candidate.Transform);
-            if (ForestExitRouteDistance(candidate.Position) < radius + standingLaneHalfWidth
+            if (ForestExitRouteDistance(candidate.Position) < radius + ForestStandingLaneHalfWidth
                 || candidate.Position.DistanceTo(f15) < radius + 1.2f
                 || f15Replacements.Values.Any(other => F15RootsOverlap(candidate.Position, radius, other)))
                 f15Removed.Add(index);
@@ -1295,7 +1295,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                     || (composition.OpeningRadius > 0f && position.DistanceTo(composition.Center)
                         < composition.OpeningRadius + compositionCanopyRadius * horizontalScale)
                     || (protectPhoto && TouchesPhotoSightline(position, compositionStandingRadius * horizontalScale))
-                    || RouteDistance(position) < compositionStandingRadius * horizontalScale + standingLaneHalfWidth
+                    || RouteDistance(position) < compositionStandingRadius * horizontalScale + ForestStandingLaneHalfWidth
                     || NearExistingTree(position, radius + minimumExistingPineSpacing)
                     || replacements.Values.Any(other => CompositionRootsOverlap(position, radius, other))
                     || selectedClusterCandidates.Where((_, index) => !localSet.Contains(index))
@@ -1322,7 +1322,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                 if ((composition.OpeningRadius > 0f && candidate.Position.DistanceTo(composition.Center)
                         < composition.OpeningRadius + canopyRadius)
                     || (!protectPhoto && RouteDistance(candidate.Position)
-                        < compositionStandingRadius * candidate.Transform.Basis.X.Length() + standingLaneHalfWidth)
+                        < compositionStandingRadius * candidate.Transform.Basis.X.Length() + ForestStandingLaneHalfWidth)
                     || replacements.Values.Any(other => CompositionRootsOverlap(candidate.Position, radius, other)))
                     removed.Add(index);
             }

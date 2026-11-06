@@ -125931,6 +125931,11 @@
         "verification": "Independent source integration review clean; final affected Game compile15.34s0warnings/errors, all changed sources older than compiled DLL, diffcheckPASS. No new tests or native run.",
         "remaining": "Ordinary native F16 crossing and restore/scene transitions with current source; full W01 route/art/human gates."
       },
+      "f16_track_width_2026_11_06": {
+        "finding": "Выход F16 использовал поперечник корневого прохода 1,44 м, хотя подход F15→F16 имеет видимую и защищённую от деревьев полосу 2,10 м. Пересечение на смещении ±0,95 м лежит в этой полосе, но прежняя проверка его пропускала.",
+        "result": "Маркер и пересечение F16 используют общую с полосой ширину. Срабатывание ждёт шаг наружу на опоре после завершения квеста и не начинает переход во время загрузки.",
+        "verification": "Сборка Mac 17,85 с, 0 предупреждений и ошибок. Геометрия F15→F16 и поворот плоскости 38,9909° сверены по исходникам; проверены смещения ±0,95 м в пределах тропы. В обычном защищённом проходе проверить выход рядом с краем тропы и появление домашней задачи на опушке."
+      },
       "passage_observation_2026_10_18": {
         "result": "DELIVERED_SOURCE: swept physical F12→F13 arms observation only; leaving exit-plane plus all3 actual F13 trunk shapes framed/clear awards existing forest_beyond_frame_seen. Reverse crossing disarms. Grounded/current-camera/exactbridge/session/modal/generation guards; failed same-pose retry suppressed. Entry cue plus existing path hint explain look-back. Traversal retains transformed momentum/view/stance while resetting old step/foot/focus history.",
         "sources": [
