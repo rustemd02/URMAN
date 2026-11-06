@@ -69,7 +69,7 @@ public static class PhotoWorldState
     /// <summary>Authored checkpoint IDs only; the caller must verify the actual physical pose and support.</summary>
     public static bool IsVisitSafeNode(string worldId, string safeNodeId) => worldId switch
     {
-        "W01" => safeNodeId is "F10" or "F11",
+        "W01" => safeNodeId is "F10" or "F11" or "F13_OUT" or "F14_REST",
         "W02" => safeNodeId is "R00" or "R01",
         "W03" => safeNodeId is "H00" or "H05",
         "W04" => safeNodeId is "C00" or "C03" or "C05",
@@ -151,11 +151,20 @@ public static class PhotoWorldState
             return false;
         }
         safeNodeId = reachedNode;
-        if (worldId is not ("W04" or "W05")) return true;
+        if (worldId is not ("W01" or "W04" or "W05")) return true;
         // Confirmed actions are tied to authored places even if the player
         // did not stop on the separate checkpoint marker.
         var world = World(state);
-        if (worldId == "W04")
+        if (worldId == "W01")
+        {
+            if (HasFact(world, "forest_encounter_resolved") || HasFact(world, "forest_shurale_instructions_heard"))
+                safeNodeId = "F14_REST";
+            else if (reachedNode != "F14_REST" && HasFact(world, "forest_beyond_frame_seen"))
+                safeNodeId = "F13_OUT";
+            else if (reachedNode == "F10" && HasFact(world, "forest_camera_back_seen"))
+                safeNodeId = "F11";
+        }
+        else if (worldId == "W04")
         {
             if (HasFact(world, "common_horizon_seen")) safeNodeId = "C05";
             else if (reachedNode == "C00" && HasFact(world, "common_three_relations_seen")) safeNodeId = "C03";

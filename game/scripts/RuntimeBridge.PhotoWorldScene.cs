@@ -58,7 +58,7 @@ public partial class RuntimeBridge
         var reachedNode = visit.GetProperty("safeNodeId").GetString();
         var safeNodeId = worldId switch
         {
-            "W01" => "F11",
+            "W01" when reachedNode == "F10" => "F11",
             "W02" => "R01",
             "W03" => "H05",
             "W04" when reachedNode != "C05" => "C03",

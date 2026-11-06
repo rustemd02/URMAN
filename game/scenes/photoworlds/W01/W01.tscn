@@ -83,6 +83,11 @@ rotation_degrees = Vector3(0, 27.853843, 0)
 position = Vector3(95, 3.555555556, 120)
 rotation_degrees = Vector3(0, 27.853843, 0)
 
+; Four metres past the transformed WalkExit on the trail to F14, on the terrain collision mesh.
+[node name="F13_OUT" type="Marker3D" parent="Anchors"]
+position = Vector3(104.579553, 3.743913, 128.476097)
+rotation_degrees = Vector3(0, -159.18971, 0)
+
 ; Passport X/Z retained; Y=4 is sampled from the continuous terrain (passport Y=7 is design-local).
 [node name="F14" type="Marker3D" parent="Anchors"]
 position = Vector3(112, 4, 148)
@@ -100,6 +105,11 @@ position = Vector3(2.45, 0, 0.46)
 [node name="ShuraleRoot" type="Marker3D" parent="Anchors/F14"]
 position = Vector3(2.9, 0, 0.15)
 rotation_degrees = Vector3(0, 90, 0)
+
+; On the flat trail, 45 cm to the left of the encounter frame and clear of the old root.
+[node name="F14_REST" type="Marker3D" parent="Anchors"]
+position = Vector3(111.61543, 4, 148.23368)
+rotation_degrees = Vector3(0, -95, 0)
 
 ; F15/F16 retain passport X/Z and use the continuous F00–F03 terrain fit (Y=4).
 [node name="F15" type="Marker3D" parent="Anchors"]
