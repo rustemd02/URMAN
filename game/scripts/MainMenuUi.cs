@@ -21,6 +21,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     private Label? _subtitle;
     private Label? _continueHint;
     private ColorRect? _screen;
+    private PolaroidWall? _polaroids;
     private MarginContainer? _column;
     private PanelContainer? _panel;
     private Button? _newGameButton;
@@ -275,7 +276,12 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         // ACT1-UI.2: colour, type and plates come from the shared theme; the
         // accessibility pass swaps it for high contrast and scales the text.
         if (_screen is not null) AccessibilityPresentation.ApplyToControl(_screen, settings);
-        if (_screen is not null) _screen.Color = UrmanUiTheme.Colours(settings).Shade with { A = settings.HighContrast ? .72f : .30f };
+        if (_screen is not null) _screen.Color = UrmanUiTheme.Colours(settings).Shade with { A = settings.HighContrast ? .72f : .12f };
+        if (_polaroids is not null) _polaroids.ReducedMotion = settings.ReducedMotion;
+        // The menu is words over the art; high contrast keeps its reading plate.
+        _panel?.AddThemeStyleboxOverride("panel", settings.HighContrast
+            ? UrmanUiTheme.For(true).GetStylebox("panel", UrmanUiTheme.Plate)
+            : new StyleBoxEmpty { ContentMarginLeft = 72, ContentMarginTop = 24, ContentMarginBottom = 24 });
         if (_panel is not null)
         {
             _panel.SetMeta("accessibilityTextScale", settings.TextScale);
@@ -310,6 +316,33 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         };
         AddChild(screen);
         _screen = screen;
+
+        // «Проявка»: the menu reads off a soft darkness on the left instead of a
+        // plate; polaroids from the photo book develop over the art on the right.
+        var leftShade = new Gradient();
+        leftShade.SetColor(0, new Color(.024f, .027f, .035f, .93f));
+        leftShade.SetColor(1, new Color(.024f, .027f, .035f, 0f));
+        leftShade.SetOffset(0, .22f);
+        leftShade.SetOffset(1, .6f);
+        screen.AddChild(new TextureRect
+        {
+            Name = "MenuShade",
+            Texture = new GradientTexture2D { Gradient = leftShade, Width = 512, Height = 4, FillTo = new Vector2(1, 0) },
+            AnchorRight = 1f,
+            AnchorBottom = 1f,
+            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            StretchMode = TextureRect.StretchModeEnum.Scale,
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        });
+        _polaroids = new PolaroidWall
+        {
+            Name = "MenuPolaroids",
+            AnchorRight = 1f,
+            AnchorBottom = 1f,
+            ReducedMotion = _accessibility.ReducedMotion,
+            PrintWidth = 250f
+        };
+        screen.AddChild(_polaroids);
 
         _column = new MarginContainer
         {
@@ -363,7 +396,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _subtitle = new Label
         {
             Name = "Subtitle",
-            Text = IsPhotoWorldsCampaign ? "ЗА КРАЕМ СНИМКА" : "АКТ I · ВОЗВРАЩЕНИЕ В КАРА-УРМАН",
+            Text = IsPhotoWorldsCampaign ? "за краем снимка" : "акт I · возвращение в Кара-Урман",
             ThemeTypeVariation = UrmanUiTheme.Tag,
             SizeFlagsHorizontal = Control.SizeFlags.ShrinkBegin
         };

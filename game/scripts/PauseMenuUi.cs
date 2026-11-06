@@ -110,7 +110,24 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
             _panel.SetMeta("accessibilityTextScale", settings.TextScale);
             _panel.SetMeta("accessibilityHighContrast", settings.HighContrast);
             _panel.SetMeta("accessibilityReducedMotion", settings.ReducedMotion);
+            // «Проявка»: menu words over the dimmed world; high contrast keeps the plate.
+            _panel.AddThemeStyleboxOverride("panel", settings.HighContrast
+                ? UrmanUiTheme.For(true).GetStylebox("panel", UrmanUiTheme.Plate)
+                : new StyleBoxEmpty { ContentMarginLeft = 96, ContentMarginTop = 24, ContentMarginBottom = 24 });
         }
+        if (_page is not null) _page.Visible = !settings.HighContrast;
+    }
+
+    private PanelContainer? _page;
+    private Label? _pageGoal;
+
+    // A page from Aidar's notebook beside the menu: what he is doing now, in his hand.
+    private void RefreshNotebookPage()
+    {
+        if (_pageGoal is null) return;
+        var goal = (GetTree().GetFirstNodeInGroup("journal_ui") as JournalUi)?.CurrentObjectiveText;
+        var first = string.IsNullOrWhiteSpace(goal) ? null : goal.Split('\n', StringSplitOptions.RemoveEmptyEntries)[0].Trim();
+        _pageGoal.Text = first ?? "Пока ничего не записано.";
     }
 
     public override void _UnhandledInput(InputEvent inputEvent)
@@ -173,6 +190,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         Input.MouseMode = Input.MouseModeEnum.Visible;
         SetStatus(string.Empty);
         if (_panel is not null) UrmanUiTheme.PlayOpen(_panel, _reducedMotion);
+        RefreshNotebookPage();
         _resumeButton?.GrabFocus();
         GD.Print($"pause-menu: opened reason={reason} frame={LastTransitionFrame} focused={DisplayServer.WindowIsFocused()} mouseMode={Input.MouseMode}");
     }
@@ -205,23 +223,62 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         AddChild(screen);
         _screen = screen;
 
-        var center = new CenterContainer
+        var center = new HBoxContainer
         {
             Name = "Center",
             AnchorRight = 1f,
             AnchorBottom = 1f,
             GrowHorizontal = Control.GrowDirection.Both,
-            GrowVertical = Control.GrowDirection.Both
+            GrowVertical = Control.GrowDirection.Both,
+            Alignment = BoxContainer.AlignmentMode.Center
         };
+        center.AddThemeConstantOverride("separation", 64);
         screen.AddChild(center);
 
         _panel = new PanelContainer
         {
             Name = "PausePanel",
             ThemeTypeVariation = UrmanUiTheme.Plate,
-            CustomMinimumSize = new Vector2(560, 0)
+            CustomMinimumSize = new Vector2(520, 0),
+            SizeFlagsVertical = Control.SizeFlags.ShrinkCenter,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
         };
         center.AddChild(_panel);
+
+        _page = new PanelContainer
+        {
+            Name = "NotebookPage",
+            CustomMinimumSize = new Vector2(420, 380),
+            SizeFlagsVertical = Control.SizeFlags.ShrinkCenter,
+            RotationDegrees = 1.2f,
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        };
+        var paper = UrmanUiTheme.PaperBox(44, 36);
+        paper.ContentMarginLeft = 56;
+        paper.ShadowSize = 26;
+        paper.ShadowColor = new Color(0, 0, 0, .55f);
+        _page.AddThemeStyleboxOverride("panel", paper);
+        center.AddChild(_page);
+        center.AddChild(new Control { CustomMinimumSize = new Vector2(48, 0) });
+        var pageStack = new VBoxContainer { MouseFilter = Control.MouseFilterEnum.Ignore };
+        pageStack.AddThemeConstantOverride("separation", 10);
+        _page.AddChild(pageStack);
+        var now = new Label { Text = "Сейчас", MouseFilter = Control.MouseFilterEnum.Ignore };
+        now.AddThemeColorOverride("font_color", new Color("86786a"));
+        now.AddThemeColorOverride("font_shadow_color", Colors.Transparent);
+        pageStack.AddChild(now);
+        _pageGoal = new Label
+        {
+            Name = "NotebookGoal",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            CustomMinimumSize = new Vector2(320, 0),
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        };
+        _pageGoal.AddThemeFontOverride("font", UrmanUiTheme.HandBoldFont);
+        _pageGoal.AddThemeFontSizeOverride("font_size", 34);
+        _pageGoal.AddThemeColorOverride("font_color", UrmanUiTheme.PaperInk);
+        _pageGoal.AddThemeColorOverride("font_shadow_color", Colors.Transparent);
+        pageStack.AddChild(_pageGoal);
 
         var margin = new MarginContainer { Name = "Margin" };
         _panel.AddChild(margin);
@@ -237,7 +294,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _title = new Label
         {
             Name = "Title",
-            Text = "ПАУЗА",
+            Text = "Пауза",
             ThemeTypeVariation = UrmanUiTheme.Heading,
             HorizontalAlignment = HorizontalAlignment.Left
         };

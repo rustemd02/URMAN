@@ -135,29 +135,32 @@ public partial class LoadingScreenUi : CanvasLayer, IAccessibilitySettingsTarget
 
         AccessibilityPresentation.ApplyToControl(_panel, settings);
         var palette = UrmanUiTheme.Colours(settings);
-        var plate = new StyleBoxFlat
-        {
-            BgColor = palette.InkRaised,
-            BorderColor = palette.Line,
-            BorderWidthLeft = settings.HighContrast ? 2 : 1,
-            BorderWidthTop = settings.HighContrast ? 2 : 1,
-            BorderWidthRight = settings.HighContrast ? 2 : 1,
-            BorderWidthBottom = settings.HighContrast ? 2 : 1,
-            CornerRadiusTopLeft = 5,
-            CornerRadiusTopRight = 5,
-            CornerRadiusBottomLeft = 5,
-            CornerRadiusBottomRight = 5,
-            ContentMarginLeft = 32,
-            ContentMarginTop = 28,
-            ContentMarginRight = 32,
-            ContentMarginBottom = 28
-        };
-        _panel.AddThemeStyleboxOverride("panel", plate);
+        // «Проявка»: no card. High contrast keeps a solid reading plate.
+        _panel.AddThemeStyleboxOverride("panel", settings.HighContrast
+            ? UrmanUiTheme.For(true).GetStylebox("panel", "PanelContainer")
+            : new StyleBoxEmpty());
         _title.ThemeTypeVariation = UrmanUiTheme.Heading;
         _title.AddThemeColorOverride("font_color", palette.Text);
         _detail.AddThemeColorOverride("font_color", palette.TextMuted);
         _resourceProgress.AddThemeColorOverride("font_color", palette.TextMuted);
+        _loadingWord.AddThemeColorOverride("font_color", palette.Text);
         _spinner.SetPresentation(palette.Accent, palette.Line, settings.ReducedMotion);
+        if (_polaroids is not null) _polaroids.ReducedMotion = settings.ReducedMotion;
+    }
+
+    private Label _loadingWord = null!;
+    private PolaroidWall? _polaroids;
+    private double _dotsElapsed;
+    private int _dots;
+
+    public override void _Process(double delta)
+    {
+        if (_hidden || _accessibility.ReducedMotion || !GodotObject.IsInstanceValid(_loadingWord)) return;
+        _dotsElapsed += delta;
+        if (_dotsElapsed < .5) return;
+        _dotsElapsed = 0;
+        _dots = (_dots + 1) % 4;
+        _loadingWord.Text = "Загрузка" + new string('.', _dots);
     }
 
     private void BuildScreen()
@@ -167,59 +170,58 @@ public partial class LoadingScreenUi : CanvasLayer, IAccessibilitySettingsTarget
         AddChild(_screen);
 
         var palette = UrmanUiTheme.Colours(_accessibility);
-        var shade = new ColorRect { Color = palette.Ink, MouseFilter = Control.MouseFilterEnum.Ignore };
+        var shade = new ColorRect { Color = new Color(.024f, .025f, .03f), MouseFilter = Control.MouseFilterEnum.Ignore };
         shade.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
         _screen.AddChild(shade);
 
-        var center = new CenterContainer { MouseFilter = Control.MouseFilterEnum.Ignore };
-        center.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
-        _screen.AddChild(center);
+        // A print develops in the middle of the dark while the place is prepared.
+        // Now and then something stands in it that should not be there.
+        _polaroids = new PolaroidWall
+        {
+            Name = "LoadingPolaroids",
+            Slots = new[] { new Vector3(.5f, .42f, -3f), new Vector3(.52f, .43f, 4f) },
+            PrintWidth = 330f,
+            MaxVisible = 2,
+            Interval = 5.2,
+            FigureEvery = 2,
+            ReducedMotion = _accessibility.ReducedMotion,
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        };
+        _polaroids.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        _screen.AddChild(_polaroids);
+
+        var bottom = new MarginContainer { MouseFilter = Control.MouseFilterEnum.Ignore };
+        bottom.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        bottom.AddThemeConstantOverride("margin_left", 80);
+        bottom.AddThemeConstantOverride("margin_right", 80);
+        bottom.AddThemeConstantOverride("margin_bottom", 56);
+        _screen.AddChild(bottom);
 
         _panel = new PanelContainer
         {
-            CustomMinimumSize = new Vector2(420, 246),
-            SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter,
-            SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            SizeFlagsVertical = Control.SizeFlags.ShrinkEnd,
+            MouseFilter = Control.MouseFilterEnum.Ignore
         };
-        center.AddChild(_panel);
+        bottom.AddChild(_panel);
 
-        var margins = new MarginContainer();
-        margins.AddThemeConstantOverride("margin_left", 36);
-        margins.AddThemeConstantOverride("margin_top", 28);
-        margins.AddThemeConstantOverride("margin_right", 36);
-        margins.AddThemeConstantOverride("margin_bottom", 28);
-        _panel.AddChild(margins);
+        var row = new HBoxContainer { Theme = UrmanUiTheme.For(_accessibility), MouseFilter = Control.MouseFilterEnum.Ignore };
+        row.AddThemeConstantOverride("separation", 32);
+        _panel.AddChild(row);
 
         var content = new VBoxContainer
         {
-            Alignment = BoxContainer.AlignmentMode.Center,
-            Theme = UrmanUiTheme.For(_accessibility)
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            SizeFlagsVertical = Control.SizeFlags.ShrinkEnd
         };
-        content.AddThemeConstantOverride("separation", 12);
-        margins.AddChild(content);
+        content.AddThemeConstantOverride("separation", 4);
+        row.AddChild(content);
 
-        var brand = new Label
-        {
-            Text = "УРМАН · КАРА-УРМАН",
-            HorizontalAlignment = HorizontalAlignment.Center,
-            ThemeTypeVariation = UrmanUiTheme.Tag
-        };
-        brand.AddThemeColorOverride("font_color", palette.Accent);
-        brand.AddThemeFontSizeOverride("font_size", UrmanUiTheme.Size.Small);
-        content.AddChild(brand);
-
-        _spinner = new LoadingSpinner
-        {
-            CustomMinimumSize = new Vector2(64, 64),
-            SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter,
-            MouseFilter = Control.MouseFilterEnum.Ignore
-        };
-        content.AddChild(_spinner);
+        _spinner = new LoadingSpinner { Visible = false };
 
         _title = new Label
         {
             Text = _titleText,
-            HorizontalAlignment = HorizontalAlignment.Center,
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             ThemeTypeVariation = UrmanUiTheme.Heading
         };
@@ -228,14 +230,12 @@ public partial class LoadingScreenUi : CanvasLayer, IAccessibilitySettingsTarget
         _detail = new Label
         {
             Text = _detailText,
-            HorizontalAlignment = HorizontalAlignment.Center,
             AutowrapMode = TextServer.AutowrapMode.WordSmart
         };
         content.AddChild(_detail);
         _resourceProgress = new Label
         {
             Name = "ResourceProgress",
-            HorizontalAlignment = HorizontalAlignment.Center,
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             Visible = false
         };
@@ -248,11 +248,22 @@ public partial class LoadingScreenUi : CanvasLayer, IAccessibilitySettingsTarget
                 Name = "CancelTransition",
                 Text = "Отменить переход",
                 FocusMode = Control.FocusModeEnum.All,
-                MouseFilter = Control.MouseFilterEnum.Stop
+                MouseFilter = Control.MouseFilterEnum.Stop,
+                SizeFlagsHorizontal = Control.SizeFlags.ShrinkBegin
             };
             _cancelButton.Pressed += CancelOnce;
             content.AddChild(_cancelButton);
         }
+
+        _loadingWord = new Label
+        {
+            Name = "LoadingWord",
+            Text = "Загрузка",
+            CustomMinimumSize = new Vector2(190, 0),
+            SizeFlagsVertical = Control.SizeFlags.ShrinkEnd,
+            ThemeTypeVariation = UrmanUiTheme.Heading
+        };
+        row.AddChild(_loadingWord);
         ApplyAccessibilitySettings(_accessibility);
     }
 

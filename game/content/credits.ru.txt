@@ -133,3 +133,6 @@ AardsReal — Pouring Water Short Free, 842163 (короткий плеск, к�
 Салон «Нивы» · 2026-10-05
 Тёплый гул салона (отопитель и кузовной фон) — оригинальный синтезированный сигнал, созданный кодом УРМАНА; внешние записи не используются.
 Слой снега на лобовом стекле, движущиеся щётки и переключение дальнего света — оригинальная процедурная геометрия и шейдер, созданные для УРМАНА.
+
+Шрифты интерфейса «Проявка» · 2026-11-06
+Cormorant Garamond — Christian Thalmann (Catharsis Fonts); Caveat — Impallari Type. SIL Open Font License 1.1, тексты лицензий: assets/fonts/OFL-CormorantGaramond.txt, assets/fonts/OFL-Caveat.txt.

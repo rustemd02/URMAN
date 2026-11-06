@@ -219,8 +219,24 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 marginX: UsesPhotoWorldsCampaign ? UrmanUiTheme.Space.S : UrmanUiTheme.Space.L,
                 marginY: UsesPhotoWorldsCampaign ? UrmanUiTheme.Space.Xs : UrmanUiTheme.Space.M);
             plate.BorderWidthLeft = settings.HighContrast ? 6 : 4;
+            if (!settings.HighContrast)
+            {
+                // «Проявка»: no plate or accent spine — a soft darkening behind the words.
+                plate = new StyleBoxFlat
+                {
+                    BgColor = new Color(0, 0, 0, .26f),
+                    ShadowColor = new Color(0, 0, 0, .3f),
+                    ShadowSize = 28,
+                    ContentMarginLeft = UrmanUiTheme.Space.M,
+                    ContentMarginRight = UrmanUiTheme.Space.M,
+                    ContentMarginTop = UrmanUiTheme.Space.S,
+                    ContentMarginBottom = UrmanUiTheme.Space.S
+                };
+                plate.SetCornerRadiusAll(8);
+            }
             _routeCuePanel.AddThemeStyleboxOverride("panel", plate);
         }
+        ApplyProyavkaMission(settings, colours);
         foreach (var (label, size) in new[]
         {
             (_routeCueHeader, UrmanUiTheme.Size.Small),
@@ -595,7 +611,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         {
             _lastRouteCueMissionId = null;
             _newMissionHeaderSeconds = 0;
-            if (_routeCueHeader is not null) _routeCueHeader.Text = "ТЕКУЩАЯ ЗАДАЧА";
+            if (_routeCueHeader is not null) _routeCueHeader.Text = "сейчас";
         }
         if (!_orderlyShutdownRequested) RecordM10Timing(boundary, force: true);
     }
@@ -1681,6 +1697,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     {
         if (!_photoWorldReplay) return;
         _photoWorldReplay = false;
+        // A replayed nightmare ends on the menu rather than in the Niva.
+        PrologueDreamCut.Release(fadeSeconds: .6);
         BuildMainMenu();
         RefreshGameplayAudioPauseState();
     }
@@ -1952,7 +1970,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         var stack = new VBoxContainer { MouseFilter = Control.MouseFilterEnum.Ignore };
         stack.AddThemeConstantOverride("separation", UrmanUiTheme.Space.S);
         _routeCuePanel.AddChild(stack);
-        _routeCueHeader = AddRouteCueLabel(stack, "MissionHeader", "ТЕКУЩАЯ ЗАДАЧА", UrmanUiTheme.Hint);
+        _routeCueHeader = AddRouteCueLabel(stack, "MissionHeader", "сейчас", UrmanUiTheme.Hint);
         _routeCueTitle = AddRouteCueLabel(stack, "MissionTitle", "",
             UsesPhotoWorldsCampaign ? UrmanUiTheme.Subtitle : UrmanUiTheme.Heading);
         _routeCue = AddRouteCueLabel(stack, "RoutePrompt", "", UrmanUiTheme.Subtitle);
@@ -1961,6 +1979,39 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _routeCueShortcuts = AddRouteCueLabel(stack, "MissionControls", "", UrmanUiTheme.Hint);
         _routeCueHeader.Visible = _routeCueTitle.Visible = _routeCueShortcuts.Visible = UsesPhotoWorldsCampaign;
         ApplyAccessibilitySettings(_player?.Accessibility ?? AccessibilitySettingsSnapshot.Default);
+    }
+
+    // The current task as in the «Проявка» concept: a heading in Cormorant with a
+    // grease-pencil underline, and Aidar's own note under it in his hand.
+    private void ApplyProyavkaMission(AccessibilitySettingsSnapshot settings, UrmanUiTheme.Palette colours)
+    {
+        if (!UsesPhotoWorldsCampaign) return;
+        var plain = settings.HighContrast;
+        if (_routeCueHeader is { } header && GodotObject.IsInstanceValid(header))
+        {
+            if (plain) header.RemoveThemeFontOverride("font");
+            else header.AddThemeFontOverride("font", UrmanUiTheme.HandFont);
+        }
+        if (_routeCueTitle is { } title && GodotObject.IsInstanceValid(title))
+        {
+            if (plain)
+            {
+                title.RemoveThemeFontOverride("font");
+                title.RemoveThemeStyleboxOverride("normal");
+            }
+            else
+            {
+                title.AddThemeFontOverride("font", UrmanUiTheme.TitleFont);
+                title.AddThemeStyleboxOverride("normal", PencilMarkStyleBox.Create(
+                    PencilMarkStyleBox.MarkKind.Underline, colours.Accent, 0, UrmanUiTheme.Space.S));
+                title.SizeFlagsHorizontal = Control.SizeFlags.ShrinkBegin;
+            }
+        }
+        if (_routeCueDestination is { } destination && GodotObject.IsInstanceValid(destination))
+        {
+            if (plain) destination.RemoveThemeFontOverride("font");
+            else destination.AddThemeFontOverride("font", UrmanUiTheme.HandFont);
+        }
     }
 
     private void FitMissionHeight()
@@ -2033,8 +2084,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             if (campaignFinished) _newMissionHeaderSeconds = 0;
             if (_routeCueHeader is not null)
             {
-                _routeCueHeader.Text = campaignFinished ? "АКТ I ЗАВЕРШЁН"
-                    : _newMissionHeaderSeconds > 0 ? "НОВАЯ ЗАДАЧА" : "ТЕКУЩАЯ ЗАДАЧА";
+                _routeCueHeader.Text = campaignFinished ? "акт I завершён"
+                    : _newMissionHeaderSeconds > 0 ? "новая задача" : "сейчас";
                 _routeCueHeader.Visible = campaignFinished || _newMissionHeaderSeconds > 0;
             }
         }

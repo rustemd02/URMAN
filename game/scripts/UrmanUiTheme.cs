@@ -41,21 +41,27 @@ public static class UrmanUiTheme
         Color Accent, Color AccentDeep, Color Focus,
         Color Hypothesis, Color Confirmed, Color Disabled, Color Shade);
 
+    // «Проявка» (author review 2026-11-06): darkroom ink, photo paper, and one
+    // marking colour — the grease pencil. No glowing accent dot.
     public static readonly Palette Normal = new(
-        Ink: new Color("0e1413f5"),
-        InkRaised: new Color("1a2421"),
-        InkSunken: new Color("080c0bf8"),
-        Line: new Color("5d6a63"),
-        Text: new Color("eee7d8"),
-        TextMuted: new Color("aaa596"),
-        TextOnAccent: new Color("fff8ec"),
-        Accent: new Color("c42b32"),
-        AccentDeep: new Color("6e161b"),
-        Focus: new Color("f2e9d6"),
-        Hypothesis: new Color("e2a93f"),
-        Confirmed: new Color("9fd0b4"),
-        Disabled: new Color("eee7d866"),
-        Shade: new Color("050807c8"));
+        Ink: new Color("0c0c0ed6"),
+        InkRaised: new Color("17171a"),
+        InkSunken: new Color("08080af0"),
+        Line: new Color("ece4d324"),
+        Text: new Color("ece5d6"),
+        TextMuted: new Color("a59e90"),
+        TextOnAccent: new Color("f3ede1"),
+        Accent: new Color("c8462c"),
+        AccentDeep: new Color("7a2a1b"),
+        Focus: new Color("f3ede1"),
+        Hypothesis: new Color("d9a24a"),
+        Confirmed: new Color("a9cdb5"),
+        Disabled: new Color("ece5d64d"),
+        Shade: new Color("07080ac2"));
+
+    /// <summary>Photo paper and pencil ink for tags, the speaker label and tooltips.</summary>
+    public static readonly Color Paper = new("e6dcc6");
+    public static readonly Color PaperInk = new("3b322a");
 
     public static readonly Palette HighContrast = new(
         Ink: new Color("000000"),
@@ -119,6 +125,27 @@ public static class UrmanUiTheme
     public static Font ItalicFont => _italic ??= LoadFont("PT_Sans-Web-Italic.ttf");
     public static Font DisplayFont => _display ??= LoadFont("PT_Sans-Narrow-Web-Bold.ttf");
     public static Font DisplayRegularFont => _displayRegular ??= LoadFont("PT_Sans-Narrow-Web-Regular.ttf");
+
+    private static Font? _title, _titleRegular, _hand, _handBold;
+
+    /// <summary>Cormorant Garamond: menus, titles, headings (voices of the game).</summary>
+    public static Font TitleFont => _title ??= Variable("CormorantGaramond-Variable.ttf", 600, DisplayFont);
+    public static Font TitleRegularFont => _titleRegular ??= Variable("CormorantGaramond-Variable.ttf", 500, DisplayRegularFont);
+    /// <summary>Caveat: what Aidar writes himself — notes, captions, the speaker's paper label.</summary>
+    public static Font HandFont => _hand ??= Variable("Caveat-Variable.ttf", 600, ItalicFont);
+    public static Font HandBoldFont => _handBold ??= Variable("Caveat-Variable.ttf", 700, ItalicFont);
+
+    // Variable OFL fonts; until the editor import has run they fall back to PT Sans.
+    private static Font Variable(string file, int weight, Font fallback)
+    {
+        var path = $"{FontDirectory}/{file}";
+        if (!ResourceLoader.Exists(path) || ResourceLoader.Load<FontFile>(path) is not { } font) return fallback;
+        var tag = TextServerManager.GetPrimaryInterface().NameToTag("wght");
+        var variation = new FontVariation { BaseFont = font };
+        variation.VariationOpentype = new global::Godot.Collections.Dictionary { { tag, weight } };
+        variation.Fallbacks = new global::Godot.Collections.Array<Font> { fallback };
+        return variation;
+    }
 
     public static Theme For(AccessibilitySettingsSnapshot settings) => For(settings.HighContrast);
 
@@ -236,47 +263,63 @@ public static class UrmanUiTheme
         theme.SetFont("italics_font", "RichTextLabel", ItalicFont);
         theme.SetConstant("line_separation", "RichTextLabel", 4);
 
-        // Label variations.
+        // Label variations. «Проявка»: titles in Cormorant, notes and labels in
+        // Aidar's hand on photo paper; high contrast keeps the plain plates.
         Variation(theme, Title, "Label");
-        theme.SetFont("font", Title, DisplayFont);
-        theme.SetFontSize("font_size", Title, Size.Title);
+        theme.SetFont("font", Title, highContrast ? DisplayFont : TitleFont);
+        theme.SetFontSize("font_size", Title, highContrast ? Size.Title : Size.Title + 12);
         theme.SetColor("font_color", Title, c.Text);
         theme.SetColor("font_outline_color", Title, c.AccentDeep);
-        theme.SetConstant("outline_size", Title, highContrast ? 0 : 6);
+        theme.SetConstant("outline_size", Title, 0);
 
         Variation(theme, Heading, "Label");
-        theme.SetFont("font", Heading, DisplayFont);
-        theme.SetFontSize("font_size", Heading, Size.Heading);
+        theme.SetFont("font", Heading, highContrast ? DisplayFont : TitleFont);
+        theme.SetFontSize("font_size", Heading, highContrast ? Size.Heading : Size.Heading + 4);
         theme.SetColor("font_color", Heading, c.Text);
 
         Variation(theme, Speaker, "Label");
-        theme.SetFont("font", Speaker, DisplayFont);
-        theme.SetFontSize("font_size", Speaker, Size.Speaker);
-        theme.SetColor("font_color", Speaker, c.TextOnAccent);
-        theme.SetStylebox("normal", Speaker, PlateBox(c.Accent, skew: PlateSkew,
-            shadow: c.Ink, shadowOffset: 4, marginX: Space.M, marginY: Space.Xs));
+        if (highContrast)
+        {
+            theme.SetFont("font", Speaker, DisplayFont);
+            theme.SetFontSize("font_size", Speaker, Size.Speaker);
+            theme.SetColor("font_color", Speaker, c.TextOnAccent);
+            theme.SetStylebox("normal", Speaker, PlateBox(c.Accent, marginX: Space.M, marginY: Space.Xs));
+        }
+        else
+        {
+            // The speaker's name on a strip of photo paper, written by hand.
+            theme.SetFont("font", Speaker, HandBoldFont);
+            theme.SetFontSize("font_size", Speaker, Size.Speaker + 6);
+            theme.SetColor("font_color", Speaker, PaperInk);
+            theme.SetColor("font_shadow_color", Speaker, Colors.Transparent);
+            theme.SetStylebox("normal", Speaker, PaperBox(marginX: Space.M + 2, marginY: 0));
+        }
 
         Variation(theme, Hint, "Label");
         theme.SetFontSize("font_size", Hint, Size.Small);
         theme.SetColor("font_color", Hint, c.TextMuted);
 
         Variation(theme, Tag, "Label");
-        theme.SetFont("font", Tag, DisplayFont);
-        theme.SetFontSize("font_size", Tag, Size.Small);
-        theme.SetColor("font_color", Tag, c.Ink);
-        theme.SetStylebox("normal", Tag, PlateBox(c.Text, skew: PlateSkew, marginX: Space.S, marginY: 1));
+        theme.SetFont("font", Tag, highContrast ? DisplayFont : HandBoldFont);
+        theme.SetFontSize("font_size", Tag, highContrast ? Size.Small : Size.Small + 5);
+        theme.SetColor("font_color", Tag, highContrast ? c.Ink : PaperInk);
+        theme.SetColor("font_shadow_color", Tag, Colors.Transparent);
+        theme.SetStylebox("normal", Tag, highContrast ? PlateBox(c.Text, marginX: Space.S, marginY: 1) : PaperBox(Space.S, 0));
 
+        // Hypotheses and confirmations are pencil notes, told apart by ink colour.
         Variation(theme, StatusHypothesis, "Label");
-        theme.SetFont("font", StatusHypothesis, DisplayFont);
-        theme.SetFontSize("font_size", StatusHypothesis, Size.Small);
-        theme.SetColor("font_color", StatusHypothesis, c.Ink);
-        theme.SetStylebox("normal", StatusHypothesis, PlateBox(c.Hypothesis, skew: PlateSkew, marginX: Space.S, marginY: 1));
+        theme.SetFont("font", StatusHypothesis, highContrast ? DisplayFont : HandBoldFont);
+        theme.SetFontSize("font_size", StatusHypothesis, highContrast ? Size.Small : Size.Small + 6);
+        theme.SetColor("font_color", StatusHypothesis, highContrast ? c.Ink : c.Hypothesis);
+        theme.SetStylebox("normal", StatusHypothesis, highContrast
+            ? PlateBox(c.Hypothesis, marginX: Space.S, marginY: 1) : new StyleBoxEmpty());
 
         Variation(theme, StatusConfirmed, "Label");
-        theme.SetFont("font", StatusConfirmed, DisplayFont);
-        theme.SetFontSize("font_size", StatusConfirmed, Size.Small);
-        theme.SetColor("font_color", StatusConfirmed, c.Ink);
-        theme.SetStylebox("normal", StatusConfirmed, PlateBox(c.Confirmed, skew: PlateSkew, marginX: Space.S, marginY: 1));
+        theme.SetFont("font", StatusConfirmed, highContrast ? DisplayFont : HandBoldFont);
+        theme.SetFontSize("font_size", StatusConfirmed, highContrast ? Size.Small : Size.Small + 6);
+        theme.SetColor("font_color", StatusConfirmed, highContrast ? c.Ink : c.Confirmed);
+        theme.SetStylebox("normal", StatusConfirmed, highContrast
+            ? PlateBox(c.Confirmed, marginX: Space.S, marginY: 1) : new StyleBoxEmpty());
 
         // Subtitles: calm ink band over the world, no skew and no accent, so a
         // caption never reads as a menu or a choice.
@@ -290,36 +333,52 @@ public static class UrmanUiTheme
         theme.SetStylebox("panel", SubtitlePanel, PlateBox(c.Shade, highContrast ? c.Line : default,
             highContrast ? 2 : 0, marginX: Space.L, marginY: Space.M));
 
-        // Panels: a sheet is a full reading surface; a plate is a smaller card.
-        theme.SetStylebox("panel", "PanelContainer", PlateBox(c.Ink, c.Line, 1, marginX: Space.L, marginY: Space.L));
-        theme.SetStylebox("panel", "Panel", PlateBox(c.Ink, c.Line, 1));
+        // Panels: one quiet darkroom panel everywhere — translucent ink, a hairline
+        // edge, no skew, no accent spine, no cut-paper shadow.
+        theme.SetStylebox("panel", "PanelContainer", PanelBox(c, highContrast, Space.L, Space.L));
+        theme.SetStylebox("panel", "Panel", PanelBox(c, highContrast, Space.M, Space.S));
         Variation(theme, Sheet, "PanelContainer");
-        theme.SetStylebox("panel", Sheet, SheetBox(c, highContrast));
+        theme.SetStylebox("panel", Sheet, highContrast ? SheetBox(c, highContrast) : PanelBox(c, false, Space.Xl, Space.L));
         Variation(theme, Plate, "PanelContainer");
-        theme.SetStylebox("panel", Plate, PlateBox(c.Ink, c.Line, highContrast ? 2 : 0, skew: PlateSkew,
-            shadow: c.Accent, shadowOffset: 8, marginX: Space.Xl, marginY: Space.L));
+        theme.SetStylebox("panel", Plate, PanelBox(c, highContrast, Space.Xl, Space.L));
 
-        // Buttons.
-        ButtonStyles(theme, "Button", c, highContrast, skew: 0f, font: BodyBoldFont, size: Size.Button);
-        Variation(theme, MenuButton, "Button");
-        ButtonStyles(theme, MenuButton, c, highContrast, skew: PlateSkew, font: DisplayFont, size: 26);
-        Variation(theme, ChoiceButton, "Button");
-        ButtonStyles(theme, ChoiceButton, c, highContrast, skew: 0f, font: BodyFont, size: Size.Button);
+        // Buttons. High contrast keeps solid plates; the normal palette draws words
+        // that gain a pencil underline on hover/focus and a ring when pressed.
+        if (highContrast)
+        {
+            ButtonStyles(theme, "Button", c, true, skew: 0f, font: BodyBoldFont, size: Size.Button);
+            Variation(theme, MenuButton, "Button");
+            ButtonStyles(theme, MenuButton, c, true, skew: 0f, font: DisplayFont, size: 26);
+            Variation(theme, ChoiceButton, "Button");
+            ButtonStyles(theme, ChoiceButton, c, true, skew: 0f, font: BodyFont, size: Size.Button);
+            Variation(theme, QuietButton, "Button");
+            ButtonStyles(theme, QuietButton, c, true, skew: 0f, font: BodyFont, size: Size.Small);
+        }
+        else
+        {
+            PencilButtonStyles(theme, "Button", c, BodyFont, Size.Button, framed: true);
+            Variation(theme, MenuButton, "Button");
+            PencilButtonStyles(theme, MenuButton, c, TitleRegularFont, 32, framed: false);
+            Variation(theme, ChoiceButton, "Button");
+            PencilButtonStyles(theme, ChoiceButton, c, BodyFont, Size.Button, framed: false);
+            Variation(theme, QuietButton, "Button");
+            PencilButtonStyles(theme, QuietButton, c, BodyFont, Size.Small, framed: false);
+        }
         theme.SetConstant("h_separation", ChoiceButton, Space.S);
-        Variation(theme, QuietButton, "Button");
-        ButtonStyles(theme, QuietButton, c, highContrast, skew: 0f, font: BodyFont, size: Size.Small);
-        theme.SetStylebox("normal", QuietButton, PlateBox(Colors.Transparent, c.Line, 1, marginX: Space.S, marginY: Space.Xs));
 
         foreach (var type in new[] { "OptionButton", "CheckBox", "CheckButton", "MenuButton" })
         {
-            ButtonStyles(theme, type, c, highContrast, skew: 0f, font: BodyFont, size: Size.Body);
+            if (highContrast) ButtonStyles(theme, type, c, true, skew: 0f, font: BodyFont, size: Size.Body);
+            else PencilButtonStyles(theme, type, c, BodyFont, Size.Body, framed: type == "OptionButton");
         }
 
         // Lists, tabs and editors.
         theme.SetStylebox("panel", "ItemList", PlateBox(c.InkSunken, c.Line, 1, marginX: Space.S, marginY: Space.S));
         theme.SetStylebox("focus", "ItemList", Outline(c.Focus, focusWidth));
-        theme.SetStylebox("selected", "ItemList", PlateBox(c.AccentDeep, marginX: Space.S, marginY: Space.Xs));
-        theme.SetStylebox("selected_focus", "ItemList", PlateBox(c.Accent, marginX: Space.S, marginY: Space.Xs));
+        theme.SetStylebox("selected", "ItemList", highContrast ? PlateBox(c.AccentDeep, marginX: Space.S, marginY: Space.Xs)
+            : PencilMarkStyleBox.Create(PencilMarkStyleBox.MarkKind.Underline, c.Accent with { A = .6f }, Space.S, Space.Xs, new Color(1, 1, 1, .04f)));
+        theme.SetStylebox("selected_focus", "ItemList", highContrast ? PlateBox(c.Accent, marginX: Space.S, marginY: Space.Xs)
+            : PencilMarkStyleBox.Create(PencilMarkStyleBox.MarkKind.Underline, c.Accent, Space.S, Space.Xs, new Color(1, 1, 1, .06f)));
         theme.SetStylebox("cursor", "ItemList", Outline(c.Focus, 1));
         theme.SetStylebox("cursor_unfocused", "ItemList", Outline(c.Line, 1));
         theme.SetColor("font_color", "ItemList", c.TextMuted);
@@ -328,14 +387,22 @@ public static class UrmanUiTheme
         theme.SetConstant("line_separation", "ItemList", Space.S);
         theme.SetConstant("v_separation", "ItemList", Space.Xs);
 
-        theme.SetFont("font", "TabBar", DisplayFont);
-        theme.SetFontSize("font_size", "TabBar", Size.Body);
+        theme.SetFont("font", "TabBar", highContrast ? DisplayFont : TitleFont);
+        theme.SetFontSize("font_size", "TabBar", highContrast ? Size.Body : Size.Body + 6);
         theme.SetColor("font_selected_color", "TabBar", c.TextOnAccent);
         theme.SetColor("font_unselected_color", "TabBar", c.TextMuted);
         theme.SetColor("font_hovered_color", "TabBar", c.Text);
-        theme.SetStylebox("tab_selected", "TabBar", PlateBox(c.Accent, skew: PlateSkew, marginX: Space.M, marginY: Space.Xs));
-        theme.SetStylebox("tab_unselected", "TabBar", PlateBox(Colors.Transparent, marginX: Space.M, marginY: Space.Xs));
-        theme.SetStylebox("tab_hovered", "TabBar", PlateBox(c.InkRaised, skew: PlateSkew, marginX: Space.M, marginY: Space.Xs));
+        if (highContrast)
+        {
+            theme.SetStylebox("tab_selected", "TabBar", PlateBox(c.Accent, marginX: Space.M, marginY: Space.Xs));
+            theme.SetStylebox("tab_hovered", "TabBar", PlateBox(c.InkRaised, marginX: Space.M, marginY: Space.Xs));
+        }
+        else
+        {
+            theme.SetStylebox("tab_selected", "TabBar", PencilMarkStyleBox.Create(PencilMarkStyleBox.MarkKind.Underline, c.Accent, Space.M, Space.Xs + 2));
+            theme.SetStylebox("tab_hovered", "TabBar", PencilMarkStyleBox.Create(PencilMarkStyleBox.MarkKind.None, c.Accent, Space.M, Space.Xs + 2));
+        }
+        theme.SetStylebox("tab_unselected", "TabBar", PlateBox(Colors.Transparent, marginX: Space.M, marginY: Space.Xs + 2));
         theme.SetStylebox("tab_focus", "TabBar", Outline(c.Focus, focusWidth));
         theme.SetConstant("h_separation", "TabBar", Space.S);
 
@@ -351,7 +418,8 @@ public static class UrmanUiTheme
         }
 
         theme.SetStylebox("panel", "PopupMenu", PlateBox(c.Ink, c.Line, 1, marginX: Space.S, marginY: Space.S));
-        theme.SetStylebox("hover", "PopupMenu", PlateBox(c.Accent, marginX: Space.S, marginY: Space.Xs));
+        theme.SetStylebox("hover", "PopupMenu", highContrast ? PlateBox(c.Accent, marginX: Space.S, marginY: Space.Xs)
+            : PencilMarkStyleBox.Create(PencilMarkStyleBox.MarkKind.Underline, c.Accent, Space.S, Space.Xs, new Color(1, 1, 1, .05f)));
         theme.SetColor("font_color", "PopupMenu", c.Text);
         theme.SetColor("font_hover_color", "PopupMenu", c.TextOnAccent);
 
@@ -363,14 +431,69 @@ public static class UrmanUiTheme
             theme.SetStylebox("grabber_pressed", type, PlateBox(c.Accent, marginX: 3, marginY: 3));
         }
 
-        theme.SetStylebox("slider", "HSlider", PlateBox(c.InkSunken, c.Line, 1, marginX: 2, marginY: 3));
-        theme.SetStylebox("grabber_area", "HSlider", PlateBox(c.Accent, marginX: 2, marginY: 3));
-        theme.SetStylebox("grabber_area_highlight", "HSlider", PlateBox(c.Accent, marginX: 2, marginY: 3));
-        theme.SetStylebox("focus", "HSlider", Outline(c.Focus, focusWidth));
+        // A thin pencil line with a paper-coloured filled part (the author liked these).
+        var track = PlateBox(highContrast ? c.InkSunken : new Color("3a3631"), highContrast ? c.Line : default,
+            highContrast ? 1 : 0, marginX: 0, marginY: highContrast ? 3 : 1);
+        track.SetCornerRadiusAll(2);
+        theme.SetStylebox("slider", "HSlider", track);
+        var filled = PlateBox(highContrast ? c.Accent : c.Text, marginX: 0, marginY: highContrast ? 3 : 1);
+        filled.SetCornerRadiusAll(2);
+        theme.SetStylebox("grabber_area", "HSlider", filled);
+        theme.SetStylebox("grabber_area_highlight", "HSlider", filled);
+        theme.SetStylebox("focus", "HSlider", highContrast ? Outline(c.Focus, focusWidth)
+            : PencilMarkStyleBox.Create(PencilMarkStyleBox.MarkKind.Underline, c.Accent, 0, Space.S));
 
-        theme.SetColor("font_color", "TooltipLabel", c.Text);
-        theme.SetStylebox("panel", "TooltipPanel", PlateBox(c.Ink, c.Line, 1, marginX: Space.S, marginY: Space.Xs));
+        // Tooltips are a scrap of photo paper.
+        theme.SetColor("font_color", "TooltipLabel", highContrast ? c.Text : PaperInk);
+        theme.SetStylebox("panel", "TooltipPanel", highContrast
+            ? PlateBox(c.Ink, c.Line, 1, marginX: Space.S, marginY: Space.Xs)
+            : PaperBox(Space.M, Space.S));
         return theme;
+    }
+
+    /// <summary>The single panel of the interface: translucent ink, hairline edge, soft corners.</summary>
+    private static StyleBoxFlat PanelBox(Palette c, bool highContrast, int marginX, int marginY)
+    {
+        if (highContrast) return PlateBox(c.Ink, c.Line, 2, marginX: marginX, marginY: marginY);
+        var box = PlateBox(c.Ink, c.Line, 1, marginX: marginX, marginY: marginY);
+        box.SetCornerRadiusAll(3);
+        box.ShadowColor = new Color(0, 0, 0, .45f);
+        box.ShadowSize = 24;
+        return box;
+    }
+
+    /// <summary>A strip of photo paper: speaker names, tags, tooltips.</summary>
+    public static StyleBoxFlat PaperBox(int marginX, int marginY)
+    {
+        var box = PlateBox(Paper, marginX: marginX, marginY: marginY);
+        box.ShadowColor = new Color(0, 0, 0, .35f);
+        box.ShadowSize = 6;
+        box.ShadowOffset = new Vector2(0, 3);
+        return box;
+    }
+
+    private static void PencilButtonStyles(Theme theme, string type, Palette c, Font font, int size, bool framed)
+    {
+        var marginX = framed ? Space.M + 2 : Space.S;
+        var marginY = framed ? Space.S : Space.Xs + 2;
+        var frame = framed ? c.Line : Colors.Transparent;
+        var fill = framed ? new Color(0, 0, 0, .18f) : Colors.Transparent;
+        theme.SetFont("font", type, font);
+        theme.SetFontSize("font_size", type, size);
+        theme.SetColor("font_color", type, framed ? c.Text : c.TextMuted);
+        foreach (var state in new[] { "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color" })
+            theme.SetColor(state, type, c.TextOnAccent);
+        theme.SetColor("font_disabled_color", type, c.Disabled);
+        theme.SetConstant("outline_size", type, 0);
+        StyleBox Box(PencilMarkStyleBox.MarkKind mark) =>
+            PencilMarkStyleBox.Create(mark, c.Accent, marginX, marginY, fill, frame);
+        theme.SetStylebox("normal", type, Box(PencilMarkStyleBox.MarkKind.None));
+        theme.SetStylebox("hover", type, Box(PencilMarkStyleBox.MarkKind.Underline));
+        theme.SetStylebox("focus", type, PencilMarkStyleBox.Create(PencilMarkStyleBox.MarkKind.Underline, c.Accent, marginX, marginY));
+        theme.SetStylebox("pressed", type, Box(PencilMarkStyleBox.MarkKind.Ring));
+        theme.SetStylebox("hover_pressed", type, Box(PencilMarkStyleBox.MarkKind.Ring));
+        theme.SetStylebox("disabled", type, PencilMarkStyleBox.Create(PencilMarkStyleBox.MarkKind.None, c.Accent, marginX, marginY,
+            Colors.Transparent, framed ? c.Line with { A = c.Line.A * .5f } : Colors.Transparent));
     }
 
     /// <summary>

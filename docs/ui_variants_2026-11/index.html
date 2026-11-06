@@ -1,0 +1,396 @@
+<meta charset="utf-8">
+<title>УРМАН — Проявка</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=PT+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* v2 after the author's review: photographs where they earn it (menu, loading, book),
+   no glowing dot, no wide-tracked tiny caps. Selection is a grease-pencil mark.
+   Type: Cormorant for titles and menus, PT Sans (already in the game) for reading, Caveat for Aidar's hand. */
+:root{
+  --ink:#07080a; --panel:rgba(12,12,14,.84); --paper:#ece4d3; --text:#e9e3d6; --muted:#9a9384;
+  --grease:#c8462c; --tape:rgba(226,208,160,.82);
+  --title:'Cormorant Garamond',Georgia,serif; --read:'PT Sans',system-ui,sans-serif; --hand:'Caveat','Comic Sans MS',cursive;
+  color-scheme:dark;
+}
+html,body{background:var(--ink);color:var(--text)}
+body{font-family:var(--read);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 80px}
+.wrap{max-width:1180px;margin:0 auto}
+.hero{padding-block:56px 20px;display:grid;gap:14px}
+.hero h1{font-family:var(--title);font-weight:600;font-size:clamp(46px,8vw,96px);line-height:.95;margin:0;letter-spacing:.06em}
+.hero h1 span{font-family:var(--hand);font-weight:600;letter-spacing:0;color:var(--grease);font-size:.42em;margin-left:14px;vertical-align:middle}
+.hero p{margin:0;max-width:64ch;line-height:1.6;color:#cdc6b7;font-size:17px}
+.changes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px 28px;margin-top:10px;padding:0;list-style:none}
+.changes li{font-size:15px;line-height:1.5;color:#bdb6a7;padding-left:22px;position:relative;min-width:0}
+.changes li::before{content:"";position:absolute;left:0;top:.62em;width:12px;height:2px;background:var(--grease);transform:rotate(-8deg);border-radius:2px}
+nav.jump{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(7,8,10,.92);backdrop-filter:blur(8px);display:flex;gap:4px 20px;flex-wrap:wrap;padding-block:12px;border-bottom:1px solid #1d1c1a;margin-top:20px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+nav.jump a{font-family:var(--title);font-size:19px;font-weight:500;color:#a8a191;text-decoration:none}
+nav.jump a:hover,nav.jump a:focus-visible{color:var(--text);outline:none;text-decoration:underline;text-decoration-color:var(--grease);text-underline-offset:4px}
+section.s{margin-top:72px;scroll-margin-top:70px}
+.sh{display:grid;gap:6px;margin-bottom:16px}
+.sh h2{font-family:var(--title);font-weight:600;font-size:clamp(28px,3.4vw,38px);margin:0;line-height:1}
+.sh p{margin:0;max-width:72ch;font-size:15px;line-height:1.6;color:#b7b0a1}
+.frame{position:relative;aspect-ratio:16/9;overflow:hidden;background:#000;max-width:100%;box-shadow:0 26px 70px rgba(0,0,0,.6)}
+
+/* ---------- stage (1280x720, scaled) ---------- */
+.stage{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0;overflow:hidden;font-family:var(--read);color:var(--text);background:var(--ink)}
+.stage::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:var(--grain);background-size:180px;opacity:.12;mix-blend-mode:overlay;z-index:40}
+.ph{position:absolute;inset:0;background-size:cover;background-position:center}
+.vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 95% at 50% 46%,transparent 45%,rgba(0,0,0,.72) 100%);z-index:3}
+
+/* polaroid */
+.pol{position:absolute;width:250px;background:#efe8da;padding:12px 12px 46px;box-shadow:0 18px 40px rgba(0,0,0,.6),0 2px 0 rgba(0,0,0,.2);transition:transform 1.2s cubic-bezier(.2,.7,.2,1),opacity .9s}
+.pol .img{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;background:#1a1712}
+.pol .img .ph{filter:brightness(2.2) contrast(.25) saturate(0) blur(4px)}
+.pol.dev .img .ph{animation:develop 4.2s cubic-bezier(.3,.5,.2,1) forwards}
+.pol .cap{position:absolute;left:14px;right:12px;bottom:8px;font-family:var(--hand);font-weight:600;font-size:24px;color:#4b4137;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pol .tape{position:absolute;top:-12px;left:50%;width:92px;height:26px;background:var(--tape);transform:translateX(-50%) rotate(-3deg);box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.pol.out{opacity:0;transform:translateY(30px) rotate(10deg) scale(.96)!important}
+@keyframes develop{0%{filter:brightness(2.2) contrast(.25) saturate(0) blur(4px)}55%{filter:brightness(1.2) contrast(.8) saturate(.3) blur(1px)}100%{filter:brightness(.95) contrast(1.04) saturate(.85) blur(0)}}
+/* the thing that should not be in the photograph */
+.who{position:absolute;width:9px;height:30px;bottom:34%;opacity:0;pointer-events:none}
+.who svg{width:100%;height:100%;display:block}
+.pol.dev .who{animation:who 4.2s ease forwards}
+@keyframes who{0%,30%{opacity:0}48%{opacity:.85}66%{opacity:.75}86%,100%{opacity:0}}
+
+/* grease-pencil marks */
+.mark{position:absolute;pointer-events:none;overflow:visible}
+.mark path{fill:none;stroke:var(--grease);stroke-linecap:round;stroke-linejoin:round}
+@keyframes draw{from{stroke-dashoffset:var(--len)}to{stroke-dashoffset:0}}
+.mark.draw path{stroke-dasharray:var(--len);animation:draw .45s ease-out both}
+
+/* ---------- 01 menu ---------- */
+.mm .ph.bgph{filter:brightness(.62) saturate(.82)}
+.mm .shade{position:absolute;inset:0;z-index:2;background:linear-gradient(90deg,rgba(6,7,9,.93) 0,rgba(6,7,9,.8) 28%,rgba(6,7,9,.2) 52%,rgba(6,7,9,.05) 100%)}
+.mm .left{position:absolute;z-index:5;left:96px;top:92px;bottom:70px;width:440px;display:flex;flex-direction:column}
+.mm .logo{font-family:var(--title);font-weight:600;font-size:104px;letter-spacing:.12em;line-height:1}
+.mm .tag{font-family:var(--hand);font-weight:600;font-size:30px;color:#c9bfab;margin:8px 0 0 6px;transform:rotate(-2deg);transform-origin:left}
+.mm .items{margin-top:auto;display:grid;gap:2px}
+.mm .it{position:relative;display:inline-flex;align-self:flex-start;font-family:var(--title);font-weight:500;font-size:31px;line-height:1.25;color:#a69f91;cursor:pointer;width:max-content;padding:2px 0}
+.mm .it.on{color:var(--text)}
+.mm .it .mark{left:-6px;bottom:-4px;width:calc(100% + 12px);height:14px;display:none}
+.mm .it.on .mark{display:block}
+.mm .it small{position:absolute;left:calc(100% + 18px);top:8px;font-family:var(--hand);font-weight:600;font-size:22px;color:#cfc5b1;white-space:nowrap;transform:rotate(-2deg);opacity:0;transition:opacity .4s}
+.mm .it.on small{opacity:1}
+.mm .foot{margin-top:26px;font-size:13px;color:#6e695f}
+.mm .wall{position:absolute;inset:0;z-index:4}
+
+/* ---------- 02 loading ---------- */
+.ld{background:radial-gradient(70% 70% at 50% 48%,#17140f,#060607 72%)}
+.ld .wall{position:absolute;inset:0;z-index:4}
+.ld .pol{width:330px;padding:16px 16px 60px}
+.ld .pol .cap{font-size:30px;bottom:12px}
+.ld .bottom{position:absolute;z-index:6;left:90px;right:90px;bottom:58px;display:flex;justify-content:space-between;align-items:flex-end}
+.ld .quote{font-family:var(--hand);font-weight:600;font-size:30px;line-height:1.1;color:#cfc5b0;max-width:520px;transform:rotate(-1.5deg)}
+.ld .quote small{display:block;font-family:var(--read);font-size:14px;color:#7a7468;margin-top:8px;transform:rotate(1.5deg)}
+.ld .load{font-family:var(--title);font-weight:500;font-size:30px;color:#d9d2c4}
+.ld .load i{font-style:normal;display:inline-block;width:1.2em;text-align:left}
+
+/* ---------- 03 prologue ---------- */
+.pr .ph{filter:brightness(.3) saturate(.2) contrast(1.2);transform:scale(1.08)}
+.pr .tint{position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,24,40,.45),rgba(4,6,10,.75));mix-blend-mode:multiply;z-index:1}
+.pr .eyes{position:absolute;z-index:3;display:flex;gap:7px}
+.pr .eyes i{width:5px;height:4px;border-radius:50%;background:#f3c33c;box-shadow:0 0 8px 2px rgba(243,195,60,.55)}
+.pr .thought{position:absolute;z-index:5;left:0;right:0;bottom:116px;text-align:center;font-family:var(--title);font-style:italic;font-weight:500;font-size:34px;color:#ddd5c4;text-shadow:0 2px 16px #000}
+.pr .skip{position:absolute;z-index:5;right:56px;top:40px;font-size:14px;color:#6e6a62}
+.pr .skip b{font-weight:400;border:1px solid #47433c;border-radius:4px;padding:1px 6px;margin-right:8px}
+
+/* ---------- 04 HUD ---------- */
+.hud .ph{filter:brightness(.8) saturate(.88)}
+.hud .glow{position:absolute;left:0;top:0;width:600px;height:240px;background:radial-gradient(70% 70% at 14% 22%,rgba(0,0,0,.58),transparent 70%);z-index:2}
+.hud .obj{position:absolute;z-index:5;left:64px;top:46px}
+.hud .obj .v{position:relative;display:inline-block;font-family:var(--title);font-size:31px;font-weight:600;line-height:1.05;text-shadow:0 2px 12px rgba(0,0,0,.7)}
+.hud .obj .v .mark{left:-4px;bottom:-9px;width:calc(100% + 10px);height:12px}
+.hud .obj .w{font-family:var(--hand);font-weight:600;font-size:25px;color:#e0d6c1;transform:rotate(-1.5deg);transform-origin:left;margin-top:8px;text-shadow:0 2px 10px #000}
+.hud .prompt{position:absolute;z-index:5;left:50%;top:430px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;text-shadow:0 1px 10px rgba(0,0,0,.9)}
+.key{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(236,228,211,.85);display:grid;place-items:center;font-weight:700;font-size:15px;color:var(--paper);background:rgba(0,0,0,.3);flex:none}
+.hud .prompt span{font-size:19px}
+.hud .dot{position:absolute;z-index:5;left:50%;top:360px;width:4px;height:4px;border-radius:50%;background:rgba(236,228,211,.8);transform:translateX(-50%)}
+.hud .toast{position:absolute;z-index:6;right:64px;bottom:58px;display:flex;align-items:flex-end;gap:16px}
+.hud .toast .mini{width:120px;background:#efe8da;padding:6px 6px 20px;box-shadow:0 12px 30px rgba(0,0,0,.6);transform:rotate(4deg)}
+.hud .toast .mini .im{height:96px;background-size:cover;background-position:center}
+.hud .toast .w{font-family:var(--hand);font-weight:600;font-size:26px;line-height:1.05;color:#f0e7d6;max-width:260px;text-shadow:0 2px 10px #000;text-align:right}
+.hud .toast .w small{display:block;font-family:var(--read);font-size:14px;color:#c6bdab;margin-bottom:4px}
+
+/* ---------- 05 dialogue ---------- */
+.dl .ph{filter:brightness(.55) saturate(.8)}
+.dl .box{position:absolute;z-index:6;left:150px;right:150px;bottom:40px;background:var(--panel);border:1px solid rgba(236,228,211,.14);border-radius:3px;padding:34px 40px 26px;box-shadow:0 20px 50px rgba(0,0,0,.55)}
+.dl .name{position:absolute;left:30px;top:-22px;background:#e6dcc6;color:#3e342b;font-family:var(--hand);font-weight:700;font-size:28px;padding:2px 18px 4px;transform:rotate(-2deg);box-shadow:0 3px 8px rgba(0,0,0,.35)}
+.dl .name::before,.dl .name::after{content:"";position:absolute;top:-6px;width:30px;height:14px;background:var(--tape)}
+.dl .name::before{left:-12px;transform:rotate(-24deg)}.dl .name::after{right:-12px;transform:rotate(18deg)}
+.dl .line{font-size:23px;line-height:1.45;color:#f1ebdf}
+.dl .tr{font-size:17px;line-height:1.45;color:#a59e90;margin-top:6px}
+.dl .ch{margin-top:18px;padding-top:14px;border-top:1px solid rgba(236,228,211,.1);display:grid;gap:4px}
+.dl .ch div{position:relative;display:flex;gap:12px;font-size:19px;color:#9a9385;padding:5px 0}
+.dl .ch b{font-weight:400;color:#6f695f;width:18px}
+.dl .ch .on{color:var(--text)}
+.dl .ch .on b{color:var(--text)}
+.dl .ch .on span{position:relative}
+.dl .ch .on .mark{left:-4px;bottom:-7px;width:calc(100% + 8px);height:10px}
+.dl .more{position:absolute;right:22px;bottom:14px;font-size:13px;color:#6f695f}
+
+/* ---------- 06 pause ---------- */
+.ps .ph{filter:brightness(.32) saturate(.5) blur(6px);transform:scale(1.05)}
+.ps .menu{position:absolute;z-index:5;left:96px;top:110px;display:grid;gap:4px}
+.ps .menu h3{margin:0 0 26px;font-family:var(--title);font-weight:600;font-size:56px;line-height:1}
+.ps .it{position:relative;width:max-content;font-family:var(--title);font-weight:500;font-size:30px;color:#a49d8f;padding:2px 0}
+.ps .it.on{color:var(--text)}
+.ps .it .mark{left:-6px;bottom:-4px;width:calc(100% + 12px);height:14px}
+.ps .page{position:absolute;z-index:5;right:96px;top:84px;width:470px;height:552px;background:#e8dfcc;color:#3b322a;padding:42px 42px 30px 64px;box-shadow:0 24px 60px rgba(0,0,0,.6);transform:rotate(1.2deg);background-image:repeating-linear-gradient(0deg,transparent 0 37px,rgba(110,90,70,.13) 37px 38px)}
+.ps .page::before{content:"";position:absolute;left:44px;top:0;bottom:0;width:1px;background:rgba(200,70,44,.45)}
+.ps .page h4{margin:0 0 6px;font-family:var(--read);font-weight:400;font-size:14px;color:#86786a}
+.ps .page .goal{font-family:var(--hand);font-weight:700;font-size:34px;line-height:1.05;margin-bottom:24px}
+.ps .page ol{list-style:none;padding:0;margin:0;display:grid;gap:8px;font-family:var(--hand);font-weight:600;font-size:26px;line-height:1.1;color:#5b4f44}
+.ps .page .pol{width:170px;padding:8px 8px 30px;right:-34px;bottom:-26px;transform:rotate(6deg)}
+.ps .page .pol .img .ph{filter:saturate(.85)}
+.ps .page .pol .cap{font-size:19px;bottom:4px}
+
+/* ---------- 07 book ---------- */
+.book{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));background:#2b231b;padding:26px;gap:0;box-shadow:0 30px 70px rgba(0,0,0,.6)}
+@media (max-width:820px){.book{grid-template-columns:1fr}}
+.pg{background:#e9e0cc;color:#3b322a;padding:34px 34px 30px;min-height:420px;position:relative;min-width:0}
+.pg.l{box-shadow:inset -18px 0 24px -14px rgba(60,40,20,.35)}.pg.r{box-shadow:inset 18px 0 24px -14px rgba(60,40,20,.35);background-image:repeating-linear-gradient(0deg,transparent 0 35px,rgba(110,90,70,.12) 35px 36px)}
+.card{perspective:1600px;cursor:pointer;max-width:100%;margin:10px auto 0;width:92%}
+.card .inner{position:relative;aspect-ratio:3/2;transition:transform .9s cubic-bezier(.3,.6,.2,1);transform-style:preserve-3d;transform:rotate(-1.5deg)}
+.card.flip .inner{transform:rotateY(180deg) rotate(1.5deg)}
+.card .face{position:absolute;inset:0;backface-visibility:hidden;background:#f1eadb;box-shadow:0 12px 26px rgba(40,25,10,.35)}
+.card .front .ph{inset:4%;filter:saturate(.85)}
+.card .back{transform:rotateY(180deg);display:flex;align-items:center;justify-content:center;padding:8%}
+.card .back span{font-family:var(--hand);font-weight:600;font-size:clamp(26px,3.4vw,38px);color:#4a4036;transform:rotate(-2deg)}
+.card .t1,.card .t2{position:absolute;width:70px;height:22px;background:var(--tape);z-index:2}
+.card .t1{left:-18px;top:6px;transform:rotate(-38deg)}.card .t2{right:-18px;bottom:6px;transform:rotate(-38deg)}
+.card:focus-visible{outline:2px solid var(--grease);outline-offset:8px}
+.pg .hint{position:absolute;left:34px;bottom:22px;font-size:13px;color:#8a7c6c}
+.pg h3{margin:0 0 4px;font-family:var(--title);font-weight:600;font-size:36px}
+.pg h5{margin:0 0 18px;font-size:14px;font-weight:400;color:#8a7c6c}
+.pg ol{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.pg li{font-family:var(--hand);font-weight:600;font-size:27px;line-height:1.1;color:#5b4f44}
+.pg li.new{color:#2c241d;position:relative;width:max-content;max-width:100%}
+.pg li.new .mark{left:-6px;bottom:-6px;width:calc(100% + 12px);height:12px}
+
+/* ---------- 08 kit ---------- */
+.kit{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:#1c1b19;border:1px solid #1c1b19}
+.kc{background:#0c0c0d;padding:24px;display:grid;gap:16px;align-content:start;min-width:0}
+.kc>h4{margin:0;font-family:var(--title);font-weight:600;font-size:22px;color:#cfc8b9}
+.btn{position:relative;width:max-content;font-family:var(--title);font-weight:500;font-size:26px;color:#9d9688}
+.btn.hov{color:var(--text)}.btn.hov .mark{left:-5px;bottom:-5px;width:calc(100% + 10px);height:11px}
+.btn.press{color:var(--text)}.btn.press .mark{left:-14px;top:-8px;width:calc(100% + 28px);height:calc(100% + 16px)}
+.btn.off{color:#45423c}
+.kc .row{display:flex;gap:14px;align-items:center;font-size:17px;color:#d6cfc1;flex-wrap:wrap}
+.key.sq{border-radius:6px;width:auto;min-width:36px;padding:0 8px;font-size:13px}
+.slider{display:grid;gap:10px}
+.slider .row{justify-content:space-between}
+.track{position:relative;height:16px}
+.track::before{content:"";position:absolute;left:0;right:0;top:7px;height:2px;background:#3a3631;border-radius:2px}
+.track i{position:absolute;left:0;top:7px;height:2px;width:72%;background:var(--paper);border-radius:2px}
+.track b{position:absolute;left:72%;top:1px;width:14px;height:14px;border-radius:50%;background:var(--paper);transform:translateX(-50%);box-shadow:0 0 0 4px rgba(236,228,211,.12)}
+.seg{display:flex;gap:22px;flex-wrap:wrap;font-family:var(--hand);font-weight:600;font-size:26px;color:#77716a}
+.seg .on{color:var(--text);position:relative}
+.seg .on .mark{left:-14px;top:-8px;width:calc(100% + 28px);height:calc(100% + 16px)}
+.scrap{position:relative;background:#e6dcc6;color:#3b322a;padding:16px 18px 14px;transform:rotate(-1deg);box-shadow:0 8px 20px rgba(0,0,0,.45);max-width:320px}
+.scrap::before{content:"";position:absolute;top:-10px;left:22px;width:70px;height:20px;background:var(--tape);transform:rotate(-4deg)}
+.scrap b{display:block;font-family:var(--hand);font-weight:700;font-size:26px;margin-bottom:2px}
+.scrap span{font-size:15px;line-height:1.45}
+.foot{margin-top:64px;color:var(--muted);font-size:14px;line-height:1.6;max-width:72ch}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.pol .img .ph{filter:saturate(.85)!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="under" viewBox="0 0 200 14" preserveAspectRatio="none"><path fill="none" stroke="#c8462c" stroke-linecap="round" d="M3 9C40 5 90 4 140 6 165 7 185 8 197 5" stroke-width="3.2"/><path fill="none" stroke="#c8462c" stroke-linecap="round" d="M14 12C60 9 120 9 182 10" stroke-width="1.6" opacity=".55"/></symbol>
+    <symbol id="ring" viewBox="0 0 200 80" preserveAspectRatio="none"><path fill="none" stroke="#c8462c" stroke-linecap="round" d="M24 50C14 24 70 6 118 7 168 9 196 26 190 46 184 68 128 76 82 74 38 72 10 60 16 40 20 28 40 20 62 15" stroke-width="3"/></symbol>
+    <symbol id="figure" viewBox="0 0 10 32"><path d="M5 2c1.4 0 2 1.2 2 2.4 0 1-.5 1.8-1 2.2l1.6 3.4.4 9-.9.3-.6 11.7H5.3l-.4-10-.5 10H3.2L2.6 19.3l-.9-.3.4-9 1.6-3.4c-.5-.4-1-1.2-1-2.2C2.7 3.2 3.6 2 5 2z" fill="#0a0c0f"/></symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header class="hero">
+    <h1>ПРОЯВКА <span>вторая проба</span></h1>
+    <p>Сохранил то, что понравилось: рукописный шрифт, клавишу в кольце, ползунок и обведение карандашом. Убрал то, что выдавало сгенерированный интерфейс.</p>
+    <ul class="changes">
+      <li>Нет оранжевого огонька. Выбор отмечается восковым карандашом: подчёркиванием или обводкой.</li>
+      <li>Нет мелких прописных с разрядкой. Меню и заголовки набраны антиквой, текст для чтения — PT Sans, который уже есть в игре.</li>
+      <li>Фотографии — там, где это уместно: в меню, на загрузке, в фотокниге. В разговоре и паузе их почти нет.</li>
+      <li>На загрузке нет таймера. Вместо него полароиды, которые проявляются, и иногда на них есть то, чего быть не должно.</li>
+      <li>Разговор теперь в настоящем диалоговом окне: панель, имя на бумажной наклейке, варианты ответа списком.</li>
+      <li>Пауза — страница блокнота с текущей целью и записями, без фотоплёнки.</li>
+    </ul>
+  </header>
+
+  <nav class="jump" aria-label="Экраны"><a href="#menu">Меню</a><a href="#load">Загрузка</a><a href="#prologue">Пролог</a><a href="#hud">В игре</a><a href="#talk">Разговор</a><a href="#pause">Пауза</a><a href="#book">Фотокнига</a><a href="#kit">Элементы</a></nav>
+
+  <section class="s" id="menu">
+    <div class="sh"><h2>Главное меню</h2><p>Фоном служит главная картина. Справа на неё ложатся полароиды: раз в пять секунд старый соскальзывает, а новый проявляется. Изредка на проявляющемся снимке на секунду появляется фигура в глубине кадра. На пункты меню можно навести курсор.</p></div>
+    <div class="frame"><div class="stage mm">
+      <div class="ph bgph" style="background-image:url(bg.jpg)"></div><div class="shade"></div>
+      <div class="wall" id="mmWall"></div><div class="vig"></div>
+      <div class="left">
+        <div class="logo">УРМАН</div>
+        <div class="tag">за краем снимка</div>
+        <div class="items" id="mmItems">
+          <div class="it on">Продолжить<svg class="mark"><use href="#under"/></svg><small>дома, вечер второго дня</small></div>
+          <div class="it">Новая игра<svg class="mark"><use href="#under"/></svg><small>начать с пролога</small></div>
+          <div class="it">Настройки<svg class="mark"><use href="#under"/></svg><small>звук, язык, управление</small></div>
+          <div class="it">Об игре<svg class="mark"><use href="#under"/></svg><small>кто это сделал</small></div>
+          <div class="it">Выход<svg class="mark"><use href="#under"/></svg></div>
+        </div>
+        <div class="foot">Сохранено сегодня в 21:40</div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="s" id="load">
+    <div class="sh"><h2>Загрузка</h2><p>Таймера нет. В центре проявляется полароид, рядом — подпись от руки, цитата из уже услышанного в игре и просто «Загрузка». Снимки берутся из тех, что игрок уже видел, но иногда в проявке на секунду проступает лишняя фигура.</p></div>
+    <div class="frame"><div class="stage ld">
+      <div class="wall" id="ldWall"></div><div class="vig"></div>
+      <div class="bottom">
+        <div class="quote">«Урманга карама. На дорогу смотри, говорю».<small>Мансур бабай, по дороге в деревню</small></div>
+        <div class="load">Загрузка<i id="dots">…</i></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="s" id="prologue">
+    <div class="sh"><h2>Пролог</h2><p>Без изменений: интерфейса почти нет, мысли проступают внизу и тают. Подсказка «пропустить» гаснет через несколько секунд.</p></div>
+    <div class="frame"><div class="stage pr">
+      <div class="ph" style="background-image:url(p-forest-front-v2.jpg)"></div><div class="tint"></div><div class="vig"></div>
+      <div class="eyes" style="left:1002px;top:300px"><i></i><i></i></div>
+      <div class="skip"><b>Esc</b>пропустить сон</div>
+      <div class="thought">Следы. Совсем свежие — кто-то прошёл здесь только что.</div>
+    </div></div>
+  </section>
+
+  <section class="s" id="hud">
+    <div class="sh"><h2>В игре</h2><p>Цель — заголовок антиквой, подчёркнутый карандашом, и под ним пометка от руки, без огонька. Действие — клавиша в кольце. Запись в блокнот прилетает маленьким снимком с подписью.</p></div>
+    <div class="frame"><div class="stage hud">
+      <div class="ph" style="background-image:url(bg.jpg)"></div><div class="glow"></div><div class="vig"></div>
+      <div class="obj"><div class="v">Дойти до дома бабая<svg class="mark"><use href="#under"/></svg></div><div class="w">Тукай урамы, калитка с ромбом</div></div>
+      <div class="dot"></div>
+      <div class="prompt"><span class="key">E</span><span>Открыть калитку</span></div>
+      <div class="toast"><div class="w"><small>Записано в блокнот</small>Калитка заперта изнутри. Кто запер?</div><div class="mini"><div class="im" style="background-image:url(p-house-front-v1.jpg)"></div></div></div>
+    </div></div>
+  </section>
+
+  <section class="s" id="talk">
+    <div class="sh"><h2>Разговор</h2><p>Настоящее диалоговое окно: тёмная панель внизу, имя на бумажной наклейке. Реплика набрана читаемым шрифтом, перевод — тише. Варианты ответа идут нумерованным списком, выбранный подчёркнут карандашом. Справа внизу — как продолжить.</p></div>
+    <div class="frame"><div class="stage dl">
+      <div class="ph" style="background-image:url(s-now-front-v1.jpg)"></div><div class="vig"></div>
+      <div class="box">
+        <div class="name">Мансур бабай</div>
+        <div class="line">«Йә, Казан ничек? Әбиең һаман сорый: ашыйсыңмы анда рәтләп?»</div>
+        <div class="tr">Ну как Казань? Әби всё спрашивает, нормально ли ты там ешь.</div>
+        <div class="ch">
+          <div class="on"><b>1.</b><span>Нормально ем, бабай. Передай әби, пусть не волнуется.<svg class="mark"><use href="#under"/></svg></span></div>
+          <div><b>2.</b><span>Мне снился лес. Опять тот же.</span></div>
+          <div><b>3.</b><span>Давай потом, я устал с дороги.</span></div>
+        </div>
+        <div class="more">E — ответить · Esc — закрыть</div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="s" id="pause">
+    <div class="sh"><h2>Пауза</h2><p>Мир за спиной размывается. Слева — меню антиквой с карандашной отметкой. Справа — открытая страница блокнота: текущая цель от руки, последние записи и один снимок места, где вы сейчас.</p></div>
+    <div class="frame"><div class="stage ps">
+      <div class="ph" style="background-image:url(bg.jpg)"></div><div class="vig"></div>
+      <div class="menu"><h3>Пауза</h3>
+        <div class="it on">Продолжить<svg class="mark"><use href="#under"/></svg></div>
+        <div class="it">Блокнот</div><div class="it">Фотокнига</div><div class="it">Настройки</div><div class="it">Сохранить и выйти</div>
+      </div>
+      <div class="page">
+        <h4>Сейчас</h4>
+        <div class="goal">Поговорить с әби про снимок у мостков</div>
+        <h4>Последние записи</h4>
+        <ol><li>Калитка заперта изнутри.</li><li>Бабай не хочет говорить про Марата.</li><li>Синяя варежка на ветке — во сне.</li></ol>
+        <div class="pol"><div class="tape"></div><div class="img"><div class="ph" style="background-image:url(s-now-front-v1.jpg)"></div></div><div class="cap">дома</div></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="s" id="book">
+    <div class="sh"><h2>Фотокнига и блокнот</h2><p>Разворот настоящей книги: слева снимок, вклеенный уголками из ленты, справа записи Айдара. Снимок переворачивается по клику. Новая запись подчёркнута.</p></div>
+    <div class="book">
+      <div class="pg l">
+        <div class="card" id="card" tabindex="0" role="button" aria-label="Перевернуть снимок" aria-pressed="false"><div class="inner">
+          <span class="t1"></span><span class="t2"></span>
+          <div class="face front"><div class="ph" style="background-image:url(p-forest-front-v2.jpg)"></div></div>
+          <div class="face back"><span>У леса. Перед отъездом.</span></div>
+        </div></div>
+        <div class="hint">Нажмите на снимок, чтобы перевернуть</div>
+      </div>
+      <div class="pg r">
+        <h3>Трое у леса</h3><h5>Снимок из фотокниги · можно войти</h5>
+        <ol>
+          <li>Снято зимой, у этой самой опушки.</li>
+          <li>Во сне я шёл по тем же следам.</li>
+          <li class="new">«Перед отъездом». Кто уезжал?<svg class="mark"><use href="#under"/></svg></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="s" id="kit">
+    <div class="sh"><h2>Элементы</h2><p>Состояния различаются цветом текста и карандашом: при наведении — подчёркивание, при нажатии — обводка, недоступный пункт приглушён.</p></div>
+    <div class="kit">
+      <div class="kc"><h4>Пункты меню</h4>
+        <div class="btn">Обычный</div>
+        <div class="btn hov">Наведение<svg class="mark"><use href="#under"/></svg></div>
+        <div class="btn press">Нажат<svg class="mark"><use href="#ring"/></svg></div>
+        <div class="btn off">Недоступен</div>
+      </div>
+      <div class="kc"><h4>Подсказки клавиш</h4>
+        <div class="row"><span class="key">E</span>Открыть калитку</div>
+        <div class="row"><span class="key sq">Tab</span>Блокнот <span class="key sq">Esc</span>Пауза</div>
+        <div class="row"><span class="key" style="border-color:transparent;background:rgba(236,228,211,.14)">A</span>Геймпад</div>
+      </div>
+      <div class="kc"><h4>Настройки</h4>
+        <div class="slider"><div class="row"><span>Громкость голосов</span><span>72</span></div><div class="track"><i></i><b></b></div></div>
+        <div style="font-size:15px;color:#bdb6a8">Татарский в разговорах</div>
+        <div class="seg"><span>почти не знаю</span><span class="on">немного<svg class="mark"><use href="#ring"/></svg></span><span>свободно</span></div>
+      </div>
+      <div class="kc"><h4>Справка</h4>
+        <div class="scrap"><b>Фотокнига</b><span>Снимки, в которые можно войти. Переверните снимок, чтобы прочитать подпись на обороте.</span></div>
+      </div>
+    </div>
+    <p class="foot">Шрифты: Cormorant Garamond и Caveat (OFL) добавляются в игру рядом с PT Sans. Карандашные отметки рисуются кривой линией с небольшой случайностью, чтобы две соседние не были одинаковыми.</p>
+  </section>
+</div>
+
+<script>
+(function(){
+  try{const c=document.createElement('canvas');c.width=c.height=180;const x=c.getContext('2d');const d=x.createImageData(180,180);
+  for(let i=0;i<d.data.length;i+=4){const v=Math.random()*255|0;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255}
+  x.putImageData(d,0,0);document.documentElement.style.setProperty('--grain',`url(${c.toDataURL()})`)}catch(e){}
+  // grease marks: set dash length so they can be drawn
+  document.querySelectorAll('.mark path').forEach(p=>{try{p.style.setProperty('--len',Math.ceil(p.getTotalLength()))}catch(e){}});
+  const fit=()=>document.querySelectorAll('.frame').forEach(f=>{f.firstElementChild.style.transform=`scale(${f.clientWidth/1280})`});
+  fit();addEventListener('resize',fit);if('ResizeObserver' in window){const ro=new ResizeObserver(fit);document.querySelectorAll('.frame').forEach(f=>ro.observe(f))}
+
+  const photos=[['p-forest-front-v2.jpg','у леса',true],['p-house-front-v1.jpg','во дворе',false],['p-water-front-v1.jpg','у старых мостков',true],['s-now-front-v1.jpg','дома',false],['bg.jpg','Кара-Урман',false]];
+  function polaroid(src,cap,who,size){const el=document.createElement('div');el.className='pol';
+    el.innerHTML=`<div class="tape"></div><div class="img"><div class="ph" style="background-image:url(${src})"></div>${who?`<div class="who" style="left:${58+Math.random()*28}%"><svg viewBox="0 0 10 32"><use href="#figure"/></svg></div>`:''}</div><div class="cap">${cap}</div>`;
+    if(size)el.style.width=size+'px';return el}
+  // menu: up to three polaroids on the right; every 5 s the oldest slides away and a new one develops
+  const mw=document.getElementById('mmWall');const spots=[[760,70,-7],[960,150,5],[820,330,-2]];let k=0;const live=[];
+  function nextMenu(){const [src,cap]=photos[k%photos.length];const who=k%4===2;k++;
+    if(live.length>=3){const old=live.shift();old.classList.add('out');setTimeout(()=>old.remove(),1100)}
+    const s=spots[k%3];const p=polaroid(src,cap,who);p.style.left=s[0]+'px';p.style.top=s[1]+'px';p.style.transform=`rotate(${s[2]+ (Math.random()*4-2)}deg) translateY(-24px)`;p.style.opacity='0';
+    mw.appendChild(p);live.push(p);requestAnimationFrame(()=>requestAnimationFrame(()=>{p.style.opacity='1';p.style.transform=`rotate(${s[2]}deg)`;p.classList.add('dev')}))}
+  nextMenu();nextMenu();nextMenu();setInterval(nextMenu,5000);
+  // menu hover
+  document.querySelectorAll('#mmItems .it').forEach(it=>it.addEventListener('mouseenter',()=>{document.querySelectorAll('#mmItems .it').forEach(o=>o.classList.toggle('on',o===it));}));
+  // loading: a small stack; the top print develops, sometimes with someone in it
+  const lw=document.getElementById('ldWall');let j=0;
+  function nextLoad(){lw.querySelectorAll('.pol').forEach((o,i,a)=>{if(i<a.length-2){o.classList.add('out');setTimeout(()=>o.remove(),1100)}});
+    const [src,cap]=photos[j%photos.length];const who=j%2===0;j++;
+    const p=polaroid(src,cap,who);p.style.left=(475+Math.random()*30)+'px';p.style.top=(70+Math.random()*16)+'px';p.style.transform=`rotate(${Math.random()*10-5}deg)`;lw.appendChild(p);
+    requestAnimationFrame(()=>p.classList.add('dev'))}
+  nextLoad();setInterval(nextLoad,5200);
+  let d=0;setInterval(()=>{d=(d+1)%4;document.getElementById('dots').textContent='.'.repeat(d)},500);
+  // book
+  const card=document.getElementById('card');const flip=()=>{card.classList.toggle('flip');card.setAttribute('aria-pressed',card.classList.contains('flip'))};
+  card.addEventListener('click',flip);card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip()}});
+})();
+</script>

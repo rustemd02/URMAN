@@ -59,6 +59,8 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         _line = GetNode<RichTextLabel>("Screen/Panel/Layout/Line");
         _choices = GetNode<VBoxContainer>("Screen/Panel/Layout/Choices");
         _continue = GetNode<Button>("Screen/Panel/Layout/Continue");
+        // «Проявка»: the speaker's name is a strip of paper stuck on a little crooked.
+        _speaker.RotationDegrees = -1.6f;
         _continue.Pressed += Close;
         _continue.MouseEntered += () =>
         {
