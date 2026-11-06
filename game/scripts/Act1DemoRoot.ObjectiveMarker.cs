@@ -252,7 +252,8 @@ public partial class Act1DemoRoot
                 return inspectionTarget;
             }
             return house.TryGetHouseDoorObjectiveTarget(bridge.PhotoWorldPresentationIdentity,
-                playerPosition, out waypoint, out label, out inspectionTarget);
+                playerPosition, mission.InteractionId == "urman.fullgame:interaction/pw-house-door-left" ? 0 : 1,
+                out waypoint, out label, out inspectionTarget);
         }
 
         if (mission.InteractionId == ForestGroupObservationInteractionId

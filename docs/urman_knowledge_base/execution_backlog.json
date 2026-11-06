@@ -130876,7 +130876,8 @@
               "game/scenes/photoworlds/W03/W03.tscn",
               "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-w03-summer-source-2026-11-06.zip#H00-1800x1200.png SHA256 13e19722ef91c376f45bf5a9f0c0c33237cb5ae7b299cabab17740fb0564a37e",
               "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-w03-yard-2026-11-06.png SHA256 0a7a8d3d21a0b3562202b92825bf1756c5e351323456af89fcff134449c072f3",
-              "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-w03-yard-2026-11-06.zip SHA256 08fe8ceac3d6decb557c82d89102a640181c7ce41531b4e296696e66a7e69f32"
+              "/Users/unterlantas/.codex/visualizations/2026/10/17/01a14aac-61fe-7473-94ce-5fb5888594ba/URMAN-mac-w03-yard-2026-11-06.zip SHA256 08fe8ceac3d6decb557c82d89102a640181c7ce41531b4e296696e66a7e69f32",
+              "game/scripts/photoworlds/W03Controller.SpatialLinks.cs — указатель обоих проёмов у фасада; GLB и координаты обхода сверены, компиляция Mac 20.06 с, 0 предупреждений и ошибок."
             ],
             "assigned_owner": "world_art",
             "active_owner": null,
@@ -130894,7 +130895,7 @@
               "The diagnostic H00 camera currently uses 53° and −4° local yaw. Reconcile with the level passport 50° along +Z before calling a frame the P-HOUSE source.",
               "H00 Mac render shows the physical front pickets and paired passage wings. Fence mesh and contact use the same boards. Source clearance after the H02 path bend correction: minimum fence centreline distances to authored routes 2.250 m front, 1.197 m wings, 4.000 m orchard; added fences clear both H04 witness rays. W03 ordinary movement, save against changed contacts, and remaining garden/photo composition are open."
             ],
-            "next_action": "Сохранить ограды и открытые подходы. В обычном W03 проверить H00→H01 и проходы туда и обратно, загрузку у новой ограды и обе линии обзора H04. Для P-HOUSE сверить реальную видимость яблони и стула из паспортного H00 (50° вдоль +Z), сохраняя единственный общий двор и подходы к обоим проёмам.",
+            "next_action": "В обычном W03 проверить H00→H01, затем указатель после открытия ставни: отойти от фасада к дорожке и обойти дом к синему или серому проёму. Проверить обратный ход, загрузку у ограды и обе линии обзора H04. Для P-HOUSE сверить реальную видимость яблони и стула из паспортного H00 (50° вдоль +Z), сохраняя единственный общий двор и подходы к обоим проёмам.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
