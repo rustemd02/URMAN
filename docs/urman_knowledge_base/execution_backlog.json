@@ -120687,7 +120687,7 @@
               "13backSVG produced1800×1200 and Godot rendered; protected album view/authorart+language acceptance open.",
               "Other required fronts, S-GARDEN1800×1200final, all thumbnails и scene/identity alignment; full E02 остаётся открытым.",
               "S-PRINT front/thumbnail produced and Mac imported; family folder source, copy and back-read semantic PASS both orders. Visual check of the open PC reader and acquired album card remains.",
-              "P-COMMON: до выпуска фронта согласовать реальный первый кадр C00. В W04.tscn C00 направлен по +Z, а в W04Controller.Geometry.cs дальние лес, вода и дом находятся по −Z; первые построенные рамы стоят у C01–C03. Нужен согласованный игровой кадр с читаемым первым проёмом и частями трёх опор, затем один фронт/миниатюра для разрешённого файла, отпечатка и книги."
+              "P-COMMON: у C00 появился физический первый проём по +Z. Дальние опоры в W04Controller.Geometry.cs всё ещё по −Z, а рамы C01/C02 не входят целиком в паспортный кадр 3:2/48°. Нужен согласованный игровой кадр с частями трёх опор, затем один фронт и миниатюра для разрешённого файла, отпечатка и книги."
             ],
             "next_action": "Использовать принятые P-WATER и S-PRINT. Камера H00 соответствует паспорту, но для нового P-HOUSE сначала нужна читаемая композиция реальных яблони и стула в сцене. Пробный сдвиг стула закрыт торцами брёвен и оградой. После согласования планировки снять H00 и передать этот кадр в ImageGen. Остальные снимки и авторская приёмка открыты.",
             "blocker": null,
@@ -133349,7 +133349,9 @@
             "title": "Собрать узлы C00, C01, C02, C03, C04, C05, C06, C07, C08 и все связи из level-паспорта.",
             "result": "Собрать узлы C00, C01, C02, C03, C04, C05, C06, C07, C08 и все связи из level-паспорта.",
             "owner": "world_art",
-            "evidence": [],
+            "evidence": [
+              "W04Controller.Geometry.cs и W04Controller.Gameplay.cs: физическая рама в 8 м перед C00, общий вытоптанный подход к развилке и указатель сквозь проём. Точки появления и высоты земли не менялись. По геометрии проход между основаниями 5,88 м, рама целиком в 3:2/48° при высоте 1,6 м, расчётный запас до подкоса на луче к дому из центра C03 не менее 0,138 м; линии к лесу, воде и горизонту проходят за пределами рамы. Mac build 17,83 с без предупреждений и ошибок."
+            ],
             "assigned_owner": "world_art",
             "active_owner": null,
             "activity": {
@@ -133363,7 +133365,7 @@
             "remaining": [
               "Собрать узлы C00, C01, C02, C03, C04, C05, C06, C07, C08 и все связи из level-паспорта.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Use one existing protected native observation of C00–C08 and the10 authored links forward/reverse, then verify persistence/restoration of one chosen completed action. Source geometry/controller integration and affected compile are already accepted; do not reimplement or rebuild unchanged source. Whole art/linger/human acceptance remain separate; no completed until this own runtime result is recorded.",
+            "next_action": "В защищённом W04 снять текущий C00 и пройти через раму к развилке в обе стороны. Проверить, что в C03 и C05 читаются требуемые ориентиры. Покрытие всех десяти связей, сохранение выбранного действия, целостный визуал и внешняя приёмка остаются обязательными.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

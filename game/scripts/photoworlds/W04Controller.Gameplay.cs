@@ -82,6 +82,13 @@ public partial class W04Controller
             || stance is null || !GodotObject.IsInstanceValid(stance) || !stance.IsVisibleInTree())
             return false;
 
+        if (relations && _world.ToLocal(player.GlobalPosition).Z < EntryFrameZ + .45f)
+        {
+            point = _world.ToGlobal(new Vector3(0f, CommonGroundHeightAt(0f, EntryForkZ), EntryForkZ));
+            label = "Первый проём";
+            return true;
+        }
+
         var distance = player.GlobalPosition.DistanceTo(stance.GlobalPosition);
         var armed = relations ? _relationsArmed : _horizonArmed;
         if (!armed || distance > ObservationStanceRadius)
