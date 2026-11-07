@@ -232,7 +232,7 @@ public partial class Act1DemoRoot
     private void UpdatePhotoNivaWake(float t)
     {
         if (!_photoNivaVoiceStarted && t >= _photoNivaVoiceDelay) StartPhotoNivaWakeVoice();
-        if (_prologueBlackout is { } blackout && t < 3f)
+        if (_prologueBlackout is { } blackout)
         {
             float alpha;
             if (_player?.ReducedMotion == true) alpha = 1f - Mathf.Clamp((t - (float)_photoNivaWakeHold) / .5f, 0f, 1f);
