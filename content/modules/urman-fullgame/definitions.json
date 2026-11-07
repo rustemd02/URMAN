@@ -4049,9 +4049,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-label-prologue-f03-end",
     "value": {
-      "default": "Выйти из леса и продолжить путь",
+      "default": "Осмотреть следы",
       "translations": {
-        "ru": "Выйти из леса и продолжить путь"
+        "ru": "Осмотреть следы"
       }
     },
     "purpose": "ui"
@@ -7251,9 +7251,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-prologue-branch-question",
     "value": {
-      "default": "Кто зовёт тебя по имени?",
+      "default": "Догнать знакомый голос",
       "translations": {
-        "ru": "Кто зовёт тебя по имени?"
+        "ru": "Догнать знакомый голос"
       }
     },
     "purpose": "ui"
@@ -7262,9 +7262,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-prologue-branch-area",
     "value": {
-      "default": "Свежие следы уходят вглубь леса, под низкие ветви.",
+      "default": "Голос доносится с тропы за поваленной веткой.",
       "translations": {
-        "ru": "Свежие следы уходят вглубь леса, под низкие ветви."
+        "ru": "Голос доносится с тропы за поваленной веткой."
       }
     },
     "purpose": "ui"
@@ -7273,9 +7273,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-prologue-branch-action",
     "value": {
-      "default": "Иди по следам на голос.",
+      "default": "Идите на голос. Отведите ветку, чтобы пройти.",
       "translations": {
-        "ru": "Иди по следам на голос."
+        "ru": "Идите на голос. Отведите ветку, чтобы пройти."
       }
     },
     "purpose": "ui"
@@ -7284,9 +7284,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-prologue-exit-question",
     "value": {
-      "default": "Куда ведут следы?",
+      "default": "Найти Марата",
       "translations": {
-        "ru": "Куда ведут следы?"
+        "ru": "Найти Марата"
       }
     },
     "purpose": "ui"
@@ -7295,9 +7295,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-prologue-exit-area",
     "value": {
-      "default": "К светлому просвету между деревьями.",
+      "default": "За поворотом — поляна. Голос был оттуда.",
       "translations": {
-        "ru": "К светлому просвету между деревьями."
+        "ru": "За поворотом — поляна. Голос был оттуда."
       }
     },
     "purpose": "ui"
@@ -7306,9 +7306,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-prologue-exit-action",
     "value": {
-      "default": "Иди по следам до самого конца.",
+      "default": "Дойдите до поляны и осмотрите, где обрываются следы.",
       "translations": {
-        "ru": "Иди по следам до самого конца."
+        "ru": "Дойдите до поляны и осмотрите, где обрываются следы."
       }
     },
     "purpose": "ui"

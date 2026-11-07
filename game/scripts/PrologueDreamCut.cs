@@ -4,9 +4,8 @@ using Godot;
 namespace Urman.Godot;
 
 /// <summary>
-/// The hard cut that ends the prologue nightmare (author request 2026-11-06):
-/// the forest is cut to black on the scare, a ringing silence holds while the
-/// village is prepared, and Mansur's voice wakes Aidar in the Niva. The black
+/// Covers the handover from the forest dream to waking in the Niva while the
+/// village is prepared. The black
 /// lives on the scene root so it survives the photo-world unmount and the
 /// arrival loading; the Niva ride takes it over once its own blackout covers
 /// the frame. It writes no story or save state and frees itself if nothing
@@ -14,7 +13,6 @@ namespace Urman.Godot;
 /// </summary>
 internal static class PrologueDreamCut
 {
-    private const string RingStream = "res://assets/audio/act1/foley/forest/knockout_ring.wav";
     private const double SafetyReleaseSeconds = 25.0;
     private static CanvasLayer? _layer;
     private static ulong _shownAtMsec;
@@ -22,15 +20,15 @@ internal static class PrologueDreamCut
     internal static bool IsActive(SceneTree? tree) =>
         tree is not null && _layer is { } layer && GodotObject.IsInstanceValid(layer) && layer.IsInsideTree();
 
-    /// <summary>Covers the frame in black at once and starts the ringing silence.</summary>
-    internal static void Show(SceneTree tree)
+    /// <summary>Covers the frame before the world is replaced.</summary>
+    internal static void Show(SceneTree tree, double fadeSeconds)
     {
         if (IsActive(tree)) return;
         _layer = new CanvasLayer { Name = "PrologueDreamCut", Layer = 120 };
         var black = new ColorRect
         {
             Name = "Black",
-            Color = Colors.Black,
+            Color = Colors.Black with { A = 0f },
             MouseFilter = Control.MouseFilterEnum.Ignore,
             AnchorRight = 1f,
             AnchorBottom = 1f
@@ -38,25 +36,7 @@ internal static class PrologueDreamCut
         _layer.AddChild(black);
         tree.Root.AddChild(_layer);
         _shownAtMsec = Time.GetTicksMsec();
-
-        if (DisplayServer.GetName() != "headless" && ResourceLoader.Exists(RingStream)
-            && ResourceLoader.Load<AudioStream>(RingStream) is { } ring)
-        {
-            AudioSettingsService.EnsureBuses();
-            var player = new AudioStreamPlayer
-            {
-                Name = "Ring",
-                Stream = ring,
-                Bus = AudioSettingsService.SfxBus,
-                VolumeDb = -16f
-            };
-            _layer.AddChild(player);
-            player.Play();
-            // The ring thins out under the coming voice instead of stopping on a cut.
-            var fade = player.CreateTween();
-            fade.TweenInterval(1.2);
-            fade.TweenProperty(player, "volume_db", -40f, 4.5);
-        }
+        black.CreateTween().TweenProperty(black, "color:a", 1f, fadeSeconds);
 
         var safety = tree.CreateTimer(SafetyReleaseSeconds);
         var shownAt = _shownAtMsec;
@@ -76,7 +56,7 @@ internal static class PrologueDreamCut
         Math.Max(0, ((long)_morphEndsAtMsec - (long)Time.GetTicksMsec()) / 1000.0);
 
     /// <summary>
-    /// In the black after the scare, Marat's «Айдар…» sinks under a closing
+    /// In the black after the unanswered call, Marat's «Айдар…» sinks under a closing
     /// low-pass and a long echo while Mansur's «Айдар… Айдар…» comes up from
     /// muffled to clear: the same name, one voice turning into the other, the
     /// way a dream hands over to whoever is shaking you awake. The players live

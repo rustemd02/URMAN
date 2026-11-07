@@ -10,14 +10,10 @@ public partial class W01Controller
     private Node3D? _prologueTracks;
     private Label? _prologueVoiceCaption;
     private object? _prologueExitSession;
-    private bool _prologueExitAttempted;
+    private bool _prologueEndNoticed;
     private bool _prologueExitDispatching;
-    private bool _prologueFirstCall;
     private bool _prologueMittenCue;
-    private bool _prologueAnswer;
-    private bool _prologueWakeCue;
     private double _prologueCaptionRemaining;
-    private double _prologueWakeRemaining;
     private static Vector2 PrologueMittenPoint => new(BranchF01.X + 3.5f, BranchF01.Z + 6f);
 
     private void BuildPrologueTracks()
@@ -89,14 +85,10 @@ public partial class W01Controller
         if (_prologueExitSession is not null) PrologueVoice.StopSpatial(this);
         if (!ReferenceEquals(_nightmareSession, session)) ResetNightmare(session);
         _prologueExitSession = session;
-        _prologueExitAttempted = false;
+        _prologueEndNoticed = false;
         _prologueExitDispatching = false;
-        _prologueFirstCall = false;
         _prologueMittenCue = false;
-        _prologueAnswer = false;
-        _prologueWakeCue = false;
         _prologueCaptionRemaining = 0;
-        _prologueWakeRemaining = 0;
         if (_prologueVoiceCaption is { } caption) caption.Hide();
     }
 
@@ -113,76 +105,58 @@ public partial class W01Controller
         }
         if (_prologueTracks is { } activeTracks) activeTracks.Show();
         if (!ReferenceEquals(_prologueExitSession, session)) ResetPrologueExitTracking(session);
-        // The end of the prints owns the frame, the player and its own captions.
-        if (_nightmareClimax) return;
         if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
             || !GodotObject.IsInstanceValid(player)) return;
-
-        var local = ToLocal(player.GlobalPosition);
-        var direction = new Vector2(PrologueF03.X - PrologueF02.X, PrologueF03.Z - PrologueF02.Z).Normalized();
-        var offset = new Vector2(local.X - PrologueF03.X, local.Z - PrologueF03.Z);
-        var along = offset.Dot(direction);
-        var lateral = Mathf.Abs(offset.Cross(direction));
-        if (!_prologueExitDispatching && (along < -5f || along > 8f || lateral > 5f))
-            _prologueExitAttempted = false;
-
-        if (GetTree().Paused || !DisplayServer.WindowIsFocused()
-            || MainMenuUi.AnyUndismissed(GetTree()) || player.ModalOpen || player.SessionTransitionActive
-            || player.VehicleControlled || player.IsClimbingLadder
-            || GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true }
-            || GetTree().GetFirstNodeInGroup("dialogue_ui") is DialogueUi { IsOpen: true }
-            || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true })
+        if (ProloguePresentationPaused() || player.ModalOpen || player.VehicleControlled || player.IsClimbingLadder)
         {
+            StopParallelSteps();
             if (_prologueVoiceCaption is { } hidden) hidden.Hide();
             return;
         }
 
         var delta = GetProcessDeltaTime();
         _prologueCaptionRemaining = Math.Max(0, _prologueCaptionRemaining - delta);
-        _prologueWakeRemaining = Math.Max(0, _prologueWakeRemaining - delta);
         if (_prologueVoiceCaption is { } caption)
             caption.Visible = (_accessibility.Subtitles || _prologueCaptionThought) && _prologueCaptionRemaining > 0;
+        if (_nightmareClimax) return;
 
+        var local = ToLocal(player.GlobalPosition);
         var feet = new Vector2(local.X, local.Z);
         ProcessPrologueNightmare(player, feet, projection.Moved, delta);
-        var onTrailGround = player.IsOnFloor() && Mathf.Abs(local.Y - ForestGroundHeight(local.X, local.Z)) <= .5f;
-        if (!onTrailGround) return;
-        if (!projection.Moved)
-        {
-            var approach = new Vector2(BranchF01.X, BranchF01.Z).Normalized();
-            if (!_prologueFirstCall && feet.Dot(approach) is >= 8f and <= 36f && Mathf.Abs(feet.Cross(approach)) <= 5f)
-            {
-                _prologueFirstCall = true;
-                var inTrees = feet + approach * 17f + new Vector2(-approach.Y, approach.X) * 8f;
-                PlayPrologueForestVoice(inTrees, "forest-name-call", "«Айдар…»", -4f);
-            }
+        if (!player.IsOnFloor() || Mathf.Abs(local.Y - ForestGroundHeight(local.X, local.Z)) > .5f || !projection.Moved)
             return;
-        }
 
-        if (!_prologueMittenCue && feet.DistanceTo(PrologueMittenPoint) < 6f)
+        if (!_prologueMittenCue && feet.DistanceTo(PrologueMittenPoint) < 3f && _prologueCaptionRemaining <= 0)
         {
             _prologueMittenCue = true;
-            var source = ToGlobal(new Vector3(PrologueMittenPoint.X,
-                ForestGroundHeight(PrologueMittenPoint.X, PrologueMittenPoint.Y) + 3.4f, PrologueMittenPoint.Y));
-            UiFoley.PlayWorld(this, source, "forest/branch_crack", -12f, 20f, 4f);
-            ShowNightmareThought("На снегу — синяя детская варежка. Следы идут дальше, не останавливаясь.", 5);
+            ShowNightmareThought("Детская варежка…", 3);
         }
-
-        if (!_prologueAnswer && along >= -55f && along < -17f && lateral <= 8f)
+        var direction = new Vector2(PrologueF03.X - PrologueF02.X, PrologueF03.Z - PrologueF02.Z).Normalized();
+        var offset = feet - new Vector2(PrologueF03.X, PrologueF03.Z);
+        if (!_prologueEndNoticed && Mathf.Abs(offset.Cross(direction)) < 4f && offset.Dot(direction) is > -10f and < 3f)
         {
-            _prologueAnswer = true;
-            var behind = feet - direction * 9f + new Vector2(direction.Y, -direction.X) * 7f;
-            PlayPrologueForestVoice(behind, "forest-come-here", "«Айдар. Кил монда…»\n(Айдар, иди сюда…)", -2f);
+            _prologueEndNoticed = true;
+            ShowNightmareThought("Последние следы. Дальше — чистый снег.", 4);
         }
+    }
 
-        if (_prologueExitAttempted || _prologueExitDispatching || lateral > 4f || along < -2.5f || along > 7f)
-            return;
-
-        // The prints stop here: the nightmare ends on a hard cut that becomes
-        // the voice in the Niva (W01Controller.PrologueNightmare).
-        _prologueWakeCue = true;
-        _prologueExitAttempted = true;
-        RunNightmareClimaxAsync(bridge, session, player, feet, direction);
+    private bool BeginPrologueEndInspection()
+    {
+        if (_nightmareClimax || _prologueExitDispatching || ProloguePresentationPaused()
+            || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || bridge.SessionIdentity is not { } session
+            || bridge.CurrentW01BranchProjection() is not { ActiveSceneId: PrologueSceneId, Moved: true }
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
+            || player.ModalOpen || player.VehicleControlled || player.IsClimbingLadder || !player.IsOnFloor())
+            return false;
+        var local = ToLocal(player.GlobalPosition);
+        var feet = new Vector2(local.X, local.Z);
+        var direction = new Vector2(PrologueF03.X - PrologueF02.X, PrologueF03.Z - PrologueF02.Z).Normalized();
+        var offset = feet - new Vector2(PrologueF03.X, PrologueF03.Z);
+        if (Mathf.Abs(offset.Cross(direction)) > 4f || offset.Dot(direction) is < -8f or > 3f)
+            return false;
+        RunNightmareClimaxAsync(bridge, session, player);
+        return false;
     }
 
     private double PlayPrologueForestVoice(Vector2 point, string clip, string subtitle, float volume)

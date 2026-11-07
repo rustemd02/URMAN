@@ -265,7 +265,6 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         BuildForestHorizon();
         BuildBranch();
         BuildPrologueTracks();
-        BuildNightmareGlints();
         BuildPhotoTableau();
         BuildProloguePhotoSource();
         BuildPrologueUi();
@@ -1645,10 +1644,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         SetCollisionLayer(_leftRootBody, 1u);
         SetCollisionLayer(_rightRootBody, 1u);
         EnsureBranchTarget(interaction.Item1, interaction.Item2);
-        // In the prologue the branch is no chore: it opens by itself as Aidar
-        // comes near (W01Controller.PrologueNightmare). The W01 episode keeps
-        // the authored hand action.
-        _branchTarget?.SetPresentationEnabled(!projection.Moved && projection.ActiveSceneId != PrologueSceneId);
+        _branchTarget?.SetPresentationEnabled(!projection.Moved);
         SetPrologueEndVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
         SetPrologueSkipVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
         ApplyForestWorldGuardProjection(projection);
@@ -2014,7 +2010,6 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var endTarget = _prologueEndTarget;
         if (endTarget is null || !GodotObject.IsInstanceValid(endTarget))
         {
-            var marker = GetNode<Marker3D>("Anchors/F03");
             var approach = PrologueRouteNodes[^1] - PrologueRouteNodes[^2];
             var target = new InteractionTarget
             {
@@ -2029,15 +2024,16 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             target.AddChild(new CollisionShape3D
             {
                 Name = "PrologueEnd_RayShape",
-                // Cover the authored 2.1 m lane at eye height without blocking the player.
-                Shape = new BoxShape3D { Size = new Vector3(2.1f, 2.4f, .6f) }
+                // The player examines the last prints on the ground, not an invisible wall.
+                Shape = new BoxShape3D { Size = new Vector3(2.2f, .14f, 2.4f) }
             });
             AddChild(target);
-            target.GlobalPosition = marker.GlobalPosition + Vector3.Up * 1.2f;
+            target.GlobalPosition = ToGlobal(PrologueRoutePoint(PrologueRouteLength - 4.6f, 0f, .08f));
+            target.PresentationBeforeDispatch = BeginPrologueEndInspection;
             _prologueEndTarget = endTarget = target;
         }
 
-        endTarget.SetPresentationEnabled(true);
+        endTarget.SetPresentationEnabled(!_nightmareClimax);
     }
 
     private void BuildPrologueUi()

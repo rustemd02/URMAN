@@ -30980,9 +30980,9 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-hint-prologue-branch-action",
         "value": {
-          "default": "\u0418\u0434\u0438 \u043F\u043E \u0441\u043B\u0435\u0434\u0430\u043C \u043D\u0430 \u0433\u043E\u043B\u043E\u0441.",
+          "default": "\u0418\u0434\u0438\u0442\u0435 \u043D\u0430 \u0433\u043E\u043B\u043E\u0441. \u041E\u0442\u0432\u0435\u0434\u0438\u0442\u0435 \u0432\u0435\u0442\u043A\u0443, \u0447\u0442\u043E\u0431\u044B \u043F\u0440\u043E\u0439\u0442\u0438.",
           "translations": {
-            "ru": "\u0418\u0434\u0438 \u043F\u043E \u0441\u043B\u0435\u0434\u0430\u043C \u043D\u0430 \u0433\u043E\u043B\u043E\u0441."
+            "ru": "\u0418\u0434\u0438\u0442\u0435 \u043D\u0430 \u0433\u043E\u043B\u043E\u0441. \u041E\u0442\u0432\u0435\u0434\u0438\u0442\u0435 \u0432\u0435\u0442\u043A\u0443, \u0447\u0442\u043E\u0431\u044B \u043F\u0440\u043E\u0439\u0442\u0438."
           }
         },
         "purpose": "ui"
@@ -30991,9 +30991,9 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-hint-prologue-branch-area",
         "value": {
-          "default": "\u0421\u0432\u0435\u0436\u0438\u0435 \u0441\u043B\u0435\u0434\u044B \u0443\u0445\u043E\u0434\u044F\u0442 \u0432\u0433\u043B\u0443\u0431\u044C \u043B\u0435\u0441\u0430, \u043F\u043E\u0434 \u043D\u0438\u0437\u043A\u0438\u0435 \u0432\u0435\u0442\u0432\u0438.",
+          "default": "\u0413\u043E\u043B\u043E\u0441 \u0434\u043E\u043D\u043E\u0441\u0438\u0442\u0441\u044F \u0441 \u0442\u0440\u043E\u043F\u044B \u0437\u0430 \u043F\u043E\u0432\u0430\u043B\u0435\u043D\u043D\u043E\u0439 \u0432\u0435\u0442\u043A\u043E\u0439.",
           "translations": {
-            "ru": "\u0421\u0432\u0435\u0436\u0438\u0435 \u0441\u043B\u0435\u0434\u044B \u0443\u0445\u043E\u0434\u044F\u0442 \u0432\u0433\u043B\u0443\u0431\u044C \u043B\u0435\u0441\u0430, \u043F\u043E\u0434 \u043D\u0438\u0437\u043A\u0438\u0435 \u0432\u0435\u0442\u0432\u0438."
+            "ru": "\u0413\u043E\u043B\u043E\u0441 \u0434\u043E\u043D\u043E\u0441\u0438\u0442\u0441\u044F \u0441 \u0442\u0440\u043E\u043F\u044B \u0437\u0430 \u043F\u043E\u0432\u0430\u043B\u0435\u043D\u043D\u043E\u0439 \u0432\u0435\u0442\u043A\u043E\u0439."
           }
         },
         "purpose": "ui"
@@ -31002,9 +31002,9 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-hint-prologue-branch-question",
         "value": {
-          "default": "\u041A\u0442\u043E \u0437\u043E\u0432\u0451\u0442 \u0442\u0435\u0431\u044F \u043F\u043E \u0438\u043C\u0435\u043D\u0438?",
+          "default": "\u0414\u043E\u0433\u043D\u0430\u0442\u044C \u0437\u043D\u0430\u043A\u043E\u043C\u044B\u0439 \u0433\u043E\u043B\u043E\u0441",
           "translations": {
-            "ru": "\u041A\u0442\u043E \u0437\u043E\u0432\u0451\u0442 \u0442\u0435\u0431\u044F \u043F\u043E \u0438\u043C\u0435\u043D\u0438?"
+            "ru": "\u0414\u043E\u0433\u043D\u0430\u0442\u044C \u0437\u043D\u0430\u043A\u043E\u043C\u044B\u0439 \u0433\u043E\u043B\u043E\u0441"
           }
         },
         "purpose": "ui"
@@ -31013,9 +31013,9 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-hint-prologue-exit-action",
         "value": {
-          "default": "\u0418\u0434\u0438 \u043F\u043E \u0441\u043B\u0435\u0434\u0430\u043C \u0434\u043E \u0441\u0430\u043C\u043E\u0433\u043E \u043A\u043E\u043D\u0446\u0430.",
+          "default": "\u0414\u043E\u0439\u0434\u0438\u0442\u0435 \u0434\u043E \u043F\u043E\u043B\u044F\u043D\u044B \u0438 \u043E\u0441\u043C\u043E\u0442\u0440\u0438\u0442\u0435, \u0433\u0434\u0435 \u043E\u0431\u0440\u044B\u0432\u0430\u044E\u0442\u0441\u044F \u0441\u043B\u0435\u0434\u044B.",
           "translations": {
-            "ru": "\u0418\u0434\u0438 \u043F\u043E \u0441\u043B\u0435\u0434\u0430\u043C \u0434\u043E \u0441\u0430\u043C\u043E\u0433\u043E \u043A\u043E\u043D\u0446\u0430."
+            "ru": "\u0414\u043E\u0439\u0434\u0438\u0442\u0435 \u0434\u043E \u043F\u043E\u043B\u044F\u043D\u044B \u0438 \u043E\u0441\u043C\u043E\u0442\u0440\u0438\u0442\u0435, \u0433\u0434\u0435 \u043E\u0431\u0440\u044B\u0432\u0430\u044E\u0442\u0441\u044F \u0441\u043B\u0435\u0434\u044B."
           }
         },
         "purpose": "ui"
@@ -31024,9 +31024,9 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-hint-prologue-exit-area",
         "value": {
-          "default": "\u041A \u0441\u0432\u0435\u0442\u043B\u043E\u043C\u0443 \u043F\u0440\u043E\u0441\u0432\u0435\u0442\u0443 \u043C\u0435\u0436\u0434\u0443 \u0434\u0435\u0440\u0435\u0432\u044C\u044F\u043C\u0438.",
+          "default": "\u0417\u0430 \u043F\u043E\u0432\u043E\u0440\u043E\u0442\u043E\u043C \u2014 \u043F\u043E\u043B\u044F\u043D\u0430. \u0413\u043E\u043B\u043E\u0441 \u0431\u044B\u043B \u043E\u0442\u0442\u0443\u0434\u0430.",
           "translations": {
-            "ru": "\u041A \u0441\u0432\u0435\u0442\u043B\u043E\u043C\u0443 \u043F\u0440\u043E\u0441\u0432\u0435\u0442\u0443 \u043C\u0435\u0436\u0434\u0443 \u0434\u0435\u0440\u0435\u0432\u044C\u044F\u043C\u0438."
+            "ru": "\u0417\u0430 \u043F\u043E\u0432\u043E\u0440\u043E\u0442\u043E\u043C \u2014 \u043F\u043E\u043B\u044F\u043D\u0430. \u0413\u043E\u043B\u043E\u0441 \u0431\u044B\u043B \u043E\u0442\u0442\u0443\u0434\u0430."
           }
         },
         "purpose": "ui"
@@ -31035,9 +31035,9 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-hint-prologue-exit-question",
         "value": {
-          "default": "\u041A\u0443\u0434\u0430 \u0432\u0435\u0434\u0443\u0442 \u0441\u043B\u0435\u0434\u044B?",
+          "default": "\u041D\u0430\u0439\u0442\u0438 \u041C\u0430\u0440\u0430\u0442\u0430",
           "translations": {
-            "ru": "\u041A\u0443\u0434\u0430 \u0432\u0435\u0434\u0443\u0442 \u0441\u043B\u0435\u0434\u044B?"
+            "ru": "\u041D\u0430\u0439\u0442\u0438 \u041C\u0430\u0440\u0430\u0442\u0430"
           }
         },
         "purpose": "ui"
@@ -31948,9 +31948,9 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-label-prologue-f03-end",
         "value": {
-          "default": "\u0412\u044B\u0439\u0442\u0438 \u0438\u0437 \u043B\u0435\u0441\u0430 \u0438 \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C \u043F\u0443\u0442\u044C",
+          "default": "\u041E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0441\u043B\u0435\u0434\u044B",
           "translations": {
-            "ru": "\u0412\u044B\u0439\u0442\u0438 \u0438\u0437 \u043B\u0435\u0441\u0430 \u0438 \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C \u043F\u0443\u0442\u044C"
+            "ru": "\u041E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0441\u043B\u0435\u0434\u044B"
           }
         },
         "purpose": "ui"
@@ -33626,7 +33626,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "00818691a4513d1b5b5c3e067a7de9ef9f5bd81603b9c592dbded6a4307ce6aa"
+      "sha256": "ab3ce64afa4b45f641e0978a14d896014d50acb9a882118805ba5505c299c4b2"
     },
     {
       "moduleId": "urman.oldpc",
@@ -33634,5 +33634,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "83b0dc6c36d08be375c716bd744059cb01d5be8e57f440231964cd583fada23e"
+  "campaignFingerprint": "9b78c2e791f4edf2a58d5dc0b60f031c470c8c9a593285ebd2d2868706d33747"
 }

@@ -24,6 +24,8 @@ public partial class Act1DemoRoot
     private double _photoNivaWakeHold = PhotoNivaBlinkAfterVoice;
     private double _photoNivaVoiceDelay;
     private bool _photoNivaVoiceStarted;
+    private double _photoNivaWakeVoiceEnds;
+    private bool _photoNivaPrintRecognized;
     private bool _photoNivaDriving;
     private float _photoNivaDriveElapsed;
     private float _photoNivaApproachDistance;
@@ -45,7 +47,7 @@ public partial class Act1DemoRoot
     // metres driven from the bus stop. Each line waits for the previous one.
     private static readonly (float At, string Id)[] PhotoNivaRoadBarks =
     {
-        (10f, "prologue-ride-bark-nightmare"), (58f, "prologue-ride-bark-wake"), (100f, "prologue-ride-bark-bus"),
+        (58f, "prologue-ride-bark-wake"), (100f, "prologue-ride-bark-bus"),
         (138f, "prologue-ride-bark-radio"), (166f, "prologue-ride-bark-kazan"), (200f, "prologue-ride-bark-sign"),
         (ApproachForestAt - 40f, "prologue-ride-bark-field"), (ApproachForestAt + 10f, "prologue-ride-bark-forest"),
         (ApproachForestAt + 150f, "prologue-ride-bark-marat")
@@ -90,6 +92,7 @@ public partial class Act1DemoRoot
         _photoNivaBarkIndex = _photoNivaVillageBarkIndex = 0;
         _photoNivaNextBarkReady = _photoNivaWakeHold + 4.5;
         _photoNivaWoke = false;
+        _photoNivaPrintRecognized = false;
         _photoNivaLanguageOpened = _photoNivaLanguageCaptioned = false;
         for (var index = 1; index < _photoNivaVillagePath.Length; index++)
             _photoNivaVillageLength += _photoNivaVillagePath[index - 1].DistanceTo(_photoNivaVillagePath[index]);
@@ -123,8 +126,9 @@ public partial class Act1DemoRoot
         if (_prologueBlackout is { } blackout) blackout.Color = Colors.Black;
         // The ride's own black now covers the frame; the nightmare cut hands over without a flash.
         PrologueDreamCut.Release();
-        // Slumped against the side window, eyes shut: the first thing is the voice.
-        _rideLook = new(62f, -30f);
+        // The same print is physically open on his lap when his eyes open.
+        BuildPhotoNivaLapBook();
+        _rideLook = new(0f, -37f);
         ApplyPrologueRideLook();
         PrologueVoice.SetPaused(false);
         // The dream's voice blend may still be finishing: babai's «уян» follows it,
@@ -132,7 +136,7 @@ public partial class Act1DemoRoot
         _photoNivaVoiceDelay = PrologueDreamCut.MorphRemainingSeconds;
         _photoNivaVoiceStarted = false;
         _photoNivaWakeHold = _photoNivaVoiceDelay + PhotoNivaBlinkAfterVoice;
-        _photoNivaNextBarkReady = _photoNivaWakeHold + 4.5;
+        _photoNivaNextBarkReady = double.PositiveInfinity;
         if (_photoNivaVoiceDelay <= .05) StartPhotoNivaWakeVoice();
         HideRouteCue();
     }
@@ -146,6 +150,7 @@ public partial class Act1DemoRoot
         var metresToStop = (_photoNivaVillageStarted ? 0f : PhotoNivaApproachLength - _photoNivaApproachDistance)
             + (_photoNivaVillageLength - _photoNivaVillageDistance);
         UpdatePhotoNivaScore(delta, paused, metresToStop);
+        RefreshPhotoNivaLapBook();
         if (_prologueOverlay is { } overlay)
             overlay.Visible = !MainMenuVisible && !talking && _photoNivaPlayer?.ModalOpen == false && _pauseMenu?.IsOpen != true;
         if (paused) return;
@@ -219,12 +224,14 @@ public partial class Act1DemoRoot
         UpdateRideLook(talking, delta);
     }
 
-    // Black, the voice, then the eyes open twice - a blink, not a fade - and
-    // Aidar comes up from the window with a start.
+    // Black, the familiar voice, then the eyes open over the physical print.
     private void StartPhotoNivaWakeVoice()
     {
         _photoNivaVoiceStarted = true;
         var waking = PrologueVoice.PlayClip(this, "forest-wake-v2");
+        _photoNivaWakeVoiceEnds = _photoNivaDriveElapsed + waking;
+        // Let the complete wake line and the recognition land before road chatter.
+        _photoNivaNextBarkReady = _photoNivaWakeVoiceEnds + 6.5;
         ShowPrologueCaption("Мансур бабай: «Айдар… Айдар, уян. Килеп җитәбез.»\n(Айдар… Айдар, проснись. Уже подъезжаем.)",
             Math.Max(4.5, waking + .3));
     }
@@ -232,6 +239,12 @@ public partial class Act1DemoRoot
     private void UpdatePhotoNivaWake(float t)
     {
         if (!_photoNivaVoiceStarted && t >= _photoNivaVoiceDelay) StartPhotoNivaWakeVoice();
+        if (_photoNivaVoiceStarted && !_photoNivaPrintRecognized && t >= _photoNivaWakeVoiceEnds + .8)
+        {
+            _photoNivaPrintRecognized = true;
+            if (_photoNivaLapBook is not null)
+                ShowPrologueCaption("Айдар (про себя): «Тот же лес. Он на снимке».", 4.5);
+        }
         if (_prologueBlackout is { } blackout)
         {
             float alpha;
@@ -246,31 +259,7 @@ public partial class Act1DemoRoot
         _photoNivaWoke = true;
         if (_rideCamera is { } camera)
             UiFoley.PlayWorld(this, camera.GlobalPosition, "forest/gasp", -8f, 6f, 2f);
-        if (_player?.ReducedMotion == true)
-        {
-            _rideLook = new(35f, -2f);
-            ApplyPrologueRideLook();
-            return;
-        }
-        PhotoNivaWakeLook();
-    }
-
-    private async void PhotoNivaWakeLook()
-    {
-        var from = _rideLook;
-        var to = new Vector2(35f, -2f);
-        var elapsed = 0f;
-        while (elapsed < .6f && _photoNivaDriving && _rideCamera is { } camera && IsInstanceValid(camera))
-        {
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-            if (PhotoNivaDrivePaused) continue;
-            elapsed += (float)GetProcessDeltaTime();
-            var k = Mathf.Clamp(elapsed / .38f, 0f, 1f);
-            _rideLook = from.Lerp(to, 1f - (1f - k) * (1f - k) * (1f - k));
-            ApplyPrologueRideLook();
-            var shake = (1f - Mathf.Clamp(elapsed / .6f, 0f, 1f)) * .5f;
-            camera.RotationDegrees += new Vector3(Mathf.Sin(elapsed * 71f) * shake, Mathf.Sin(elapsed * 53f) * shake, 0);
-        }
+        // Keep the player's gaze: waking does not pull the camera off the book.
     }
 
     private void UpdatePhotoNivaRoadBarks()
@@ -370,6 +359,7 @@ public partial class Act1DemoRoot
     {
         if (!_photoNivaDriving) return;
         _photoNivaDriving = false;
+        ReleasePhotoNivaLapBook();
         _photoNivaDriveVisual = null;
         ReleasePhotoNivaScore();
         if (_photoNivaPlayer is { } player && IsInstanceValid(player))
