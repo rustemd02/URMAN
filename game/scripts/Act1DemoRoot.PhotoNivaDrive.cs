@@ -20,7 +20,10 @@ public partial class Act1DemoRoot
     private const float PhotoNivaTalkingCruise = 3f;
     private const float PhotoNivaVillageCruise = 4.2f;
     private const float PhotoNivaLanguageAt = 262f;
-    private const double PhotoNivaWakeHold = 1.4;
+    private const double PhotoNivaBlinkAfterVoice = 1.4;
+    private double _photoNivaWakeHold = PhotoNivaBlinkAfterVoice;
+    private double _photoNivaVoiceDelay;
+    private bool _photoNivaVoiceStarted;
     private bool _photoNivaDriving;
     private float _photoNivaDriveElapsed;
     private float _photoNivaApproachDistance;
@@ -85,7 +88,7 @@ public partial class Act1DemoRoot
         _photoNivaVillageStarted = false;
         _photoNivaVillageDistance = _photoNivaVillageLength = 0f;
         _photoNivaBarkIndex = _photoNivaVillageBarkIndex = 0;
-        _photoNivaNextBarkReady = PhotoNivaWakeHold + 4.5;
+        _photoNivaNextBarkReady = _photoNivaWakeHold + 4.5;
         _photoNivaWoke = false;
         _photoNivaLanguageOpened = _photoNivaLanguageCaptioned = false;
         for (var index = 1; index < _photoNivaVillagePath.Length; index++)
@@ -124,9 +127,13 @@ public partial class Act1DemoRoot
         _rideLook = new(62f, -30f);
         ApplyPrologueRideLook();
         PrologueVoice.SetPaused(false);
-        var waking = PrologueVoice.PlayClip(this, "forest-wake-v2");
-        ShowPrologueCaption("Мансур бабай: «Айдар… Айдар, уян. Килеп җитәбез.»\n(Айдар… Айдар, проснись. Уже подъезжаем.)",
-            Math.Max(4.5, waking + .3));
+        // The dream's voice blend may still be finishing: babai's «уян» follows it,
+        // never on top of it, and the eyes open just after he speaks.
+        _photoNivaVoiceDelay = PrologueDreamCut.MorphRemainingSeconds;
+        _photoNivaVoiceStarted = false;
+        _photoNivaWakeHold = _photoNivaVoiceDelay + PhotoNivaBlinkAfterVoice;
+        _photoNivaNextBarkReady = _photoNivaWakeHold + 4.5;
+        if (_photoNivaVoiceDelay <= .05) StartPhotoNivaWakeVoice();
         HideRouteCue();
     }
 
@@ -214,19 +221,28 @@ public partial class Act1DemoRoot
 
     // Black, the voice, then the eyes open twice - a blink, not a fade - and
     // Aidar comes up from the window with a start.
+    private void StartPhotoNivaWakeVoice()
+    {
+        _photoNivaVoiceStarted = true;
+        var waking = PrologueVoice.PlayClip(this, "forest-wake-v2");
+        ShowPrologueCaption("Мансур бабай: «Айдар… Айдар, уян. Килеп җитәбез.»\n(Айдар… Айдар, проснись. Уже подъезжаем.)",
+            Math.Max(4.5, waking + .3));
+    }
+
     private void UpdatePhotoNivaWake(float t)
     {
+        if (!_photoNivaVoiceStarted && t >= _photoNivaVoiceDelay) StartPhotoNivaWakeVoice();
         if (_prologueBlackout is { } blackout && t < 3f)
         {
             float alpha;
-            if (_player?.ReducedMotion == true) alpha = 1f - Mathf.Clamp((t - (float)PhotoNivaWakeHold) / .5f, 0f, 1f);
-            else if (t < PhotoNivaWakeHold) alpha = 1f;
-            else if (t < PhotoNivaWakeHold + .22) alpha = Mathf.Lerp(1f, .32f, (t - (float)PhotoNivaWakeHold) / .22f);
-            else if (t < PhotoNivaWakeHold + .4) alpha = Mathf.Lerp(.32f, .86f, (t - (float)PhotoNivaWakeHold - .22f) / .18f);
-            else alpha = Mathf.Lerp(.86f, 0f, Mathf.Clamp((t - (float)PhotoNivaWakeHold - .4f) / .75f, 0f, 1f));
+            if (_player?.ReducedMotion == true) alpha = 1f - Mathf.Clamp((t - (float)_photoNivaWakeHold) / .5f, 0f, 1f);
+            else if (t < _photoNivaWakeHold) alpha = 1f;
+            else if (t < _photoNivaWakeHold + .22) alpha = Mathf.Lerp(1f, .32f, (t - (float)_photoNivaWakeHold) / .22f);
+            else if (t < _photoNivaWakeHold + .4) alpha = Mathf.Lerp(.32f, .86f, (t - (float)_photoNivaWakeHold - .22f) / .18f);
+            else alpha = Mathf.Lerp(.86f, 0f, Mathf.Clamp((t - (float)_photoNivaWakeHold - .4f) / .75f, 0f, 1f));
             blackout.Color = Colors.Black with { A = alpha };
         }
-        if (_photoNivaWoke || t < PhotoNivaWakeHold) return;
+        if (_photoNivaWoke || t < _photoNivaWakeHold) return;
         _photoNivaWoke = true;
         if (_rideCamera is { } camera)
             UiFoley.PlayWorld(this, camera.GlobalPosition, "forest/gasp", -8f, 6f, 2f);

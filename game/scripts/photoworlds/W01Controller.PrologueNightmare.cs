@@ -23,6 +23,9 @@ public partial class W01Controller
 {
     private const string NightmareBedStream = "res://assets/audio/act1/foley/forest/dread_drone.wav";
     private const string NightmareHeartStream = "res://assets/audio/act1/foley/forest/heartbeat.wav";
+    private const string NightmareAirStream = "res://assets/audio/kara_urman_edge_ambience.wav";
+    private const string NightmareStepsStream = "res://assets/audio/act1/sound_mood/boots_snow.wav";
+    private const string NightmareBranchStream = "res://assets/audio/act1/sound_mood/forest_branch.wav";
     private const float NightmareBranchOpenDistance = 8.5f;
 
     private static readonly float PrologueRouteLength = ComputePrologueRouteLength();
@@ -42,6 +45,7 @@ public partial class W01Controller
     private bool _prologueCaptionThought;
     private AudioStreamPlayer? _nightmareBed;
     private AudioStreamPlayer? _nightmareHeart;
+    private AudioStreamPlayer? _nightmareAir;
     private OmniLight3D? _nightmareEyeLight;
 
     // Daylight resources of the photograph, restored for the later W01 episode.
@@ -115,6 +119,7 @@ public partial class W01Controller
         var moon = GetNodeOrNull<OmniLight3D>("PrologueClearingMoonlight");
         if (world?.Environment is null) return;
         _nightmareMoodApplied = nightmare;
+        SetPrologueThicketVisible(nightmare);
         _daylightEnvironment ??= world.Environment;
         if (sun is not null && _daylightEnergy < 0f)
         {
@@ -222,6 +227,7 @@ public partial class W01Controller
             if (GodotObject.IsInstanceValid(glint)) glint.Visible = false;
         StopNightmareSound(ref _nightmareBed, 0);
         StopNightmareSound(ref _nightmareHeart, 0);
+        StopNightmareSound(ref _nightmareAir, 0);
     }
 
     private void ProcessPrologueNightmare(FirstPersonController player, Vector2 feet, bool branchMoved, double delta)
@@ -239,7 +245,17 @@ public partial class W01Controller
             eyeLight.GlobalPosition = player.GlobalPosition + Vector3.Up * 1.9f - player.GlobalBasis.Z * .6f;
 
         if (Fire(0, t > 1.6)) ShowNightmareThought("Следы. Совсем свежие — кто-то прошёл здесь только что.", 4.5);
+        // Sound design: wind in the crowns under everything, the dread bed on top.
+        if (Fire(9, t > .4)) StartNightmareSound(ref _nightmareAir, NightmareAirStream, -21f);
         if (Fire(1, t > 2.4)) StartNightmareSound(ref _nightmareBed, NightmareBedStream, -19f);
+        // Marat far ahead, not yet by name: only «эй… эй…» through the trees.
+        if (Fire(10, p >= 44f))
+        {
+            var ahead = PrologueRoutePoint(p + 42f, -14f, 1.6f);
+            PlayPrologueForestVoice(new Vector2(ahead.X, ahead.Z), "forest-call-hey", "«Эй… эй… эй…»", -6f);
+        }
+        // Someone walks beside the track, out of sight, and keeps his pace.
+        if (Fire(11, p >= 76f)) WalkAlongside(player);
         if (Fire(2, p >= 17f)) NightmareSoundAround(player, "forest/wolf_far", 95f, 4f, -5f, 260f, 40f);
         if (Fire(3, p >= 29f)) KnockInTheTrees(player);
 
@@ -306,12 +322,20 @@ public partial class W01Controller
                 _nightmareRng.RandfRange(30f, 60f), _nightmareRng.RandfRange(12f, 20f), -6f, 140f, 16f);
         else if (roll < .55f)
             NightmareSoundAround(player, "forest/brush_rustle", _nightmareRng.RandfRange(5f, 12f), .4f, -7f, 30f, 4f);
-        else if (roll < .74f)
+        else if (roll < .66f)
             NightmareSoundAround(player, "forest/branch_crack", _nightmareRng.RandfRange(12f, 32f), 2f, -7f, 70f, 7f);
+        else if (roll < .74f)
+            PlayNightmareSample(NightmareBranchStream, RandomAround(player, _nightmareRng.RandfRange(14f, 30f), 2f), -6f, 60f, 6f);
         else if (roll < .88f && progress > 80f)
             NightmareSoundAround(player, "forest/strange_clicks", _nightmareRng.RandfRange(9f, 18f), 1.5f, -10f, 45f, 5f);
         else
             UiFoley.PlayWorld(this, player.GlobalPosition + Vector3.Up * 6f, "forest/wind_gust", -13f, 60f, 20f);
+    }
+
+    private Vector3 RandomAround(FirstPersonController player, float distance, float height)
+    {
+        var angle = _nightmareRng.RandfRange(0, Mathf.Tau);
+        return player.GlobalPosition + new Vector3(Mathf.Cos(angle) * distance, height, Mathf.Sin(angle) * distance);
     }
 
     private Vector3 NightmareSoundAround(FirstPersonController player, string sample, float distance, float height,
@@ -321,6 +345,44 @@ public partial class W01Controller
         var at = player.GlobalPosition + new Vector3(Mathf.Cos(angle) * distance, height, Mathf.Sin(angle) * distance);
         UiFoley.PlayWorld(this, at, sample, volumeDb, maxDistance, unitSize);
         return at;
+    }
+
+    private AudioStreamPlayer3D? PlayNightmareSample(string path, Vector3 at, float volumeDb, float maxDistance, float unitSize)
+    {
+        if (DisplayServer.GetName() == "headless" || !ResourceLoader.Exists(path)
+            || ResourceLoader.Load<AudioStream>(path) is not { } stream) return null;
+        AudioSettingsService.EnsureBuses();
+        var player = new AudioStreamPlayer3D
+        {
+            Stream = stream, Bus = AudioSettingsService.SfxBus, VolumeDb = volumeDb,
+            MaxDistance = maxDistance, UnitSize = unitSize
+        };
+        AddChild(player);
+        player.GlobalPosition = at;
+        player.Finished += player.QueueFree;
+        player.Play();
+        return player;
+    }
+
+    // Steps in the snow, ten metres off the track, matching his own and
+    // stopping when he stops. Never seen.
+    private async void WalkAlongside(FirstPersonController player)
+    {
+        var side = _nightmareRng.Randf() < .5f ? -9f : 9f;
+        var steps = 0;
+        var elapsed = 0d;
+        while (elapsed < 9 && steps < 7 && GodotObject.IsInstanceValid(this) && IsInsideTree() && !_nightmareClimax
+               && GodotObject.IsInstanceValid(player))
+        {
+            await ToSignal(GetTree().CreateTimer(1.25, false), SceneTreeTimer.SignalName.Timeout);
+            elapsed += 1.25;
+            if (!GodotObject.IsInstanceValid(this) || !GodotObject.IsInstanceValid(player)) return;
+            if (player.Velocity.Length() < .4f) continue;
+            var local = ToLocal(player.GlobalPosition);
+            var (progress, _) = PrologueRouteProgress(new Vector2(local.X, local.Z));
+            PlayNightmareSample(NightmareStepsStream, ToGlobal(PrologueRoutePoint(progress + 2f, side, .3f)), -10f, 30f, 5f);
+            steps++;
+        }
     }
 
     private async void KnockInTheTrees(FirstPersonController player)
@@ -485,14 +547,17 @@ public partial class W01Controller
         try
         {
             StopNightmareSound(ref _nightmareBed, 1.2);
+            StopNightmareSound(ref _nightmareAir, 2.4);
             PrologueVoice.StopSpatial(this);
             player.SetSessionTransition(true);
             ShowNightmareThought("Следы обрываются. Дальше — ни одного.", 3.4);
             if (!await NightmareWaitAsync(2.1, session)) return;
 
-            var beside = feet + new Vector2(direction.Y, -direction.X) * 1.1f;
-            var voice = PlayPrologueForestVoice(beside, "forest-babai-name-v2", "«Айдар… Айдар…»", -3f);
-            if (!await NightmareWaitAsync(Math.Clamp(voice * .6, 1.2, 2.2), session)) return;
+            // Marat, the friend who is gone, cries out behind him — close, and
+            // for the first time not a whisper. Aidar turns toward his voice.
+            var back = feet - direction * 5f + new Vector2(direction.Y, -direction.X) * 1.5f;
+            var cry = PlayPrologueForestVoice(back, "forest-call-far", "«Эй! Эй! Айдар! Кил монда!»", 2f);
+            if (!await NightmareWaitAsync(Math.Clamp(cry * .55, 1.3, 2.0), session)) return;
 
             var behind = player.GlobalPosition + player.GlobalBasis.Z.Normalized() * 3f + Vector3.Up * 1.4f;
             UiFoley.PlayWorld(this, behind, "forest/rush_close", 0f, 20f, 6f);
@@ -515,7 +580,10 @@ public partial class W01Controller
             UiFoley.PlayWorld(this, presence.GlobalPosition, "forest/scare_sting", 2f, 20f, 8f);
             if (!await NightmareWaitAsync(.42, session)) return;
 
+            PrologueVoice.StopSpatial(this);
             PrologueDreamCut.Show(GetTree());
+            // In the black his «Айдар…» sinks away as babai's «Айдар…» surfaces.
+            PrologueDreamCut.PlayVoiceMorph(GetTree());
             cut = true;
             if (_prologueVoiceCaption is { } caption) caption.Hide();
             _prologueCaptionRemaining = 0;
