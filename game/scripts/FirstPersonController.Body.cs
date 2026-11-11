@@ -621,6 +621,7 @@ public partial class FirstPersonController
         {
             _bodyGroundTravelMeters += distance;
         }
+        AdvanceStride(grounded ? distance : 0f, (float)delta);
         if (_bodyFootContactIntervalMeters > .001f)
         {
             var intervalProgress = Mathf.Clamp((float)((_bodyGroundTravelMeters - _bodyLastFootContactTravelMeters)

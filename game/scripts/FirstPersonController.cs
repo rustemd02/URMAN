@@ -16,7 +16,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private const int FocusSwitchFrames = 2;
 
     [Export(PropertyHint.Range, "1,8,0.1")]
-    public float WalkSpeed { get; set; } = 2.4f;
+    public float WalkSpeed { get; set; } = 2.2f;
 
     [Export(PropertyHint.Range, "0.02,1,0.01")]
     public float MouseSensitivity { get; set; } = 0.16f;
@@ -624,8 +624,8 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         var bobHeight = Mathf.Lerp(WalkBobHeight, SprintBobHeight, sprint) * (IsCrouching ? .5f : 1f);
         // Two dips per stride (one per foot contact) and one side sway per stride.
         var bobTarget = HeadBobEnabled && moving && !IsSliding
-            ? -Mathf.Abs(Mathf.Sin(_bodyGait * Mathf.Tau)) * bobHeight + bobHeight * .5f : 0f;
-        var swayTarget = HeadBobEnabled && moving ? Mathf.Sin(_bodyGait * Mathf.Tau) * BobSway : 0f;
+            ? -Mathf.Abs(Mathf.Sin(StridePhase * Mathf.Tau)) * bobHeight + bobHeight * .5f : 0f;
+        var swayTarget = HeadBobEnabled && moving ? Mathf.Sin(StridePhase * Mathf.Tau) * BobSway : 0f;
         _headBobOffset = Mathf.Lerp(_headBobOffset, bobTarget, Mathf.Clamp(dt * 14f, 0f, 1f));
         _headSwayOffset = Mathf.Lerp(_headSwayOffset, swayTarget, Mathf.Clamp(dt * 10f, 0f, 1f));
 

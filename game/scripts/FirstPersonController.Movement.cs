@@ -30,9 +30,9 @@ public partial class FirstPersonController
     private const float GroundAcceleration = 16f;
     private const float GroundDeceleration = 21f;
     // Camera feel. All of it is presentation only and is disabled by ReducedMotion.
-    private const float WalkBobHeight = .016f;
-    private const float SprintBobHeight = .026f;
-    private const float BobSway = .007f;
+    private const float WalkBobHeight = .024f;
+    private const float SprintBobHeight = .04f;
+    private const float BobSway = .012f;
     private const float StrafeRollDegrees = .9f;
     private const float SprintFovKick = 4.5f;
     private const float LandingDipPerMeterSecond = .012f;
@@ -55,6 +55,41 @@ public partial class FirstPersonController
     {
         _paceScale = Mathf.Clamp(scale, .4f, 1.2f);
         _paceScaleHold = .25f;
+    }
+
+    // A person's stride, not the leg solver's reach: a long easy step at a
+    // walk, a bounding one at a run, short when crouched. Footfall sounds and the
+    // head's rise and fall follow this cadence (roughly two steps a second
+    // walking, three running), so the walk reads as unhurried and human.
+    private const float WalkStepMeters = .95f;
+    private const float RunStepMeters = 1.45f;
+    private const float CrouchStepMeters = .55f;
+    private float _strideTravel;
+    private float _strideStep = WalkStepMeters;
+
+    /// <summary>Footfalls since the scene began; each increment is one step landing.</summary>
+    public ulong StrideContactCount { get; private set; }
+    /// <summary>Length of the step that is being taken now, in metres.</summary>
+    public float StrideStepMeters => _strideStep;
+    /// <summary>0..1 across two steps (left then right).</summary>
+    private float StridePhase => ((StrideContactCount & 1) == 0 ? 0f : .5f) + Mathf.Clamp(_strideTravel / _strideStep, 0f, 1f) * .5f;
+
+    private void AdvanceStride(float distance, float delta)
+    {
+        var pace = delta > 0f ? distance / delta : 0f;
+        var target = IsCrouching ? CrouchStepMeters
+            : Mathf.Lerp(WalkStepMeters, RunStepMeters, Mathf.Clamp((pace - WalkSpeed) / Mathf.Max(WalkSpeed * (SprintMultiplier - 1f), .1f), 0f, 1f));
+        _strideStep = Mathf.MoveToward(_strideStep, target, delta * 1.2f);
+        if (distance <= 0f)
+        {
+            // Standing still or in the air: the next step starts fresh.
+            if (pace < .05f) _strideTravel = Mathf.MoveToward(_strideTravel, 0f, delta * .6f);
+            return;
+        }
+        _strideTravel += distance;
+        if (_strideTravel < _strideStep) return;
+        _strideTravel -= _strideStep;
+        StrideContactCount++;
     }
 
     private float _jumpBuffer;

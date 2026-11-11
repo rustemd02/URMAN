@@ -93,7 +93,7 @@ public partial class FootstepAudioController : Node
         }
 
         var position = new Vector2(_actor.GlobalPosition.X, _actor.GlobalPosition.Z);
-        var contactCount = _actor.BodyFootContactCount;
+        var contactCount = _actor.StrideContactCount;
         if (_lastFootContactCount is not ulong previous)
         {
             _lastFootContactCount = contactCount;
@@ -107,8 +107,7 @@ public partial class FootstepAudioController : Node
         _lastFootContactCount = contactCount;
         if (contactCount == previous) return;
 
-        if (_actor.BodyFootContactIntervalMeters > .001)
-            StepIntervalMeters = (float)_actor.BodyFootContactIntervalMeters;
+        StepIntervalMeters = _actor.StrideStepMeters;
         var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
         LastSurface = SurfaceUnderfoot(bridge?.CurrentZoneId ?? "village_day", position);
         PlayStep(LastSurface);
