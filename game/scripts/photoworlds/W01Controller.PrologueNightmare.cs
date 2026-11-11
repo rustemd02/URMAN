@@ -121,6 +121,7 @@ public partial class W01Controller
                 sun.LightColor = _daylightColor;
             }
             if (moon is not null) moon.Visible = false;
+            SetDreadActive(false);
             if (_nightmareEyeLight is { } eyeLight && GodotObject.IsInstanceValid(eyeLight)) eyeLight.Visible = false;
             return;
         }
@@ -130,7 +131,7 @@ public partial class W01Controller
         if (sun is not null)
         {
             // A low cold moon: shapes and prints still read, colour does not.
-            sun.LightEnergy = .38f;
+            sun.LightEnergy = .27f;
             sun.LightColor = new Color(.62f, .7f, .94f);
         }
         // The authored clearing light becomes the pale gap the prints lead to.
@@ -142,6 +143,7 @@ public partial class W01Controller
             EnsureMoonShafts(moon);
         }
         EnsureNightmareEyeLight();
+        SetDreadActive(true);
     }
 
     private static Environment BuildNightmareEnvironment(Environment daylight)
@@ -155,7 +157,9 @@ public partial class W01Controller
             sky.GroundHorizonColor = new Color(.17f, .2f, .27f);
         }
         night.AmbientLightColor = new Color(.32f, .38f, .5f);
-        night.AmbientLightEnergy = .48f;
+        // Dark enough that the hand torch leads, light enough that the trail
+        // still reads if the torch dips. Tune here together with the moon above.
+        night.AmbientLightEnergy = .27f;
         night.AmbientLightSkyContribution = .3f;
         // Closer, darker fog: more dread and less to draw.
         night.FogLightColor = new Color(.09f, .11f, .16f);
@@ -229,8 +233,8 @@ public partial class W01Controller
         {
             Name = "PrologueAdaptedEyes",
             LightColor = new Color(.74f, .8f, 1f),
-            LightEnergy = .5f,
-            OmniRange = 9.5f,
+            LightEnergy = .22f,
+            OmniRange = 7f,
             OmniAttenuation = 1.6f,
             LightSpecular = 0f,
             ShadowEnabled = false
@@ -254,6 +258,7 @@ public partial class W01Controller
         _prologueCaptionThought = false;
         StopParallelSteps();
         StopNightmareSound(ref _nightmareAir, 0);
+        ResetDread();
     }
 
     private void ProcessPrologueNightmare(FirstPersonController player, Vector2 feet, bool branchMoved, double delta)
@@ -281,7 +286,14 @@ public partial class W01Controller
             ShowNightmareThought("Марат?.. Нет. Не может быть.", 4);
         if (Fire(9, t > .4)) StartNightmareSound(ref _nightmareAir, NightmareAirStream, -24f);
 
-        // Opening the path is the player's action; the sound now answers that action.
+        ProcessDread(player, p, t, (float)delta);
+        // The branch across the trail is lifted away by nothing anyone can see:
+        // the walk never stops on a chore.
+        if (!branchMoved && !_branchMoveInProgress
+            && feet.DistanceTo(new Vector2(BranchF01.X, BranchF01.Z)) <= 7.5f
+            && BeginBranchMove(PrologueBranchInteractionId) && Fire(5, true))
+            UiFoley.PlayWorld(this, ToGlobal(BranchF01 + Vector3.Up * 1.2f), "forest/branch_crack", -2f, 30f, 6f);
+
         if (Fire(4, branchMoved))
         {
             if (p < 80f)
@@ -313,7 +325,7 @@ public partial class W01Controller
         if (t - _nightmareLastGain > 24 && t > 20 && !_nightmareSilence)
         {
             _nightmareLastGain = t;
-            ShowNightmareThought(branchMoved ? "Голос впереди. Следы идут к просвету." : "Следы уходят за ветку. Нужно освободить проход.", 4);
+            ShowNightmareThought("Следы уходят дальше по тропе, в чащу.", 4);
         }
     }
 
@@ -376,19 +388,24 @@ public partial class W01Controller
             StopParallelSteps();
             StopNightmareSound(ref _nightmareAir, 1.5);
             PrologueVoice.StopSpatial(this);
-            ShowNightmareThought("Дальше — чистый снег. Куда ты делся?..", 3.2);
-            if (!await NightmareWaitAsync(3.2, session)) return;
+            ShowNightmareThought("Следы обрываются. Дальше — чистый снег.", 3);
+            if (!await NightmareWaitAsync(2.6, session)) return;
 
             // Aidar can turn towards the caller himself. No forced spin or apparition.
             var localBack = ToLocal(player.GlobalPosition + player.GlobalBasis.Z.Normalized() * 3f);
             var voiceLength = PlayPrologueForestVoice(new Vector2(localBack.X, localBack.Z), "forest-come-here", "«Айдар. Кил монда…»\n(Айдар, иди сюда…)", -2f);
-            if (!await NightmareWaitAsync(Math.Max(2.4, voiceLength) + .4, session)) return;
+            if (!await NightmareWaitAsync(Math.Clamp(voiceLength * .7, 1.6, 3.0), session)) return;
 
+            // He never gets to answer.
             player.SetSessionTransition(true);
             transitionHeld = true;
-            PrologueDreamCut.Show(GetTree(), fadeSeconds: 1.2);
+            if (_prologueVoiceCaption is { } spoken) spoken.Hide();
+            _prologueCaptionRemaining = 0;
+            if (!await RunDreadAttackAsync(player, session)) return;
+            PrologueDreamCut.Show(GetTree(), fadeSeconds: .45);
             cut = true;
-            if (!await NightmareWaitAsync(1.2, session)) return;
+            if (!await NightmareWaitAsync(.9, session)) return;
+            ReleaseFallCamera(player);
             PrologueVoice.StopSpatial(this);
             PrologueDreamCut.PlayVoiceMorph(GetTree());
             if (_prologueVoiceCaption is { } caption) caption.Hide();
@@ -409,11 +426,13 @@ public partial class W01Controller
             var sameSession = GodotObject.IsInstanceValid(bridge) && ReferenceEquals(bridge.SessionIdentity, session);
             if (transitionHeld && sameSession && GodotObject.IsInstanceValid(player))
                 player.SetSessionTransition(false);
+            if (GodotObject.IsInstanceValid(this)) ReleaseFallCamera(GodotObject.IsInstanceValid(player) ? player : null);
             if (!committed && cut) PrologueDreamCut.Release(fadeSeconds: .4);
             if (!committed && GodotObject.IsInstanceValid(this) && IsInsideTree() && !IsQueuedForDeletion()
                 && sameSession && bridge.ActiveSceneId == PrologueSceneId)
             {
                 _nightmareClimax = false;
+                _torchDead = false;
                 _prologueExitDispatching = false;
                 _prologueEndTarget?.SetPresentationEnabled(true);
             }

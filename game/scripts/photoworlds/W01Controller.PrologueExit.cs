@@ -136,8 +136,11 @@ public partial class W01Controller
         if (!_prologueEndNoticed && Mathf.Abs(offset.Cross(direction)) < 4f && offset.Dot(direction) is > -10f and < 3f)
         {
             _prologueEndNoticed = true;
-            ShowNightmareThought("Последние следы. Дальше — чистый снег.", 4);
         }
+        // Reaching the end of the prints is enough: what waits there does not
+        // need to be asked.
+        if (Mathf.Abs(offset.Cross(direction)) < 5f && offset.Dot(direction) is > -4.5f and < 4f)
+            RunNightmareClimaxAsync(bridge, session, player);
     }
 
     private bool BeginPrologueEndInspection()
