@@ -23,6 +23,10 @@ public partial class AuthoredWorldDirector
     // Fallbacks for a schedule block that omits a field. Names live here so the
     // cached parse and the old per-frame reads cannot drift apart.
     private const float DefaultSpeed = 1.3f;
+    // Gait tuning: the ground speed the library walk loop was animated for, and
+    // how fast a resident turns the body (radians per second) instead of snapping.
+    private const float WalkClipGroundSpeed = 1.4f;
+    private const float BodyTurnRate = 6.5f;
     private const float DefaultFollowDistance = 2.5f;
     private const float DefaultFollowLose = 30f;
     private const string DefaultWalkMotion = "urman.anim:walk";
@@ -60,6 +64,7 @@ public partial class AuthoredWorldDirector
         public string GreetingMotion = "";
         public float GreetingLeft;
         public float GreetingRestYaw;
+        public bool WalkRetimed;
         public bool MotionPaused;
     }
 
@@ -121,6 +126,7 @@ public partial class AuthoredWorldDirector
         if (item.Params.TryGetProperty("schedule", out var schedule) && schedule.ValueKind == JsonValueKind.Array && schedule.GetArrayLength() > 0)
         {
             _routines[item.Id] = new RoutineRun { Item = item, Character = character };
+            VaryProportions(item.Id, character);
         }
     }
 
@@ -257,8 +263,13 @@ public partial class AuthoredWorldDirector
                 continue;
             }
 
+            // Feet keep the cadence of the real ground speed, so they do not slide.
+            if (!run.WalkRetimed)
+                run.WalkRetimed = AnimationCatalog.TrySetMotionScale(run.Character, speed / WalkClipGroundSpeed, out _, out _);
             if (MoveTowards(root, waypoint.At, speed * delta))
             {
+                run.WalkRetimed = false;
+                AnimationCatalog.ResetMotionScale(run.Character);
                 if (waypoint.Wait > 0)
                 {
                     run.WaitLeft = waypoint.Wait;
@@ -352,6 +363,19 @@ public partial class AuthoredWorldDirector
     }
 
     /// <summary>One walking step on the ground; true when the point is reached.</summary>
+    // Residents share one base body; a few percent of height and shoulder width,
+    // fixed by the resident's id, keeps a street from reading as copies.
+    private static void VaryProportions(string id, Node3D character)
+    {
+        if (character.HasMeta("proportionVariant")) return;
+        var hash = 2166136261u;
+        foreach (var c in id) hash = (hash ^ c) * 16777619u;
+        var height = 1f + ((hash & 0xff) / 255f - .5f) * .07f;
+        var width = 1f + (((hash >> 8) & 0xff) / 255f - .5f) * .09f;
+        character.Scale *= new Vector3(width, height, width);
+        character.SetMeta("proportionVariant", true);
+    }
+
     private static bool MoveTowards(Node3D root, Vector3 target, float step)
     {
         var flat = new Vector3(target.X - root.Position.X, 0, target.Z - root.Position.Z);
@@ -364,14 +388,22 @@ public partial class AuthoredWorldDirector
         var direction = flat.Normalized();
         var at = root.Position + direction * step;
         root.Position = Ground(new Vector3(at.X, 0, at.Z));
-        root.Rotation = new Vector3(0, Mathf.Atan2(direction.X, direction.Z), 0);
+        TurnBody(root, Mathf.Atan2(direction.X, direction.Z));
         return false;
     }
 
     private static void Face(Node3D root, Vector3 look)
     {
         var flat = new Vector2(look.X - root.GlobalPosition.X, look.Z - root.GlobalPosition.Z);
-        if (flat.Length() > .05f) root.Rotation = new Vector3(0, Mathf.Atan2(flat.X, flat.Y), 0);
+        if (flat.Length() > .05f) TurnBody(root, Mathf.Atan2(flat.X, flat.Y));
+    }
+
+    // Called once per physics tick by the mover: a turn of the shoulders, not a snap.
+    private static void TurnBody(Node3D root, float yaw)
+    {
+        var step = BodyTurnRate / Mathf.Max(Engine.PhysicsTicksPerSecond, 1);
+        var difference = Mathf.AngleDifference(root.Rotation.Y, yaw);
+        root.Rotation = new Vector3(0, root.Rotation.Y + Mathf.Clamp(difference, -step, step), 0);
     }
 
     private void Plan(RoutineRun run)
