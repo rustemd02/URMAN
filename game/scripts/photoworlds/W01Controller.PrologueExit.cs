@@ -118,7 +118,12 @@ public partial class W01Controller
         _prologueCaptionRemaining = Math.Max(0, _prologueCaptionRemaining - delta);
         if (_prologueVoiceCaption is { } caption)
             caption.Visible = (_accessibility.Subtitles || _prologueCaptionThought) && _prologueCaptionRemaining > 0;
-        if (_nightmareClimax) return;
+        if (_nightmareClimax)
+        {
+            // The walk is parked, but the torch still has to die and the eyes to open.
+            TickDreadPresentation(player, 1f, _nightmareElapsed, (float)delta);
+            return;
+        }
 
         var local = ToLocal(player.GlobalPosition);
         var feet = new Vector2(local.X, local.Z);

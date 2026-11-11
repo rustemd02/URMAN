@@ -38,6 +38,7 @@ public partial class W01Controller
         public float NextBlink;
         public float Blink;
         public bool Closing;
+        public bool Pinned;
     }
 
     private SpotLight3D? _torch;
@@ -161,10 +162,7 @@ public partial class W01Controller
     private void ProcessDread(FirstPersonController player, float progress, double time, float delta)
     {
         var fraction = Mathf.Clamp(progress / Mathf.Max(PrologueRouteLength, 1f), 0f, 1f);
-        var camera = GetViewport().GetCamera3D();
-        if (camera is null) return;
-        UpdateTorch(player, camera, fraction, delta);
-        UpdateEyes(player, camera, fraction, time, delta);
+        TickDreadPresentation(player, fraction, time, delta);
         if (_nightmareSilence) return;
 
         // The bed under everything, rising with the walk.
@@ -200,6 +198,15 @@ public partial class W01Controller
             StartNightmareSound(ref _dreadHeart, DreadHeartStream, -15f);
             UiFoley.PlayWorld(this, DreadAround(player, 18f, 24f, .6f), "forest/low_moan", -6f, 80f, 10f);
         }
+    }
+
+    /// <summary>Torch and eyes only; also runs through the climax, when the walk logic is parked.</summary>
+    private void TickDreadPresentation(FirstPersonController player, float fraction, double time, float delta)
+    {
+        var camera = _fallCamera is { } fall && GodotObject.IsInstanceValid(fall) ? fall : GetViewport().GetCamera3D();
+        if (camera is null) return;
+        UpdateTorch(player, camera, fraction, delta);
+        UpdateEyes(player, camera, fraction, time, delta);
     }
 
     private bool DreadFire(int index, bool condition)
@@ -300,7 +307,7 @@ public partial class W01Controller
             var distance = to.Length();
             // They hold while he does not look. Looked at, or approached, they shut.
             pair.Stare = look.Dot(to / Mathf.Max(distance, .01f)) > .972f ? pair.Stare + delta : 0f;
-            if (!pair.Closing && (pair.Stare > EyeStareSeconds || distance < EyeNearClose || pair.Age > EyeMaxAge))
+            if (!pair.Closing && !pair.Pinned && (pair.Stare > EyeStareSeconds || distance < EyeNearClose || pair.Age > EyeMaxAge))
             {
                 pair.Closing = true;
                 if (pair.Stare > EyeStareSeconds)
@@ -358,6 +365,7 @@ public partial class W01Controller
         pair.Root.SetMeta("eyeSize", size);
         pair.Left.Scale = pair.Right.Scale = new Vector3(size, .001f, size * .5f);
         pair.Active = true;
+        pair.Pinned = false;
         pair.Closing = false;
         pair.Open = 0f;
         pair.Age = 0f;
@@ -431,9 +439,7 @@ public partial class W01Controller
             var pair = _eyes[0];
             SpawnEyes(pair, eye + forward * 1.5f + Vector3.Up * .55f, eye, .3f, .075f);
             pair.Open = 1f;
-            pair.Left.Scale = pair.Right.Scale = new Vector3(.075f, .075f, .04f);
-            pair.Age = -100f;
-            pair.Stare = -100f;
+            pair.Pinned = true;
             pair.NextBlink = 100f;
         }
         UiFoley.PlayWorld(this, eye + forward, "forest/scare_sting", 2f, 20f, 8f);
