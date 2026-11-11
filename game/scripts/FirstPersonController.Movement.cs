@@ -26,9 +26,22 @@ public partial class FirstPersonController
     public bool VehicleControlled { get; private set; }
     internal int GroundedJumps { get; private set; }
 
+    private float _paceScale = 1f;
+    private float _paceScaleHold;
+
+    /// <summary>Presentation-only pace for a scene (deep dream snow). The caller
+    /// refreshes it every tick; it lapses by itself a quarter second after the
+    /// last call, so a scene that goes away can never leave the walker slow.</summary>
+    public void HoldPaceScale(float scale)
+    {
+        _paceScale = Mathf.Clamp(scale, .4f, 1.2f);
+        _paceScaleHold = .25f;
+    }
+
     private void ApplyHorizontalMovement(Vector2 input, float speed, float delta, bool grounded)
     {
-        var target = input * speed;
+        if (_paceScaleHold > 0f && (_paceScaleHold -= delta) <= 0f) _paceScale = 1f;
+        var target = input * speed * _paceScale;
         var current = new Vector2(Velocity.X, Velocity.Z);
         var acceleration = grounded
             ? (target.LengthSquared() > .0001f ? GroundAcceleration : GroundDeceleration)

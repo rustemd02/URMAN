@@ -24,6 +24,8 @@ public partial class W01Controller
     private double _nightmareNextStep;
     private AudioStreamPlayer3D? _nightmareParallelSteps;
     private double _nightmareLastGain;
+    // The dream walk is a little heavier than the village walk. Tune here.
+    private const float NightmarePaceScale = .74f;
     private float _nightmareBestProgress;
     private bool _nightmareSilence;
     private bool _nightmareClimax;
@@ -259,6 +261,7 @@ public partial class W01Controller
         if (_nightmareClimax) return;
         _nightmareElapsed += delta;
         var t = _nightmareElapsed;
+        player.HoldPaceScale(NightmarePaceScale);
         var (p, _) = PrologueRouteProgress(feet);
         if (p > _nightmareBestProgress + .5f)
         {
