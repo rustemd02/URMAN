@@ -159,8 +159,11 @@ public partial class FootstepAudioController : Node
         // authored wood/grass contacts keep their normal impact sound.
         var deepForestSnow = FirstPersonController.DetachedWorldGuard is not null
             && (surface == "snow_soft" || surface == "snow_packed");
-        _stepPlayer.VolumeDb = deepForestSnow ? -26f : -14f;
-        _stepPlayer.PitchScale = deepForestSnow ? .88f : 1f;
+        // Louder, slightly brighter contacts at a run; softer when creeping.
+        var pace = _actor is null ? 0f : Mathf.Clamp(
+            (new Vector2(_actor.Velocity.X, _actor.Velocity.Z).Length() - 1.2f) / 3f, -.3f, 1f);
+        _stepPlayer.VolumeDb = (deepForestSnow ? -26f : -14f) + pace * 3.5f;
+        _stepPlayer.PitchScale = (deepForestSnow ? .88f : 1f) + Mathf.Max(pace, 0f) * .05f;
         _stepPlayer.Play();
     }
 

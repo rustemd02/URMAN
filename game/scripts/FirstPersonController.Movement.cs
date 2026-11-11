@@ -4,10 +4,20 @@ namespace Urman.Godot;
 
 public partial class FirstPersonController
 {
-    private const float SprintMultiplier = 2.6f / 1.6f;
+    // Feel tuning (author pass 2026-11-12): brisk walk 2.4 m/s, run 4.2 m/s,
+    // about .15 s to full walking speed and a slightly quicker stop.
+    private const float SprintMultiplier = 4.2f / 2.4f;
     private const float JumpHeight = .60f;
-    private const float GroundAcceleration = 24f;
-    private const float GroundDeceleration = 30f;
+    private const float GroundAcceleration = 16f;
+    private const float GroundDeceleration = 21f;
+    // Camera feel. All of it is presentation only and is disabled by ReducedMotion.
+    private const float WalkBobHeight = .016f;
+    private const float SprintBobHeight = .026f;
+    private const float BobSway = .007f;
+    private const float StrafeRollDegrees = .9f;
+    private const float SprintFovKick = 4.5f;
+    private const float LandingDipPerMeterSecond = .012f;
+    private const float LandingDipMax = .07f;
     private const float AirControlAcceleration = 7.5f;
     private uint _walkingCollisionLayer;
     private uint _walkingCollisionMask;

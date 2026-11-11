@@ -16,7 +16,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private const int FocusSwitchFrames = 2;
 
     [Export(PropertyHint.Range, "1,8,0.1")]
-    public float WalkSpeed { get; set; } = 1.6f;
+    public float WalkSpeed { get; set; } = 2.4f;
 
     [Export(PropertyHint.Range, "0.02,1,0.01")]
     public float MouseSensitivity { get; set; } = 0.16f;
@@ -69,6 +69,13 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private Vector3 _headBasePosition;
     private Vector3 _headStancePresentationPosition;
     private float _headBobOffset;
+    private float _headSwayOffset;
+    private float _cameraRoll;
+    private float _fovKick;
+    private float _baseFov = 75f;
+    private float _landingDip;
+    private float _landingDipTarget;
+    private bool _headWasGrounded = true;
     private bool _smoothStancePresentation;
     private CarryCoordinator? _carryCoordinator;
 
@@ -233,7 +240,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         InitializeStepMotion();
         InitializeVisibleBody();
         _gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity").AsDouble();
-        _camera.Fov = 75;
+        _camera.Fov = _baseFov = 75;
         Input.MouseMode = Input.MouseModeEnum.Captured;
         var safeMode = OS.GetCmdlineArgs().Contains("--urman-safe-mode", StringComparer.Ordinal);
         if (!safeMode)
@@ -331,7 +338,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     }
 
     public GameSettingsSnapshot CaptureSettings() => new(
-        _camera.Fov,
+        _baseFov,
         MouseSensitivity,
         MotionBlur: _motionBlur,
         HeadBob: _headBob,
@@ -346,7 +353,8 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     public void ApplySettings(GameSettingsSnapshot settings)
     {
         var tatarLanguageLevel = NormalizeTatarLanguageLevel(settings.TatarLanguageLevel);
-        _camera.Fov = (float)Mathf.Clamp(settings.FieldOfView, 65, 90);
+        _baseFov = (float)Mathf.Clamp(settings.FieldOfView, 65, 90);
+        _camera.Fov = _baseFov + _fovKick;
         MouseSensitivity = (float)settings.MouseSensitivity;
         _motionBlur = settings.MotionBlur;
         _headBob = settings.HeadBob;
@@ -609,11 +617,49 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         // The restrained vertical cue follows the same measured ground path as
         // the feet. It stops after real travel stops and remains fully disabled
         // by the player's reduced-motion preference.
+        var dt = (float)delta;
+        var sprint = moving && IsSprinting ? 1f : 0f;
+        var bobHeight = Mathf.Lerp(WalkBobHeight, SprintBobHeight, sprint) * (IsCrouching ? .5f : 1f);
+        // Two dips per stride (one per foot contact) and one side sway per stride.
         var bobTarget = HeadBobEnabled && moving
-            ? Mathf.Sin(_bodyGait * Mathf.Tau * 2f) * .006f : 0f;
-        _headBobOffset = Mathf.Lerp(_headBobOffset, bobTarget, Mathf.Clamp((float)delta * 14f, 0f, 1f));
-        _head.Position = _headStancePresentationPosition - Vector3.Up * _stepEyeDrop
-            + Vector3.Up * _headBobOffset;
+            ? -Mathf.Abs(Mathf.Sin(_bodyGait * Mathf.Tau)) * bobHeight + bobHeight * .5f : 0f;
+        var swayTarget = HeadBobEnabled && moving ? Mathf.Sin(_bodyGait * Mathf.Tau) * BobSway : 0f;
+        _headBobOffset = Mathf.Lerp(_headBobOffset, bobTarget, Mathf.Clamp(dt * 14f, 0f, 1f));
+        _headSwayOffset = Mathf.Lerp(_headSwayOffset, swayTarget, Mathf.Clamp(dt * 10f, 0f, 1f));
+
+        // Landing: a short dip of the head proportional to the fall speed.
+        var grounded = IsOnFloor();
+        if (grounded && !_headWasGrounded && !ReducedMotion && _bodyVerticalSpeedBeforeMove < -1.5f)
+            _landingDipTarget = Mathf.Min(LandingDipMax, -_bodyVerticalSpeedBeforeMove * LandingDipPerMeterSecond);
+        _headWasGrounded = grounded;
+        _landingDip = Mathf.Lerp(_landingDip, _landingDipTarget, Mathf.Clamp(dt * 22f, 0f, 1f));
+        _landingDipTarget = Mathf.MoveToward(_landingDipTarget, 0f, dt * .45f);
+
+        _head.Position = _headStancePresentationPosition - Vector3.Up * (_stepEyeDrop + _landingDip)
+            + Vector3.Up * _headBobOffset + Vector3.Right * _headSwayOffset;
+
+        // Strafe lean and sprint FOV. Mouse look itself is never smoothed.
+        var motion = !ReducedMotion && moving;
+        var lateral = motion ? Transform.Basis.X.Dot(Velocity) / Mathf.Max(WalkSpeed, .1f) : 0f;
+        var rollTarget = -Mathf.Clamp(lateral, -1f, 1f) * Mathf.DegToRad(StrafeRollDegrees);
+        var horizontalSpeed = new Vector2(Velocity.X, Velocity.Z).Length();
+        var kickTarget = motion && IsSprinting
+            ? SprintFovKick * Mathf.Clamp((horizontalSpeed - WalkSpeed) / Mathf.Max(WalkSpeed * (SprintMultiplier - 1f), .1f), 0f, 1f)
+            : 0f;
+        var roll = Mathf.Lerp(_cameraRoll, rollTarget, Mathf.Clamp(dt * 7f, 0f, 1f));
+        var kick = Mathf.Lerp(_fovKick, kickTarget, Mathf.Clamp(dt * 5f, 0f, 1f));
+        if (Mathf.Abs(roll) < .0002f && rollTarget == 0f) roll = 0f;
+        if (kick < .01f && kickTarget == 0f) kick = 0f;
+        if (roll != _cameraRoll)
+        {
+            _cameraRoll = roll;
+            _camera.Rotation = new Vector3(_camera.Rotation.X, _camera.Rotation.Y, roll);
+        }
+        if (kick != _fovKick)
+        {
+            _fovKick = kick;
+            _camera.Fov = _baseFov + kick;
+        }
     }
 
     private void ApplyGraphicsPreset()
