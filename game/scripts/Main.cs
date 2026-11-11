@@ -407,6 +407,7 @@ public partial class Main : Node3D
             }
 
             _hasLoadedInitialZone = true;
+            ManagedHeap.Quiesce();
             GD.Print($"zone-loaded: {zoneId}@{spawnPointId} connected-world={_connectedWorld.PersistentInstanceIdentity}");
             return;
         }
@@ -468,6 +469,7 @@ public partial class Main : Node3D
         }
 
         _hasLoadedInitialZone = true;
+        ManagedHeap.Quiesce();
         GD.Print($"zone-loaded: {zoneId}@{spawnPointId}");
     }
 
@@ -718,6 +720,7 @@ public partial class Main : Node3D
         if (_hasLoadedInitialZone)
             PlayZoneTransition();
         _hasLoadedInitialZone = true;
+        ManagedHeap.Quiesce();
         GD.Print($"fullgame-scene-loaded: {projection.ActiveSceneId} physical=W01 entry={resolvedAnchorId}");
     }
 

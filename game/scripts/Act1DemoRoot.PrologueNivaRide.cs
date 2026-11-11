@@ -719,7 +719,11 @@ public partial class Act1DemoRoot
         PrologueVoice.Stop();
         StopRideRadio(1.5);
         if (_approachRoad is not null && IsInstanceValid(_approachRoad)) _approachRoad.QueueFree();
+        var hadRoad = _approachRoad is not null;
         _approachRoad = null;
+        // Drain wrappers on the frame after the road is really gone.
+        if (hadRoad && IsInsideTree())
+            GetTree().CreateTimer(.05).Timeout += ManagedHeap.Quiesce;
     }
 
     private void ApplyPrologueRideLook()
