@@ -369,51 +369,126 @@ public partial class Act1ConnectedWorld
             // Hand-built line: a slow sag along the run plus a few cm per board.
             var sagPhase = rng.RandfRange(0f, Mathf.Tau);
             var sagDepth = rng.RandfRange(.012f, weathered ? .05f : .03f);
-            var boardWidth = picket ? .085f : .14f;
-            var pitch = picket ? .16f : .152f;
-            var boards = Math.Max(2, (int)(length / pitch));
-            for (var i = 0; i <= boards; i++)
-            {
-                var t = i / (float)boards;
-                var tint = 1f + rng.RandfRange(-.07f, .07f);
-                var colour = new Color(painted.R * tint, painted.G * tint, painted.B * tint);
-                var h = height + Mathf.Sin(sagPhase + t * length * .9f) * sagDepth
-                    + rng.RandfRange(-.03f, .03f) * (picket ? .7f : 1f);
-                // A board is never nailed perfectly square to the rail.
-                var twist = rng.RandfRange(-.045f, .045f) * (weathered ? 1.8f : 1f);
-                var boardAlong = (along + across * twist).Normalized();
-                var boardAcross = new Vector3(-boardAlong.Z, 0, boardAlong.X);
-                wood.Upright(Ground(t) + across * (picket ? 0 : .02f), h, boardWidth, picket ? .02f : .025f, boardAlong, boardAcross, colour, pointed: picket);
-            }
-            // Posts and rails on the yard side.
-            var posts = Math.Max(1, (int)Math.Ceiling(length / (picket ? 2.0f : 2.4f)));
+            // Every household builds its own fence. Front palisades: plain points,
+            // scalloped arcs between posts, tall/short alternation, or broad flat
+            // boards in two paints. Plot boundaries: planks, rough slabs, a pole
+            // fence, or modern profiled steel sheet (a 2026 village has all four).
+            var style = picket ? (hash / 3) % 4 : (hash / 5) % 4;
             var postColour = new Color("5b4d3e");
-            for (var i = 0; i <= posts; i++)
+            if (!picket && style == 1)
             {
-                var foot = Ground(i / (float)posts) + across * (picket ? .03f : .07f);
-                var postHeight = height + .2f + rng.RandfRange(-.02f, .03f);
-                wood.Upright(foot, postHeight, .11f, .11f, along, across, postColour);
-                // A proper snow cap: a wide pad with a smaller crown on top.
-                snow.Box(foot + Vector3.Up * (postHeight + .03f), along * .075f, Vector3.Up * .03f, across * .075f, snowColour);
-                snow.Box(foot + Vector3.Up * (postHeight + .075f), along * .05f, Vector3.Up * .02f, across * .05f, snowColour);
-            }
-            foreach (var railHeight in picket ? new[] { .3f, .8f } : new[] { .35f, 1.45f })
-            {
-                var a = Ground(0) + Vector3.Up * railHeight + across * (picket ? .03f : .06f);
-                var b = Ground(1) + Vector3.Up * railHeight + across * (picket ? .03f : .06f);
-                wood.Bar(a, b, .055f, across, postColour);
-            }
-            // Snow settled along the top (solid fence) or on the upper rail (pickets).
-            if (picket)
-                snow.Bar(Ground(0) + Vector3.Up * .845f + across * .05f, Ground(1) + Vector3.Up * .845f + across * .05f,
-                    .035f, across, snowColour);
-            else
-                for (var i = 0; i < boards; i += 3)
+                // Pole fence: three split poles on low posts, see-through.
+                height = 1.25f;
+                var spans = Math.Max(1, (int)Math.Ceiling(length / 2.3f));
+                var pole = new Color(weathered ? "8a8479" : "6d5f4e");
+                var previousEnds = new[] { 0f, 0f, 0f };
+                for (var i = 0; i <= spans; i++)
                 {
-                    var a = Ground(i / (float)boards) + Vector3.Up * (height + .015f) + across * .02f;
-                    var b = Ground(Math.Min(1f, (i + 3) / (float)boards)) + Vector3.Up * (height + .015f) + across * .02f;
-                    snow.Bar(a, b, .05f, across, snowColour);
+                    var foot = Ground(i / (float)spans);
+                    var postHeight = height + rng.RandfRange(-.05f, .08f);
+                    wood.Upright(foot, postHeight, .12f, .12f, along, across, postColour);
+                    snow.Box(foot + Vector3.Up * (postHeight + .03f), along * .08f, Vector3.Up * .03f, across * .08f, snowColour);
+                    if (i == spans) break;
+                    var next = Ground((i + 1) / (float)spans);
+                    for (var level = 0; level < 3; level++)
+                    {
+                        var at = .32f + level * .4f;
+                        var end = rng.RandfRange(-.05f, .05f);
+                        var from = foot + Vector3.Up * (at + previousEnds[level]) + across * .09f - along * .12f;
+                        var to = next + Vector3.Up * (at + end) + across * .09f + along * .12f;
+                        previousEnds[level] = end;
+                        var tint = 1f + rng.RandfRange(-.08f, .08f);
+                        wood.Bar(from, to, .07f, across, new Color(pole.R * tint, pole.G * tint, pole.B * tint));
+                        if (level == 2) snow.Bar(from + Vector3.Up * .05f, to + Vector3.Up * .05f, .045f, across, snowColour);
+                    }
                 }
+            }
+            else if (!picket && style == 2)
+            {
+                // Profiled steel sheet on square steel posts.
+                height = 1.9f;
+                var sheet = new Color(new[] { "6b3b2e", "2f5d4a", "767b82", "7a2f2a" }[(hash / 11) % 4]);
+                var steel = new Color("3f4246");
+                var spans = Math.Max(1, (int)Math.Ceiling(length / 2.5f));
+                for (var i = 0; i <= spans; i++)
+                {
+                    var foot = Ground(i / (float)spans) + across * .05f;
+                    wood.Upright(foot, height + .04f, .06f, .06f, along, across, steel);
+                    snow.Box(foot + Vector3.Up * (height + .06f), along * .045f, Vector3.Up * .02f, across * .045f, snowColour);
+                    if (i == spans) break;
+                    var from = Ground(i / (float)spans) + Vector3.Up * .08f;
+                    var to = Ground((i + 1) / (float)spans) + Vector3.Up * .08f;
+                    var half = (to - from) * .5f;
+                    wood.Box(from + half + Vector3.Up * (height * .5f - .04f), half, Vector3.Up * (height * .5f - .04f), across * .006f, sheet);
+                    // The pressed ribs catch the low sun as thin vertical lines.
+                    var ribs = Math.Max(2, (int)(half.Length() * 2f / .2f));
+                    var rib = sheet.Lightened(.1f);
+                    for (var r = 1; r < ribs; r++)
+                        wood.Upright(from + (to - from) * (r / (float)ribs) - across * .012f, height - .02f, .035f, .012f, along, across, rib);
+                    snow.Bar(from + Vector3.Up * (height + .0f), to + Vector3.Up * (height + .0f), .03f, across, snowColour);
+                }
+            }
+            else
+            {
+                var slab = !picket && style == 3;
+                var broad = picket && style == 3;
+                var boardWidth = picket ? (broad ? .13f : .085f) : .14f;
+                var pitch = picket ? (broad ? .19f : .16f) : .152f;
+                var posts = Math.Max(1, (int)Math.Ceiling(length / (picket ? 2.0f : 2.4f)));
+                var boards = Math.Max(2, (int)(length / pitch));
+                var second = new Color("e9e6da");
+                if (slab) painted = new Color(weathered ? "7d776c" : "5a4c3d");
+                for (var i = 0; i <= boards; i++)
+                {
+                    var t = i / (float)boards;
+                    var tint = 1f + rng.RandfRange(-.07f, .07f) * (slab ? 2f : 1f);
+                    var paint = broad && (i & 1) == 1 ? second : painted;
+                    var colour = new Color(paint.R * tint, paint.G * tint, paint.B * tint);
+                    var h = height + Mathf.Sin(sagPhase + t * length * .9f) * sagDepth
+                        + rng.RandfRange(-.03f, .03f) * (picket ? .7f : slab ? 3.5f : 1f);
+                    if (picket && style == 1)
+                    {
+                        // Scallop: the tops dip in an arc from post to post.
+                        var between = t * posts - Mathf.Floor(t * posts);
+                        h -= Mathf.Sin(between * Mathf.Pi) * .16f;
+                    }
+                    else if (picket && style == 2 && (i & 1) == 1) h -= .13f;
+                    var width = slab ? boardWidth * rng.RandfRange(.7f, 1.25f) : boardWidth;
+                    // A board is never nailed perfectly square to the rail.
+                    var twist = rng.RandfRange(-.045f, .045f) * (weathered || slab ? 1.8f : 1f);
+                    var boardAlong = (along + across * twist).Normalized();
+                    var boardAcross = new Vector3(-boardAlong.Z, 0, boardAlong.X);
+                    wood.Upright(Ground(t) + across * (picket ? 0 : .02f), h, width, picket ? .02f : .025f, boardAlong, boardAcross, colour,
+                        pointed: picket && !broad && style != 1);
+                }
+                // Posts and rails on the yard side.
+                for (var i = 0; i <= posts; i++)
+                {
+                    var foot = Ground(i / (float)posts) + across * (picket ? .03f : .07f);
+                    var postHeight = height + .2f + rng.RandfRange(-.02f, .03f);
+                    wood.Upright(foot, postHeight, .11f, .11f, along, across, postColour);
+                    // A proper snow cap: a wide pad with a smaller crown on top.
+                    snow.Box(foot + Vector3.Up * (postHeight + .03f), along * .075f, Vector3.Up * .03f, across * .075f, snowColour);
+                    snow.Box(foot + Vector3.Up * (postHeight + .075f), along * .05f, Vector3.Up * .02f, across * .05f, snowColour);
+                }
+                foreach (var railHeight in picket ? new[] { .3f, .8f } : new[] { .35f, 1.45f })
+                {
+                    var a = Ground(0) + Vector3.Up * railHeight + across * (picket ? .03f : .06f);
+                    var b = Ground(1) + Vector3.Up * railHeight + across * (picket ? .03f : .06f);
+                    wood.Bar(a, b, .055f, across, postColour);
+                }
+                // Snow settled along the top (solid fence) or on the upper rail (pickets).
+                if (picket)
+                    snow.Bar(Ground(0) + Vector3.Up * .845f + across * .05f, Ground(1) + Vector3.Up * .845f + across * .05f,
+                        .035f, across, snowColour);
+                else if (!slab)
+                    for (var i = 0; i < boards; i += 3)
+                    {
+                        var a = Ground(i / (float)boards) + Vector3.Up * (height + .015f) + across * .02f;
+                        var b = Ground(Math.Min(1f, (i + 3) / (float)boards)) + Vector3.Up * (height + .015f) + across * .02f;
+                        snow.Bar(a, b, .05f, across, snowColour);
+                    }
+            }
             var mid = (run.A + run.B) * .5f;
             body.AddChild(new CollisionShape3D
             {
