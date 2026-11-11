@@ -137,6 +137,7 @@ public partial class W01Controller
             moon.Visible = true;
             moon.LightEnergy = .9f;
             moon.OmniRange = 26f;
+            EnsureMoonShafts(moon);
         }
         EnsureNightmareEyeLight();
     }
@@ -166,7 +167,51 @@ public partial class W01Controller
         night.AdjustmentSaturation = .72f;
         night.AdjustmentContrast = 1.08f;
         night.AdjustmentBrightness = .96f;
+        // Only the pale gap and the shafts are bright enough to bloom.
+        night.GlowEnabled = true;
+        night.GlowIntensity = .3f;
+        night.GlowStrength = .9f;
+        night.GlowHdrThreshold = .9f;
         return night;
+    }
+
+    // Soft pale shafts in the gap the prints lead to: three crossed additive
+    // quads with a radial falloff. No volumetrics, no shadows, no extra lights.
+    private const float MoonShaftAlpha = .06f;
+    private static void EnsureMoonShafts(Node3D moon)
+    {
+        if (moon.HasNode("PrologueMoonShafts")) return;
+        var gradient = new Gradient();
+        gradient.SetColor(0, new Color(.62f, .72f, 1f, MoonShaftAlpha));
+        gradient.SetColor(1, new Color(.62f, .72f, 1f, 0f));
+        var material = new StandardMaterial3D
+        {
+            ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
+            Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
+            BlendMode = BaseMaterial3D.BlendModeEnum.Add,
+            CullMode = BaseMaterial3D.CullModeEnum.Disabled,
+            DisableFog = false,
+            AlbedoTexture = new GradientTexture2D
+            {
+                Gradient = gradient, Width = 64, Height = 64,
+                Fill = GradientTexture2D.FillEnum.Radial,
+                FillFrom = new Vector2(.5f, .5f), FillTo = new Vector2(1f, .5f)
+            }
+        };
+        var shafts = new Node3D { Name = "PrologueMoonShafts", Position = new Vector3(0f, -1f, 0f) };
+        for (var i = 0; i < 3; i++)
+        {
+            shafts.AddChild(new MeshInstance3D
+            {
+                Name = "Shaft" + i,
+                Mesh = new QuadMesh { Size = new Vector2(3.2f + i * .9f, 13f) },
+                MaterialOverride = material,
+                CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+                RotationDegrees = new Vector3(0f, 25f + i * 58f, 14f - i * 9f),
+                Position = new Vector3((i - 1) * 1.6f, 0f, (1 - i) * .9f)
+            });
+        }
+        moon.AddChild(shafts);
     }
 
     // Eyes adapted to the dark: a faint cold light that follows the walker so the

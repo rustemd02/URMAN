@@ -1949,10 +1949,12 @@ public partial class Act1ConnectedWorld : Node3D
         environment.SsaoEnabled = true;
         environment.SsaoIntensity = indoor ? Mathf.Max(profile.SsaoIntensity, 1.3f) : profile.SsaoIntensity;
         environment.SsaoRadius = profile.SsaoRadius;
-        environment.AdjustmentEnabled = false;
+        // A light final grade (author pass 12.11): a touch of contrast and
+        // saturation so snow, timber and warm windows separate. Tune here.
+        environment.AdjustmentEnabled = true;
         environment.AdjustmentBrightness = 1f;
-        environment.AdjustmentSaturation = 1f;
-        environment.AdjustmentContrast = 1f;
+        environment.AdjustmentSaturation = 1.05f;
+        environment.AdjustmentContrast = 1.06f;
         GraphicsQuality.ConfigureEnvironment(environment, authoredSsao: true);
 
         if (environment.Sky?.SkyMaterial is ProceduralSkyMaterial sky)
