@@ -322,6 +322,24 @@ public partial class VehicleController : CharacterBody3D
         _mechanical.SetState(Definition.Kind, EngineRunning, Math.Abs(Speed), Math.Abs(throttle), false);
     }
 
+    // Arcade steering: quick lock-to-lock at parking speed, calmer and with
+    // less lock at speed, and the wheel centres faster than it winds on.
+    private const float SteerRateSlow = 3.6f;
+    private const float SteerRateFast = 1.9f;
+    private const float SteerCentreBoost = 1.6f;
+    private const float SteerLockAtSpeed = .58f;
+
+    private float SteerToward(float steeringInput, float dt)
+    {
+        if (Definition.Kind == VehicleKind.HorseCart)
+            return Mathf.MoveToward(_steering, steeringInput * Mathf.DegToRad(Definition.SteeringDegrees), dt * 1.6f);
+        var pace = Mathf.Clamp(Math.Abs(Speed) / Math.Max(Definition.MaxForwardSpeed, 1f), 0f, 1f);
+        var target = steeringInput * Mathf.DegToRad(Definition.SteeringDegrees) * Mathf.Lerp(1f, SteerLockAtSpeed, pace);
+        var rate = Mathf.Lerp(SteerRateSlow, SteerRateFast, pace);
+        if (Math.Abs(target) < Math.Abs(_steering) || Math.Sign(target) != Math.Sign(_steering)) rate *= SteerCentreBoost;
+        return Mathf.MoveToward(_steering, target, dt * rate);
+    }
+
     private void Advance(float dt, float throttle, float steeringInput, bool footBrake)
     {
         UpdatePedalVisuals(throttle, footBrake);
@@ -348,7 +366,7 @@ public partial class VehicleController : CharacterBody3D
             // Niva: the vendored drivetrain/tyre model (game/addons/gevp,
             // adapted in VehicleMechanics) produces the planar velocity and
             // yaw; parking, zone gates and collision stops stay unchanged.
-            _steering = ConstrainSteering(Mathf.MoveToward(_steering, steeringInput * Mathf.DegToRad(Definition.SteeringDegrees), dt * 1.6f));
+            _steering = ConstrainSteering(SteerToward(steeringInput, dt));
             ApplySteeringCollision();
             _mechanics.Step(dt, throttle, _steering, footBrake, ParkingBrake, running,
                 factor, _fleet.SurfaceAt(previous, -GlobalBasis.Z));
@@ -366,7 +384,7 @@ public partial class VehicleController : CharacterBody3D
             if (braking) desired = 0;
             Speed = Mathf.MoveToward(Speed, desired, (braking ? Definition.BrakeDeceleration
                 : Math.Abs(throttle) < .03f || !enabled ? 1.5f : Definition.Acceleration) * dt);
-            _steering = ConstrainSteering(Mathf.MoveToward(_steering, steeringInput * Mathf.DegToRad(Definition.SteeringDegrees), dt * 1.6f));
+            _steering = ConstrainSteering(SteerToward(steeringInput, dt));
             ApplySteeringCollision();
             yaw = -Speed / Definition.WheelBase * Mathf.Tan(_steering) * dt;
         }
@@ -512,7 +530,7 @@ public partial class VehicleController : CharacterBody3D
     private void AttachDriver()
     {
         if (Driver is not null) Driver.GlobalPosition = ToGlobal(Definition.Seat);
-        _look.RotationDegrees = new(_pitch,_lookYaw,0);
+        _look.RotationDegrees = new(_pitch + DriverViewLean.Y,_lookYaw,DriverViewLean.X);
     }
 
     private bool CanRotate(float yaw)
@@ -629,7 +647,7 @@ public partial class VehicleController : CharacterBody3D
         }
         // Roll around the rider's support, with the handlebar/mirrors staying
         // inside the real one-metre hull even at the maximum permitted bank.
-        var visualTransform = MotorcycleLeanTransform();
+        var visualTransform = MotorcycleLeanTransform() * NivaBodyTransform(delta);
         if (_visual.Root.Transform != visualTransform) _visual.Root.Transform = visualTransform;
         _visual.HorsePose?.UpdatePose(this,delta,Speed,_steering,HorseState);
         // Occupied-cart driver figure: visible exactly while this cart has a
