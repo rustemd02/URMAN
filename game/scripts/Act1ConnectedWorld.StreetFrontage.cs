@@ -363,6 +363,12 @@ public partial class Act1ConnectedWorld
             var raw = new Color(GatePaints[hash % GatePaints.Length]);
             var painted = picket ? new Color(PalisadePaints[hash % PalisadePaints.Length])
                 : (hash / 7) % 3 == 0 ? raw.Darkened(.25f) : new Color("5b544a");
+            // One run in eight was never repainted: bare weathered grey boards.
+            var weathered = hash % 8 == 3;
+            if (weathered) painted = new Color(picket ? "8d877c" : "6a645a");
+            // Hand-built line: a slow sag along the run plus a few cm per board.
+            var sagPhase = rng.RandfRange(0f, Mathf.Tau);
+            var sagDepth = rng.RandfRange(.012f, weathered ? .05f : .03f);
             var boardWidth = picket ? .085f : .14f;
             var pitch = picket ? .16f : .152f;
             var boards = Math.Max(2, (int)(length / pitch));
@@ -371,8 +377,13 @@ public partial class Act1ConnectedWorld
                 var t = i / (float)boards;
                 var tint = 1f + rng.RandfRange(-.07f, .07f);
                 var colour = new Color(painted.R * tint, painted.G * tint, painted.B * tint);
-                var h = height + (picket ? 0 : rng.RandfRange(-.03f, .03f));
-                wood.Upright(Ground(t) + across * (picket ? 0 : .02f), h, boardWidth, picket ? .02f : .025f, along, across, colour, pointed: picket);
+                var h = height + Mathf.Sin(sagPhase + t * length * .9f) * sagDepth
+                    + rng.RandfRange(-.03f, .03f) * (picket ? .7f : 1f);
+                // A board is never nailed perfectly square to the rail.
+                var twist = rng.RandfRange(-.045f, .045f) * (weathered ? 1.8f : 1f);
+                var boardAlong = (along + across * twist).Normalized();
+                var boardAcross = new Vector3(-boardAlong.Z, 0, boardAlong.X);
+                wood.Upright(Ground(t) + across * (picket ? 0 : .02f), h, boardWidth, picket ? .02f : .025f, boardAlong, boardAcross, colour, pointed: picket);
             }
             // Posts and rails on the yard side.
             var posts = Math.Max(1, (int)Math.Ceiling(length / (picket ? 2.0f : 2.4f)));
@@ -380,8 +391,11 @@ public partial class Act1ConnectedWorld
             for (var i = 0; i <= posts; i++)
             {
                 var foot = Ground(i / (float)posts) + across * (picket ? .03f : .07f);
-                wood.Upright(foot, height + .12f, .1f, .1f, along, across, postColour);
-                snow.Box(foot + Vector3.Up * (height + .15f), along * .06f, Vector3.Up * .025f, across * .06f, snowColour);
+                var postHeight = height + .2f + rng.RandfRange(-.02f, .03f);
+                wood.Upright(foot, postHeight, .11f, .11f, along, across, postColour);
+                // A proper snow cap: a wide pad with a smaller crown on top.
+                snow.Box(foot + Vector3.Up * (postHeight + .03f), along * .075f, Vector3.Up * .03f, across * .075f, snowColour);
+                snow.Box(foot + Vector3.Up * (postHeight + .075f), along * .05f, Vector3.Up * .02f, across * .05f, snowColour);
             }
             foreach (var railHeight in picket ? new[] { .3f, .8f } : new[] { .35f, 1.45f })
             {
@@ -389,8 +403,11 @@ public partial class Act1ConnectedWorld
                 var b = Ground(1) + Vector3.Up * railHeight + across * (picket ? .03f : .06f);
                 wood.Bar(a, b, .055f, across, postColour);
             }
-            // Snow settled along the top.
-            if (!picket)
+            // Snow settled along the top (solid fence) or on the upper rail (pickets).
+            if (picket)
+                snow.Bar(Ground(0) + Vector3.Up * .845f + across * .05f, Ground(1) + Vector3.Up * .845f + across * .05f,
+                    .035f, across, snowColour);
+            else
                 for (var i = 0; i < boards; i += 3)
                 {
                     var a = Ground(i / (float)boards) + Vector3.Up * (height + .015f) + across * .02f;
