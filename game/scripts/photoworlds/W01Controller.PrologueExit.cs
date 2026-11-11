@@ -25,25 +25,23 @@ public partial class W01Controller
         var soles = new List<Transform3D>();
         var heels = new List<Transform3D>();
         var left = true;
-        for (var i = 1; i < PrologueRouteNodes.Length; i++)
+        // One walker's prints by arc length: a real stride, wandering a little.
+        for (var along = 4f; along < PrologueRouteLength - 4f; along += .7f + .09f * Mathf.Sin(along * .77f))
         {
-            var start = PrologueRouteNodes[i - 1];
-            var end = PrologueRouteNodes[i];
-            var direction = new Vector3(end.X - start.X, 0, end.Z - start.Z).Normalized();
+            var here = PrologueRoutePoint(along, 0f);
+            var next = PrologueRoutePoint(along + .5f, 0f);
+            var direction = new Vector3(next.X - here.X, 0, next.Z - here.Z).Normalized();
+            if (direction == Vector3.Zero) continue;
             var side = direction.Cross(Vector3.Up);
-            var length = new Vector2(end.X - start.X, end.Z - start.Z).Length();
-            var lastPrint = i == PrologueRouteNodes.Length - 1 ? length - 4f : length;
-            for (var along = i == 1 ? 4f : 1f; along < lastPrint; along += .76f + .11f * Mathf.Sin(along * .77f))
-            {
-                var point = start + direction * along + side * ((left ? -.11f : .11f) + .24f * Mathf.Sin(along * .17f));
-                point.Y = ForestGroundHeight(point.X, point.Z);
-                var basis = new Basis(Vector3.Up, Mathf.Atan2(-direction.X, -direction.Z) + (left ? .11f : -.11f));
-                rims.Add(new Transform3D(basis * Basis.FromScale(new Vector3(.72f, 1f, 1.55f)), point + Vector3.Up * .014f));
-                soles.Add(new Transform3D(basis * Basis.FromScale(new Vector3(.85f, 1f, 1.4f)), point + basis * new Vector3(0, .018f, -.035f)));
-                heels.Add(new Transform3D(basis, point + basis * new Vector3(0, .019f, .075f)));
-                left = !left;
-            }
+            var point = here + side * ((left ? -.12f : .12f) + .1f * Mathf.Sin(along * .31f));
+            point.Y = ForestGroundHeight(point.X, point.Z);
+            var basis = new Basis(Vector3.Up, Mathf.Atan2(-direction.X, -direction.Z) + (left ? .11f : -.11f));
+            rims.Add(new Transform3D(basis * Basis.FromScale(new Vector3(.72f, 1f, 1.55f)), point + Vector3.Up * .024f));
+            soles.Add(new Transform3D(basis * Basis.FromScale(new Vector3(.85f, 1f, 1.4f)), point + basis * new Vector3(0, .028f, -.035f)));
+            heels.Add(new Transform3D(basis, point + basis * new Vector3(0, .029f, .075f)));
+            left = !left;
         }
+        BuildTroddenTrail(trail);
 
         PrologueDeepForest.AddPrintLayer(trail, "SnowRims", rims,
             new CylinderMesh { TopRadius = .085f, BottomRadius = .1f, Height = .005f, RadialSegments = 12 }, "a9b6c5");
@@ -55,6 +53,67 @@ public partial class W01Controller
         PrologueDeepForest.AddMitten(trail, new Vector3(PrologueMittenPoint.X,
             ForestGroundHeight(PrologueMittenPoint.X, PrologueMittenPoint.Y) + .046f, PrologueMittenPoint.Y),
             new Vector3(84f, -22f, 12f));
+    }
+
+    /// <summary>
+    /// The path itself: not a made road, just snow that many feet have pressed
+    /// down. A ragged, slightly darker ribbon lying on the ground, uneven in
+    /// width, with soft broken edges.
+    /// </summary>
+    private void BuildTroddenTrail(Node3D owner)
+    {
+        using var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        var rng = new RandomNumberGenerator { Seed = 0x54524c31 };
+        const float step = .45f;
+        Vector3 previousLeft = default, previousRight = default, previousCentre = default;
+        var previousShade = 0f;
+        var first = true;
+        for (var along = 1.5f; along < PrologueRouteLength - 2f; along += step)
+        {
+            var here = PrologueRoutePoint(along, 0f);
+            var next = PrologueRoutePoint(along + .5f, 0f);
+            var direction = new Vector3(next.X - here.X, 0, next.Z - here.Z).Normalized();
+            if (direction == Vector3.Zero) continue;
+            var side = direction.Cross(Vector3.Up);
+            var half = .34f + .1f * Mathf.Sin(along * .9f) + rng.RandfRange(-.07f, .07f);
+            var drift = .08f * Mathf.Sin(along * .43f);
+            Vector3 OnGround(Vector3 point) => new(point.X, ForestGroundHeight(point.X, point.Z) + .016f, point.Z);
+            var centre = OnGround(here + side * drift);
+            var leftEdge = OnGround(here + side * (drift - half - rng.RandfRange(.05f, .22f)));
+            var rightEdge = OnGround(here + side * (drift + half + rng.RandfRange(.05f, .22f)));
+            var shade = rng.RandfRange(.75f, 1f);
+            if (!first)
+            {
+                void Vertex(Vector3 point, float alpha, float tone)
+                {
+                    surface.SetNormal(Vector3.Up);
+                    surface.SetColor(new Color(.53f * tone, .6f * tone, .72f * tone, alpha));
+                    surface.AddVertex(point);
+                }
+                Vertex(previousLeft, 0f, previousShade); Vertex(previousCentre, .8f, previousShade); Vertex(leftEdge, 0f, shade);
+                Vertex(previousCentre, .8f, previousShade); Vertex(centre, .8f, shade); Vertex(leftEdge, 0f, shade);
+                Vertex(previousCentre, .8f, previousShade); Vertex(previousRight, 0f, previousShade); Vertex(centre, .8f, shade);
+                Vertex(previousRight, 0f, previousShade); Vertex(rightEdge, 0f, shade); Vertex(centre, .8f, shade);
+            }
+            first = false;
+            previousLeft = leftEdge; previousRight = rightEdge; previousCentre = centre; previousShade = shade;
+        }
+        var material = new StandardMaterial3D
+        {
+            VertexColorUseAsAlbedo = true,
+            Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
+            Roughness = 1f,
+            MetallicSpecular = 0f,
+            CullMode = BaseMaterial3D.CullModeEnum.Disabled
+        };
+        owner.AddChild(new MeshInstance3D
+        {
+            Name = "TroddenTrail",
+            Mesh = surface.Commit(),
+            MaterialOverride = material,
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+        });
     }
 
     private void BuildPrologueVoiceCaption(Node layer)

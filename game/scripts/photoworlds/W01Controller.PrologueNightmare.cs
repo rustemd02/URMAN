@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
 using Environment = Godot.Environment;
@@ -40,12 +41,52 @@ public partial class W01Controller
     private Color _daylightColor;
     private bool _nightmareMoodApplied;
 
+    // The trodden trail. It wanders a few metres either side of the straight
+    // authored route (which still owns the terrain) and comes back to it at the
+    // branch and for the last stretch, where the story beats are anchored.
+    private const float TrailWander = 3.3f;
+    private static Vector3[]? _prologueTrailNodes;
+    private static Vector3[] PrologueTrailNodes => _prologueTrailNodes ??= BuildPrologueTrail();
+
+    private static Vector3[] BuildPrologueTrail()
+    {
+        // Literals on purpose: static initialisation order across partial files is not guaranteed.
+        var route = new[] { new Vector2(0f, 0f), new Vector2(12f, 50f), new Vector2(45f, 95f), new Vector2(80f, 140f) };
+        var lengths = new float[route.Length];
+        for (var index = 1; index < route.Length; index++) lengths[index] = lengths[index - 1] + route[index - 1].DistanceTo(route[index]);
+        var total = lengths[^1];
+        var branchAt = lengths[1];
+        float Window(float s)
+        {
+            var start = Mathf.SmoothStep(3f, 13f, s);
+            var branch = Mathf.SmoothStep(3.5f, 12f, Mathf.Abs(s - branchAt));
+            var end = 1f - Mathf.SmoothStep(total - 22f, total - 11f, s);
+            return start * branch * end;
+        }
+        var nodes = new List<Vector3>();
+        for (var s = 0f; ; s += 2.4f)
+        {
+            var at = Mathf.Min(s, total);
+            var segment = 1;
+            while (segment < route.Length - 1 && lengths[segment] < at) segment++;
+            var a = route[segment - 1];
+            var b = route[segment];
+            var direction = (b - a).Normalized();
+            var point = a + direction * (at - lengths[segment - 1]);
+            var wander = (Mathf.Sin(at * .236f + .8f) * .72f + Mathf.Sin(at * .531f + 2.1f) * .28f) * TrailWander * Window(at);
+            point += new Vector2(-direction.Y, direction.X) * wander;
+            nodes.Add(new Vector3(point.X, 0f, point.Y));
+            if (at >= total) break;
+        }
+        return nodes.ToArray();
+    }
+
     private static float ComputePrologueRouteLength()
     {
         var total = 0f;
-        for (var index = 1; index < PrologueRouteNodes.Length; index++)
-            total += new Vector2(PrologueRouteNodes[index].X - PrologueRouteNodes[index - 1].X,
-                PrologueRouteNodes[index].Z - PrologueRouteNodes[index - 1].Z).Length();
+        for (var index = 1; index < PrologueTrailNodes.Length; index++)
+            total += new Vector2(PrologueTrailNodes[index].X - PrologueTrailNodes[index - 1].X,
+                PrologueTrailNodes[index].Z - PrologueTrailNodes[index - 1].Z).Length();
         return total;
     }
 
@@ -55,10 +96,10 @@ public partial class W01Controller
         var bestLateral = float.PositiveInfinity;
         var bestProgress = 0f;
         var walked = 0f;
-        for (var index = 1; index < PrologueRouteNodes.Length; index++)
+        for (var index = 1; index < PrologueTrailNodes.Length; index++)
         {
-            var a = new Vector2(PrologueRouteNodes[index - 1].X, PrologueRouteNodes[index - 1].Z);
-            var b = new Vector2(PrologueRouteNodes[index].X, PrologueRouteNodes[index].Z);
+            var a = new Vector2(PrologueTrailNodes[index - 1].X, PrologueTrailNodes[index - 1].Z);
+            var b = new Vector2(PrologueTrailNodes[index].X, PrologueTrailNodes[index].Z);
             var segment = b - a;
             var length = segment.Length();
             var t = Mathf.Clamp((feet - a).Dot(segment) / Mathf.Max(length * length, .0001f), 0f, 1f);
@@ -77,12 +118,12 @@ public partial class W01Controller
     private static Vector3 PrologueRoutePoint(float progress, float side, float lift = 0f)
     {
         var walked = 0f;
-        for (var index = 1; index < PrologueRouteNodes.Length; index++)
+        for (var index = 1; index < PrologueTrailNodes.Length; index++)
         {
-            var a = new Vector2(PrologueRouteNodes[index - 1].X, PrologueRouteNodes[index - 1].Z);
-            var b = new Vector2(PrologueRouteNodes[index].X, PrologueRouteNodes[index].Z);
+            var a = new Vector2(PrologueTrailNodes[index - 1].X, PrologueTrailNodes[index - 1].Z);
+            var b = new Vector2(PrologueTrailNodes[index].X, PrologueTrailNodes[index].Z);
             var length = a.DistanceTo(b);
-            if (walked + length >= progress || index == PrologueRouteNodes.Length - 1)
+            if (walked + length >= progress || index == PrologueTrailNodes.Length - 1)
             {
                 var direction = (b - a).Normalized();
                 var point = a + direction * Mathf.Clamp(progress - walked, 0f, length)
@@ -123,27 +164,85 @@ public partial class W01Controller
             if (moon is not null) moon.Visible = false;
             SetDreadActive(false);
             if (_nightmareEyeLight is { } eyeLight && GodotObject.IsInstanceValid(eyeLight)) eyeLight.Visible = false;
+            if (_nightMoon is { } disc && GodotObject.IsInstanceValid(disc)) disc.Visible = false;
+            if (_forestVisual is { } forest && GodotObject.IsInstanceValid(forest) && _groundVisual is { Visible: true }) forest.Visible = true;
             return;
         }
 
         _nightmareEnvironment ??= BuildNightmareEnvironment(_daylightEnvironment);
-        world.Environment = _nightmareEnvironment;
-        if (sun is not null)
-        {
-            // A low cold moon: shapes and prints still read, colour does not.
-            sun.LightEnergy = .27f;
-            sun.LightColor = new Color(.62f, .7f, .94f);
-        }
-        // The authored clearing light becomes the pale gap the prints lead to.
-        if (moon is not null)
-        {
-            moon.Visible = true;
-            moon.LightEnergy = .9f;
-            moon.OmniRange = 26f;
-            EnsureMoonShafts(moon);
-        }
+        EnforceNightmareLook();
         EnsureNightmareEyeLight();
         SetDreadActive(true);
+    }
+
+    // ---- Night look: tune here ------------------------------------------------------------
+    // About three metres of sight around the walker, the torch beam, and the
+    // sky: a moon and the black crowns against it. Everything else is dark.
+    private const float NightAmbient = .05f;
+    private const float NightMoonlight = .13f;
+    private const float NightSightRadius = 3.6f;
+    private const float NightSightEnergy = .55f;
+    private const float NightFogEnd = 34f;
+    private MeshInstance3D? _nightMoon;
+
+    /// <summary>
+    /// Two owners write this scene's atmosphere (the W01 profile projection and
+    /// this nightmare). While the nightmare is on, its look is re-asserted every
+    /// frame so the order of those writers cannot brighten the forest again.
+    /// </summary>
+    private void EnforceNightmareLook()
+    {
+        if (!_nightmareMoodApplied || _nightmareEnvironment is null) return;
+        if (GetNodeOrNull<WorldEnvironment>("WorldEnvironment") is { } world && world.Environment != _nightmareEnvironment)
+            world.Environment = _nightmareEnvironment;
+        var sun = GetNodeOrNull<DirectionalLight3D>("Daylight");
+        if (sun is not null && !Mathf.IsEqualApprox(sun.LightEnergy, NightMoonlight))
+        {
+            sun.LightEnergy = NightMoonlight;
+            sun.LightColor = new Color(.5f, .62f, 1f);
+        }
+        if (GetNodeOrNull<OmniLight3D>("PrologueClearingMoonlight") is { } clearing && clearing.Visible)
+            clearing.Visible = false;
+        // The photograph's daytime trees are replaced by the night stand.
+        if (_forestVisual is { } forest && GodotObject.IsInstanceValid(forest) && forest.Visible) forest.Visible = false;
+
+        // The moon rides with the viewer, so it never gets nearer.
+        if (GetViewport().GetCamera3D() is not { } camera) return;
+        if (_nightMoon is null || !GodotObject.IsInstanceValid(_nightMoon))
+        {
+            var disc = new Gradient();
+            disc.Offsets = new[] { 0f, .3f, .34f, 1f };
+            disc.Colors = new[]
+            {
+                new Color(.95f, .96f, 1f, 1f), new Color(.86f, .9f, 1f, 1f),
+                new Color(.5f, .62f, .9f, .22f), new Color(.4f, .5f, .8f, 0f)
+            };
+            _nightMoon = new MeshInstance3D
+            {
+                Name = "PrologueMoon",
+                Mesh = new QuadMesh { Size = new Vector2(46f, 46f) },
+                CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+                MaterialOverride = new StandardMaterial3D
+                {
+                    ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
+                    Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
+                    BillboardMode = BaseMaterial3D.BillboardModeEnum.Enabled,
+                    DisableFog = true,
+                    AlbedoTexture = new GradientTexture2D
+                    {
+                        Gradient = disc, Width = 128, Height = 128,
+                        Fill = GradientTexture2D.FillEnum.Radial,
+                        FillFrom = new Vector2(.5f, .5f), FillTo = new Vector2(1f, .5f)
+                    }
+                }
+            };
+            _nightMoon.SetMeta("presentationOnly", true);
+            AddChild(_nightMoon);
+        }
+        var toMoon = sun is not null && sun.GlobalBasis.Z.Y > .2f
+            ? sun.GlobalBasis.Z.Normalized() : new Vector3(.45f, .55f, .7f).Normalized();
+        _nightMoon.Visible = true;
+        _nightMoon.GlobalPosition = camera.GlobalPosition + toMoon * 420f;
     }
 
     private static Environment BuildNightmareEnvironment(Environment daylight)
@@ -151,73 +250,39 @@ public partial class W01Controller
         var night = (Environment)daylight.Duplicate(true);
         if (night.Sky?.SkyMaterial is ProceduralSkyMaterial sky)
         {
-            sky.SkyTopColor = new Color(.05f, .07f, .11f);
-            sky.SkyHorizonColor = new Color(.17f, .2f, .27f);
-            sky.GroundBottomColor = new Color(.04f, .05f, .07f);
-            sky.GroundHorizonColor = new Color(.17f, .2f, .27f);
+            // A sky that is lighter than the forest, so crowns read against it.
+            sky.SkyTopColor = new Color(.035f, .055f, .12f);
+            sky.SkyHorizonColor = new Color(.1f, .14f, .24f);
+            sky.GroundBottomColor = new Color(.01f, .012f, .02f);
+            sky.GroundHorizonColor = new Color(.06f, .08f, .14f);
+            sky.SunAngleMax = 0f;
         }
-        night.AmbientLightColor = new Color(.32f, .38f, .5f);
-        // Dark enough that the hand torch leads, light enough that the trail
-        // still reads if the torch dips. Tune here together with the moon above.
-        night.AmbientLightEnergy = .27f;
-        night.AmbientLightSkyContribution = .3f;
-        // Closer, darker fog: more dread and less to draw.
-        night.FogLightColor = new Color(.09f, .11f, .16f);
-        night.FogDensity = .76f;
-        night.FogDepthBegin = 14f;
-        night.FogDepthEnd = 100f;
-        night.FogDepthCurve = 1.15f;
+        night.AmbientLightSource = Environment.AmbientSource.Color;
+        night.AmbientLightColor = new Color(.3f, .38f, .6f);
+        night.AmbientLightEnergy = NightAmbient;
+        night.AmbientLightSkyContribution = 0f;
+        // The dark swallows the torch a few trunks away; the sky stays clear.
+        night.FogEnabled = true;
+        night.FogMode = Environment.FogModeEnum.Depth;
+        night.FogLightColor = new Color(.008f, .011f, .02f);
+        night.FogLightEnergy = 1f;
+        night.FogDensity = 1f;
+        night.FogDepthBegin = 3f;
+        night.FogDepthEnd = NightFogEnd;
+        night.FogDepthCurve = .85f;
+        night.FogSkyAffect = 0f;
         night.FogSunScatter = 0f;
-        night.FogAerialPerspective = .1f;
+        night.FogAerialPerspective = 0f;
         night.AdjustmentEnabled = true;
-        night.AdjustmentSaturation = .72f;
-        night.AdjustmentContrast = 1.08f;
-        night.AdjustmentBrightness = .96f;
-        // Only the pale gap and the shafts are bright enough to bloom.
+        night.AdjustmentSaturation = .8f;
+        night.AdjustmentContrast = 1.1f;
+        night.AdjustmentBrightness = 1f;
+        // Only eyes, the moon and the torch's hot spot are bright enough to bloom.
         night.GlowEnabled = true;
-        night.GlowIntensity = .3f;
+        night.GlowIntensity = .35f;
         night.GlowStrength = .9f;
-        night.GlowHdrThreshold = .9f;
+        night.GlowHdrThreshold = .95f;
         return night;
-    }
-
-    // Soft pale shafts in the gap the prints lead to: three crossed additive
-    // quads with a radial falloff. No volumetrics, no shadows, no extra lights.
-    private const float MoonShaftAlpha = .06f;
-    private static void EnsureMoonShafts(Node3D moon)
-    {
-        if (moon.HasNode("PrologueMoonShafts")) return;
-        var gradient = new Gradient();
-        gradient.SetColor(0, new Color(.62f, .72f, 1f, MoonShaftAlpha));
-        gradient.SetColor(1, new Color(.62f, .72f, 1f, 0f));
-        var material = new StandardMaterial3D
-        {
-            ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
-            Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
-            BlendMode = BaseMaterial3D.BlendModeEnum.Add,
-            CullMode = BaseMaterial3D.CullModeEnum.Disabled,
-            DisableFog = false,
-            AlbedoTexture = new GradientTexture2D
-            {
-                Gradient = gradient, Width = 64, Height = 64,
-                Fill = GradientTexture2D.FillEnum.Radial,
-                FillFrom = new Vector2(.5f, .5f), FillTo = new Vector2(1f, .5f)
-            }
-        };
-        var shafts = new Node3D { Name = "PrologueMoonShafts", Position = new Vector3(0f, -1f, 0f) };
-        for (var i = 0; i < 3; i++)
-        {
-            shafts.AddChild(new MeshInstance3D
-            {
-                Name = "Shaft" + i,
-                Mesh = new QuadMesh { Size = new Vector2(3.2f + i * .9f, 13f) },
-                MaterialOverride = material,
-                CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
-                RotationDegrees = new Vector3(0f, 25f + i * 58f, 14f - i * 9f),
-                Position = new Vector3((i - 1) * 1.6f, 0f, (1 - i) * .9f)
-            });
-        }
-        moon.AddChild(shafts);
     }
 
     // Eyes adapted to the dark: a faint cold light that follows the walker so the
@@ -233,8 +298,8 @@ public partial class W01Controller
         {
             Name = "PrologueAdaptedEyes",
             LightColor = new Color(.74f, .8f, 1f),
-            LightEnergy = .22f,
-            OmniRange = 7f,
+            LightEnergy = NightSightEnergy,
+            OmniRange = NightSightRadius,
             OmniAttenuation = 1.6f,
             LightSpecular = 0f,
             ShadowEnabled = false
@@ -391,18 +456,13 @@ public partial class W01Controller
             ShowNightmareThought("Следы обрываются. Дальше — чистый снег.", 3);
             if (!await NightmareWaitAsync(2.6, session)) return;
 
-            // Aidar can turn towards the caller himself. No forced spin or apparition.
-            var localBack = ToLocal(player.GlobalPosition + player.GlobalBasis.Z.Normalized() * 3f);
-            var voiceLength = PlayPrologueForestVoice(new Vector2(localBack.X, localBack.Z), "forest-come-here", "«Айдар. Кил монда…»\n(Айдар, иди сюда…)", -2f);
-            if (!await NightmareWaitAsync(Math.Clamp(voiceLength * .7, 1.6, 3.0), session)) return;
-
             // He never gets to answer.
             player.SetSessionTransition(true);
             transitionHeld = true;
             if (_prologueVoiceCaption is { } spoken) spoken.Hide();
             _prologueCaptionRemaining = 0;
             if (!await RunDreadAttackAsync(player, session)) return;
-            PrologueDreamCut.Show(GetTree(), fadeSeconds: .45);
+            PrologueDreamCut.Show(GetTree(), fadeSeconds: .1);
             cut = true;
             if (!await NightmareWaitAsync(.9, session)) return;
             ReleaseFallCamera(player);
@@ -432,7 +492,7 @@ public partial class W01Controller
                 && sameSession && bridge.ActiveSceneId == PrologueSceneId)
             {
                 _nightmareClimax = false;
-                _torchDead = false;
+                _torchOverride = null;
                 _prologueExitDispatching = false;
                 _prologueEndTarget?.SetPresentationEnabled(true);
             }

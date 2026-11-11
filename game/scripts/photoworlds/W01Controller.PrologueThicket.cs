@@ -46,11 +46,6 @@ public partial class W01Controller
         AddChild(thicket);
         _prologueThicket = thicket;
 
-        var provider = new AgentBAct1ExteriorLayer();
-        ArrayMesh pine;
-        try { pine = provider.FoliageMesh("WinterPine", "kara"); }
-        finally { provider.Free(); }
-        var pineBounds = pine.GetAabb();
         var dead = LoadMeshFromScene(DeadTreeScenePath, "WinterDeadTree_LOD1");
         var deadBounds = dead.Mesh.GetAabb();
         var deadTrunkRadius = MeasureTrunkRadius(dead.Mesh, deadBounds, .08f, .22f);
@@ -59,10 +54,10 @@ public partial class W01Controller
         var rng = new RandomNumberGenerator { Seed = 0x55524d36 };
         var exclusions = new (Vector2 Centre, float Radius)[]
         {
-            (Vector2.Zero, 4.5f),
+            (Vector2.Zero, 3.5f),
             (new Vector2(BranchF01.X, BranchF01.Z), 5.5f),
-            (PrologueMittenPoint, 3f),
-            (new Vector2(PrologueF03.X, PrologueF03.Z), 11f)
+            (PrologueMittenPoint, 2.2f),
+            (new Vector2(PrologueF03.X, PrologueF03.Z), 7.5f)
         };
         bool Free(Vector2 point, float lane)
         {
@@ -80,70 +75,83 @@ public partial class W01Controller
         }
         float Lean(float maxDegrees) => Mathf.DegToRad(rng.RandfRange(-maxDegrees, maxDegrees));
 
-        // Young spruce crowding the track: the "чаща" the prints push through.
-        var undergrowth = new List<Transform3D>();
-        for (var index = 0; index < 520; index++)
+        // The night forest is its own stand of solid trees (PrologueTreeMeshes):
+        // old spruce, pine and birch, three shapes of each. The daytime forest
+        // of the photograph is hidden while the nightmare lasts.
+        var kinds = new (string Name, ArrayMesh[] Meshes, float MinHeight, float MaxHeight, float Trunk, float Weight)[]
         {
-            var progress = rng.RandfRange(-4f, PrologueRouteLength + 12f);
-            var side = (rng.Randf() < .5f ? -1f : 1f) * Mathf.Lerp(2.3f, 15f, Mathf.Pow(rng.Randf(), 1.6f));
-            var point = AlongRoute(progress, side) + new Vector2(rng.RandfRange(-1.2f, 1.2f), rng.RandfRange(-1.2f, 1.2f));
-            var height = rng.RandfRange(1.8f, 6.8f);
-            var heightScale = height / pineBounds.Size.Y;
-            var girth = heightScale * rng.RandfRange(.75f, 1.15f);
-            if (!Free(point, 1.6f + girth * Mathf.Max(pineBounds.Size.X, pineBounds.Size.Z) * .22f)) continue;
+            ("Spruce", new[] { PrologueTreeMeshes.Spruce(11), PrologueTreeMeshes.Spruce(12), PrologueTreeMeshes.Spruce(13) }, 11f, 21f, .02f, .5f),
+            ("Pine", new[] { PrologueTreeMeshes.Pine(21), PrologueTreeMeshes.Pine(22), PrologueTreeMeshes.Pine(23) }, 14f, 24f, .023f, .28f),
+            ("Birch", new[] { PrologueTreeMeshes.Birch(31), PrologueTreeMeshes.Birch(32), PrologueTreeMeshes.Birch(33) }, 9f, 17f, .015f, .22f)
+        };
+        var near = kinds.Select(kind => kind.Meshes.Select(_ => new List<Transform3D>()).ToArray()).ToArray();
+        var far = kinds.Select(kind => kind.Meshes.Select(_ => new List<Transform3D>()).ToArray()).ToArray();
+        var planted = new List<(Vector2 At, float Radius)>();
+        var trees = 0;
+        void Plant(Vector2 point, float lateral)
+        {
+            var roll = rng.Randf();
+            var kindIndex = roll < kinds[0].Weight ? 0 : roll < kinds[0].Weight + kinds[1].Weight ? 1 : 2;
+            var kind = kinds[kindIndex];
+            var height = rng.RandfRange(kind.MinHeight, kind.MaxHeight);
+            var scale = height / 10f;
+            var girth = scale * rng.RandfRange(.85f, 1.2f);
+            var trunk = kind.Trunk * 10f * girth;
+            // The trail is a squeeze, never a wall: every stem keeps a body's width off it.
+            if (!Free(point, .85f + trunk)) return;
+            foreach (var (at, radius) in planted)
+                if (at.DistanceSquaredTo(point) < (radius + trunk + .5f) * (radius + trunk + .5f)) return;
+            planted.Add((point, trunk));
             var basis = new Basis(Vector3.Up, rng.RandfRange(0f, Mathf.Tau))
-                * new Basis(Vector3.Right, Lean(6f)) * new Basis(Vector3.Back, Lean(6f))
-                * Basis.FromScale(new Vector3(girth, heightScale, girth));
-            var y = ForestGroundHeight(point.X, point.Y) - pineBounds.Position.Y * heightScale - .05f;
-            undergrowth.Add(new Transform3D(basis, new Vector3(point.X, y, point.Y)));
+                * new Basis(Vector3.Right, Lean(3.5f)) * new Basis(Vector3.Back, Lean(3.5f))
+                * Basis.FromScale(new Vector3(girth, scale, girth));
+            var transform = new Transform3D(basis, new Vector3(point.X, ForestGroundHeight(point.X, point.Y), point.Y));
+            (lateral < 9f ? near : far)[kindIndex][rng.RandiRange(0, kind.Meshes.Length - 1)].Add(transform);
+            trees++;
         }
-        AddThicketBatches(thicket, "Undergrowth", pine, Transform3D.Identity, undergrowth, castShadow: false);
-
-        // The trail itself: trunks close on both sides of a gap that wanders
-        // across the line of the prints, so the walk is a squeeze between trees
-        // and not a cleared ride. No collision: the lane can never trap anyone.
-        var trailPines = new List<Transform3D>();
-        var trailSnags = new List<Transform3D>();
-        for (var progress = 5f; progress < PrologueRouteLength - 9f; progress += rng.RandfRange(1.3f, 2.3f))
-        {
-            var weave = Mathf.Sin(progress * .19f) * .75f + Mathf.Sin(progress * .071f + 1.3f) * .35f;
+        // Along the trail: stems close on both sides, so the path threads between them.
+        for (var progress = 3f; progress < PrologueRouteLength - 5f; progress += rng.RandfRange(1.1f, 2.1f))
             foreach (var edge in new[] { -1f, 1f })
             {
-                if (rng.Randf() < .22f) continue;
-                var gap = rng.RandfRange(1.45f, 2.3f);
-                var point = AlongRoute(progress + rng.RandfRange(-.5f, .5f), weave + edge * gap);
-                var clearOfSetPieces = true;
-                foreach (var (centre, radius) in exclusions)
-                    if (point.DistanceTo(centre) < radius) clearOfSetPieces = false;
-                if (!clearOfSetPieces) continue;
-                if (rng.Randf() < .62f)
-                {
-                    // Tall, thin spruce: the beam catches the trunk, the crown is lost above.
-                    var height = rng.RandfRange(7f, 13f);
-                    var heightScale = height / pineBounds.Size.Y;
-                    var girth = heightScale * rng.RandfRange(.34f, .5f);
-                    var basis = new Basis(Vector3.Up, rng.RandfRange(0f, Mathf.Tau))
-                        * new Basis(Vector3.Right, Lean(4f)) * new Basis(Vector3.Back, Lean(4f))
-                        * Basis.FromScale(new Vector3(girth, heightScale, girth));
-                    var y = ForestGroundHeight(point.X, point.Y) - pineBounds.Position.Y * heightScale - .05f;
-                    trailPines.Add(new Transform3D(basis, new Vector3(point.X, y, point.Y)));
-                }
-                else
-                {
-                    var height = rng.RandfRange(6f, 12f);
-                    var heightScale = height / deadBounds.Size.Y;
-                    var girth = heightScale * rng.RandfRange(.8f, 1.15f);
-                    // A dead tree leaning in over the trail from its side.
-                    var basis = new Basis(Vector3.Up, rng.RandfRange(0f, Mathf.Tau))
-                        * new Basis(Vector3.Right, Lean(7f)) * new Basis(Vector3.Back, Lean(7f))
-                        * Basis.FromScale(new Vector3(girth, heightScale, girth));
-                    var root = new Vector3(point.X, ForestGroundHeight(point.X, point.Y) - deadBounds.Position.Y * heightScale - .1f, point.Y);
-                    trailSnags.Add(new Transform3D(basis, root) * dead.Local);
-                }
+                if (rng.Randf() < .2f) continue;
+                var lateral = rng.RandfRange(1.15f, 2.6f);
+                Plant(AlongRoute(progress + rng.RandfRange(-.6f, .6f), edge * lateral), lateral);
             }
+        // The body of the forest, thinning with distance from the trail.
+        for (var index = 0; index < 2600; index++)
+        {
+            var progress = rng.RandfRange(-14f, PrologueRouteLength + 16f);
+            var lateral = Mathf.Lerp(2.6f, 46f, Mathf.Pow(rng.Randf(), 1.35f));
+            var point = AlongRoute(progress, (rng.Randf() < .5f ? -1f : 1f) * lateral)
+                + new Vector2(rng.RandfRange(-1.5f, 1.5f), rng.RandfRange(-1.5f, 1.5f));
+            Plant(point, PrologueRouteProgress(point).Lateral);
         }
-        AddThicketBatches(thicket, "TrailPines", pine, Transform3D.Identity, trailPines, castShadow: true);
-        AddThicketBatches(thicket, "TrailSnags", dead.Mesh, Transform3D.Identity, trailSnags, castShadow: true);
+        for (var kindIndex = 0; kindIndex < kinds.Length; kindIndex++)
+            for (var variant = 0; variant < kinds[kindIndex].Meshes.Length; variant++)
+            {
+                AddThicketBatches(thicket, $"{kinds[kindIndex].Name}{variant}Near", kinds[kindIndex].Meshes[variant], Transform3D.Identity, near[kindIndex][variant], castShadow: true);
+                AddThicketBatches(thicket, $"{kinds[kindIndex].Name}{variant}Far", kinds[kindIndex].Meshes[variant], Transform3D.Identity, far[kindIndex][variant], castShadow: false);
+            }
+
+        // Young spruce under the old trees: the low wall the beam cannot see through.
+        var young = new[] { PrologueTreeMeshes.YoungSpruce(41), PrologueTreeMeshes.YoungSpruce(42) };
+        var undergrowth = new[] { new List<Transform3D>(), new List<Transform3D>() };
+        for (var index = 0; index < 700; index++)
+        {
+            var progress = rng.RandfRange(-4f, PrologueRouteLength + 12f);
+            var side = (rng.Randf() < .5f ? -1f : 1f) * Mathf.Lerp(1.7f, 18f, Mathf.Pow(rng.Randf(), 1.5f));
+            var point = AlongRoute(progress, side) + new Vector2(rng.RandfRange(-1.2f, 1.2f), rng.RandfRange(-1.2f, 1.2f));
+            var height = rng.RandfRange(1.3f, 4.6f);
+            var scale = height / 10f;
+            var girth = scale * rng.RandfRange(1f, 1.5f);
+            if (!Free(point, 1.05f + girth * 2f)) continue;
+            var basis = new Basis(Vector3.Up, rng.RandfRange(0f, Mathf.Tau))
+                * new Basis(Vector3.Right, Lean(6f)) * new Basis(Vector3.Back, Lean(6f))
+                * Basis.FromScale(new Vector3(girth, scale, girth));
+            undergrowth[index & 1].Add(new Transform3D(basis, new Vector3(point.X, ForestGroundHeight(point.X, point.Y) - .05f, point.Y)));
+        }
+        AddThicketBatches(thicket, "Young0", young[0], Transform3D.Identity, undergrowth[0], castShadow: false);
+        AddThicketBatches(thicket, "Young1", young[1], Transform3D.Identity, undergrowth[1], castShadow: false);
 
         // Dead standing snags, leaning; the near ones carry hollows and broken stubs.
         var snags = new List<Transform3D>();
@@ -226,7 +234,7 @@ public partial class W01Controller
             Material = bark ?? new StandardMaterial3D { AlbedoColor = new Color(.24f, .2f, .17f), Roughness = 1f }
         }, Transform3D.Identity, stubs, castShadow: false);
 
-        GD.Print($"w01-prologue-thicket: undergrowth={undergrowth.Count} snags={snags.Count} hollows={hollows.Count} "
+        GD.Print($"w01-prologue-thicket: trees={trees} undergrowth={undergrowth[0].Count + undergrowth[1].Count} snags={snags.Count} hollows={hollows.Count} "
             + $"stubs={stubs.Count} fallen={fallen.Count} built={Time.GetTicksMsec() - started}ms");
     }
 
