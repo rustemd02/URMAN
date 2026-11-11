@@ -7,7 +7,26 @@ public partial class FirstPersonController
     // Feel tuning (author pass 2026-11-12): brisk walk 2.4 m/s, run 4.2 m/s,
     // about .15 s to full walking speed and a slightly quicker stop.
     private const float SprintMultiplier = 4.2f / 2.4f;
-    private const float JumpHeight = .60f;
+    private const float JumpHeight = .72f;
+    // Arcade jump model: a press a moment before landing or a moment after
+    // leaving an edge still jumps; releasing early makes a short hop; the fall
+    // is heavier than the rise, so the arc is snappy instead of floaty.
+    private const float JumpBufferSeconds = .14f;
+    private const float CoyoteSeconds = .12f;
+    private const float RiseGravityScale = 1.15f;
+    private const float ShortHopGravityScale = 2.4f;
+    private const float FallGravityScale = 1.9f;
+    private const float TerminalFallSpeed = 26f;
+    private const float ReverseAccelerationBoost = 1.7f;
+    private const float AirDrag = .6f;
+    private const float HardLandingSpeed = 6.5f;
+    private const float HardLandingKeep = .72f;
+    // Running slide: crouch while sprinting.
+    private const float SlideSeconds = .85f;
+    private const float SlideStartSpeed = 5.4f;
+    private const float SlideFriction = 3.6f;
+    private const float SlideSteer = 1.6f;
+    private const float SlideEndSpeed = 1.5f;
     private const float GroundAcceleration = 16f;
     private const float GroundDeceleration = 21f;
     // Camera feel. All of it is presentation only and is disabled by ReducedMotion.
@@ -18,7 +37,7 @@ public partial class FirstPersonController
     private const float SprintFovKick = 4.5f;
     private const float LandingDipPerMeterSecond = .012f;
     private const float LandingDipMax = .07f;
-    private const float AirControlAcceleration = 7.5f;
+    private const float AirControlAcceleration = 12f;
     private uint _walkingCollisionLayer;
     private uint _walkingCollisionMask;
 
@@ -38,21 +57,97 @@ public partial class FirstPersonController
         _paceScaleHold = .25f;
     }
 
+    private float _jumpBuffer;
+    private float _coyote;
+    private bool _jumpRising;
+    private float _slideLeft;
+    private bool _moveWasGrounded = true;
+
+    public bool IsSliding => _slideLeft > 0f;
+
     private void ApplyHorizontalMovement(Vector2 input, float speed, float delta, bool grounded)
     {
         if (_paceScaleHold > 0f && (_paceScaleHold -= delta) <= 0f) _paceScale = 1f;
-        var target = input * speed * _paceScale;
         var current = new Vector2(Velocity.X, Velocity.Z);
-        var acceleration = grounded
-            ? (target.LengthSquared() > .0001f ? GroundAcceleration : GroundDeceleration)
-            : AirControlAcceleration;
-        current = current.MoveToward(target, acceleration * delta);
+        if (grounded && !_moveWasGrounded && _bodyVerticalSpeedBeforeMove < -HardLandingSpeed)
+            current *= HardLandingKeep;
+        _moveWasGrounded = grounded;
+        if (UpdateSlide(input, delta, grounded, ref current))
+        {
+            Velocity = new(current.X, Velocity.Y, current.Y);
+            return;
+        }
+        var target = input * speed * _paceScale;
+        var hasInput = target.LengthSquared() > .0001f;
+        if (grounded)
+        {
+            var acceleration = hasInput ? GroundAcceleration : GroundDeceleration;
+            // Turning back on yourself bites harder than starting from rest.
+            if (hasInput && current.Dot(target) < 0f) acceleration *= ReverseAccelerationBoost;
+            current = current.MoveToward(target, acceleration * delta);
+        }
+        else
+        {
+            // In the air momentum is kept: steering turns the velocity, it does
+            // not brake it down to walking speed (a running jump stays long).
+            var carried = Mathf.Max(0f, current.Length() - AirDrag * delta);
+            if (hasInput)
+            {
+                current = current.MoveToward(target, AirControlAcceleration * delta);
+                if (current.Length() < carried && current.Dot(target) > 0f)
+                    current = current.Normalized() * carried;
+            }
+            else if (current.LengthSquared() > .0001f) current = current.Normalized() * carried;
+        }
         Velocity = new(current.X, Velocity.Y, current.Y);
     }
 
-    private void TryJumpFromGround()
+    private void BeginSlide()
     {
-        if (_worldInteractionNeedsRelease || !Input.IsActionJustPressed("jump") || !IsOnFloor()) return;
+        var current = new Vector2(Velocity.X, Velocity.Z);
+        if (current.Length() < WalkSpeed * 1.2f || !IsOnFloor()) return;
+        current = current.Normalized() * Mathf.Max(current.Length(), SlideStartSpeed * _paceScale);
+        Velocity = new(current.X, Velocity.Y, current.Y);
+        _slideLeft = SlideSeconds;
+    }
+
+    private bool UpdateSlide(Vector2 input, float delta, bool grounded, ref Vector2 current)
+    {
+        if (_slideLeft <= 0f) return false;
+        _slideLeft -= delta;
+        var speed = current.Length();
+        if (!grounded || !IsCrouching || speed < SlideEndSpeed || _slideLeft <= 0f)
+        {
+            _slideLeft = 0f;
+            // Come up out of the slide by yourself where there is headroom.
+            if (grounded && IsCrouching && CanStandAt(GlobalPosition)) SetCrouched(false, smoothPresentation: true);
+            return false;
+        }
+        var heading = current / speed;
+        if (input.LengthSquared() > .0001f) heading = (heading + input.Normalized() * SlideSteer * delta).Normalized();
+        current = heading * Mathf.MoveToward(speed, 0f, SlideFriction * delta);
+        return true;
+    }
+
+    private float VerticalGravityScale()
+    {
+        if (Velocity.Y <= 0f) { _jumpRising = false; return FallGravityScale; }
+        return _jumpRising && !Input.IsActionPressed("jump") ? ShortHopGravityScale : RiseGravityScale;
+    }
+
+    private void ApplyAirGravity(float delta)
+    {
+        var vertical = Velocity.Y - _gravity * VerticalGravityScale() * delta;
+        Velocity = new Vector3(Velocity.X, Mathf.Max(vertical, -TerminalFallSpeed), Velocity.Z);
+    }
+
+    private void TryJumpFromGround(float delta)
+    {
+        var grounded = IsOnFloor();
+        _coyote = grounded ? CoyoteSeconds : Mathf.Max(0f, _coyote - delta);
+        _jumpBuffer = Input.IsActionJustPressed("jump") ? JumpBufferSeconds : Mathf.Max(0f, _jumpBuffer - delta);
+        if (_worldInteractionNeedsRelease || _jumpBuffer <= 0f || _coyote <= 0f || Velocity.Y > .05f) return;
+        _jumpBuffer = 0f;
         RefreshCarryCoordinator();
         if (_carryCoordinator is { HeldItem: not null } or { ActionInProgress: true })
         {
@@ -68,9 +163,12 @@ public partial class FirstPersonController
             }
             SetCrouched(false, smoothPresentation: true);
         }
-        // A grounded press starts one ordinary hop. Holding the action does not
-        // repeat on landing, and the step solver never cancels an upward jump.
-        Velocity = new(Velocity.X, Mathf.Sqrt(2f * _gravity * JumpHeight), Velocity.Z);
+        // One hop per press. Out of a slide the horizontal speed is kept, so
+        // slide + jump is the long jump. The step solver never cancels a rise.
+        _slideLeft = 0f;
+        _coyote = 0f;
+        _jumpRising = true;
+        Velocity = new(Velocity.X, Mathf.Sqrt(2f * _gravity * RiseGravityScale * JumpHeight), Velocity.Z);
         GroundedJumps++;
     }
 

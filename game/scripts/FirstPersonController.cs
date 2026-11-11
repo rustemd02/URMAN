@@ -467,7 +467,12 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
             return;
         }
 
-        if (!_worldInteractionNeedsRelease && Input.IsActionJustPressed("crouch")) ToggleCrouch();
+        if (!_worldInteractionNeedsRelease && Input.IsActionJustPressed("crouch"))
+        {
+            var running = IsSprinting && !IsCrouching;
+            ToggleCrouch();
+            if (running && IsCrouching) BeginSlide();
+        }
 
         var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
         // GetVector already limits diagonals. Keep analogue stick strength so
@@ -477,11 +482,8 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
             && input.LengthSquared() > .01f;
         var speed = IsCrouching ? WalkSpeed * .58f : IsSprinting ? WalkSpeed * SprintMultiplier : WalkSpeed;
         ApplyHorizontalMovement(new Vector2(direction.X, direction.Z), speed, (float)delta, IsOnFloor());
-        TryJumpFromGround();
-        if (!IsOnFloor())
-        {
-            Velocity = new Vector3(Velocity.X, Velocity.Y - _gravity * (float)delta, Velocity.Z);
-        }
+        TryJumpFromGround((float)delta);
+        if (!IsOnFloor()) ApplyAirGravity((float)delta);
 
         RefreshCarryCoordinator();
         if (_carryCoordinator is not null)
@@ -618,10 +620,10 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         // the feet. It stops after real travel stops and remains fully disabled
         // by the player's reduced-motion preference.
         var dt = (float)delta;
-        var sprint = moving && IsSprinting ? 1f : 0f;
+        var sprint = moving && (IsSprinting || IsSliding) ? 1f : 0f;
         var bobHeight = Mathf.Lerp(WalkBobHeight, SprintBobHeight, sprint) * (IsCrouching ? .5f : 1f);
         // Two dips per stride (one per foot contact) and one side sway per stride.
-        var bobTarget = HeadBobEnabled && moving
+        var bobTarget = HeadBobEnabled && moving && !IsSliding
             ? -Mathf.Abs(Mathf.Sin(_bodyGait * Mathf.Tau)) * bobHeight + bobHeight * .5f : 0f;
         var swayTarget = HeadBobEnabled && moving ? Mathf.Sin(_bodyGait * Mathf.Tau) * BobSway : 0f;
         _headBobOffset = Mathf.Lerp(_headBobOffset, bobTarget, Mathf.Clamp(dt * 14f, 0f, 1f));
@@ -643,7 +645,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         var lateral = motion ? Transform.Basis.X.Dot(Velocity) / Mathf.Max(WalkSpeed, .1f) : 0f;
         var rollTarget = -Mathf.Clamp(lateral, -1f, 1f) * Mathf.DegToRad(StrafeRollDegrees);
         var horizontalSpeed = new Vector2(Velocity.X, Velocity.Z).Length();
-        var kickTarget = motion && IsSprinting
+        var kickTarget = motion && IsSliding ? SprintFovKick * 1.4f : motion && IsSprinting
             ? SprintFovKick * Mathf.Clamp((horizontalSpeed - WalkSpeed) / Mathf.Max(WalkSpeed * (SprintMultiplier - 1f), .1f), 0f, 1f)
             : 0f;
         var roll = Mathf.Lerp(_cameraRoll, rollTarget, Mathf.Clamp(dt * 7f, 0f, 1f));
