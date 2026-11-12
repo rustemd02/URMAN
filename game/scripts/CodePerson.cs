@@ -35,12 +35,16 @@ public partial class CodePerson : Node3D
 
     private static readonly Dictionary<Color, StandardMaterial3D> Materials = new();
     private static readonly Dictionary<(int, int), CylinderMesh> Tubes = new();
+    private static readonly string[] Fingers = { "thumb", "index", "middle", "ring", "pinky" };
+    private static readonly string[] FingerJoints = { "01", "02", "03", "04_leaf" };
     private static SphereMesh? _ball;
     private static BoxMesh? _block;
 
     private Skeleton3D _skeleton = null!;
     private Outfit _outfit = null!;
     private bool _sheltered;
+    private bool _elder;
+    private bool _seatedTransport;
     private readonly Dictionary<string, int> _bones = new(StringComparer.Ordinal);
     private readonly List<MeshInstance3D> _parts = new();
     private int _next;
@@ -60,7 +64,11 @@ public partial class CodePerson : Node3D
     public static void Dress(Node3D instance, string prefix, string characterId, bool sheltered)
     {
         if (instance.FindChildren("*", nameof(Skeleton3D), true, false).OfType<Skeleton3D>().FirstOrDefault() is not { } skeleton) return;
-        var person = new CodePerson { Name = "CodePerson", _skeleton = skeleton, _sheltered = sheltered };
+        var person = new CodePerson
+        {
+            Name = "CodePerson", _skeleton = skeleton, _sheltered = sheltered,
+            _elder = prefix == "Mansur", _seatedTransport = characterId == "prologue-mansur"
+        };
         person._outfit = OutfitFor(prefix, characterId);
         foreach (var name in new[] { "pelvis", "spine_03", "neck_01", "Head", "upperarm_l", "upperarm_r", "lowerarm_l", "lowerarm_r",
                      "hand_l", "hand_r", "thigh_l", "thigh_r", "calf_l", "calf_r", "foot_l", "foot_r" })
@@ -69,6 +77,16 @@ public partial class CodePerson : Node3D
             if (index < 0) index = skeleton.FindBone(name.ToLowerInvariant());
             if (index < 0) return; // Not the humanoid rig: leave the imported look alone.
             person._bones[name] = index;
+        }
+        // The existing rig already supplies the fingers and their authored grip.
+        // Keep them optional so older humanoid kits can still use the fallback hand.
+        foreach (var side in new[] { "l", "r" })
+        foreach (var finger in Fingers)
+        foreach (var joint in FingerJoints)
+        {
+            var name = $"{finger}_{joint}_{side}";
+            var index = skeleton.FindBone(name);
+            if (index >= 0) person._bones[name] = index;
         }
         // The imported surfaces stay loaded for the systems that inspect them, but are not drawn.
         foreach (var mesh in instance.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>())
@@ -209,6 +227,57 @@ public partial class CodePerson : Node3D
 
     private Vector3 Joint(string bone) => _skeleton.GetBoneGlobalPose(_bones[bone]).Origin;
 
+    private bool IsSeatedPose()
+    {
+        if (_seatedTransport) return true;
+        var up = (Joint("neck_01") - Joint("pelvis")).Normalized();
+        var left = (Joint("calf_l") - Joint("thigh_l")).Normalized();
+        var right = (Joint("calf_r") - Joint("thigh_r")).Normalized();
+        return left.Dot(-up) < .55f && right.Dot(-up) < .55f;
+    }
+
+    private bool DrawRigHand(string side, Vector3 wrist, Vector3 reach, Vector3 front, float build, Outfit outfit)
+    {
+        foreach (var finger in Fingers)
+        foreach (var joint in FingerJoints)
+            if (!_bones.ContainsKey($"{finger}_{joint}_{side}")) return false;
+
+        var originalWrist = Joint($"hand_{side}");
+        var originalReach = (originalWrist - Joint($"lowerarm_{side}")).Normalized();
+        var rotation = originalReach.LengthSquared() < .0001f ? Quaternion.Identity : new Quaternion(originalReach, reach);
+        Vector3 Finger(string finger, string joint) => wrist + rotation * (Joint($"{finger}_{joint}_{side}") - originalWrist);
+
+        var index = Finger("index", "01");
+        var pinky = Finger("pinky", "01");
+        var knuckles = (index + pinky) * .5f;
+        var palmAxis = knuckles - wrist;
+        if (palmAxis.LengthSquared() < .0001f) return false;
+        var palmUp = palmAxis.Normalized();
+        var palmNormal = Perpendicular(palmUp, (index - pinky).Cross(palmUp));
+        var palmWidth = Mathf.Clamp(index.DistanceTo(pinky) + .018f, .06f, .095f);
+        Limb(wrist - reach * .03f, wrist + reach * .005f, .041f * build, .035f * build, outfit.Trim, front);
+        Ball(wrist.Lerp(knuckles, .52f), new Vector3(palmWidth, palmAxis.Length() + .018f, .033f), outfit.Skin, palmUp, palmNormal);
+
+        for (var fingerIndex = 0; fingerIndex < Fingers.Length; fingerIndex++)
+        {
+            var finger = Fingers[fingerIndex];
+            var radius = fingerIndex == 0 ? .0105f : fingerIndex == 4 ? .007f : .0085f;
+            for (var segment = 0; segment < 3; segment++)
+            {
+                var a = Finger(finger, FingerJoints[segment]);
+                var end = Finger(finger, FingerJoints[segment + 1]);
+                var r = radius * (1f - segment * .12f);
+                // Slight overlap closes bent knuckles without a separate draw
+                // instance at every joint: three phalanges and one rounded tip.
+                var overlap = (end - a).Normalized() * r * .35f;
+                Limb(a - overlap, end + overlap, r, r * .88f, outfit.Skin, palmNormal);
+                if (segment == 2)
+                    Ball(end, Vector3.One * r * 1.75f, outfit.Skin, palmUp, palmNormal);
+            }
+        }
+        return true;
+    }
+
     public override void _Process(double delta)
     {
         if (!GodotObject.IsInstanceValid(_skeleton)) return;
@@ -221,8 +290,11 @@ public partial class CodePerson : Node3D
         var distance = moved.Length();
         if (distance > 1.5f) distance = 0f; // a placement, not a step
         var speed = distance / dt;
-        var walking = speed > .28f;
-        _gait = Mathf.MoveToward(_gait, walking ? 1f : 0f, dt / GaitBlendSeconds);
+        // A moving vehicle carries a seated skeleton through world space. That
+        // displacement must never replace the driving clip/IK with a walk cycle.
+        var seated = IsSeatedPose();
+        var walking = !seated && speed > .28f;
+        _gait = seated ? 0f : Mathf.MoveToward(_gait, walking ? 1f : 0f, dt / GaitBlendSeconds);
         if (walking)
         {
             var step = Mathf.Clamp(StepAtRest + StepPerSpeed * speed, StepMin, StepMax) * _outfit.Build;
@@ -265,6 +337,7 @@ public partial class CodePerson : Node3D
         across = across.LengthSquared() < .0001f ? Vector3.Right : across.Normalized();
         var front = across.Cross(up).Normalized();
         if (front == Vector3.Zero) front = Vector3.Back;
+        var seated = IsSeatedPose();
 
         // The floor under a standing person, learned while they stand.
         var lowest = Mathf.Min(ankleL.Y, ankleR.Y);
@@ -282,6 +355,22 @@ public partial class CodePerson : Node3D
             Stride(hipR, ref kneeR, ref ankleR, _phase + .5f, travel, w);
             Swing(shoulderL, ref elbowL, ref handL, -Mathf.Cos(_phase * Mathf.Tau), travel, up, w);
             Swing(shoulderR, ref elbowR, ref handR, Mathf.Cos(_phase * Mathf.Tau), travel, up, w);
+        }
+
+        if (_elder)
+        {
+            // A small forward neck and relaxed shoulder line, with the pelvis,
+            // feet and seated wrist targets kept at their authored anchors.
+            chest += front * .018f - up * .008f;
+            var neckOffset = front * .035f - up * .022f;
+            neck += neckOffset; head += neckOffset;
+            var shoulderOffset = front * .018f - up * .025f;
+            shoulderL += shoulderOffset; shoulderR += shoulderOffset;
+            if (!seated)
+            {
+                elbowL += shoulderOffset * .65f; elbowR += shoulderOffset * .65f;
+                handL += shoulderOffset * .4f; handR += shoulderOffset * .4f;
+            }
         }
 
         // Legs first: trousers, then felt boots over them.
@@ -304,32 +393,44 @@ public partial class CodePerson : Node3D
 
         // Body: hips, chest, shoulders, and the coat hanging below the belt.
         var coat = _sheltered ? o.Trim : o.Coat;
-        Limb(pelvis - up * .05f, chest, .175f * b, .19f * b, coat, front, .74f);
-        Limb(chest, neck - up * .015f, .19f * b, .12f * b, coat, front, .72f);
+        var seatClearance = seated ? front * .018f : Vector3.Zero;
+        Limb(pelvis - up * .05f + seatClearance, chest + seatClearance, .175f * b, (_elder ? .18f : .19f) * b, coat, front, seated ? .64f : .74f);
+        Limb(chest + seatClearance, neck - up * .015f, (_elder ? .18f : .19f) * b, .12f * b, coat, front, seated ? .64f : .72f);
         // Sloping shoulders and real hips instead of a tube with arms.
         Ball(neck - up * .055f, new Vector3(.34f, .13f, .2f) * b, coat, up, front);
-        Ball(pelvis - up * .02f, new Vector3(.37f, .22f, .27f) * b, coat, up, front);
+        Ball(pelvis - up * .02f + seatClearance, new Vector3(.37f, .22f, seated ? .23f : .27f) * b, coat, up, front);
         if (!_sheltered) Limb(neck - up * .04f, neck + up * .03f, .09f * b, .072f * b, o.Trim, front, .92f);
+        Limb(neck - up * .055f, shoulderL, .085f * b, .068f * b, coat, front);
+        Limb(neck - up * .055f, shoulderR, .085f * b, .068f * b, coat, front);
         Ball(shoulderL, Vector3.One * .15f * b, coat, up, front);
         Ball(shoulderR, Vector3.One * .15f * b, coat, up, front);
         var hem = _sheltered ? Mathf.Min(o.CoatLength, .14f) : o.CoatLength;
         // Seated: the thighs lie forward, so nothing hangs straight down through the seat.
         var thighs = ((kneeL + kneeR) * .5f - pelvis);
-        var seated = thighs.LengthSquared() > .01f && thighs.Normalized().Dot(-up) < .55f;
-        if (seated)
+        if (seated && o.Skirt)
         {
-            if (o.Skirt || hem > .2f)
-                Limb(pelvis - up * .02f, pelvis + thighs * .92f - up * .02f, .21f * b, .19f * b, o.Skirt && _sheltered ? o.Trousers : coat, up, .6f);
+            Limb(pelvis + up * .025f, pelvis + thighs * .92f + up * .025f, .21f * b, .19f * b, _sheltered ? o.Trousers : coat, up, .6f);
         }
         else if (o.Skirt)
             Limb(pelvis - up * (hem + .3f), pelvis + up * .02f, .285f * b, .19f * b, _sheltered ? o.Trousers : coat, front, .82f);
         else
-            Limb(pelvis - up * hem, pelvis + up * .02f, (.2f + hem * .12f) * b, .185f * b, coat, front, .78f);
+        {
+            // Separate jacket skirts follow each upper leg instead of a rigid
+            // tube that the thighs cut through on a step or when sitting down.
+            foreach (var (hip, knee) in new[] { (hipL, kneeL), (hipR, kneeR) })
+            {
+                var thigh = knee - hip;
+                var length = Mathf.Min(hem + .045f, thigh.Length() * .85f);
+                var lift = seated ? up * .035f : front * .012f;
+                Limb(hip - thigh.Normalized() * .04f + lift, hip + thigh.Normalized() * length + lift,
+                    .12f * b, .13f * b, coat, seated ? up : front, seated ? .6f : .86f);
+            }
+        }
         if (!_sheltered && !o.Skirt)
             Limb(pelvis + up * .03f, pelvis + up * .075f, .19f * b, .19f * b, o.Trim, front, .76f); // belt line
 
         // Arms and mittens.
-        foreach (var (shoulder, elbow, hand) in new[] { (shoulderL, elbowL, handL), (shoulderR, elbowR, handR) })
+        foreach (var (sideName, shoulder, elbow, hand) in new[] { ("l", shoulderL, elbowL, handL), ("r", shoulderR, elbowR, handR) })
         {
             Limb(shoulder, elbow, .062f * b, .052f * b, coat, front);
             Limb(elbow, hand, .052f * b, .043f * b, coat, front);
@@ -346,6 +447,7 @@ public partial class CodePerson : Node3D
                 Ball(hand + reach * .04f + thumbSide * .042f, new Vector3(.03f, .065f, .03f) * b, o.Mittens, reach + thumbSide * .6f, palm);
                 continue;
             }
+            if (DrawRigHand(sideName, hand, reach, front, b, o)) continue;
             // A bare hand: wrist cuff, palm, the fingers as one curved pad, and a thumb.
             var grip = Perpendicular(reach, front);
             var thumb = reach.Cross(grip).Normalized() * (shoulder == shoulderL ? -1f : 1f);
