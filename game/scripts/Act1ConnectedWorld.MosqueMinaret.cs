@@ -20,9 +20,9 @@ public partial class Act1ConnectedWorld
             "plank-clad octagonal village minaret after the Bolshaya Elga / Moksha published type: framed timber shaft, open railed azanchi lantern with its own skirt roof, slender sheet-metal tent and crescent; no glazed belfry, no white church trim");
         stair.SetMeta("riseMetres", .16f);
         stair.SetMeta("goingMetres", .236f);
-        stair.SetMeta("clearFlightWidth", .86f);
+        stair.SetMeta("clearFlightWidth", .81f);
         stair.SetMeta("entranceDoorClearanceTrim",
-            "treads 0-1 outer radius 1.20 -> 1.14 m (clear width .80 m there); mosque entrance leaf tip samples 1.1536/1.1861 m, full -95-degree arc clear with a real margin; entry tread and rails unchanged");
+            "treads 0-1 outer radius 1.20 -> 1.14 m (clear width .75 m there); mosque entrance leaf tip samples 1.1536/1.1861 m, full -95-degree arc clear with a real margin; entry tread and rails unchanged");
         stair.SetMeta("sameLaneVerticalClearance", 3.12f);
         stair.SetMeta("shaftDiameterMetres", 2.60f);
         stair.SetMeta("shaftAcrossFlatsMetres", 2.40f);
@@ -65,11 +65,13 @@ public partial class Act1ConnectedWorld
                 FacilityRod(stair, "SpiralBaluster" + i, new(a.X, top, a.Z), a, .018f, "c4b18b");
         }
         // Keep the walking lane outside the narrow inner tips of the winders.
-        // A .35 m capsule beside this .34 m mast has centre radius >= .69 m;
-        // its innermost step-support ray (another .10 m inward) has .192 m
-        // going, enough for the controller's .18 m forward support sample.
-        // The old .16 m mast allowed samples onto the following .32 m rise.
-        const float mastRadius = .34f;
+        // At a .16 m riser the .35 m capsule reaches .294 m ahead of its centre.
+        // Beside the .39 m mast its centre is >= .74 m from the axis: the
+        // leading contact is at radial coordinate sqrt(.74^2-.294^2)=.679 m.
+        // The innermost support ray is another .10 m inward, leaving .188 m
+        // going (tan(18 degrees)*.579), beyond the controller's .18 m sample.
+        // The old .16 m mast admitted a lane whose rays crossed two risers.
+        const float mastRadius = .39f;
         var mast = new MeshInstance3D { Name = "SpiralTimberMast", Position = new(0, 4.80f, 0),
             Mesh = new CylinderMesh { TopRadius = mastRadius, BottomRadius = mastRadius, Height = MinaretGalleryHeight, RadialSegments = 12 },
             MaterialOverride = PainterlyMaterialLibrary.ForColor("80674c", "wood_furniture") };

@@ -21,28 +21,33 @@ public partial class Act1ConnectedWorld
     private void BuildMosqueDecoratedCeiling()
     {
         var room = _mosqueRoom!;
-        // Actual stair opening: no opaque ceiling across the climb into the roof minaret.
-        AddVisualBox(room, "MosqueCeiling", new(9.1f, .12f, 9.15f), new(-2.075f, 3.80f, 0), "e5dfc9", "wood_painted_trim");
-        AddVisualBox(room, "MosqueVestibuleSouthCeiling", new(2.75f, .12f, 4.20f), new(3.85f, 3.80f, 2.47f), "e5dfc9", "wood_painted_trim");
-        foreach (var x in new[] { -5.9f, -3.8f, -1.7f, .4f })
-            AddVisualBox(room, "MosqueCeilingTimberBeam" + x, new(.12f, .16f, 9.10f), new(x, 3.68f, 0), "946f45", "wood_furniture");
-        AddVisualBox(room, "MosqueVestibuleNorthCeiling", new(2.75f, .12f, 1.45f), new(3.85f, 3.80f, -3.85f), "e5dfc9", "wood_painted_trim");
-        foreach (var z in new[] { -4.44f, 4.44f })
+        // Three continuous fields leave the existing minaret opening free.
+        AddVisualBox(room, "MosqueCeiling", new(9.1f, .12f, 9.15f), new(-2.075f, 3.80f, 0), "eee9dc", "wood_painted_trim");
+        AddVisualBox(room, "MosqueVestibuleSouthCeiling", new(2.75f, .12f, 4.20f), new(3.85f, 3.80f, 2.47f), "eee9dc", "wood_painted_trim");
+        AddVisualBox(room, "MosqueVestibuleNorthCeiling", new(2.75f, .12f, 1.45f), new(3.85f, 3.80f, -3.85f), "eee9dc", "wood_painted_trim");
+        var battens = new List<Transform3D>();
+        foreach (var x in new[] { -5.50f, -3.35f, -1.20f, .95f })
+            battens.Add(MosqueBoxTransform(new(x, 3.704f, 0), new(.075f, .068f, 9.10f), 0));
+        foreach (var z in new[] { -4.48f, 4.48f })
         {
-            AddVisualBox(room, "MosqueCornice" + z, new(11.8f, .13f, .10f), new(-.7f, 3.62f, z), "ddca91", "wood_furniture");
-            AddVisualBox(room, "MosqueDado" + z, new(11.8f, .12f, .035f), new(-.7f, .98f, z), "688777", "wood_painted_green");
+            battens.Add(MosqueBoxTransform(new(-.7f, 3.64f, z), new(11.8f, .13f, .10f), 0));
+            battens.Add(MosqueBoxTransform(new(-.7f, 3.71f, z), new(11.8f, .035f, .18f), 0));
         }
-        AddVisualBox(room, "MosqueWestDado", new(.035f, .12f, 8.95f), new(-6.58f, .98f, 0), "688777", "wood_painted_green");
-        // A restrained pendant fixture, warm light and metal arms without invented sacred text.
-        var chandelier = new Node3D { Name = "MosqueChandelier", Position = new(-.5f, 3.35f, -.9f) };
-        room.AddChild(chandelier);
-        FacilityRod(chandelier, "Suspension", Vector3.Zero, new(0, .36f, 0), .018f, "b7a578");
-        for (var i = 0; i < 6; i++)
+        MosqueBatch(room, "MosqueCeilingJoinery", battens, MosqueFinish("walnut", "e2d4b8", 1.2f));
+        foreach (var x in new[] { -3.35f, .35f })
         {
-            var a = Mathf.Tau * i / 6;
-            var end = new Vector3(Mathf.Cos(a) * .55f, -.16f, Mathf.Sin(a) * .55f);
-            FacilityRod(chandelier, "Arm" + i, Vector3.Zero, end, .014f, "b7a578");
-            DiscoveryCylinder(chandelier, "FrostedShade" + i, .075f, .12f, .16f, end, "eadbc0");
+            var pendant = new Node3D { Name = x < -1 ? "MosqueChandelier" : "MosqueSecondPendant", Position = new(x, 3.20f, -.35f) };
+            room.AddChild(pendant);
+            FacilityRod(pendant, "Suspension", Vector3.Zero, new(0, .52f, 0), .012f, "857751");
+            var shade = DiscoveryCylinder(pendant, "LinenDrum", .32f, .36f, .24f, Vector3.Zero, "e8dfc7");
+            shade.MaterialOverride = MosqueFinish("paper", "ffffff", .55f);
+            foreach (var y in new[] { -.125f, .125f })
+            {
+                var rim = new MeshInstance3D { Name = y < 0 ? "LowerRim" : "UpperRim", Position = new(0, y, 0),
+                    Mesh = new TorusMesh { InnerRadius = .321f, OuterRadius = .337f, Rings = 24, RingSegments = 8 },
+                    MaterialOverride = PainterlyMaterialLibrary.ForColor("8c7a53", "metal") };
+                pendant.AddChild(rim);
+            }
         }
     }
 
@@ -62,103 +67,126 @@ public partial class Act1ConnectedWorld
     private MeshInstance3D BuildMosquePrayerAndLibrary()
     {
         var room = _mosqueRoom!;
+        var qiblaLocal = MosqueLocalQibla.Normalized();
         room.SetMeta("worldTrueNorth", new Vector3(0, 0, 1));
         room.SetMeta("worldEast", Vector3.Right);
         room.SetMeta("qiblaRegionalProxy", "Kazan 55.79N 49.12E; fictional village has no surveyed coordinate");
         room.SetMeta("qiblaBearingDegrees", MosqueQiblaBearingDegrees);
-        // The complex was already yawed onto the qibla (MosqueOrientation.cs),
-        // so the true world direction is the room basis applied to the local
-        // qibla vector. Room-local it resolves to (0, 0, -1): the wall, the
-        // niche, the minbar, the imam and the carpet rows share one clean axis.
-        var qiblaLocal = MosqueLocalQibla.Normalized();
         room.SetMeta("qiblaWorldDirection", (room.GlobalBasis * qiblaLocal).Normalized());
         room.SetMeta("qiblaLocalDirection", qiblaLocal);
         room.SetMeta("carpetRowAxisLocal", qiblaLocal);
-        // Carpet lane (MosqueCarpets.cs): this replaces the old 5.3 x 6.05 m rug
-        // with the straight wall-to-wall field. The node name, the 2 mm support
-        // contact and the legacy-save consumers stay identical; the mat rows
-        // follow the qibla lane, which the complex yaw has made room-axis aligned.
         var carpet = BuildMosquePrayerMatField(room);
-        // After the complex yaw this yaw is 0: the mihrab assembly is flush with
-        // the real building wall instead of a 15.1725-degree insert inside a
-        // straight shell.
-        var yaw = Mathf.Atan2(-qiblaLocal.X, -qiblaLocal.Z); // local -Z is the prayer face
-        var prayer = new Node3D { Name = "MosqueQiblaWall", Position = new(-.7f, 0, -4.14f), Rotation = new(0, yaw, 0) };
+        var prayer = new Node3D { Name = "MosqueQiblaWall", Position = new(-.7f, 0, -4.14f),
+            Rotation = new(0, Mathf.Atan2(-qiblaLocal.X, -qiblaLocal.Z), 0) };
         room.AddChild(prayer);
         prayer.SetMeta("qiblaBearingDegrees", MosqueQiblaBearingDegrees);
-        // Mihrab recess with shaped arch; the whole assembly shares the qibla normal.
-        FacilitySolid(prayer, "MihrabBacking", new(1.40f, 2.75f, .16f), new(0, 1.375f, -.06f), "779482", "wood_painted_green");
-        foreach (var x in new[] { -.58f, .58f })
-            FacilitySolid(prayer, "MihrabPilaster" + x, new(.10f, 1.94f, .16f), new(x, .97f, .09f), "d8c9a0", "wood_furniture");
-        for (var i = 0; i < 10; i++)
+        // A shallow timber-lined niche preserves the established prayer axis.
+        // No added calligraphy or religious symbol is inferred from references.
+        FacilitySolid(prayer, "MihrabBacking", new(1.50f, 2.82f, .12f), new(0, 1.41f, -.24f), "a9b4a0", "wood_painted_trim");
+        AddVisualBox(prayer, "MihrabInset", new(1.16f, 2.34f, .018f), new(0, 1.20f, -.169f), "e5deca", "plaster");
+        foreach (var x in new[] { -.66f, .66f })
         {
-            var a0 = Mathf.Pi * i / 10; var a1 = Mathf.Pi * (i + 1) / 10;
-            var p0 = new Vector3(Mathf.Cos(a0) * .58f, 1.91f + Mathf.Sin(a0) * .68f, .1f);
-            var p1 = new Vector3(Mathf.Cos(a1) * .58f, 1.91f + Mathf.Sin(a1) * .68f, .1f);
-            FacilityRod(prayer, "MihrabArch" + i, p0, p1, .045f, "d8c9a0");
+            MosqueWood(prayer, "MihrabPilaster" + x, new(.11f, 2.02f, .18f), new(x, 1.01f, -.12f), true);
+            MosqueWood(prayer, "MihrabPlinth" + x, new(.16f, .13f, .23f), new(x, .065f, -.10f));
+            MosqueWood(prayer, "MihrabCapital" + x, new(.16f, .09f, .23f), new(x, 2.01f, -.10f));
         }
-        // Minbar to the imam's right, reached by actual short steps, without a throne or sacred inscription.
-        var minbar = new Node3D { Name = "MosqueMinbar", Position = new(1.05f, 0, .10f) };
-        prayer.AddChild(minbar);
-        for (var i = 0; i < 3; i++)
-            FacilitySolid(minbar, "MinbarTread" + i, new(.70f, .16f * (i + 1), .29f), new(0, .08f * (i + 1), .88f - i * .29f), "946f45", "wood_furniture");
-        FacilitySolid(minbar, "MinbarPlatform", new(.78f, .48f, .56f), new(0, .24f, -.1f), "946f45", "wood_furniture");
-        foreach (var x in new[] { -.42f, .42f })
+        // Joined curved moulding, a single smooth arch rather than isolated rods.
+        var arch = new MosqueBookSurface();
+        for (var i = 0; i < 32; i++)
         {
-            FacilitySolid(minbar, "MinbarPost" + x, new(.055f, 1.10f, .055f), new(x, .97f, -.28f), "cfb97d", "wood_furniture");
-            FacilityRod(minbar, "MinbarRail" + x, new(x, 1.50f, -.30f), new(x, .94f, 1.00f), .026f, "cfb97d");
+            var a = Mathf.Pi * i / 32; var b = Mathf.Pi * (i + 1) / 32;
+            Vector3 P(float angle, float r, float depth) => new(Mathf.Cos(angle) * r, 1.98f + Mathf.Sin(angle) * r, depth);
+            arch.Quad(P(a,.60f,-.035f), P(b,.60f,-.035f), P(b,.72f,-.035f), P(a,.72f,-.035f), Vector3.Back);
+            arch.Quad(P(a,.60f,-.20f), P(b,.60f,-.20f), P(b,.60f,-.035f), P(a,.60f,-.035f), new(-Mathf.Cos(a),-Mathf.Sin(a),0));
+            arch.Quad(P(a,.72f,-.035f), P(b,.72f,-.035f), P(b,.72f,-.20f), P(a,.72f,-.20f), new(Mathf.Cos(a),Mathf.Sin(a),0));
         }
-        FacilityLabel(room, "MosqueQiblaNotice", "Кыйбла", new(1.30f, 2.43f, -4.57f), 0, .0015f);
-
-        // Rebuilt 12.11.2026: the hall is one plain rectangle. The boxed-in
-        // library (two 10 cm partitions and a door standing inside the hall)
-        // is gone; the books keep their corner against the window wall, open
-        // to the room, with the same bench, desk and lamp.
-        FacilityLabel(room, "MosqueLibrarySign", "Китапханә\nБиблиотека", new(-5.40f, 2.05f, 4.555f), 180, .0014f);
-        FacilitySolid(room, "MosqueBookcaseLeft", new(.08f, 1.65f, .39f), new(-6.15f, .825f, 4.23f), "80674c", "wood_furniture");
-        FacilitySolid(room, "MosqueBookcaseRight", new(.08f, 1.65f, .39f), new(-4.65f, .825f, 4.23f), "80674c", "wood_furniture");
-        for (var shelf = 0; shelf < 4; shelf++)
-        {
-            FacilitySolid(room, "MosqueBookShelf" + shelf, new(1.60f, .055f, .40f), new(-5.40f, .10f + shelf * .49f, 4.23f), "80674c", "wood_furniture");
-            if (shelf == 3) continue;
-            for (var book = 0; book < 8; book++)
-                AddMosqueShelfBook(room, $"MosqueBook{book}_{shelf}", new(.065f, .31f + book % 3 * .025f, .22f), new(-5.94f + book * .15f, .1275f + shelf * .49f, 4.23f), book % 2 == 0 ? "405d57" : "8f7960");
-        }
+        var archMesh = new ArrayMesh(); arch.Commit(archMesh, "MouldedArch", MosqueFinish("walnut"));
+        prayer.AddChild(new MeshInstance3D { Name = "MihrabArch", Mesh = archMesh });
+        BuildMosqueMinbar(prayer);
+        FacilityLabel(room, "MosqueQiblaNotice", "Кыйбла", new(1.30f, 2.43f, -4.55f), 0, .0015f);
+        FacilityLabel(room, "MosqueLibrarySign", "Китапханә\nБиблиотека", new(-5.40f, 2.08f, 4.54f), 180, .0014f);
+        BuildMosqueLibraryCase(room, "Mosque", new(-5.40f, 0, 4.23f), 1.60f);
         FacilityBench(room, "MosqueReadingBench", new(-5.40f, 0, 3.58f), 1.35f, 0);
-        FacilityTable(room, "MosqueImamDesk", new(-6.05f, 0, 1.55f), new(.74f, .74f, .80f));
-        AddVisualBox(room, "MosqueImamNotebook", new(.29f, .018f, .21f), new(-6.02f, .767f, 1.55f), "bbb297", "paper");
-        FacilityLamp(room, "MosqueLibraryLamp", new(-5.1f, 3.35f, 2.5f), "ffdfad", .45f, 3.0f);
+        FacilityLamp(room, "MosqueLibraryLamp", new(-5.1f, 3.35f, 2.5f), "fff0cf", .60f, 3.0f);
         BuildMosqueDonationBox();
         room.SetMeta("libraryClearSizeMetres", new Vector2(3.14f, 3.70f));
         room.SetMeta("hallClearHeightMetres", 3.74f);
         return carpet;
     }
 
+    private void BuildMosqueMinbar(Node3D prayer)
+    {
+        var minbar = new Node3D { Name = "MosqueMinbar", Position = new(1.05f, 0, .10f) };
+        prayer.AddChild(minbar);
+        for (var i = 0; i < 3; i++)
+        {
+            var top = .16f * (i + 1);
+            MosqueWood(minbar, "MinbarTread" + i, new(.74f, top, .31f), new(0, top * .5f, .88f - i * .29f), true);
+            MosqueWood(minbar, "MinbarNosing" + i, new(.77f, .028f, .045f), new(0, top - .014f, 1.02f - i * .29f));
+        }
+        MosqueWood(minbar, "MinbarPlatform", new(.80f, .48f, .56f), new(0, .24f, -.1f), true);
+        foreach (var x in new[] { -.43f, .43f })
+        {
+            MosqueWood(minbar, "MinbarPost" + x, new(.07f, 1.12f, .07f), new(x, 1.02f, -.28f), true);
+            DiscoveryCylinder(minbar, "PostCap" + x, .055f, .045f, .055f, new(x, 1.61f, -.28f), "a58a61");
+            FacilityRod(minbar, "MinbarRail" + x, new(x, 1.54f, -.28f), new(x, .98f, 1.00f), .027f, "90704a");
+            for (var i = 0; i < 5; i++)
+            {
+                var z = .05f + i * .19f;
+                var top = Mathf.Lerp(1.54f, .98f, (z + .28f) / 1.28f);
+                var bottom = .48f - Math.Max(0, z - .20f) * .48f;
+                var post = DiscoveryCylinder(minbar, $"Baluster{x}_{i}", .017f, .024f, top - bottom, new(x, (top + bottom) * .5f, z), "90704a");
+                post.MaterialOverride = MosqueFinish("walnut");
+            }
+            MosqueWood(minbar, "MinbarSidePanel" + x, new(.035f, .29f, .46f), new(x, .27f, -.08f));
+        }
+        // A lectern rail, not a chair or throne.
+        MosqueWood(minbar, "MinbarReadingRail", new(.79f, .07f, .10f), new(0, 1.53f, -.28f));
+    }
+
+    private void BuildMosqueLibraryCase(Node3D parent, string prefix, Vector3 at, float width)
+    {
+        MosqueWood(parent, prefix + "BookcaseLeft", new(.07f, 1.72f, .39f), at + new Vector3(-width*.5f+.035f,.86f,0), true);
+        MosqueWood(parent, prefix + "BookcaseRight", new(.07f, 1.72f, .39f), at + new Vector3(width*.5f-.035f,.86f,0), true);
+        MosqueWood(parent, prefix + "BookcaseBack", new(width-.14f,1.60f,.025f), at + new Vector3(0,.85f,.18f));
+        for (var shelf = 0; shelf < 4; shelf++)
+        {
+            var y = .10f + shelf * .49f;
+            MosqueWood(parent, prefix + "BookShelf" + shelf, new(width-.12f,.045f,.39f), at + new Vector3(0,y,0), true);
+            if (shelf == 3) continue;
+            var count = Mathf.FloorToInt((width - .25f) / .14f);
+            for (var book = 0; book < count; book++)
+            {
+                var binding = AddMosqueShelfBook(parent, $"{prefix}Book{book}_{shelf}", new(.058f + (book%2)*.012f,.28f + book%3*.025f,.22f),
+                    at + new Vector3(-width*.5f+.17f+book*.14f,y+.0225f,-.025f), "405d57");
+                MosqueBookFinish(binding, book % 3 == 0 ? "d1bb9d" : "ffffff");
+            }
+        }
+        MosqueWood(parent, prefix + "BookcaseCornice", new(width+.06f,.075f,.43f), at+new Vector3(0,1.72f,0));
+    }
+
     private void BuildMosqueDonationBox()
     {
-        var room = _mosqueRoom!;
-        // Stands against the pier of the south window wall, facing the room.
-        var box = new Node3D { Name = "MosqueDonationBox", Position = new(.9f, 0, 4.38f), RotationDegrees = new(0, 180, 0) };
-        room.AddChild(box);
-        box.SetMeta("presentationRole", "locked donation box; visible unmarked contributions; no theft interaction");
-        FacilitySolid(box, "DonationPedestal", new(.44f, .74f, .35f), new(0, .37f, 0), "80674c", "wood_furniture");
-        FacilitySolid(box, "DonationBack", new(.46f, .42f, .04f), new(0, .95f, -.16f), "80674c", "wood_furniture");
-        foreach (var x in new[] { -.22f, .22f })
-            FacilitySolid(box, "DonationSide" + x, new(.04f, .42f, .32f), new(x, .95f, 0), "80674c", "wood_furniture");
-        FacilitySolid(box, "DonationLid", new(.49f, .04f, .35f), new(0, 1.18f, 0), "80674c", "wood_furniture");
-        AddVisualBox(box, "DonationSlot", new(.20f, .002f, .014f), new(0, 1.201f, 0), "26332d", "metal");
-        var glass = FacilitySolid(box, "DonationGlass", new(.40f, .36f, .016f), new(0, .96f, .169f), "b5c8c2", "glass");
-        glass.MaterialOverride = new StandardMaterial3D { Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
-            AlbedoColor = new Color(.70f, .81f, .77f, .17f), Roughness = .12f, CullMode = BaseMaterial3D.CullModeEnum.Disabled };
-        for (var i = 0; i < 9; i++)
-        {
-            var note = AddVisualBox(box, "DonationNote" + i, new(.145f, .002f, .061f), new(-.085f + i % 3 * .075f, .746f + i * .005f, -.045f + i % 2 * .075f), i % 2 == 0 ? "b9c19f" : "b4b5c2", "paper");
-            note.RotationDegrees = new(0, i * 23, 0);
-        }
-        for (var i = 0; i < 7; i++)
-            DiscoveryCylinder(box, "DonationCoin" + i, .013f, .013f, .003f, new(-.14f + i % 4 * .08f, .746f + i / 4 * .004f, .07f), "baaf83");
-        AddVisualBox(box, "DonationLock", new(.045f, .065f, .025f), new(.18f, 1.08f, .19f), "b2aa8f", "metal");
-        FacilityLabel(box, "DonationLabel", "Сәдака", new(0, .50f, .179f), 0, .00135f);
+        var box = new Node3D { Name = "MosqueDonationBox", Position = new(.9f,0,4.38f), RotationDegrees = new(0,180,0) };
+        _mosqueRoom!.AddChild(box);
+        box.SetMeta("presentationRole", "locked donation box; no theft interaction");
+        MosqueWood(box, "DonationPedestal", new(.44f,.74f,.35f), new(0,.37f,0), true);
+        MosqueWood(box, "DonationFoot", new(.48f,.06f,.39f), new(0,.03f,0));
+        MosqueWood(box, "DonationInsetPanel", new(.32f,.48f,.018f), new(0,.42f,.178f), tint:"dfd0b8");
+        MosqueWood(box, "DonationBack", new(.46f,.42f,.04f), new(0,.95f,-.16f), true);
+        foreach(var x in new[]{-.22f,.22f})
+            MosqueWood(box,"DonationSide"+x,new(.04f,.42f,.32f),new(x,.95f,0),true);
+        // Two lid leaves leave a real slot, rather than a painted black stripe.
+        foreach(var z in new[]{-.095f,.095f})
+            MosqueWood(box,"DonationLid"+z,new(.49f,.04f,.16f),new(0,1.18f,z),true);
+        foreach(var x in new[]{-.175f,.175f})
+            MosqueWood(box,"DonationSlotEnd"+x,new(.14f,.04f,.03f),new(x,1.18f,0));
+        var glass=FacilitySolid(box,"DonationGlass",new(.40f,.36f,.016f),new(0,.96f,.169f),"b5c8c2","glass");
+        glass.MaterialOverride=new StandardMaterial3D {Transparency=BaseMaterial3D.TransparencyEnum.Alpha,
+            AlbedoColor=new Color(.70f,.81f,.77f,.13f),Roughness=.18f,CullMode=BaseMaterial3D.CullModeEnum.Disabled};
+        for(var i=0;i<5;i++) MosquePaper(box,"DonationNote"+i,new(-.075f+i%3*.065f,.746f+i*.004f,-.025f+i%2*.06f),new(.13f,.06f),new(0,i*23,0));
+        AddVisualBox(box,"DonationLock",new(.035f,.048f,.025f),new(.18f,1.08f,.19f),"a89970","metal");
+        FacilityLabel(box,"DonationLabel","Сәдака",new(0,.52f,.190f),0,.00135f);
     }
 
     // Later prayer-time owner can resolve this anchored place after any relocation.

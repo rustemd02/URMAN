@@ -36,12 +36,21 @@ public partial class Act1ConnectedWorld
                     Quad(frame,new(-size.X*.5f,y-.003f,z),new(size.X*.5f,y-.003f,z),
                         new(size.X*.5f,y+.003f,z),new(-size.X*.5f,y+.003f,z),Vector3.Back*side);
             }
-            else if(name.StartsWith("MosqueHall", StringComparison.Ordinal))
+            else if(name.StartsWith("MosqueHall", StringComparison.Ordinal)
+                ||name.StartsWith("MosqueOfficeConnection",StringComparison.Ordinal)||name=="OfficeWestWall")
             {
-                var side=name=="MosqueHallWest"?-1f:1f;var x=side*(size.X*.5f+.001f);
+                var side=name=="MosqueHallWest"||name.StartsWith("MosqueOfficeConnection",StringComparison.Ordinal)
+                    ||name=="OfficeWestWall"?-1f:1f;var x=side*(size.X*.5f+.001f);
                 for(var y=firstRow;y<size.Y*.5f-.03f;y+=.18f)
                     Quad(frame,new(x,y-.003f,-size.Z*.5f),new(x,y-.003f,size.Z*.5f),
                         new(x,y+.003f,size.Z*.5f),new(x,y+.003f,-size.Z*.5f),Vector3.Right*side);
+            }
+            else if(name.StartsWith("OfficeEndWall",StringComparison.Ordinal))
+            {
+                var side=mesh.Position.Z<2f?-1f:1f;var z=side*(size.Z*.5f+.001f);
+                for(var y=firstRow;y<size.Y*.5f-.03f;y+=.18f)
+                    Quad(frame,new(-size.X*.5f,y-.003f,z),new(size.X*.5f,y-.003f,z),
+                        new(size.X*.5f,y+.003f,z),new(-size.X*.5f,y+.003f,z),Vector3.Back*side);
             }
             else if(name.StartsWith("TimberShaftFacet",StringComparison.Ordinal)
                 ||name.StartsWith("LanternTimberApron",StringComparison.Ordinal))

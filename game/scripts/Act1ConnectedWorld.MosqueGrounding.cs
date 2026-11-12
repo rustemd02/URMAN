@@ -192,6 +192,21 @@ public partial class Act1ConnectedWorld
         var apronTransform = apron.GlobalTransform;
         var (result, changed, vertices) = AgentBAct1ExteriorLayer.ClipGroundFootprint(mesh, original, cutFrame, halfSize);
         if (changed == 0) { result.Dispose(); throw new InvalidOperationException("Mosque terrain cut removed no intersecting ground."); }
+        // The small west annex needs the same paired render/physics cut: the
+        // hillside must not rise through its floor. Cut only to its wall centre
+        // lines; the courtyard and the hall's foundation remain as authored.
+        var officeFrame = new Node3D { Name = "MosqueOfficeTerrainCutFrame", Position = new(-7.97f, 0, 2f) };
+        room.AddChild(officeFrame);
+        var officeHalf = new Vector2(1.07f, 1.77f);
+        var (withOffice, officeChanged, officeVertices) = AgentBAct1ExteriorLayer.ClipGroundFootprint(mesh, result, officeFrame, officeHalf);
+        if (officeChanged > 0)
+        {
+            result.Dispose(); result = withOffice;
+            changed += officeChanged; vertices = officeVertices;
+        }
+        else withOffice.Dispose();
+        room.SetMeta("mosqueOfficeTerrainCutHalfSize", officeHalf);
+        room.SetMeta("mosqueOfficeTerrainCutFrame", officeFrame.GetPath().ToString());
         mesh.Mesh = result;
         var published = result.GetFaces();
         terrain.SetFaces(published.Select(p => toContact * p).ToArray());
