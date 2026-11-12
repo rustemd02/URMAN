@@ -12,6 +12,7 @@ public partial class Act1ConnectedWorld
         ApplyShopSupplyState();
     }
 
+    private bool _mosqueAtmosphereInside;
     private string _physicalInterior = string.Empty;
     private AgentBAct1ExteriorLayer? _physicalWeather;
     private AmbientAudioDirector? _physicalAmbience;
@@ -42,7 +43,23 @@ public partial class Act1ConnectedWorld
         var viewer = GetViewport().GetCamera3D() is { } camera && camera.Name == "DevViewCamera"
             ? camera.GlobalPosition : player.GlobalPosition;
         var interior = FacilityInteriorAt(viewer);
-        if (interior == _physicalInterior) return;
+        // The hall shelter AABB ends at its ceiling; it must not also cut the
+        // visual warmth halfway up the enclosed minaret. This is presentation
+        // only: sanctuary interactions, shelter and saved state keep their bounds.
+        var mosqueAtmosphere = interior == "mosque";
+        if (FacilityExteriorActive && _mosqueRoom is not null)
+        {
+            var local = _mosqueRoom.ToLocal(viewer) - MinaretCentre;
+            mosqueAtmosphere |= local.X * local.X + local.Z * local.Z < 1.30f * 1.30f
+                && local.Y > -.25f && local.Y < MinaretGalleryHeight;
+        }
+        var gradeChanged = mosqueAtmosphere != _mosqueAtmosphereInside;
+        _mosqueAtmosphereInside = mosqueAtmosphere;
+        if (interior == _physicalInterior)
+        {
+            if (gradeChanged) RefreshIndoorAtmosphereGrade();
+            return;
+        }
         _physicalInterior = interior;
         _physicalWeather ??= GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld");
         _physicalAmbience ??= GetTree().GetFirstNodeInGroup("ambient_audio") as AmbientAudioDirector;

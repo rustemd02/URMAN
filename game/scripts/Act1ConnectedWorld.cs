@@ -617,6 +617,10 @@ public partial class Act1ConnectedWorld : Node3D
             throw new InvalidOperationException($"Connected Act I world has no layout placement for '{zoneId}'.");
         }
 
+        // Save the visible grade before changing the WorldEnvironment owner.
+        var previousEnvironment = ActiveZoneId.Length == 0 ? null : GetViewport().World3D?.Environment;
+        var previousGrade = previousEnvironment is null ? (AtmosphereGrade?)null : ReadAtmosphereGrade(previousEnvironment);
+        FinishAtmosphereGrade();
         var useExteriorAtmosphere = !activePlacement.Interior;
 
         foreach (var (candidateZoneId, bindings) in _environmentsByZone)
@@ -694,8 +698,14 @@ public partial class Act1ConnectedWorld : Node3D
             // VIS-040/042: the zone-to-state choice is authored data now
             // (atmosphere.v1.json 'zones'), so a state cannot be reached by a
             // hard-coded expression the data no longer describes.
-            TuneConnectedAct1Atmosphere(coreWorld, useExteriorAtmosphere, zoneId, isKaraNight, _physicalInterior.Length > 0);
+            TuneConnectedAct1Atmosphere(coreWorld, useExteriorAtmosphere, zoneId, isKaraNight, _physicalInterior.Length > 0, animate: false);
         }
+
+        var nextEnvironment = useExteriorAtmosphere
+            ? exteriorLayer?.ExteriorAtmosphere
+            : _environmentsByZone[zoneId].FirstOrDefault()?.Resource;
+        if (previousGrade is { } fromGrade && nextEnvironment is not null)
+            BlendAtmosphereGrade(nextEnvironment, fromGrade with { Fog = nextEnvironment.FogDensity });
 
         ActiveZoneId = zoneId;
         AuthoredWorld?.SetAmbientNight(isKaraNight);
@@ -1847,6 +1857,54 @@ public partial class Act1ConnectedWorld : Node3D
             viewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
     }
 
+    private Tween? _atmosphereGradeTween;
+    private Action? _finishAtmosphereGrade;
+
+    private void FinishAtmosphereGrade()
+    {
+        _atmosphereGradeTween?.Kill();
+        _atmosphereGradeTween = null;
+        _finishAtmosphereGrade?.Invoke();
+        _finishAtmosphereGrade = null;
+    }
+
+    private readonly record struct AtmosphereGrade(Color Ambient, float Energy, float Exposure,
+        float Fog, float Ssao, float Saturation, float Contrast, float Brightness);
+
+    private static AtmosphereGrade ReadAtmosphereGrade(global::Godot.Environment environment) => new(
+        environment.AmbientLightColor, environment.AmbientLightEnergy, environment.TonemapExposure,
+        environment.FogDensity, environment.SsaoIntensity,
+        environment.AdjustmentEnabled ? environment.AdjustmentSaturation : 1f,
+        environment.AdjustmentEnabled ? environment.AdjustmentContrast : 1f,
+        environment.AdjustmentEnabled ? environment.AdjustmentBrightness : 1f);
+
+    private void BlendAtmosphereGrade(global::Godot.Environment environment, AtmosphereGrade from)
+    {
+        var target = ReadAtmosphereGrade(environment);
+        FinishAtmosphereGrade();
+        // Studio renders a single requested state. Ordinary play always adapts
+        // from the currently visible values, including when a doorway is reversed.
+        if (_studioPreview) return;
+        void Apply(float weight)
+        {
+            if (!IsInstanceValid(environment)) return;
+            environment.AmbientLightColor = from.Ambient.Lerp(target.Ambient, weight);
+            environment.AmbientLightEnergy = Mathf.Lerp(from.Energy, target.Energy, weight);
+            environment.TonemapExposure = Mathf.Lerp(from.Exposure, target.Exposure, weight);
+            environment.FogDensity = Mathf.Lerp(from.Fog, target.Fog, weight);
+            environment.SsaoIntensity = Mathf.Lerp(from.Ssao, target.Ssao, weight);
+            environment.AdjustmentEnabled = true;
+            environment.AdjustmentSaturation = Mathf.Lerp(from.Saturation, target.Saturation, weight);
+            environment.AdjustmentContrast = Mathf.Lerp(from.Contrast, target.Contrast, weight);
+            environment.AdjustmentBrightness = Mathf.Lerp(from.Brightness, target.Brightness, weight);
+        }
+        _finishAtmosphereGrade = () => Apply(1f);
+        Apply(0f);
+        _atmosphereGradeTween = CreateTween();
+        _atmosphereGradeTween.TweenMethod(Callable.From<float>(Apply), 0f, 1f, .9)
+            .SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
+    }
+
     /// <summary>P2 / VIS-097: re-grade the single outdoor environment when the player walks into or out of a building.</summary>
     private void RefreshIndoorAtmosphereGrade()
     {
@@ -1855,12 +1913,13 @@ public partial class Act1ConnectedWorld : Node3D
         TuneConnectedAct1Atmosphere(core, true, ActiveZoneId, ActiveZoneId == "kara_urman_night", _physicalInterior.Length > 0);
     }
 
-    private static void TuneConnectedAct1Atmosphere(
+    private void TuneConnectedAct1Atmosphere(
         Node3D core,
         bool enabled,
         string zoneId,
         bool night,
-        bool indoor = false)
+        bool indoor = false,
+        bool animate = true)
     {
         if (!enabled)
         {
@@ -1884,6 +1943,9 @@ public partial class Act1ConnectedWorld : Node3D
         // capture-station override for the VIS-067 colour script (VIS-069/070/071
         // states that no zone owns by default); an unknown id fails loudly instead
         // of silently falling back, per VIS-003's refuse-don't-guess principle.
+        var previousGrade = ReadAtmosphereGrade(environment);
+        FinishAtmosphereGrade();
+        var hadProfile = core.HasMeta("unifiedAtmosphereProfile");
         var selectorSource = "zone";
         var zoneProfileId = AtmosphereProfiles.ResolveZoneProfileId(zoneId, night);
         if (zoneProfileId is null)
@@ -1925,21 +1987,20 @@ public partial class Act1ConnectedWorld : Node3D
         environment.FogSunScatter = profile.FogSunScatter;
         environment.TonemapMode = global::Godot.Environment.ToneMapper.Agx;
         environment.TonemapExposure = profile.Exposure;
+        // Shelter grading is neutral in ordinary buildings. The mosque alone
+        // adds the warm, brighter bounce, including its enclosed minaret shaft.
+        indoor |= _mosqueAtmosphereInside;
         if (indoor)
         {
-            // P2 / VIS-097: inside a walk-in building of the exterior zone (club,
-            // school, mosque, police post, shop, bathhouse) the room air is clear,
-            // the flat sky ambient steps back so the room's own lamps and the
-            // bounced light lead, and the eye opens a little as it does indoors.
-            // Same single owner and the same profile; only these three are graded.
             environment.FogDensity = profile.FogDensity * .15f;
-            // P2 (09.10): a lived-in room is lit by warm bounce off wood, paint and
-            // the stove, not by the cold sky; the halved sky-blue ambient left the
-            // Babai room grey. Keep a third of the sky tint so windows still read
-            // as daylight, lean the rest to warm timber, and let SSAO set corners.
-            environment.AmbientLightColor = profile.AmbientColor.Lerp(new Color("d9b38a"), .65f);
             environment.AmbientLightEnergy = profile.AmbientEnergy * .80f;
             environment.TonemapExposure = profile.Exposure + .15f;
+        }
+        if (_mosqueAtmosphereInside)
+        {
+            environment.AmbientLightColor = profile.AmbientColor.Lerp(new Color("e6c99e"), .65f);
+            environment.AmbientLightEnergy = profile.AmbientEnergy * .96f;
+            environment.TonemapExposure = profile.Exposure + .23f;
         }
         core.SetMeta("unifiedAtmosphereIndoorGrade", indoor);
 
@@ -2022,6 +2083,7 @@ public partial class Act1ConnectedWorld : Node3D
         core.SetMeta("atmosphereNearPlaneLuminance", luminance);
         core.SetMeta("atmosphereBlackFrameRisk", blackFrameRisk);
         AtmosphereDump.Write(profileId, environment, sun, profile, selectorSource, luminance, blackFrameRisk);
+        if (hadProfile && animate) BlendAtmosphereGrade(environment, previousGrade);
     }
 
     /// <summary>
