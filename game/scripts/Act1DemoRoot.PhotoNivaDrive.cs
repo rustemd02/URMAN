@@ -15,10 +15,10 @@ public partial class Act1DemoRoot
     private const float PhotoNivaApproachStartZ = 18f;
     private const float PhotoNivaApproachEndZ = PrologueApproachRoad.RoadEndZ;
     private const float PhotoNivaApproachLength = PhotoNivaApproachStartZ - PhotoNivaApproachEndZ;
-    private const float PhotoNivaCruise = 7.5f;
-    private const float PhotoNivaForestCruise = 6f;
+    private const float PhotoNivaCruise = 6.4f;
+    private const float PhotoNivaForestCruise = 5.4f;
     private const float PhotoNivaTalkingCruise = 3f;
-    private const float PhotoNivaVillageCruise = 4.2f;
+    private const float PhotoNivaVillageCruise = 3.4f;
     private const float PhotoNivaLanguageAt = 262f;
     private const double PhotoNivaBlinkAfterVoice = 1.4;
     private double _photoNivaWakeHold = PhotoNivaBlinkAfterVoice;
@@ -145,6 +145,7 @@ public partial class Act1DemoRoot
     {
         var paused = PhotoNivaDrivePaused;
         var talking = PhotoNivaDialogueOpen;
+        SetRideRadioPaused(paused);
         PrologueVoice.SetPaused(paused);
         _photoNivaDriveAudio?.SetState(VehicleKind.Niva, true, _photoNivaDriveSpeed, .35f, paused);
         var metresToStop = (_photoNivaVillageStarted ? 0f : PhotoNivaApproachLength - _photoNivaApproachDistance)
@@ -372,7 +373,7 @@ public partial class Act1DemoRoot
         _photoNivaDriveAudio = null;
         ReleaseApproachRoad();
         ReleasePrologueOverlay();
-        PrologueDreamCut.Release();
+        PrologueDreamCut.Cancel();
         PrologueVoice.Stop();
         PrologueVoice.SetPaused(false);
     }

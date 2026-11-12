@@ -230,8 +230,10 @@ public static class GeneratedCharacterKitDressing
         // built above stays private to this person (no library is shared).
         if (characterId == GovernedDistantCharacterId)
             AttachDistantWorkGovernor(instance, animationPlayer, idleClip);
-        // Bodies, clothes and the walk are drawn in code over this rig (CodePerson.cs).
-        if (human) CodePerson.Dress(instance, prefix, characterId, sheltered);
+        // Keep the selected imported surfaces and their authored proportions.
+        // CodePerson hid these meshes with Layers=0 and replaced the adult
+        // character with procedural parts; pose/clip owners remain unchanged.
+        instance.SetMeta("characterPresentation", "imported-kit-meshes");
         return instance;
     }
 

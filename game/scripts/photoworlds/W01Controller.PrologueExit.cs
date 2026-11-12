@@ -12,7 +12,6 @@ public partial class W01Controller
     private object? _prologueExitSession;
     private bool _prologueEndNoticed;
     private bool _prologueExitDispatching;
-    private bool _prologueMittenCue;
     private double _prologueCaptionRemaining;
     private static Vector2 PrologueMittenPoint => new(BranchF01.X + 3.5f, BranchF01.Z + 6f);
 
@@ -50,9 +49,7 @@ public partial class W01Controller
         PrologueDeepForest.AddPrintLayer(trail, "Heels", heels,
             new CylinderMesh { TopRadius = .045f, BottomRadius = .05f, Height = .004f, RadialSegments = 10 }, "7c8ca1");
 
-        PrologueDeepForest.AddMitten(trail, new Vector3(PrologueMittenPoint.X,
-            ForestGroundHeight(PrologueMittenPoint.X, PrologueMittenPoint.Y) + .046f, PrologueMittenPoint.Y),
-            new Vector3(84f, -22f, 12f));
+
     }
 
     /// <summary>
@@ -146,7 +143,6 @@ public partial class W01Controller
         _prologueExitSession = session;
         _prologueEndNoticed = false;
         _prologueExitDispatching = false;
-        _prologueMittenCue = false;
         _prologueCaptionRemaining = 0;
         if (_prologueVoiceCaption is { } caption) caption.Hide();
     }
@@ -190,11 +186,6 @@ public partial class W01Controller
         if (!player.IsOnFloor() || Mathf.Abs(local.Y - ForestGroundHeight(local.X, local.Z)) > .5f || !projection.Moved)
             return;
 
-        if (!_prologueMittenCue && feet.DistanceTo(PrologueMittenPoint) < 3f && _prologueCaptionRemaining <= 0)
-        {
-            _prologueMittenCue = true;
-            ShowNightmareThought("Детская варежка…", 3);
-        }
         var direction = new Vector2(PrologueF03.X - PrologueF02.X, PrologueF03.Z - PrologueF02.Z).Normalized();
         var offset = feet - new Vector2(PrologueF03.X, PrologueF03.Z);
         if (!_prologueEndNoticed && Mathf.Abs(offset.Cross(direction)) < 4f && offset.Dot(direction) is > -10f and < 3f)

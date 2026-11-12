@@ -39,7 +39,6 @@ public partial class FirstPersonController
         public Transform3D SwingFrom, SwingTarget;
         public Vector2 SwingDirection;
         public float SwingStartRock, SwingStartLift;
-        public bool PreserveSwingStartPose;
         public Transform3D? LastFootPose;
         public float FootRockRadians, FootLiftMeters;
         public bool IsFootSettling;
@@ -383,7 +382,6 @@ public partial class FirstPersonController
             leg.SwingTravelMeters = leg.StanceTravelMeters = 0;
             leg.SwingDirection = Vector2.Zero;
             leg.SwingStartRock = leg.SwingStartLift = 0;
-            leg.PreserveSwingStartPose = false;
             leg.PlantStartTravel = 0;
             leg.TurnProgress = 1;
         }
@@ -504,7 +502,10 @@ public partial class FirstPersonController
     private static float BodyForwardLead(BodyLeg leg, Vector3 hipShift, Vector3 direction)
     {
         var alongDirection = direction.Normalized();
-        var safeReach = Math.Max(.05f, leg.UpperLength + leg.LowerLength - .04f);
+        // Match BodyStanceTravel and the final IK reach. The former 4 cm
+        // deduction exceeded the moving hip's 2 cm dip, made the square-root
+        // negative on the imported nearly straight legs, and erased all lead.
+        var safeReach = Math.Max(.05f, leg.UpperLength + leg.LowerLength - .001f);
         var offset = leg.AnkleRest.Origin - (leg.ThighRest.Origin + hipShift);
         var along = offset.Dot(alongDirection);
         var across = offset - alongDirection * along;
@@ -554,7 +555,6 @@ public partial class FirstPersonController
                     * new Transform3D(neutralBasis, neutralOrigin);
                 swinging.SwingStartLift = swinging.FootLiftMeters;
                 swinging.SwingStartRock = swinging.FootRockRadians;
-                swinging.PreserveSwingStartPose = true;
                 swinging.SwingStartTravel = _bodyGroundTravelMeters;
                 swinging.SwingTravelMeters = reversalDistance;
                 swinging.SwingDirection = actualDirection;
@@ -598,7 +598,6 @@ public partial class FirstPersonController
         step.SwingTravelMeters = swingDistance;
         step.SwingDirection = actualMovement.Normalized();
         step.SwingStartLift = step.SwingStartRock = 0;
-        step.PreserveSwingStartPose = false;
         var lead = BodyForwardLead(step, hipShift, travelDirection);
         var targetLocal = step.AnkleRest.Origin + travelDirection * (swingDistance + lead);
         step.SwingTarget = _bodySkeleton.GlobalTransform
@@ -732,12 +731,13 @@ public partial class FirstPersonController
 
         UpdateTurnPlants(grounded && !_bodyTraveling && !_bodyLegs.Any(leg => leg.IsFootSettling)
             && _bodyCrouch < .001f && !_modalOpen);
-        // Turning the hips over planted feet needs a little knee bend. Keep
-        // both anchors within the real leg reach instead of dragging them
-        // inward with the final IK clamp as the torso rotates away.
-        foreach (var leg in _bodyLegs.Where(leg => leg.TurnPlant is not null))
+        // A world-space plant must also fit when the capsule moves or steps
+        // upward. Previously only turning plants lowered the visual pelvis;
+        // walking plants were pulled off the floor by the final IK clamp.
+        foreach (var leg in _bodyLegs.Where(leg => grounded && (leg.TurnPlant is not null || leg.GaitPlant is not null)))
         {
-            var foot = _bodySkeleton.ToLocal(leg.TurnPlant!.Value.Origin);
+            var plant = leg.TurnPlant ?? leg.GaitPlant;
+            var foot = _bodySkeleton.ToLocal(plant!.Value.Origin);
             var flat = new Vector2(foot.X - leg.ThighRest.Origin.X, foot.Z - leg.ThighRest.Origin.Z);
             var reach = leg.UpperLength + leg.LowerLength - .01f;
             var height = Mathf.Sqrt(Math.Max(0, reach * reach - flat.LengthSquared()));
@@ -767,6 +767,7 @@ public partial class FirstPersonController
                 foot = localPlant.Origin;
                 footBasis = localPlant.Basis;
                 leg.FootRockRadians = leg.FootLiftMeters = 0;
+                projectedByPose = true;
             }
 
             if (grounded && leg.TurnPlant is null)
@@ -800,16 +801,18 @@ public partial class FirstPersonController
                 {
                     var travel = (float)Math.Max(0, _bodyGroundTravelMeters - leg.SwingStartTravel);
                     var progress = Mathf.Clamp(travel / Math.Max(.02f, leg.SwingTravelMeters), 0f, 1f);
-                    var eased = 1f - (1f - progress) * (1f - progress);
+                    var eased = Mathf.SmoothStep(0, 1, progress);
                     var swingWorld = leg.SwingFrom.InterpolateWith(leg.SwingTarget, eased);
                     var neutralLocal = _bodySkeleton.GlobalTransform.AffineInverse() * swingWorld;
-                    if (leg.PreserveSwingStartPose)
-                        leg.PreserveSwingStartPose = false;
-                    else
-                        neutralLocal.Origin = ProjectBodyFoot(neutralLocal.Origin);
-                    var liftWave = Mathf.Sin(progress * Mathf.Pi);
-                    var rockWave = Mathf.Sin(progress * Mathf.Tau);
-                    leg.FootLiftMeters = liftWave * .065f + leg.SwingStartLift
+                    // Both endpoints already have ground support. Re-projecting
+                    // this moving point every frame jumped its baseline to the
+                    // next tread at the ray's edge, even during a smooth arc.
+                    var sine = Mathf.Sin(progress * Mathf.Pi);
+                    var liftWave = sine * sine;
+                    var rockWave = Mathf.Sin(progress * Mathf.Tau) * sine;
+                    var rise = Mathf.Max(0, leg.SwingTarget.Origin.Y - leg.SwingFrom.Origin.Y)
+                        / _bodySkeleton.GlobalBasis.Scale.Y;
+                    leg.FootLiftMeters = liftWave * (.065f + rise * .25f) + leg.SwingStartLift
                         * (1f - progress) * (1f - Mathf.Abs(liftWave));
                     leg.FootRockRadians = rockWave * .10f + leg.SwingStartRock
                         * (1f - progress) * (1f - Mathf.Abs(rockWave));
@@ -825,6 +828,7 @@ public partial class FirstPersonController
                     foot = localPlant.Origin;
                     footBasis = localPlant.Basis;
                     leg.FootRockRadians = leg.FootLiftMeters = 0;
+                    projectedByPose = true;
                 }
             }
 

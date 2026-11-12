@@ -47,6 +47,11 @@ public sealed record VehicleDefinition(
                 throw new InvalidDataException("Vehicle dimensions/dynamics must be positive: " + id);
             if (row.TryGetProperty("mechanics", out var mechanics) && mechanics.ValueKind == JsonValueKind.Object)
                 item = item with { Mechanics = ReadMechanics(mechanics, id) };
+            // A village lane on packed winter snow needs a usable low-speed
+            // range; apply the same ceiling to both drivetrain implementations.
+            if (kind == VehicleKind.Niva)
+                item = item with { MaxForwardSpeed = Math.Min(item.MaxForwardSpeed, 8f),
+                    ReverseSpeed = Math.Min(item.ReverseSpeed, 2.4f) };
             result.Add(item);
         }
         return result;

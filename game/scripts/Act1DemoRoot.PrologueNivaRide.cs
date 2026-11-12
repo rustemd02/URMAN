@@ -685,6 +685,7 @@ public partial class Act1DemoRoot
 
     private void UpdateRideLook(bool talking, float delta)
     {
+        UpdateRideRadio(delta);
         if (talking) return;
         var look = Input.GetVector("look_left", "look_right", "look_up", "look_down");
         _rideLook -= look * delta * 105f;

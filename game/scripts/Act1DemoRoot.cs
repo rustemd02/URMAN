@@ -1698,7 +1698,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         if (!_photoWorldReplay) return;
         _photoWorldReplay = false;
         // A replayed nightmare ends on the menu rather than in the Niva.
-        PrologueDreamCut.Release(fadeSeconds: .6);
+        PrologueDreamCut.Cancel(fadeSeconds: .6);
         BuildMainMenu();
         RefreshGameplayAudioPauseState();
     }

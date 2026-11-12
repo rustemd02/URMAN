@@ -115,7 +115,6 @@ public partial class W01Controller
         if (active)
         {
             EnsureTorch();
-            EnsureEyes();
             return;
         }
         ReleaseFallCamera(null);
@@ -222,7 +221,6 @@ public partial class W01Controller
     {
         var fraction = Mathf.Clamp(progress / Mathf.Max(PrologueRouteLength, 1f), 0f, 1f);
         TickDreadPresentation(player, fraction, time, delta);
-        UpdateLurker(player, progress, fraction, time, delta);
         if (_nightmareSilence) return;
 
         // The bed under everything, rising with the walk.
@@ -235,42 +233,18 @@ public partial class W01Controller
             DreadAmbient(player, fraction);
         }
 
-        // Set pieces, never closer together than DreadScareSpacing.
-        if (DreadScare(1, fraction > .11f, time)) SnowFallsFromABough(progress);
-        if (DreadScare(2, fraction > .21f, time))
-        {
-            // Behind him: a branch gives way under a weight.
-            var behind = player.GlobalPosition + player.GlobalBasis.Z.Normalized() * 9f + Vector3.Up;
-            UiFoley.PlayWorld(this, behind, "forest/branch_crack", -3f, 40f, 6f);
-            UiFoley.PlayWorld(this, behind + Vector3.Right * 2f, "forest/brush_rustle", -6f, 30f, 4f);
-        }
-        if (DreadScare(3, fraction > .33f, time)) BirdsBreakCover(progress);
-        if (DreadScare(4, fraction > .45f, time))
-            UiFoley.PlayWorld(this, DreadAround(player, 60f, 80f, 3f), "forest/fox_scream", -7f, 220f, 30f);
-        if (DreadScare(5, fraction > .56f, time)) RunAcrossTrail(player, progress);
-        if (DreadScare(6, fraction > .67f, time))
-        {
-            // The torch nearly goes; every pair of eyes shuts at once.
-            _torchFailure = 1.4f;
-            foreach (var pair in _eyes) { pair.Closing = true; pair.ReopenIn = 0f; }
-            UiFoley.PlayWorld(this, DreadAround(player, 5f, 8f, 1.2f), "forest/strange_clicks", -5f, 30f, 4f);
-        }
-        if (DreadScare(7, fraction > .77f, time))
-        {
-            // Too many of them, at heights that do not belong to one animal, on the trail itself.
-            var heights = new[] { .5f, 1.3f, 2.4f, 3.6f };
-            for (var index = 0; index < heights.Length; index++)
-            {
-                var at = PrologueRoutePoint(Math.Min(progress + 17f + index * 1.4f, PrologueRouteLength - 9f),
-                    _dreadRng.RandfRange(-1.6f, 1.6f), heights[index]);
-                if (FreeEyePair() is { } pair)
-                    SpawnEyes(pair, ToGlobal(at), EyeKind.Watcher, index > 1 ? .13f : .09f, index > 1 ? .11f : .08f, index == 3);
-            }
-            UiFoley.PlayWorld(this, ToGlobal(PrologueRoutePoint(Math.Min(progress + 17f, PrologueRouteLength - 9f), 0f, 1.2f)),
-                "forest/low_moan", -8f, 60f, 8f);
-        }
-        if (DreadScare(8, fraction > .86f, time))
-            StartNightmareSound(ref _dreadHeart, DreadHeartStream, -15f);
+        // A few things that can really happen in a winter forest. Silence
+        // between them leaves the footsteps and the light at the hut legible.
+        if (DreadScare(1, fraction > .14f, time)) SnowFallsFromABough(progress);
+        if (DreadScare(2, fraction > .27f, time))
+            UiFoley.PlayWorld(this, player.GlobalPosition + player.GlobalBasis.Z*10f + Vector3.Up,
+                "forest/branch_crack", -9f, 35f, 5f);
+        if (DreadScare(3, fraction > .40f, time)) BirdsBreakCover(progress);
+        if (DreadScare(4, fraction > .76f, time))
+            UiFoley.PlayWorld(this, DreadAround(player,55f,75f,1f),"forest/fox_scream",-14f,140f,20f);
+        if (DreadScare(8, fraction > .92f, time))
+            StartNightmareSound(ref _dreadHeart,DreadHeartStream,-22f);
+
     }
 
     /// <summary>Look, torch and eyes; also runs through the climax, when the walk logic is parked.</summary>
@@ -280,8 +254,6 @@ public partial class W01Controller
         var camera = _fallCamera is { } fall && GodotObject.IsInstanceValid(fall) ? fall : GetViewport().GetCamera3D();
         if (camera is null) return;
         UpdateTorch(player, camera, fraction, delta);
-        UpdateEyes(player, camera, fraction, time, delta);
-        UpdateFingers(delta);
     }
 
     private bool DreadFire(int index, bool condition)
@@ -827,93 +799,37 @@ public partial class W01Controller
 
     /// <summary>
     /// The end of the prints. The torch dies. A voice he knows calls from ahead.
-    /// Three times the torch catches for an instant: far, near, and then there is
-    /// nothing in front of him, because it is already around him. He is lifted
-    /// off the snow. Returns false when the session went away mid-sequence.
+    /// The sound approaches outside the view; consciousness cuts out before
+    /// its source is visible. Returns false if the session changes mid-sequence.
     /// </summary>
     private async Task<bool> RunDreadAttackAsync(FirstPersonController player, object session)
     {
-        var camera = GetViewport().GetCamera3D();
-        if (camera is null) return true;
-        var eye = camera.GlobalPosition;
-        var forward = -camera.GlobalBasis.Z;
-        forward = new Vector3(forward.X, 0f, forward.Z).Normalized();
-        if (forward == Vector3.Zero) forward = Vector3.Forward;
-
-        // 1. The torch gives up, and with it every eye in the trees.
-        _torchFailure = 1.1f;
-        foreach (var pair in _eyes) { pair.Closing = true; pair.ReopenIn = 0f; }
-        if (_lurker is { } lurker && GodotObject.IsInstanceValid(lurker)) lurker.Visible = false;
-        if (!await NightmareWaitAsync(1.1, session)) return false;
-        _torchOverride = 0f;
-        UiFoley.PlayWorld(this, eye, "ui_click", -8f, 6f, 1f);
-        if (_nightmareEyeLight is { } sight && GodotObject.IsInstanceValid(sight))
-            sight.CreateTween().TweenProperty(sight, "light_energy", NightSightEnergy * .35f, 1.2);
-        StartNightmareSound(ref _dreadHeart, DreadHeartStream, -10f);
-        if (!await NightmareWaitAsync(1.8, session)) return false;
-
-        // 2. Marat's voice, from the dark straight ahead.
-        var ahead = ToLocal(eye + forward * 9f);
-        var voice = PlayPrologueForestVoice(new Vector2(ahead.X, ahead.Z), "forest-come-here", "«Айдар. Кил монда…»\n(Айдар, иди сюда…)", -3f);
-        if (!await NightmareWaitAsync(Math.Clamp(voice, 1.6, 3.2) + .5, session)) return false;
-        if (_prologueVoiceCaption is { } caption) caption.Hide();
-        _prologueCaptionRemaining = 0;
-
-        // 3. First catch of the torch: it is where the voice was. It is not Marat.
-        StandTallOne(eye, forward, 9f, 0f);
-        UiFoley.PlayWorld(this, eye, "ui_click", -8f, 6f, 1f);
-        if (!await TorchFlashAsync(.2, session)) return false;
-        UiFoley.PlayWorld(this, eye + forward * 6f, "forest/strange_clicks", -4f, 30f, 5f);
-        if (!await NightmareWaitAsync(1.25, session)) return false;
-
-        // 4. Second catch: it has not walked. It is simply here, head on one side.
-        StandTallOne(eye, forward, 3.1f, 14f);
-        UiFoley.PlayWorld(this, eye + forward * 2f, "forest/scare_sting", -5f, 20f, 8f);
-        if (!await TorchFlashAsync(.17, session)) return false;
-        UiFoley.PlayWorld(this, eye - forward * .7f, "forest/low_moan", -3f, 12f, 3f);
-        if (!await NightmareWaitAsync(.95, session)) return false;
-
-        // 5. Third catch: nothing ahead. The fingers are already at both edges of sight.
-        if (_tallOne is { } tall && GodotObject.IsInstanceValid(tall)) tall.Visible = false;
-        BuildAttackRig(camera);
-        if (!_accessibility.ReducedMotion && _attackRig is { } rig)
-        {
-            var lift = new Camera3D
-            {
-                Name = "PrologueLiftCamera", Fov = camera.Fov, Near = camera.Near, Far = camera.Far,
-                Environment = camera.Environment, Attributes = camera.Attributes
-            };
-            rig.AddChild(lift);
-            lift.MakeCurrent();
-            _fallCamera = lift;
-            // The first-person body belongs to the walker's own camera only.
-            player.SetCaptureBodyHidden(true);
-        }
-        UiFoley.PlayWorld(this, eye, "forest/scare_sting", 2f, 20f, 8f);
-        UiFoley.PlayWorld(this, eye, "forest/gasp", 0f, 10f, 4f);
-        if (!await TorchFlashAsync(.26, session)) return false;
-
-        // 6. They close, and the snow goes away beneath him.
-        _fingerCurlTarget = 1f;
-        UiFoley.PlayWorld(this, eye, "forest/strange_clicks", 0f, 12f, 4f);
-        if (_attackRig is { } held && _fallCamera is { } liftCamera && GodotObject.IsInstanceValid(liftCamera))
-        {
-            var tween = held.CreateTween().SetParallel();
-            tween.TweenProperty(held, "global_position", held.GlobalPosition + Vector3.Up * 1.35f - forward * .25f, 1.5)
-                .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
-            tween.TweenProperty(held, "rotation_degrees:z", held.RotationDegrees.Z + (_dreadRng.Randf() < .5f ? -11f : 11f), 1.5)
-                .SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
-            tween.TweenProperty(held, "rotation_degrees:x", held.RotationDegrees.X + 9f, 1.5)
-                .SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
-            tween.TweenProperty(liftCamera, "fov", camera.Fov + 12f, 1.5);
-        }
-        if (!await NightmareWaitAsync(1.15, session)) return false;
-        UiFoley.PlayWorld(this, eye, "forest/rush_close", 3f, 20f, 8f);
-        if (!await NightmareWaitAsync(.35, session)) return false;
-        UiFoley.PlayWorld(this, eye, "forest/knockout_ring", -2f, 10f, 6f);
-        StopNightmareSound(ref _dreadDrone, .4);
-        StopNightmareSound(ref _dreadHeart, .6);
-        return true;
+        var camera=GetViewport().GetCamera3D();
+        if(camera is null)return true;
+        var eye=camera.GlobalPosition;
+        var forward=-camera.GlobalBasis.Z;
+        HideDreadActors();
+        _torchOverride=0f;
+        if(_nightmareEyeLight is { } light)
+            light.CreateTween().TweenProperty(light,"light_energy",NightSightEnergy*.15f,1.8);
+        StartNightmareSound(ref _dreadHeart,DreadHeartStream,-19f);
+        if(!await NightmareWaitAsync(1.6,session))return false;
+        var ahead=ToLocal(eye+forward*11f);
+        var voice=PlayPrologueForestVoice(new(ahead.X,ahead.Z),"forest-come-here",
+            "«Айдар. Кил монда…»\n(Айдар, иди сюда…)",-7f);
+        if(!await NightmareWaitAsync(Math.Clamp(voice,1.6,3.4)+.4,session))return false;
+        // The view contains only the forest. A sound closes from behind, then
+        // consciousness cuts out before its source could be identified.
+        UiFoley.PlayWorld(this,eye+camera.GlobalBasis.Z*4f+camera.GlobalBasis.X*2f,
+            "forest/brush_rustle",-8f,15f,3f);
+        if(!await NightmareWaitAsync(.6,session))return false;
+        PrologueDreamCut.Show(GetTree(),fadeSeconds:_accessibility.ReducedMotion ? .6 : .32);
+        UiFoley.PlayWorld(this,eye,"forest/gasp",-8f,10f,2f);
+        if(!await NightmareWaitAsync(.35,session))return false;
+        UiFoley.PlayWorld(this,eye+camera.GlobalBasis.Z,"forest/rush_close",-12f,12f,3f);
+        StopNightmareSound(ref _dreadDrone,.4);
+        StopNightmareSound(ref _dreadHeart,.6);
+        return await NightmareWaitAsync(.45,session);
     }
 
     /// <summary>Hands the view back to the walker's own camera and removes the hands.</summary>

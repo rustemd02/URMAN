@@ -50,6 +50,7 @@ internal static class PrologueDreamCut
     private const string FriendBus = "PrologueDreamFriend";
     private const string BabaiBus = "PrologueDreamBabai";
     private static ulong _morphEndsAtMsec;
+    private static AudioStreamPlayer? _friendVoice, _babaiVoice;
 
     /// <summary>Seconds left until the friend-to-babai voice blend has finished.</summary>
     internal static double MorphRemainingSeconds =>
@@ -64,6 +65,7 @@ internal static class PrologueDreamCut
     /// </summary>
     internal static void PlayVoiceMorph(SceneTree tree, string friendClip = "forest-name-call", string babaiClip = "forest-babai-name-v2")
     {
+        StopVoiceMorph();
         if (DisplayServer.GetName() == "headless") return;
         if (ResourceLoader.Load<AudioStream>(VoiceDir + friendClip + ".wav") is not { } friend
             || ResourceLoader.Load<AudioStream>(VoiceDir + babaiClip + ".wav") is not { } babai) return;
@@ -79,6 +81,8 @@ internal static class PrologueDreamCut
         var babaiPlayer = new AudioStreamPlayer { Name = "DreamBabaiVoice", Stream = babai, Bus = BabaiBus, VolumeDb = -34f };
         tree.Root.AddChild(friendPlayer);
         tree.Root.AddChild(babaiPlayer);
+        _friendVoice = friendPlayer;
+        _babaiVoice = babaiPlayer;
         friendPlayer.Finished += friendPlayer.QueueFree;
         babaiPlayer.Finished += babaiPlayer.QueueFree;
 
@@ -92,6 +96,25 @@ internal static class PrologueDreamCut
         rise.TweenCallback(Callable.From(() => babaiPlayer.Play())).SetDelay(babaiAt);
         rise.TweenProperty(babaiPlayer, "volume_db", -2f, 1.6).SetDelay(babaiAt).SetTrans(Tween.TransitionType.Sine);
         rise.TweenProperty(babaiFilter, "cutoff_hz", 11000f, 2.2).SetDelay(babaiAt + .2).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.In);
+    }
+
+    /// <summary>An interrupted transition must not speak into a loaded session.</summary>
+    internal static void Cancel(double fadeSeconds = 0)
+    {
+        StopVoiceMorph();
+        Release(fadeSeconds);
+    }
+
+    private static void StopVoiceMorph()
+    {
+        _morphEndsAtMsec = 0;
+        foreach (var voice in new[] { _friendVoice, _babaiVoice })
+        {
+            if (voice is null || !GodotObject.IsInstanceValid(voice)) continue;
+            voice.Stop();
+            voice.QueueFree(); // Also destroys its bound filter/volume tweens.
+        }
+        _friendVoice = _babaiVoice = null;
     }
 
     private static int EnsureDreamBus(string name, bool withEcho)

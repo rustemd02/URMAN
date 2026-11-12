@@ -145,6 +145,20 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         if (_column is not null && _panel is not null)
             _column.AddThemeConstantOverride("margin_left",
                 Mathf.RoundToInt(Math.Clamp(size.X * .07f, 16f, Math.Max(16f, size.X - _panel.CustomMinimumSize.X - 16f))));
+        Callable.From(LayoutMenuPhotos).CallDeferred();
+    }
+
+    private void LayoutMenuPhotos()
+    {
+        if (_polaroids is null || _panel is null || !IsInsideTree()) return;
+        var available = _polaroids.GetParent<Control>().Size;
+        var left = _panel.GetGlobalRect().End.X - _polaroids.GetParent<Control>().GlobalPosition.X + 24f;
+        var width = Mathf.Max(0, available.X - left - 16f);
+        // On a phone-width window the controls own the space. Do not squeeze
+        // photographs across the buttons or distort them to fit a narrow strip.
+        _polaroids.Visible = width >= 140f && available.Y >= 200f;
+        _polaroids.Position = new(left, 16f);
+        _polaroids.Size = new(width, Mathf.Max(0, available.Y - 32f));
     }
 
     public void SetResumeAvailable(bool available)
@@ -337,8 +351,9 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _polaroids = new PolaroidWall
         {
             Name = "MenuPolaroids",
-            AnchorRight = 1f,
-            AnchorBottom = 1f,
+            ResponsiveLayout = true,
+            ClipContents = true,
+            Slots = new[] { new Vector3(.28f, .18f, -7f), new Vector3(.72f, .42f, 5f), new Vector3(.40f, .78f, -2f) },
             ReducedMotion = _accessibility.ReducedMotion,
             PrintWidth = 250f
         };
@@ -364,6 +379,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
             SizeFlagsHorizontal = Control.SizeFlags.ShrinkBegin
         };
         column.AddChild(_panel);
+        _panel.Resized += LayoutMenuPhotos;
 
         var margin = new MarginContainer { Name = "Margin" };
         _panel.AddChild(margin);

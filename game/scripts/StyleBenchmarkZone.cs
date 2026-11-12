@@ -469,6 +469,30 @@ public partial class StyleBenchmarkZone : Node3D
             && physicalVisual.IsInsideTree() && physicalVisual.IsVisibleInTree()
             && physicalVisual.GetTree().GetFirstNodeInGroup("act1_demo_root") is not Act1DemoRoot { OwnsPhotoNivaArrival: true };
         target.SetPresentationEnabled(true);
+        // The full-body ray proxy belongs to the arrival only while that scene
+        // is active. Afterwards it is the same parked car's ordinary entry:
+        // approaching its passenger side must not offer the first quest again.
+        if (vehicleRoot is VehicleController vehicle
+            && vehicle.GetTree().GetFirstNodeInGroup("vehicle_fleet") is VehicleFleet fleet
+            && vehicle.GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge bridge)
+        {
+            target.PresentationRepeatAvailable = () => bridge.ActiveSceneId != Main.NivaArrivalSceneId
+                && vehicle.Driver is null;
+            target.PresentationRepeat = () => fleet.TryEnter(vehicle);
+            void RefreshNivaAccess()
+            {
+                if (!GodotObject.IsInstanceValid(target) || !target.IsInsideTree()) return;
+                var arriving = bridge.ActiveSceneId == Main.NivaArrivalSceneId;
+                target.SetAuthoredBinding(arriving ? "urman.fullgame:interaction/pw-niva-stop"
+                        : vehicle.EntryTarget.InteractionId,
+                    arriving ? "Остановить Ниву у дома и выйти после дороги" : vehicle.EntryTarget.Prompt,
+                    string.Empty);
+                target.SetPresentationEnabled(bridge.SessionIdentity is not null);
+            }
+            bridge.RuntimeStateChanged += RefreshNivaAccess;
+            target.TreeExiting += () => bridge.RuntimeStateChanged -= RefreshNivaAccess;
+            RefreshNivaAccess();
+        }
     }
 
     private void BuildHouseOldPc()

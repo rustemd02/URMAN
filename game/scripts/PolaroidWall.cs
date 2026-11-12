@@ -27,6 +27,8 @@ public partial class PolaroidWall : Control
     private const string DevelopShader = """
         shader_type canvas_item;
         uniform float develop : hint_range(0.0, 1.0) = 0.0;
+        varying vec4 print_tint;
+        void vertex() { print_tint = COLOR; }
         void fragment() {
             vec3 t = texture(TEXTURE, UV).rgb;
             float g = dot(t, vec3(0.3, 0.59, 0.11));
@@ -35,7 +37,7 @@ public partial class PolaroidWall : Control
             vec3 latent = mix(paper, vec3(g), 0.12);
             vec3 mid = mix(paper, mix(vec3(g), t, 0.35), 0.6);
             vec3 c = d < 0.5 ? mix(latent, mid, d * 2.0) : mix(mid, t * vec3(1.0, 0.97, 0.92), (d - 0.5) * 2.0);
-            COLOR = vec4(c, 1.0);
+            COLOR = vec4(c * print_tint.rgb, print_tint.a);
         }
         """;
 
@@ -47,6 +49,8 @@ public partial class PolaroidWall : Control
     /// <summary>Every Nth outdoor print carries the figure (0 = never).</summary>
     public int FigureEvery { get; set; } = 3;
     public bool ReducedMotion { get; set; }
+    public bool ResponsiveLayout { get; set; }
+    private readonly Dictionary<Control, (Vector3 Slot, Tween Arrival)> _placement = new();
 
     private readonly List<Control> _live = new();
     private readonly RandomNumberGenerator _rng = new();
@@ -61,6 +65,7 @@ public partial class PolaroidWall : Control
         _shader = new Shader { Code = DevelopShader };
         _rng.Randomize();
         _next = _rng.RandiRange(0, Photos.Length - 1);
+        Resized += RelayoutPrints;
     }
 
     private bool _started;
@@ -101,7 +106,9 @@ public partial class PolaroidWall : Control
         var showFigure = figure is not null && FigureEvery > 0 && photo.Outdoors && _spawned % FigureEvery == 0 && !ReducedMotion;
         var arrive = CreateTween().SetParallel().SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
         arrive.TweenProperty(print, "modulate:a", 1f, .9).SetDelay(stagger);
-        if (!ReducedMotion) arrive.TweenProperty(print, "position:y", centre.Y - size.Y * .5f, 1.2).SetDelay(stagger);
+        if (!ReducedMotion && !ResponsiveLayout) arrive.TweenProperty(print, "position:y", centre.Y - size.Y * .5f, 1.2).SetDelay(stagger);
+        _placement[print] = (slot, arrive);
+        if (ResponsiveLayout) PlaceResponsivePrint(print, slot);
         var material = (ShaderMaterial)image.Material;
         if (ReducedMotion) material.SetShaderParameter("develop", 1f);
         else
@@ -134,6 +141,7 @@ public partial class PolaroidWall : Control
     private void Retire(Control print)
     {
         _live.Remove(print);
+        _placement.Remove(print);
         if (!GodotObject.IsInstanceValid(print)) return;
         var leave = CreateTween().SetParallel().SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
         leave.TweenProperty(print, "modulate:a", 0f, .9);
@@ -143,6 +151,31 @@ public partial class PolaroidWall : Control
             leave.TweenProperty(print, "rotation_degrees", print.RotationDegrees + 9f, 1.0);
         }
         leave.Chain().TweenCallback(Callable.From(print.QueueFree));
+    }
+
+    private void RelayoutPrints()
+    {
+        if (!ResponsiveLayout) return;
+        foreach (var print in _live)
+        {
+            var state = _placement[print];
+            state.Arrival.Kill(); // A tween must not restore the old viewport position.
+            print.Modulate = Colors.White;
+            PlaceResponsivePrint(print, state.Slot);
+        }
+    }
+
+    private void PlaceResponsivePrint(Control print, Vector3 slot)
+    {
+        var size = print.Size;
+        // Reserve the tilted corners, tape and shadow, preserving both axes equally.
+        var scale = Mathf.Clamp(Mathf.Min((Size.X - 32f) / (size.X * 1.35f),
+            (Size.Y - 32f) / (size.Y * 1.35f)), .01f, 1f);
+        print.Scale = Vector2.One * scale;
+        var half = size * (scale * .66f) + Vector2.One * 12f;
+        var centre = new Vector2(Mathf.Lerp(half.X, Mathf.Max(half.X, Size.X - half.X), slot.X),
+            Mathf.Lerp(half.Y, Mathf.Max(half.Y, Size.Y - half.Y), slot.Y));
+        print.Position = centre - size * .5f;
     }
 
     private Control BuildPrint(Photo photo, out TextureRect image, out Control? figure)

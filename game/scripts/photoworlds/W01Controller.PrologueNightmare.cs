@@ -155,6 +155,7 @@ public partial class W01Controller
 
         if (!nightmare)
         {
+            ReleasePrologueWaking();
             world.Environment = _daylightEnvironment;
             if (sun is not null && _daylightEnergy >= 0f)
             {
@@ -311,6 +312,7 @@ public partial class W01Controller
 
     private void ResetNightmare(object? session)
     {
+        ReleasePrologueWaking();
         _nightmareSession = session;
         Array.Clear(_nightmareFired);
         _nightmareElapsed = 0;
@@ -341,7 +343,9 @@ public partial class W01Controller
         if (_nightmareEyeLight is { } eyeLight && GodotObject.IsInstanceValid(eyeLight))
             eyeLight.GlobalPosition = player.GlobalPosition + Vector3.Up * 1.9f - player.GlobalBasis.Z * .6f;
 
-        if (Fire(0, t > .7))
+        if (Fire(16, t > .05)) BeginPrologueWaking();
+        ProcessPrologueHut(player,p);
+        if (Fire(0, t > 3.2))
         {
             var ahead = PrologueRoutePoint(Math.Min(p + 20f, PrologueRouteLength), 1.5f, 1.4f);
             var length = PlayPrologueForestVoice(new Vector2(ahead.X, ahead.Z), "forest-name-call", "«Айдар…»", -3f);
@@ -349,15 +353,15 @@ public partial class W01Controller
         }
         if (Fire(1, _nightmareRecognitionAt > 0 && t >= _nightmareRecognitionAt))
             ShowNightmareThought("Марат?.. Нет. Не может быть.", 4);
+        if (Fire(17, _nightmareRecognitionAt > 0 && t >= _nightmareRecognitionAt + 5))
+            ShowNightmareThought("Надо выйти к дороге. Пока — по следам.", 4);
         if (Fire(9, t > .4)) StartNightmareSound(ref _nightmareAir, NightmareAirStream, -24f);
 
         ProcessDread(player, p, t, (float)delta);
-        // The branch across the trail is lifted away by nothing anyone can see:
-        // the walk never stops on a chore.
-        if (!branchMoved && !_branchMoveInProgress
-            && feet.DistanceTo(new Vector2(BranchF01.X, BranchF01.Z)) <= 7.5f
-            && BeginBranchMove(PrologueBranchInteractionId) && Fire(5, true))
-            UiFoley.PlayWorld(this, ToGlobal(BranchF01 + Vector3.Up * 1.2f), "forest/branch_crack", -2f, 30f, 6f);
+        // The existing authored branch interaction remains the one small
+        // physical action on the route. Nothing moves itself as he approaches.
+        if (!branchMoved && Fire(5,feet.DistanceTo(new(BranchF01.X,BranchF01.Z))<7.5f))
+            ShowNightmareThought("Ветка перегородила тропу. Можно отвести её в сторону.",4);
 
         if (Fire(4, branchMoved))
         {
@@ -453,7 +457,7 @@ public partial class W01Controller
             StopParallelSteps();
             StopNightmareSound(ref _nightmareAir, 1.5);
             PrologueVoice.StopSpatial(this);
-            ShowNightmareThought("Следы обрываются. Дальше — чистый снег.", 3);
+            ShowNightmareThought("Следы теряются под ветвями. Шаги тоже стихли.", 3);
             if (!await NightmareWaitAsync(2.6, session)) return;
 
             // He never gets to answer.
@@ -461,9 +465,10 @@ public partial class W01Controller
             transitionHeld = true;
             if (_prologueVoiceCaption is { } spoken) spoken.Hide();
             _prologueCaptionRemaining = 0;
+            // The attack owns the first fade, so claim cleanup before awaiting it.
+            cut = true;
             if (!await RunDreadAttackAsync(player, session)) return;
             PrologueDreamCut.Show(GetTree(), fadeSeconds: .1);
-            cut = true;
             if (!await NightmareWaitAsync(.9, session)) return;
             ReleaseFallCamera(player);
             PrologueVoice.StopSpatial(this);
@@ -487,7 +492,7 @@ public partial class W01Controller
             if (transitionHeld && sameSession && GodotObject.IsInstanceValid(player))
                 player.SetSessionTransition(false);
             if (GodotObject.IsInstanceValid(this)) ReleaseFallCamera(GodotObject.IsInstanceValid(player) ? player : null);
-            if (!committed && cut) PrologueDreamCut.Release(fadeSeconds: .4);
+            if (!committed && cut) PrologueDreamCut.Cancel(fadeSeconds: .4);
             if (!committed && GodotObject.IsInstanceValid(this) && IsInsideTree() && !IsQueuedForDeletion()
                 && sameSession && bridge.ActiveSceneId == PrologueSceneId)
             {

@@ -246,10 +246,11 @@ public partial class Act1ConnectedWorld
     {
         var desk = RuralPropModels.Desk(room,name,at,yaw,w,d,h);
         RuralPropGeometry.AttachMemberContacts(desk, body);
+        BatchSquareFurniture(desk, $"desk:{w:R}:{d:R}:{h:R}");
     }
 
     private static void SChair(Node3D room, string name, Vector3 at, float yaw, string color = "8a6a48")
-        => RuralPropModels.Chair(room,name,at,yaw);
+        => BatchSquareFurniture(RuralPropModels.Chair(room,name,at,yaw), "chair");
 
     private static void SShelf(Node3D room, StaticBody3D body, string name, Vector3 at, float yaw, float w, float h, float d = .32f, string[]? spines = null)
     {

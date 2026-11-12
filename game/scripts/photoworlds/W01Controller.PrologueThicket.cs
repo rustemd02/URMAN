@@ -7,14 +7,9 @@ using Urman.Experiments.AgentBAct1;
 namespace Urman.Godot;
 
 /// <summary>
-/// Prologue art pass (author request 2026-11-06): in the nightmare the photo
-/// forest closes in. A thicket layer exists only for pw-prologue and is built
-/// the first time the prologue is shown, so W01 episode loads pay nothing:
-/// young spruce undergrowth crowding the prints, dead standing snags leaning
-/// at odd angles with hollows and snapped-off branch stubs, and dead trees
-/// lying in the snow beside the track. All of it uses the game's own tree
-/// models (winter.pine.v1 and the winter dead tree) in MultiMesh batches, with
-/// no collision; the authored route keeps its clear standing lane.
+/// The nightmare's Meshy pine forest is built only when pw-prologue is shown.
+/// Local batches keep distant crowns cheap; nearby trunks and the closed hut
+/// have contacts while the authored walking lane remains clear.
 /// </summary>
 public partial class W01Controller
 {
@@ -35,7 +30,11 @@ public partial class W01Controller
                 AddChild(_prologueThicket);
             }
         }
-        if (_prologueThicket is { } thicket && GodotObject.IsInstanceValid(thicket)) thicket.Visible = visible;
+        if (_prologueThicket is { } thicket && GodotObject.IsInstanceValid(thicket))
+        {
+            thicket.Visible = visible;
+            foreach(var body in Descendants<StaticBody3D>(thicket))body.CollisionLayer=visible?1u:0u;
+        }
     }
 
     private void BuildPrologueThicket()
@@ -50,15 +49,21 @@ public partial class W01Controller
         var deadBounds = dead.Mesh.GetAabb();
         var deadTrunkRadius = MeasureTrunkRadius(dead.Mesh, deadBounds, .08f, .22f);
 
-        var ground = GroundBoundsLocal();
+        var originalGround = GroundBoundsLocal();
+        var ground = originalGround.Grow(32f);
+        BuildPrologueBackdropGround(thicket, originalGround);
         var rng = new RandomNumberGenerator { Seed = 0x55524d36 };
         var exclusions = new (Vector2 Centre, float Radius)[]
         {
             (Vector2.Zero, 3.5f),
             (new Vector2(BranchF01.X, BranchF01.Z), 5.5f),
-            (PrologueMittenPoint, 2.2f),
-            (new Vector2(PrologueF03.X, PrologueF03.Z), 7.5f)
+            (new Vector2(PrologueHutPosition.X, PrologueHutPosition.Z), 3.5f),
+            (new Vector2(PrologueF03.X, PrologueF03.Z), 3.8f)
         };
+        var hutTrail = PrologueRoutePoint(PrologueRouteLength * .58f, 0);
+        var hutStart = new Vector2(hutTrail.X, hutTrail.Z);
+        var hutEnd = new Vector2(PrologueHutPosition.X, PrologueHutPosition.Z);
+        var hutApproach = hutEnd - hutStart;
         bool Free(Vector2 point, float lane)
         {
             if (point.X < ground.Position.X + 1f || point.X > ground.End.X - 1f
@@ -66,92 +71,88 @@ public partial class W01Controller
             if (PrologueRouteProgress(point).Lateral < lane) return false;
             foreach (var (centre, radius) in exclusions)
                 if (point.DistanceTo(centre) < radius) return false;
+            var alongHut = Mathf.Clamp((point - hutStart).Dot(hutApproach) / hutApproach.LengthSquared(), 0, 1);
+            if (point.DistanceTo(hutStart + hutApproach * alongHut) < 1.3f) return false;
             return true;
         }
         Vector2 AlongRoute(float progress, float side)
         {
             var at = PrologueRoutePoint(progress, side);
+            // RoutePoint deliberately clamps gameplay to the route. The forest
+            // must continue behind the start and beyond its end, not collapse
+            // those extra rows onto the same endpoint.
+            if (progress < 0 || progress > PrologueRouteLength)
+            {
+                var end = progress > PrologueRouteLength;
+                var a = end ? PrologueTrailNodes[^2] : PrologueTrailNodes[0];
+                var b = end ? PrologueTrailNodes[^1] : PrologueTrailNodes[1];
+                var direction = new Vector2(b.X-a.X,b.Z-a.Z).Normalized();
+                var extra = end ? progress-PrologueRouteLength : progress;
+                at += new Vector3(direction.X,0,direction.Y)*extra;
+            }
             return new Vector2(at.X, at.Z);
         }
         float Lean(float maxDegrees) => Mathf.DegToRad(rng.RandfRange(-maxDegrees, maxDegrees));
 
-        // The night forest is its own stand of solid trees (PrologueTreeMeshes):
-        // old spruce, pine and birch, three shapes of each. The daytime forest
-        // of the photograph is hidden while the nightmare lasts.
-        var kinds = new (string Name, ArrayMesh[] Meshes, float MinHeight, float MaxHeight, float Trunk, float Weight)[]
-        {
-            ("Spruce", new[] { PrologueTreeMeshes.Spruce(11), PrologueTreeMeshes.Spruce(12), PrologueTreeMeshes.Spruce(13) }, 11f, 21f, .02f, .5f),
-            ("Pine", new[] { PrologueTreeMeshes.Pine(21), PrologueTreeMeshes.Pine(22), PrologueTreeMeshes.Pine(23) }, 14f, 24f, .023f, .28f),
-            ("Birch", new[] { PrologueTreeMeshes.Birch(31), PrologueTreeMeshes.Birch(32), PrologueTreeMeshes.Birch(33) }, 9f, 17f, .015f, .22f)
-        };
-        var near = kinds.Select(kind => kind.Meshes.Select(_ => new List<Transform3D>()).ToArray()).ToArray();
-        var far = kinds.Select(kind => kind.Meshes.Select(_ => new List<Transform3D>()).ToArray()).ToArray();
+        // Restore the existing Meshy pine family. Near trunks are geometry;
+        // distant crowns use its authored atlas LOD, never thousands of LOD0s.
+        const string pinePath = "res://assets/models/act1/urman_winter_pine_meshy_v1.glb";
+        var pine = LoadMeshFromScene(pinePath, "WinterPine_LOD1");
+        var pineFar = LoadMeshFromScene(pinePath, "WinterPine_LOD2");
+        var near = new List<Transform3D>();
+        var far = new List<Transform3D>();
+        var trunks=new StaticBody3D { Name="PrologueMeshyTrunkContacts",CollisionLayer=1,CollisionMask=0 };
+        thicket.AddChild(trunks);
         var planted = new List<(Vector2 At, float Radius)>();
         var trees = 0;
         void Plant(Vector2 point, float lateral)
         {
-            var roll = rng.Randf();
-            var kindIndex = roll < kinds[0].Weight ? 0 : roll < kinds[0].Weight + kinds[1].Weight ? 1 : 2;
-            var kind = kinds[kindIndex];
-            var height = rng.RandfRange(kind.MinHeight, kind.MaxHeight);
-            var scale = height / 10f;
-            var girth = scale * rng.RandfRange(.85f, 1.2f);
-            var trunk = kind.Trunk * 10f * girth;
-            // The trail is a squeeze, never a wall: every stem keeps a body's width off it.
-            if (!Free(point, .85f + trunk)) return;
+            var height = rng.RandfRange(15f, 24f);
+            var girth = height * rng.RandfRange(.66f, .91f);
+            var trunk = .022f * girth;
+            if (!Free(point, 1.05f + trunk)) return;
             foreach (var (at, radius) in planted)
-                if (at.DistanceSquaredTo(point) < (radius + trunk + .5f) * (radius + trunk + .5f)) return;
-            planted.Add((point, trunk));
-            var basis = new Basis(Vector3.Up, rng.RandfRange(0f, Mathf.Tau))
-                * new Basis(Vector3.Right, Lean(3.5f)) * new Basis(Vector3.Back, Lean(3.5f))
-                * Basis.FromScale(new Vector3(girth, scale, girth));
-            var transform = new Transform3D(basis, new Vector3(point.X, ForestGroundHeight(point.X, point.Y), point.Y));
-            (lateral < 9f ? near : far)[kindIndex][rng.RandiRange(0, kind.Meshes.Length - 1)].Add(transform);
+                if (at.DistanceSquaredTo(point) < (radius+trunk+1.15f)*(radius+trunk+1.15f)) return;
+            planted.Add((point,trunk));
+            var basis = new Basis(Vector3.Up,rng.RandfRange(0,Mathf.Tau))
+                * new Basis(Vector3.Right,Lean(2f))
+                * Basis.FromScale(new Vector3(girth,height,girth));
+            var pose = new Transform3D(basis,new Vector3(point.X,ForestGroundHeight(point.X,point.Y)-.08f,point.Y));
+            (lateral<18f ? near : far).Add(pose);
+            if(lateral<7f)trunks.AddChild(new CollisionShape3D {
+                Position=pose.Origin+Vector3.Up*1.50f,Shape=new CylinderShape3D { Radius=trunk,Height=3f } });
             trees++;
         }
-        // Along the trail: stems close on both sides, so the path threads between them.
-        for (var progress = 3f; progress < PrologueRouteLength - 5f; progress += rng.RandfRange(1.1f, 2.1f))
-            foreach (var edge in new[] { -1f, 1f })
+        for (var progress=-18f; progress<PrologueRouteLength+25f; progress+=rng.RandfRange(2.6f,4.2f))
+            foreach (var edge in new[]{-1f,1f})
             {
-                if (rng.Randf() < .2f) continue;
-                var lateral = rng.RandfRange(1.15f, 2.6f);
-                Plant(AlongRoute(progress + rng.RandfRange(-.6f, .6f), edge * lateral), lateral);
+                var lateral=rng.RandfRange(2.3f,5.2f);
+                Plant(AlongRoute(progress,edge*lateral),lateral);
             }
-        // The body of the forest, thinning with distance from the trail.
-        for (var index = 0; index < 2600; index++)
+        // Fill a real area at both ends as well as along the walk. In particular
+        // looking back at spawn no longer reveals the end of a tree strip.
+        for(var index=0;index<2400;index++)
         {
-            var progress = rng.RandfRange(-14f, PrologueRouteLength + 16f);
-            var lateral = Mathf.Lerp(2.6f, 46f, Mathf.Pow(rng.Randf(), 1.35f));
-            var point = AlongRoute(progress, (rng.Randf() < .5f ? -1f : 1f) * lateral)
-                + new Vector2(rng.RandfRange(-1.5f, 1.5f), rng.RandfRange(-1.5f, 1.5f));
-            Plant(point, PrologueRouteProgress(point).Lateral);
+            var progress=rng.RandfRange(-32f,PrologueRouteLength+40f);
+            var lateral=rng.RandfRange(4.5f,48f);
+            var point=AlongRoute(progress,(rng.Randf()<.5f?-1:1)*lateral)
+                +new Vector2(rng.RandfRange(-2f,2f),rng.RandfRange(-2f,2f));
+            Plant(point,PrologueRouteProgress(point).Lateral);
         }
-        for (var kindIndex = 0; kindIndex < kinds.Length; kindIndex++)
-            for (var variant = 0; variant < kinds[kindIndex].Meshes.Length; variant++)
-            {
-                AddThicketBatches(thicket, $"{kinds[kindIndex].Name}{variant}Near", kinds[kindIndex].Meshes[variant], Transform3D.Identity, near[kindIndex][variant], castShadow: true);
-                AddThicketBatches(thicket, $"{kinds[kindIndex].Name}{variant}Far", kinds[kindIndex].Meshes[variant], Transform3D.Identity, far[kindIndex][variant], castShadow: false);
-            }
-
-        // Young spruce under the old trees: the low wall the beam cannot see through.
-        var young = new[] { PrologueTreeMeshes.YoungSpruce(41), PrologueTreeMeshes.YoungSpruce(42) };
-        var undergrowth = new[] { new List<Transform3D>(), new List<Transform3D>() };
-        for (var index = 0; index < 700; index++)
+        AddThicketBatches(thicket,"MeshyPineNear",pine.Mesh,pine.Local,near,castShadow:true);
+        AddThicketBatches(thicket,"MeshyPineFar",pineFar.Mesh,pineFar.Local,far,castShadow:false);
+        var undergrowth=new List<Transform3D>();
+        for(var index=0;index<170;index++)
         {
-            var progress = rng.RandfRange(-4f, PrologueRouteLength + 12f);
-            var side = (rng.Randf() < .5f ? -1f : 1f) * Mathf.Lerp(1.7f, 18f, Mathf.Pow(rng.Randf(), 1.5f));
-            var point = AlongRoute(progress, side) + new Vector2(rng.RandfRange(-1.2f, 1.2f), rng.RandfRange(-1.2f, 1.2f));
-            var height = rng.RandfRange(1.3f, 4.6f);
-            var scale = height / 10f;
-            var girth = scale * rng.RandfRange(1f, 1.5f);
-            if (!Free(point, 1.05f + girth * 2f)) continue;
-            var basis = new Basis(Vector3.Up, rng.RandfRange(0f, Mathf.Tau))
-                * new Basis(Vector3.Right, Lean(6f)) * new Basis(Vector3.Back, Lean(6f))
-                * Basis.FromScale(new Vector3(girth, scale, girth));
-            undergrowth[index & 1].Add(new Transform3D(basis, new Vector3(point.X, ForestGroundHeight(point.X, point.Y) - .05f, point.Y)));
+            var point=AlongRoute(rng.RandfRange(-18f,PrologueRouteLength+22f),
+                (rng.Randf()<.5f?-1:1)*rng.RandfRange(3.4f,17f));
+            var height=rng.RandfRange(2.1f,4.5f);
+            if(!Free(point,2.5f))continue;
+            undergrowth.Add(new Transform3D(new Basis(Vector3.Up,rng.RandfRange(0,Mathf.Tau))
+                *Basis.FromScale(new Vector3(height*.8f,height,height*.8f)),
+                new(point.X,ForestGroundHeight(point.X,point.Y)-.04f,point.Y)));
         }
-        AddThicketBatches(thicket, "Young0", young[0], Transform3D.Identity, undergrowth[0], castShadow: false);
-        AddThicketBatches(thicket, "Young1", young[1], Transform3D.Identity, undergrowth[1], castShadow: false);
+        AddThicketBatches(thicket,"MeshyYoungPines",pine.Mesh,pine.Local,undergrowth,castShadow:false);
 
         // Dead standing snags, leaning; the near ones carry hollows and broken stubs.
         var snags = new List<Transform3D>();
@@ -234,7 +235,8 @@ public partial class W01Controller
             Material = bark ?? new StandardMaterial3D { AlbedoColor = new Color(.24f, .2f, .17f), Roughness = 1f }
         }, Transform3D.Identity, stubs, castShadow: false);
 
-        GD.Print($"w01-prologue-thicket: trees={trees} undergrowth={undergrowth[0].Count + undergrowth[1].Count} snags={snags.Count} hollows={hollows.Count} "
+        BuildPrologueForestLandmarks(thicket);
+        GD.Print($"w01-prologue-thicket: trees={trees} undergrowth={undergrowth.Count} snags={snags.Count} hollows={hollows.Count} "
             + $"stubs={stubs.Count} fallen={fallen.Count} built={Time.GetTicksMsec() - started}ms");
     }
 
@@ -258,7 +260,7 @@ public partial class W01Controller
                 Multimesh = multi,
                 Position = origin,
                 CastShadow = castShadow ? GeometryInstance3D.ShadowCastingSetting.On : GeometryInstance3D.ShadowCastingSetting.Off,
-                // Night fog closes at ~64 m; nothing past it needs drawing.
+                // Leave room for a cell's extent beyond the 34 m night fog.
                 VisibilityRangeEnd = 90f,
                 VisibilityRangeEndMargin = 10f,
                 VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self
