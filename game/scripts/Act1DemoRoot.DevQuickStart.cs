@@ -36,6 +36,43 @@ public partial class Act1DemoRoot
         ReleasePrologueOverlay();
     }
 
+    // URMAN_START=newgame: the real campaign start, exactly as the menu's «Новая игра» does it.
+    private async void DevNewGameBoot()
+    {
+        if (System.Environment.GetEnvironmentVariable("URMAN_START") != "newgame") return;
+        for (var frame = 0; frame < 3600 && IsInsideTree(); frame++)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (_mainMenu is null && _playerSessionSelected) return;
+            if (!MainMenuVisible || _main is null || _player is null || _menuBusy
+                || _mainMenu is not { IsSaveLookupPending: false }) continue;
+            GD.Print("dev-quick-start: newgame");
+            await OnMenuStartSessionAsync(startNewGame: true);
+        }
+    }
+
+    // URMAN_SHOT_DIR=<dir> [URMAN_SHOT_EVERY=sec] [URMAN_SHOT_SECONDS=sec]: once a session has
+    // started, save a still of the whole game view on a timer and quit at the end. Development only.
+    private async void DevTimedShotsBoot()
+    {
+        var dir = System.Environment.GetEnvironmentVariable("URMAN_SHOT_DIR");
+        if (string.IsNullOrEmpty(dir)) return;
+        float Number(string name, float fallback) => float.TryParse(System.Environment.GetEnvironmentVariable(name),
+            System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var value) ? value : fallback;
+        var every = Number("URMAN_SHOT_EVERY", 2f);
+        var total = Number("URMAN_SHOT_SECONDS", 90f);
+        System.IO.Directory.CreateDirectory(dir);
+        while (IsInsideTree() && !_playerSessionSelected) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var index = 0;
+        for (var elapsed = 0f; elapsed < total && IsInsideTree(); elapsed += every)
+        {
+            await ToSignal(GetTree().CreateTimer(every), SceneTreeTimer.SignalName.Timeout);
+            if (!IsInsideTree()) return;
+            GetViewport().GetTexture().GetImage().SavePng($"{dir}/s{index++:000}.png");
+        }
+        GetTree().Quit();
+    }
+
     private bool DevQuickKey(InputEvent inputEvent)
     {
         if (UsesPhotoWorldsCampaign || !OS.IsDebugBuild()

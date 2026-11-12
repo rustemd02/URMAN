@@ -102,10 +102,27 @@ public partial class W01Controller
             _prologueHutExtinguished=true;
             lamp.LightEnergy=0;glass.EmissionEnabled=false;glass.AlbedoColor=new Color("161a1b");
             UiFoley.PlayWorld(this,lamp.GlobalPosition,"wood_tap",-15f,18f,3f);
-            ShowNightmareThought("Погас. Внутри тихо… Следы идут дальше.",4);
+            ShowNightmareThought("Погас.",2.5);
+            KnockFromInsideTheHut(lamp.GlobalPosition);
         }
         if(!_prologueHutPassed&&progress>PrologueRouteLength*.68f)
         { _prologueHutPassed=true;ShowNightmareThought("Тропа уходит между деревьями. Держаться следов.",4); }
+    }
+
+    // The light is out. Then, from inside, three slow knocks on the glass, and the door gives a little.
+    private async void KnockFromInsideTheHut(Vector3 at)
+    {
+        var session = _nightmareSession;
+        foreach (var pause in new[] { 2.6, 1.1, 1.1 })
+        {
+            await ToSignal(GetTree().CreateTimer(pause), SceneTreeTimer.SignalName.Timeout);
+            if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || _nightmareClimax || !ReferenceEquals(session, _nightmareSession)) return;
+            UiFoley.PlayWorld(this, at, "wood_tap", -4f, 22f, 4f);
+        }
+        await ToSignal(GetTree().CreateTimer(1.8), SceneTreeTimer.SignalName.Timeout);
+        if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || _nightmareClimax || !ReferenceEquals(session, _nightmareSession)) return;
+        UiFoley.PlayWorld(this, at, "door_creak", -6f, 22f, 4f);
+        ShowNightmareThought("Не оборачивайся. Иди.", 3);
     }
 
     private void BeginPrologueWaking()

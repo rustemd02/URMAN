@@ -42,8 +42,6 @@ public partial class W01Controller
         }
         BuildTroddenTrail(trail);
 
-        PrologueDeepForest.AddPrintLayer(trail, "SnowRims", rims,
-            new CylinderMesh { TopRadius = .085f, BottomRadius = .1f, Height = .005f, RadialSegments = 12 }, "a9b6c5");
         PrologueDeepForest.AddPrintLayer(trail, "Soles", soles,
             new CylinderMesh { TopRadius = .064f, BottomRadius = .069f, Height = .004f, RadialSegments = 12 }, "8999ac");
         PrologueDeepForest.AddPrintLayer(trail, "Heels", heels,
@@ -85,7 +83,7 @@ public partial class W01Controller
                 void Vertex(Vector3 point, float alpha, float tone)
                 {
                     surface.SetNormal(Vector3.Up);
-                    surface.SetColor(new Color(.53f * tone, .6f * tone, .72f * tone, alpha));
+                    surface.SetColor(new Color(.62f * tone, .68f * tone, .78f * tone, alpha * .4f));
                     surface.AddVertex(point);
                 }
                 Vertex(previousLeft, 0f, previousShade); Vertex(previousCentre, .8f, previousShade); Vertex(leftEdge, 0f, shade);
@@ -162,6 +160,18 @@ public partial class W01Controller
         if (!ReferenceEquals(_prologueExitSession, session)) ResetPrologueExitTracking(session);
         if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
             || !GodotObject.IsInstanceValid(player)) return;
+        DevForestCaptureTick(player, GetProcessDeltaTime());
+        if (_nightmareClimax && !ProloguePresentationPaused())
+        {
+            // The walker is held for the finale (which reads as a modal below), but
+            // the torch still has to die, the eyes to open and the captions to run.
+            var step = GetProcessDeltaTime();
+            _prologueCaptionRemaining = Math.Max(0, _prologueCaptionRemaining - step);
+            if (_prologueVoiceCaption is { } line)
+                line.Visible = (_accessibility.Subtitles || _prologueCaptionThought) && _prologueCaptionRemaining > 0;
+            TickDreadPresentation(player, 1f, _nightmareElapsed, (float)step);
+            return;
+        }
         if (ProloguePresentationPaused() || player.ModalOpen || player.VehicleControlled || player.IsClimbingLadder)
         {
             StopParallelSteps();

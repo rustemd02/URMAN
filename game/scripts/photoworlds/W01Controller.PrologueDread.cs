@@ -17,43 +17,44 @@ namespace Urman.Godot;
 public partial class W01Controller
 {
     // ---- Tuning ---------------------------------------------------------------------------
-    private const float TorchEnergy = 3.6f;
-    private const float TorchRange = 27f;
-    private const float TorchAngle = 26f;
+    private const float TorchEnergy = 3.4f;
+    private const float TorchRange = 32f;
+    private const float TorchAngle = 25f;
     private const float TorchLag = 9f;
     private const int EyePoolSize = 10;
     private const float EyeNearClose = 9f;
     private const float EyeStareSeconds = .5f;
     private const float EyeMaxAge = 18f;
-    private const float EyeOwnGlow = .26f;
+    private const float EyeRestGlow = .3f;
+    private float EyeOwnGlow = EyeRestGlow;
     private const double DreadScareSpacing = 8;
     private const string DreadDroneStream = "res://assets/audio/act1/foley/forest/dread_drone.wav";
     private const string DreadHeartStream = "res://assets/audio/act1/foley/forest/heartbeat.wav";
     private const string DreadCrowsStream = "res://assets/audio/act1/sound_mood/crows.wav";
 
+    // Eyeshine, not drawn eyes: a hot point with a soft bloom round it, the way an
+    // animal's eyes come back out of the dark. `open` closes it like a lid.
     private const string EyeShaderCode = """
         shader_type spatial;
-        render_mode unshaded, cull_disabled, fog_disabled, shadows_disabled;
+        render_mode unshaded, cull_disabled, fog_disabled, shadows_disabled, blend_add, depth_draw_never;
         uniform vec3 tint : source_color = vec3(1.0, 0.74, 0.16);
         uniform float open = 1.0;
         uniform float shine = 0.3;
         uniform float slit = 0.0;
         void fragment() {
             vec2 q = UV * 2.0 - 1.0;
-            float lid = max(open, 0.02);
-            // An almond, not a dot: wider than tall, closing like a lid.
-            float d = length(vec2(q.x, q.y / (lid * 0.62)));
-            float mask = smoothstep(1.0, 0.84, d);
-            float upright = (1.0 - smoothstep(0.05, 0.11, abs(q.x))) * (1.0 - smoothstep(0.3, 0.56, abs(q.y)));
-            float level = (1.0 - smoothstep(0.05, 0.11, abs(q.y))) * (1.0 - smoothstep(0.42, 0.74, abs(q.x)));
-            float pupil = mix(upright, level, step(0.5, slit));
-            float hot = 1.0 - smoothstep(0.0, 0.9, d);
-            vec3 colour = tint * (0.45 + hot * 1.1);
-            colour = mix(colour, vec3(0.0), pupil * 0.94);
-            ALBEDO = colour * (0.2 + shine * 2.8);
-            ALPHA = mask * clamp(open * 4.0, 0.0, 1.0);
+            float lid = max(open, 0.03);
+            float d = length(vec2(q.x, q.y / lid));
+            float core = smoothstep(0.30, 0.04, d);
+            float ring = smoothstep(0.42, 0.26, d) * 0.35;
+            float halo = pow(max(0.0, 1.0 - d), 3.0) * 0.3;
+            vec3 hot = mix(tint, vec3(1.0, 0.97, 0.86), core * 0.7);
+            ALBEDO = hot * (core * (1.2 + shine * 3.6) + ring * (0.5 + shine)) + tint * halo * (0.25 + shine * 0.9) + vec3(slit) * 0.0;
+            ALPHA = clamp(core + ring + halo, 0.0, 1.0) * clamp(open * 3.0, 0.0, 1.0);
         }
         """;
+
+    private const float EyeQuadScale = 2.6f; // the quad carries the bloom; the bright point is a third of it
 
     private enum EyeKind { Watcher, Stalker, Riser }
 
@@ -115,6 +116,7 @@ public partial class W01Controller
         if (active)
         {
             EnsureTorch();
+            EnsureEyes();
             return;
         }
         ReleaseFallCamera(null);
@@ -176,7 +178,7 @@ public partial class W01Controller
             SpotRange = TorchRange,
             SpotAngle = TorchAngle,
             SpotAngleAttenuation = .75f,
-            SpotAttenuation = 1.15f,
+            SpotAttenuation = .55f,
             LightSpecular = .25f,
             ShadowEnabled = true,
             ShadowBias = .06f,
@@ -233,18 +235,44 @@ public partial class W01Controller
             DreadAmbient(player, fraction);
         }
 
-        // A few things that can really happen in a winter forest. Silence
-        // between them leaves the footsteps and the light at the hut legible.
-        if (DreadScare(1, fraction > .14f, time)) SnowFallsFromABough(progress);
-        if (DreadScare(2, fraction > .27f, time))
-            UiFoley.PlayWorld(this, player.GlobalPosition + player.GlobalBasis.Z*10f + Vector3.Up,
-                "forest/branch_crack", -9f, 35f, 5f);
-        if (DreadScare(3, fraction > .40f, time)) BirdsBreakCover(progress);
-        if (DreadScare(4, fraction > .76f, time))
-            UiFoley.PlayWorld(this, DreadAround(player,55f,75f,1f),"forest/fox_scream",-14f,140f,20f);
-        if (DreadScare(8, fraction > .92f, time))
-            StartNightmareSound(ref _dreadHeart,DreadHeartStream,-22f);
-
+        // What happens on the trail. Each is small and has no owner he can
+        // see; they come closer together and stranger as the prints go on.
+        if (DreadScare(1, fraction > .10f, time)) SnowFallsFromABough(progress);
+        if (DreadScare(2, fraction > .22f, time))
+        {
+            // Behind him: a branch gives way under a weight.
+            var behind = player.GlobalPosition + player.GlobalBasis.Z.Normalized() * 9f + Vector3.Up;
+            UiFoley.PlayWorld(this, behind, "forest/branch_crack", -4f, 40f, 6f);
+            UiFoley.PlayWorld(this, behind + Vector3.Right * 2f, "forest/brush_rustle", -7f, 30f, 4f);
+        }
+        if (DreadScare(3, fraction > .36f, time)) BirdsBreakCover(progress);
+        if (DreadScare(4, fraction > .48f, time))
+            UiFoley.PlayWorld(this, DreadAround(player, 55f, 75f, 1f), "forest/fox_scream", -10f, 180f, 24f);
+        if (DreadScare(6, fraction > .68f, time))
+        {
+            // The torch nearly goes; every pair of eyes shuts at once.
+            _torchFailure = 1.4f;
+            foreach (var pair in _eyes) { pair.Closing = true; pair.ReopenIn = 0f; }
+            UiFoley.PlayWorld(this, DreadAround(player, 5f, 8f, 1.2f), "forest/strange_clicks", -5f, 30f, 4f);
+        }
+        if (DreadScare(5, fraction > .75f, time)) RunAcrossTrail(player, progress);
+        if (DreadScare(7, fraction > .83f, time))
+        {
+            // Too many of them, at heights that do not belong to one animal, on the trail itself.
+            var heights = new[] { .5f, 1.3f, 2.4f, 3.6f };
+            for (var index = 0; index < heights.Length; index++)
+            {
+                var at = PrologueRoutePoint(Math.Min(progress + 16f + index * 1.4f, PrologueRouteLength - 6f),
+                    _dreadRng.RandfRange(-1.6f, 1.6f), heights[index]);
+                if (FreeEyePair() is { } pair)
+                    SpawnEyes(pair, ToGlobal(at), EyeKind.Watcher, index > 1 ? .13f : .09f, index > 1 ? .11f : .08f, index == 3);
+            }
+            UiFoley.PlayWorld(this, ToGlobal(PrologueRoutePoint(Math.Min(progress + 16f, PrologueRouteLength - 6f), 0f, 1.2f)),
+                "forest/low_moan", -8f, 60f, 8f);
+        }
+        if (DreadScare(8, fraction > .9f, time))
+            StartNightmareSound(ref _dreadHeart, DreadHeartStream, -18f);
+        UpdateLurker(player, progress, fraction, time, delta);
     }
 
     /// <summary>Look, torch and eyes; also runs through the climax, when the walk logic is parked.</summary>
@@ -254,6 +282,23 @@ public partial class W01Controller
         var camera = _fallCamera is { } fall && GodotObject.IsInstanceValid(fall) ? fall : GetViewport().GetCamera3D();
         if (camera is null) return;
         UpdateTorch(player, camera, fraction, delta);
+        UpdateEyes(player, camera, fraction, time, delta);
+        UpdateFingers(delta);
+    }
+
+    private static GradientTexture2D? _softDot;
+    /// <summary>A soft round sprite for flakes and vapour.</summary>
+    private static GradientTexture2D SoftDot()
+    {
+        if (_softDot is not null) return _softDot;
+        var falloff = new Gradient();
+        falloff.SetColor(0, Colors.White);
+        falloff.SetColor(1, new Color(1f, 1f, 1f, 0f));
+        return _softDot = new GradientTexture2D
+        {
+            Gradient = falloff, Width = 32, Height = 32, Fill = GradientTexture2D.FillEnum.Radial,
+            FillFrom = new Vector2(.5f, .5f), FillTo = new Vector2(1f, .5f)
+        };
     }
 
     private bool DreadFire(int index, bool condition)
@@ -311,7 +356,9 @@ public partial class W01Controller
         var sway = _accessibility.ReducedMotion ? 0f : Mathf.Min(walk, 3f) * .006f;
         var wobble = new Basis(Vector3.Right, Mathf.Sin((float)_nightmareElapsed * 6.1f) * sway)
             * new Basis(Vector3.Up, Mathf.Cos((float)_nightmareElapsed * 3.05f) * sway * 1.4f);
-        var target = eye.Basis.Orthonormalized() * wobble;
+        // The beam is pointed where he looks, not parallel to it from the hip.
+        var aim = eye.Origin - eye.Basis.Z * 10f + eye.Basis.Y * .9f - hand;
+        var target = Basis.LookingAt(aim.Normalized(), eye.Basis.Y.Normalized()) * wobble;
         var current = torch.GlobalBasis.Orthonormalized();
         var basis = _accessibility.ReducedMotion
             ? target
@@ -459,7 +506,7 @@ public partial class W01Controller
         pair.Root.GlobalPosition = at;
         pair.Left.Position = new Vector3(-separation * .5f, 0f, 0f);
         pair.Right.Position = new Vector3(separation * .5f, 0f, 0f);
-        pair.Left.Scale = pair.Right.Scale = Vector3.One * size;
+        pair.Left.Scale = pair.Right.Scale = Vector3.One * size * EyeQuadScale;
         pair.Size = size;
         pair.Kind = kind;
         pair.Active = true;
@@ -558,10 +605,12 @@ public partial class W01Controller
             ScaleAmountMin = .5f, ScaleAmountMax = 1.4f,
             Mesh = new QuadMesh
             {
-                Size = new Vector2(.07f, .07f),
+                Size = new Vector2(.09f, .09f),
                 Material = new StandardMaterial3D
                 {
                     AlbedoColor = new Color(.9f, .94f, 1f),
+                    AlbedoTexture = SoftDot(),
+                    Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
                     BillboardMode = BaseMaterial3D.BillboardModeEnum.Particles,
                     Roughness = 1f
                 }
@@ -715,7 +764,7 @@ public partial class W01Controller
         AddChild(rig);
         rig.GlobalTransform = camera.GlobalTransform;
         _attackRig = rig;
-        var skin = new StandardMaterial3D { AlbedoColor = new Color(.2f, .185f, .165f), Roughness = .9f, MetallicSpecular = .2f };
+        var skin = new StandardMaterial3D { AlbedoColor = new Color(.5f, .46f, .4f), Roughness = .85f, MetallicSpecular = .3f, AlbedoTexture = PrologueTextureSlot("finale_hand_skin_albedo", null) };
         var lengths = new[] { .17f, .15f, .13f, .11f };
         foreach (var side in new[] { -1f, 1f })
         {
@@ -724,7 +773,7 @@ public partial class W01Controller
             {
                 var root = new Node3D
                 {
-                    Position = new Vector3(side * .62f, (finger - 2) * .075f - .02f, -.42f - Mathf.Abs(finger - 2) * .02f),
+                    Position = new Vector3(side * .5f, (finger - 2) * .085f + .03f, -.46f - Mathf.Abs(finger - 2) * .025f),
                     RotationDegrees = new Vector3(0f, 0f, (finger - 2) * 9f * direction)
                 };
                 rig.AddChild(root);
@@ -733,7 +782,7 @@ public partial class W01Controller
                 {
                     var joint = new Node3D { Position = segment == 0 ? Vector3.Zero : new Vector3(direction * lengths[segment - 1], 0f, 0f) };
                     parent.AddChild(joint);
-                    var thick = Mathf.Lerp(.014f, .005f, segment / 3f);
+                    var thick = Mathf.Lerp(.017f, .006f, segment / 3f);
                     joint.AddChild(new MeshInstance3D
                     {
                         Mesh = new CylinderMesh
@@ -756,19 +805,34 @@ public partial class W01Controller
                 }
             }
         }
-        // Its eyes, an arm's length from his.
-        var material = NewEyeMaterial();
-        material.SetShaderParameter("tint", new Color(1f, .8f, .3f));
-        material.SetShaderParameter("slit", 1f);
-        material.SetShaderParameter("shine", 1f);
-        material.SetShaderParameter("open", 1f);
-        foreach (var x in new[] { -.075f, .075f })
+        // Whatever it is stands between him and the forest: a mass with no edge.
+        var shade = new Gradient();
+        shade.Offsets = new[] { 0f, .55f, 1f };
+        shade.Colors = new[] { new Color(0f, 0f, 0f, 1f), new Color(0f, 0f, 0f, .96f), new Color(0f, 0f, 0f, 0f) };
+        rig.AddChild(new MeshInstance3D
         {
-            var eye = NewEyeQuad(material);
-            eye.Position = new Vector3(x, .09f, -.52f);
-            eye.Scale = Vector3.One * .085f;
-            rig.AddChild(eye);
-        }
+            Name = "LoomingMass",
+            Mesh = new QuadMesh { Size = new Vector2(3.4f, 4.2f) },
+            Position = new Vector3(0f, .25f, -1.25f),
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+            MaterialOverride = new StandardMaterial3D
+            {
+                ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
+                Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
+                DisableFog = true,
+                AlbedoTexture = new GradientTexture2D
+                {
+                    Gradient = shade, Width = 64, Height = 64, Fill = GradientTexture2D.FillEnum.Radial,
+                    FillFrom = new Vector2(.5f, .5f), FillTo = new Vector2(1f, .5f)
+                }
+            }
+        });
+        // The fingers catch the last of the torch whatever the beam is doing.
+        rig.AddChild(new OmniLight3D
+        {
+            Name = "LastSpark", Position = new Vector3(0f, -.05f, -.2f), LightColor = new Color(1f, .9f, .74f),
+            LightEnergy = .22f, OmniRange = 1.1f, OmniAttenuation = 1.2f, ShadowEnabled = false
+        });
         _fingerCurl = .1f;
         _fingerCurlTarget = .1f;
         UpdateFingers(0f);
@@ -804,32 +868,208 @@ public partial class W01Controller
     /// </summary>
     private async Task<bool> RunDreadAttackAsync(FirstPersonController player, object session)
     {
-        var camera=GetViewport().GetCamera3D();
-        if(camera is null)return true;
-        var eye=camera.GlobalPosition;
-        var forward=-camera.GlobalBasis.Z;
+        var camera = GetViewport().GetCamera3D();
+        if (camera is null) return true;
+        var eye = camera.GlobalPosition;
+        var calm = _accessibility.ReducedMotion;
+        // The scene is staged along the line the prints were following, and his
+        // head is brought round to it: he hears something and looks up.
+        var forward = GlobalBasis * new Vector3(PrologueF03.X - PrologueF02.X, 0f, PrologueF03.Z - PrologueF02.Z);
+        forward = new Vector3(forward.X, 0f, forward.Z).Normalized();
+        if (forward == Vector3.Zero) forward = Vector3.Forward;
+        var right = forward.Cross(Vector3.Up).Normalized();
+        var yaw = Mathf.Atan2(-forward.X, -forward.Z);
+        var turn = player.CreateTween().SetParallel();
+        turn.TweenProperty(player, "rotation:y", player.Rotation.Y + Mathf.AngleDifference(player.Rotation.Y, yaw), calm ? .05 : .9)
+            .SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
+        if (player.GetNodeOrNull<Node3D>("Head") is { } head)
+            turn.TweenProperty(head, "rotation_degrees:x", 5f, calm ? .05 : .9)
+                .SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
+
+        // 1. The torch stutters. While it is out, the tree is simply there.
+        if (DevForestCaptureActive) GD.Print("finale: step 1 torch=" + (_torch?.LightEnergy ?? -1f) + " t=" + Time.GetTicksMsec());
         HideDreadActors();
-        _torchOverride=0f;
-        if(_nightmareEyeLight is { } light)
-            light.CreateTween().TweenProperty(light,"light_energy",NightSightEnergy*.15f,1.8);
-        StartNightmareSound(ref _dreadHeart,DreadHeartStream,-19f);
-        if(!await NightmareWaitAsync(1.6,session))return false;
-        var ahead=ToLocal(eye+forward*11f);
-        var voice=PlayPrologueForestVoice(new(ahead.X,ahead.Z),"forest-come-here",
-            "«Айдар. Кил монда…»\n(Айдар, иди сюда…)",-7f);
-        if(!await NightmareWaitAsync(Math.Clamp(voice,1.6,3.4)+.4,session))return false;
-        // The view contains only the forest. A sound closes from behind, then
-        // consciousness cuts out before its source could be identified.
-        UiFoley.PlayWorld(this,eye+camera.GlobalBasis.Z*4f+camera.GlobalBasis.X*2f,
-            "forest/brush_rustle",-8f,15f,3f);
-        if(!await NightmareWaitAsync(.6,session))return false;
-        PrologueDreamCut.Show(GetTree(),fadeSeconds:_accessibility.ReducedMotion ? .6 : .32);
-        UiFoley.PlayWorld(this,eye,"forest/gasp",-8f,10f,2f);
-        if(!await NightmareWaitAsync(.35,session))return false;
-        UiFoley.PlayWorld(this,eye+camera.GlobalBasis.Z,"forest/rush_close",-12f,12f,3f);
-        StopNightmareSound(ref _dreadDrone,.4);
-        StopNightmareSound(ref _dreadHeart,.6);
-        return await NightmareWaitAsync(.45,session);
+        _torchFailure = 0f;
+        _torchOverride = .1f;
+        StartNightmareSound(ref _dreadHeart, DreadHeartStream, -14f);
+        var trunkAt = ToLocal(eye + forward * FinaleTrunkDistance - right * .42f);
+        trunkAt.Y = ForestGroundHeight(trunkAt.X, trunkAt.Z);
+        var trunk = BuildFinaleTrunk(ToGlobal(trunkAt), eye);
+        if (!await NightmareWaitAsync(.9, session)) return false;
+        _torchOverride = .85f;
+        UiFoley.PlayWorld(this, eye, "ui_click", -9f, 6f, 1f);
+        if (!await NightmareWaitAsync(1.0, session)) return false;
+
+        // 2. A voice he knows, from behind that tree.
+        if (DevForestCaptureActive) GD.Print("finale: step 2 torch=" + (_torch?.LightEnergy ?? -1f) + " t=" + Time.GetTicksMsec());
+        var voiceAt = ToLocal(trunk.GlobalPosition);
+        var voice = PlayPrologueForestVoice(new Vector2(voiceAt.X, voiceAt.Z), "forest-come-here",
+            "«Айдар. Кил монда…»\n(Айдар, иди сюда…)", -4f);
+        if (!await NightmareWaitAsync(Math.Clamp(voice, 1.6, 3.2) + .3, session)) return false;
+        if (_prologueVoiceCaption is { } caption) caption.Hide();
+        _prologueCaptionRemaining = 0;
+
+        // 3. Fingers come round the trunk, one after another. Far too long.
+        if (DevForestCaptureActive) GD.Print("finale: step 3 torch=" + (_torch?.LightEnergy ?? -1f) + " t=" + Time.GetTicksMsec());
+        var hand = trunk.GetNode<Node3D>("Hand");
+        hand.Visible = true;
+        UiFoley.PlayWorld(this, trunk.GlobalPosition + Vector3.Up * 2f, "forest/strange_clicks", -3f, 30f, 5f);
+        hand.CreateTween().TweenProperty(hand, "rotation:y", hand.Rotation.Y + Mathf.DegToRad(FinaleHandCreepDegrees), calm ? .2 : 1.5)
+            .SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
+        if (!await NightmareWaitAsync(1.9, session)) return false;
+
+        // 4. Then the eyes lean out after them, above where a head should be.
+        if (DevForestCaptureActive) GD.Print("finale: step 4 torch=" + (_torch?.LightEnergy ?? -1f) + " t=" + Time.GetTicksMsec());
+        var eyesAt = trunk.GlobalPosition + right * .42f + Vector3.Up * FinaleEyeHeight - forward * .05f;
+        EyeOwnGlow = .75f;
+        if (FreeEyePair() is not { } watcher) return true;
+        SpawnEyes(watcher, eyesAt - right * .3f, EyeKind.Watcher, .12f, .085f, true);
+        watcher.Pinned = true;
+        watcher.NextBlink = 100f;
+        watcher.Material.SetShaderParameter("tint", new Color(1f, .78f, .25f));
+        watcher.Root.CreateTween().TweenProperty(watcher.Root, "global_position", eyesAt, calm ? .2 : .9)
+            .SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
+        UiFoley.PlayWorld(this, eye + forward * 3f, "forest/scare_sting", -6f, 20f, 8f);
+        if (!await NightmareWaitAsync(1.5, session)) return false;
+
+        // 5. The torch dies. The eyes do not. They come down to his height.
+        if (DevForestCaptureActive) GD.Print("finale: step 5 torch=" + (_torch?.LightEnergy ?? -1f) + " t=" + Time.GetTicksMsec());
+        _torchOverride = 0f;
+        UiFoley.PlayWorld(this, eye, "ui_click", -8f, 6f, 1f);
+        if (_nightmareEyeLight is { } sight && GodotObject.IsInstanceValid(sight))
+            sight.CreateTween().TweenProperty(sight, "light_energy", 0f, .6);
+        hand.Visible = false;
+        UiFoley.PlayWorld(this, eye + forward * 5f, "forest/low_moan", -3f, 30f, 6f);
+        watcher.Root.CreateTween().TweenProperty(watcher.Root, "global_position",
+            eye + forward * (FinaleTrunkDistance - 2.2f) + Vector3.Up * .25f, calm ? .3 : 1.5)
+            .SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
+        if (!await NightmareWaitAsync(1.9, session)) return false;
+
+        // 6. And then they are here.
+        if (DevForestCaptureActive) GD.Print("finale: step 6 torch=" + (_torch?.LightEnergy ?? -1f) + " t=" + Time.GetTicksMsec());
+        var arrive = calm ? .9 : .42;
+        UiFoley.PlayWorld(this, eye + forward * 2f, "forest/rush_close", 3f, 20f, 8f);
+        var rush = watcher.Root.CreateTween().SetParallel();
+        rush.TweenProperty(watcher.Root, "global_position", eye + forward * 1.05f + Vector3.Up * .46f, arrive)
+            .SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.In);
+        foreach (var quad in new[] { watcher.Left, watcher.Right })
+            rush.TweenProperty(quad, "scale", Vector3.One * .085f, arrive);
+        if (!await NightmareWaitAsync(arrive - .04, session)) return false;
+        BuildAttackRig(camera);
+        _fingerCurlTarget = 1f;
+        _fingerCurl = .55f;
+        // The last spark of the torch: what has him is all around the edge of sight.
+        _torchOverride = calm ? .5f : 1.2f;
+        UiFoley.PlayWorld(this, eye, "forest/scare_sting", 3f, 20f, 8f);
+        UiFoley.PlayWorld(this, eye, "forest/gasp", 1f, 10f, 4f);
+        if (!await NightmareWaitAsync(calm ? .5 : .22, session)) return false;
+        _torchOverride = 0f;
+        PrologueDreamCut.Show(GetTree(), fadeSeconds: .04);
+        UiFoley.PlayWorld(this, eye, "forest/body_fall", 2f, 10f, 4f);
+        if (!await NightmareWaitAsync(.5, session)) return false;
+        UiFoley.PlayWorld(this, eye, "forest/knockout_ring", -3f, 10f, 6f);
+        StopNightmareSound(ref _dreadDrone, .4);
+        StopNightmareSound(ref _dreadHeart, .9);
+        EyeOwnGlow = EyeRestGlow;
+        if (GodotObject.IsInstanceValid(trunk)) trunk.QueueFree();
+        return await NightmareWaitAsync(.6, session);
+    }
+
+    // Finale staging, in metres and degrees.
+    private const float FinaleTrunkDistance = 5.4f;
+    private const float FinaleTrunkRadius = .33f;
+    private const float FinaleHandHeight = 2.1f;
+    private const float FinaleEyeHeight = 2.75f;
+    private const float FinaleHandStartDegrees = 190f;
+    private const float FinaleHandCreepDegrees = -128f;
+
+    /// <summary>
+    /// A thick old trunk with something behind it. The hand is built on the
+    /// trunk's own surface: four fingers of four joints each, lying round the
+    /// bark from the far side, and turned into view when the scene calls for it.
+    /// </summary>
+    private Node3D BuildFinaleTrunk(Vector3 at, Vector3 watcher)
+    {
+        var root = new Node3D { Name = "PrologueFinaleTrunk" };
+        root.SetMeta("presentationOnly", true);
+        AddChild(root);
+        root.GlobalPosition = at;
+        var toWatcher = watcher - at;
+        root.Rotation = new Vector3(0f, Mathf.Atan2(toWatcher.X, toWatcher.Z), 0f); // +Z faces him
+        var normal = PrologueTextureSlot("finale_trunk_bark_normal", null);
+        var bark = new StandardMaterial3D
+        {
+            AlbedoColor = new Color(1f, .96f, .9f), Roughness = 1f, MetallicSpecular = .1f,
+            AlbedoTexture = PrologueTextureSlot("finale_trunk_bark_albedo", "res://assets/textures/painterly/bark_pine_v1_albedo.png"),
+            NormalEnabled = normal is not null, NormalTexture = normal,
+            Uv1Scale = new Vector3(2f, 5f, 1f)
+        };
+        root.AddChild(new MeshInstance3D
+        {
+            Name = "Trunk",
+            Mesh = new CylinderMesh { BottomRadius = FinaleTrunkRadius + .05f, TopRadius = FinaleTrunkRadius - .05f, Height = 11f, RadialSegments = 18, Rings = 6 },
+            Position = new Vector3(0f, 5.2f, 0f), MaterialOverride = bark
+        });
+        // A flare of root, so it grows out of the drift.
+        root.AddChild(new MeshInstance3D
+        {
+            Name = "RootFlare",
+            Mesh = new CylinderMesh { BottomRadius = FinaleTrunkRadius + .2f, TopRadius = FinaleTrunkRadius + .04f, Height = .7f, RadialSegments = 14 },
+            Position = new Vector3(0f, .25f, 0f), MaterialOverride = bark
+        });
+        var skin = new StandardMaterial3D
+        {
+            AlbedoColor = new Color(.78f, .74f, .66f), Roughness = .8f, MetallicSpecular = .3f,
+            AlbedoTexture = PrologueTextureSlot("finale_hand_skin_albedo", null)
+        };
+        // The fingers are authored reaching round the side that faces +X; the node is
+        // first turned so they are wholly behind the trunk, then crept round into view.
+        var hand = new Node3D { Name = "Hand", Position = new Vector3(0f, FinaleHandHeight, 0f), Visible = false };
+        hand.Rotation = new Vector3(0f, Mathf.DegToRad(FinaleHandStartDegrees), 0f);
+        root.AddChild(hand);
+        var radius = FinaleTrunkRadius + .06f; // the trunk is thicker at hand height than at its mean
+        for (var finger = 0; finger < 4; finger++)
+        {
+            var height = (1.5f - finger) * .17f + _dreadRng.RandfRange(-.02f, .02f);
+            var length = new[] { .92f, 1.05f, 1f, .8f }[finger];
+            Vector3 previous = default;
+            for (var joint = 0; joint <= 4; joint++)
+            {
+                var angle = Mathf.DegToRad(joint * 36f * length);
+                var lift = joint == 4 ? .035f : joint == 2 ? .012f : 0f; // the tip stands off the bark
+                var point = new Vector3(Mathf.Cos(angle) * (radius + lift), height - joint * (.022f + finger * .012f), Mathf.Sin(angle) * (radius + lift));
+                if (joint > 0)
+                {
+                    var thick = Mathf.Lerp(.055f, .02f, joint / 4f);
+                    var along = point - previous;
+                    var bone = new MeshInstance3D
+                    {
+                        Mesh = new CylinderMesh { Height = along.Length() + .004f, BottomRadius = thick, TopRadius = thick * .8f, RadialSegments = 6, Rings = 1 },
+                        MaterialOverride = skin, Position = (previous + point) * .5f
+                    };
+                    hand.AddChild(bone);
+                    bone.Quaternion = new Quaternion(Vector3.Up, along.Normalized());
+                    hand.AddChild(new MeshInstance3D
+                    {
+                        Mesh = new SphereMesh { Radius = thick * 1.3f, Height = thick * 2.6f, RadialSegments = 6, Rings = 3 },
+                        MaterialOverride = skin, Position = previous
+                    });
+                }
+                previous = point;
+            }
+        }
+        return root;
+    }
+
+    /// <summary>
+    /// An optional generated texture. Drop <c>name.png</c> into
+    /// res://assets/textures/prologue/ and it is used; until then the fallback (or nothing) is.
+    /// </summary>
+    internal static Texture2D? PrologueTextureSlot(string name, string? fallback)
+    {
+        var path = $"res://assets/textures/prologue/{name}.png";
+        if (ResourceLoader.Exists(path)) return ResourceLoader.Load<Texture2D>(path);
+        return fallback is not null && ResourceLoader.Exists(fallback) ? ResourceLoader.Load<Texture2D>(fallback) : null;
     }
 
     /// <summary>Hands the view back to the walker's own camera and removes the hands.</summary>

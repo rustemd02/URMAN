@@ -179,11 +179,11 @@ public partial class W01Controller
     // ---- Night look: tune here ------------------------------------------------------------
     // About three metres of sight around the walker, the torch beam, and the
     // sky: a moon and the black crowns against it. Everything else is dark.
-    private const float NightAmbient = .05f;
-    private const float NightMoonlight = .13f;
-    private const float NightSightRadius = 3.6f;
-    private const float NightSightEnergy = .55f;
-    private const float NightFogEnd = 34f;
+    private const float NightAmbient = .16f;
+    private const float NightMoonlight = .55f;
+    private const float NightSightRadius = 5f;
+    private const float NightSightEnergy = .3f;
+    private const float NightFogEnd = 75f;
     private MeshInstance3D? _nightMoon;
 
     /// <summary>
@@ -201,6 +201,10 @@ public partial class W01Controller
         {
             sun.LightEnergy = NightMoonlight;
             sun.LightColor = new Color(.5f, .62f, 1f);
+            // Moon shadows of the trunks across the snow are most of the picture.
+            sun.ShadowEnabled = true;
+            sun.ShadowOpacity = .92f;
+            sun.RotationDegrees = new Vector3(-38f, 152f, 0f);
         }
         if (GetNodeOrNull<OmniLight3D>("PrologueClearingMoonlight") is { } clearing && clearing.Visible)
             clearing.Visible = false;
@@ -265,18 +269,18 @@ public partial class W01Controller
         // The dark swallows the torch a few trunks away; the sky stays clear.
         night.FogEnabled = true;
         night.FogMode = Environment.FogModeEnum.Depth;
-        night.FogLightColor = new Color(.008f, .011f, .02f);
+        night.FogLightColor = new Color(.02f, .035f, .075f);
         night.FogLightEnergy = 1f;
         night.FogDensity = 1f;
-        night.FogDepthBegin = 3f;
+        night.FogDepthBegin = 8f;
         night.FogDepthEnd = NightFogEnd;
         night.FogDepthCurve = .85f;
         night.FogSkyAffect = 0f;
         night.FogSunScatter = 0f;
         night.FogAerialPerspective = 0f;
         night.AdjustmentEnabled = true;
-        night.AdjustmentSaturation = .8f;
-        night.AdjustmentContrast = 1.1f;
+        night.AdjustmentSaturation = .95f;
+        night.AdjustmentContrast = 1.04f;
         night.AdjustmentBrightness = 1f;
         // Only eyes, the moon and the torch's hot spot are bright enough to bloom.
         night.GlowEnabled = true;
@@ -360,8 +364,12 @@ public partial class W01Controller
         ProcessDread(player, p, t, (float)delta);
         // The existing authored branch interaction remains the one small
         // physical action on the route. Nothing moves itself as he approaches.
-        if (!branchMoved && Fire(5,feet.DistanceTo(new(BranchF01.X,BranchF01.Z))<7.5f))
-            ShowNightmareThought("Ветка перегородила тропу. Можно отвести её в сторону.",4);
+        // The branch across the trail is lifted away by nothing anyone can see:
+        // the walk never stops on a chore.
+        if (!branchMoved && !_branchMoveInProgress
+            && feet.DistanceTo(new Vector2(BranchF01.X, BranchF01.Z)) <= 6.5f
+            && BeginBranchMove(PrologueBranchInteractionId) && Fire(5, true))
+            UiFoley.PlayWorld(this, ToGlobal(BranchF01 + Vector3.Up * 1.2f), "forest/branch_crack", -2f, 30f, 6f);
 
         if (Fire(4, branchMoved))
         {
@@ -457,7 +465,7 @@ public partial class W01Controller
             StopParallelSteps();
             StopNightmareSound(ref _nightmareAir, 1.5);
             PrologueVoice.StopSpatial(this);
-            ShowNightmareThought("Следы теряются под ветвями. Шаги тоже стихли.", 3);
+            ShowNightmareThought("Следы обрываются. Дальше — чистый снег.", 3);
             if (!await NightmareWaitAsync(2.6, session)) return;
 
             // He never gets to answer.
@@ -468,8 +476,6 @@ public partial class W01Controller
             // The attack owns the first fade, so claim cleanup before awaiting it.
             cut = true;
             if (!await RunDreadAttackAsync(player, session)) return;
-            PrologueDreamCut.Show(GetTree(), fadeSeconds: .1);
-            if (!await NightmareWaitAsync(.9, session)) return;
             ReleaseFallCamera(player);
             PrologueVoice.StopSpatial(this);
             PrologueDreamCut.PlayVoiceMorph(GetTree());
@@ -523,7 +529,7 @@ public partial class W01Controller
         return true;
     }
 
-    private bool ProloguePresentationPaused() => GetTree().Paused || !DisplayServer.WindowIsFocused()
+    private bool ProloguePresentationPaused() => GetTree().Paused || (!DisplayServer.WindowIsFocused() && !DevForestCaptureActive)
         || MainMenuUi.AnyUndismissed(GetTree())
         || GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true }
         || GetTree().GetFirstNodeInGroup("dialogue_ui") is DialogueUi { IsOpen: true }

@@ -2131,7 +2131,9 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         if (_prologueHintPanel is { } hintPanel && GodotObject.IsInstanceValid(hintPanel))
         {
             var missionRoot = (GetTree().GetFirstNodeInGroup("zone_manager") as Main)?.GetParent() as Act1DemoRoot;
-            hintPanel.Visible = missionRoot?.MissionHudVisible != true && !button.Disabled && _prologueHintAvailable;
+            // The forest prologue gives no instructions: the prints are the only guide.
+            hintPanel.Visible = false;
+            _ = missionRoot;
             var showBranchQuestion = _prologueHintKey != "prologue-branch"
                 || GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController hintPlayer
                     && IsPrologueBranchFramedForQuestion(hintPlayer);

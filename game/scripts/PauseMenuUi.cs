@@ -85,6 +85,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     public override void _Notification(int what)
     {
         if (!_shutdownRequested && what == NotificationWMWindowFocusOut
+            && !W01Controller.DevForestCaptureActive // development capture runs unattended, in the background
             && !_backgroundInputReplay
             && !_open
             && CanOpenPause?.Invoke() == true

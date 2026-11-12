@@ -37,6 +37,11 @@ public partial class W01Controller
         }
     }
 
+    // Forest tuning.
+    private const float PrologueBirchShare = .24f;
+    private const float PrologueHeroTreeReach = 9f;
+    private const float PrologueTreeSink = .028f;
+
     private void BuildPrologueThicket()
     {
         var started = Time.GetTicksMsec();
@@ -94,33 +99,42 @@ public partial class W01Controller
         }
         float Lean(float maxDegrees) => Mathf.DegToRad(rng.RandfRange(-maxDegrees, maxDegrees));
 
-        // Restore the existing Meshy pine family. Near trunks are geometry;
-        // distant crowns use its authored atlas LOD, never thousands of LOD0s.
+        // The stand: the project's own Meshy spruce and birch. The full models
+        // stand where the torch can reach them, the lighter ones behind, and the
+        // four-triangle cards only where the dark has already taken the detail.
         const string pinePath = "res://assets/models/act1/urman_winter_pine_meshy_v1.glb";
+        const string birchPath = "res://assets/models/act1/urman_winter_birch_meshy_v2.glb";
+        var pineHero = LoadMeshFromScene(pinePath, "WinterPine_LOD0");
         var pine = LoadMeshFromScene(pinePath, "WinterPine_LOD1");
         var pineFar = LoadMeshFromScene(pinePath, "WinterPine_LOD2");
-        var near = new List<Transform3D>();
-        var far = new List<Transform3D>();
+        var birchHero = LoadMeshFromScene(birchPath, "WinterBirch_LOD0");
+        var birch = LoadMeshFromScene(birchPath, "WinterBirch_LOD1");
+        var birchFar = LoadMeshFromScene(birchPath, "WinterBirch_LOD2");
+        var stands = new List<Transform3D>[6];
+        for (var index = 0; index < stands.Length; index++) stands[index] = new List<Transform3D>();
         var trunks=new StaticBody3D { Name="PrologueMeshyTrunkContacts",CollisionLayer=1,CollisionMask=0 };
         thicket.AddChild(trunks);
         var planted = new List<(Vector2 At, float Radius)>();
         var trees = 0;
         void Plant(Vector2 point, float lateral)
         {
-            var height = rng.RandfRange(15f, 24f);
-            var girth = height * rng.RandfRange(.66f, .91f);
-            var trunk = .022f * girth;
+            var white = rng.Randf() < PrologueBirchShare;
+            var height = white ? rng.RandfRange(12f, 19f) : rng.RandfRange(15f, 25f);
+            var girth = height * (white ? rng.RandfRange(.7f, .9f) : rng.RandfRange(.62f, .86f));
+            var trunk = (white ? .016f : .022f) * girth;
             if (!Free(point, 1.05f + trunk)) return;
             foreach (var (at, radius) in planted)
                 if (at.DistanceSquaredTo(point) < (radius+trunk+1.15f)*(radius+trunk+1.15f)) return;
             planted.Add((point,trunk));
             var basis = new Basis(Vector3.Up,rng.RandfRange(0,Mathf.Tau))
-                * new Basis(Vector3.Right,Lean(2f))
+                * new Basis(Vector3.Right,Lean(white ? 4f : 2f))
                 * Basis.FromScale(new Vector3(girth,height,girth));
-            var pose = new Transform3D(basis,new Vector3(point.X,ForestGroundHeight(point.X,point.Y)-.08f,point.Y));
-            (lateral<18f ? near : far).Add(pose);
+            // Set a little into the snow: the modelled root flare stays under the drift.
+            var pose = new Transform3D(basis,new Vector3(point.X,ForestGroundHeight(point.X,point.Y)-height*PrologueTreeSink,point.Y));
+            var tier = lateral < PrologueHeroTreeReach ? 0 : lateral < 24f ? 1 : 2;
+            stands[(white ? 3 : 0) + tier].Add(pose);
             if(lateral<7f)trunks.AddChild(new CollisionShape3D {
-                Position=pose.Origin+Vector3.Up*1.50f,Shape=new CylinderShape3D { Radius=trunk,Height=3f } });
+                Position=pose.Origin+Vector3.Up*1.80f,Shape=new CylinderShape3D { Radius=trunk,Height=3f } });
             trees++;
         }
         for (var progress=-18f; progress<PrologueRouteLength+25f; progress+=rng.RandfRange(2.6f,4.2f))
@@ -139,8 +153,12 @@ public partial class W01Controller
                 +new Vector2(rng.RandfRange(-2f,2f),rng.RandfRange(-2f,2f));
             Plant(point,PrologueRouteProgress(point).Lateral);
         }
-        AddThicketBatches(thicket,"MeshyPineNear",pine.Mesh,pine.Local,near,castShadow:true);
-        AddThicketBatches(thicket,"MeshyPineFar",pineFar.Mesh,pineFar.Local,far,castShadow:false);
+        AddThicketBatches(thicket,"MeshyPineHero",pineHero.Mesh,pineHero.Local,stands[0],castShadow:true);
+        AddThicketBatches(thicket,"MeshyPineNear",pine.Mesh,pine.Local,stands[1],castShadow:true);
+        AddThicketBatches(thicket,"MeshyPineFar",pineFar.Mesh,pineFar.Local,stands[2],castShadow:false);
+        AddThicketBatches(thicket,"MeshyBirchHero",birchHero.Mesh,birchHero.Local,stands[3],castShadow:true);
+        AddThicketBatches(thicket,"MeshyBirchNear",birch.Mesh,birch.Local,stands[4],castShadow:true);
+        AddThicketBatches(thicket,"MeshyBirchFar",birchFar.Mesh,birchFar.Local,stands[5],castShadow:false);
         var undergrowth=new List<Transform3D>();
         for(var index=0;index<170;index++)
         {

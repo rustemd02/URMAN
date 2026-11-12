@@ -279,6 +279,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             DevWalkProbeBoot();
             DevQuickStartBoot();
         }
+        if (!StudioPreviewMode) DevNewGameBoot();
+        if (!StudioPreviewMode) DevTimedShotsBoot();
         _startupTask = InitializeDemoWithLoadingScreenAsync();
     }
 
@@ -2231,6 +2233,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     {
         if (_player?.ModalOpen == true || MainMenuVisible || IntroVisible || _endingShown
             || _pauseMenu?.IsOpen == true || _photoNivaDriving || _introReplay || _photoWorldReplay) return true;
+        // The forest prologue has no tasks and no waypoint: only the prints.
+        if (_bridge?.ActiveSceneId == "urman.fullgame:scene/pw-prologue") return true;
         if (_bridge is { } bridge && GodotObject.IsInstanceValid(bridge)
             && (bridge.CapturePlayTimeBlocks() & (PlayTimeBlock.Loading | PlayTimeBlock.NotReady)) != 0) return true;
         var tree = GetTree();
