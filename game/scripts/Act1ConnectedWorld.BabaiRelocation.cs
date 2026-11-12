@@ -218,6 +218,8 @@ public partial class Act1ConnectedWorld
         // reconciliation after the household's move, including every tree LOD.
         var facade = kit.GetNode<Node3D>("BabaiApproachDwellingFacade");
         core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld").ReconcileBuildingFoliage(facade);
+        try { DressBabaiMansard(); }
+        catch (System.Exception error) { GD.PushWarning($"act1-babai-mansard: not built: {error.Message}"); }
         GD.Print($"act1-babai-foliage: owners={facade.GetMeta("roofSuppressedFoliageOwners").AsStringArray().Length} contacts={facade.GetMeta("roofSuppressedFoliageContacts").AsStringArray().Length}");
         core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld").RecutOccupiedRoomTerrain(_zoneInstances["house_old_pc"], new Vector2(
             StyleBenchmarkInteriorFactory.ClearWidth * .5f, StyleBenchmarkInteriorFactory.ClearDepth * .5f));

@@ -59,6 +59,7 @@ public partial class Act1ConnectedWorld
             var world = transform * new Aabb(-box.Size * .5f, box.Size);
             if (SnowReliefStandard.PublishSolid(shape.GetPath().ToString(), world)) solids++;
         }
+        if (PublishBabaiHouseFootprint()) footprints++;
         if (AddressRegistry is not { } registry)
         {
             SetMeta("snowExclusionCorridors", corridors);
@@ -197,6 +198,10 @@ public partial class Act1ConnectedWorld
         var mesh = AddVisualLandformSurface(root, $"SnowDrift_{index:00}", width, height, curve.GetBakedLength(),
             Vector3.Zero, "e8edf0", "snow_ground", 0f, true, curve);
         mesh.SetMeta("snowTier", SnowReliefStandard.TierMass);
+        // Drifts are low and pale: past this range they are indistinguishable from the ground.
+        mesh.VisibilityRangeEnd = 115f;
+        mesh.VisibilityRangeEndMargin = 10f;
+        mesh.VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self;
         mesh.SetMeta("snowBankHeight", height);
         mesh.SetMeta("presentationOnly", true);
         mesh.SetMeta("collisionOwner", "none");
