@@ -18,10 +18,11 @@ namespace Urman.Godot;
 public partial class CodePerson : Node3D
 {
     // ---- Tuning ---------------------------------------------------------------------------
-    private const float CycleMetres = 1.42f;      // two steps
+    // A walking step is .7-.8 m and lengthens with pace; the cycle is two steps.
+    private const float StepAtRest = .6f, StepPerSpeed = .14f, StepMin = .68f, StepMax = .98f;
     private const float StanceShare = .6f;
     private const float FootLift = .1f;
-    private const float ArmSwingDegrees = 26f;
+    private const float ArmSwingDegrees = 23f;
     private const float GaitBlendSeconds = .22f;
     private const float FarUpdateDistance = 38f;
     private const float HideDistance = 110f;
@@ -47,6 +48,7 @@ public partial class CodePerson : Node3D
     private bool _hasLast;
     private float _phase;
     private float _gait;
+    private float _cycle = 1.5f;
     private Vector3 _travel = Vector3.Back;
     private float _groundY = float.NaN;
     private int _frame;
@@ -223,7 +225,9 @@ public partial class CodePerson : Node3D
         _gait = Mathf.MoveToward(_gait, walking ? 1f : 0f, dt / GaitBlendSeconds);
         if (walking)
         {
-            _phase = Mathf.PosMod(_phase + distance / (CycleMetres * _outfit.Build), 1f);
+            var step = Mathf.Clamp(StepAtRest + StepPerSpeed * speed, StepMin, StepMax) * _outfit.Build;
+            _cycle = Mathf.MoveToward(_cycle, step * 2f, dt * 1.2f);
+            _phase = Mathf.PosMod(_phase + distance / _cycle, 1f);
             var local = _skeleton.GlobalBasis.Inverse() * (moved / distance);
             local.Y = 0f;
             if (local.LengthSquared() > .01f) _travel = local.Normalized();
@@ -292,17 +296,32 @@ public partial class CodePerson : Node3D
             var toe = _gait > 0f ? _travel : front;
             toe = new Vector3(toe.X, 0f, toe.Z).Normalized();
             if (toe == Vector3.Zero) toe = Vector3.Back;
-            Ball(ankle + toe * .06f - Vector3.Up * .035f, new Vector3(.125f, .1f, .27f) * b, o.Boots, Vector3.Up, toe);
+            // A felt boot: rounded heel, a low vamp running forward, a blunt toe.
+            Ball(ankle - Vector3.Up * .035f, new Vector3(.118f, .105f, .125f) * b, o.Boots, Vector3.Up, toe);
+            Limb(ankle - toe * .03f - Vector3.Up * .045f, ankle + toe * .15f - Vector3.Up * .052f, .054f * b, .047f * b, o.Boots, Vector3.Up, .78f);
+            Ball(ankle + toe * .155f - Vector3.Up * .052f, new Vector3(.1f, .076f, .1f) * b, o.Boots, Vector3.Up, toe);
         }
 
         // Body: hips, chest, shoulders, and the coat hanging below the belt.
         var coat = _sheltered ? o.Trim : o.Coat;
         Limb(pelvis - up * .05f, chest, .175f * b, .19f * b, coat, front, .74f);
         Limb(chest, neck - up * .015f, .19f * b, .12f * b, coat, front, .72f);
+        // Sloping shoulders and real hips instead of a tube with arms.
+        Ball(neck - up * .055f, new Vector3(.34f, .13f, .2f) * b, coat, up, front);
+        Ball(pelvis - up * .02f, new Vector3(.37f, .22f, .27f) * b, coat, up, front);
+        if (!_sheltered) Limb(neck - up * .04f, neck + up * .03f, .09f * b, .072f * b, o.Trim, front, .92f);
         Ball(shoulderL, Vector3.One * .15f * b, coat, up, front);
         Ball(shoulderR, Vector3.One * .15f * b, coat, up, front);
         var hem = _sheltered ? Mathf.Min(o.CoatLength, .14f) : o.CoatLength;
-        if (o.Skirt)
+        // Seated: the thighs lie forward, so nothing hangs straight down through the seat.
+        var thighs = ((kneeL + kneeR) * .5f - pelvis);
+        var seated = thighs.LengthSquared() > .01f && thighs.Normalized().Dot(-up) < .55f;
+        if (seated)
+        {
+            if (o.Skirt || hem > .2f)
+                Limb(pelvis - up * .02f, pelvis + thighs * .92f - up * .02f, .21f * b, .19f * b, o.Skirt && _sheltered ? o.Trousers : coat, up, .6f);
+        }
+        else if (o.Skirt)
             Limb(pelvis - up * (hem + .3f), pelvis + up * .02f, .285f * b, .19f * b, _sheltered ? o.Trousers : coat, front, .82f);
         else
             Limb(pelvis - up * hem, pelvis + up * .02f, (.2f + hem * .12f) * b, .185f * b, coat, front, .78f);
@@ -319,7 +338,12 @@ public partial class CodePerson : Node3D
             reach = reach.LengthSquared() < .0001f ? Vector3.Down : reach.Normalized();
             if (!_sheltered)
             {
-                Ball(hand + reach * .05f, new Vector3(.085f, .13f, .06f) * b, o.Mittens, reach, front);
+                // Mitten: cuff, the hand, and the thumb set apart.
+                var palm = Perpendicular(reach, front);
+                var thumbSide = reach.Cross(palm).Normalized() * (shoulder == shoulderL ? -1f : 1f);
+                Limb(hand - reach * .035f, hand + reach * .01f, .05f * b, .046f * b, o.Trim, front);
+                Ball(hand + reach * .06f, new Vector3(.082f, .125f, .052f) * b, o.Mittens, reach, palm);
+                Ball(hand + reach * .04f + thumbSide * .042f, new Vector3(.03f, .065f, .03f) * b, o.Mittens, reach + thumbSide * .6f, palm);
                 continue;
             }
             // A bare hand: wrist cuff, palm, the fingers as one curved pad, and a thumb.
@@ -396,7 +420,7 @@ public partial class CodePerson : Node3D
     {
         var thigh = Mathf.Max(.2f, (Joint("calf_l") - Joint("thigh_l")).Length());
         var shin = Mathf.Max(.2f, (Joint("foot_l") - Joint("calf_l")).Length());
-        var cycle = CycleMetres * _outfit.Build;
+        var cycle = _cycle;
         phase = Mathf.PosMod(phase, 1f);
         float along, lift;
         if (phase < StanceShare)
