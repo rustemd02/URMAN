@@ -433,21 +433,21 @@ public partial class Act1ConnectedWorld
             var height = AgentBAct1HeightField.CollisionGround(centre.X+Mathf.Cos(angle)*3.5f,centre.Y+Mathf.Sin(angle)*3.5f);
             high = Mathf.Max(high,height); low = Mathf.Min(low,height);
         }
-        var top = high+.12f;
+        var top = high+.02f;
         var body = new StaticBody3D { Name = "FestivalPlatformBody", CollisionLayer = 2, CollisionMask = 0 };
         garden.AddChild(body);
         var stone = RuralPropMaterials.Surface("concrete");
         // Broad 6 cm risers are walkable in winter and retain actual support down to the ground.
-        foreach(var (radius,rise) in new[] { (3.5f,0f),(3.2f,.06f) })
+        foreach(var (radius,rise) in new[] { (3.5f,0f),(3.2f,0f) })
         {
             var height=top+rise-low+.2f; var y=top+rise-height*.5f;
             RuralPropGeometry.Part(garden,"PlatformStep"+radius,
                 RuralPropGeometry.Lathe("FestivalStep"+radius,new[] { new Vector2(0,-height*.5f),new Vector2(radius-.018f,-height*.5f),new Vector2(radius,-height*.5f+.02f),new Vector2(radius,height*.5f-.008f),new Vector2(radius-.012f,height*.5f),new Vector2(0,height*.5f) },96),
                 new(0,y,0),stone);
-            body.AddChild(new CollisionShape3D { Position = new(0,y,0), Shape = new CylinderShape3D { Radius=radius,Height=height } });
+            // No solid column under the platform: a walker could end up inside it and stay there. Visual only.
         }
         // A restrained wooden apron gives the centre a tangible human scale.
-        var deck = new Node3D { Name = "FestivalDeck", Position = new(0,top+.064f,0) }; garden.AddChild(deck);
+        var deck = new Node3D { Name = "FestivalDeck", Position = new(0,top,0) }; garden.AddChild(deck);
         for(var i=-8;i<=8;i++)
         {
             var x=i*.34f; var length=2*Mathf.Sqrt(Mathf.Max(0,2.95f*2.95f-x*x));
@@ -492,7 +492,7 @@ public partial class Act1ConnectedWorld
                 Vector3 P(float distance,float side,bool bottom=false)
                 {
                     var p=centre+direction*distance+rampTangent*side;
-                    var y=distance<3.3f ? top+.06f : AgentBAct1HeightField.CollisionGround(p.X,p.Y)+.016f;
+                    var y=distance<3.3f ? top :AgentBAct1HeightField.CollisionGround(p.X,p.Y)+.016f;
                     return new(p.X-centre.X,bottom ? low-.1f : y,p.Y-centre.Y);
                 }
                 void RampVertex(Vector3 p){ramp.SetUV(new(p.X,p.Z));ramp.AddVertex(p);}
@@ -502,7 +502,7 @@ public partial class Act1ConnectedWorld
                 {var eb=new Vector3(e.X,low-.1f,e.Z);var fb=new Vector3(f.X,low-.1f,f.Z);RampVertex(e);RampVertex(f);RampVertex(fb);RampVertex(e);RampVertex(fb);RampVertex(eb);}
                 ramp.Index();ramp.GenerateNormals();var mesh=ramp.Commit();
                 garden.AddChild(new MeshInstance3D { Name=building.Name+"PlatformRamp",Mesh=mesh,MaterialOverride=stone });
-                body.AddChild(new CollisionShape3D { Name=building.Name+"RampContact",Shape=mesh.CreateTrimeshShape() });
+                // The ramp is a visual slope to the square: no solid collider overlapping the platform.
             }
             var from=centre+direction*4.35f; var to=new Vector2(target.X,target.Z);
             using var s=new SurfaceTool();s.Begin(Mesh.PrimitiveType.Triangles);
