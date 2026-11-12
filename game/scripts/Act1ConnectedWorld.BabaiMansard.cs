@@ -53,8 +53,8 @@ public partial class Act1ConnectedWorld
         var trimMaterial = PainterlyMaterialLibrary.ForColor("e6e0cf", "wood_painted_trim");
         var glass = new StandardMaterial3D
         {
-            AlbedoColor = new Color(.32f, .22f, .12f), Roughness = .25f,
-            EmissionEnabled = true, Emission = MansardLampGlow, EmissionEnergyMultiplier = 1.15f
+            AlbedoColor = new Color(.68f, .76f, .80f, .18f), Roughness = .16f, MetallicSpecular = .55f,
+            Transparency = BaseMaterial3D.TransparencyEnum.Alpha, CullMode = BaseMaterial3D.CullModeEnum.Disabled
         };
         var root = new Node3D { Name = "BabaiMansard" };
         root.SetMeta("presentationOnly", true);
@@ -75,7 +75,13 @@ public partial class Act1ConnectedWorld
             root.AddChild(holder);
             void Bar(string part, Vector3 size, Vector3 at, Material material) =>
                 holder.AddChild(new MeshInstance3D { Name = part, Mesh = new BoxMesh { Size = size }, Position = at, MaterialOverride = material });
-            Bar("Glass", new(width, height, .02f), new(0, 0, .02f), glass);
+            Bar("Glass", new(width, height, .012f), new(0, 0, -.025f), glass);
+            holder.GetNode<MeshInstance3D>("Glass").CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
+            foreach (var side in new[] { -1f, 1f })
+                Bar("Reveal" + side, new(.045f, height, .22f), new(side * (width * .5f + .0225f), 0, -.08f), boardMaterial);
+            holder.AddChild(new SpotLight3D { Name = "RoomWindowLight", Position = new(0, .04f, -.55f),
+                RotationDegrees = new(0, 180, 0), LightColor = MansardLampGlow, LightEnergy = .45f,
+                SpotRange = 4.5f, SpotAngle = 48f, ShadowEnabled = true, ShadowBias = .015f, LightSize = .08f });
             foreach (var side in new[] { -1f, 1f })
                 Bar("Jamb" + side, new(.09f, height + .18f, .07f), new(side * (width * .5f + .045f), 0, .045f), trimMaterial);
             Bar("Head", new(width + .34f, .11f, .09f), new(0, height * .5f + .075f, .05f), trimMaterial);
@@ -99,7 +105,13 @@ public partial class Act1ConnectedWorld
         meetX = Mathf.Clamp(meetX, ridgeX + .1f, frontX - .6f);
         var meetY = eaveY + (eaveX - meetX) * slope + .03f;
 
-        Piece("DormerFront", new(.1f, MansardDormerWall + .3f, half * 2f), new(frontX, footY + MansardDormerWall * .5f - .15f, centreZ), boardMaterial);
+        var front = Piece("DormerFront", new(.1f, MansardDormerWall + .3f, half * 2f), new(frontX, footY + MansardDormerWall * .5f - .15f, centreZ), boardMaterial);
+        CutBabaiMeshOpening(front, root, new Aabb(new(frontX-.20f, footY+MansardDormerWall*.52f-.31f, centreZ-.525f), new(.40f,.62f,1.05f)));
+        // The main sheet and settled snow must be open behind the new dormer,
+        // otherwise its glass simply reveals another opaque roof surface.
+        foreach (var roofPart in frame.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>().Where(m =>
+                     m.Name.ToString().StartsWith("HeroHouse_Roof", StringComparison.Ordinal)).ToArray())
+            CutBabaiMeshOpening(roofPart, frame, new Aabb(new(meetX, footY-.35f, centreZ-half+.05f), new(frontX-meetX+.06f, topY-footY+.75f, half*2f-.10f)));
         foreach (var side in new[] { -1f, 1f })
             Piece("DormerCornerBoard" + side, new(.13f, MansardDormerWall + .1f, .12f), new(frontX + .02f, footY + MansardDormerWall * .5f, centreZ + side * half), trimMaterial);
         Window("DormerWindow", new Vector3(frontX + .05f, footY + MansardDormerWall * .52f, centreZ), 1.05f, .62f, Vector3.Forward, Vector3.Right);
@@ -138,9 +150,16 @@ public partial class Act1ConnectedWorld
         if (FindHeroHouseMesh("HeroHouse_Front_BoardedGable") is { } gable)
         {
             var plane = (gable.Transform * gable.Mesh.GetAabb()).End.Z;
-            Window("GableAtticWindow", new Vector3(ridgeX, eaveY + .1f + .78f, plane + .01f), .78f, .82f, Vector3.Right, Vector3.Back);
+            var windowY = eaveY + .88f;
+            foreach (var part in frame.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>()
+                         .Where(m => m.Name.ToString().StartsWith("HeroHouse_Front_BoardedGable", StringComparison.Ordinal)).ToArray())
+                CutBabaiMeshOpening(part, frame, new Aabb(new(ridgeX-.39f, windowY-.41f, plane-.60f), new(.78f,.82f,.80f)));
+            Window("GableAtticWindow", new Vector3(ridgeX, windowY, plane + .01f), .78f, .82f, Vector3.Right, Vector3.Back);
         }
-        root.SetMeta("presentationRole", "attic room read from outside: shed dormer on the yard slope and a lit window in the street gable");
+        foreach (var contact in FindDescendants<CollisionShape3D>(this).Where(c => c.HasMeta("authoredSourceMesh")))
+            if (GetNodeOrNull<MeshInstance3D>(contact.GetMeta("authoredSourceMesh").AsString()) is { } source && source.HasMeta("realWindowOpening"))
+                contact.Shape = source.Mesh.CreateTrimeshShape();
+        root.SetMeta("presentationRole", "pierced dormer and gable windows with recessed glass and physical frame shadows");
         GD.Print($"act1-babai-mansard: dormer frontX={frontX:0.00} foot={footY:0.00} top={topY:0.00} meetX={meetX:0.00} ridgeX={ridgeX:0.00} slope={slope:0.000}");
     }
 

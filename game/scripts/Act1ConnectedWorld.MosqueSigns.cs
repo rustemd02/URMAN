@@ -6,19 +6,19 @@ public partial class Act1ConnectedWorld
 {
     private readonly Dictionary<string, StandardMaterial3D> _mosquePrints = new();
 
-    private StandardMaterial3D MosquePrint(string file, int cell = -1)
+    private StandardMaterial3D MosquePrint(string file, int cell = -1, string folder = "signs_imagegen_v1", int rows = 3)
     {
-        var key = file + "/" + cell;
+        var key = folder + "/" + file + "/" + cell + "/" + rows;
         if (_mosquePrints.TryGetValue(key, out var material)) return material;
-        var texture = MosqueTexture("res://assets/materials/mosque/signs_imagegen_v1/" + file + ".png");
+        var texture = MosqueTexture("res://assets/materials/mosque/" + folder + "/" + file + ".png");
         using var source = texture.GetImage();
         if (source.IsCompressed()) source.Decompress();
         var width = source.GetWidth(); var height = source.GetHeight();
         // Extract cells before mipmapping so neighbouring words cannot bleed
         // onto a sign at a distance. All lettering is in the generated bitmap.
         var region = cell < 0 ? new Rect2I(0, 0, width, height)
-            : new Rect2I(cell % 2 * width / 2 + 3, cell / 2 * height / 3 + 3,
-                width / 2 - 6, (cell / 2 + 1) * height / 3 - cell / 2 * height / 3 - 6);
+            : new Rect2I(cell % 2 * width / 2 + 3, cell / 2 * height / rows + 3,
+                width / 2 - 6, (cell / 2 + 1) * height / rows - cell / 2 * height / rows - 6);
         using var print = source.GetRegion(region);
         print.GenerateMipmaps();
         material = new StandardMaterial3D {

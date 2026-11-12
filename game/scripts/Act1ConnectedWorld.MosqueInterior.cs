@@ -105,21 +105,19 @@ public partial class Act1ConnectedWorld
         var prayerCarpetTop = prayerCarpet.Position.Y + prayerCarpet.Mesh.GetAabb().End.Y;
         FacilityLamp(_mosqueRoom, "MosqueHallLamp", new(-3.35f, 3.02f, -.35f), "ffe5c2", .65f, 4.6f);
         FacilityLamp(_mosqueRoom, "MosqueHallSecondLamp", new(.35f, 3.02f, -.35f), "ffe5c2", .65f, 4.6f);
-        FacilityLamp(_mosqueRoom, "MosqueVestibuleLamp", new(3.63f, 2.78f, .45f), "ffe0b7", .42f, 3.2f);
+        FacilityLamp(_mosqueRoom, "MosqueVestibuleLamp", new(-5.63f, 2.78f, -1.80f), "ffe0b7", .42f, 3.2f);
 
-        // Mosque03: the outward sweep reached the existing landing guard post.
-        // Keep the closed leaf and the guarded landing; the vestibule provides
-        // the clear inward arc. Project only this door's old positive angle.
-        var entrance = FacilityManualDoor(_mosqueRoom, "MosqueEntrance", "mosque/entrance", new(5.54f, 0, -.72f), 1.44f, 2.20f, 0, -95);
-        entrance.GeometryVersion = 1;
-        entrance.LegacyAngleProjection = angle => -angle;
-        entrance.Hinge.SetMeta("geometryRepair", "Mosque03: outward leaf hit MosqueLandingPost0; same closed plane and full leaf now opens inward -95 degrees; existing landing and guards retained; legacy positive angle maps to -angle once");
+        // The door opens from Tukay directly into the hall. Project either
+        // historical swing sign into the same positive inward opening once.
+        var entrance = FacilityManualDoor(_mosqueRoom, "MosqueEntrance", "mosque/entrance", new(-6.90f, 0, -2.52f), 1.44f, 2.20f, 0, 90);
+        entrance.GeometryVersion = 2;
+        entrance.LegacyAngleProjection = angle => Mathf.Abs(angle);
+        entrance.Hinge.SetMeta("geometryRepair", "west street entrance; positive 90 degree inward sweep; old angle magnitude retained");
         entrance.Hinge.SetMeta("addressAccessPoint", true);
         DressMosqueEntrance(entrance);
-        // Mosque02: the infill began exactly at the leaf's 2.20 m top, so the
-        // real 2 mm full-shape margin stopped even the first opening sample.
-        // Keep its upper seam at 3.07 m and give the leaf a 20 mm head gap.
-        FacilitySolid(_mosqueRoom, "MosqueDoorHeaderInfill", new(.55f, .85f, 1.70f), new(5.50f, 2.645f, 0), MosqueHallPaint, "wood_painted_trim");
+        // Close the former east doorway with the same continuous shell. The
+        // original upper lintel remains; no second entrance or duplicate leaf.
+        FacilitySolid(_mosqueRoom, "MosqueHallEastDoorInfill", new(.55f, 3.60f, 1.70f), new(5.50f, 1.27f, 0), MosqueHallPaint, "wood_painted_trim");
         var mosqueApproach = ExtendCentralMosqueApproach(BuildMosqueGardenEntrance(complex));
         GroundMosqueCourtyard(complex);
         var mosqueAccess = mosqueApproach[^1];
@@ -129,16 +127,16 @@ public partial class Act1ConnectedWorld
         var mounted=false;
         // The original shell door is hidden when the accessible vestibule replaces it.
         // Mount from the visible FacilityManualDoor leaf so the plate follows the real entrance.
-        // Its facing is known from the explicitly selected east wall. The generic door-to-building-
+        // Its facing is known from the explicitly selected west wall. The generic door-to-building-
         // center heuristic points inward here because the entrance sits west of the complex origin.
         var doorFound=TryAddressDoor(complex,"MosqueEntranceLeaf",out var mosqueDoor,out _);
         complex.SetMeta(AddressFacadeMount.ReadingFloorMeta,_mosqueRoom.Position);
-        var mosqueExteriorOutward=complex.GlobalBasis*Vector3.Right;
+        var mosqueExteriorOutward=complex.GlobalBasis*Vector3.Left;
         mosqueExteriorOutward.Y=0;
         mosqueExteriorOutward=mosqueExteriorOutward.Normalized();
         if(doorFound)
             mounted=AddressFacadeMount.TryFind(complex,mosqueDoor,mosqueExteriorOutward,this,out mosqueSign,out mosqueSignOutward,
-                out mountOwner,out mountFailure,"MosqueHallEastLeft");
+                out mountOwner,out mountFailure,"MosqueOfficeConnectionNorth");
         var resolvedPoint=mosqueSign;
         var resolvedOutward=mosqueSignOutward;
         if(mounted&&!IsMosqueAddressMountOnExteriorFace(complex,mosqueSign,mosqueSignOutward,out mountFailure))
@@ -164,7 +162,7 @@ public partial class Act1ConnectedWorld
         }
         RegisterAddressedBuilding(new AddressBuildingRegistration(complex, "act1/mosque", "BLD-MOSQUE", "PAR-MOSQUE", "ADR-MOSQUE",
             "tukay", "23А", "URM-Q01-P0023", mosqueAccess, mosqueSign, mosqueExteriorOutward, ApproachPath: mosqueApproach,
-            SignOutward: mosqueSignOutward,SignSurfaceName:"MosqueHallEastLeft"));
+            SignOutward: mosqueSignOutward,SignSurfaceName:"MosqueOfficeConnectionNorth"));
 
         // Move the existing actor and his existing interaction together; no duplicate imam.
         var timur = GetNode<Node3D>("Act1CoreWorldGreybox/Act1People/Npc_timur_hazrat");
@@ -180,29 +178,29 @@ public partial class Act1ConnectedWorld
         conversation.GlobalPosition = timur.GlobalPosition + Vector3.Up * .9f;
         conversation.SetMeta("facility", "mosque");
         FacilityTarget("MosqueVisit", MosqueVisitInteraction, "Осмотреть прихожую мечети", _mosqueRoom,
-            _mosqueRoom.GetNode<Node3D>("MosqueShoeBench").Position + Vector3.Up * .68f, new(1.7f, .34f, .50f));
+            _mosqueRoom.GetNode<Node3D>("MosqueShoeBench").Position + Vector3.Up * .68f, new(.50f, .34f, 1.7f));
         EnsureFacilityTick();
     }
 
     private static bool IsMosqueAddressMountOnExteriorFace(Node3D complex,Vector3 point,Vector3 outward,out string failure)
     {
         failure="";
-        var expectedOutward=complex.GlobalBasis*Vector3.Right;
+        var expectedOutward=complex.GlobalBasis*Vector3.Left;
         expectedOutward.Y=0;
         if(expectedOutward.LengthSquared()<.00000001f)
         {
-            failure="Mosque complex has no horizontal east-wall normal";
+            failure="Mosque complex has no horizontal west-wall normal";
             return false;
         }
         expectedOutward=expectedOutward.Normalized();
 
-        var wall=complex.GetNodeOrNull<MeshInstance3D>("MosqueHallEastLeft");
+        var wall=complex.GetNodeOrNull<MeshInstance3D>("MosqueInterior/MosqueOfficeConnectionNorth");
         if(wall?.Mesh is not { } mesh)
         {
             failure="Selected exterior wall has no visible mesh";
             return false;
         }
-        var wallOutward=wall.GlobalBasis*Vector3.Right;
+        var wallOutward=wall.GlobalBasis*Vector3.Left;
         wallOutward.Y=0;
         if(wallOutward.LengthSquared()<.00000001f)
         {
@@ -222,12 +220,12 @@ public partial class Act1ConnectedWorld
         var facingDot=candidateOutward.Dot(expectedOutward);
         if(wallFacingDot<.999f||facingDot<.999f)
         {
-            failure=$"Mosque east-wall normal mismatch: wallDot={wallFacingDot:0.000}, candidateDot={facingDot:0.000}";
+            failure=$"Mosque west-wall normal mismatch: wallDot={wallFacingDot:0.000}, candidateDot={facingDot:0.000}";
             return false;
         }
 
         var bounds=mesh.GetAabb();
-        var outerFace=wall.GlobalTransform*new Vector3(bounds.End.X,
+        var outerFace=wall.GlobalTransform*new Vector3(bounds.Position.X,
             bounds.Position.Y+bounds.Size.Y*.5f,bounds.Position.Z+bounds.Size.Z*.5f);
         var signedExteriorDistance=(point-outerFace).Dot(expectedOutward);
         if(signedExteriorDistance<=.005f)
@@ -783,6 +781,7 @@ public partial class Act1ConnectedWorld
         var glass = FacilitySolid(window, "Glass", new(size.X, size.Y, .018f), Vector3.Zero, "b6c8cb", "glass");
         glass.MaterialOverride = new StandardMaterial3D { Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
             AlbedoColor = new Color(.66f, .77f, .78f, .19f), Roughness = .12f, CullMode = BaseMaterial3D.CullModeEnum.Disabled };
+        if (parent == _mosqueRoom) DressMosqueWindowDepth(window, glass, size);
     }
 
     private void FacilityRadiator(Node3D parent, string name, Vector3 at, float yaw)

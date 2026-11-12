@@ -15,6 +15,7 @@ public partial class Act1ConnectedWorld
     private bool _mosqueAtmosphereInside;
     private string _physicalInterior = string.Empty;
     private AgentBAct1ExteriorLayer? _physicalWeather;
+    private bool? _physicalPrecipitationSheltered;
     private AmbientAudioDirector? _physicalAmbience;
 
     internal bool? PhysicalShelterForCurrentView
@@ -42,6 +43,16 @@ public partial class Act1ConnectedWorld
         // hall is not snowed on (station capture 10.10, mosque_hall).
         var viewer = GetViewport().GetCamera3D() is { } camera && camera.Name == "DevViewCamera"
             ? camera.GlobalPosition : player.GlobalPosition;
+        // Precipitation is a camera/roof boundary, independent of foot-based
+        // interaction and atmosphere states. Hide it immediately at the threshold.
+        _physicalWeather ??= GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld");
+        var weatherViewer = GetViewport().GetCamera3D()?.GlobalPosition ?? viewer;
+        var precipitationSheltered = _physicalWeather.IsPrecipitationSheltered(weatherViewer);
+        if (_physicalPrecipitationSheltered != precipitationSheltered)
+        {
+            _physicalWeather.SetSheltered(precipitationSheltered);
+            _physicalPrecipitationSheltered = precipitationSheltered;
+        }
         var interior = FacilityInteriorAt(viewer);
         // The hall shelter AABB ends at its ceiling; it must not also cut the
         // visual warmth halfway up the enclosed minaret. This is presentation
@@ -63,7 +74,6 @@ public partial class Act1ConnectedWorld
         _physicalInterior = interior;
         _physicalWeather ??= GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld");
         _physicalAmbience ??= GetTree().GetFirstNodeInGroup("ambient_audio") as AmbientAudioDirector;
-        _physicalWeather.SetSheltered(interior.Length > 0);
         _physicalAmbience?.SetPhysicalShelter(interior.Length > 0);
         RefreshIndoorAtmosphereGrade();
         SetMeta("physicalInterior", interior);

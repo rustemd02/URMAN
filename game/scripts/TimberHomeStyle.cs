@@ -43,10 +43,9 @@ public static class TimberHomeStyle
     // geometry.
     public const float TrimBedMeters = .005f;
     public const float TrimEdgeChamfer = .004f;
-    // A runtime-added storey has no wall mesh to measure: its own glass sits
-    // 45 mm in front of the added wall box, so the joinery beds 60 mm back from
-    // the pane centre - past the wall face - and stands on that wall.
-    private const float AddedStoreyBedPlane = -.060f;
+    // The added storey's glazing sits 12 cm inside its real wall opening;
+    // external casing is planted on the wall face rather than on the glass.
+    private const float AddedStoreyBedPlane = .12f;
 
     /// <summary>One measured window opening: its plane, its size in world metres
     /// and the plane its surround must be planted on. Nothing here is assumed
@@ -111,12 +110,12 @@ public static class TimberHomeStyle
             var normal = new Vector3(0f, 0f, 0f); normal[u] = edge.Y; normal[v] = -edge.X;
             if (normal.LengthSquared() < 1e-12f) continue;
             normal = normal.Normalized();
-            var flat = new Vector3(0f, 0f, 0f); flat[u] = p0.X; flat[v] = p0.Y;
-            var next = new Vector3(0f, 0f, 0f); next[u] = p1.X; next[v] = p1.Y;
-            // Grain runs along the member's length: UV x is the local length
-            // coordinate, UV y the section coordinate, both already in metres.
-            Face(Local(flat.X, flat.Y, -hl), Local(next.X, next.Y, -hl),
-                Local(next.X, next.Y, hl), Local(flat.X, flat.Y, hl), normal,
+            // Local maps section coordinates onto u/v. Reading their expanded
+            // XYZ components again collapsed X-long and vertical members: the
+            // added Variant A storey lost its side faces while its roof stayed up.
+            // Pass the original section pair for every possible longest axis.
+            Face(Local(p0.X, p0.Y, -hl), Local(p1.X, p1.Y, -hl),
+                Local(p1.X, p1.Y, hl), Local(p0.X, p0.Y, hl), normal,
                 p => new Vector2(p[long_], p[u]));
         }
         foreach (var sign in new[] { -1f, 1f })
@@ -194,18 +193,42 @@ public static class TimberHomeStyle
                         roof.GlobalPosition+=Vector3.Up*added;
                     var w=bounds.Size.X;var d=bounds.Size.Z;var y=bounds.End.Y;
                     var centre=bounds.GetCenter();
-                    Box(paint+"|wood_facade",new(w,added,d),root.GlobalTransform*new Transform3D(Basis.Identity,new(centre.X,y+added*.5f,centre.Z)));
+                    const float wallThickness = .18f, openingWidth = .86f, openingHeight = 1.15f;
+                    const float windowY = 1.15f;
+                    var front = bounds.End.Z;
+                    var facade = paint + "|wood_facade";
+                    void UpperBox(string material, Vector3 size, Vector3 at) =>
+                        Box(material, size, root.GlobalTransform * new Transform3D(Basis.Identity, at));
+                    // A joined shell with actual front openings. The former solid
+                    // box put three glass cards on an unbroken wall, so no reveal
+                    // or mullion could make a believable shadow in the window.
+                    UpperBox(facade, new(w, added, wallThickness), new(centre.X, y + added*.5f, bounds.Position.Z + wallThickness*.5f));
+                    foreach (var side in new[] { -1f, 1f })
+                        UpperBox(facade, new(wallThickness, added, d - wallThickness*2),
+                            new(centre.X + side*(w-wallThickness)*.5f, y+added*.5f, centre.Z));
+                    var sill = windowY - openingHeight*.5f;
+                    var head = windowY + openingHeight*.5f;
+                    UpperBox(facade, new(w,sill,wallThickness),new(centre.X,y+sill*.5f,front-wallThickness*.5f));
+                    UpperBox(facade, new(w,added-head,wallThickness),new(centre.X,y+(head+added)*.5f,front-wallThickness*.5f));
+                    UpperBox("675440|wood",new(w,.10f,d),new(centre.X,y+.05f,centre.Z));
+                    UpperBox("675440|wood",new(w,.10f,d),new(centre.X,y+added-.05f,centre.Z));
                     Box("dfdcc5|wood_painted_trim",new(w+.05f,.12f,d+.05f),root.GlobalTransform*new Transform3D(Basis.Identity,new(centre.X,y+.08f,centre.Z)));
+                    var cursor = bounds.Position.X;
                     foreach(var x in new[]{-.28f,0f,.28f})
                     {
-                        var at=root.GlobalTransform*new Transform3D(Basis.Identity,new(centre.X+x*w,y+1.15f,bounds.End.Z+.045f));
-                        Box("536f74|glass",new(.86f,1.15f,.03f),at);
-                        // No wall mesh to measure here: the pane's own face plane and
-                        // the storey wall's outward direction are known from the box
-                        // that was just added, so the frame is planted on that wall.
+                        var windowX = centre.X + x*w;
+                        var left = windowX-openingWidth*.5f;
+                        UpperBox(facade,new(left-cursor,openingHeight,wallThickness),new((cursor+left)*.5f,y+windowY,front-wallThickness*.5f));
+                        cursor=windowX+openingWidth*.5f;
+                        var at=root.GlobalTransform*new Transform3D(Basis.Identity,new(windowX,y+windowY,front-AddedStoreyBedPlane));
+                        Box("536f74|glass",new(openingWidth,openingHeight,.012f),at);
+                        UpperBox(paint+"|wood_painted_trim",new(.04f,openingHeight,.035f),new(windowX,y+windowY,front-.08f));
+                        UpperBox(paint+"|wood_painted_trim",new(openingWidth,.035f,.035f),new(windowX,y+windowY+.24f,front-.08f));
                         Surround(new WindowFace(at.Origin, root.GlobalBasis*Vector3.Back, root.GlobalBasis*Vector3.Right,
-                            .86f, 1.15f, AddedStoreyBedPlane, Casing: false), variant, paint, Box);
+                            openingWidth, openingHeight, AddedStoreyBedPlane, Casing: false), variant, paint, Box);
                     }
+                    UpperBox(facade,new(bounds.End.X-cursor,openingHeight,wallThickness),
+                        new((cursor+bounds.End.X)*.5f,y+windowY,front-wallThickness*.5f));
                     root.SetMeta("addedStoreyMetres",added);
                 }
             }

@@ -203,7 +203,7 @@ public partial class Act1ConnectedWorld
                 mm.SetInstanceTransform(i, new Transform3D(Basis.Identity.Scaled(Vector3.One * .0001f), t.Origin + Vector3.Down * 40f));
             }
         }
-        if (core.FindChild("URMAN_AgentB_TerrainRoadKit", true, false) is Node3D roadKit)
+        if (core.GetNodeOrNull<Node3D>("AgentBExteriorWorld/AgentB_TerrainRoadKit") is Node3D roadKit)
             foreach (var mesh in FindDescendants<MeshInstance3D>(roadKit).Where(m => m.Name != "Terrain_Main" && m.Mesh is ArrayMesh).ToArray())
             {
                 ClipMeshTriangles(mesh, p => BabaiRelocation.OutsideNewYard(p.X, p.Z) <= 0f);
@@ -218,11 +218,13 @@ public partial class Act1ConnectedWorld
         // reconciliation after the household's move, including every tree LOD.
         var facade = kit.GetNode<Node3D>("BabaiApproachDwellingFacade");
         core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld").ReconcileBuildingFoliage(facade);
+        BuildBabaiWingExterior(facade);
         try { DressBabaiMansard(); }
         catch (System.Exception error) { GD.PushWarning($"act1-babai-mansard: not built: {error.Message}"); }
         GD.Print($"act1-babai-foliage: owners={facade.GetMeta("roofSuppressedFoliageOwners").AsStringArray().Length} contacts={facade.GetMeta("roofSuppressedFoliageContacts").AsStringArray().Length}");
         core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld").RecutOccupiedRoomTerrain(_zoneInstances["house_old_pc"], new Vector2(
             StyleBenchmarkInteriorFactory.ClearWidth * .5f, StyleBenchmarkInteriorFactory.ClearDepth * .5f));
+        ExcludeBabaiWingTerrain();
         SetMeta("babaiRelocatedNodes", moved.Count);
         GD.Print($"act1-babai-relocation: moved={moved.Count} cleared={cleared} door=({BabaiRelocation.DoorX},{BabaiRelocation.DoorZ}) yaw+={BabaiRelocation.YawDegrees:0.00}");
         if (System.Environment.GetEnvironmentVariable("URMAN_BABAI_DEBUG") == "1")

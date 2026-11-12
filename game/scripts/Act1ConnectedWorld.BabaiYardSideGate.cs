@@ -42,8 +42,8 @@ public partial class Act1ConnectedWorld
                 "Act I exterior layer is missing before the Babai side gate is built.");
 
         // Agent B owns the real architecture body. Retire only the continuous
-        // W_S rails/brace and their tiny board accents, leaving its posts and
-        // the separate GateBabai opening untouched. The replacement lower span
+        // W_S rails/brace and their tiny board accents, replacing its posts with matched panel posts;
+        // the separate GateBabai opening stays untouched. The replacement lower span
         // below is both visible and collidable, so this opening has one owner.
         RetireAgentBBabaiSideFenceSpan(exteriorLayer);
 
@@ -164,9 +164,9 @@ public partial class Act1ConnectedWorld
             "LowerFenceRailHigh",
             lowerFenceStart,
             gapSouth,
-            .12f,
-            .90f,
-            .76f);
+            .18f,
+            1.10f,
+            .55f);
         AddYardCollisionBox(
             _babaiYardSideFenceCollision,
             "LowerFenceRailLow",
@@ -180,9 +180,9 @@ public partial class Act1ConnectedWorld
             "LowerFenceGapNorthRailHigh",
             gapNorth,
             lowerFenceEnd,
-            .12f,
-            .90f,
-            .76f);
+            .18f,
+            1.10f,
+            .55f);
         AddYardCollisionBox(
             _babaiYardSideFenceCollision,
             "LowerFenceGapNorthRailLow",
@@ -219,7 +219,7 @@ public partial class Act1ConnectedWorld
         SetYardCollisionEnabled(_ex05PassageBarrier, true);
 
         AddYardCollisionBox(_babaiYardSideFenceCollision, "UpperFence", new(-25.2f, 0, .12f),
-            new(-25.2f, 0, 1.75f), .12f, .9f, .76f);
+            new(-25.2f, 0, 1.75f), .18f, 1.10f, .55f);
         _babaiYardSideGateCollision = CreateYardCollisionBody(
             village,
             "BabaiYardSideGateCollision");
@@ -297,7 +297,10 @@ public partial class Act1ConnectedWorld
                 "Agent B Babai side fence source contract changed; expected 2 rails, 1 brace and 3 board accents.");
         }
 
-        foreach (var mesh in sourceMeshes)
+        var oldPosts = FindDescendants<MeshInstance3D>(kit).Where(mesh =>
+            mesh.Name.ToString().StartsWith("FenceBabaiW_S_Post", StringComparison.Ordinal)).ToArray();
+        var allSourceMeshes = sourceMeshes.Concat(oldPosts).ToArray();
+        foreach (var mesh in allSourceMeshes)
         {
             mesh.Visible = false;
             mesh.SetMeta("agentBPresentationSuppressed", true);
@@ -309,13 +312,13 @@ public partial class Act1ConnectedWorld
         var architecture = layer.GetNodeOrNull<StaticBody3D>("AgentB_ArchitectureCollision")
             ?? throw new InvalidOperationException(
                 "Agent B architecture collision is missing before the Babai side fence opening.");
-        var sourceNames = sourceMeshes
+        var sourceNames = allSourceMeshes
             .Select(mesh => "Col_" + mesh.Name.ToString())
             .ToHashSet(StringComparer.Ordinal);
         var sourceShapes = FindDescendants<CollisionShape3D>(architecture)
             .Where(shape => sourceNames.Contains(shape.Name.ToString()))
             .ToArray();
-        if (sourceShapes.Length != sourceMeshes.Length)
+        if (sourceMeshes.Any(mesh => !sourceShapes.Any(shape => shape.Name == "Col_" + mesh.Name.ToString())))
         {
             throw new InvalidOperationException(
                 "Agent B Babai side fence collision does not mirror its visible source span.");
@@ -331,33 +334,31 @@ public partial class Act1ConnectedWorld
     }
 
     private static void AddYardSideFenceVisualSpan(
-        Node3D parent,
-        string name,
-        Vector3 start,
-        Vector3 end)
+        Node3D parent, string name, Vector3 start, Vector3 end)
     {
         var direction = end - start;
         var length = new Vector2(direction.X, direction.Z).Length();
-        if (length < .05f)
-        {
-            return;
-        }
-
+        if (length < .116f) return;
         var center = GroundedYardPoint((start + end) * .5f);
-        var yaw = Mathf.RadToDeg(Mathf.Atan2(direction.X, direction.Z));
-        foreach (var (suffix, height, color) in new[]
-                 { ("RailHigh", .76f, "979a92"), ("RailLow", .34f, "888c84") })
+        var yaw = Mathf.Atan2(direction.X, direction.Z);
+        var panel = new Node3D { Name = name + "BoardedPanel", Position = center, Rotation = new(0,yaw,0) };
+        parent.AddChild(panel);
+        // The shown front fence was only two grey rails, interrupted by a much
+        // taller loose gate. A straight boarded panel now follows that gate's
+        // 1.06 m height; its endpoints leave both existing openings unchanged.
+        foreach (var (suffix, height) in new[] { ("RailHigh", .82f), ("RailLow", .30f) })
+            AddVisualBox(panel,name+suffix,new(.10f,.10f,length),new(-.015f,height,0),"806e59","wood_fence_rail");
+        var count = Math.Max(1,Mathf.FloorToInt((length-.10f)/.16f));
+        var pitch = (length-.10f)/count;
+        for(var board=0;board<count;board++)
+            AddVisualBox(panel,name+"Board"+board,new(.055f,1.04f,Mathf.Min(.13f,pitch-.016f)),
+                new(.06f,.55f,-length*.5f+.05f+(board+.5f)*pitch),"8b7966","wood_fence_rail");
+        foreach(var sign in new[]{-1f,1f})
         {
-            var rail = AddVisualBox(
-                parent,
-                name + suffix,
-                new(.12f, .10f, length),
-                center + Vector3.Up * height,
-                color,
-                "wood_fence_rail",
-                yawDegrees: yaw);
-            rail.SetMeta("routeRole", "visible replacement for FenceBabaiW_S lower rail");
+            AddVisualBox(panel,name+"Post"+sign,new(.13f,1.18f,.13f),new(0,.59f,sign*(length*.5f-.075f)),"74604b","wood_fence_rail");
+            AddVisualBox(panel,name+"Cap"+sign,new(.16f,.05f,.16f),new(0,1.205f,sign*(length*.5f-.08f)),"8b7966","wood_fence_rail");
         }
+        panel.SetMeta("routeRole","straight boarded replacement; original side gate and service-gap endpoints retained");
     }
 
     private StaticBody3D CreateYardCollisionBody(
@@ -404,6 +405,14 @@ public partial class Act1ConnectedWorld
                 }
             },
             forceReadableName: true);
+        if (name.EndsWith("RailHigh", StringComparison.Ordinal) || name == "UpperFence")
+        {
+            var along = direction.Normalized();
+            foreach (var sign in new[] { -1f, 1f })
+                body.AddChild(new CollisionShape3D { Name = name + "Post" + sign,
+                    Position = body.ToLocal(center + along * (sign * (length * .5f - .075f)) + Vector3.Up * (.615f - centreHeight)),
+                    RotationDegrees = new(0, yaw, 0), Shape = new BoxShape3D { Size = new(.16f, 1.23f, .16f) } });
+        }
     }
 
     private static void SetYardCollisionEnabled(StaticBody3D? body, bool enabled)

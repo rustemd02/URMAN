@@ -14,11 +14,15 @@ public partial class Act1ConnectedWorld
         // retired by FinalizeFacilityContacts with the other replaced owners.
         var west = complex.GetNode<MeshInstance3D>("MosqueHallWest");
         west.Visible = false;
-        foreach (var (name, z, depth) in new[] { ("North", -1.975f, 5.75f), ("South", 3.525f, 2.65f) })
+        // Two independent openings: the street entrance and the study door.
+        foreach (var (name, z, depth) in new[] { ("North", -3.75f, 2.20f),
+            ("Middle", -.025f, 1.85f), ("South", 3.525f, 2.65f) })
             FacilitySolid(room, "MosqueOfficeConnection" + name, new(.55f, 5.20f, depth),
                 new(-6.90f, 2.07f, z), MosqueHallPaint, "wood_painted_trim");
         FacilitySolid(room, "MosqueOfficeConnectionHeader", new(.55f, 2.31f, 1.30f),
             new(-6.90f, 3.515f, 1.55f), MosqueHallPaint, "wood_painted_trim");
+        FacilitySolid(room, "MosqueDoorHeaderInfill", new(.55f, 2.45f, 1.70f),
+            new(-6.90f, 3.445f, -1.80f), MosqueHallPaint, "wood_painted_trim");
 
         var office = new Node3D { Name = "MosqueImamOffice" };
         room.AddChild(office);
@@ -89,9 +93,11 @@ public partial class Act1ConnectedWorld
 
         var notebook=AddVisualBox(room,"MosqueImamNotebook",new(.29f,.018f,.21f),new(-8.22f,.7915f,3.00f),"d6c7a5","paper");
         notebook.MaterialOverride=MosqueFinish("paper","ffffff",.30f);
-        MosquePaper(desk,"OpenNotebookLeft",new(-.23f,.802f,-.04f),new(.135f,.20f),Vector3.Zero);
-        MosquePaper(desk,"OpenNotebookRight",new(-.08f,.802f,-.04f),new(.135f,.20f),Vector3.Zero);
-        for(var i=0;i<3;i++)MosquePaper(desk,"Letters"+i,new(.39f,.790f+i*.0025f,.12f),new(.21f,.13f),new(0,i*5,0));
+        MosqueOfficeDocument(desk,"OpenNotebookLeft",new(-.23f,.802f,-.04f),.135f,"documents-a",0);
+        MosqueOfficeDocument(desk,"OpenNotebookRight",new(-.08f,.802f,-.04f),.135f,"documents-b",2);
+        for(var i=0;i<3;i++)MosqueOfficeDocument(desk,"Letters"+i,new(.33f,.7831f+i*.0012f,.18f),.17f,"documents-a",i==2?1:3,i*3-3);
+        MosqueOfficeDocument(desk,"OfficeExpenseSheet",new(-.54f,.7831f,-.12f),.16f,"documents-a",2,-7);
+        MosqueOfficeDocument(desk,"MosqueNikahBlank",new(.17f,.7831f,-.10f),.21f,"nikah-blank",yaw:-2);
         FacilityRod(desk,"Pencil",new(-.05f,.795f,-.22f),new(.11f,.795f,-.20f),.003f,"877044");
         FacilityVessel(desk,"TeaCup",new(-.54f,.84f,.18f),.038f,.08f,"dad8c9",false);
         DiscoveryCylinder(desk,"Saucer",.065f,.065f,.009f,new(-.54f,.787f,.18f),"dad8c9");
@@ -105,11 +111,13 @@ public partial class Act1ConnectedWorld
         MosqueWood(office,"OfficeNoticeBoard",new(.035f,.74f,1.10f),new(-8.87f,1.78f,2.75f));
         for(var i=0;i<3;i++)
         {
-            MosquePaper(office,"PinnedNote"+i,new(-8.845f,1.82f,2.41f+i*.31f),new(.25f,.29f),new(0,0,90));
-            DiscoveryCylinder(office,"NotePin"+i,.009f,.009f,.014f,new(-8.83f,1.93f,2.41f+i*.31f),"8e8060").RotationDegrees=new(0,0,90);
+            MosqueOfficeDocument(office,"PinnedNote"+i,new(-8.845f,1.82f,2.41f+i*.31f),.20f,"documents-b",i==2?3:i,pinned:true);
+            DiscoveryCylinder(office,"NotePin"+i,.009f,.009f,.014f,new(-8.83f,1.95f,2.41f+i*.31f),"8e8060").RotationDegrees=new(0,0,90);
         }
-        MosquePrintedSign(office,"OfficeNotesTitle","Заметки",new(-8.815f,2.04f,2.75f),90,.35f,"signs-details",3);
-        MosquePrintedSign(office,"OfficeLetterHeading","Письма",new(-8.815f,1.84f,2.75f),90,.23f,"signs-details",4);
+        // Retain the old anchors; the handwritten Tatar headings now belong
+        // to each actual sheet rather than floating over the notice board.
+        office.AddChild(new Label3D { Name="OfficeNotesTitle", Text=string.Empty });
+        office.AddChild(new Label3D { Name="OfficeLetterHeading", Text=string.Empty });
     }
 
     private void BuildMosqueOfficeFoundation(Node3D office)

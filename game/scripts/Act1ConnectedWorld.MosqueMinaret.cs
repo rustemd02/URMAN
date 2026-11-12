@@ -42,6 +42,9 @@ public partial class Act1ConnectedWorld
         var angle = Mathf.Tau / perTurn;
         var anchors = new global::Godot.Collections.Array<Vector3>();
         anchors.Add(stair.ToGlobal(new(-.70f, .035f, 1.70f)));
+        // Turn clear of the washroom's south-east corner before approaching
+        // the entry tread; the old straight diagonal clipped a .35 m capsule.
+        anchors.Add(stair.ToGlobal(new(-.20f, .035f, 1.70f)));
         // A broad first tread allows a normal turn from the vestibule into the
         // fanned flight; it is timber and contact at the same 16cm rise.
         MinaretSectorSolid(stair, "MinaretEntryTread", inner, outer, Mathf.DegToRad(126), Mathf.Pi * .5f, rise, rise, "ac8e65", "wood_furniture");
@@ -82,12 +85,14 @@ public partial class Act1ConnectedWorld
         stair.AddChild(mastBody); _facilityBodies.Add(mastBody);
 
         // Eight slim timber facets. The two south facets start above the real bottom doorway.
+        // Facet 3 opens only below the washroom soffit, into the enclosed side
+        // alcove beneath the late first turn. Upper shaft and every tread stay intact.
         // Vertical face battens and corner boards carry the plank framing up the
         // shaft; the previous church-like white quoins are gone.
         for (var side = 0; side < 8; side++)
         {
             var mid = side * Mathf.Tau / 8 + Mathf.Pi / 8;
-            var bottom = side is 1 or 2 ? 2.25f : 0f;
+            var bottom = side == 3 ? 2.28f : side is 1 or 2 ? 2.25f : 0f;
             var height = MinaretGalleryHeight - bottom;
             FacilitySolid(stair, "TimberShaftFacet" + side, new(1.08f, height, .10f),
                 new(Mathf.Cos(mid) * 1.30f, bottom + height * .5f, Mathf.Sin(mid) * 1.30f), MosqueTimberColour, "wood_facade",

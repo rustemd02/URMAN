@@ -55,6 +55,7 @@ public static partial class StyleBenchmarkInteriorFactory
         BuildToilet(wing);
         BuildStairs(wing);
         BuildAttic(wing);
+        DressBabaiWingFurniture(wing);
 
         // Two doors, one pair: zal east wall <-> kitchen south wall.
         BuildZalWingDoor(room, wing);
@@ -72,10 +73,10 @@ public static partial class StyleBenchmarkInteriorFactory
         Slab(wing, "SlabEastCorner", HoleEast, 5.2f, HoleNorth, 3.7f);
         Slab(wing, "SlabSouthStrip", HoleWest, HoleEast, 3.5f, 3.7f);
         // Outer walls (faces at +-5.0 and +-3.5).
-        WallRun(wing, "WingWallNorth", true, -3.6f, -5.2f, 5.2f, WingCeiling, .2f, [], "b3a78d", "plaster_domestic");
+        WallRun(wing, "WingWallNorth", true, -3.6f, -5.2f, 5.2f, WingCeiling, .2f, [new(-3.2f, 1.06f, 1.0f, 2.4f), new(3.6f, 1.06f, .74f, 2.14f)], "b3a78d", "plaster_domestic");
         WallRun(wing, "WingWallSouth", true, 3.6f, -5.2f, 5.2f, WingCeiling, .2f, [], "b3a78d", "plaster_domestic");
-        WallRun(wing, "WingWallWest", false, -5.1f, -3.5f, 3.5f, WingCeiling, .2f, [], "b3a78d", "plaster_domestic");
-        WallRun(wing, "WingWallEast", false, 5.1f, -3.5f, 3.5f, WingCeiling, .2f, [], "b3a78d", "plaster_domestic");
+        WallRun(wing, "WingWallWest", false, -5.1f, -3.5f, 3.5f, WingCeiling, .2f, [new(-.6f, 1.06f, .74f, 2.14f)], "b3a78d", "plaster_domestic");
+        WallRun(wing, "WingWallEast", false, 5.1f, -3.5f, 3.5f, WingCeiling, .2f, [new(-2.6f, 1.06f, .74f, 2.14f), new(2.55f, .46f, 1.47f, 1.93f)], "b3a78d", "plaster_domestic");
         AddPerimeterTrim(wing, "Wing", 5.0f, 3.5f, WingCeiling);
         // Partitions: kitchen | hall+bedroom, hall | bedroom, hall | toilet.
         WallRun(wing, "PartitionKitchen", false, -1.5f, -3.5f, 3.5f, WingCeiling, .12f,
@@ -87,12 +88,12 @@ public static partial class StyleBenchmarkInteriorFactory
         DoorCasing(wing, "KitchenHallCasing", false, -1.5f, 1.4f, 1.1f, InnerDoorHeight, .18f);
         DoorCasing(wing, "BedroomDoorCasing", true, .5f, 1.6f, 1.0f, InnerDoorHeight, .18f);
         DoorCasing(wing, "ToiletDoorCasing", false, 3.4f, 1.3f, .8f, InnerDoorHeight - .05f, .18f);
-        // Bedroom door stands ajar; toilet door closed with a hook.
-        var ajar = Prop(wing, "BedroomDoorLeaf", new(.92f, 2.0f, .04f), new(1.6f + .46f * .5f, 1.0f, .5f + .46f), "8b7a62", "wood");
+        // Fixed open leaves carry the same rotated contact as their visible timber.
+        var ajar = Block(wing, "BedroomDoorLeaf", new(.92f, 2.0f, .04f), new(1.6f + .46f * .5f, 1.0f, .5f + .46f), "8b7a62", "wood");
         ajar.RotationDegrees = new(0, 60, 0);
         Prop(wing, "BedroomDoorHandle", new(.08f, .03f, .06f), new(1.6f + .46f * .5f + .3f, 1.02f, .5f + .46f + .03f), "b09a5c", "metal");
-        var toiletLeaf = Prop(wing, "ToiletDoorLeaf", new(.04f, 2.0f, .74f), new(3.42f, 1.0f, 1.3f - .28f), "8b7a62", "wood");
-        toiletLeaf.RotationDegrees = new(0, -50, 0);
+        var toiletLeaf = Block(wing, "ToiletDoorLeaf", new(.04f, 2.0f, .74f), new(3.77f, 1.0f, .93f), "8b7a62", "wood");
+        toiletLeaf.RotationDegrees = new(0, 90, 0);
     }
 
     /// <summary>
@@ -331,8 +332,17 @@ public static partial class StyleBenchmarkInteriorFactory
                 Mesh = new PrismMesh { Size = new(7.0f, ridge - knee, .2f), LeftToRight = .5f },
                 Position = new(sign * 5.1f, y0 + knee + (ridge - knee) * .5f, 0), RotationDegrees = new(0, 90, 0),
                 MaterialOverride = PainterlyMaterialLibrary.ForColor("7d6a52", "wood", sheltered: true) };
+            if (sign > 0)
+                Act1ConnectedWorld.CutBabaiMeshOpening(gable, root,
+                    new Aabb(new(4.8f, y0 + 1.0f, -.35f), new(.6f, .9f, .7f)));
             root.AddChild(gable);
-            Collider(root, sign < 0 ? "AtticGableWestBlock" : "AtticGableEastBlock", new(.2f, ridge, 7.0f), new(sign * 5.1f, y0 + ridge * .5f, 0));
+            if (sign > 0)
+            {
+                var contact = new StaticBody3D { Name = "AtticGableEastBlock", Transform = gable.Transform, CollisionLayer = 1, CollisionMask = 0 };
+                contact.AddChild(new CollisionShape3D { Name = "Contact", Shape = gable.Mesh.CreateTrimeshShape() });
+                root.AddChild(contact);
+            }
+            else Collider(root, sign < 0 ? "AtticGableWestBlock" : "AtticGableEastBlock", new(.2f, ridge, 7.0f), new(sign * 5.1f, y0 + ridge * .5f, 0));
             // Roof slabs: inner surface climbs from the knee wall to the ridge.
             var span = Mathf.Sqrt(half * half + (ridge - knee) * (ridge - knee));
             var angle = Mathf.RadToDeg(Mathf.Atan2(ridge - knee, half));
@@ -361,8 +371,10 @@ public static partial class StyleBenchmarkInteriorFactory
             Slope("AtticRoofSouthOverStair", dormerWest, dormerEast, 0f, dormerInner);
             Block(root, "AtticDormerCeiling", new(dormerEast - dormerWest, .1f, half + .2f - dormerInner),
                 new((dormerWest + dormerEast) * .5f, y0 + dormerCeiling + .05f, (dormerInner + half + .2f) * .5f), "7a6a53", "wood");
-            Block(root, "AtticDormerWall", new(dormerEast - dormerWest, dormerCeiling - knee, .2f),
-                new((dormerWest + dormerEast) * .5f, y0 + (knee + dormerCeiling) * .5f, half + .1f), "7d6a52", "wood");
+            var dormerWall = new Node3D { Name = "AtticDormerWall", Position = new(0, y0 + knee, 0) };
+            root.AddChild(dormerWall);
+            WallRun(dormerWall, "PiercedWall", true, half + .1f, dormerWest, dormerEast, dormerCeiling-knee, .2f,
+                [new(1.0f, .8f, .20f, .90f)], "7d6a52", "wood");
             foreach (var x in new[] { dormerWest, dormerEast })
                 Block(root, x < 0 ? "AtticDormerCheekWest" : "AtticDormerCheekEast", new(.1f, dormerCeiling - knee, half + .2f - dormerInner),
                     new(x, y0 + (knee + dormerCeiling) * .5f, (dormerInner + half + .2f) * .5f), "7d6a52", "wood");
@@ -399,8 +411,8 @@ public static partial class StyleBenchmarkInteriorFactory
         Prop(root, "AtticJacket", new(.45f, .85f, .08f), new(-2.9f, y0 + 1.6f, -3.35f), "3f4643", "fabric_upholstery");
         for (var i = 0; i < 3; i++)
             Prop(root, $"AtticHaySheaf{i}", new(.16f, .5f, .16f), new(-.5f + i * .7f, y0 + 2.42f - .28f, 0), "b49a5c", "hay_bundle");
-        Prop(root, "AtticCradle", new(.9f, .35f, .5f), new(-1.1f, y0 + .18f, -2.7f), "8a6b50", "wood_prop");
-        Prop(root, "AtticOldTv", new(.5f, .42f, .4f), new(-1.9f, y0 + .21f, 2.7f), "2e2c29", "plastic_abs");
+        Block(root, "AtticCradle", new(.9f, .35f, .5f), new(-1.1f, y0 + .18f, -2.7f), "8a6b50", "wood_prop");
+        Block(root, "AtticOldTv", new(.5f, .42f, .4f), new(-1.9f, y0 + .21f, 2.7f), "2e2c29", "plastic_abs");
         Prop(root, "AtticOldTvGlass", new(.36f, .3f, .02f), new(-1.9f, y0 + .23f, 2.5f), "3d4a4d", "glass");
         Light(root, "AtticBulb", new(-.6f, y0 + 2.35f, .3f), "d0c4a4", .85f, 6.5f, shadow: true);
         Prop(root, "AtticBulbGlass", new(.07f, .09f, .07f), new(-.6f, y0 + 2.35f, .3f), "f0e6c8", "glass");
@@ -514,6 +526,7 @@ public static partial class StyleBenchmarkInteriorFactory
             var left = opening.Center - opening.Width * .5f;
             var right = opening.Center + opening.Width * .5f;
             Segment(cursor, left, 0, height, "Pier" + index);
+            Segment(left, right, 0, opening.Bottom, "Sill" + index);
             Segment(left, right, opening.Top, height, "Head" + index);
             cursor = right;
             index++;
@@ -546,7 +559,7 @@ public static partial class StyleBenchmarkInteriorFactory
     private static Material FrostPane() => _frostPane ??= new StandardMaterial3D
     {
         AlbedoColor = new Color(.66f, .76f, .82f),
-        ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
+        Roughness = .68f, MetallicSpecular = .24f,
         CullMode = BaseMaterial3D.CullModeEnum.Disabled
     };
 
@@ -559,7 +572,7 @@ public static partial class StyleBenchmarkInteriorFactory
         float width = WindowWidth, float height = 1.40f, bool curtains = true)
     {
         var root = new Node3D { Name = name, Position = center, RotationDegrees = new(0, yawDegrees, 0) };
-        root.SetMeta("windowSurface", "frosted daylight panel; the wing has no exterior");
+        root.SetMeta("windowSurface", "recessed frosted glazing in a real pierced wall; opaque frost protects the separate saved interior space");
         parent.AddChild(root);
         root.AddChild(new MeshInstance3D { Name = "Pane", Mesh = new QuadMesh { Size = new(width, height) },
             Position = new(0, 0, .015f), MaterialOverride = FrostPane(), CastShadow = GeometryInstance3D.ShadowCastingSetting.Off });
@@ -571,6 +584,13 @@ public static partial class StyleBenchmarkInteriorFactory
         Prop(root, "Mullion", new(.04f, height, .05f), new(0, 0, .05f), "e0dccf", "wood");
         Prop(root, "Transom", new(width, .04f, .05f), new(0, height * .12f, .05f), "e0dccf", "wood");
         Prop(root, "SillBoard", new(width + .18f, .06f, .26f), new(0, -height * .5f - .04f, .12f), "b5ad98", "wood");
+        foreach (var sign in new[] { -1f, 1f })
+            Prop(root, "Reveal" + sign, new(.035f, height, .20f), new(sign * (width * .5f + .0175f), 0, -.07f), "b3a78d", "plaster_domestic");
+        // Soft daylight originates outside the pierced wall. Real mullions,
+        // reveals and curtains cast its shadows; no painted shadow decal.
+        root.AddChild(new SpotLight3D { Name = "WindowDaylight", Position = new(0, 0, -.22f), RotationDegrees = new(0, 180, 0),
+            LightColor = new Color("d4dfe8"), LightEnergy = .30f, SpotRange = 4.5f, SpotAngle = 65f,
+            ShadowEnabled = true, ShadowBias = .015f, LightSize = .10f });
         if (!curtains) return;
         root.AddChild(new MeshInstance3D { Name = "CurtainRod", Position = new(0, .82f, .28f), RotationDegrees = new(0, 0, 90),
             Mesh = new CylinderMesh { Height = width + .3f, TopRadius = .014f, BottomRadius = .014f, RadialSegments = 8 },

@@ -11,18 +11,18 @@ public partial class Act1ConnectedWorld
     {
         var room = _mosqueRoom!;
         HidePresentationNode(complex.GetNode<Node3D>("MosqueEntranceAwning"));
-        var porch = new Node3D { Name = "MosqueCarvedGardenEntrance" };
+        var porch = new Node3D { Name = "MosqueCarvedGardenEntrance", Position = new(-1.36f, 0, -1.80f), Rotation = new(0, Mathf.Pi, 0) };
         room.AddChild(porch);
         porch.SetMeta("presentationRole", "level garden approach and carved timber entrance; no exterior stair or raised railed platform");
         const string timber = "92714f", pale = "e7dfca", leaf = "627f6c";
         // The relocated courtyard terrain meets this continuous contact at Y=0.
         // It bridges the .03 m plinth/floor joint, without a sill or any step.
-        FacilitySolid(porch, "MosqueGardenWalkContact", new(5.25f, .12f, 2.40f),
-            new(7.875f, -.06f, 0), "a49b85", "stone");
+        FacilitySolid(porch, "MosqueGardenWalkContact", new(4.75f, .12f, 2.40f),
+            new(7.625f, -.06f, 0), "a49b85", "stone");
         var pavers = new List<Transform3D>();
-        for (var row = 0; row < 12; row++)
+        for (var row = 0; row < 11; row++)
         for (var col = 0; col < 4; col++)
-            pavers.Add(MosqueBoxTransform(new(5.47f + row * .435f, -.003f, -.9f + col * .6f),
+            pavers.Add(MosqueBoxTransform(new(5.47f + row * .425f, -.003f, -.9f + col * .6f),
                 new(.42f, .012f, .58f), 0));
         MosqueBatch(porch, "MosqueGardenWalkPavers", pavers, PainterlyMaterialLibrary.ForColor("b8ad97", "stone"));
 
@@ -105,8 +105,8 @@ public partial class Act1ConnectedWorld
         MosqueBatch(porch, "PorchRoofProfiles", roofRibs, PainterlyMaterialLibrary.ForColor(MosqueIronColour, "roof_metal"));
         BuildMosqueWinterFrontGarden(porch);
 
-        var approach = new[] { room.ToGlobal(new Vector3(10.42f, .035f, 0)), room.ToGlobal(new Vector3(8.35f, .035f, 0)),
-            room.ToGlobal(new Vector3(6.40f, .035f, 0)), room.ToGlobal(new Vector3(5.90f, .035f, 0)) };
+        var approach = new[] { porch.ToGlobal(new Vector3(9.62f, .035f, 0)), porch.ToGlobal(new Vector3(8.35f, .035f, 0)),
+            porch.ToGlobal(new Vector3(6.40f, .035f, 0)), porch.ToGlobal(new Vector3(5.90f, .035f, 0)) };
         room.SetMeta("entryApproach", approach[0]);
         room.SetMeta("entryApproachPath", approach);
         room.SetMeta("entryAccessPoint", approach[^1]);
@@ -120,36 +120,36 @@ public partial class Act1ConnectedWorld
         var edging = new List<Transform3D>();
         foreach (var side in new[] { -1f, 1f })
         {
-            var z = side * 3.27f;
+            var z = side * 2.70f;
             // Low planted beds are lateral to the 2.4 m path. No fence crosses
             // the entrance or conceals its door; winter planting stays low.
-            FacilitySolid(porch, "GardenBed" + side, new(3.90f, .14f, 2.35f), new(8.15f, -.005f, z), "625b48", "soil");
-            foreach (var edgeZ in new[] { z - 1.20f, z + 1.20f })
-                FacilitySolid(porch, "GardenStoneEdge" + side + "_" + edgeZ, new(4.00f, .17f, .10f), new(8.15f, .025f, edgeZ), "aaa18c", "stone");
-            foreach (var x in new[] { 6.15f, 10.15f })
-                FacilitySolid(porch, "GardenStoneEnd" + side + "_" + x, new(.10f, .17f, 2.35f), new(x, .025f, z), "aaa18c", "stone");
-            for (var i = 0; i < 5; i++)
+            FacilitySolid(porch, "GardenBed" + side, new(.80f, .14f, 1.20f), new(8.70f, -.005f, z), "625b48", "soil");
+            foreach (var edgeZ in new[] { z - .65f, z + .65f })
+                FacilitySolid(porch, "GardenStoneEdge" + side + "_" + edgeZ, new(.90f, .17f, .10f), new(8.70f, .025f, edgeZ), "aaa18c", "stone");
+            foreach (var x in new[] { 8.25f, 9.15f })
+                FacilitySolid(porch, "GardenStoneEnd" + side + "_" + x, new(.10f, .17f, 1.20f), new(x, .025f, z), "aaa18c", "stone");
+            for (var i = 0; i < 2; i++)
             {
-                var x = 6.57f + i * .77f;
-                var center = new Vector3(x, .29f, z + (i % 2 == 0 ? -.38f : .35f));
+                var x = 8.70f;
+                var center = new Vector3(x, .29f, z + (i % 2 == 0 ? -.31f : .31f));
                 porch.AddChild(new MeshInstance3D { Name = "GardenLowEvergreen" + side + "_" + i,
-                    Position = center, Scale = new(.95f, .63f, .85f),
+                    Position = center, Scale = new(.70f, .57f, .64f),
                     Mesh = new SphereMesh { Radius = .44f, Height = .88f, RadialSegments = 12, Rings = 6 },
                     MaterialOverride = PainterlyMaterialLibrary.ForColor(i % 2 == 0 ? "657568" : "71806a", "foliage") });
                 porch.AddChild(new MeshInstance3D { Name = "GardenShrubSnow" + side + "_" + i,
-                    Position = center + new Vector3(-.03f, .20f, .015f), Scale = new(1, .20f, .80f),
+                    Position = center + new Vector3(-.03f, .20f, .015f), Scale = new(.74f, .20f, .60f),
                     Mesh = new SphereMesh { Radius = .33f, Height = .66f, RadialSegments = 12, Rings = 6 },
                     MaterialOverride = PainterlyMaterialLibrary.ForColor("e4e9e7", "snow_ground") });
                 for (var stem = 0; stem < 3; stem++)
                 {
-                    var from = new Vector3(x + .16f * stem - .16f, .065f, z + side * .79f);
+                    var from = new Vector3(x + .16f * stem - .16f, .065f, z + (i == 0 ? -.46f : .46f));
                     var tip = from + new Vector3(.07f * (stem - 1), .34f + .08f * (stem % 2), .08f);
                     var delta = tip - from;
                     twigs.Add(new Transform3D(new Basis(new Quaternion(Vector3.Up, delta.Normalized())) * Basis.FromScale(new(.013f, delta.Length(), .013f)), (from + tip) * .5f));
                 }
             }
-            for (var i = 0; i < 12; i++)
-                edging.Add(MosqueBoxTransform(new(6.35f + i * .325f, .10f, z + side * 1.12f), new(.25f, .06f, .14f), 0));
+            for (var i = 0; i < 3; i++)
+                edging.Add(MosqueBoxTransform(new(8.40f + i * .30f, .10f, z + side * .62f), new(.25f, .06f, .14f), 0));
         }
         MosqueBatch(porch, "GardenDormantStems", twigs, PainterlyMaterialLibrary.ForColor("93836a", "wood_furniture"));
         MosqueBatch(porch, "GardenSettledSnowEdges", edging, PainterlyMaterialLibrary.ForColor("e4e9e7", "snow_ground"));

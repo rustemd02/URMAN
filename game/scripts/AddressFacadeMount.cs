@@ -608,7 +608,7 @@ internal static class AddressFacadeMount
     // walls; MosqueHallEastLeft is the authored, sightline-cleared qibla-yawed wall.
     private static bool VerifiedExplicitWall(string name)
     {
-        if(name is "DwellingFacade_Right_Wall_LOD0" or "DwellingFacade_SeniOuter_Wall_LOD0" or "MosqueHallEastLeft" or "Pier1Skin" or "Walls")return true;
+        if(name is "DwellingFacade_Right_Wall_LOD0" or "DwellingFacade_SeniOuter_Wall_LOD0" or "MosqueHallEastLeft" or "MosqueOfficeConnectionNorth" or "Pier1Skin" or "Walls")return true;
         if(!name.StartsWith("Pier",StringComparison.Ordinal)||!name.EndsWith("Skin",StringComparison.Ordinal))return false;
         var digits=name.AsSpan(4,name.Length-8);
         if(digits.Length==0)return false;

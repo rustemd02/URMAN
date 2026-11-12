@@ -801,6 +801,11 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var endPostX = wallX - .12f;
         var span = endPostX - left;
         if (span < 1.2f) throw new InvalidOperationException("There is no supported south-fence wing beside the house.");
+        // Straight joinery follows one surveyed grade line. Sampling terrain
+        // independently at each vertex bowed the long rails and warped boards.
+        var leftGrade = AgentBAct1HeightField.CollisionGround(left, lineZ);
+        var rightGrade = AgentBAct1HeightField.CollisionGround(endPostX, lineZ);
+        float FenceGrade(float x) => Mathf.Lerp(leftGrade, rightGrade, (x-left)/span);
         var body = GetNode<StaticBody3D>("AgentB_ArchitectureCollision");
         var members = EnumerateDescendants<MeshInstance3D>(GetNode<Node3D>("AgentB_VillageBuildingsKit"))
             .Where(mesh => mesh.Name.ToString().StartsWith("FenceBabaiS_", StringComparison.Ordinal)).ToArray();
@@ -842,7 +847,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                     // eleven-metre rails. Seat its two ends into the actual
                     // terminal posts and the lower/upper rails respectively.
                     if (brace) at.Y += .063f;
-                    at.Y += AgentBAct1HeightField.CollisionGround(at.X, at.Z);
+                    at.Y += FenceGrade(post || index >= 0 ? newCenterX : at.X);
                     points[p] = mesh.ToLocal(ToGlobal(at));
                 }
                 attributes[(int)Mesh.ArrayType.Vertex] = points;
@@ -3234,7 +3239,25 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     }
     private bool WeatherSheltered(Vector3 point)
         => _weatherShelters.Any(shelter => GodotObject.IsInstanceValid(shelter.Owner)
-            && Inside(shelter.Owner.ToLocal(point) - shelter.Centre, shelter.Half));
+            && Inside(shelter.Owner.ToLocal(point) - shelter.Centre, shelter.Half + PrecipitationThresholdMargin));
+    private static readonly Vector3 PrecipitationThresholdMargin = new(.30f, .12f, .30f);
+    public bool IsPrecipitationSheltered(Vector3 point) => WeatherSheltered(point);
+
+    private int NearestPrecipitationShelter(Vector3 focus)
+    {
+        var nearest = -1;
+        var best = float.PositiveInfinity;
+        for (var i = 0; i < _weatherShelters.Count; i++)
+        {
+            var shelter = _weatherShelters[i];
+            if (!GodotObject.IsInstanceValid(shelter.Owner)) continue;
+            var p = (shelter.Owner.ToLocal(focus) - shelter.Centre).Abs() - shelter.Half;
+            var distance = new Vector3(Mathf.Max(p.X, 0), Mathf.Max(p.Y, 0), Mathf.Max(p.Z, 0)).LengthSquared();
+            if (distance >= best) continue;
+            best = distance; nearest = i;
+        }
+        return nearest;
+    }
     private static bool Inside(Vector3 p, Vector3 h)
         => Mathf.Abs(p.X) < h.X && Mathf.Abs(p.Y) < h.Y && Mathf.Abs(p.Z) < h.Z;
 
@@ -3261,8 +3284,11 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         if (_rain is null) return;
         var material = (ShaderMaterial)((QuadMesh)_rain.Mesh).Material;
         var windowView = false;
-        var validShelter = _windowWeatherShelter >= 0
-            && GodotObject.IsInstanceValid(_weatherShelters[_windowWeatherShelter].Owner);
+        // Clip flakes from the nearest actual roof volume while the viewer is
+        // still outside its doorway, rather than waiting for feet to be inside.
+        // The special house-window mode remains a separate presentation choice.
+        var shelterIndex = NearestPrecipitationShelter(focus);
+        var validShelter = shelterIndex >= 0;
         if (_snowShelterEnabled != validShelter)
         {
             material.SetShaderParameter("shelter_enabled", validShelter);
@@ -3270,9 +3296,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         }
         if (validShelter)
         {
-            // Pilot: only the real glazed main room. The sealed underground wing
-            // and other logical interiors retain their existing weather policy.
-            var shelter = _weatherShelters[_windowWeatherShelter];
+            var shelter = _weatherShelters[shelterIndex];
             // Each uniform is a pure function of one authored value, so re-pushing an
             // equal value is unobservable; the AffineInverse is only needed when the
             // owner transform itself changed.
@@ -3287,12 +3311,18 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 material.SetShaderParameter("shelter_centre", shelter.Centre);
                 _snowShelterCentre = shelter.Centre;
             }
-            if (_snowShelterHalf != shelter.Half)
+            var half = shelter.Half + PrecipitationThresholdMargin;
+            if (_snowShelterHalf != half)
             {
-                material.SetShaderParameter("shelter_half", shelter.Half);
-                _snowShelterHalf = shelter.Half;
+                material.SetShaderParameter("shelter_half", half);
+                _snowShelterHalf = half;
             }
-            windowView = _windowSnowView && Inside(shelter.Owner.ToLocal(focus) - shelter.Centre, shelter.Half);
+        }
+        if (_windowSnowView && _windowWeatherShelter >= 0
+            && GodotObject.IsInstanceValid(_weatherShelters[_windowWeatherShelter].Owner))
+        {
+            var windowShelter = _weatherShelters[_windowWeatherShelter];
+            windowView = Inside(windowShelter.Owner.ToLocal(focus) - windowShelter.Centre, windowShelter.Half);
         }
         var enabled = windowView || (_exteriorPresentationEnabled && !_sheltered && !WeatherSheltered(focus));
         // Compared against the live properties and meta, so an external change is

@@ -258,7 +258,7 @@ public partial class Act1ConnectedWorld
                 sign.QueueFree();
                 continue;
             }
-            if(sign.AddressId=="ADR-MOSQUE"&&surface=="MosqueHallEastLeft"
+            if(sign.AddressId=="ADR-MOSQUE"&&surface=="MosqueOfficeConnectionNorth"
                 &&!IsMosqueAddressMountOnExteriorFace(source,point,outward,out var exteriorFailure))
             {
                 _addressImportIssues.Add(new("SIGN_MOUNT_OCCLUDED",sign.AddressId,exteriorFailure));

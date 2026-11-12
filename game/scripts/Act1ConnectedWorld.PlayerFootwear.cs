@@ -26,7 +26,7 @@ public partial class Act1ConnectedWorld
         _playerFootwearOnShelf.SetMeta("worldPropId", PlayerFootwearKey);
         var bench = _mosqueRoom.GetNode<Node3D>("MosqueShoeBench");
         _playerFootwearTarget = FacilityTarget("MosquePlayerFootwear", PlayerFootwearInteraction,
-            "Снять обувь и поставить на полку", _mosqueRoom, bench.Position + new Vector3(0, .445f, -.262f), new(1.70f, .05f, .035f));
+            "Снять обувь и поставить на полку", _mosqueRoom, bench.Position + bench.Basis * new Vector3(0, .445f, -.262f), new(.035f, .05f, 1.70f));
         _playerFootwearTarget.PresentationRepeatAvailable = PlayerAtFootwearVestibule;
         _playerFootwearTarget.PresentationRepeat = () => _ = TogglePlayerFootwear();
         _playerFootwearTarget.ConfigureRayOnly();
@@ -34,7 +34,7 @@ public partial class Act1ConnectedWorld
 
     private bool PlayerAtFootwearVestibule() => FacilityExteriorActive && _mosqueRoom is not null
         && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
-        && FacilityInteriorAt(player.GlobalPosition) == "mosque" && _mosqueRoom.ToLocal(player.GlobalPosition).X > 2.20f;
+        && FacilityInteriorAt(player.GlobalPosition) == "mosque" && _mosqueRoom.ToLocal(player.GlobalPosition).X < -4.85f;
 
     private bool CanChangePlayerFootwear(out string reason)
     {
@@ -102,12 +102,12 @@ public partial class Act1ConnectedWorld
                     var bounds = original.Boots.GetAabb();
                     var anchor = new Vector3(bounds.GetCenter().X, bounds.Position.Y, bounds.GetCenter().Z);
                     var mesh = BuildStoredPlayerBoot(original.Boots, anchor);
-                    // The rack moved 0.30 m east with the shelf plane at Z4.19;
+                    // The west-entry rack and this pair share the same shelf plane;
                     // the pair rests on the lower board top (Y.155) so the
                     // existing shelf ray proof resolves MosqueShoeShelf0Body.
                     pair.Add(new MeshInstance3D { Name = foot == 0 ? "AidarBootLeftOnShelf" : "AidarBootRightOnShelf",
-                        Mesh = mesh, MaterialOverride = original.BootMaterial, Position = new(3.84f + foot * .22f, .155f, 4.19f),
-                        RotationDegrees = new(0, 180, 0) });
+                        Mesh = mesh, MaterialOverride = original.BootMaterial, Position = new(-6.34f, .155f, -3.66f + foot * .22f),
+                        RotationDegrees = new(0, 90, 0) });
                 }
             }
             catch { foreach (var item in pair) { item.Mesh.Dispose(); item.Free(); } throw; }

@@ -42,7 +42,7 @@ public partial class Act1ConnectedWorld
             "Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_TerrainCollision/AgentB_TerrainFaces");
         var terrain = (ConcavePolygonShape3D)groundContact.Shape;
         var worldFaces = terrain.GetFaces().Select(p => groundContact.GlobalTransform * p).ToArray();
-        var approach = complex.ToGlobal(floorLocal + new Vector3(8f, 0, 0));
+        var approach = complex.ToGlobal(floorLocal + new Vector3(-9.5f, 0, -1.80f));
         var floorY = MosqueTerrainHeight(worldFaces, approach.X, approach.Z) + .04f;
         complex.GlobalPosition += Vector3.Up * (floorY - complex.ToGlobal(floorLocal).Y);
         complex.SetMeta("centralParcelPlacement", true);
@@ -100,14 +100,14 @@ public partial class Act1ConnectedWorld
         var foliageFrame = new Node3D { Name = "MosqueParcelFoliageFrame", Position = new(1f, 0, 0) };
         room.AddChild(foliageFrame);
         SuppressSquareFoliage(foliageFrame, 11.5f, 8f, 8f);
-        ClipSnowInside(room, new(1f, 1.5f, 0), new(11.5f, 3f, 8f));
+        RegisterMosqueOccupiedSnowVolumes();
         var office = GetNode<Node3D>("Act1CoreWorldGreybox/SovkhozSquare/SovkhozOffice");
         SuppressSquareFoliage(office, 7.2f, 4.7f, 8f);
         ClipSnowInside(office, new(0, 3f, 0), new(7.2f, 4f, 5f));
     }
 
     private static readonly Vector2[] CentralMosqueAccessCorners =
-        [new(-10f, -6.1f), new(11.3f, -6.1f), new(11.3f, 0), new(10.42f, 0)];
+        [new(-11.45f, -1.80f), new(-10.98f, -1.80f)];
 
     private Vector3[] CentralMosqueTerrainFaces()
     {
@@ -130,9 +130,8 @@ public partial class Act1ConnectedWorld
 
     private void BuildCentralMosqueAccessPath()
     {
-        // The east-facing door keeps the true qibla orientation. A continuous
-        // visible walk joins Tukay via the clear southern edge of the building,
-        // then turns outside the garden edging onto the existing porch contact.
+        // A short direct walk joins Tukay to the west-facing porch. The hall
+        // keeps its original true-qibla orientation; only the entrance moved.
         var terrain = CentralMosqueTerrainFaces();
         using var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
@@ -194,7 +193,7 @@ public partial class Act1ConnectedWorld
             var local = toRoom * vertices[i];
             // A flat earthen entrance at the floor, with a four-metre smooth
             // shoulder. There are no discrete treads or invisible stair ramps.
-            var distance = Mathf.Max(Mathf.Max(4f - local.X, local.X - 12f), Mathf.Abs(local.Z) - 5.8f);
+            var distance = Mathf.Max(Mathf.Max(-11.40f - local.X, local.X + 6.55f), Mathf.Abs(local.Z + 1.80f) - 1.95f);
             if (distance >= 4f) continue;
             var t = Mathf.Clamp(distance / 4f, 0f, 1f);
             var weight = 1f - t * t * (3f - 2f * t);

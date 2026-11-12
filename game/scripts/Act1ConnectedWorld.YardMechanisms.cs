@@ -268,7 +268,7 @@ public partial class Act1ConnectedWorld
 
     private static Vector3 YardGround(float x, float z) => new(x, AgentBAct1HeightField.CollisionGround(x, z) + .008f, z);
 
-    private static MeshInstance3D AddYardSnowDetail(Node3D parent, string name, Vector3 size,
+    private MeshInstance3D AddYardSnowDetail(Node3D parent, string name, Vector3 size,
         Vector3 groundAnchor, string colour, bool swept = false)
     {
         // Reuse the authored snow-bank profile at enough length samples for a
@@ -344,6 +344,7 @@ public partial class Act1ConnectedWorld
         detail.SetMeta("snowScale", "medium"); // VIS-077 tier: edge of a household use
         detail.SetMeta("terrainRole", swept ? "ground-conformed shallow shovel trace; visual only"
             : "ground-conformed household snow mound; visual only");
+        ExcludeSnowFromMosqueInterior(detail);
         // ToolSnowPileWood still owns only its existing interaction ray target.
         // Neither this cosmetic mound nor the cleared trace blocks traversal.
         return detail;

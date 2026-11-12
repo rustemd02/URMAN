@@ -563,6 +563,7 @@ public partial class Act1ConnectedWorld : Node3D
         // Final visibility includes the initial shutter pose and deferred trim.
         CallDeferred(nameof(ReconcileAddressSignsAfterFrontages));
         CallDeferred(nameof(BuildVillageHouseholds));
+        RegisterFacilityPrecipitationShelters();
         IsBuilt = true;
     }
 

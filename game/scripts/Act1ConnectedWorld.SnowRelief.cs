@@ -135,6 +135,7 @@ public partial class Act1ConnectedWorld
         GD.Print($"act1-snow-relief: clipped meshes={meshes} triangles={dropped} solids={boxes.Count} addedVertices={SnowSurfaceSplitter.AddedVertices}");
         // VIS-077: the static half of the acceptance — the relief that stands in the world
         // right now, counted in authored elevation bands, without a texture in sight.
+        ExcludeMosqueInteriorSnow();
         SummarizeSnowElevation();
     }
 
