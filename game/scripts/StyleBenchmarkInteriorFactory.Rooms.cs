@@ -24,8 +24,8 @@ public static partial class StyleBenchmarkInteriorFactory
     /// <summary>Wing kitchen arrival (wing-local), facing north.</summary>
     public static readonly Vector3 WingKitchenArrival = new(-3.2f, .05f, 2.25f);
     public static readonly Vector3 WingAtticArrival = new(-2.4f, AtticFloor + .05f, 2.9f);
-    public static Vector3 WingKitchenSpawn => WingOrigin + WingKitchenArrival;
-    public static Vector3 WingAtticSpawn => WingOrigin + WingAtticArrival;
+    public static Vector3 WingKitchenSpawn => new(.25f, .05f, -5.55f);
+    public static Vector3 WingAtticSpawn => new(5.85f, 5.65f, -2.60f);
 
     private const float ZalDoorZ = 2.75f;
     private const float StairBottomX = 3.3f, StairTopX = -1.4f, StairZ0 = 2.45f, StairZ1 = 3.45f;

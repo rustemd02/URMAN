@@ -48,6 +48,8 @@ public partial class Act1ConnectedWorld
         internal required float OpenYaw;
         internal int GeometryVersion;
         internal Func<float, float>? LegacyAngleProjection;
+        internal Func<bool>? Active;
+        internal bool IsWindow;
         internal bool Open;
         internal bool Blocked;
     }
@@ -506,6 +508,7 @@ public partial class Act1ConnectedWorld
         {
             foreach (var body in _facilityBodies) body.CollisionLayer = exterior ? 2u : 0u;
             foreach (var light in _facilityLights) light.Visible = exterior;
+            ProjectBabaiWindowContacts();
             _facilityProjectionApplied = true;
             _facilityProjectionExterior = exterior;
             _facilityProjectionZone = ActiveZoneId;
@@ -515,8 +518,9 @@ public partial class Act1ConnectedWorld
         var paused = _facilityBridge.CapturePlayTimeBlocks() != RuntimeBridge.PlayTimeBlock.None;
         foreach (var door in _facilityDoors)
         {
+            var active = FacilityDoorActive(door);
             var next = Mathf.MoveToward(door.Hinge.Rotation.Y, door.Open ? door.OpenYaw : door.RestYaw, (float)delta * 2.8f);
-            if (!paused && !Mathf.IsEqualApprox(next, door.Hinge.Rotation.Y))
+            if ((!door.IsWindow || active) && !paused && !Mathf.IsEqualApprox(next, door.Hinge.Rotation.Y))
             {
                 door.Blocked = !FacilityDoorSweepClear(door, door.Hinge.Rotation.Y, next);
                 if (!door.Blocked) door.Hinge.Rotation = new(0, next, 0);
@@ -527,16 +531,21 @@ public partial class Act1ConnectedWorld
             // stay per-tick writes: ApplyInteractionRouting owns that same layer.
             var pose = door.Hinge.GlobalTransform * new Transform3D(Basis.Identity, new(0, door.Height * .5f, door.Width * .5f));
             if (door.Target.GlobalTransform != pose) door.Target.GlobalTransform = pose;
-            door.Target.Prompt = door.Blocked ? "Дверь упёрлась — отступить или убрать вещь" : door.Open ? "Закрыть дверь" : "Открыть дверь";
-            door.Target.CollisionLayer = exterior ? 4u : 0u;
+            door.Target.Prompt = door.IsWindow
+                ? door.Blocked ? "Створка упёрлась — освободить место" : door.Open ? "Закрыть окно" : "Открыть окно"
+                : door.Blocked ? "Дверь упёрлась — отступить или убрать вещь" : door.Open ? "Закрыть дверь" : "Открыть дверь";
+            door.Target.CollisionLayer = active ? 4u : 0u;
         }
         TickBathhouse(paused);
         TickPlayerFootwear();
     }
 
-    private async Task<bool> CommitFacilityProps(JsonArray changes, string message, Vector3 source, string sound = "")
+    private bool FacilityDoorActive(FacilityDoor door) => door.Active?.Invoke() ?? FacilityExteriorActive;
+
+    private async Task<bool> CommitFacilityProps(JsonArray changes, string message, Vector3 source, string sound = "",
+        Func<bool>? available = null)
     {
-        if (_facilityBusy || !FacilityExteriorActive || _runtimeBridge?.SessionIdentity is not { } session) return false;
+        if (_facilityBusy || !(available?.Invoke() ?? FacilityExteriorActive) || _runtimeBridge?.SessionIdentity is not { } session) return false;
         _facilityBusy = true;
         try
         {
@@ -620,16 +629,20 @@ public partial class Act1ConnectedWorld
             feet = player?.GlobalPosition.ToString(), focus = DisplayServer.WindowIsFocused(),
             forward = Input.GetActionStrength("move_forward"), backward = Input.GetActionStrength("move_backward"),
             left = Input.GetActionStrength("move_left"), right = Input.GetActionStrength("move_right") }));
-        if (_facilityBusy || _runtimeBridge is null || player is null) return;
+        if (_facilityBusy || _runtimeBridge is null || player is null || !FacilityDoorActive(door)) return;
         var destination = door.Open ? door.RestYaw : door.OpenYaw;
         if (!FacilityDoorSweepClear(door, door.Hinge.Rotation.Y, destination, recordProbe: true))
         {
             door.Target.SetMeta("lastDoorActionResult", "blocked-by-full-shape-sweep");
-            player.NotifyTraversal("Створке мешает человек или вещь. Нужно освободить место перед дверью.");
+            player.NotifyTraversal(door.IsWindow
+                ? "Створке мешает человек или вещь. Освободите место перед окном."
+                : "Створке мешает человек или вещь. Нужно освободить место перед дверью.");
             return;
         }
+        var message = door.IsWindow ? door.Open ? "Окно закрыто." : "Окно открыто."
+            : door.Open ? "Дверь закрыта." : "Дверь открыта.";
         var committed = await CommitFacilityProps(new JsonArray { FacilityDoorSnapshot(door, !door.Open) },
-            door.Open ? "Дверь закрыта." : "Дверь открыта.", door.Hinge.GlobalPosition + Vector3.Up, "door_creak");
+            message, door.Hinge.GlobalPosition + Vector3.Up, "door_creak", () => FacilityDoorActive(door));
         if (IsInsideTree()) door.Target.SetMeta("lastDoorActionResult", committed ? "committed" : "commit-rejected");
     }
 

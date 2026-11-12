@@ -424,10 +424,7 @@ public partial class Act1ConnectedWorld : Node3D
                 StyleBenchmarkInteriorFactory.ClearDepth * .5f), fitBabaiYard: true);
         GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld")
             .RegisterWeatherShelter(_zoneInstances["house_old_pc"],
-                new Vector3(0, StyleBenchmarkInteriorFactory.CeilingHeight * .5f, 0),
-                new Vector3(StyleBenchmarkInteriorFactory.ClearWidth * .5f + .15f,
-                    StyleBenchmarkInteriorFactory.CeilingHeight * .5f + .15f,
-                    StyleBenchmarkInteriorFactory.ClearDepth * .5f + .15f), windowView: true);
+                new Vector3(0, 3.70f, -2f), new Vector3(6.7f, 3.8f, 5.7f), windowView: true);
         BuildAct1NpcStaging();
         BuildAct1InteriorDiscoveries();
         BuildAct1ExteriorDiscoveries();
@@ -648,7 +645,9 @@ public partial class Act1ConnectedWorld : Node3D
                 // The Agent B exterior layer owns the single outdoor sun.
                 // Keep authored local omni/point lights for windows and
                 // interior accents, but never stack a second directional sun.
-                var enabled = isActive
+                var visibleHouseLamp = candidateZoneId == "house_old_pc" && useExteriorAtmosphere
+                    && light is not DirectionalLight3D;
+                var enabled = (isActive || visibleHouseLamp)
                     && (!useExteriorAtmosphere || light is not DirectionalLight3D);
                 light.Visible = enabled;
                 if (enabled)
@@ -738,7 +737,9 @@ public partial class Act1ConnectedWorld : Node3D
                 // Exterior zones stay visible as continuity framing. Interior
                 // roots are visibility-gated so an inactive house/FAP cannot
                 // leak into an exterior presentation.
-                instance.Visible = !placement.Interior || isActive;
+                var continuousHouse = placement.ZoneId == "house_old_pc" && useExteriorAtmosphere
+                    && instance.HasNode("NewBabaiHouseInterior");
+                instance.Visible = !placement.Interior || isActive || continuousHouse;
                 if (placement.Interior)
                 {
                     // Visibility does not remove physics bodies. Keep the
@@ -746,7 +747,7 @@ public partial class Act1ConnectedWorld : Node3D
                     // floor/walls inert so they cannot block the exterior
                     // route. InteractionTarget bodies are restored by the
                     // separate interaction-routing pass below.
-                    SetInteriorStaticCollisionEnabled(FindDescendants<StaticBody3D>(instance), isActive);
+                    SetInteriorStaticCollisionEnabled(FindDescendants<StaticBody3D>(instance), isActive || continuousHouse);
                 }
                 if (string.Equals(placement.PlacementId, "village-main-road", StringComparison.Ordinal))
                 {

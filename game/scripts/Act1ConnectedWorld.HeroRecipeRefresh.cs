@@ -37,6 +37,7 @@ public partial class Act1ConnectedWorld
             "Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade");
         if (!IsInsideTree()) return Reject("outside-tree");
         if (facade is null) return Reject("facade-missing");
+        if (facade.HasMeta("rebuiltBabaiHouse")) return Reject("continuous-house-owns-window-shell");
         if (!facade.IsVisibleInTree()) return Reject("facade-hidden");
         if (!_zoneInstances.TryGetValue("house_old_pc", out var room) || room is null)
             return Reject("room-missing");

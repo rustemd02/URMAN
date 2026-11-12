@@ -473,6 +473,12 @@ public partial class Main : Node3D
         GD.Print($"zone-loaded: {zoneId}@{spawnPointId}");
     }
 
+    internal Act1ConnectedWorld? PrepareLegacyBabaiSaveWorld()
+    {
+        if (EnableAct1ConnectedWorld) EnsureConnectedWorld();
+        return _connectedWorld;
+    }
+
     private void EnsureConnectedWorld()
     {
         if (_connectedWorld is not null) return;

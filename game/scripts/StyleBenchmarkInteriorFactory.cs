@@ -95,6 +95,7 @@ public static partial class StyleBenchmarkInteriorFactory
         foreach (var z in new[] { -2.90f, -2.10f })
             Block(room, "FamilyPhotoShelfBracket" + (z < -2.5f ? "Rear" : "Front"),
                 new(.44f, .14f, .065f), new(-3.77f, .96f, z), "493629", "wood", false);
+        BuildNewBabaiHouseInterior(room);
     }
 
     internal static IReadOnlyList<StaticBody3D> RefreshWindowShell(

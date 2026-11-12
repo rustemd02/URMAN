@@ -840,7 +840,7 @@ public partial class Act1ConnectedWorld
         body.CollisionLayer = enabled ? 1u : 0u;
         body.CollisionMask = enabled ? 1u : 0u;
         foreach (var shape in FindDescendants<CollisionShape3D>(body))
-            shape.Disabled = !enabled;
+            shape.Disabled = !enabled || shape.HasMeta("babaiShellRetired");
     }
 
     private static bool IsBypassFacadeBlockingMesh(MeshInstance3D mesh)

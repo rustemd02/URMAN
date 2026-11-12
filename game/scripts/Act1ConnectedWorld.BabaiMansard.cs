@@ -166,6 +166,13 @@ public partial class Act1ConnectedWorld
     /// <summary>The whole house plot of the hero house (walls, porch, seni, steps, eaves) as one snow exclusion.</summary>
     private bool PublishBabaiHouseFootprint()
     {
+        if (_babaiNewExterior is { } rebuilt)
+        {
+            var outline = new[] { new Vector3(-6.95f, 0, -7.95f), new Vector3(6.95f, 0, -7.95f),
+                new Vector3(6.95f, 0, 4.45f), new Vector3(-6.95f, 0, 4.45f) }
+                .Select(rebuilt.ToGlobal).Select(at => new Vector2(at.X, at.Z)).ToArray();
+            return SnowReliefStandard.PublishFootprint("footprint:babai-hero-house-plot", outline);
+        }
         if (FindHeroHouseMesh("HeroHouse_Roof_") is not { } roof || roof.GetParent() is not Node3D frame) return false;
         var bounds = roof.Transform * roof.Mesh.GetAabb();
         // The seni lean-to reaches 1.6 m past the yard eave and the porch 0.6 m past the street verge.

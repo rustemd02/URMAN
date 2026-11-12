@@ -218,13 +218,12 @@ public partial class Act1ConnectedWorld
         // reconciliation after the household's move, including every tree LOD.
         var facade = kit.GetNode<Node3D>("BabaiApproachDwellingFacade");
         core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld").ReconcileBuildingFoliage(facade);
-        BuildBabaiWingExterior(facade);
-        try { DressBabaiMansard(); }
-        catch (System.Exception error) { GD.PushWarning($"act1-babai-mansard: not built: {error.Message}"); }
         GD.Print($"act1-babai-foliage: owners={facade.GetMeta("roofSuppressedFoliageOwners").AsStringArray().Length} contacts={facade.GetMeta("roofSuppressedFoliageContacts").AsStringArray().Length}");
         core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld").RecutOccupiedRoomTerrain(_zoneInstances["house_old_pc"], new Vector2(
             StyleBenchmarkInteriorFactory.ClearWidth * .5f, StyleBenchmarkInteriorFactory.ClearDepth * .5f));
-        ExcludeBabaiWingTerrain();
+        // Recut restores the shared terrain source. The larger house cut must
+        // be published afterwards or that restore refills its rear rooms.
+        BuildBabaiRebuiltHouse(facade);
         SetMeta("babaiRelocatedNodes", moved.Count);
         GD.Print($"act1-babai-relocation: moved={moved.Count} cleared={cleared} door=({BabaiRelocation.DoorX},{BabaiRelocation.DoorZ}) yaw+={BabaiRelocation.YawDegrees:0.00}");
         if (System.Environment.GetEnvironmentVariable("URMAN_BABAI_DEBUG") == "1")

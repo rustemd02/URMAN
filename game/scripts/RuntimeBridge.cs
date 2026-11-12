@@ -617,6 +617,10 @@ public partial class RuntimeBridge : Node
         if (GetTree().GetFirstNodeInGroup("zone_manager") is Main resourceOwner
             && !await resourceOwner.PreloadPhotoSceneAsync(save.Runtime.State.GetProperty("activeScene").GetString()!))
             throw new InvalidDataException("The saved photo scene resource could not be prepared.");
+        if (Act1ConnectedWorld.NeedsLegacyBabaiHouseWorld(save)
+            && GetTree().GetFirstNodeInGroup("zone_manager") is Main legacyHouseOwner
+            && legacyHouseOwner.PrepareLegacyBabaiSaveWorld() is { } legacyHouseWorld)
+            save = legacyHouseWorld.AdaptLegacyBabaiHouseSave(save);
         ResetAudioCuePresentation();
         RestoreSession(save);
         IsDebugSession = debugSession;
