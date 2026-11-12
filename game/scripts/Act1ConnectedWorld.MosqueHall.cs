@@ -50,18 +50,20 @@ public partial class Act1ConnectedWorld
     private void MosqueWallPanelling(Node3D parent,string name,Vector3 at,float width,float yaw)
     {
         var panel=new Node3D{Name=name,Position=at,Rotation=new(0,yaw,0)};parent.AddChild(panel);
-        MosqueWood(panel,"RecessedPanels",new(width,.92f,.024f),Vector3.Zero,tint:"cfc5b0");
+        MosqueWood(panel,"RecessedPanels",new(width,.92f,.024f),Vector3.Zero,tint:"b2a48e");
         foreach(var y in new[]{-.45f,.44f})MosqueWood(panel,"Rail"+y,new(width,.065f,.052f),new(0,y,0));
         var stiles=new List<Transform3D>();var count=Mathf.CeilToInt(width/.66f);
         for(var i=0;i<=count;i++)stiles.Add(MosqueBoxTransform(new(-width*.5f+i*width/count,0,0),new(.035f,.84f,.047f),0));
-        MosqueBatch(panel,"Stiles",stiles,MosqueFinish("walnut","dfd5bd",.75f));
+        MosqueBatch(panel,"Stiles",stiles,MosqueFinish("walnut","c1b395",.75f));
         MosqueWood(panel,"TopCap",new(width,.030f,.075f),new(0,.492f,0));
     }
 
     private void BuildMosqueEntranceFurniture()
     {
         var room=_mosqueRoom!;
-        var bench=new Node3D{Name="MosqueShoeBench",Position=new(3.65f,0,2.90f)};room.AddChild(bench);
+        // Keep the full front of the seat west of the new washroom wall.
+        // Footwear and visit rays follow this same bench anchor.
+        var bench=new Node3D{Name="MosqueShoeBench",Position=new(2.45f,0,3.05f)};room.AddChild(bench);
         MosqueWood(bench,"Seat",new(1.90f,.075f,.425f),new(0,.445f,0),true);
         foreach(var x in new[]{-.78f,.78f})
         {
@@ -79,8 +81,7 @@ public partial class Act1ConnectedWorld
         MosqueWood(room,"MosqueEntranceCourtesyBacking",new(.90f,.32f,.018f),new(4.15f,1.60f,4.544f));
         var notice=AddVisualBox(room,"MosqueEntranceCourtesyPaper",new(.84f,.26f,.002f),new(4.15f,1.60f,4.533f),"e8dfc7","paper");
         notice.MaterialOverride=MosqueFinish("paper");
-        FacilityLabel(room,"MosqueEntranceCourtesy","Пожалуйста,\nснимите обувь",new(4.15f,1.60f,4.530f),180,.0017f);
-        var text=room.GetNode<Label3D>("MosqueEntranceCourtesy");text.Modulate=new Color("354c40");text.OutlineSize=0;
+        MosquePrintedSign(room,"MosqueEntranceCourtesy","Пожалуйста,\nснимите обувь",new(4.15f,1.60f,4.519f),180,.63f,"signs-details",1);
         FacilitySolid(room,"MosqueHeatingCabinet",new(.52f,.76f,.30f),new(4.72f,1.74f,4.42f),"d2d2c5","metal");
         for(var i=0;i<5;i++)AddVisualBox(room,"MosqueHeatingVent"+i,new(.34f,.012f,.014f),new(4.72f,1.53f+i*.046f,4.268f),"626c63","metal");
         FacilityRod(room,"MosqueHeatSupply",new(4.65f,1.36f,4.51f),new(4.65f,.27f,4.51f),.018f,"a3aaa8");
@@ -101,9 +102,7 @@ public partial class Act1ConnectedWorld
         // retained; the possessive form is source-checked against Tatarica:
         // https://tatarica.org/tat/razdely/religiya/islam/mechet
         // This source check does not replace a native-language art acceptance.
-        MosqueWood(_mosqueRoom!,"MosqueNamePlaque",new(.035f,.34f,1.75f),new(5.799f,2.90f,0));
-        FacilityLabel(_mosqueRoom!,"MosqueNameSign","Кара-Урман мәчете",new(5.820f,2.90f,0),90,.0020f);
-        var sign=_mosqueRoom!.GetNode<Label3D>("MosqueNameSign");sign.OutlineSize=0;sign.Modulate=new Color("f2e7ce");
+        var sign=MosquePrintedSign(_mosqueRoom!,"MosqueNameSign","Кара-Урман мәчете",new(8.02f,2.98f,0),90,1.25f,"signs-main",0);
         sign.SetMeta("languageReview","author wording; мәчете source-checked; native visual review pending");
     }
 }

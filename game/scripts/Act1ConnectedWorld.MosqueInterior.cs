@@ -103,9 +103,9 @@ public partial class Act1ConnectedWorld
         BuildMosqueSanctuaryQuran();
         BuildMosqueImamOffice(complex);
         var prayerCarpetTop = prayerCarpet.Position.Y + prayerCarpet.Mesh.GetAabb().End.Y;
-        FacilityLamp(_mosqueRoom, "MosqueHallLamp", new(-3.35f, 3.02f, -.35f), "fff0d1", 1.05f, 5.5f);
-        FacilityLamp(_mosqueRoom, "MosqueHallSecondLamp", new(.35f, 3.02f, -.35f), "fff0d1", 1.05f, 5.5f);
-        FacilityLamp(_mosqueRoom, "MosqueVestibuleLamp", new(3.63f, 2.78f, .45f), "ffe8c4", .72f, 3.8f);
+        FacilityLamp(_mosqueRoom, "MosqueHallLamp", new(-3.35f, 3.02f, -.35f), "ffe5c2", .65f, 4.6f);
+        FacilityLamp(_mosqueRoom, "MosqueHallSecondLamp", new(.35f, 3.02f, -.35f), "ffe5c2", .65f, 4.6f);
+        FacilityLamp(_mosqueRoom, "MosqueVestibuleLamp", new(3.63f, 2.78f, .45f), "ffe0b7", .42f, 3.2f);
 
         // Mosque03: the outward sweep reached the existing landing guard post.
         // Keep the closed leaf and the guarded landing; the vestibule provides
@@ -116,13 +116,11 @@ public partial class Act1ConnectedWorld
         entrance.Hinge.SetMeta("geometryRepair", "Mosque03: outward leaf hit MosqueLandingPost0; same closed plane and full leaf now opens inward -95 degrees; existing landing and guards retained; legacy positive angle maps to -angle once");
         entrance.Hinge.SetMeta("addressAccessPoint", true);
         DressMosqueEntrance(entrance);
-        // Raising the usable floor also raises the old canopy above the new leaf.
-        complex.GetNode<Node3D>("MosqueEntranceAwning").Position += Vector3.Up * .55f;
         // Mosque02: the infill began exactly at the leaf's 2.20 m top, so the
         // real 2 mm full-shape margin stopped even the first opening sample.
         // Keep its upper seam at 3.07 m and give the leaf a 20 mm head gap.
-        FacilitySolid(_mosqueRoom, "MosqueDoorHeaderInfill", new(.55f, .85f, 1.70f), new(5.50f, 2.645f, 0), "c2bcab", "wood_painted_trim");
-        var mosqueApproach = BuildMosqueEntrySteps(complex);
+        FacilitySolid(_mosqueRoom, "MosqueDoorHeaderInfill", new(.55f, .85f, 1.70f), new(5.50f, 2.645f, 0), MosqueHallPaint, "wood_painted_trim");
+        var mosqueApproach = ExtendCentralMosqueApproach(BuildMosqueGardenEntrance(complex));
         GroundMosqueCourtyard(complex);
         var mosqueAccess = mosqueApproach[^1];
         // Keep the chosen clear wall explicit after the qibla yaw; the shared
@@ -181,7 +179,8 @@ public partial class Act1ConnectedWorld
             .Single(target => target.InteractionId == "urman.chapter1:interaction/route-to-mosque");
         conversation.GlobalPosition = timur.GlobalPosition + Vector3.Up * .9f;
         conversation.SetMeta("facility", "mosque");
-        FacilityTarget("MosqueVisit", MosqueVisitInteraction, "Осмотреть прихожую мечети", _mosqueRoom, new(3.65f, .68f, 2.90f), new(1.7f, .34f, .50f));
+        FacilityTarget("MosqueVisit", MosqueVisitInteraction, "Осмотреть прихожую мечети", _mosqueRoom,
+            _mosqueRoom.GetNode<Node3D>("MosqueShoeBench").Position + Vector3.Up * .68f, new(1.7f, .34f, .50f));
         EnsureFacilityTick();
     }
 

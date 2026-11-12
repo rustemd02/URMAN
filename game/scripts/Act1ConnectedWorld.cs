@@ -468,6 +468,7 @@ public partial class Act1ConnectedWorld : Node3D
         // Relocation rebuilds the base field to fill the old house footprint.
         // Publish the other occupied cuts against that final terrain.
         ExcludePolicePostTerrain();
+        PrepareCentralMosqueGround();
         ExcludeMosqueHallTerrain();
         ((StyleBenchmarkZone)_zoneInstances["village_day"]).FitHouseDoorToLeaf(
             FindDescendants<MeshInstance3D>(GetNode<Node3D>(
@@ -1998,9 +1999,9 @@ public partial class Act1ConnectedWorld : Node3D
         }
         if (_mosqueAtmosphereInside)
         {
-            environment.AmbientLightColor = profile.AmbientColor.Lerp(new Color("e6c99e"), .65f);
-            environment.AmbientLightEnergy = profile.AmbientEnergy * .96f;
-            environment.TonemapExposure = profile.Exposure + .23f;
+            environment.AmbientLightColor = profile.AmbientColor.Lerp(new Color("c9b696"), .42f);
+            environment.AmbientLightEnergy = profile.AmbientEnergy * .70f;
+            environment.TonemapExposure = profile.Exposure * .88f;
         }
         core.SetMeta("unifiedAtmosphereIndoorGrade", indoor);
 

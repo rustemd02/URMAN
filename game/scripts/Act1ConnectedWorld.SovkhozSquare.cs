@@ -52,7 +52,7 @@ public partial class Act1ConnectedWorld
         ClipSnowInside(club, new Vector3(0, 2.1f, 0), new Vector3(8f, 2.1f, 6.6f));
 
         // Former sovkhoz office: two storeys, brick, a faded plaque.
-        var office = SquareBuilding(square, "SovkhozOffice", new(11f, 52f), 14f, 9f, 3.2f, 2, brick, roofPitch: 22f);
+        var office = SquareBuilding(square, "SovkhozOffice", RelocatedSovkhozOfficeCentre, 14f, 9f, 3.2f, 2, brick, roofPitch: 22f);
         SquareWindows(office, 14f, 9f, 3.2f, 2, 5, trim, lit: index => index == 0);
         SquarePorch(office, 9f, 2.6f, trim);
         SquareSign(office, new(2.9f, 2.2f, 4.58f), "«КАРА УРМАН» СОВХОЗЫ\nИДАРӘСЕ · КОНТОРА", 30, new Color(.15f, .15f, .15f));

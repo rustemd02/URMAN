@@ -42,8 +42,8 @@ public partial class Act1ConnectedWorld
         if (complex.Name != "VillageMosqueComplex")
             throw new InvalidOperationException("The qibla rotation expects the authored VillageMosqueComplex owner.");
         var approachEnd = AgentBAct1Layout.MosqueWalkAxis[^1];
-        var pivot = new Vector3(approachEnd.X, 0f, approachEnd.Y);
-        var yaw = new Basis(Vector3.Up, Mathf.DegToRad(MosqueBuildingQiblaYawDegrees));
+        var pivot = complex.GetParent<Node3D>().ToGlobal(new Vector3(approachEnd.X, 0f, approachEnd.Y));
+        var yaw = new Basis(Vector3.Up, Mathf.DegToRad(MosqueBuildingQiblaYawDegrees) - complex.GlobalRotation.Y);
         var atPivot = new Transform3D(Basis.Identity, pivot);
         // Rotate in world space so the result does not depend on the parent
         // core transform; the rotation is about +Y only, so every floor, stair

@@ -53,15 +53,7 @@ public partial class Act1ConnectedWorld
 
     private void BuildMosqueWashCorner()
     {
-        var room = _mosqueRoom!;
-        // Sink stays on the east wall, clear of the seat/ray at Z2.638 and of every shoe shelf.
-        FacilitySolid(room, "MosqueWashCabinet", new(.50f, .79f, .80f), new(4.94f, .395f, 1.60f), "d7dfd2", "wood_painted_trim");
-        FacilityVessel(room, "MosqueWashBasin", new(4.91f, .84f, 1.60f), .22f, .10f, "d4dad6", false);
-        FacilityRod(room, "MosqueWaterRiser", new(5.15f, .16f, 1.50f), new(5.15f, 1.11f, 1.50f), .018f, "a3aaa8");
-        FacilityRod(room, "MosqueTapSpout", new(5.15f, 1.10f, 1.50f), new(4.94f, 1.10f, 1.60f), .016f, "a3aaa8");
-        FacilityRod(room, "MosqueBasinDrain", new(4.91f, .77f, 1.60f), new(5.15f, .11f, 1.60f), .027f, "a3aaa8");
-        AddVisualBox(room, "MosqueWashTowel", new(.02f, .49f, .33f), new(5.18f, 1.22f, 2.14f), "ded8c2", "cloth_towel");
-        FacilityRod(room, "MosqueTowelRail", new(5.15f, 1.48f, 1.93f), new(5.15f, 1.48f, 2.34f), .014f, "898e88");
+        BuildMosqueWashroom();
     }
 
     private MeshInstance3D BuildMosquePrayerAndLibrary()
@@ -103,11 +95,11 @@ public partial class Act1ConnectedWorld
         var archMesh = new ArrayMesh(); arch.Commit(archMesh, "MouldedArch", MosqueFinish("walnut"));
         prayer.AddChild(new MeshInstance3D { Name = "MihrabArch", Mesh = archMesh });
         BuildMosqueMinbar(prayer);
-        FacilityLabel(room, "MosqueQiblaNotice", "Кыйбла", new(1.30f, 2.43f, -4.55f), 0, .0015f);
-        FacilityLabel(room, "MosqueLibrarySign", "Китапханә\nБиблиотека", new(-5.40f, 2.08f, 4.54f), 180, .0014f);
+        MosquePrintedSign(room, "MosqueQiblaNotice", "Кыйбла", new(1.30f, 2.43f, -4.55f), 0, .48f, "signs-main", 2);
+        MosquePrintedSign(room, "MosqueLibrarySign", "Китапханә\nБиблиотека", new(-5.40f, 2.08f, 4.54f), 180, .75f, "signs-main", 3);
         BuildMosqueLibraryCase(room, "Mosque", new(-5.40f, 0, 4.23f), 1.60f);
         FacilityBench(room, "MosqueReadingBench", new(-5.40f, 0, 3.58f), 1.35f, 0);
-        FacilityLamp(room, "MosqueLibraryLamp", new(-5.1f, 3.35f, 2.5f), "fff0cf", .60f, 3.0f);
+        FacilityLamp(room, "MosqueLibraryLamp", new(-5.1f, 3.35f, 2.5f), "ffe5c2", .38f, 2.6f);
         BuildMosqueDonationBox();
         room.SetMeta("libraryClearSizeMetres", new Vector2(3.14f, 3.70f));
         room.SetMeta("hallClearHeightMetres", 3.74f);
@@ -186,7 +178,7 @@ public partial class Act1ConnectedWorld
             AlbedoColor=new Color(.70f,.81f,.77f,.13f),Roughness=.18f,CullMode=BaseMaterial3D.CullModeEnum.Disabled};
         for(var i=0;i<5;i++) MosquePaper(box,"DonationNote"+i,new(-.075f+i%3*.065f,.746f+i*.004f,-.025f+i%2*.06f),new(.13f,.06f),new(0,i*23,0));
         AddVisualBox(box,"DonationLock",new(.035f,.048f,.025f),new(.18f,1.08f,.19f),"a89970","metal");
-        FacilityLabel(box,"DonationLabel","Сәдака",new(0,.52f,.190f),0,.00135f);
+        MosquePrintedSign(box,"DonationLabel","Сәдака",new(0,.52f,.199f),0,.28f,"signs-details",0);
     }
 
     // Later prayer-time owner can resolve this anchored place after any relocation.

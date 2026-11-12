@@ -128,7 +128,7 @@ public partial class Act1ConnectedWorld
                 new(Mathf.Cos(mid) * 1.34f, 7.50f, Mathf.Sin(mid) * 1.34f), "2f3a33", "wood_furniture",
                 Mathf.RadToDeg(Mathf.Pi * .5f - mid));
         }
-        FacilityLabel(room, "MosqueMinaretAccessSign", "Минарет", new(3.83f, 2.55f, -.67f), 0, .0014f);
+        MosquePrintedSign(room, "MosqueMinaretAccessSign", "Минарет", new(3.83f, 2.55f, -.67f), 0, .50f, "signs-main", 4);
         var gallery = new Node3D { Name = "MosqueMinaretGallery", Position = MinaretCentre + Vector3.Up * MinaretGalleryHeight };
         room.AddChild(gallery);
         // Quarter-circle arrival platform follows the last tread. Its underside is >2.3m

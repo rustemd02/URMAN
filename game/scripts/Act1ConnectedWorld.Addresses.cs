@@ -302,6 +302,7 @@ public partial class Act1ConnectedWorld
             var plate=new AddressSignVisualComponent();
             _addressRoot!.AddChild(plate);
             plate.Bind(registry,r.AddressId);
+            if(r.AddressId=="ADR-MOSQUE")ApplyMosqueAddressArtwork(plate);
             plate.GlobalPosition=r.SignPoint;
             var signOutward=r.SignOutward??r.Outward;
             plate.GlobalBasis=new Basis(Vector3.Up,Mathf.Atan2(signOutward.X,signOutward.Z));

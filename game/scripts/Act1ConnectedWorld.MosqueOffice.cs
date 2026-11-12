@@ -52,11 +52,15 @@ public partial class Act1ConnectedWorld
 
         // Reuse the previous library door's persistent key; the existing hall
         // library remains open, while the door now leads to its working annex.
-        var door=FacilityManualDoor(room,"MosqueLibrary","mosque/library",new(-6.90f,0,.95f),1.20f,2.30f,0,-95);
+        // The hinge is within the 55 cm connection wall. Beyond 90 degrees
+        // the leaf folds back into its north pier (Z <= .90), so the full
+        // safety sweep correctly refuses to start. At 90 degrees the leaf's
+        // north face is Z .9175: 15.5 mm clear after the sweep's 2 mm margin.
+        var door=FacilityManualDoor(room,"MosqueLibrary","mosque/library",new(-6.90f,0,.95f),1.20f,2.30f,0,-90);
         door.Hinge.GetNode<MeshInstance3D>("MosqueLibraryLeaf").MaterialOverride=MosqueFinish("walnut","d8ccb4",.8f);
         foreach(var z in new[]{.92f,2.18f})MosqueWood(room,"OfficeDoorJamb"+z,new(.10f,2.36f,.09f),new(-6.57f,1.18f,z));
         MosqueWood(room,"OfficeDoorLintel",new(.10f,.10f,1.44f),new(-6.57f,2.36f,1.55f));
-        FacilityLabel(room,"OfficeDoorLabel","Кабинет",new(-6.505f,2.58f,1.55f),90,.00165f);
+        MosquePrintedSign(room,"OfficeDoorLabel","Кабинет",new(-6.505f,2.58f,1.55f),90,.53f,"signs-main",5);
         MosqueWood(room,"OfficeDoorSill",new(.62f,.003f,1.29f),new(-6.91f,.0015f,1.55f));
 
         var shelves=new Node3D{Name="OfficeBookcase",Position=new(-8.70f,0,1.10f),RotationDegrees=new(0,-90,0)};
@@ -95,7 +99,7 @@ public partial class Act1ConnectedWorld
         FacilityRod(desk,"DeskLampStem",new(.53f,.81f,.18f),new(.53f,1.12f,.18f),.010f,"857751");
         var shade=DiscoveryCylinder(desk,"DeskLampShade",.085f,.135f,.16f,new(.53f,1.13f,.18f),"d6cbb1");
         shade.MaterialOverride=MosqueFinish("paper");
-        FacilityLamp(office,"OfficeWarmLight",new(-8.02f,2.88f,2.04f),"ffebc9",.83f,3.4f);
+        FacilityLamp(office,"OfficeWarmLight",new(-8.02f,2.88f,2.04f),"ffe5c2",.50f,2.9f);
         var lamp=new OmniLight3D{Name="DeskPool",Position=new(.53f,1.07f,.18f),LightColor=new Color("ffe4b7"),LightEnergy=.32f,OmniRange=1.4f,ShadowEnabled=false};
         desk.AddChild(lamp);_facilityLights.Add(lamp);
         MosqueWood(office,"OfficeNoticeBoard",new(.035f,.74f,1.10f),new(-8.87f,1.78f,2.75f));
@@ -104,8 +108,8 @@ public partial class Act1ConnectedWorld
             MosquePaper(office,"PinnedNote"+i,new(-8.845f,1.82f,2.41f+i*.31f),new(.25f,.29f),new(0,0,90));
             DiscoveryCylinder(office,"NotePin"+i,.009f,.009f,.014f,new(-8.83f,1.93f,2.41f+i*.31f),"8e8060").RotationDegrees=new(0,0,90);
         }
-        FacilityLabel(office,"OfficeNotesTitle","Заметки",new(-8.815f,2.04f,2.75f),90,.00125f);
-        FacilityLabel(office,"OfficeLetterHeading","Письма",new(-8.815f,1.84f,2.75f),90,.00085f);
+        MosquePrintedSign(office,"OfficeNotesTitle","Заметки",new(-8.815f,2.04f,2.75f),90,.35f,"signs-details",3);
+        MosquePrintedSign(office,"OfficeLetterHeading","Письма",new(-8.815f,1.84f,2.75f),90,.23f,"signs-details",4);
     }
 
     private void BuildMosqueOfficeFoundation(Node3D office)

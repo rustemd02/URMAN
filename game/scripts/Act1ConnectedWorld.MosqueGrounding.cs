@@ -34,6 +34,7 @@ public partial class Act1ConnectedWorld
             "MosqueYardGateLeft", "MosqueYardGateRight", "MosqueYardGatePostLeft", "MosqueYardGatePostRight" })
         {
             var mesh = complex.GetNode<MeshInstance3D>(name);
+            if (mesh.HasMeta("replacedByLevelGarden")) continue;
             if (mesh.Mesh is not BoxMesh box || mesh.GlobalBasis.Y.Normalized().Dot(Vector3.Up) < .99999f)
                 throw new InvalidOperationException("Unexpected courtyard owner: " + name);
             var size = box.Size;
@@ -65,7 +66,8 @@ public partial class Act1ConnectedWorld
             mesh.SetMeta("groundingPolicy", "same XZ owner; short terrain-supported masonry spans; existing late authored-triangle contact");
             _mosqueGrounding.Add(new(mesh, size, transform, size.Y, false, spans.ToArray()));
         }
-        GroundMosqueSnowBank(complex.GetNode<MeshInstance3D>("MosqueYardSnowBank"), worldFaces);
+        var snowBank = complex.GetNode<MeshInstance3D>("MosqueYardSnowBank");
+        if (!snowBank.HasMeta("replacedByLevelGarden")) GroundMosqueSnowBank(snowBank, worldFaces);
     }
 
     private static (float Minimum, float Maximum, double Area, int Triangles) MosqueTerrainBounds(
@@ -225,6 +227,7 @@ public partial class Act1ConnectedWorld
         foreach (var name in new[] { "MosqueYardGatePostLeft", "MosqueYardGatePostRight" })
         {
             var mesh = complex.GetNode<MeshInstance3D>(name);
+            if (mesh.HasMeta("replacedByLevelGarden")) continue;
             if (proxy.GetChildren().OfType<CollisionShape3D>().Any(shape => shape.HasMeta("authoredSourceMesh")
                 && shape.GetMeta("authoredSourceMesh").AsString() == mesh.GetPath().ToString()))
                 throw new InvalidOperationException("Duplicate courtyard post contact: " + name);

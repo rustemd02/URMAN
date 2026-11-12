@@ -100,16 +100,17 @@ public partial class Act1ConnectedWorld
         BuildMosqueAccessibleMinaret();
         BuildMosqueRoofWithStairOpening();
         BuildMosqueTimberJoints(complex);
-        RepairMosqueEntranceTraversal(complex);
+        // The entrance is now a level garden walk built with the interior;
+        // do not restore the obsolete exterior stair/landing repair here.
         // The joint lines were authored dark green for the old painted cladding; tint them to the timber.
         if (room.GetNodeOrNull<MeshInstance3D>("MosqueTimberBoardJoints") is { } joints)
-            joints.MaterialOverride = PainterlyMaterialLibrary.ForColor("7f9097", "wood_painted_trim");
+            joints.MaterialOverride = PainterlyMaterialLibrary.ForColor("50675b", "wood_painted_trim");
         complex.SetMeta("exteriorStyle", "weathered timber hall, ivory casings with lancet heads, eaves valance, green iron roof with partial snow, accessible roof minaret with railed balcony, tent roof and crescent; 2026-10-10");
         complex.SetMeta("presentationOnly", false);
     }
 
     private const string MosqueTimberColour = "8d7a5c";
-    private const string MosqueHallPaint = "aebfc6";
+    private const string MosqueHallPaint = "7b9388";
 
     /// <summary>Points of a pointed (two-centre) arch head, left foot to right foot, x/y in metres.
     /// The feet sit at x = -(radius - .06); each half is a circular arc about a centre .06 m past the axis.</summary>

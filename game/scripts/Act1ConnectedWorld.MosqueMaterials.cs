@@ -6,7 +6,26 @@ public partial class Act1ConnectedWorld
 {
     private const string MosqueWarmMaterials = "res://assets/materials/mosque/warm_hall_v1/";
     private readonly Dictionary<string, Material> _mosqueWarmFinishes = new();
+    private readonly Dictionary<string, Texture2D> _mosqueSourceTextures = new();
     private Shader? _mosqueWarmShader;
+
+    private Texture2D MosqueTexture(string path)
+    {
+        if (_mosqueSourceTextures.TryGetValue(path, out var cached)) return cached;
+        Texture2D texture;
+        if (ResourceLoader.Exists(path)) texture = ResourceLoader.Load<Texture2D>(path);
+        else
+        {
+            // A direct source-checkout launch can precede the editor's import.
+            // Never leave a sampler unbound (which made every new finish white).
+            using var source = Image.LoadFromFile(path);
+            if (source is null || source.IsEmpty()) throw new InvalidOperationException("Missing mosque artwork: " + path);
+            source.GenerateMipmaps();
+            texture = ImageTexture.CreateFromImage(source);
+        }
+        _mosqueSourceTextures.Add(path, texture);
+        return texture;
+    }
 
     // Reference, not reconstruction: timber lining and roof minaret typology:
     // https://tatarica.org/ru/razdely/kultura/iskusstvo/arhitektura/zdaniya-i-sooruzheniya/medina
@@ -18,6 +37,7 @@ public partial class Act1ConnectedWorld
     // fictional village, not an attributed historical or religious practice.
     private Material MosqueFinish(string texture, string tint = "ffffff", float repeatMetres = 1f, float roughness = .91f)
     {
+        if (texture == "wallpaper" && tint == "ffffff") tint = "b8b49d";
         var key = $"{texture}/{tint}/{repeatMetres}/{roughness}";
         if (_mosqueWarmFinishes.TryGetValue(key, out var existing)) return existing;
         var path = MosqueWarmMaterials + texture + "-albedo.png";
@@ -48,7 +68,7 @@ public partial class Act1ConnectedWorld
         finish.SetShaderParameter("tint", new Color(tint));
         finish.SetShaderParameter("tile_metres", repeatMetres);
         finish.SetShaderParameter("roughness_value", roughness);
-        if (ResourceLoader.Exists(path)) finish.SetShaderParameter("weave", ResourceLoader.Load<Texture2D>(path));
+        finish.SetShaderParameter("weave", MosqueTexture(path));
         finish.SetMeta("textureSource", path);
         finish.SetMeta("textureRecipe", "built-in image_gen; flat albedo; no lettering, religious symbols or baked lighting");
         _mosqueWarmFinishes.Add(key, finish);

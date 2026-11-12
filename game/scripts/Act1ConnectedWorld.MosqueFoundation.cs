@@ -24,6 +24,9 @@ public partial class Act1ConnectedWorld
         // doors, stairs, minaret, address plate anchor and approach path are
         // built, so all of them share the yawed transform.
         RotateMosqueComplexToQibla(parent);
+        // BuildMosqueInterior cached the floor before shifting the extended
+        // plinth 70 cm west. Recover that same room origin before translating.
+        PlaceMosqueOnCentralParcel(parent, plinth.Position + new Vector3(.7f, original.Size.Y * .5f + .03f, 0));
         var transform = plinth.GlobalTransform;
         if (transform.Basis.Y.Normalized().Dot(Vector3.Up) < .99999f
             || Math.Abs(transform.Basis.X.Y) > .00001f || Math.Abs(transform.Basis.Z.Y) > .00001f)

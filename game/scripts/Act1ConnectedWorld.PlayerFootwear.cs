@@ -24,8 +24,9 @@ public partial class Act1ConnectedWorld
         _playerFootwearOnShelf = new Node3D { Name = "AidarShoesOnMosqueShelf", Visible = false };
         _mosqueRoom!.AddChild(_playerFootwearOnShelf);
         _playerFootwearOnShelf.SetMeta("worldPropId", PlayerFootwearKey);
+        var bench = _mosqueRoom.GetNode<Node3D>("MosqueShoeBench");
         _playerFootwearTarget = FacilityTarget("MosquePlayerFootwear", PlayerFootwearInteraction,
-            "Снять обувь и поставить на полку", _mosqueRoom, new(3.65f, .445f, 2.638f), new(1.70f, .05f, .035f));
+            "Снять обувь и поставить на полку", _mosqueRoom, bench.Position + new Vector3(0, .445f, -.262f), new(1.70f, .05f, .035f));
         _playerFootwearTarget.PresentationRepeatAvailable = PlayerAtFootwearVestibule;
         _playerFootwearTarget.PresentationRepeat = () => _ = TogglePlayerFootwear();
         _playerFootwearTarget.ConfigureRayOnly();
