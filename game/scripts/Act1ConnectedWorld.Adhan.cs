@@ -18,6 +18,29 @@ namespace Urman.Godot;
 public partial class Act1ConnectedWorld
 {
     private AudioStreamPlayer3D? _adhanPlayer;
+    private InteractionTarget? _mosqueAdhanControl;
+
+    private void BuildMosqueAdhanControl(Node3D microphone)
+    {
+        var target = FacilityTarget("MosqueAdhanControl", "urman.chapter1:local/mosque/adhan",
+            "Включить азан", microphone, new(-.20f, 1.46f, 0), new(.32f, .32f, .32f));
+        _mosqueAdhanControl = target;
+        target.SetMeta("runtimeStateOwner", "licensed audio presentation only");
+        target.PresentationRepeatAvailable = () => FacilityExteriorActive;
+        target.PresentationRepeat = () =>
+        {
+            if (AdhanPlaying) StopAdhan();
+            else if (!TryPlayAdhan()
+                && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+                player.NotifyTraversal("Запись азана недоступна.");
+        };
+    }
+
+    private void RefreshMosqueAdhanPrompt()
+    {
+        if (_mosqueAdhanControl is not null && IsInstanceValid(_mosqueAdhanControl))
+            _mosqueAdhanControl.Prompt = AdhanPlaying ? "Выключить азан" : "Включить азан";
+    }
 
     internal bool AdhanRecordingReady => ResourceLoader.Exists(VillageSoundMoodDirector.AdhanPath);
 
@@ -44,13 +67,13 @@ public partial class Act1ConnectedWorld
                 AttenuationFilterDb = -3f
             };
             AddChild(_adhanPlayer);
-            // The call stops only at its natural end (expert brief 07); the
-            // focus then releases itself.
+            // Natural completion and the balcony stop control both release focus.
             _adhanPlayer.Finished += () =>
             {
                 SoundMood()?.SetAdhanFocus(false);
                 Pa()?.HoldForAdhan(false);
                 SetMeta("adhanState", "idle");
+                RefreshMosqueAdhanPrompt();
             };
         }
 
@@ -70,6 +93,7 @@ public partial class Act1ConnectedWorld
         SoundMood()?.SetAdhanFocus(true);
         SetMeta("adhanState", "playing-licensed-recording");
         SetMeta("adhanSource", "mosque azanchi lantern point");
+        RefreshMosqueAdhanPrompt();
         GD.Print("mosque-adhan: licensed recorded adhan starts at the azanchi point; prayer calendar remains open");
         return true;
     }
@@ -85,6 +109,7 @@ public partial class Act1ConnectedWorld
         SoundMood()?.SetAdhanFocus(false);
         Pa()?.HoldForAdhan(false);
         SetMeta("adhanState", "idle");
+        RefreshMosqueAdhanPrompt();
     }
 
     /// <summary>

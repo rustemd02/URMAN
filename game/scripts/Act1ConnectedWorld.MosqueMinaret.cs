@@ -20,24 +20,24 @@ public partial class Act1ConnectedWorld
             "plank-clad octagonal village minaret after the Bolshaya Elga / Moksha published type: framed timber shaft, open railed azanchi lantern with its own skirt roof, slender sheet-metal tent and crescent; no glazed belfry, no white church trim");
         stair.SetMeta("riseMetres", .16f);
         stair.SetMeta("goingMetres", .236f);
-        stair.SetMeta("clearFlightWidth", 1.04f);
+        stair.SetMeta("clearFlightWidth", .86f);
         stair.SetMeta("entranceDoorClearanceTrim",
-            "treads 0-1 outer radius 1.20 -> 1.14 m (clear width .98 m there); mosque entrance leaf tip samples 1.1536/1.1861 m, full -95-degree arc clear with a real margin; entry tread, rails and anchors unchanged");
+            "treads 0-1 outer radius 1.20 -> 1.14 m (clear width .80 m there); mosque entrance leaf tip samples 1.1536/1.1861 m, full -95-degree arc clear with a real margin; entry tread and rails unchanged");
         stair.SetMeta("sameLaneVerticalClearance", 3.12f);
         stair.SetMeta("shaftDiameterMetres", 2.60f);
         stair.SetMeta("shaftAcrossFlatsMetres", 2.40f);
         stair.SetMeta("stairPolicy",
-            "riser .16 m within the .22 m controller allowance (FirstPersonController.MaximumStepHeight); walking-radius going .258 m; same-lane headroom 3.12 m above the 1.8 m capsule; handrail and baluster line stays at r=1.22 m; no ramp or teleporter");
+            "riser .16 m within the .22 m controller allowance (FirstPersonController.MaximumStepHeight); walking-radius going .236 m; same-lane headroom 3.12 m above the 1.8 m capsule; handrail and baluster line stays at r=1.22 m; no ramp or teleporter");
         stair.SetMeta("lanternType",
             "open azanchi arcade: .92 m parapet, timber balusters and corner posts, own skirt roof, drum, 2.00 m tent base and crescent");
         const int count = 60, perTurn = 20;
-        const float rise = .16f, inner = .16f, outer = 1.20f, walkingRadius = .82f;
+        const float rise = .16f, inner = .16f, outer = 1.20f, walkingRadius = .75f;
         // The mosque entrance leaf opens inward to -95 degrees; its full-shape
         // sweep reaches stair radius 1.1536 m at the tip corner over tread0
         // and 1.1861 m across the tread1 wedge. Only those two lowest helical
         // treads are trimmed (1.20 -> 1.14), which leaves 13.6 mm / 46.1 mm of
         // real surface clearance before the door test's 2 mm query margin.
-        // Entry tread, spiral rails, anchors and every walk meta stay intact.
+        // Entry tread and spiral rails stay intact; the walking line is r=.75 m.
         const float entranceTreadOuter = 1.14f;
         var angle = Mathf.Tau / perTurn;
         var anchors = new global::Godot.Collections.Array<Vector3>();
@@ -45,7 +45,7 @@ public partial class Act1ConnectedWorld
         // A broad first tread allows a normal turn from the vestibule into the
         // fanned flight; it is timber and contact at the same 16cm rise.
         MinaretSectorSolid(stair, "MinaretEntryTread", inner, outer, Mathf.DegToRad(126), Mathf.Pi * .5f, rise, rise, "ac8e65", "wood_furniture");
-        anchors.Add(stair.ToGlobal(new(-.212f, rise + .035f, .792f)));
+        anchors.Add(stair.ToGlobal(new(-.194f, rise + .035f, .724f)));
         for (var i = 0; i < count; i++)
         {
             var start = Mathf.Pi * .5f - i * angle;
@@ -64,14 +64,19 @@ public partial class Act1ConnectedWorld
             if (i >= 2 && i % 2 == 0)
                 FacilityRod(stair, "SpiralBaluster" + i, new(a.X, top, a.Z), a, .018f, "c4b18b");
         }
-        // Structural centre mast matches the treads' inner edge; no invisible ramp or teleporter.
+        // Keep the walking lane outside the narrow inner tips of the winders.
+        // A .35 m capsule beside this .34 m mast has centre radius >= .69 m;
+        // its innermost step-support ray (another .10 m inward) has .192 m
+        // going, enough for the controller's .18 m forward support sample.
+        // The old .16 m mast allowed samples onto the following .32 m rise.
+        const float mastRadius = .34f;
         var mast = new MeshInstance3D { Name = "SpiralTimberMast", Position = new(0, 4.80f, 0),
-            Mesh = new CylinderMesh { TopRadius = inner, BottomRadius = inner, Height = MinaretGalleryHeight, RadialSegments = 12 },
+            Mesh = new CylinderMesh { TopRadius = mastRadius, BottomRadius = mastRadius, Height = MinaretGalleryHeight, RadialSegments = 12 },
             MaterialOverride = PainterlyMaterialLibrary.ForColor("80674c", "wood_furniture") };
         stair.AddChild(mast);
         var mastBody = new StaticBody3D { Name = "SpiralTimberMastBody", Position = mast.Position, CollisionLayer = 2, CollisionMask = 0 };
         mastBody.SetMeta("collisionOwner", "act1-exterior-architecture");
-        mastBody.AddChild(new CollisionShape3D { Shape = new CylinderShape3D { Radius = inner, Height = MinaretGalleryHeight } });
+        mastBody.AddChild(new CollisionShape3D { Shape = new CylinderShape3D { Radius = mastRadius, Height = MinaretGalleryHeight } });
         stair.AddChild(mastBody); _facilityBodies.Add(mastBody);
 
         // Eight slim timber facets. The two south facets start above the real bottom doorway.
@@ -203,10 +208,14 @@ public partial class Act1ConnectedWorld
         foreach (var a in new[] { 0f, Mathf.Tau / 3, Mathf.Tau * 2 / 3 })
             FacilityRod(mic, "StandFoot" + a, new(0, .04f, 0), new(Mathf.Cos(a) * .18f, .02f, Mathf.Sin(a) * .18f), .009f, "626967");
         FacilityRod(mic, "Cable", new(-.20f, 1.45f, .01f), new(0, .025f, .05f), .003f, "303936");
-        mic.SetMeta("purpose", "author-requested modern microphone at the railed azanchi lantern under its skirt roof; visual equipment only");
+        mic.SetMeta("purpose", "author-requested modern microphone at the railed azanchi lantern under its skirt roof; licensed recording start/stop control");
+        BuildMosqueAdhanControl(mic);
         stair.SetMeta("walkAnchors", anchors);
         stair.SetMeta("adhanPoint", _mosqueAdhanAnchor.GlobalPosition);
-        for (var i = 0; i < 3; i++) FacilityLamp(stair, "MinaretStairLamp" + i, new(0, 1.85f + i * 3.20f, 0), "ffe5bd", .22f, 2.20f);
+        // Lamps were buried inside the opaque centre mast. Mount them in the
+        // shaft at the same angle each turn, above the standing head envelope.
+        for (var i = 0; i < 3; i++) FacilityLamp(stair, "MinaretStairLamp" + i,
+            new(0, 2.65f + i * 3.20f, .99f), "ffe5bd", .22f, 2.20f);
     }
 
     /// <summary>
@@ -290,6 +299,8 @@ public partial class Act1ConnectedWorld
     {
         var room = _mosqueRoom!;
         const float eave = 4.67f, rise = 2.15f, half = 5.32f, snowReach = 3.30f;
+        var profiles = new List<Transform3D>();
+        var overlaps = new List<Transform3D>();
         using var roof = new SurfaceTool(); roof.Begin(Mesh.PrimitiveType.Triangles);
         void Patch(float x0, float x1, float z0, float z1)
         {
@@ -298,6 +309,17 @@ public partial class Act1ConnectedWorld
             var c = new Vector3(x1,Y(z1),z1); var d = new Vector3(x0,Y(z1),z1);
             var normal = (c-a).Cross(b-a).Normalized();
             foreach (var p in new[] {a,b,c,a,c,d}) { roof.SetNormal(normal); roof.SetUV(new(p.X*.3f,p.Z*.3f)); roof.AddVertex(p); }
+            // Raised sheet profiles follow the slope and stop at the same real
+            // shaft opening as the continuous supporting sheet below them.
+            var slope = (Y(z1) - Y(z0)) / (z1 - z0);
+            var basis = Basis.FromEuler(new Vector3(-Mathf.Atan(slope), 0, 0));
+            foreach (var seamZ in new[] { -3.65f, 3.65f })
+                if (seamZ > z0 + .05f && seamZ < z1 - .05f)
+                    overlaps.Add(new Transform3D(basis * Basis.FromScale(new Vector3(x1-x0, .012f, .09f)),
+                        new((x0+x1)*.5f, Y(seamZ)+.009f, seamZ)));
+            for (var x = Mathf.Ceil(x0 / .44f) * .44f; x < x1 - .025f; x += .44f)
+                profiles.Add(new Transform3D(basis * Basis.FromScale(new Vector3(.035f, .028f,
+                    (z1-z0) * Mathf.Sqrt(1 + slope*slope))), new(x, Y((z0+z1)*.5f)+.014f, (z0+z1)*.5f)));
         }
         Patch(-7.4f, 2.43f, -half, 0); Patch(-7.4f,2.43f,0,half);
         Patch(2.43f,5.23f,-half,-3.40f); Patch(2.43f,5.23f,-.60f,0); Patch(2.43f,5.23f,0,half);
@@ -305,6 +327,32 @@ public partial class Act1ConnectedWorld
         // Green sheet-iron roof; settled snow lies only on the upper slopes (iron sheds it at the eaves).
         var mesh = new MeshInstance3D { Name = "MosqueGableRoofV4", Mesh = roof.Commit(), MaterialOverride = PainterlyMaterialLibrary.ForColor(MosqueIronColour,"roof_metal") };
         room.AddChild(mesh);
+        MosqueBatch(room, "MosqueRoofSheetProfiles", profiles, PainterlyMaterialLibrary.ForColor(MosqueIronColour, "roof_metal"));
+        MosqueBatch(room, "MosqueRoofSheetOverlaps", overlaps, PainterlyMaterialLibrary.ForColor(MosqueIronColour, "roof_metal"));
+        // The square opening left triangular daylight gaps beside the octagonal
+        // shaft. Flashing laps .10 m over the roof and terminates within the
+        // existing .10 m shaft wall; nothing projects into its clear stairwell.
+        using var flashing = new SurfaceTool(); flashing.Begin(Mesh.PrimitiveType.Triangles);
+        Vector3 FlashPoint(float angle, bool outerEdge)
+        {
+            var x = Mathf.Cos(angle); var z = Mathf.Sin(angle);
+            var radius = outerEdge ? 1.50f / Mathf.Max(Mathf.Abs(x), Mathf.Abs(z)) : 1.27f / Mathf.Cos(Mathf.Pi / 8);
+            var point = MinaretCentre + new Vector3(x * radius, 0, z * radius);
+            point.Y = eave + rise * (1 - Mathf.Abs(point.Z) / half) + (outerEdge ? .018f : .09f);
+            return point;
+        }
+        for (var side = 0; side < 8; side++)
+        {
+            var a = FlashPoint(side * Mathf.Tau / 8, false);
+            var b = FlashPoint(side * Mathf.Tau / 8, true);
+            var c = FlashPoint((side + 1) * Mathf.Tau / 8, true);
+            var d = FlashPoint((side + 1) * Mathf.Tau / 8, false);
+            var normal = (c-a).Cross(b-a).Normalized();
+            foreach (var p in new[] {a,b,c,a,c,d})
+            { flashing.SetNormal(normal); flashing.SetUV(new(p.X, p.Z)); flashing.AddVertex(p); }
+        }
+        room.AddChild(new MeshInstance3D { Name = "MosqueShaftRoofFlashing", Mesh = flashing.Commit(),
+            MaterialOverride = PainterlyMaterialLibrary.ForColor(MosqueIronColour, "roof_metal") });
         using var snow = new SurfaceTool(); snow.Begin(Mesh.PrimitiveType.Triangles);
         void SnowPatch(float x0, float x1, float z0, float z1)
         {
