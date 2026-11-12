@@ -268,15 +268,42 @@ public partial class Act1ConnectedWorld
     {
         var room = building.Room;
         var h = building.HalfSize;
+        // Interior rebuilt from the bare room (author request 12.11.2026). A
+        // village shop is one room and one counter: goods on every wall behind
+        // it, the scales and the account book on it, sacks and crates in front.
         var counter = new Node3D { Name = "RazilyaCounter", Position = new(0, 0, .47f) };
         room.AddChild(counter);
-        PublicSolid(counter, "CounterFront", new(2.48f, .84f, .085f), new(0, .42f, -.235f), "81724f", "wood_furniture");
-        foreach (var x in new[] { -1.20f, 1.20f })
-            PublicSolid(counter, "CounterSide" + x, new(.08f, .84f, .51f), new(x, .42f, 0), "81724f", "wood_furniture");
-        PublicSolid(counter, "WornLaminateTop", new(2.58f, .055f, .63f), new(0, .87f, 0), "b4ae93", "wood_furniture");
-        for (var i = 0; i < 6; i++)
-            PublicBox(counter, "VerticalCounterJoint" + i, new(.015f, .76f, .008f),
-                new(-1.02f + i * .4f, .43f, -.283f), "62573f", "wood_furniture");
+        PublicSolid(counter, "CounterPlinth", new(2.52f, .1f, .5f), new(0, .05f, -.02f), "4f4636", "wood_furniture");
+        PublicSolid(counter, "CounterFront", new(2.48f, .76f, .06f), new(0, .47f, -.24f), "7b6d4c", "wood_furniture");
+        foreach (var x in new[] { -1.21f, 1.21f })
+            PublicSolid(counter, "CounterSide" + x, new(.06f, .76f, .5f), new(x, .47f, 0), "7b6d4c", "wood_furniture");
+        PublicSolid(counter, "WornLaminateTop", new(2.6f, .045f, .66f), new(0, .873f, 0), "b9b297", "wood_furniture");
+        for (var i = 0; i < 4; i++)
+        {
+            // Framed panels on the customer side.
+            var x = -.93f + i * .62f;
+            PublicBox(counter, "CounterPanel" + i, new(.52f, .56f, .012f), new(x, .47f, -.276f), "8a7b57", "wood_furniture");
+            PublicBox(counter, "CounterPanelInset" + i, new(.42f, .46f, .008f), new(x, .47f, -.284f), "74674a", "wood_furniture");
+        }
+        // Scales: a cast base, a dial and a pan.
+        var scales = new Node3D { Name = "CounterScales", Position = new(-.05f, .896f, .06f) };
+        counter.AddChild(scales);
+        PublicBox(scales, "Base", new(.3f, .07f, .24f), new(0, .035f, 0), "5d6b63", "metal");
+        PublicBox(scales, "Column", new(.06f, .2f, .05f), new(0, .17f, .09f), "5d6b63", "metal");
+        PublicBox(scales, "Dial", new(.2f, .16f, .03f), new(0, .3f, .09f), "d8d2bd", "metal");
+        PublicBox(scales, "Needle", new(.008f, .11f, .006f), new(.02f, .3f, .072f), "8b2f2a", "metal");
+        DiscoveryCylinder(scales, "Pan", .13f, .11f, .025f, new(0, .1f, -.03f), "b9bdb3");
+        // A glazed case for what must not be handled.
+        var glassCase = new Node3D { Name = "CounterGlassCase", Position = new(-.82f, .896f, -.02f) };
+        counter.AddChild(glassCase);
+        PublicBox(glassCase, "Tray", new(.62f, .02f, .44f), new(0, .01f, 0), "8a7b57", "wood_furniture");
+        foreach (var x in new[] { -.3f, .3f }) foreach (var z in new[] { -.21f, .21f })
+            PublicBox(glassCase, $"Post{x}_{z}", new(.018f, .26f, .018f), new(x, .14f, z), "6f6a5a", "metal");
+        var pane = PublicBox(glassCase, "Glass", new(.6f, .25f, .42f), new(0, .145f, 0), "b6c8cb", "glass");
+        pane.MaterialOverride = new StandardMaterial3D { Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
+            AlbedoColor = new Color(.7f, .8f, .8f, .14f), Roughness = .1f, CullMode = BaseMaterial3D.CullModeEnum.Disabled };
+        pane.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
+        PublicGoods(glassCase, new(-.12f, .02f, 0), compact: true);
         var buy = FacilityTarget("VillageShopCounter", "urman.chapter1:local/shop-counter", "Попросить нужные вещи",
             counter, new(.84f, 1.01f, -.12f), new(.61f, .25f, .36f));
         buy.AddToGroup("village_shop_counter");
@@ -289,10 +316,30 @@ public partial class Act1ConnectedWorld
         };
         PublicDocument(counter, "shop-account-book", new(-.57f, .903f, -.12f), Vector3.Zero, new(.42f, .31f), flat: true);
         PublicGoods(counter, new(.85f, .91f, .05f), compact: true);
-        PublicShelf(room, "ShopRearShelves", new(0, 0, h.Y - .27f), 2.95f, 1.83f, .39f, goods: true);
+        // Walls of goods: the full rear wall, and each side wall where the room allows it.
+        PublicShelf(room, "ShopRearShelves", new(0, 0, h.Y - .27f), Math.Min(h.X * 2f - .5f, 3.6f), 1.95f, .39f, goods: true);
         BuildPublicFridge(room, new(-h.X + .44f, 0, .67f));
+        var sideRun = h.Y - .6f - 1.15f;
+        if (sideRun > .9f)
+        {
+            PublicShelf(room, "ShopWestShelves", new(-h.X + .24f, 0, 1.15f + sideRun * .5f), sideRun, 1.75f, .34f, goods: true, yaw: -90);
+            // The east wall keeps its rear corner for the crate stand.
+            if (sideRun - .95f > .9f)
+                PublicShelf(room, "ShopEastShelves", new(h.X - .24f, 0, 1.15f + (sideRun - .95f) * .5f), sideRun - .95f, 1.75f, .34f, goods: true, yaw: 90);
+        }
+        // In front of the counter: sacks, a crate stand with bags, a runner on the boards.
+        for (var sack = 0; sack < 3; sack++)
+        {
+            var at = new Vector3(-h.X + .42f + sack * .16f, 0, -.35f - sack * .5f);
+            PublicSolid(room, "ShopSack" + sack, new(.44f, .5f + sack % 2 * .1f, .36f), at + Vector3.Up * (.25f + sack % 2 * .05f),
+                sack == 1 ? "b7ad92" : "a89c7e", "fabric");
+            PublicBox(room, "ShopSackTie" + sack, new(.2f, .08f, .16f), at + Vector3.Up * (.54f + sack % 2 * .1f), "8a7f66", "fabric");
+        }
         FacilityTable(room, "EmptyCrateStand", new(h.X - .50f, 0, h.Y - .52f), new(.74f, .61f, .65f));
         PublicBox(room, "FoldedShoppingBags", new(.42f, .09f, .36f), new(h.X - .50f, .69f, h.Y - .52f), "9f9679", "paper");
+        PublicBox(room, "ShopFloorRunner", new(2.3f, .01f, .8f), new(0, .006f, -.45f), "6e4a3c", "fabric");
+        PublicBox(room, "ShopFloorRunnerBand", new(2.3f, .011f, .08f), new(0, .0065f, -.45f), "b8a57c", "fabric");
+        FacilityLamp(room, "ShopCounterLamp", new(0, Math.Min(building.Ceiling - .25f, 2.5f), .1f), "ffe1b0", .85f, 5.5f);
         var seller = GeneratedCharacterKitDressing.Attach(room, "razilya", "Naila", new(0, 0, 1.47f), sheltered: true);
         seller.Name = "Npc_razilya";
         seller.RotationDegrees = new(0, 180, 0);
