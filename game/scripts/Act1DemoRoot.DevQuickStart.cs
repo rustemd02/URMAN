@@ -62,6 +62,8 @@ public partial class Act1DemoRoot
         var every = Number("URMAN_SHOT_EVERY", 2f);
         var total = Number("URMAN_SHOT_SECONDS", 90f);
         System.IO.Directory.CreateDirectory(dir);
+        // macOS stops drawing a covered window, and a capture of it repeats one stale frame.
+        DisplayServer.WindowSetFlag(DisplayServer.WindowFlags.AlwaysOnTop, true);
         while (IsInsideTree() && !_playerSessionSelected) await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         var index = 0;
         for (var elapsed = 0f; elapsed < total && IsInsideTree(); elapsed += every)
