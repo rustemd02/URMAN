@@ -306,12 +306,13 @@ public static partial class StyleBenchmarkInteriorFactory
             Prop(root, $"StairBaluster{i}", new(.04f, .95f, .04f), new(x, (StairBottomX - x) / run * rise + .47f, StairZ0 + .02f), "5d4a38", "wood_prop");
         }
         // The hole's guard rails on the attic side.
-        Block(root, "AtticGuardRailNorth", new(HoleEast - HoleWest - .2f, .06f, .05f), new((HoleEast + HoleWest) * .5f + .1f, AtticFloor + .95f, HoleNorth), "5d4a38", "wood_prop");
+        Block(root, "AtticGuardRailNorth", new(HoleEast - HoleWest - 1.1f, .06f, .05f), new((HoleEast + HoleWest) * .5f + .55f, AtticFloor + .95f, HoleNorth), "5d4a38", "wood_prop");
         Block(root, "AtticGuardRailEast", new(.05f, .06f, 3.5f - HoleNorth), new(HoleEast, AtticFloor + .95f, (3.5f + HoleNorth) * .5f), "5d4a38", "wood_prop");
-        Collider(root, "AtticGuardBlockNorth", new(HoleEast - HoleWest - .2f, 1.0f, .06f), new((HoleEast + HoleWest) * .5f + .1f, AtticFloor + .5f, HoleNorth));
+        // The guard stops 1.1 m short of the stair head, so stepping off the top tread and turning into the room is unobstructed.
+        Collider(root, "AtticGuardBlockNorth", new(HoleEast - HoleWest - 1.1f, 1.0f, .06f), new((HoleEast + HoleWest) * .5f + .55f, AtticFloor + .5f, HoleNorth));
         Collider(root, "AtticGuardBlockEast", new(.06f, 1.0f, 3.5f - HoleNorth), new(HoleEast, AtticFloor + .5f, (3.5f + HoleNorth) * .5f));
         for (var i = 0; i < 5; i++)
-            Prop(root, $"AtticGuardPost{i}", new(.05f, .95f, .05f), new(-1.3f + i * 1.15f, AtticFloor + .47f, HoleNorth), "5d4a38", "wood_prop");
+            Prop(root, $"AtticGuardPost{i}", new(.05f, .95f, .05f), new(-.4f + i * .93f, AtticFloor + .47f, HoleNorth), "5d4a38", "wood_prop");
     }
 
     // ------------------------------------------------------------ attic
@@ -335,9 +336,37 @@ public static partial class StyleBenchmarkInteriorFactory
             // Roof slabs: inner surface climbs from the knee wall to the ridge.
             var span = Mathf.Sqrt(half * half + (ridge - knee) * (ridge - knee));
             var angle = Mathf.RadToDeg(Mathf.Atan2(ridge - knee, half));
-            var slab = Block(root, sign < 0 ? "AtticRoofNorth" : "AtticRoofSouth", new(10.4f, .12f, span + .1f),
-                new(0, y0 + knee + (ridge - knee) * .5f + .06f, sign * half * .5f), "7a6a53", "wood");
-            slab.RotationDegrees = new(sign < 0 ? -angle : angle, 0, 0);
+            if (sign < 0)
+            {
+                var slab = Block(root, "AtticRoofNorth", new(10.4f, .12f, span + .1f),
+                    new(0, y0 + knee + (ridge - knee) * .5f + .06f, sign * half * .5f), "7a6a53", "wood");
+                slab.RotationDegrees = new(-angle, 0, 0);
+                continue;
+            }
+            // South slope. The stair comes up under this eave, where the slope
+            // left 1.2 m of headroom and nobody could stand on the top treads.
+            // Over the stairwell the roof is lifted into a dormer with standing height.
+            const float dormerWest = HoleWest - 1.0f, dormerEast = HoleEast + .1f, dormerInner = 1.75f, dormerCeiling = 2.05f;
+            float RoofHeight(float z) => knee + (ridge - knee) * (half - z) / half;
+            void Slope(string name, float west, float east, float zNear, float zFar)
+            {
+                var run = zFar - zNear;
+                var length = run / Mathf.Cos(Mathf.DegToRad(angle));
+                var piece = Block(root, name, new(east - west, .12f, length + .05f),
+                    new((west + east) * .5f, y0 + (RoofHeight(zNear) + RoofHeight(zFar)) * .5f + .06f, (zNear + zFar) * .5f), "7a6a53", "wood");
+                piece.RotationDegrees = new(angle, 0, 0);
+            }
+            Slope("AtticRoofSouthWest", -5.2f, dormerWest, 0f, half);
+            Slope("AtticRoofSouthEast", dormerEast, 5.2f, 0f, half);
+            Slope("AtticRoofSouthOverStair", dormerWest, dormerEast, 0f, dormerInner);
+            Block(root, "AtticDormerCeiling", new(dormerEast - dormerWest, .1f, half + .2f - dormerInner),
+                new((dormerWest + dormerEast) * .5f, y0 + dormerCeiling + .05f, (dormerInner + half + .2f) * .5f), "7a6a53", "wood");
+            Block(root, "AtticDormerWall", new(dormerEast - dormerWest, dormerCeiling - knee, .2f),
+                new((dormerWest + dormerEast) * .5f, y0 + (knee + dormerCeiling) * .5f, half + .1f), "7d6a52", "wood");
+            foreach (var x in new[] { dormerWest, dormerEast })
+                Block(root, x < 0 ? "AtticDormerCheekWest" : "AtticDormerCheekEast", new(.1f, dormerCeiling - knee, half + .2f - dormerInner),
+                    new(x, y0 + (knee + dormerCeiling) * .5f, (dormerInner + half + .2f) * .5f), "7d6a52", "wood");
+            FrostWindow(root, "AtticDormerWindow", new(1.0f, y0 + 1.45f, half - .02f), 180, .8f, .7f, curtains: false);
         }
         Prop(root, "AtticRidgeBeam", new(10.4f, .16f, .16f), new(0, y0 + ridge - .04f, 0), "493629", "wood");
         for (var i = -2; i <= 2; i++)
