@@ -5,7 +5,6 @@ namespace Urman.Godot;
 public partial class JournalUi
 {
     private const string InspectionBookPath = "res://assets/models/photoworlds/family-book-v1.glb";
-    private const string InspectionHandsPath = "res://assets/models/photoworlds/book-hands-v1.glb";
     private Button _bookInspectionToggle = null!;
     private Button _bookInspectionGripToggle = null!;
     private Button _photoSceneReferenceButton = null!;
@@ -78,7 +77,7 @@ public partial class JournalUi
         && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController { VehicleControlled: false }
         && GetTree().GetFirstNodeInGroup("carry_coordinator") is not CarryCoordinator { HeldItem: not null }
         && GetTree().GetFirstNodeInGroup("carry_coordinator") is not CarryCoordinator { ActionInProgress: true }
-        && ResourceLoader.Exists(InspectionBookPath) && ResourceLoader.Exists(InspectionHandsPath);
+        && ResourceLoader.Exists(InspectionBookPath);
 
     private void RefreshBookInspection()
     {
@@ -165,8 +164,7 @@ public partial class JournalUi
         if (!CanInspectBook() || _bookInspectionView is not null) return;
         _bookInspectionOpenPose = false;
         var bookScene = ResourceLoader.Load<PackedScene>(InspectionBookPath);
-        var handsScene = ResourceLoader.Load<PackedScene>(InspectionHandsPath);
-        if (bookScene is null || handsScene is null) return;
+        if (bookScene is null) return;
         _bookInspectionSession = _bridge!.SessionIdentity;
         var controls = new HFlowContainer { Name = "InspectionControls" };
         void Action(string text, System.Action action)
@@ -218,7 +216,7 @@ public partial class JournalUi
         _bookInspectionPivot = new Node3D { Name = "BookAndHandsPivot" };
         world.AddChild(_bookInspectionPivot);
         _bookInspectionModel = bookScene.Instantiate<Node3D>();
-        _bookInspectionHands = handsScene.Instantiate<Node3D>();
+        _bookInspectionHands = PhotoBookHands.Create();
         _bookInspectionPivot.AddChild(_bookInspectionModel);
         _bookInspectionPivot.AddChild(_bookInspectionHands);
         // This is a separate visual world: never borrow the table prop or player

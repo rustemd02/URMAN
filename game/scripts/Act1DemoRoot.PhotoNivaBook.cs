@@ -10,7 +10,6 @@ public partial class Act1DemoRoot
     {
         ReleasePhotoNivaLapBook();
         const string bookPath = "res://assets/models/photoworlds/family-book-v1.glb";
-        const string handsPath = "res://assets/models/photoworlds/book-hands-v1.glb";
         const string printPath = "res://assets/textures/photobook/p-forest-front-v2.png";
         if (_rideNiva is null || ResourceLoader.Load<PackedScene>(bookPath) is not { } bookScene
             || ResourceLoader.Load<Texture2D>(printPath) is not { } print) return;
@@ -56,12 +55,9 @@ public partial class Act1DemoRoot
             }
         });
 
-        if (ResourceLoader.Load<PackedScene>(handsPath) is { } handsScene)
-        {
-            var hands = handsScene.Instantiate<Node3D>();
-            lap.AddChild(hands);
-            SetPhotoNivaBookPose(hands, "hold_open");
-        }
+        var hands = PhotoBookHands.Create();
+        lap.AddChild(hands);
+        SetPhotoNivaBookPose(hands, "hold_open");
         foreach (var mesh in lap.FindChildren("*", nameof(GeometryInstance3D), true, false)
                      .OfType<GeometryInstance3D>())
             mesh.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;

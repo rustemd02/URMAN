@@ -5,7 +5,6 @@ namespace Urman.Godot;
 public partial class FirstPersonController
 {
     private const string PhotoBookGripBookPath = "res://assets/models/photoworlds/family-book-v1.glb";
-    private const string PhotoBookGripHandsPath = "res://assets/models/photoworlds/book-hands-v1.glb";
 
     private Node3D? _photoBookGripAnchor;
     private object? _photoBookGripSession;
@@ -96,10 +95,9 @@ public partial class FirstPersonController
     {
         book = null!;
         hands = null!;
-        if (!ResourceLoader.Exists(PhotoBookGripBookPath) || !ResourceLoader.Exists(PhotoBookGripHandsPath)) return false;
+        if (!ResourceLoader.Exists(PhotoBookGripBookPath)) return false;
         var bookScene = ResourceLoader.Load<PackedScene>(PhotoBookGripBookPath);
-        var handsScene = ResourceLoader.Load<PackedScene>(PhotoBookGripHandsPath);
-        if (bookScene is null || handsScene is null) return false;
+        if (bookScene is null) return false;
 
         var bookNode = bookScene.Instantiate();
         if (bookNode is not Node3D bookModel)
@@ -107,13 +105,7 @@ public partial class FirstPersonController
             bookNode?.Free();
             return false;
         }
-        var handsNode = handsScene.Instantiate();
-        if (handsNode is not Node3D handsModel)
-        {
-            bookModel.Free();
-            handsNode?.Free();
-            return false;
-        }
+        var handsModel = PhotoBookHands.Create();
 
         if (!PreparePhotoBookGripAnimation(bookModel, "close")
             || !PreparePhotoBookGripAnimation(handsModel, "hold_closed")
