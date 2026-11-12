@@ -103,11 +103,19 @@ public partial class Act1ConnectedWorld
         // walls, 7.6 cm clear of the minaret shaft and 2.6 m clear of the
         // radiators; tops meet the ceiling plane at 3.74 instead of embedding
         // 1 cm. Doorway, leaf, lintel and collision stay the same primitives.
-        FacilitySolid(_mosqueRoom, "MosqueVestibuleNorth", new(.14f, 3.74f, .98f), new(2.40f, 1.87f, -1.21f), "b2a384", "wood_furniture");
-        FacilitySolid(_mosqueRoom, "MosqueVestibuleSouth", new(.14f, 3.74f, .98f), new(2.40f, 1.87f, 1.21f), "b2a384", "wood_furniture");
-        FacilitySolid(_mosqueRoom, "MosqueVestibuleLintel", new(.14f, 1.54f, 1.44f), new(2.40f, 2.97f, 0), "b2a384", "wood_furniture");
+        // Rebuilt 12.11.2026: the two free-standing 0.98 m wall stubs under a
+        // 1.5 m slab of lintel read as broken, crooked walls in the middle of
+        // the hall. The threshold between the shoe side and the carpet is now
+        // a plain timber portal: two full-height posts, one beam, open above
+        // and to both sides, square to the window walls.
+        foreach (var z in new[] { -.82f, .82f })
+        {
+            FacilitySolid(_mosqueRoom, z < 0 ? "MosqueVestibuleNorth" : "MosqueVestibuleSouth", new(.16f, 3.74f, .16f), new(2.40f, 1.87f, z), "8f7653", "wood_furniture");
+            AddVisualBox(_mosqueRoom, "MosqueVestibulePostBase" + z, new(.22f, .12f, .22f), new(2.40f, .06f, z), "7a6446", "wood_furniture");
+        }
+        AddVisualBox(_mosqueRoom, "MosqueVestibuleLintel", new(.16f, .2f, 1.8f), new(2.40f, 2.42f, 0), "8f7653", "wood_furniture");
         _mosqueRoom.SetMeta("vestibulePartition",
-            "two 0.98 m returns at X2.40 flanking the unchanged 1.44 m doorway; full-depth 3.89 m partition removed 2026-10-04");
+            "open timber portal at X2.40: two 0.16 m posts at Z+-0.82 and a beam at 2.32-2.52 m; wall stubs and solid lintel removed 2026-11-12");
         FacilityBench(_mosqueRoom, "MosqueShoeBench", new(3.65f, 0, 2.90f), 1.90f, 0);
         // Author repair 2026-10-04: the rack sat at X3.65 where the S-E
         // radiator rails (reaching X3.085) and column channels (X3.010) crossed
