@@ -230,6 +230,8 @@ public static class GeneratedCharacterKitDressing
         // built above stays private to this person (no library is shared).
         if (characterId == GovernedDistantCharacterId)
             AttachDistantWorkGovernor(instance, animationPlayer, idleClip);
+        // Bodies, clothes and the walk are drawn in code over this rig (CodePerson.cs).
+        if (human) CodePerson.Dress(instance, prefix, characterId, sheltered);
         return instance;
     }
 
