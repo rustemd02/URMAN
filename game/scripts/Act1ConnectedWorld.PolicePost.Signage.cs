@@ -97,17 +97,16 @@ public partial class Act1ConnectedWorld
         PoliceSignPlate(room,"PoliceReceptionInformation","police_hours.png",new(1.8f,1.49f,4.548f),new(.58f,.483f));
         room.GetNode<MeshInstance3D>("PoliceReceptionPlaque").Visible=false;
         PoliceSignPlate(room,"PoliceReceptionEnamelSign","police_reception.png",new(-3.1f,2.47f,2.12f),new(1.35f,.2475f));
-        foreach(var sign in new[]{-1f,1f})
-            PoliceSignPlate(room,"PoliceStaffDoorPlate"+sign,sign<0?"police_staff.png":"police_store.png",
-                new(sign*.883f,2.51f,-.58f),new(.38f,.10f),sign<0?90:-90);
-        PoliceSignPlate(room,"PoliceHoldingRoomPlate","police_cell.png",new(0,2.70f,-2.101f),new(1.72f,.263f));
-        PoliceSignPlate(room,"PoliceBlankFormsPlate","police_forms.png",new(4.7f,1.4f,1.081f),new(.56f,.124f));
-        PoliceSignPlate(room,"PoliceFilesCabinetPlate","police_files.png",new(-4.9f,1.04f,.235f),new(.72f,.158f));
-        foreach(var mesh in room.GetChildren().OfType<MeshInstance3D>())
-            if(mesh.Name.ToString().StartsWith("PoliceNotice",StringComparison.Ordinal)&&mesh.Name!="PoliceNoticeBoard")mesh.Visible=false;
-        var xs=new[]{3.10f,3.65f,4.12f};
+        // Plates follow the rebuilt plan: everything hangs on the lobby face of the one partition.
+        const float face=.468f;
+        PoliceSignPlate(room,"PoliceStaffDoorPlate-1","police_staff.png",new(-5.15f,2.38f,face),new(.38f,.10f));
+        PoliceSignPlate(room,"PoliceStaffDoorPlate1","police_store.png",new(3.65f,2.38f,face),new(.38f,.10f));
+        PoliceSignPlate(room,"PoliceHoldingRoomPlate","police_cell.png",new(0,2.71f,face),new(1.72f,.263f));
+        PoliceSignPlate(room,"PoliceBlankFormsPlate","police_forms.png",new(4.95f,1.4f,face),new(.56f,.124f));
+        PoliceSignPlate(room,"PoliceFilesCabinetPlate","police_files.png",new(-4.2f,1.6f,-4.292f),new(.72f,.158f));
+        var xs=new[]{2.05f,2.47f,2.89f};
         for(var i=0;i<xs.Length;i++)
-            PoliceSignPlate(room,"PolicePrintedNotice"+i,"police_notice_"+(i+1)+".png",new(xs[i],1.84f,1.112f),new(.38f,.54f),paper:true);
+            PoliceSignPlate(room,"PolicePrintedNotice"+i,"police_notice_"+(i+1)+".png",new(xs[i],1.84f,.505f),new(.38f,.54f),paper:true);
         PoliceDeskPrint(room,"PoliceForms","police_form.png",new(.245f,.325f));
         PoliceDeskPrint(room,"PolicePaperStack","police_form.png",new(.215f,.295f));
         PoliceDeskPrint(room,"PoliceLedger","police_ledger.png",new(.294f,.362f));

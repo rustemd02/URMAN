@@ -4,34 +4,33 @@ namespace Urman.Godot;
 
 public partial class Act1ConnectedWorld
 {
+    // Interior rebuilt from an empty room (author request 12.11.2026). One plan,
+    // read from the door: the lobby in front, the reception counter on the left,
+    // and one straight partition across the back with three things in it — the
+    // office door, the barred holding room in the middle, the store door.
+    private const float PolicePartitionZ = .4f;
+    private const float PoliceCellHalf = 1.7f;
+
     private void BuildPoliceInterior(Node3D room)
     {
-        // Public lobby in front; enclosed offices flank a short clear corridor.
-        foreach(var span in new[]{(-5.9f,-2.6f),(-1.6f,-1.0f),(1.0f,5.9f)})
-            FacilitySolid(room,"PoliceOfficePartition"+span.Item1,new(span.Item2-span.Item1,3,.12f),
-                new((span.Item1+span.Item2)*.5f,1.5f,1.0f),"bcc4b5","plaster");
-        FacilitySolid(room,"PoliceDeskStaffHeader",new(1,.8f,.12f),new(-2.1f,2.6f,1.0f),"bcc4b5","plaster");
-        foreach(var x in new[]{-.96f,.96f})
-        {
-            foreach(var span in new[]{(-2.16f,-1.06f),(-.10f,.94f)})
-                FacilitySolid(room,"PoliceCorridorSide"+x+"_"+span.Item1,new(.12f,3,span.Item2-span.Item1),
-                    new(x,1.5f,(span.Item1+span.Item2)*.5f),"b6bdae","plaster");
-            FacilitySolid(room,"PoliceStaffDoorHeader"+x,new(.12f,.8f,.96f),new(x,2.6f,-.58f),"b6bdae","plaster");
-            FacilityManualDoor(room,x<0?"PoliceOfficeDoor":"PoliceStoreDoor",x<0?"police.office":"police.store",
-                new(x,0,-1.0f),.86f,2.17f,0,x<0?-90:90);
-            FacilityLabel(room,"PoliceStaffRoomSign"+x,x<0?"СЛУЖЕБНОЕ":"КЛАДОВАЯ",new(x<0?-.883f:.883f,2.51f,-.58f),x<0?90:-90,.0009f);
-        }
-        FacilitySolid(room,"PoliceStoreCupboard",new(1.4f,1.85f,.55f),new(4.9f,.925f,-.6f),"848d80","wood_furniture");
-        FacilityBench(room,"PoliceStaffRestBench",new(-3.9f,0,-1.66f),2.1f,0);
-        PolicePostAssets.Attach(room,"metal_office_desk","PoliceStaffDesk",new(-3.7f,0,-3.0f),180);
-        FacilitySolid(room,"PoliceStaffDeskContact",new(2.02f,.77f,.95f),new(-3.7f,.385f,-3.0f),"6d5d46","wood_furniture").Visible=false;
-        PolicePostAssets.Attach(room,"office_chair","PoliceStaffChair",new(-3.7f,0,-3.83f));
-        AddVisualBox(room,"PoliceStaffBlankFiles",new(.23f,.035f,.29f),new(-4.26f,.817f,-3.03f),"d4cab4","paper");
-        foreach (var x in new[] { -1.59f, 1.59f })
-            FacilitySolid(room, "PoliceCellSide" + x, new(.12f, 3, 2.2f), new(x, 1.5f, -3.26f), "bfc4b7", "plaster");
-        // Service desk separates the officer from visitors, with a low open voice slot.
-        PolicePostAssets.Attach(room,"metal_office_desk","PoliceServiceDesk",new(-3.1f,0,2.05f),180);
-        FacilitySolid(room,"PoliceDeskContact",new(2.02f,.77f,.91f),new(-3.1f,.385f,2.05f),"6d5d46","wood_furniture").Visible=false;
+        const string wall = "c3c8bc";
+        const float z = PolicePartitionZ;
+        // The partition: solid runs between the two doorways and the cell front.
+        foreach (var (from, to) in new[] { (-5.8f, -5.6f), (-4.7f, -PoliceCellHalf), (PoliceCellHalf, 3.2f), (4.1f, 5.8f) })
+            FacilitySolid(room, "PolicePartition" + from, new(to - from, 3f, .12f), new((from + to) * .5f, 1.5f, z), wall, "plaster");
+        foreach (var x in new[] { -5.15f, 3.65f })
+            FacilitySolid(room, "PoliceDoorHeader" + x, new(.9f, .8f, .12f), new(x, 2.6f, z), wall, "plaster");
+        foreach (var x in new[] { -PoliceCellHalf, PoliceCellHalf })
+            FacilitySolid(room, "PoliceCellSide" + x, new(.12f, 3f, 4.64f), new(x, 1.5f, -1.98f), wall, "plaster");
+        FacilityManualDoor(room, "PoliceOfficeDoor", "police.office", new(-5.6f, 0, z), .86f, 2.17f, 90, -88);
+        FacilityManualDoor(room, "PoliceStoreDoor", "police.store", new(3.2f, 0, z), .86f, 2.17f, 90, -88);
+
+        // Reception: the officer's desk behind a glazed counter, closed on the lobby side by a low return.
+        PolicePostAssets.Attach(room, "metal_office_desk", "PoliceServiceDesk", new(-3.1f, 0, 2.05f), 180);
+        FacilitySolid(room, "PoliceDeskContact", new(2.02f, .77f, .91f), new(-3.1f, .385f, 2.05f), "6d5d46", "wood_furniture").Visible = false;
+        FacilitySolid(room, "PoliceCounterWest", new(.95f, 1.05f, .5f), new(-5.3f, .525f, 2.1f), "8a7558", "wood_furniture");
+        FacilitySolid(room, "PoliceCounterReturn", new(.14f, 1.05f, 1.62f), new(-1.25f, .525f, 1.27f), "8a7558", "wood_furniture");
+        FacilitySolid(room, "PoliceCounterReturnTop", new(.26f, .04f, 1.7f), new(-1.25f, 1.07f, 1.27f), "997d59", "wood_furniture");
         var glass = FacilitySolid(room, "PoliceReceptionGlass", new(3.45f, 1.21f, .018f), new(-3.1f, 1.685f, 2.10f), "9baead", "glass");
         glass.MaterialOverride = new StandardMaterial3D { Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
             AlbedoColor = new(.70f, .81f, .80f, .13f), Roughness = .12f, CullMode = BaseMaterial3D.CullModeEnum.Disabled };
@@ -39,89 +38,99 @@ public partial class Act1ConnectedWorld
             FacilitySolid(room, "PoliceGlassPost" + x, new(.055f, 1.52f, .075f), new(x, 1.54f, 2.10f), "68716b", "metal");
         FacilitySolid(room, "PoliceGlassHeader", new(3.55f, .055f, .075f), new(-3.1f, 2.315f, 2.10f), "68716b", "metal");
         FacilitySolid(room, "PoliceWritingLedge", new(3.55f, .045f, .24f), new(-3.1f, .82f, 2.46f), "997d59", "wood_furniture");
-        AddVisualBox(room,"PoliceReceptionPlaque",new(1.35f,.23f,.035f),new(-3.1f,2.47f,2.10f),"40545d","wood_painted_trim");
-        FacilityLabel(room, "PoliceReceptionSign", "ПРИЁМНАЯ", new(-3.1f, 2.47f, 2.125f), 0, .0025f);
-        foreach(var x in new[]{2.90f,4.30f})
-        {
-            PolicePostAssets.Attach(room,"painted_wooden_bench","PoliceWaitingBench"+x,new(x,0,3.78f),180);
-            FacilitySolid(room,"PoliceWaitingSeatContact"+x,new(1.25f,.48f,.45f),new(x,.24f,3.78f),"685847","wood_furniture").Visible=false;
-        }
-        FacilityTable(room, "PoliceWritingTable", new(4.75f, 0, 2.10f), new(1.1f, .76f, .60f));
-        PolicePostAssets.Attach(room,"office_dining_chair","PoliceWritingChair",new(4.75f,0,2.93f),0,.88f);
-        AddVisualBox(room, "PoliceForms", new(.25f, .014f, .33f), new(4.7f, .80f, 2.05f), "ded3b7", "paper");
-        FacilityLabel(room, "PoliceFormsCaption", "Бланки заявлений", new(4.7f, 1.4f, 1.064f), 0, .0013f);
-        AddVisualBox(room, "PoliceNoticeBoard", new(1.8f, 1.1f, .045f), new(3.6f, 1.82f, 1.076f), "796546", "wood_furniture");
-        foreach (var x in new[] { 3.10f, 3.65f, 4.12f })
-            AddVisualBox(room, "PoliceNotice" + x, new(.38f, .54f, .005f), new(x, 1.84f, 1.102f), "ded8bf", "paper");
-        FacilityLabel(room, "PoliceNoticeText", "ПРИЁМ ГРАЖДАН\nОбращения и справки\nБерегите соседей", new(3.6f, 1.85f, 1.110f), 0, .0010f);
-        // Papers, mug and wired telephone make the desk a workplace.
+        AddVisualBox(room, "PoliceReceptionPlaque", new(1.35f, .23f, .035f), new(-3.1f, 2.47f, 2.10f), "40545d", "wood_painted_trim");
         AddVisualBox(room, "PoliceLedger", new(.30f, .025f, .37f), new(-3.95f, .813f, 1.95f), "bbaa87", "paper");
         AddVisualBox(room, "PolicePaperStack", new(.22f, .04f, .30f), new(-2.5f, .82f, 1.90f), "ded6bd", "paper");
-        PolicePostAssets.Attach(room,"rotary_phone","PoliceTelephone",new(-3.77f,.80f,2.05f),-20);
+        PolicePostAssets.Attach(room, "rotary_phone", "PoliceTelephone", new(-3.77f, .80f, 2.05f), -20);
         FacilityVessel(room, "PoliceTeaMug", new(-2.3f, .88f, 1.97f), .055f, .11f, "9ba99d", true);
-        PolicePostAssets.Attach(room,"painted_wooden_cabinet","PoliceFilesCabinet",new(-4.9f,0,-.10f),0);
-        FacilitySolid(room,"PoliceFilesContact",new(1.20f,1.18f,.62f),new(-4.9f,.59f,-.10f),"727c75","wood_furniture").Visible=false;
-        FacilityLabel(room, "PoliceFilesLabel", "Обращения · Справки", new(-4.9f, 1.3f, .18f), 0, .0009f);
-        PolicePostAssets.Attach(room,"desk_lamp_arm_01","PoliceDeskLamp",new(-3.97f,.79f,1.92f),65,.55f);
-        for (var i=0; i<4; i++) FacilityRod(room, "PoliceCoatHook"+i, new(5.72f, 1.68f, 2.1f+i*.25f), new(5.6f, 1.75f, 2.1f+i*.25f), .018f, "6d716a");
-        FacilityLamp(room, "PoliceLobbyLight", new(0, 2.78f, 2.9f), "f0e3c6", .85f, 7);
+        PolicePostAssets.Attach(room, "desk_lamp_arm_01", "PoliceDeskLamp", new(-3.97f, .79f, 1.92f), 65, .55f);
+
+        // Lobby: two benches under the front windows, a writing table and the notices on the partition.
+        foreach (var x in new[] { 2.90f, 4.30f })
+        {
+            PolicePostAssets.Attach(room, "painted_wooden_bench", "PoliceWaitingBench" + x, new(x, 0, 3.78f), 180);
+            FacilitySolid(room, "PoliceWaitingSeatContact" + x, new(1.25f, .48f, .45f), new(x, .24f, 3.78f), "685847", "wood_furniture").Visible = false;
+        }
+        FacilityTable(room, "PoliceWritingTable", new(4.95f, 0, .92f), new(1.1f, .76f, .60f));
+        PolicePostAssets.Attach(room, "office_dining_chair", "PoliceWritingChair", new(4.95f, 0, 1.72f), 0, .88f);
+        AddVisualBox(room, "PoliceForms", new(.25f, .014f, .33f), new(4.9f, .80f, .9f), "ded3b7", "paper");
+        AddVisualBox(room, "PoliceNoticeBoard", new(1.36f, 1.1f, .04f), new(2.47f, 1.82f, z + .08f), "796546", "wood_furniture");
+        for (var i = 0; i < 4; i++)
+            FacilityRod(room, "PoliceCoatHook" + i, new(5.72f, 1.68f, 2.1f + i * .25f), new(5.6f, 1.75f, 2.1f + i * .25f), .018f, "6d716a");
+
+        // Office, behind the left door.
+        PolicePostAssets.Attach(room, "metal_office_desk", "PoliceStaffDesk", new(-3.9f, 0, -3.25f), 180);
+        FacilitySolid(room, "PoliceStaffDeskContact", new(2.02f, .77f, .95f), new(-3.9f, .385f, -3.25f), "6d5d46", "wood_furniture").Visible = false;
+        PolicePostAssets.Attach(room, "office_chair", "PoliceStaffChair", new(-3.9f, 0, -3.95f));
+        AddVisualBox(room, "PoliceStaffBlankFiles", new(.23f, .035f, .29f), new(-4.46f, .817f, -3.28f), "d4cab4", "paper");
+        PolicePostAssets.Attach(room, "painted_wooden_cabinet", "PoliceFilesCabinet", new(-5.3f, 0, -1.3f), 90);
+        FacilitySolid(room, "PoliceFilesContact", new(.62f, 1.18f, 1.20f), new(-5.3f, .59f, -1.3f), "727c75", "wood_furniture").Visible = false;
+        FacilityBench(room, "PoliceStaffRestBench", new(-2.1f, 0, -1.6f), 2.1f, 90);
+
+        // Store, behind the right door: a cupboard and open shelves with boxes.
+        FacilitySolid(room, "PoliceStoreCupboard", new(1.4f, 1.85f, .55f), new(4.9f, .925f, -3.95f), "848d80", "wood_furniture");
+        foreach (var end in new[] { -3.2f, -.6f })
+            FacilitySolid(room, "PoliceStoreUpright" + end, new(.45f, 1.9f, .05f), new(5.52f, .95f, end), "74604a", "wood_furniture");
+        for (var level = 0; level < 4; level++)
+        {
+            FacilitySolid(room, "PoliceStoreShelf" + level, new(.45f, .04f, 2.6f), new(5.52f, .3f + level * .5f, -1.9f), "74604a", "wood_furniture");
+            for (var box = 0; box < 3; box++)
+                AddVisualBox(room, $"PoliceStoreBox{level}_{box}", new(.34f, .26f + (level + box) % 2 * .08f, .5f),
+                    new(5.5f, .45f + level * .5f + (level + box) % 2 * .04f, -2.7f + box * .8f + level % 2 * .12f), box % 2 == 0 ? "a08f6c" : "8d8a7c", "paper");
+        }
+
+        FacilityLamp(room, "PoliceLobbyLight", new(.6f, 2.78f, 2.5f), "f0e3c6", .9f, 7.5f);
         FacilityLamp(room, "PoliceDeskLight", new(-3.1f, 2.7f, 1.4f), "efdfba", .6f, 4);
-        FacilityLamp(room, "PoliceCorridorLight", new(0, 2.75f, -.7f), "e2dec9", .65f, 4);
-        FacilityLamp(room, "PoliceCellLight", new(0, 2.70f, -3.3f), "d4dbca", .4f, 3);
+        FacilityLamp(room, "PoliceOfficeLight", new(-3.7f, 2.75f, -2.0f), "e8dcc0", .6f, 5);
+        FacilityLamp(room, "PoliceStoreLight", new(3.7f, 2.75f, -2.0f), "e2dec9", .5f, 5);
+        FacilityLamp(room, "PoliceCellLight", new(0, 2.70f, -2.0f), "d4dbca", .4f, 4);
         BuildPoliceCell(room);
         BuildPoliceOfficer(room);
     }
 
     private void BuildPoliceCell(Node3D room)
     {
+        const float z = PolicePartitionZ;
         var bars = new Node3D { Name = "PoliceCellBars" }; room.AddChild(bars);
-        // The two fixed wings stop at the same jambs as the unchanged 1.34 m gate opening.
-        // Painted steel keeps the bars legible against the pale institutional walls.
+        // Two fixed barred wings and a gate that stands open against the inside wall.
         foreach (var side in new[] { -1f, 1f })
         {
-            var panelCenter = side * 1.10f; // Preserve the existing invisible contact box transform.
-            FacilitySolid(bars, "BarPanelContact"+panelCenter, new(.83f, 2.35f, .055f), new(panelCenter, 1.175f, -2.18f), "6c736b", "metal").Visible=false;
-            var outer = side * 1.56f;
+            var outer = side * (PoliceCellHalf - .06f);
             var jamb = side * .67f;
-            PoliceCellRod(bars, "OuterFramePost"+side, new(outer, .08f, -2.18f), new(outer, 2.35f, -2.18f), .032f, "778078");
-            PoliceCellRod(bars, "GateJambPost"+side, new(jamb, .08f, -2.18f), new(jamb, 2.35f, -2.18f), .032f, "778078");
-            for (var i = 0; i < 6; i++)
+            FacilitySolid(bars, "BarPanelContact" + side, new(Mathf.Abs(outer - jamb), 2.35f, .055f), new((outer + jamb) * .5f, 1.175f, z), "6c736b", "metal").Visible = false;
+            PoliceCellRod(bars, "OuterFramePost" + side, new(outer, .08f, z), new(outer, 2.35f, z), .032f, "778078");
+            PoliceCellRod(bars, "GateJambPost" + side, new(jamb, .08f, z), new(jamb, 2.35f, z), .032f, "778078");
+            for (var i = 1; i < 7; i++)
             {
-                var x = side * (1.45f - i * .13f);
-                PoliceCellRod(bars, "Bar"+side+"_"+i, new(x, .10f, -2.18f), new(x, 2.35f, -2.18f), .013f, "68746d");
+                var x = Mathf.Lerp(jamb, outer, i / 7f);
+                PoliceCellRod(bars, "Bar" + side + "_" + i, new(x, .10f, z), new(x, 2.35f, z), .013f, "68746d");
             }
             foreach (var y in new[] { .10f, 1.16f, 2.35f })
-                PoliceCellRod(bars, "PanelRail"+side+"_"+y, new(outer, y, -2.18f), new(jamb, y, -2.18f), .021f, "79837b");
+                PoliceCellRod(bars, "PanelRail" + side + "_" + y, new(outer, y, z), new(jamb, y, z), .021f, "79837b");
         }
-        // The unused gate rests open against the cell wall, leaving a 1.36m opening.
-        var gate = new Node3D { Name="PoliceCellOpenGate", Position=new(-.67f,0,-2.18f), RotationDegrees=new(0,-105,0) };bars.AddChild(gate);
-        FacilitySolid(gate,"OpenGateContact",new(1.28f,2.3f,.05f),new(-.64f,1.175f,0),"707970","metal").Visible=false;
-        PoliceCellRod(gate,"GateOuterPost",new(-1.28f,.08f,0),new(-1.28f,2.35f,0),.032f,"778078");
-        PoliceCellRod(gate,"GateHingePost",new(0,.08f,0),new(0,2.35f,0),.032f,"778078");
-        for(var i=1;i<10;i++) PoliceCellRod(gate,"GateBar"+i,new(-i*.128f,.10f,0),new(-i*.128f,2.35f,0),.013f,"68746d");
-        foreach(var y in new[]{.10f,1.16f,2.35f}) PoliceCellRod(gate,"GateRail"+y,new(-1.28f,y,0),new(0,y,0),.021f,"79837b");
-        // Crossbar above the door is solid; middle/bottom span only the side panels.
-        FacilitySolid(room,"PoliceCellDoorHeader",new(3.1f,.58f,.12f),new(0,2.68f,-2.18f),"b8beb0","plaster");
-        FacilityBench(room,"PoliceCellBunk",new(.95f,0,-3.38f),1.62f,90);
-        AddVisualBox(room,"PoliceFoldedBlanket",new(.31f,.09f,.40f),new(.93f,.54f,-3.80f),"888777","cloth");
-        FacilityVessel(room,"PoliceCellEmptyBasin",new(-1.10f,.12f,-4.02f),.16f,.18f,"8b9688",false);
-        FacilityLabel(room,"PoliceCellLabel","ВРЕМЕННОЕ ОЖИДАНИЕ",new(0,2.70f,-2.108f),0,.0014f);
-        var mouse = new Node3D { Name="PoliceCellMouse", Position=new(-1.0f,.012f,-3.735f), Scale=Vector3.One*.65f };room.AddChild(mouse);
-        PoliceEllipsoid(mouse,"MouseBody",new(.047f,.032f,.075f),new(0,.022f,0),"726c60","cloth");
-        PoliceEllipsoid(mouse,"MouseHead",new(.029f,.025f,.035f),new(0,.032f,.067f),"797367","cloth");
-        foreach(var sign in new[]{-1f,1f})
+        var gate = new Node3D { Name = "PoliceCellOpenGate", Position = new(-.67f, 0, z), RotationDegrees = new(0, -100, 0) }; bars.AddChild(gate);
+        FacilitySolid(gate, "OpenGateContact", new(1.28f, 2.3f, .05f), new(-.64f, 1.175f, 0), "707970", "metal").Visible = false;
+        PoliceCellRod(gate, "GateOuterPost", new(-1.28f, .08f, 0), new(-1.28f, 2.35f, 0), .032f, "778078");
+        PoliceCellRod(gate, "GateHingePost", new(0, .08f, 0), new(0, 2.35f, 0), .032f, "778078");
+        for (var i = 1; i < 10; i++) PoliceCellRod(gate, "GateBar" + i, new(-i * .128f, .10f, 0), new(-i * .128f, 2.35f, 0), .013f, "68746d");
+        foreach (var y in new[] { .10f, 1.16f, 2.35f }) PoliceCellRod(gate, "GateRail" + y, new(-1.28f, y, 0), new(0, y, 0), .021f, "79837b");
+        FacilitySolid(room, "PoliceCellDoorHeader", new(PoliceCellHalf * 2f, .58f, .12f), new(0, 2.71f, z), "b8beb0", "plaster");
+        FacilityBench(room, "PoliceCellBunk", new(1.25f, 0, -2.7f), 1.9f, 90);
+        AddVisualBox(room, "PoliceFoldedBlanket", new(.31f, .09f, .40f), new(1.25f, .54f, -3.35f), "888777", "cloth");
+        FacilityVessel(room, "PoliceCellEmptyBasin", new(-1.25f, .12f, -3.95f), .16f, .18f, "8b9688", false);
+        var mouse = new Node3D { Name = "PoliceCellMouse", Position = new(-1.2f, .012f, -3.4f), Scale = Vector3.One * .65f }; room.AddChild(mouse);
+        PoliceEllipsoid(mouse, "MouseBody", new(.047f, .032f, .075f), new(0, .022f, 0), "726c60", "cloth");
+        PoliceEllipsoid(mouse, "MouseHead", new(.029f, .025f, .035f), new(0, .032f, .067f), "797367", "cloth");
+        foreach (var sign in new[] { -1f, 1f })
         {
-            PoliceEllipsoid(mouse,"MouseEar"+sign,new(.019f,.018f,.008f),new(sign*.023f,.055f,.071f),"a39383","cloth");
-            PoliceEllipsoid(mouse,"MouseEye"+sign,new(.003f,.003f,.003f),new(sign*.022f,.038f,.088f),"252925","metal");
+            PoliceEllipsoid(mouse, "MouseEar" + sign, new(.019f, .018f, .008f), new(sign * .023f, .055f, .071f), "a39383", "cloth");
+            PoliceEllipsoid(mouse, "MouseEye" + sign, new(.003f, .003f, .003f), new(sign * .022f, .038f, .088f), "252925", "metal");
         }
-        foreach(var x in new[]{-.027f,.027f})foreach(var z in new[]{-.036f,.036f})
-            PoliceEllipsoid(mouse,"MouseFoot"+x+"_"+z,new(.011f,.004f,.016f),new(x,-.01f,z),"9a8d7b","cloth");
-        FacilityRod(mouse,"MouseTail",new(0,.014f,-.065f),new(.095f,.008f,-.15f),.003f,"958879");
-        PoliceEllipsoid(room,"PoliceCellPotato",new(.045f,.032f,.06f),new(-1.0f,.032f,-3.61f),"9f8963","wood");
-        for(var i=0;i<5;i++) PoliceEllipsoid(room,"PotatoEye"+i,new(.003f,.002f,.003f),new(-1.015f+i*.006f,.059f,-3.61f+(i%2)*.02f),"66543c","wood");
-        var target=FacilityTarget("PoliceCellInspect","presentation.police-cell","Осмотреть пустой изолятор",room,new(0,1.3f,-2.12f),new(1.6f,1.8f,.08f));
-        target.PresentationRepeatAvailable=()=>FacilityExteriorActive;
-        target.PresentationRepeat=()=>PoliceRemark("cellRemark");
+        FacilityRod(mouse, "MouseTail", new(0, .014f, -.065f), new(.095f, .008f, -.15f), .003f, "958879");
+        PoliceEllipsoid(room, "PoliceCellPotato", new(.045f, .032f, .06f), new(-1.2f, .032f, -3.27f), "9f8963", "wood");
+        var target = FacilityTarget("PoliceCellInspect", "presentation.police-cell", "Осмотреть пустой изолятор", room, new(0, 1.3f, z + .06f), new(1.6f, 1.8f, .08f));
+        target.PresentationRepeatAvailable = () => FacilityExteriorActive;
+        target.PresentationRepeat = () => PoliceRemark("cellRemark");
     }
 
     private static void PoliceCellRod(Node3D parent, string name, Vector3 a, Vector3 b, float radius, string tint)
