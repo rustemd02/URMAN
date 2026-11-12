@@ -233,7 +233,7 @@ public partial class W01Controller
                     Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
                     BillboardMode = BaseMaterial3D.BillboardModeEnum.Enabled,
                     DisableFog = true,
-                    AlbedoTexture = new GradientTexture2D
+                    AlbedoTexture = PrologueTextureSlot("moon_disc", null) ?? new GradientTexture2D
                     {
                         Gradient = disc, Width = 128, Height = 128,
                         Fill = GradientTexture2D.FillEnum.Radial,

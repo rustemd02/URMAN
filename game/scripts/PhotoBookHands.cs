@@ -10,10 +10,24 @@ internal static class PhotoBookHands
     {
         var root = new Node3D { Name = "BookHands_Root" };
         root.SetMeta("assetSource", "procedural-book-grip");
-        var skin = Material("b68e76", .86f);
+        // Winter, an unheated bus and a cold car: he has not taken his gloves off.
+        // Dark knitted wool reads as a hand at this distance far better than bare skin did.
+        var skin = Material("3d4347", 1f);
+        if (W01Controller.PrologueTextureSlot("aidar_glove_knit_albedo", null) is { } knitTexture)
+        {
+            skin.AlbedoColor = Colors.White;
+            skin.AlbedoTexture = knitTexture;
+            skin.Uv1Triplanar = true;
+            skin.Uv1Scale = Vector3.One * 9f;
+            if (W01Controller.PrologueTextureSlot("aidar_glove_knit_normal", null) is { } knitNormal)
+            {
+                skin.NormalEnabled = true;
+                skin.NormalTexture = knitNormal;
+            }
+        }
         var coat = Material("353b37", .98f);
-        var knit = Material("272d29", 1f);
-        var nails = Material("c6a18b", .68f);
+        var knit = Material("6d6258", 1f);
+        var nails = Material("3d4347", 1f);
         foreach (var open in new[] { false, true })
         {
             var pose = new Node3D { Name = open ? "OpenGrip" : "ClosedGrip", Visible = !open };

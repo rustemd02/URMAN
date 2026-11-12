@@ -184,6 +184,8 @@ public partial class W01Controller
             ShadowBias = .06f,
             ShadowBlur = 1.4f
         };
+        // A real torch throws rings and dust, not a perfect disc.
+        if (PrologueTextureSlot("torch_cookie", null) is { } cookie) _torch.LightProjector = cookie;
         _torch.SetMeta("presentationOnly", true);
         AddChild(_torch);
     }
@@ -286,11 +288,12 @@ public partial class W01Controller
         UpdateFingers(delta);
     }
 
-    private static GradientTexture2D? _softDot;
+    private static Texture2D? _softDot;
     /// <summary>A soft round sprite for flakes and vapour.</summary>
-    private static GradientTexture2D SoftDot()
+    private static Texture2D SoftDot()
     {
         if (_softDot is not null) return _softDot;
+        if (PrologueTextureSlot("snowflake_soft", null) is { } flake) return _softDot = flake;
         var falloff = new Gradient();
         falloff.SetColor(0, Colors.White);
         falloff.SetColor(1, new Color(1f, 1f, 1f, 0f));

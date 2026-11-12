@@ -42,6 +42,26 @@ public partial class W01Controller
         }
         BuildTroddenTrail(trail);
 
+        // With a drawn boot print in the texture slot, each step is that print
+        // lying on the snow; without it, the two simple pressed shapes below.
+        if (PrologueTextureSlot("footprint_decal", null) is { } printTexture)
+        {
+            var decal = new QuadMesh { Size = new Vector2(.15f, .34f), Orientation = PlaneMesh.OrientationEnum.Y };
+            var multi = new MultiMesh { TransformFormat = MultiMesh.TransformFormatEnum.Transform3D, Mesh = decal, InstanceCount = heels.Count };
+            for (var index = 0; index < heels.Count; index++)
+                multi.SetInstanceTransform(index, new Transform3D(heels[index].Basis, heels[index].Origin + heels[index].Basis * new Vector3(0, .004f, -.06f)));
+            trail.AddChild(new MultiMeshInstance3D
+            {
+                Name = "PrintDecals", Multimesh = multi,
+                CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+                MaterialOverride = new StandardMaterial3D
+                {
+                    AlbedoTexture = printTexture, Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
+                    Roughness = 1f, MetallicSpecular = 0f
+                }
+            });
+            return;
+        }
         PrologueDeepForest.AddPrintLayer(trail, "Soles", soles,
             new CylinderMesh { TopRadius = .064f, BottomRadius = .069f, Height = .004f, RadialSegments = 12 }, "8999ac");
         PrologueDeepForest.AddPrintLayer(trail, "Heels", heels,
