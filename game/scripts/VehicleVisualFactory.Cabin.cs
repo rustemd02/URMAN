@@ -78,12 +78,13 @@ public partial class VehicleNivaCabin : Node3D
     public static readonly Vector3 WindscreenTopRight = new(.715f, 1.63f, -.31f);
     public static readonly Vector3 WindscreenTopLeft = new(-.715f, 1.63f, -.31f);
     public static readonly Vector3 WindscreenNormal = new Vector3(0f, .38f, -.51f).Normalized();
-    // Parked blades authored in the model (NivaWiper_L / NivaWiper_R); the live
-    // arms pivot exactly there so the parked pose matches the model.
-    public static readonly Vector3 WiperPivotLeft = new(-.06f, 1.20f, -.665f);
-    public static readonly Vector3 WiperPivotRight = new(.16f, 1.20f, -.665f);
-    public static readonly Vector3 WiperOuterLeft = new(-.52f, 1.15f, -.70f);
-    public static readonly Vector3 WiperOuterRight = new(.62f, 1.15f, -.70f);
+    // All four points lie on the glass. Baked front wipers are excluded from
+    // NivaBody; these are the only blades, including while parked.
+    public static readonly Vector3 WiperPivotLeft = OnWindscreen(-.06f, 1.154f);
+    public static readonly Vector3 WiperPivotRight = OnWindscreen(.16f, 1.154f);
+    public static readonly Vector3 WiperOuterLeft = OnWindscreen(-.52f, 1.15f);
+    public static readonly Vector3 WiperOuterRight = OnWindscreen(.62f, 1.15f);
+    private static Vector3 OnWindscreen(float x, float y) => new(x, y, -.69f + (y - 1.12f) * .38f / .51f);
     public const float WiperSweepRadians = 1.02f;   // ~58.5 degrees of upward sweep
     public const float WiperCycleSeconds = 1.45f;   // out stroke, return and pause
     // --- snow model -----------------------------------------------------------
@@ -436,7 +437,7 @@ public static partial class VehicleVisualFactory
 
     private static MeshInstance3D BuildWindscreenSnow(Node3D parent, ShaderMaterial material)
     {
-        var outward = VehicleNivaCabin.WindscreenNormal * .006f;
+        var outward = VehicleNivaCabin.WindscreenNormal * .002f;
         var tool = new SurfaceTool();
         tool.Begin(Mesh.PrimitiveType.Triangles);
         AddSnowVertex(tool, VehicleNivaCabin.WindscreenBottomLeft + outward, 0f, 0f);
@@ -472,8 +473,7 @@ public static partial class VehicleVisualFactory
     /// <summary>
     /// One wiper: a mount whose local X is the parked arm direction, local Y the
     /// in-plane up and local Z the spindle axis, plus a pivot child the node
-    /// rotates about local Z. The arm and blade overlay the authored parked
-    /// wiper beams, so the parked pose is indistinguishable from the model.
+    /// rotates about local Z. Rubber touches the glass; the arm sits above it.
     /// </summary>
     private static Node3D BuildWiper(Node3D parent, string name, Vector3 pivot, Vector3 outer)
     {
@@ -495,11 +495,12 @@ public static partial class VehicleVisualFactory
         var spinner = new Node3D { Name = name + "Pivot" };
         mount.AddChild(spinner);
         var length = (outer - pivot).Length();
+        var outward = Mathf.Sign(zAxis.Dot(VehicleNivaCabin.WindscreenNormal));
         var arm = new Batch(spinner, name + "ArmMesh");
         // Spindle boss, arm above the rubber blade, blade pressed toward the glass.
-        arm.Cylinder(.019f, .016f, new Vector3(0f, 0f, -.003f), "1d1f1d", "plastic", new Vector3(90f, 0f, 0f));
-        arm.Beam(new Vector3(.014f, 0f, 0f), new Vector3(length, 0f, 0f), .0068f, "1c1f1c", "plastic");
-        arm.Beam(new Vector3(.02f, .006f, -.005f), new Vector3(length - .015f, .006f, -.005f), .0105f, "111311", "rubber");
+        arm.Cylinder(.014f, .016f, new Vector3(0f, 0f, outward * .008f), "1d1f1d", "plastic", new Vector3(90f, 0f, 0f));
+        arm.Beam(new Vector3(.014f, 0f, outward * .015f), new Vector3(length, 0f, outward * .015f), .004f, "1c1f1c", "plastic");
+        arm.Beam(new Vector3(.02f, 0f, outward * .005f), new Vector3(length - .015f, 0f, outward * .005f), .005f, "111311", "rubber");
         arm.Finish();
         spinner.SetMeta("presentationOwnership", "presentation-only; live windscreen wiper");
         return spinner;
@@ -511,7 +512,7 @@ public static partial class VehicleVisualFactory
         {
             Name = "HighBeamTell",
             Mesh = new BoxMesh { Size = new(.016f, .011f, .0022f) },
-            Position = new(-.486f, 1.024f, -.4016f),
+            Position = new(-.486f, 1.024f, -.394f),
             MaterialOverride = new StandardMaterial3D
             {
                 AlbedoColor = new(.07f, .11f, .22f),
@@ -535,7 +536,7 @@ public static partial class VehicleVisualFactory
         tell.Mesh.SetMeta("expectedTriangleCorners", tellCorners);
         tell.Mesh.SetMeta("manualTriangleCorners", tellCorners);
         tell.SetMeta("presentationOwnership",
-            "presentation-only; overlay on the authored blue NivaCab_Tell3 dash lamp");
+            "presentation-only; high-beam tell in the fitted instrument binnacle");
         tell.Visible = false;
         parent.AddChild(tell);
         return tell;

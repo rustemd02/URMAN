@@ -21,6 +21,7 @@ public static partial class VehicleVisualFactory
     {
         _nivaModel = null;
         ModelMaterials.Clear();
+        _nivaBodyPresentationMesh = null;
         // VIS-105 glass/snow finishes live in the same retained-material cache.
         FinishCache.Clear();
     }
@@ -41,7 +42,7 @@ public static partial class VehicleVisualFactory
         {
             var source = scene.FindChild(partName, true, false) as MeshInstance3D
                 ?? throw new InvalidOperationException($"Niva model has no {partName} mesh.");
-            var part = new MeshInstance3D { Name = instanceName, Mesh = source.Mesh, Transform = source.Transform };
+            var part = new MeshInstance3D { Name = instanceName, Transform = source.Transform };
             // Same batching contract as the procedural parts: the authored count
             // (Blender extras) must equal what the import actually carries.
             var authoredCorners = AuthoredCorners(source);
@@ -56,9 +57,10 @@ public static partial class VehicleVisualFactory
                 throw new InvalidOperationException($"{partName} lost triangles on import: authored {authoredCorners}, imported {importedCorners}.");
             source.Mesh.SetMeta("expectedTriangleCorners", authoredCorners);
             source.Mesh.SetMeta("manualTriangleCorners", authoredCorners);
-            for (var surface = 0; surface < source.Mesh.GetSurfaceCount(); surface++)
+            part.Mesh = partName == "NivaBody" ? NivaBodyPresentationMesh(source) : source.Mesh;
+            for (var surface = 0; surface < part.Mesh.GetSurfaceCount(); surface++)
             {
-                var authored = source.Mesh.SurfaceGetMaterial(surface)?.ResourceName ?? string.Empty;
+                var authored = part.Mesh.SurfaceGetMaterial(surface)?.ResourceName ?? string.Empty;
                 part.SetSurfaceOverrideMaterial(surface, ModelMaterial(
                     authored, partName == "NivaWheel", partName == "NivaInterior"));
             }

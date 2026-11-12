@@ -39,17 +39,19 @@ public static partial class VehicleVisualFactory
 
     private static Visual Niva(Node3D root)
     {
-        // Body, cabin, wheel, charm and the car radio are the Blender-authored
-        // model (tools/blender/generate_niva.py); gauges, the radio display,
-        // plates and the moving pivots stay live runtime nodes.
+        // The imported exterior and controls share one procedural cabin. The baked
+        // interior is deliberately not instantiated alongside its replacement.
         NivaModelPart(root,"NivaBody","NivaBody");
-        NivaModelPart(root,"NivaInterior","NivaInterior");
+        BuildNivaInterior(root);
+        BuildNivaGlazing(root);
         NivaModelPart(root,"NivaRadio","NivaRadio");
         var parkingBrakeLever = NivaModelPart(root,"NivaHandbrake","ParkingBrakeLever");
         var throttlePedal = NivaModelPart(root,"NivaThrottlePedal","ThrottlePedal");
         var brakePedal = NivaModelPart(root,"NivaBrakePedal","BrakePedal");
-        root.SetMeta("roadVehicleGeometryRevision",4);
-        root.SetMeta("assetOrigin","project-original Blender model urman_niva.glb");
+        root.SetMeta("roadVehicleGeometryRevision",5);
+        root.SetMeta("assetOrigin","URMAN imported exterior with procedural fitted cabin");
+        root.SetMeta("assetSource",NivaModelPath);
+        root.SetMeta("cabinSource","procedural NivaInterior; baked interior excluded");
         var speed=Gauge(root,"Speedometer",new(-.52f,1.102f,-.397f),.061f,"км/ч",160);
         var revs=Gauge(root,"Tachometer",new(-.36f,1.102f,-.397f),.061f,"×1000",8);
         var radioDisplay=CabinLabel(root,"RadioTuningDisplay","101.4",new(.10f,1.008f,-.362f),.00025f,new(.76f,.83f,.43f));
@@ -270,10 +272,12 @@ public static partial class VehicleVisualFactory
     private sealed partial class Batch
     {
         private readonly Node3D _parent; private readonly string _name;
+        private readonly bool _interiorFinishes;
         private readonly Dictionary<string,(SurfaceTool Tool,Material Material)> _surfaces=new(StringComparer.Ordinal);
         private int _expectedCorners;
         private int _manualCorners;
-        public Batch(Node3D parent,string name){_parent=parent;_name=name;}
+        public Batch(Node3D parent,string name,bool interiorFinishes=false)
+        {_parent=parent;_name=name;_interiorFinishes=interiorFinishes;}
         private SurfaceTool Get(string color,string surface)
         {
             var key=color+"|"+surface;
@@ -283,7 +287,8 @@ public static partial class VehicleVisualFactory
             // motorcycle and the Blender Niva answer light identically. Animal
             // coat, hide, vinyl, hoof and instrument dial keep their own
             // restrained finish; wood and cloth stay village families.
-            Material material=surface is "horse_coat" or "vinyl" or "leather" or "hoof" or "dial"
+            Material material=_interiorFinishes ? ModelMaterial(color+"__"+surface,isNivaInterior:true)
+                : surface is "horse_coat" or "vinyl" or "leather" or "hoof" or "dial"
                 ?TrimMaterial(color,surface)
                 : surface switch
                 {
