@@ -51,6 +51,9 @@ public partial class CodePerson : Node3D
     private float _groundY = float.NaN;
     private int _frame;
     private bool _ready;
+    private Basis _headRestInverse = Basis.Identity;
+    private Vector3 _restFront = Vector3.Back;
+    private Vector3 _restUp = Vector3.Up;
 
     public static void Dress(Node3D instance, string prefix, string characterId, bool sheltered)
     {
@@ -68,6 +71,16 @@ public partial class CodePerson : Node3D
         // The imported surfaces stay loaded for the systems that inspect them, but are not drawn.
         foreach (var mesh in instance.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>())
             mesh.Layers = 0;
+        // The head follows its own bone (glances, look-at modifiers), measured against the rest pose.
+        Vector3 Rest(string bone) => skeleton.GetBoneGlobalRest(person._bones[bone]).Origin;
+        var restUp = (Rest("neck_01") - Rest("pelvis")).Normalized();
+        var restAcross = (Rest("upperarm_l") - Rest("upperarm_r")).Normalized();
+        if (restUp.IsFinite() && restAcross.IsFinite() && restUp != Vector3.Zero && restAcross != Vector3.Zero)
+        {
+            person._restUp = restUp;
+            person._restFront = restAcross.Cross(restUp).Normalized();
+            person._headRestInverse = skeleton.GetBoneGlobalRest(person._bones["Head"]).Basis.Orthonormalized().Inverse();
+        }
         instance.SetMeta("codePerson", true);
         skeleton.AddChild(person);
     }
@@ -304,14 +317,32 @@ public partial class CodePerson : Node3D
             Ball(elbow, Vector3.One * .105f * b, coat, up, front);
             var reach = hand - elbow;
             reach = reach.LengthSquared() < .0001f ? Vector3.Down : reach.Normalized();
-            Ball(hand + reach * .05f, new Vector3(.085f, .13f, .06f) * b, _sheltered ? o.Skin : o.Mittens, reach, front);
+            if (!_sheltered)
+            {
+                Ball(hand + reach * .05f, new Vector3(.085f, .13f, .06f) * b, o.Mittens, reach, front);
+                continue;
+            }
+            // A bare hand: wrist cuff, palm, the fingers as one curved pad, and a thumb.
+            var grip = Perpendicular(reach, front);
+            var thumb = reach.Cross(grip).Normalized() * (shoulder == shoulderL ? -1f : 1f);
+            Limb(hand - reach * .03f, hand + reach * .012f, .046f * b, .04f * b, o.Trim, front);
+            Ball(hand + reach * .045f, new Vector3(.082f, .095f, .034f) * b, o.Skin, reach, grip);
+            Ball(hand + reach * .105f + grip * .012f, new Vector3(.074f, .075f, .028f) * b, o.Skin, reach + grip * .5f, grip);
+            Ball(hand + reach * .04f + thumb * .045f + grip * .012f, new Vector3(.026f, .07f, .026f) * b, o.Skin, reach + thumb * .7f, grip);
         }
 
         // Neck, scarf, head.
-        var headUp = head - neck;
-        headUp = headUp.LengthSquared() < .0001f ? up : headUp.Normalized();
-        Limb(neck - up * .02f, head, .05f * b, .046f * b, o.Skin, front);
-        if (o.Scarf && !_sheltered) Limb(neck - up * .03f, neck + headUp * .06f, .1f * b, .085f * b, o.HeadColour, front, .9f);
+        var turn = _skeleton.GetBoneGlobalPose(_bones["Head"]).Basis.Orthonormalized() * _headRestInverse;
+        var headUp = (turn * _restUp).Normalized();
+        var bodyFront = front;
+        front = (turn * _restFront).Normalized();
+        if (!headUp.IsFinite() || !front.IsFinite() || headUp == Vector3.Zero || front == Vector3.Zero)
+        {
+            headUp = up;
+            front = bodyFront;
+        }
+        Limb(neck - up * .02f, head, .05f * b, .046f * b, o.Skin, bodyFront);
+        if (o.Scarf && !_sheltered) Limb(neck - up * .03f, neck + up * .06f, .1f * b, .085f * b, o.HeadColour, bodyFront, .9f);
         var skull = head + headUp * .095f;
         Ball(skull, new Vector3(.2f, .235f, .215f), o.Skin, headUp, front);
         // A face that reads at a distance: brow shadow, nose, mouth line.
@@ -347,8 +378,8 @@ public partial class CodePerson : Node3D
             case Headwear.Kerchief:
                 // A warm shawl: over the head, round the face, down onto the shoulders.
                 Ball(skull + headUp * .012f - front * .03f, new Vector3(.25f, .262f, .25f), o.HeadColour, headUp, front);
-                Limb(neck - up * .1f, skull - headUp * .06f - front * .02f, .17f * b, .1f, o.HeadColour, front, .8f);
-                Ball(neck + front * .085f - up * .01f, new Vector3(.07f, .06f, .05f), o.HeadColour, up, front);
+                Limb(neck - up * .1f, skull - headUp * .06f - front * .02f, .17f * b, .1f, o.HeadColour, bodyFront, .8f);
+                Ball(neck + bodyFront * .085f - up * .01f, new Vector3(.07f, .06f, .05f), o.HeadColour, up, bodyFront);
                 break;
         }
 

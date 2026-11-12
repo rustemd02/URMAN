@@ -176,6 +176,16 @@ public partial class Act1ConnectedWorld
         var width = 2.6f + (float)(noise * 13.0 % 1.0);
         var height = SnowReliefStandard.MassHeightMin
             + (float)(noise * 29.0 % 1.0) * (SnowReliefStandard.MassHeightMax - SnowReliefStandard.MassHeightMin);
+        // The site test only looked at the centre. A drift is up to eight metres
+        // long: reject it when any part of its body, with a wall's breadth to
+        // spare, would lie on a house, a porch, a fence line or a walked corridor.
+        for (var k = 0; k <= 8; k++)
+        {
+            var t = k / 8f - .5f;
+            foreach (var lateral in new[] { -1f, 0f, 1f })
+                if (SnowReliefStandard.Blocked(new Vector2(x, z) + along * (t * (length + 1.2f)) + across * (lateral * (width * .5f + .9f)), 1.1f))
+                    return;
+        }
         using var curve = new Curve3D { BakeInterval = .4f };
         for (var k = 0; k <= 3; k++)
         {
