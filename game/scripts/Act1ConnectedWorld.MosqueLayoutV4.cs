@@ -110,13 +110,11 @@ public partial class Act1ConnectedWorld
         }
         FacilityLabel(room, "MosqueQiblaNotice", "Кыйбла", new(1.30f, 2.43f, -4.57f), 0, .0015f);
 
-        // A separate west-side library. Its 1.1 m doorway leaves the prayer carpet and entrance route open.
-        FacilitySolid(room, "MosqueLibraryEastWall", new(.10f, 3.75f, 2.395f), new(-3.40f, 1.875f, 3.3775f), "dedbc6", "wood_painted_trim");
-        FacilitySolid(room, "MosqueLibraryEastJamb", new(.10f, 3.75f, .135f), new(-3.40f, 1.875f, .9375f), "dedbc6", "wood_painted_trim");
-        FacilitySolid(room, "MosqueLibraryLintel", new(.10f, 1.53f, 1.15f), new(-3.40f, 2.985f, 1.60f), "dedbc6", "wood_painted_trim");
-        FacilitySolid(room, "MosqueLibraryNorthWall", new(3.19f, 3.75f, .10f), new(-4.995f, 1.875f, .82f), "dedbc6", "wood_painted_trim");
-        FacilityManualDoor(room, "MosqueLibrary", "mosque/library", new(-3.40f, 0, 1.05f), 1.10f, 2.17f, 0, 90);
-        FacilityLabel(room, "MosqueLibrarySign", "Китапханә\nБиблиотека", new(-3.33f, 2.52f, 1.61f), 90, .0014f);
+        // Rebuilt 12.11.2026: the hall is one plain rectangle. The boxed-in
+        // library (two 10 cm partitions and a door standing inside the hall)
+        // is gone; the books keep their corner against the window wall, open
+        // to the room, with the same bench, desk and lamp.
+        FacilityLabel(room, "MosqueLibrarySign", "Китапханә\nБиблиотека", new(-5.40f, 2.05f, 4.555f), 180, .0014f);
         FacilitySolid(room, "MosqueBookcaseLeft", new(.08f, 1.65f, .39f), new(-6.15f, .825f, 4.23f), "80674c", "wood_furniture");
         FacilitySolid(room, "MosqueBookcaseRight", new(.08f, 1.65f, .39f), new(-4.65f, .825f, 4.23f), "80674c", "wood_furniture");
         for (var shelf = 0; shelf < 4; shelf++)
@@ -139,7 +137,8 @@ public partial class Act1ConnectedWorld
     private void BuildMosqueDonationBox()
     {
         var room = _mosqueRoom!;
-        var box = new Node3D { Name = "MosqueDonationBox", Position = new(2.48f, 0, 1.56f) };
+        // Stands against the pier of the south window wall, facing the room.
+        var box = new Node3D { Name = "MosqueDonationBox", Position = new(.9f, 0, 4.38f), RotationDegrees = new(0, 180, 0) };
         room.AddChild(box);
         box.SetMeta("presentationRole", "locked donation box; visible unmarked contributions; no theft interaction");
         FacilitySolid(box, "DonationPedestal", new(.44f, .74f, .35f), new(0, .37f, 0), "80674c", "wood_furniture");
