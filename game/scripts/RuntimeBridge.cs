@@ -673,6 +673,17 @@ public partial class RuntimeBridge : Node
                 throw new InvalidDataException("The loaded held item is blocked above the restored mosque carpet.");
             GD.Print($"act1-loaded-floor-migration: mosque-timber-to-carpet from={original.Position} to={carpetFeet}");
         }
+        if (!player.VehicleControlled
+            && GetTree().GetFirstNodeInGroup("act1_connected_world") is Act1ConnectedWorld compactHouseWorld
+            && compactHouseWorld.TryResolveCompactBabaiHouseFeet(player, out var houseFeet))
+        {
+            var original = player.CapturePortableTransform();
+            player.ApplyPortableTransform(new PlayerTransform(new(houseFeet.X, houseFeet.Y, houseFeet.Z), original.RotationDegrees));
+            await ProjectPhysicalWorldAsync();
+            if (GetTree().GetFirstNodeInGroup("carry_coordinator") is CarryCoordinator { HeldItem: not null, HasValidHeldPose: false })
+                throw new InvalidDataException("The loaded held item is blocked in the compacted house.");
+            GD.Print($"act1-loaded-house-migration: compact-footprint from={original.Position} to={houseFeet}");
+        }
         // A valid small-space save may require crouching. Reject the placement
         // only when even that real capsule cannot fit after the world is restored.
         if (!player.VehicleControlled && !player.CanCrouchAt(player.GlobalPosition))

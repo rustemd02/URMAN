@@ -51,6 +51,7 @@ public static partial class StyleBenchmarkInteriorFactory
         for (var i = 0; i < 3; i++) hall.GetNode<Node3D>("HallPhoto"+i).Position = new(3.35f, 1.6f, .2f+i*.45f);
         Prop(hall,"HallLampCord",new(.012f,.35f,.012f),new(1f,2.465f,1.4f),"302d29","fabric_upholstery");
         Prop(bedroom,"BedroomLampCord",new(.012f,.35f,.012f),new(2f,2.465f,-1.5f),"302d29","fabric_upholstery");
+        CompactBabaiWestRooms(kitchen, bedroom);
         var attic = MoveRoom("Attic", new(0, 2.8f, -2));
         foreach (var child in attic.GetChildren().ToArray())
         {
@@ -83,11 +84,11 @@ public static partial class StyleBenchmarkInteriorFactory
         void Floor(string name, float x0, float x1, float z0, float z1, float top)
             => Block(interior, name, new(x1-x0, .16f, z1-z0),
                 new((x0+x1)*.5f, top-.08f, (z0+z1)*.5f), "7a4634", "wood_floor_planked");
-        Floor("GroundFloor", -6.5f, 6.5f, -7.5f, 3.5f, 0);
+        Floor("GroundFloor", BabaiHousePlan.West, BabaiHousePlan.East, BabaiHousePlan.Back, BabaiHousePlan.Front, 0);
         Floor("EntryFloorJoint", DoorX-.75f, DoorX+.75f, 3.5f, 3.70f, 0);
         foreach (var level in new[] { 2.8f, 5.6f })
         {
-            Floor("FloorWest"+level, -6.5f, 5.15f, -7.5f, 3.5f, level);
+            Floor("FloorWest"+level, BabaiHousePlan.West, 5.15f, -7.5f, 3.5f, level);
             Floor("FloorLanding"+level, 5.15f, 6.5f, -7.5f, -1.90f, level);
             Floor("FloorSouth"+level, 5.15f, 6.5f, 3.2f, 3.5f, level);
         }
@@ -109,7 +110,7 @@ public static partial class StyleBenchmarkInteriorFactory
         Partition("ToiletEast", false, 4.05f, -7.3f, -3.8f, 0);
         Partition("ToiletSouth", true, -3.8f, 2.2f, 4.05f, 0);
         Partition("BedroomEast", false, .08f, -7.3f, -3.25f, 2.8f);
-        Partition("BedroomSouth", true, -3.25f, -6.3f, .08f, 2.8f, -2.7f, 1.2f);
+        Partition("BedroomSouth", true, -3.25f, BabaiHousePlan.West, .08f, 2.8f, -2.7f, 1.2f);
         Partition("UpperHallEast", false, 3.42f, -.5f, 3.5f, 2.8f);
         Partition("UpperFamilyRoom", false, -1.6f, -3.25f, 3.5f, 2.8f, -1.55f, 1.25f);
         DressNewBabaiFamilyRoom(interior);
@@ -129,10 +130,40 @@ public static partial class StyleBenchmarkInteriorFactory
         {
             if (!GodotObject.IsInstanceValid(room) || !room.IsInsideTree()) return false;
             var p = room.ToLocal(point);
-            return p.X > -6.5f && p.X < 6.5f && p.Z > -7.5f && p.Z < 3.7f && p.Y > -.4f && p.Y < 10f;
+            return p.X > BabaiHousePlan.West && p.X < BabaiHousePlan.East
+                && p.Z > BabaiHousePlan.Back && p.Z < 3.7f && p.Y > -.4f && p.Y < 10f;
         };
         room.SetMeta("houseRooms", "zal|kitchen|toilet|upper-bedroom|upper-hall|inhabited-attic");
         room.SetMeta("houseWingPolicy", "one physical house; two full stair flights; legacy underground retired");
+    }
+
+    private static void CompactBabaiWestRooms(Node3D kitchen, Node3D bedroom)
+    {
+        string[] worktop = ["KitchenCabinet", "KitchenWorktop", "KitchenSink", "KitchenTap",
+            "KitchenWaterBucket", "KitchenShelf", "KitchenJarLow", "KitchenPlate", "KitchenBreadTin"];
+        string[] dining = ["KitchenTable", "KitchenCottonTablecloth", "KitchenStool", "KitchenSamovar",
+            "KitchenTeapot", "KitchenCup", "KitchenBowlOfSweets"];
+        foreach (var part in kitchen.GetChildren().OfType<Node3D>())
+        {
+            var name = part.Name.ToString();
+            // Kitchen yaw is +90: its local +Z is house +X. Move complete
+            // owners, including the explicit stool contacts and all tea things.
+            if (worktop.Any(prefix => name.StartsWith(prefix, StringComparison.Ordinal))) part.Position += Vector3.Back * .82f;
+            else if (dining.Any(prefix => name.StartsWith(prefix, StringComparison.Ordinal))) part.Position += Vector3.Back * .60f;
+            else if (name.StartsWith("KitchenOnionPlait", StringComparison.Ordinal)) part.Position += Vector3.Back * 1.20f;
+        }
+        foreach (var part in bedroom.GetChildren().OfType<Node3D>())
+        {
+            var name = part.Name.ToString();
+            if (name.StartsWith("Dresser", StringComparison.Ordinal) || name == "BedroomDresser")
+                part.Position += Vector3.Right * 1.20f;
+            else if (name.StartsWith("Bed", StringComparison.Ordinal) && !name.StartsWith("Bedroom", StringComparison.Ordinal)
+                && name != "BedWallCarpet" || name is "BedroomChest" or "BedroomRunner")
+                part.Position += Vector3.Right * .60f;
+        }
+        var carpet = bedroom.GetNode<Node3D>("BedWallCarpet");
+        carpet.Position = new(.75f,1.75f,.48f);
+        carpet.GetNode<MeshInstance3D>("Visible").Mesh = RuralPropGeometry.Box(new(1.7f,1.3f,.03f));
     }
 
     private static void RetireBabaiInterior(Node node)
@@ -151,12 +182,12 @@ public static partial class StyleBenchmarkInteriorFactory
         interior.AddChild(furnishings);
         var contacts = new StaticBody3D { Name="FurnitureContacts", CollisionLayer=1, CollisionMask=0 };
         furnishings.AddChild(contacts);
-        var table = RuralPropModels.Desk(furnishings,"ReadingTable",new(-4.4f,0,-.7f),0,1.6f,.8f,.76f);
+        var table = RuralPropModels.Desk(furnishings,"ReadingTable",new(-3.8f,0,-.7f),0,1.6f,.8f,.76f);
         RuralPropGeometry.AttachMemberContacts(table,contacts);
-        foreach (var (at,yaw) in new[] { (new Vector3(-4.4f,0,.25f),0f), (new Vector3(-4.4f,0,-1.65f),180f) })
+        foreach (var (at,yaw) in new[] { (new Vector3(-3.8f,0,.25f),0f), (new Vector3(-3.8f,0,-1.65f),180f) })
             RuralPropGeometry.AttachMemberContacts(RuralPropModels.Chair(furnishings,"ReadingChair",at,yaw),contacts);
         RuralPropGeometry.AttachMemberContacts(RuralPropModels.Bench(furnishings,"WindowBench",new(-3.8f,0,2.55f),0,2.4f,false),contacts);
-        Prop(furnishings,"WovenRunner",new(2.9f,.014f,2.7f),new(-4.4f,.008f,-.7f),"645244","carpet");
+        Prop(furnishings,"WovenRunner",new(2.9f,.014f,2.7f),new(-3.8f,.008f,-.7f),"645244","carpet");
         // Books face the room from a shallow shelf on the existing hall wall;
         // window arcs and the route between the stair and bedroom stay clear.
         foreach (var y in new[] { .15f,.72f,1.29f,1.86f })

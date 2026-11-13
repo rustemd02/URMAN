@@ -168,8 +168,16 @@ public partial class Act1ConnectedWorld
     {
         if (_babaiNewExterior is { } rebuilt)
         {
-            var outline = new[] { new Vector3(-6.95f, 0, -7.95f), new Vector3(6.95f, 0, -7.95f),
-                new Vector3(6.95f, 0, 4.45f), new Vector3(-6.95f, 0, 4.45f) }
+            var west=BabaiHousePlan.CentreX-BabaiHousePlan.RoofHalfRun-.05f;
+            var east=BabaiHousePlan.CentreX+BabaiHousePlan.RoofHalfRun+.05f;
+            var back=BabaiHousePlan.Back-.70f;var front=BabaiHousePlan.Front+.70f;
+            var door=StyleBenchmarkInteriorFactory.DoorX;
+            // Follow the roof and its porch projection, retaining snow beside
+            // the small entrance instead of clearing the whole street frontage.
+            var outline = new[] { new Vector3(west, 0, back), new Vector3(east, 0, back),
+                new Vector3(east, 0, front), new Vector3(door+1.55f, 0, front),
+                new Vector3(door+1.55f, 0, 5.35f), new Vector3(door-1.55f, 0, 5.35f),
+                new Vector3(door-1.55f, 0, front), new Vector3(west, 0, front) }
                 .Select(rebuilt.ToGlobal).Select(at => new Vector2(at.X, at.Z)).ToArray();
             return SnowReliefStandard.PublishFootprint("footprint:babai-hero-house-plot", outline);
         }

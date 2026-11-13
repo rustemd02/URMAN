@@ -45,7 +45,7 @@ public partial class Act1ConnectedWorld
         facade.AddChild(shell);
         shell.GlobalTransform = room.GlobalTransform;
         shell.SetMeta("babaiRelocated", true);
-        shell.SetMeta("assetSource", "VariantA_TimberGable materials and TimberHomeStyle joinery; expanded metric architecture");
+        shell.SetMeta("assetSource", "VariantA_TimberGable materials and TimberHomeStyle joinery; compact metric architecture");
         shell.SetMeta("occupiedInterior", room.GetPath().ToString());
         _babaiNewExterior = shell;
         facade.SetMeta("rebuiltBabaiHouse", true);
@@ -53,11 +53,17 @@ public partial class Act1ConnectedWorld
         BuildBabaiHouseFoundation(shell);
         TimberHomeStyle.DressParcel(facade, "babai-wide-house", allowAddedStorey: false);
         RestoreBabaiActiveWindowGlass();
+        DressBabaiLandmarkHouse(shell);
 
         var weather = GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld");
-        // The roof's upper triangular volume is sheltered without declaring
-        // the air outside its slopes an indoor room.
-        weather.RegisterWeatherShelter(shell, new(0, 8.1f, -2f), new(3.0f, 1.2f, 5.7f));
+        // Fit nested shelter bands inside the roof's slopes. A single wide,
+        // tall box also cleared outdoor flakes above the smaller roof.
+        var slope=(BabaiHousePlan.Ridge-BabaiHousePlan.Eave)/(BabaiHousePlan.Width*.5f);
+        foreach(var (bottom,top) in new[]{(7.4f,8.4f),(8.4f,9f),(9f,9.5f)})
+            weather.RegisterWeatherShelter(shell,
+                new(BabaiHousePlan.CentreX,(bottom+top)*.5f,BabaiHousePlan.CentreZ),
+                new((BabaiHousePlan.Ridge-top)/slope-.05f,(top-bottom)*.5f,BabaiHousePlan.Depth*.5f+.1f));
+        weather.RegisterWeatherShelter(shell, new(StyleBenchmarkInteriorFactory.DoorX,1.22f,4.30f), new(1.40f,1.27f,.91f));
         weather.ReconcileBuildingFoliage(shell);
         ExcludeBabaiRebuiltTerrain();
         PublishBabaiHouseFootprint();
@@ -66,8 +72,8 @@ public partial class Act1ConnectedWorld
     private static void BuildBabaiHouseFoundation(Node3D shell)
     {
         var bottom = -.28f;
-        foreach (var x in new[] { -6.65f, 0f, 6.65f })
-        foreach (var z in new[] { -7.65f, -2f, 3.65f })
+        foreach (var x in new[] { BabaiHousePlan.WallWest-.05f, BabaiHousePlan.CentreX, BabaiHousePlan.WallEast+.05f })
+        foreach (var z in new[] { BabaiHousePlan.WallBack-.05f, BabaiHousePlan.CentreZ, BabaiHousePlan.WallFront+.05f })
         {
             var at = shell.ToGlobal(new(x, 0, z));
             bottom = Math.Min(bottom, AgentBAct1HeightField.CollisionGround(at.X, at.Z) - shell.GlobalPosition.Y - .08f);
@@ -76,10 +82,10 @@ public partial class Act1ConnectedWorld
         var body = new StaticBody3D { Name = "ContinuousHouseFooting", CollisionLayer = 1, CollisionMask = 0 };
         shell.AddChild(body);
         foreach (var (size, at) in new[] {
-            (new Vector3(13.5f,-bottom,.30f),new Vector3(0,bottom*.5f,-7.6f)),
-            (new Vector3(13.5f,-bottom,.30f),new Vector3(0,bottom*.5f,3.6f)),
-            (new Vector3(.30f,-bottom,11.2f),new Vector3(-6.6f,bottom*.5f,-2)),
-            (new Vector3(.30f,-bottom,11.2f),new Vector3(6.6f,bottom*.5f,-2)) })
+            (new Vector3(BabaiHousePlan.Width+.5f,-bottom,.30f),new Vector3(BabaiHousePlan.CentreX,bottom*.5f,BabaiHousePlan.WallBack)),
+            (new Vector3(BabaiHousePlan.Width+.5f,-bottom,.30f),new Vector3(BabaiHousePlan.CentreX,bottom*.5f,BabaiHousePlan.WallFront)),
+            (new Vector3(.30f,-bottom,BabaiHousePlan.Depth+.2f),new Vector3(BabaiHousePlan.WallWest,bottom*.5f,BabaiHousePlan.CentreZ)),
+            (new Vector3(.30f,-bottom,BabaiHousePlan.Depth+.2f),new Vector3(BabaiHousePlan.WallEast,bottom*.5f,BabaiHousePlan.CentreZ)) })
         {
             body.AddChild(new MeshInstance3D { Mesh = RuralPropGeometry.BevelBox(size,.012f), Position = at, MaterialOverride = material });
             body.AddChild(new CollisionShape3D { Position = at, Shape = new BoxShape3D { Size = size } });
@@ -90,10 +96,10 @@ public partial class Act1ConnectedWorld
     {
         if (_babaiNewExterior is not { } shell) return;
         var weather = GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld");
-        var footprint = new Node3D { Name = "BabaiHouseTerrainFootprint", Position = new(0, 0, -2f) };
+        var footprint = new Node3D { Name = "BabaiHouseTerrainFootprint", Position = new(BabaiHousePlan.CentreX, 0, BabaiHousePlan.CentreZ) };
         shell.AddChild(footprint);
-        weather.ExcludeOccupiedRoomTerrain(footprint, new(6.5f, 5.5f), fitBabaiYard: false);
-        var volume = new Aabb(new(-6.5f, -40, -7.5f), new(13, 80, 11));
+        weather.ExcludeOccupiedRoomTerrain(footprint, new(BabaiHousePlan.Width*.5f, BabaiHousePlan.Depth*.5f), fitBabaiYard: false);
+        var volume = new Aabb(new(BabaiHousePlan.West, -40, BabaiHousePlan.Back), new(BabaiHousePlan.Width, 80, BabaiHousePlan.Depth));
         foreach (var overlay in FindDescendants<MeshInstance3D>(weather.GetNode<Node3D>("AgentB_TerrainRoadKit"))
                      .Where(m => m.Name != "Terrain_Main" && m.Mesh is ArrayMesh).ToArray())
         {

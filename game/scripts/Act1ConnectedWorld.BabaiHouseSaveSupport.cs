@@ -18,9 +18,8 @@ public partial class Act1ConnectedWorld
             var record = property.Value;
             if (record.ValueKind == JsonValueKind.Object
                 && record.TryGetProperty("zone", out var zone) && zone.ValueKind == JsonValueKind.String && zone.GetString() == "house_old_pc"
-                && record.TryGetProperty("state", out var state) && state.ValueKind == JsonValueKind.String && state.GetString() is ("placed" or "combined")
-                && record.TryGetProperty("y", out var y) && y.ValueKind == JsonValueKind.Number && y.TryGetSingle(out var height)
-                && float.IsFinite(height) && height < -20f) return true;
+                && record.TryGetProperty("state", out var state) && state.ValueKind == JsonValueKind.String
+                && state.GetString() is ("placed" or "combined")) return true;
         }
         return false;
     }
@@ -65,7 +64,16 @@ public partial class Act1ConnectedWorld
                 || !record.TryGetProperty("y", out var y) || y.ValueKind != JsonValueKind.Number || !y.TryGetSingle(out var py)
                 || !record.TryGetProperty("z", out var z) || z.ValueKind != JsonValueKind.Number || !z.TryGetSingle(out var pz)) continue;
             var oldLocal = room.ToLocal(new(px, py, pz));
-            if (!Legacy(oldLocal)) continue;
+            if (!Legacy(oldLocal))
+            {
+                if (status.GetString() != "placed" || !TryMoveCompactBabaiSupport(oldLocal, out var compact)) continue;
+                var compactWorld = room.ToGlobal(compact);
+                state ??= JsonNode.Parse(save.Runtime.State.GetRawText())!.AsObject();
+                var compactRecord = state["world.props"]![property.Name]!.AsObject();
+                compactRecord["x"] = compactWorld.X; compactRecord["y"] = compactWorld.Y; compactRecord["z"] = compactWorld.Z;
+                movedItems++;
+                continue;
+            }
             var destination = Destination(oldLocal);
             // Keep a dropped object's offset from its original furniture/support
             // when that room is rigidly moved, including the kitchen's yaw.
@@ -102,6 +110,10 @@ public partial class Act1ConnectedWorld
                     2.8f+(float)top+(local.Y-progress*2.8f), 3.14f-progress*5.04f);
                 yawChange = -90;
             }
+            // Underground saves first reach the wide house layout, then follow
+            // the same measured support changes as an already upstairs save.
+            if (status.GetString() == "placed" && TryMoveCompactBabaiSupport(mapped, out var compactMapped))
+                mapped = compactMapped;
             var target = room.ToGlobal(mapped);
             state ??= JsonNode.Parse(save.Runtime.State.GetRawText())!.AsObject();
             var changed = state["world.props"]![property.Name]!.AsObject();
@@ -117,5 +129,91 @@ public partial class Act1ConnectedWorld
         if (movedPlayer || movedItems > 0)
             GD.Print($"act1-house-load-adapter: legacy-wing player={(movedPlayer ? 1 : 0)} placed-items={movedItems}");
         return save;
+    }
+
+    private static bool TryMoveCompactBabaiSupport(Vector3 old, out Vector3 destination)
+    {
+        destination = old;
+        if (!old.IsFinite()) return false;
+        // A placed origin is the object's bottom, .006 m above its support.
+        // Only the vanished part of each old top qualifies: the intersection
+        // of old/new tops stays untouched, making repeated loads idempotent.
+        // Loose floor objects, held/combined records, stacks and edges do not
+        // establish which furnishing supported an item and are not guessed.
+        static bool OnTop(Vector3 p, float x0, float x1, float z0, float z1, float top)
+            => p.X > x0+.02f && p.X < x1-.02f && p.Z > z0+.02f && p.Z < z1-.02f
+                && Math.Abs(p.Y-top-.006f) < .004f;
+        var shift = 0f;
+        if (OnTop(old,-6.09f,-5.51f,-6.60f,-3.90f,.84f)) shift=.82f; // Physical cabinet top; worktop has no contact.
+        else if (OnTop(old,-3.63f,-3.03f,-5.60f,-4.30f,.765f)) shift=.60f; // Kitchen table's retired strip.
+        else if (OnTop(old,-6.39f,-5.89f,-7.15f,-6.05f,3.70f)) shift=1.20f; // Bedroom dresser.
+        else if (OnTop(old,-2.75f,-2.33f,-7.11f,-6.69f,3.38f)) shift=.60f; // Bedside table.
+        else if (OnTop(old,-4.15f,-3.55f,-5.03f,-4.53f,3.30f)) shift=.60f; // Chest's retired strip.
+        else if (OnTop(old,-4.55f,-3.95f,-7.25f,-5.15f,3.14f)) shift=.60f; // Bed frame's retired strip.
+        else if (OnTop(old,-5.20f,-4.60f,-1.10f,-.30f,3.56f)) shift=.60f; // Reading table's retired strip.
+        if (shift == 0) return false;
+        destination += Vector3.Right * shift;
+        return true;
+    }
+
+    internal bool TryResolveCompactBabaiHouseFeet(FirstPersonController player, out Vector3 destination)
+    {
+        destination = player.GlobalPosition;
+        if (ActiveZoneId != "house_old_pc" || player.VehicleControlled
+            || !_zoneInstances.TryGetValue("house_old_pc", out var room)
+            || room.GetNodeOrNull<Node3D>("NewBabaiHouseInterior") is not { } interior) return false;
+        var p = room.ToLocal(destination);
+        if (!p.IsFinite() || p.X < -6.55f || p.X > 6.5f || p.Z < -7.5f || p.Z > 3.5f
+            || p.Y < -.10f || p.Y > 7.1f) return false;
+        var space = player.GetWorld3D().DirectSpaceState;
+        var exclude = new global::Godot.Collections.Array<Rid> { player.GetRid() };
+        using var excludeOwner = (global::Godot.Collections.Array)exclude;
+        bool HouseFloorSupports(Vector3 feet)
+        {
+            using var ray = PhysicsRayQueryParameters3D.Create(feet+Vector3.Up*.10f,
+                feet-Vector3.Up*.20f,player.CollisionMask,exclude);
+            using var hit = space.IntersectRay(ray);
+            return hit.Count != 0 && hit["normal"].AsVector3().Dot(Vector3.Up) > .95f
+                && hit["collider"].AsGodotObject() is StaticBody3D floor && interior.IsAncestorOf(floor)
+                && (floor.Name.ToString().StartsWith("Floor", StringComparison.Ordinal) || floor.Name == "GroundFloor")
+                && Math.Abs(hit["position"].AsVector3().Y-feet.Y) < .12f;
+        }
+        var removedFloor = p.X < BabaiHousePlan.West && !HouseFloorSupports(destination);
+        var changedObstacle = false;
+        if (!player.CanCrouchAt(destination)
+            && player.GetNodeOrNull<CollisionShape3D>("CollisionShape3D") is { Shape: { } shape } capsule)
+        {
+            using var query = new PhysicsShapeQueryParameters3D { Shape=shape,Transform=capsule.GlobalTransform,
+                CollisionMask=player.CollisionMask,Exclude=exclude,Margin=.002f };
+            var hits = space.IntersectShape(query,32);
+            using var hitsOwner = (global::Godot.Collections.Array)hits;
+            foreach (var hit in hits)
+            {
+                if (hit["collider"].AsGodotObject() is not Node body) continue;
+                var name=body.Name.ToString();
+                if (name == "BabaiContinuousShellContacts" && p.X < BabaiHousePlan.West+player.BodyRadius+.05f
+                    || room.IsAncestorOf(body) && (name is "KitchenCabinets" or "KitchenTableTop"
+                        or "BedroomDresser" or "BedFrame" or "BedroomChest" or "BedsideTable"
+                        || name.StartsWith("KitchenStoolContact",StringComparison.Ordinal)
+                        || name == "FurnitureContacts" && body.GetParent()?.Name.ToString() == "UpperFamilyRoomFurniture"
+                            && p.X < -2.7f && p.Z > -2.1f && p.Z < .8f)) changedObstacle=true;
+            }
+        }
+        if (!removedFloor && !changedObstacle) return false;
+        var candidates = p.Y < 2.5f
+            ? new[] { StyleBenchmarkInteriorFactory.Entry, StyleBenchmarkInteriorFactory.WingKitchenSpawn, new Vector3(2.4f,.05f,1.5f) }
+            : p.Y < 5.3f
+                ? new[] { new Vector3(-2.7f,2.85f,-3.9f), new Vector3(1,2.85f,1), new Vector3(-2.3f,2.85f,1.4f) }
+                : new[] { StyleBenchmarkInteriorFactory.WingAtticSpawn, new Vector3(0,5.65f,0), new Vector3(-2,5.65f,-3) };
+        foreach (var local in candidates)
+        {
+            var candidate=room.ToGlobal(local);
+            if (!player.CanStandAt(candidate) || !HouseFloorSupports(candidate)) continue;
+            destination=candidate;
+            return true;
+        }
+        if (removedFloor)
+            throw new System.IO.InvalidDataException("The loaded house pose lost its old floor and no supported replacement is clear.");
+        return false;
     }
 }

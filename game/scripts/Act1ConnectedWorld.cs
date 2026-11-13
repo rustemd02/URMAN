@@ -424,7 +424,8 @@ public partial class Act1ConnectedWorld : Node3D
                 StyleBenchmarkInteriorFactory.ClearDepth * .5f), fitBabaiYard: true);
         GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld")
             .RegisterWeatherShelter(_zoneInstances["house_old_pc"],
-                new Vector3(0, 3.70f, -2f), new Vector3(6.7f, 3.8f, 5.7f), windowView: true);
+                new Vector3(BabaiHousePlan.CentreX, 3.70f, BabaiHousePlan.CentreZ),
+                new Vector3(BabaiHousePlan.Width*.5f+.2f, 3.8f, BabaiHousePlan.Depth*.5f+.2f), windowView: true);
         BuildAct1NpcStaging();
         BuildAct1InteriorDiscoveries();
         BuildAct1ExteriorDiscoveries();
