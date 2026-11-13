@@ -39,7 +39,6 @@ public partial class W01Controller
 
     // Forest tuning.
     private const float PrologueBirchShare = .24f;
-    private const float PrologueHeroTreeReach = 9f;
     private const float PrologueTreeSink = .028f;
 
     private void BuildPrologueThicket()
@@ -57,6 +56,7 @@ public partial class W01Controller
         var originalGround = GroundBoundsLocal();
         var ground = originalGround.Grow(32f);
         BuildPrologueBackdropGround(thicket, originalGround);
+        BuildPrologueStop(thicket);
         var rng = new RandomNumberGenerator { Seed = 0x55524d36 };
         var exclusions = new (Vector2 Centre, float Radius)[]
         {
@@ -74,6 +74,7 @@ public partial class W01Controller
             if (point.X < ground.Position.X + 1f || point.X > ground.End.X - 1f
                 || point.Y < ground.Position.Z + 1f || point.Y > ground.End.Z - 1f) return false;
             if (PrologueRouteProgress(point).Lateral < lane) return false;
+            if (InsidePrologueStopClearing(point)) return false;
             foreach (var (centre, radius) in exclusions)
                 if (point.DistanceTo(centre) < radius) return false;
             var alongHut = Mathf.Clamp((point - hutStart).Dot(hutApproach) / hutApproach.LengthSquared(), 0, 1);
@@ -110,8 +111,10 @@ public partial class W01Controller
         var birchHero = LoadMeshFromScene(birchPath, "WinterBirch_LOD0");
         var birch = LoadMeshFromScene(birchPath, "WinterBirch_LOD1");
         var birchFar = LoadMeshFromScene(birchPath, "WinterBirch_LOD2");
-        var stands = new List<Transform3D>[6];
-        for (var index = 0; index < stands.Length; index++) stands[index] = new List<Transform3D>();
+        // Every tree goes into one list per species; the level of detail is chosen
+        // at runtime by the camera's distance to each cell (see AddThicketLodBatches).
+        var pines = new List<Transform3D>();
+        var birches = new List<Transform3D>();
         var trunks=new StaticBody3D { Name="PrologueMeshyTrunkContacts",CollisionLayer=1,CollisionMask=0 };
         thicket.AddChild(trunks);
         var planted = new List<(Vector2 At, float Radius)>();
@@ -131,8 +134,7 @@ public partial class W01Controller
                 * Basis.FromScale(new Vector3(girth,height,girth));
             // Set a little into the snow: the modelled root flare stays under the drift.
             var pose = new Transform3D(basis,new Vector3(point.X,ForestGroundHeight(point.X,point.Y)-height*PrologueTreeSink,point.Y));
-            var tier = lateral < PrologueHeroTreeReach ? 0 : lateral < 24f ? 1 : 2;
-            stands[(white ? 3 : 0) + tier].Add(pose);
+            (white ? birches : pines).Add(pose);
             if(lateral<7f)trunks.AddChild(new CollisionShape3D {
                 Position=pose.Origin+Vector3.Up*1.80f,Shape=new CylinderShape3D { Radius=trunk,Height=3f } });
             trees++;
@@ -153,12 +155,8 @@ public partial class W01Controller
                 +new Vector2(rng.RandfRange(-2f,2f),rng.RandfRange(-2f,2f));
             Plant(point,PrologueRouteProgress(point).Lateral);
         }
-        AddThicketBatches(thicket,"MeshyPineHero",pineHero.Mesh,pineHero.Local,stands[0],castShadow:true);
-        AddThicketBatches(thicket,"MeshyPineNear",pine.Mesh,pine.Local,stands[1],castShadow:true);
-        AddThicketBatches(thicket,"MeshyPineFar",pineFar.Mesh,pineFar.Local,stands[2],castShadow:false);
-        AddThicketBatches(thicket,"MeshyBirchHero",birchHero.Mesh,birchHero.Local,stands[3],castShadow:true);
-        AddThicketBatches(thicket,"MeshyBirchNear",birch.Mesh,birch.Local,stands[4],castShadow:true);
-        AddThicketBatches(thicket,"MeshyBirchFar",birchFar.Mesh,birchFar.Local,stands[5],castShadow:false);
+        AddThicketLodBatches(thicket,"MeshyPine",pineHero,pine,pineFar,pines);
+        AddThicketLodBatches(thicket,"MeshyBirch",birchHero,birch,birchFar,birches);
         var undergrowth=new List<Transform3D>();
         for(var index=0;index<170;index++)
         {
@@ -170,7 +168,7 @@ public partial class W01Controller
                 *Basis.FromScale(new Vector3(height*.8f,height,height*.8f)),
                 new(point.X,ForestGroundHeight(point.X,point.Y)-.04f,point.Y)));
         }
-        AddThicketBatches(thicket,"MeshyYoungPines",pine.Mesh,pine.Local,undergrowth,castShadow:false);
+        AddThicketBatches(thicket,"MeshyYoungPines",pine.Mesh,pine.Local,undergrowth,castShadow:false,cell:16f,end:42f,endMargin:6f);
 
         // Dead standing snags, leaning; the near ones carry hollows and broken stubs.
         var snags = new List<Transform3D>();
@@ -217,7 +215,7 @@ public partial class W01Controller
                 stubs.Add(new Transform3D(stubBasis, at));
             }
         }
-        AddThicketBatches(thicket, "DeadSnags", dead.Mesh, Transform3D.Identity, snags, castShadow: true);
+        AddThicketBatches(thicket, "DeadSnags", dead.Mesh, Transform3D.Identity, snags, castShadow: true, cell: 20f, end: 62f, endMargin: 8f);
 
         // Dead trees lying in the snow: never across the track.
         var fallen = new List<Transform3D>();
@@ -241,29 +239,47 @@ public partial class W01Controller
             var y = ForestGroundHeight(point.X, point.Y) + deadTrunkRadius * girth * .55f;
             fallen.Add(new Transform3D(basis, new Vector3(point.X, y, point.Y)) * dead.Local);
         }
-        AddThicketBatches(thicket, "Fallen", dead.Mesh, Transform3D.Identity, fallen, castShadow: false);
+        AddThicketBatches(thicket, "Fallen", dead.Mesh, Transform3D.Identity, fallen, castShadow: false, cell: 20f, end: 50f, endMargin: 8f);
 
         var hollowMaterial = new StandardMaterial3D { AlbedoColor = new Color(.035f, .028f, .022f), Roughness = 1f };
         AddThicketBatches(thicket, "Hollows", new SphereMesh { Radius = 1f, Height = 2f, RadialSegments = 10, Rings = 6, Material = hollowMaterial },
-            Transform3D.Identity, hollows, castShadow: false);
+            Transform3D.Identity, hollows, castShadow: false, cell: 20f, end: 40f, endMargin: 6f);
         var bark = dead.Mesh.GetSurfaceCount() > 0 ? dead.Mesh.SurfaceGetMaterial(0) : null;
         AddThicketBatches(thicket, "BrokenStubs", new CylinderMesh
         {
             TopRadius = .55f, BottomRadius = 1f, Height = 1f, RadialSegments = 6, Rings = 1,
             Material = bark ?? new StandardMaterial3D { AlbedoColor = new Color(.24f, .2f, .17f), Roughness = 1f }
-        }, Transform3D.Identity, stubs, castShadow: false);
+        }, Transform3D.Identity, stubs, castShadow: false, cell: 20f, end: 40f, endMargin: 6f);
 
         BuildPrologueForestLandmarks(thicket);
         GD.Print($"w01-prologue-thicket: trees={trees} undergrowth={undergrowth.Count} snags={snags.Count} hollows={hollows.Count} "
             + $"stubs={stubs.Count} fallen={fallen.Count} built={Time.GetTicksMsec() - started}ms");
     }
 
-    private void AddThicketBatches(Node3D parent, string name, Mesh mesh, Transform3D local, List<Transform3D> transforms, bool castShadow)
+    // Distance rings, in metres from the camera. Cells are tested whole, so the hero
+    // ring uses small cells; a tree is drawn at full detail only inside ~HeroRing,
+    // at the 6k-triangle model out to NearRing, and as a four-triangle card beyond.
+    private const float HeroRing = 16f, NearRing = 54f, FarRing = 100f;
+
+    private void AddThicketLodBatches(Node3D parent, string name,
+        (Mesh Mesh, Transform3D Local) hero, (Mesh Mesh, Transform3D Local) near, (Mesh Mesh, Transform3D Local) far,
+        List<Transform3D> poses)
+    {
+        AddThicketBatches(parent, name + "Hero", hero.Mesh, hero.Local, poses, castShadow: true,
+            cell: 10f, begin: 0f, end: HeroRing, beginMargin: 0f, endMargin: 4f);
+        AddThicketBatches(parent, name + "Near", near.Mesh, near.Local, poses, castShadow: true,
+            cell: 16f, begin: HeroRing, end: NearRing, beginMargin: 4f, endMargin: 8f);
+        AddThicketBatches(parent, name + "Far", far.Mesh, far.Local, poses, castShadow: false,
+            cell: ThicketCellSize, begin: NearRing, end: FarRing, beginMargin: 8f, endMargin: 10f);
+    }
+
+    private void AddThicketBatches(Node3D parent, string name, Mesh mesh, Transform3D local, List<Transform3D> transforms, bool castShadow,
+        float cell = ThicketCellSize, float begin = 0f, float end = 90f, float beginMargin = 0f, float endMargin = 10f)
     {
         foreach (var group in transforms.GroupBy(transform => new Vector2I(
-                     Mathf.FloorToInt(transform.Origin.X / ThicketCellSize), Mathf.FloorToInt(transform.Origin.Z / ThicketCellSize))))
+                     Mathf.FloorToInt(transform.Origin.X / cell), Mathf.FloorToInt(transform.Origin.Z / cell))))
         {
-            var origin = new Vector3((group.Key.X + .5f) * ThicketCellSize, 0f, (group.Key.Y + .5f) * ThicketCellSize);
+            var origin = new Vector3((group.Key.X + .5f) * cell, 0f, (group.Key.Y + .5f) * cell);
             var items = group.ToArray();
             var multi = new MultiMesh { TransformFormat = MultiMesh.TransformFormatEnum.Transform3D, Mesh = mesh, InstanceCount = items.Length };
             for (var index = 0; index < items.Length; index++)
@@ -278,9 +294,10 @@ public partial class W01Controller
                 Multimesh = multi,
                 Position = origin,
                 CastShadow = castShadow ? GeometryInstance3D.ShadowCastingSetting.On : GeometryInstance3D.ShadowCastingSetting.Off,
-                // Leave room for a cell's extent beyond the 34 m night fog.
-                VisibilityRangeEnd = 90f,
-                VisibilityRangeEndMargin = 10f,
+                VisibilityRangeBegin = begin,
+                VisibilityRangeBeginMargin = beginMargin,
+                VisibilityRangeEnd = end,
+                VisibilityRangeEndMargin = endMargin,
                 VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self
             };
             batch.SetMeta("presentationOnly", true);

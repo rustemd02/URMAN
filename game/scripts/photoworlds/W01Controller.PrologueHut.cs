@@ -80,7 +80,9 @@ public partial class W01Controller
         hut.AddChild(new MeshInstance3D { Name="WarmWindow",Position=new(.7f,1.47f,1.73f),
             Mesh=new BoxMesh { Size=new(.88f,.84f,.018f) },MaterialOverride=_prologueHutGlass });
         _prologueHutLamp=new OmniLight3D { Name="WindowLight",Position=new(.7f,1.50f,1.96f),
-            LightColor=new Color("ffc884"),LightEnergy=.75f,OmniRange=8f,ShadowEnabled=true,LightSize=.22f };
+            LightColor=new Color("ffc884"),LightEnergy=.75f,OmniRange=8f,ShadowEnabled=GraphicsQuality.Preset=="high",LightSize=.22f,
+            DistanceFadeEnabled=true,DistanceFadeBegin=36f,DistanceFadeShadow=16f,DistanceFadeLength=10f };
+        _prologueHutLamp.AddToGroup(GraphicsQuality.SoftShadowLampGroup);
         hut.AddChild(_prologueHutLamp);
         var contact=new StaticBody3D { Name="ClosedHutContact",CollisionLayer=1,CollisionMask=0 };
         contact.AddChild(new CollisionShape3D { Position=new(0,1.18f,0),Shape=new BoxShape3D { Size=new(3.9f,2.5f,3.5f) } });
@@ -139,7 +141,7 @@ public partial class W01Controller
         open.TweenInterval(.25);
         open.TweenProperty(dark,"color:a",0f,_accessibility.ReducedMotion?1.2:2.4).SetTrans(Tween.TransitionType.Sine);
         open.TweenCallback(Callable.From(layer.QueueFree));
-        ShowNightmareThought("Холодно… Под ногами тропа. Впереди чей-то голос.",4);
+        UiFoley.PlayWorld(this, GlobalPosition, "forest/wind_gust", -10f, 30f, 6f);
     }
 
     private void ReleasePrologueWaking()

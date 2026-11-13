@@ -161,6 +161,11 @@ public partial class W01Controller
             {
                 sun.LightEnergy = _daylightEnergy;
                 sun.LightColor = _daylightColor;
+                if (sun.HasMeta(GraphicsQuality.ShadowReachMeta))
+                {
+                    sun.RemoveMeta(GraphicsQuality.ShadowReachMeta);
+                    GraphicsQuality.ConfigureSun(sun);
+                }
             }
             if (moon is not null) moon.Visible = false;
             SetDreadActive(false);
@@ -184,6 +189,7 @@ public partial class W01Controller
     private const float NightSightRadius = 5f;
     private const float NightSightEnergy = .3f;
     private const float NightFogEnd = 75f;
+    private const float NightShadowReach = 52f;
     private MeshInstance3D? _nightMoon;
 
     /// <summary>
@@ -205,6 +211,9 @@ public partial class W01Controller
             sun.ShadowEnabled = true;
             sun.ShadowOpacity = .92f;
             sun.RotationDegrees = new Vector3(-38f, 152f, 0f);
+            // Fog swallows everything past this range, so a longer shadow cascade is wasted draw calls.
+            sun.SetMeta(GraphicsQuality.ShadowReachMeta, NightShadowReach);
+            GraphicsQuality.ConfigureSun(sun);
         }
         if (GetNodeOrNull<OmniLight3D>("PrologueClearingMoonlight") is { } clearing && clearing.Visible)
             clearing.Visible = false;
@@ -262,6 +271,12 @@ public partial class W01Controller
             sky.GroundHorizonColor = new Color(.06f, .08f, .14f);
             sky.SunAngleMax = 0f;
         }
+        // Screen-space effects read a near-black frame here: all cost, no picture.
+        night.SsaoEnabled = false;
+        night.SsilEnabled = false;
+        night.SsrEnabled = false;
+        night.SdfgiEnabled = false;
+        night.VolumetricFogEnabled = false;
         night.AmbientLightSource = Environment.AmbientSource.Color;
         night.AmbientLightColor = new Color(.3f, .38f, .6f);
         night.AmbientLightEnergy = NightAmbient;
@@ -330,6 +345,7 @@ public partial class W01Controller
         StopParallelSteps();
         StopNightmareSound(ref _nightmareAir, 0);
         ResetDread();
+        ResetPrologueStop(session is not null);
     }
 
     private void ProcessPrologueNightmare(FirstPersonController player, Vector2 feet, bool branchMoved, double delta)
@@ -349,16 +365,15 @@ public partial class W01Controller
 
         if (Fire(16, t > .05)) BeginPrologueWaking();
         ProcessPrologueHut(player,p);
-        if (Fire(0, t > 3.2))
+        ProcessPrologueStop(player, feet, p, t, (float)delta);
+        if (Fire(0, t > 17))
         {
-            var ahead = PrologueRoutePoint(Math.Min(p + 20f, PrologueRouteLength), 1.5f, 1.4f);
+            var ahead = PrologueRoutePoint(Math.Min(Math.Max(p, 8f) + 22f, PrologueRouteLength), 1.5f, 1.4f);
             var length = PlayPrologueForestVoice(new Vector2(ahead.X, ahead.Z), "forest-name-call", "«Айдар…»", -3f);
             _nightmareRecognitionAt = t + Math.Max(2.4, length) + .25;
         }
         if (Fire(1, _nightmareRecognitionAt > 0 && t >= _nightmareRecognitionAt))
-            ShowNightmareThought("Марат?.. Нет. Не может быть.", 4);
-        if (Fire(17, _nightmareRecognitionAt > 0 && t >= _nightmareRecognitionAt + 5))
-            ShowNightmareThought("Надо выйти к дороге. Пока — по следам.", 4);
+            ShowNightmareThought("Марат?.. Нет. Марата больше нет.", 4);
         if (Fire(9, t > .4)) StartNightmareSound(ref _nightmareAir, NightmareAirStream, -24f);
 
         ProcessDread(player, p, t, (float)delta);
@@ -402,7 +417,7 @@ public partial class W01Controller
         if (t - _nightmareLastGain > 24 && t > 20 && !_nightmareSilence)
         {
             _nightmareLastGain = t;
-            ShowNightmareThought("Следы уходят дальше по тропе, в чащу.", 4);
+            ShowNightmareThought(_stopLeft ? "Следы уходят дальше, в чащу." : "Он звал оттуда. Из-за дороги.", 4);
         }
     }
 

@@ -52,9 +52,11 @@ public partial class Act1ConnectedWorld
         ClipSnowInside(club, new Vector3(0, 2.1f, 0), new Vector3(8f, 2.1f, 6.6f));
 
         // Former sovkhoz office: two storeys, brick, a faded plaque.
-        var office = SquareBuilding(square, "SovkhozOffice", RelocatedSovkhozOfficeCentre, 14f, 9f, 3.2f, 2, brick, roofPitch: 22f);
-        SquareWindows(office, 14f, 9f, 3.2f, 2, 5, trim, lit: index => index == 0);
-        SquarePorch(office, 9f, 2.6f, trim);
+        // It can be entered: a double-height hall, four rooms, and somebody's lamp left on.
+        var office = SquareBuilding(square, "SovkhozOffice", RelocatedSovkhozOfficeCentre, 14f, 9f, 3.2f, 2, brick, roofPitch: 22f, hollow: true);
+        SquareWeatherShelter(office, new(0, 3.2f, 0), new(6.65f, 3.2f, 4.15f));
+        SquarePorch(office, 9f, 2.6f, trim, open: true);
+        BuildOfficeInterior(office, brick, trim);
         SquareSign(office, new(2.9f, 2.2f, 4.58f), "«КАРА УРМАН» СОВХОЗЫ\nИДАРӘСЕ · КОНТОРА", 30, new Color(.15f, .15f, .15f));
 
         // The closed post office: boarded door and a note about letters.
@@ -86,7 +88,7 @@ public partial class Act1ConnectedWorld
         var clubFoot = AddressGround(club.ToGlobal(new Vector3(0, 0, 6f + SquareStepsRun(club, 6f) + .5f)));
         var clubLanding = club.ToGlobal(new Vector3(0, .01f, 6.8f));
         Address(club, "DK", "14", "URM-Q03-P0002", 4.4f, "Pier4Skin", 12f, 1.3f, "culture", new[] { clubFoot, clubLanding });
-        Address(office, "OFFICE", "16", "URM-Q03-P0003", -4.2f, "Walls", 9f, 1.3f, "office");
+        Address(office, "OFFICE", "16", "URM-Q03-P0003", -4.2f, "Pier1Skin", 9f, 1.3f, "office");
         Address(post, "POST", "18", "URM-Q03-P0004", -3.7f, "Walls", 7f, 1.3f, "post");
 
         // Where the bus used to turn: a concrete pavilion by the road.

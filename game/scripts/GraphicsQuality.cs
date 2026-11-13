@@ -4,11 +4,11 @@ using Godot;
 namespace Urman.Godot;
 
 /// <summary>
-/// What each graphics preset costs beyond materials. "low" is for weak and
-/// lower-power integrated GPUs: FSR upscaling from a lower render scale, very-low soft shadows from
-/// a smaller atlas over a shorter distance, coarser mesh LOD, no SSAO. Medium
-/// and high keep the look the scenes were authored at; medium's scale and MSAA
-/// are the declared startup contract.
+/// What each graphics preset costs beyond materials. All presets below high
+/// render 3D under a pixel budget (FSR 1 upscaling), use FXAA instead of MSAA,
+/// two shadow cascades and half-resolution cheap-sample SSAO/SSIL. "low" is for
+/// weak and integrated GPUs: a smaller budget, a shorter shadow range, coarser
+/// mesh LOD, no SSAO/SSIL. High keeps the full authored look.
 /// </summary>
 public static class GraphicsQuality
 {
@@ -25,13 +25,13 @@ public static class GraphicsQuality
     // must show the same string on both sides, otherwise the two runs measured
     // different budgets and the comparison is void (the card forbids comparing
     // presets against each other).
-    private static float _meshLodThreshold = 1.5f;
+    private static float _meshLodThreshold = 2.2f;
     private static int _directionalShadowAtlas = 4096;
-    private static int _positionalShadowAtlas = 2048;
-    private static float _presetShadowDistance = 80f;
-    private static float _scaling3DScale = .9f;
-    private static string _msaa = "Msaa2X";
-    private static string _shadowFilter = "SoftLow";
+    private static int _positionalShadowAtlas = 1024;
+    private static float _presetShadowDistance = 56f;
+    private static float _scaling3DScale = .85f;
+    private static string _msaa = "Disabled";
+    private static string _shadowFilter = "SoftVeryLow";
 
     /// <summary>Coarse mesh LOD threshold currently in force for the gameplay viewport.</summary>
     public static float MeshLodThreshold => _meshLodThreshold;
@@ -62,20 +62,64 @@ public static class GraphicsQuality
             || (adapter == RenderingDevice.DeviceType.IntegratedGpu && !appleSilicon) ? "low" : "medium";
     }
 
+    // Pixel budget: the 3D render target never exceeds this many pixels, however
+    // large the window or the Retina backing store is. A full-screen Retina window
+    // is 4+ megapixels; shading, fog, SSAO and shadows all scale with that number,
+    // while FSR 1 hides the lower internal resolution. Presets still cap the scale
+    // from above, so a small window keeps its higher scale.
+    private static long PixelBudget(string preset) => preset switch
+    {
+        "low" => 1_300_000L,
+        "high" => 0L,
+        _ => 2_000_000L
+    };
+
+    private static readonly HashSet<ulong> HookedViewports = new();
+
+    private static Vector2I RenderSurface(Viewport viewport) =>
+        viewport is Window window ? window.Size : (Vector2I)viewport.GetVisibleRect().Size;
+
+    private static float BudgetedScale(Viewport viewport, float presetScale)
+    {
+        var budget = PixelBudget(Preset);
+        if (budget <= 0) return presetScale;
+        var surface = RenderSurface(viewport);
+        var pixels = (long)surface.X * surface.Y;
+        if (pixels <= 0) return presetScale;
+        var fitted = Mathf.Sqrt((float)budget / pixels);
+        return Mathf.Clamp(Mathf.Min(presetScale, fitted), .5f, 1f);
+    }
+
+    private static void ApplyScale(Viewport viewport, float presetScale)
+    {
+        var scale = ProbeScaleOverride() ?? BudgetedScale(viewport, presetScale);
+        // FSR 1 keeps edges sharp at a reduced scale where bilinear blurs them.
+        viewport.Scaling3DMode = scale < .995f && Preset != "high" ? Viewport.Scaling3DModeEnum.Fsr : Viewport.Scaling3DModeEnum.Bilinear;
+        viewport.Scaling3DScale = scale;
+        _scaling3DScale = scale;
+    }
+
+    private static float PresetScale() => Preset switch { "low" => .65f, "high" => 1f, _ => .85f };
+
     public static void Apply(Viewport viewport, string preset)
     {
         Preset = preset is "low" or "high" ? preset : "medium";
-        var (scale, msaa, lodThreshold, atlas, positionalAtlas) = Preset switch
+        // Medium and low drop MSAA for FXAA: MSAA multiplies the cost of every
+        // overdraw-heavy foliage pass, FXAA is one cheap post pass.
+        var (msaa, lodThreshold, atlas, positionalAtlas) = Preset switch
         {
-            "low" => (.7f, Viewport.Msaa.Disabled, 4f, 2048, 1024),
-            "high" => (1f, Viewport.Msaa.Msaa4X, 1f, 4096, 4096),
-            _ => (.9f, Viewport.Msaa.Msaa2X, 1.5f, 4096, 2048)
+            "low" => (Viewport.Msaa.Disabled, 4f, 2048, 1024),
+            "high" => (Viewport.Msaa.Msaa4X, 1f, 4096, 4096),
+            _ => (Viewport.Msaa.Disabled, 2.2f, 4096, 1024)
         };
-        // FSR 1 keeps edges sharp at a reduced scale where bilinear blurs them.
-        viewport.Scaling3DMode = scale < 1f && Low ? Viewport.Scaling3DModeEnum.Fsr : Viewport.Scaling3DModeEnum.Bilinear;
-        viewport.Scaling3DScale = scale;
+        ApplyScale(viewport, PresetScale());
+        if (viewport.GetInstanceId() is var id && HookedViewports.Add(id))
+            viewport.SizeChanged += () =>
+            {
+                if (GodotObject.IsInstanceValid(viewport)) ApplyScale(viewport, PresetScale());
+            };
         viewport.Msaa3D = msaa;
-        viewport.ScreenSpaceAA = Low ? Viewport.ScreenSpaceAAEnum.Fxaa : Viewport.ScreenSpaceAAEnum.Disabled;
+        viewport.ScreenSpaceAA = Preset == "high" ? Viewport.ScreenSpaceAAEnum.Disabled : Viewport.ScreenSpaceAAEnum.Fxaa;
         viewport.MeshLodThreshold = lodThreshold;
         viewport.PositionalShadowAtlasSize = positionalAtlas;
         RenderingServer.DirectionalShadowAtlasSetSize(atlas, true);
@@ -83,21 +127,32 @@ public static class GraphicsQuality
         {
             "low" => RenderingServer.ShadowQuality.SoftVeryLow,
             "high" => RenderingServer.ShadowQuality.SoftMedium,
-            _ => RenderingServer.ShadowQuality.SoftLow
+            _ => RenderingServer.ShadowQuality.SoftVeryLow
         };
         RenderingServer.DirectionalSoftShadowFilterSetQuality(filter);
         RenderingServer.PositionalSoftShadowFilterSetQuality(filter);
+        // Screen-space effects run at half resolution with the cheapest sample counts
+        // below high; high keeps the project defaults.
+        if (Preset == "high")
+        {
+            RenderingServer.EnvironmentSetSsaoQuality(RenderingServer.EnvironmentSsaoQuality.Medium, true, .5f, 2, 2f, 50f);
+            RenderingServer.EnvironmentSetSsilQuality(RenderingServer.EnvironmentSsilQuality.Medium, true, .5f, 4, 2f, 50f);
+        }
+        else
+        {
+            RenderingServer.EnvironmentSetSsaoQuality(RenderingServer.EnvironmentSsaoQuality.VeryLow, true, .5f, 1, 2f, 50f);
+            RenderingServer.EnvironmentSetSsilQuality(RenderingServer.EnvironmentSsilQuality.VeryLow, true, .5f, 1, 2f, 50f);
+        }
         // VIS-029 readback: record what this Apply call published. The values are
         // already computed here; storing them adds no writer and changes no preset
-        // number. BudgetSnapshot is taken after the probe scale override below so it
+        // number. BudgetSnapshot is taken after the probe scale override above so it
         // describes the frame the engine really draws, not only the preset name.
         _meshLodThreshold = lodThreshold;
         _positionalShadowAtlas = positionalAtlas;
         _directionalShadowAtlas = atlas;
         _shadowFilter = filter.ToString();
         _msaa = msaa.ToString();
-        _presetShadowDistance = Preset switch { "low" => 45f, "high" => 120f, _ => 80f };
-        if (ProbeScaleOverride() is { } probeScale) viewport.Scaling3DScale = probeScale;
+        _presetShadowDistance = ShadowDistance();
         _scaling3DScale = viewport.Scaling3DScale;
         if (viewport.World3D?.Environment is { } environment) ConfigureEnvironment(environment);
         foreach (var sun in viewport.GetTree().Root.FindChildren("*", nameof(DirectionalLight3D), true, false).OfType<DirectionalLight3D>())
@@ -106,6 +161,11 @@ public static class GraphicsQuality
         foreach (var lamp in viewport.GetTree().GetNodesInGroup(SoftShadowLampGroup).OfType<Light3D>())
             lamp.ShadowEnabled = Preset == "high";
     }
+
+    private static float ShadowDistance() => Preset switch { "low" => 36f, "high" => 120f, _ => 56f };
+
+    /// <summary>Sun meta: a scene whose fog hides everything past N metres says so, and the shadow range shrinks to it.</summary>
+    public const string ShadowReachMeta = "graphicsShadowReach";
 
     // Optional, explicitly requested A/B knobs for the existing performance probe.
     // They are read only when the command line carries --urman-perf-probe, they
@@ -254,10 +314,15 @@ public static class GraphicsQuality
         // P2: soft penumbrae instead of razor shadow edges. The angular size of the
         // winter sun disc widens the PCSS blur with distance from the caster (real
         // sun ≈ 0.53°; a hazy winter sky spreads it). Low filters without angular penumbrae.
-        sun.LightAngularDistance = Preset switch { "high" => 1.6f, "low" => 0f, _ => 0.9f };
+        // PCSS blocker search is paid per shadowed pixel; only high keeps it.
+        sun.LightAngularDistance = Preset == "high" ? 1.6f : 0f;
         if (!sun.ShadowEnabled) return;
-        sun.DirectionalShadowMode = Low ? DirectionalLight3D.ShadowMode.Parallel2Splits : DirectionalLight3D.ShadowMode.Parallel4Splits;
-        sun.DirectionalShadowMaxDistance = Preset switch { "low" => 45f, "high" => 120f, _ => 80f };
+        // Each cascade re-draws every caster in its range, so the split count is
+        // the biggest shadow lever in a forest. Below high: two cascades.
+        sun.DirectionalShadowMode = Preset == "high" ? DirectionalLight3D.ShadowMode.Parallel4Splits : DirectionalLight3D.ShadowMode.Parallel2Splits;
+        var distance = ShadowDistance();
+        if (sun.HasMeta(ShadowReachMeta)) distance = Mathf.Min(distance, sun.GetMeta(ShadowReachMeta).AsSingle());
+        sun.DirectionalShadowMaxDistance = distance;
         ApplyProbeShadowOverride(sun);
     }
 }

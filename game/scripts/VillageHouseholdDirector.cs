@@ -98,7 +98,10 @@ public partial class VillageHouseholdDirector : Node3D
         {
             var light=new SpotLight3D {Name=$"WindowSpill{i}",Visible=false,LightColor=Color.FromHtml("ffd3a1"),
                 LightEnergy=.75f,SpotRange=4.9f,SpotAngle=65f,SpotAttenuation=1.6f,
-                ShadowEnabled=true,LightSize=.12f,ShadowBias=.035f};
+                ShadowEnabled=GraphicsQuality.Preset=="high",LightSize=.12f,ShadowBias=.035f,
+                DistanceFadeEnabled=true,DistanceFadeBegin=26f,DistanceFadeShadow=12f,DistanceFadeLength=8f};
+            // Window spill shadows are a high-preset luxury (GraphicsQuality.Apply toggles the group).
+            light.AddToGroup(GraphicsQuality.SoftShadowLampGroup);
             light.SetMeta("lightingRole","bounded nearest residential window spill");
             AddChild(light); _lights[i]=light;
         }

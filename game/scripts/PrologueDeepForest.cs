@@ -539,7 +539,7 @@ public partial class PrologueDeepForest : Node3D
         var snow = new CpuParticles3D
         {
             Name = "DeepForestSnowfall",
-            Amount = 2600,
+            Amount = 1100,
             Lifetime = 5f,
             Preprocess = 5f,
             EmissionShape = CpuParticles3D.EmissionShapeEnum.Box,

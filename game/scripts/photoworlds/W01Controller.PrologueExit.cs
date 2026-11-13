@@ -25,19 +25,23 @@ public partial class W01Controller
         var heels = new List<Transform3D>();
         var left = true;
         // One walker's prints by arc length: a real stride, wandering a little.
-        for (var along = 4f; along < PrologueRouteLength - 4f; along += .7f + .09f * Mathf.Sin(along * .77f))
+        // They begin where the road ends, small and close together: a child's.
+        // By the end the same walker's stride is longer than a man's.
+        var grown = .6f;
+        for (var along = StopPrintsFrom; along < PrologueRouteLength - 4f; along += (.7f + .09f * Mathf.Sin(along * .77f)) * Mathf.Lerp(.62f, 1.3f, (grown - .6f) / .85f))
         {
+            grown = Mathf.Lerp(.6f, 1.45f, Mathf.SmoothStep(.12f, .93f, along / PrologueRouteLength));
             var here = PrologueRoutePoint(along, 0f);
             var next = PrologueRoutePoint(along + .5f, 0f);
             var direction = new Vector3(next.X - here.X, 0, next.Z - here.Z).Normalized();
             if (direction == Vector3.Zero) continue;
             var side = direction.Cross(Vector3.Up);
-            var point = here + side * ((left ? -.12f : .12f) + .1f * Mathf.Sin(along * .31f));
+            var point = here + side * ((left ? -.12f : .12f) * grown + .1f * Mathf.Sin(along * .31f));
             point.Y = ForestGroundHeight(point.X, point.Z);
             var basis = new Basis(Vector3.Up, Mathf.Atan2(-direction.X, -direction.Z) + (left ? .11f : -.11f));
-            rims.Add(new Transform3D(basis * Basis.FromScale(new Vector3(.72f, 1f, 1.55f)), point + Vector3.Up * .024f));
-            soles.Add(new Transform3D(basis * Basis.FromScale(new Vector3(.85f, 1f, 1.4f)), point + basis * new Vector3(0, .028f, -.035f)));
-            heels.Add(new Transform3D(basis, point + basis * new Vector3(0, .029f, .075f)));
+            rims.Add(new Transform3D(basis * Basis.FromScale(new Vector3(.72f * grown, 1f, 1.55f * grown)), point + Vector3.Up * .024f));
+            soles.Add(new Transform3D(basis * Basis.FromScale(new Vector3(.85f * grown, 1f, 1.4f * grown)), point + basis * new Vector3(0, .028f, -.035f * grown)));
+            heels.Add(new Transform3D(basis * Basis.FromScale(new Vector3(grown, 1f, grown)), point + basis * new Vector3(0, .029f, .075f * grown)));
             left = !left;
         }
         BuildTroddenTrail(trail);
@@ -84,7 +88,7 @@ public partial class W01Controller
         Vector3 previousLeft = default, previousRight = default, previousCentre = default;
         var previousShade = 0f;
         var first = true;
-        for (var along = 1.5f; along < PrologueRouteLength - 2f; along += step)
+        for (var along = StopPrintsFrom - .6f; along < PrologueRouteLength - 2f; along += step)
         {
             var here = PrologueRoutePoint(along, 0f);
             var next = PrologueRoutePoint(along + .5f, 0f);

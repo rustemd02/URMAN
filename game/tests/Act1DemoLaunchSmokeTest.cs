@@ -287,8 +287,9 @@ public partial class Act1DemoLaunchSmokeTest : Node
         }
 
         if (player.GraphicsPreset != "medium"
-            || Math.Abs(GetViewport().Scaling3DScale - 0.9f) > 0.0001f
-            || GetViewport().Msaa3D != Viewport.Msaa.Msaa2X
+            || GetViewport().Scaling3DScale is < 0.5f or > 0.85001f
+            || GetViewport().Msaa3D != Viewport.Msaa.Disabled
+            || GetViewport().ScreenSpaceAA != Viewport.ScreenSpaceAAEnum.Fxaa
             || PainterlyMaterialLibrary.LowQualityMaterials)
         {
             Fail("Act 1 demo did not apply its declared medium graphics preset at startup.");
