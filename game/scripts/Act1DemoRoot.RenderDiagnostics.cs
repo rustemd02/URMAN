@@ -41,6 +41,11 @@ public partial class Act1DemoRoot
     private double _manualGpuSum, _manualCpuSum;
     private long _manualVisibleDraws, _manualShadowDraws;
     private int _manualRendererSamples;
+    private bool _manualVillageCensusPending, _manualVillageCensusCaptured;
+    private object? _manualVillageCensusSession;
+    private string _manualVillageCensusSceneId = string.Empty;
+    private string _manualVillageCensusScenePath = string.Empty;
+    private string _manualVillageCensusZone = string.Empty;
 
     private bool ManualPhotoWorldSampleEnabled => OS.IsDebugBuild()
         && OS.GetEnvironment("URMAN_PROTECTED_RUN") == "1" && UsesPhotoWorldsCampaign;
@@ -55,6 +60,7 @@ public partial class Act1DemoRoot
         GetViewport().SetInputAsHandled();
         if (inputEvent is InputEventKey { Echo: false }
             && _manualPhotoWorldSamplePhase == ManualPhotoWorldSamplePhase.Idle
+            && !_manualVillageCensusPending
             && ManualPhotoWorldSampleContext(out _))
         {
             _manualPhotoWorldFrameMilliseconds.Clear();
@@ -114,7 +120,11 @@ public partial class Act1DemoRoot
 
     private void RecordManualPhotoWorldFrameSample()
     {
-        if (_manualPhotoWorldSamplePhase == ManualPhotoWorldSamplePhase.Idle) return;
+        if (_manualPhotoWorldSamplePhase == ManualPhotoWorldSamplePhase.Idle)
+        {
+            if (_manualVillageCensusPending) CapturePendingManualVillageCensus();
+            return;
+        }
         if (!ManualPhotoWorldSampleContext(out var reason))
         {
             AbortManualPhotoWorldFrameSample(reason);
@@ -213,11 +223,63 @@ public partial class Act1DemoRoot
             + $"texture_bytes={RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.TextureMemUsed)} "
             + $"buffer_bytes={RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.BufferMemUsed)} "
             + $"video_bytes={RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.VideoMemUsed)}"));
+        ScheduleManualVillageCensus();
         ResetManualPhotoWorldFrameSample();
+    }
+
+    private void ScheduleManualVillageCensus()
+    {
+        if (_manualVillageCensusCaptured || _manualVillageCensusPending || _rendererDiagnosticsRequested
+            || _manualPhotoWorldZone != "village_day" || _manualPhotoWorldStartOnWalk
+            || _manualPhotoWorldMovementFrames != 0) return;
+
+        _manualVillageCensusPending = true;
+        _manualVillageCensusSession = _manualPhotoWorldSampleSession;
+        _manualVillageCensusSceneId = _manualPhotoWorldSceneId;
+        _manualVillageCensusScenePath = _manualPhotoWorldScenePath;
+        _manualVillageCensusZone = _manualPhotoWorldZone;
+    }
+
+    private void CapturePendingManualVillageCensus()
+    {
+        if (!_manualVillageCensusPending) return;
+        _manualVillageCensusPending = false;
+        var expectedSession = _manualVillageCensusSession;
+        var expectedSceneId = _manualVillageCensusSceneId;
+        var expectedScenePath = _manualVillageCensusScenePath;
+        var expectedZone = _manualVillageCensusZone;
+        _manualVillageCensusSession = null;
+        _manualVillageCensusSceneId = _manualVillageCensusScenePath = _manualVillageCensusZone = string.Empty;
+
+        string reason;
+        if (!ManualPhotoWorldSampleEnabled) reason = "not-authorized";
+        else if (!ManualPhotoWorldSampleContext(out reason))
+        {
+            GD.Print($"urman-render-census: status=skipped reason={ProbeToken(reason)}");
+            return;
+        }
+        else if (!ReferenceEquals(expectedSession, _bridge!.SessionIdentity)
+            || !string.Equals(expectedSceneId, _bridge.ActiveSceneId, StringComparison.Ordinal)
+            || !string.Equals(expectedScenePath, _main!.ActiveZoneScenePath, StringComparison.Ordinal)
+            || !string.Equals(expectedZone, _bridge.CurrentZoneId, StringComparison.Ordinal))
+            reason = "scene-session-or-zone-changed";
+        else reason = string.Empty;
+
+        if (reason.Length != 0)
+        {
+            GD.Print($"urman-render-census: status=skipped reason={ProbeToken(reason)}");
+            return;
+        }
+
+        _manualVillageCensusCaptured = true;
+        CaptureRendererCensus(summarizeOnly: true);
     }
 
     private void AbortManualPhotoWorldFrameSample(string reason)
     {
+        _manualVillageCensusPending = false;
+        _manualVillageCensusSession = null;
+        _manualVillageCensusSceneId = _manualVillageCensusScenePath = _manualVillageCensusZone = string.Empty;
         if (_manualPhotoWorldSamplePhase == ManualPhotoWorldSamplePhase.Idle) return;
         GD.Print(string.Create(CultureInfo.InvariantCulture,
             $"urman-ordinary-frame-sample: status=aborted reason={ProbeToken(reason)} "
@@ -409,12 +471,24 @@ public partial class Act1DemoRoot
         catch (Exception error) { _rendererDiagnosticErrors.Add("stop: " + error.Message); }
     }
 
-    private void CaptureRendererCensus()
+    private void CaptureRendererCensus(bool summarizeOnly = false)
     {
-        if (!_rendererDiagnosticsRequested || _rendererCensusCaptured) return;
-        _rendererCensusCaptured = true;
-        StopRendererDiagnostics();
-        if (_performanceSamples.Count == 0 || _main.ConnectedWorld is not { } world) return;
+        if (summarizeOnly)
+        {
+            if (_rendererDiagnosticsRequested) return;
+        }
+        else
+        {
+            if (!_rendererDiagnosticsRequested || _rendererCensusCaptured) return;
+            _rendererCensusCaptured = true;
+            StopRendererDiagnostics();
+            if (_performanceSamples.Count == 0) return;
+        }
+        if (_main.ConnectedWorld is not { } world)
+        {
+            if (summarizeOnly) GD.Print("urman-render-census: status=skipped reason=connected-world-unavailable");
+            return;
+        }
         try
         {
             var camera = GetViewport().GetCamera3D();
@@ -436,7 +510,8 @@ public partial class Act1DemoRoot
             var meshReferences = meshes.GroupBy(mesh => mesh.Mesh!.GetRid().Id)
                 .ToDictionary(group => group.Key, group => group.Count());
             var owners = new Dictionary<string, RendererCensusOwner>(StringComparer.Ordinal);
-            var rootFallback = new Dictionary<string, (int MeshNodes, int Surfaces, int Visible, int Candidates)>(StringComparer.Ordinal);
+            var rootFallback = new Dictionary<string, (int MeshNodes, int Surfaces, int Visible, int Candidates,
+                int CandidateSurfaces, int ShadowCandidates, int ShadowCandidateSurfaces)>(StringComparer.Ordinal);
             var resourceGroups = new Dictionary<string, (int Surfaces, HashSet<(ulong Mesh, int Surface, ulong Material, bool Mirror)> Pairs)>(StringComparer.Ordinal);
             var worldShell = world.GetNodeOrNull<Node>("Act1CoreWorldGreybox");
             var windowRows = new List<object>();
@@ -465,13 +540,27 @@ public partial class Act1DemoRoot
                     while (fallback.GetParent() is { } ancestor && ancestor != world && ancestor != worldShell)
                         fallback = ancestor;
                     var key = fallback.GetPath().ToString();
+                    var spatialCandidate = visible && layerMatches && candidate;
+                    var castsShadow = mesh.CastShadow != GeometryInstance3D.ShadowCastingSetting.Off;
                     var counts = rootFallback.GetValueOrDefault(key);
                     rootFallback[key] = (counts.MeshNodes + 1, counts.Surfaces + source.GetSurfaceCount(),
-                        counts.Visible + (visible ? 1 : 0), counts.Candidates + (visible && layerMatches && candidate ? 1 : 0));
+                        counts.Visible + (visible ? 1 : 0), counts.Candidates + (spatialCandidate ? 1 : 0),
+                        counts.CandidateSurfaces + (spatialCandidate ? source.GetSurfaceCount() : 0),
+                        counts.ShadowCandidates + (spatialCandidate && castsShadow ? 1 : 0),
+                        counts.ShadowCandidateSurfaces + (spatialCandidate && castsShadow ? source.GetSurfaceCount() : 0));
                 }
                 group.MeshNodes++;
                 if (visible) group.VisibleInTree++;
-                if (visible && layerMatches && candidate) group.VisibleSpatialCandidates++;
+                if (visible && layerMatches && candidate)
+                {
+                    group.VisibleSpatialCandidates++;
+                    group.CandidateSurfaces += source.GetSurfaceCount();
+                    if (mesh.CastShadow != GeometryInstance3D.ShadowCastingSetting.Off)
+                    {
+                        group.ShadowSpatialCandidates++;
+                        group.ShadowCandidateSurfaces += source.GetSurfaceCount();
+                    }
+                }
                 group.SurfaceCount += source.GetSurfaceCount();
                 group.MeshRids.Add(source.GetRid().Id);
                 var activeMaterials = Enumerable.Range(0, source.GetSurfaceCount())
@@ -503,6 +592,7 @@ public partial class Act1DemoRoot
                 if (!mesh.HasMeta("windowSurroundPaint")) continue;
                 group.PaintedWindowNodes++;
                 if (visible && layerMatches && candidate) group.WindowSpatialCandidates++;
+                if (summarizeOnly) continue;
                 var sourceRid = source.GetRid().Id;
                 windowRows.Add(new
                 {
@@ -534,8 +624,9 @@ public partial class Act1DemoRoot
                     importedLevels = levels, shadowMeshRid = (source as ArrayMesh)?.ShadowMesh?.GetRid().Id
                 };
             }
-            _rendererCensus = new
-            {
+            if (!summarizeOnly)
+                _rendererCensus = new
+                {
                 timing = "once after measurement; before transport exit; no geometry, visibility or state writes",
                 processFrame = Engine.GetProcessFrames(), drawnFrame = Engine.GetFramesDrawn(),
                 camera = camera.GetPath().ToString(), cameraPose = camera.GlobalTransform.ToString(),
@@ -551,7 +642,9 @@ public partial class Act1DemoRoot
                 rootFallbackGroups = rootFallback.OrderByDescending(pair => pair.Value.Candidates).Select(pair => new
                 {
                     owner = pair.Key, meshNodes = pair.Value.MeshNodes, surfaceCount = pair.Value.Surfaces,
-                    visibleInTree = pair.Value.Visible, visibleSpatialCandidates = pair.Value.Candidates
+                    visibleInTree = pair.Value.Visible, visibleSpatialCandidates = pair.Value.Candidates,
+                    candidateSurfaces = pair.Value.CandidateSurfaces, shadowSpatialCandidates = pair.Value.ShadowCandidates,
+                    shadowCandidateSurfaces = pair.Value.ShadowCandidateSurfaces
                 }).ToArray(),
                 rigidResourceGroups = resourceGroups.OrderByDescending(pair => pair.Value.Surfaces).Select(pair => new
                 {
@@ -563,9 +656,49 @@ public partial class Act1DemoRoot
                 windowCandidates = windowRows, windowMeshResources = windowResources.Values.ToArray(),
                 rids = "process-local resource identities; compare counts/paths across runs, not numeric RID equality",
                 batchEligibility = "not decided; snapshot does not prove a mesh is static or safe to combine"
-            };
+                };
+            else
+            {
+                static string ShortPath(string path)
+                {
+                    var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
+                    return string.Join('>', segments.Skip(Math.Max(0, segments.Length - 3)));
+                }
+
+                var topOwners = owners.Values
+                    .Where(owner => owner.VisibleSpatialCandidates > 0)
+                    .OrderByDescending(owner => owner.CandidateSurfaces)
+                    .ThenByDescending(owner => owner.ShadowCandidateSurfaces)
+                    .Take(6)
+                    .Select(owner =>
+                    {
+                        var asset = string.IsNullOrWhiteSpace(owner.AssetSource) ? "" : $"@{ShortPath(owner.AssetSource)}";
+                        return $"{ShortPath(owner.Owner)}{asset}:nodes={owner.VisibleSpatialCandidates},surfaces={owner.CandidateSurfaces},shadow_nodes={owner.ShadowSpatialCandidates},shadow_surfaces={owner.ShadowCandidateSurfaces}";
+                    });
+                var topProcedural = rootFallback
+                    .Where(group => group.Value.Candidates > 0)
+                    .OrderByDescending(group => group.Value.CandidateSurfaces)
+                    .Take(6)
+                    .Select(group =>
+                        $"{ShortPath(group.Key)}:nodes={group.Value.Candidates},surfaces={group.Value.CandidateSurfaces},shadow_nodes={group.Value.ShadowCandidates},shadow_surfaces={group.Value.ShadowCandidateSurfaces}");
+                var topSpatialRoots = resourceGroups
+                    .OrderByDescending(group => group.Value.Surfaces)
+                    .Take(6)
+                    .Select(group =>
+                        $"{ShortPath(group.Key)}:candidate_surfaces={group.Value.Surfaces},potential_keys={group.Value.Pairs.Count},repeat_surfaces={group.Value.Surfaces - group.Value.Pairs.Count}");
+                GD.Print($"urman-render-census: status=complete zone={ProbeToken(_bridge?.CurrentZoneId ?? "unknown")} "
+                    + $"camera={ShortPath(camera.GetPath().ToString())}@{camera.GlobalPosition} "
+                    + $"mesh_nodes={meshes.Length} mesh_frustum_candidates={owners.Values.Sum(owner => owner.VisibleSpatialCandidates)} "
+                    + $"frustum_instances={candidates.Count} candidates_not_draws=1 "
+                    + $"owner_top=[{string.Join('|', topOwners)}] procedural_top=[{string.Join('|', topProcedural)}] "
+                    + $"spatial_root_top=[{string.Join('|', topSpatialRoots)}] static_or_batch_safe=unproven");
+            }
         }
-        catch (Exception error) { _rendererDiagnosticErrors.Add("census: " + error.Message); }
+        catch (Exception error)
+        {
+            if (summarizeOnly) GD.Print($"urman-render-census: status=failed error={ProbeToken(error.Message)}");
+            else _rendererDiagnosticErrors.Add("census: " + error.Message);
+        }
     }
 
     private sealed class RendererCensusOwner(string owner, string assetSource)
@@ -576,6 +709,9 @@ public partial class Act1DemoRoot
         public int VisibleInTree { get; set; }
         public int VisibleSpatialCandidates { get; set; }
         public int SurfaceCount { get; set; }
+        public int CandidateSurfaces { get; set; }
+        public int ShadowSpatialCandidates { get; set; }
+        public int ShadowCandidateSurfaces { get; set; }
         public int PaintedWindowNodes { get; set; }
         public int WindowSpatialCandidates { get; set; }
         public HashSet<ulong> MeshRids { get; } = new();

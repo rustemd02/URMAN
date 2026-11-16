@@ -81,7 +81,9 @@ public partial class SnowTrampleField : Node3D
         AddChild(_puffs);
         SetMeta("snowTrampleResolution", resolution);
         SetMeta("snowTrampleStampCount", 0);
-        Callable.From(BindSurfaces).CallDeferred();
+        // The final connected-world job prepares sources; standalone scenes
+        // bind on their first supported step. A deferred Ready callback could
+        // capture terrain between jobs, before the occupied-room cuts.
     }
 
     public void SetEnabled(bool enabled)
@@ -309,11 +311,14 @@ public partial class SnowTrampleField : Node3D
         }
     }
 
-    private void BindSurfaces()
+    private void BindSurfaces() => PrepareSurfaces(GetTree().Root);
+
+    // The connected-world builder knows when all terrain owners are final and
+    // supplies its own root. Standalone scenes retain the first-step fallback.
+    internal void PrepareSurfaces(Node scope)
     {
         if (_surfacesBound) return;
-        _surfacesBound = true;
-        foreach (var mesh in Meshes(GetTree().Root))
+        foreach (var mesh in Meshes(scope))
         {
             if (mesh.Mesh is not ArrayMesh original || !mesh.IsVisibleInTree()) continue;
             for (var s = 0; s < original.GetSurfaceCount(); s++)
@@ -325,6 +330,7 @@ public partial class SnowTrampleField : Node3D
                 && mesh.GetMeta("supportOwner", "").AsString() == "AgentB_TerrainCollision")
                 _ground.Add(new GroundSurface(mesh, original));
         }
+        _surfacesBound = true;
     }
 
     // Subdivide the existing mesh only where the field needs vertices. The
@@ -333,13 +339,14 @@ public partial class SnowTrampleField : Node3D
     {
         public readonly MeshInstance3D Node;
         public readonly ArrayMesh Original;
+        public ArrayMesh Published;
         public readonly List<(Vector3[] Vertices, Vector3[] Normals, Vector2[] Uv, Color[] Colors, int[] Indices)> Surfaces = new();
         public readonly List<(Vector3 Min, Vector3 Max)[]> Bounds = new();
         public readonly HashSet<(int Surface, int Triangle)> Refined = new();
         private Transform3D _boundsTransform;
         public GroundSurface(MeshInstance3D node, ArrayMesh original)
         {
-            Node = node; Original = original;
+            Node = node; Original = Published = original;
             for (var s = 0; s < original.GetSurfaceCount(); s++)
             {
                 // SurfaceGetArrays builds a new Array on every call, and each
@@ -387,9 +394,21 @@ public partial class SnowTrampleField : Node3D
         // snowTrampleGeometry therefore keeps the last rebuild's value instead of
         // seeing it cleared on the next non-rebuilding tick.
         List<string>? counts = null;
-        foreach (var ground in _ground)
+        for (var groundIndex = 0; groundIndex < _ground.Count; groundIndex++)
         {
-            var reselect = ground.RefreshBounds() || rebuild;
+            var ground = _ground[groundIndex];
+            if (!GodotObject.IsInstanceValid(ground.Node) || !ground.Node.IsInsideTree()
+                || ground.Node.Mesh is not ArrayMesh current) continue;
+            var sourceChanged = current != ground.Published;
+            if (sourceChanged)
+            {
+                // An authoritative cut/regrade replaced our previous output.
+                // Keep that entire new surface, including every earlier cut,
+                // instead of rebuilding the pre-cut cached terrain over it.
+                ground = new GroundSurface(ground.Node, current);
+                _ground[groundIndex] = ground;
+            }
+            var reselect = sourceChanged || ground.RefreshBounds() || rebuild;
             var selected = reselect ? new HashSet<(int Surface, int Triangle)>()
                 : new HashSet<(int Surface, int Triangle)>(ground.Refined);
             var pending = Math.Min(_stamps.Count, _totalStamps - _refinedStampTotal);
@@ -477,6 +496,7 @@ public partial class SnowTrampleField : Node3D
             }
             var previous = ground.Node.Mesh;
             ground.Node.Mesh = rebuilt;
+            ground.Published = rebuilt;
             if (previous != ground.Original) previous?.Dispose();
             ground.Node.ExtraCullMargin = .06f;
             counts ??= [];

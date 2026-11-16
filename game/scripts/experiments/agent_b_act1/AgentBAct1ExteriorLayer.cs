@@ -453,6 +453,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
     public global::Godot.Environment? ExteriorAtmosphere => _environmentResource;
 
+    // Called only after the connected world's final terrain publications.
+    // The field is already owned here; no tree search is needed to find it.
+    internal void PrepareSnowTrampleSurfaces(Node worldScope) => _snowTrample?.PrepareSurfaces(worldScope);
+
     /// <summary>True while the exterior WorldEnvironment holds its resource (the one active outdoor environment).</summary>
     public bool ExteriorEnvironmentActive => _environment?.Environment is not null;
 

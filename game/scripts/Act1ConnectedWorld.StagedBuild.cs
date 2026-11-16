@@ -222,6 +222,8 @@ public partial class Act1ConnectedWorld
         yield return () => { if (DeferBuildOnReady) ReconcileAddressSignsAfterFrontages(); else CallDeferred(nameof(ReconcileAddressSignsAfterFrontages)); };
         yield return () => { if (DeferBuildOnReady) BuildVillageHouseholds(); else CallDeferred(nameof(BuildVillageHouseholds)); };
         yield return () => RegisterFacilityPrecipitationShelters();
+        yield return () => ProfileWorldBuildStep("snow-trample-bind", () =>
+            GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld").PrepareSnowTrampleSurfaces(this));
         yield return () => IsBuilt = true;
     }
 
