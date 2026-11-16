@@ -8,8 +8,10 @@ public partial class W01Controller
     private OmniLight3D? _prologueHutLamp;
     private StandardMaterial3D? _prologueHutGlass;
     private bool _prologueHutExtinguished;
-    private bool _prologueHutNoticed;
-    private bool _prologueHutPassed;
+    private InteractionTarget? _hutDoorTarget;
+    private int _hutReplyBeat;
+    private double _hutKnockTime;
+    private Node3D? _hutDoorLatch;
     private CanvasLayer? _prologueOpeningEyes;
 
     private void BuildPrologueForestLandmarks(Node3D owner)
@@ -43,15 +45,17 @@ public partial class W01Controller
             }
         }
         hut.AddChild(new MeshInstance3D { Name="JoinedLogWalls",Mesh=logs.Commit(),MaterialOverride=wood });
-        void Box(string name,Vector3 size,Vector3 at,string color,string material,Vector3 rotation=default)
+        MeshInstance3D Box(string name,Vector3 size,Vector3 at,string color,string material,Vector3 rotation=default)
         {
-            hut.AddChild(new MeshInstance3D { Name=name,Position=at,Rotation=rotation,
-                Mesh=RuralPropGeometry.BevelBox(size,.006f),MaterialOverride=PainterlyMaterialLibrary.ForColor(color,material) });
+            var part = new MeshInstance3D { Name=name,Position=at,Rotation=rotation,
+                Mesh=RuralPropGeometry.BevelBox(size,.006f),MaterialOverride=PainterlyMaterialLibrary.ForColor(color,material) };
+            hut.AddChild(part);
+            return part;
         }
         Box("LowStoneFooting",new(4.03f,.20f,3.53f),new(0,0,0),"77716a","stone");
         Box("ClosedBoardDoor",new(.88f,1.86f,.065f),new(-.95f,.98f,1.72f),"514438","wood_furniture");
         for(var i=0;i<5;i++)Box("DoorBoard"+i,new(.16f,1.82f,.025f),new(-1.29f+i*.17f,.98f,1.76f),"675543","wood_furniture");
-        Box("DoorLatch",new(.15f,.025f,.06f),new(-.66f,1.0f,1.80f),"6f716c","metal");
+        _hutDoorLatch = Box("DoorLatch",new(.15f,.025f,.06f),new(-.66f,1.0f,1.80f),"6f716c","metal");
         foreach(var side in new[]{-1f,1f})
         {
             var rotation=new Vector3(side*Mathf.DegToRad(31f),0,0);
@@ -87,50 +91,72 @@ public partial class W01Controller
         var contact=new StaticBody3D { Name="ClosedHutContact",CollisionLayer=1,CollisionMask=0 };
         contact.AddChild(new CollisionShape3D { Position=new(0,1.18f,0),Shape=new BoxShape3D { Size=new(3.9f,2.5f,3.5f) } });
         hut.AddChild(contact);
+        // The thicket batches own walking collisions. Keep the actionable face
+        // on the controller's ray layer, clear of the closed door's solid face.
+        _hutDoorTarget = new InteractionTarget
+        {
+            Name = "WinterHutKnock", CollisionLayer = 4, CollisionMask = 0,
+            InteractionId = "urman.fullgame:local/prologue/hut-door", Prompt = "Постучать в дверь",
+            PresentationRepeatAvailable = () => _nightmareMoodApplied && !_nightmareClimax && !_prologueHutExtinguished,
+            PresentationRepeat = KnockOnHut
+        };
+        _hutDoorTarget.AddChild(new CollisionShape3D { Shape = new BoxShape3D { Size = new(.86f, 1.6f, .23f) } });
+        AddChild(_hutDoorTarget);
+        _hutDoorTarget.GlobalTransform = hut.GlobalTransform * new Transform3D(Basis.Identity, new(-.95f, 1.02f, 1.85f));
         // A few stacked firewood lengths are ordinary evidence of use.
         var stack=new Node3D { Name="CoveredFirewood",Position=new(2.3f,0,-.8f) };hut.AddChild(stack);
         for(var i=0;i<7;i++)RuralPropGeometry.Tube(stack,"SplitLog"+i,new(-.35f,.13f+i*.085f,-.32f),
             new(.35f,.13f+i*.085f,.32f),.075f,wood,8);
     }
 
-    private void ProcessPrologueHut(FirstPersonController player,float progress)
+    private void KnockOnHut()
     {
-        var local=ToLocal(player.GlobalPosition);
-        var distance=new Vector2(local.X-PrologueHutPosition.X,local.Z-PrologueHutPosition.Z).Length();
-        if(!_prologueHutNoticed&&distance<24f)
-        { _prologueHutNoticed=true;ShowNightmareThought("В окне свет. Попробую подойти.",4); }
-        if(!_prologueHutExtinguished&&distance<5.3f&&_prologueHutLamp is { } lamp&&_prologueHutGlass is { } glass)
-        {
-            _prologueHutExtinguished=true;
-            lamp.LightEnergy=0;glass.EmissionEnabled=false;glass.AlbedoColor=new Color("161a1b");
-            UiFoley.PlayWorld(this,lamp.GlobalPosition,"wood_tap",-15f,18f,3f);
-            ShowNightmareThought("Погас.",2.5);
-            KnockFromInsideTheHut(lamp.GlobalPosition);
-        }
-        if(!_prologueHutPassed&&progress>PrologueRouteLength*.68f)
-        { _prologueHutPassed=true;ShowNightmareThought("Тропа уходит между деревьями. Держаться следов.",4); }
+        if (!_nightmareMoodApplied || _nightmareClimax || _prologueHutExtinguished
+            || _prologueHutLamp is not { } lamp || _prologueHutGlass is not { } glass
+            || _hutDoorTarget is not { } door) return;
+        _prologueHutExtinguished = true;
+        door.SetPresentationEnabled(false);
+        UiFoley.PlayWorld(this, door.GlobalPosition, "wood_tap", -5f, 10f, 2f);
+        lamp.LightEnergy = 0;
+        glass.EmissionEnabled = false;
+        glass.AlbedoColor = new Color("161a1b");
+        _hutReplyBeat = 0;
+        _hutKnockTime = _nightmareElapsed;
     }
 
-    // The light is out. Then, from inside, three slow knocks on the glass, and the door gives a little.
-    private async void KnockFromInsideTheHut(Vector3 at)
+    // No timer runs under the journal or during scene changes: the reply
+    // advances on the same playable clock as the rest of the walk.
+    private void ProcessPrologueHut()
     {
-        var session = _nightmareSession;
-        foreach (var pause in new[] { 2.6, 1.1, 1.1 })
+        if (!_prologueHutExtinguished || _hutReplyBeat >= 4 || _hutDoorTarget is not { } door) return;
+        var wait = _hutReplyBeat switch { 0 => 1.6, 1 => 2.5, 2 => 3.4, _ => 4.9 };
+        if (_nightmareElapsed - _hutKnockTime < wait) return;
+        if (_hutReplyBeat < 3)
         {
-            await ToSignal(GetTree().CreateTimer(pause), SceneTreeTimer.SignalName.Timeout);
-            if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || _nightmareClimax || !ReferenceEquals(session, _nightmareSession)) return;
-            UiFoley.PlayWorld(this, at, "wood_tap", -4f, 22f, 4f);
+            UiFoley.PlayWorld(this, door.GlobalPosition, "wood_tap", -4f, 22f, 4f);
+            if (_hutReplyBeat == 0 && _accessibility.Subtitles)
+                ShowNightmareThought("[Стук с другой стороны двери]", 2.2);
         }
-        await ToSignal(GetTree().CreateTimer(1.8), SceneTreeTimer.SignalName.Timeout);
-        if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || _nightmareClimax || !ReferenceEquals(session, _nightmareSession)) return;
-        UiFoley.PlayWorld(this, at, "door_creak", -6f, 22f, 4f);
-        ShowNightmareThought("Не оборачивайся. Иди.", 3);
+        else
+        {
+            UiFoley.PlayWorld(this, door.GlobalPosition, "door_creak", -6f, 20f, 3f);
+            if (_hutDoorLatch is { } latch)
+            {
+                var lift = latch.CreateTween();
+                lift.TweenProperty(latch, "rotation:z", -.6f, .24);
+                lift.TweenInterval(.52);
+                lift.TweenProperty(latch, "rotation:z", 0f, .12);
+            }
+        }
+        _hutReplyBeat++;
     }
 
     private void BeginPrologueWaking()
     {
         ReleasePrologueWaking();
-        _prologueHutNoticed=_prologueHutExtinguished=_prologueHutPassed=false;
+        _prologueHutExtinguished = false;
+        _hutDoorTarget?.SetPresentationEnabled(true);
+        if (_hutDoorLatch is { } latch) latch.Rotation = Vector3.Zero;
         if(_prologueHutLamp is { } lamp)lamp.LightEnergy=.75f;
         if(_prologueHutGlass is { } glass){glass.EmissionEnabled=true;glass.AlbedoColor=new Color("a67742");}
         var layer=new CanvasLayer { Name="PrologueOpeningEyes",Layer=98 };AddChild(layer);

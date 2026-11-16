@@ -17,6 +17,10 @@ public partial class JournalUi
     private const string PWaterThumbnailPath = "res://assets/textures/photobook/p-water-front-v1-thumbnail.png";
     private const string PHouseFrontImagePath = "res://assets/textures/photobook/p-house-front-v1.png";
     private const string PHouseThumbnailPath = "res://assets/textures/photobook/p-house-front-v1-thumbnail.png";
+    private const string PCommonFrontImagePath = "res://assets/textures/photobook/p-common-front-v1.png";
+    private const string PCommonThumbnailPath = "res://assets/textures/photobook/p-common-front-v1-thumbnail.png";
+    private const string PCellarFrontImagePath = "res://assets/textures/photobook/p-cellar-front-v1.png";
+    private const string PCellarThumbnailPath = "res://assets/textures/photobook/p-cellar-front-v1-thumbnail.png";
     private const string SPhotographerFrontImagePath = "res://assets/textures/photobook/s-photographer-front-v1.png";
     private const string SPhotographerThumbnailPath = "res://assets/textures/photobook/s-photographer-front-v1-thumbnail.png";
     private const string SSchoolFrontImagePath = "res://assets/textures/photobook/s-school-front-v2.png";
@@ -734,6 +738,8 @@ public partial class JournalUi
             "P-FOREST" => thumbnail ? PForestThumbnailPath : PForestFrontImagePath,
             "P-WATER" => thumbnail ? PWaterThumbnailPath : PWaterFrontImagePath,
             "P-HOUSE" => thumbnail ? PHouseThumbnailPath : PHouseFrontImagePath,
+            "P-COMMON" => thumbnail ? PCommonThumbnailPath : PCommonFrontImagePath,
+            "P-CELLAR" => thumbnail ? PCellarThumbnailPath : PCellarFrontImagePath,
             "S-PHOTOGRAPHER" => thumbnail ? SPhotographerThumbnailPath : SPhotographerFrontImagePath,
             "S-SCHOOL" => thumbnail ? SSchoolThumbnailPath : SSchoolFrontImagePath,
             "S-PRINT" => thumbnail ? SPrintThumbnailPath : SPrintFrontImagePath,
@@ -1320,6 +1326,8 @@ public partial class JournalUi
                     ? readBack ? "Оборот прочитан." : "Снимок вклеен в альбом."
                     : readBack ? "Не удалось прочитать оборот. Попробуйте ещё раз."
                     : "Не удалось вклеить снимок. Попробуйте ещё раз.";
+            if (readBack && completed && photoId == "P-FOREST" && InitialHomePhotoTaskPending(bridge))
+                OpenSelectedPhotoBookBackReader();
         }
         catch (Exception exception)
         {

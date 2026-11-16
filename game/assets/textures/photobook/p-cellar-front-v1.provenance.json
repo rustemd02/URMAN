@@ -1,0 +1,77 @@
+{
+  "asset_id": "P-CELLAR",
+  "status": "project_generated_source_art_candidate; runtime_and_author_acceptance_pending",
+  "tool": "built-in image_gen.imagegen",
+  "generation_ids": [
+    "exec-37633d15-ab5b-464c-b0f0-a45cb268cd07",
+    "exec-ad1ef368-167b-48e8-b180-673311582542"
+  ],
+  "method": "One original built-in ImageGen generation and one targeted edit adding only the specified folded cloth. The original generated source and edited source remain in the built-in generated_images directory. Runtime front and thumbnail are mechanical sips resamples only.",
+  "source_spec": "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json#P-CELLAR",
+  "fictional_attribution": "Permitted print from the fictional family photo box, as specified by the in-game content contract. No real household, personal data, or family likeness is represented.",
+  "canonical_camera": {
+    "source": "content/campaigns/urman.fullgame/photoworlds-sources/worlds.spec.json#W05.photo",
+    "level_source": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W05_Тёплое_подполье_RU.md#Контрольные виды",
+    "node": "B00",
+    "height_m": 1.35,
+    "vertical_fov_degrees": 50,
+    "forward": [0, 0, 1],
+    "required_content": "Dry entry passage, two neighboring shelves, tabletop circular trace, fabric, and one chipped-corner box; the niche is to the right outside the frame.",
+    "limit": "The candidate follows the authored B00 brief. It has not been compared with a runtime W05 F0 frame; no W05 code or scene was modified. Exact room geometry remains unverified."
+  },
+  "style_reviewed": [
+    {
+      "path": "game/assets/textures/photobook/p-house-front-v1.png",
+      "sha256": "31950224adae5861f351fe8ee30091a04fd116d5cfa536ebda93f125981e4b5a",
+      "role": "Visually inspected for the accepted project's timber-house materials and family-print surface treatment; not passed as an ImageGen input."
+    },
+    {
+      "path": "game/assets/textures/photobook/p-forest-front-v2.png",
+      "sha256": "c4b64f07534aca8a5e021b55f9e695686cd0180379d4227ebad19d169149c60e",
+      "role": "Visually inspected for mature painterly brushwork and material realism; not passed as an ImageGen input."
+    }
+  ],
+  "generation_prompt": "Use case: stylized-concept\nAsset type: one full-bleed 3:2 family-album front print for the fictional URMAN game photo P-CELLAR; target 1800x1200.\nPrimary request: Create an original, quiet painterly family-memory image for a permitted print from a fictional family photo box. It records the dry entry hall, not an underground cellar. No person needs to appear; the exact recognizable evidence is ordinary objects.\nScene/backdrop: A modest lived-in rural home's dry entry passage, authored as a fictional game interior rather than a documented real house. From the canonical B00 eye-level viewpoint (1.35 m, vFOV 50 degrees), look toward a small table and the left wall. Show exactly two neighboring plain wooden shelves, a clear faint circular cup ring on the tabletop, and one small simple wooden family photo box with a single chipped corner. Keep the right-side storage niche outside the frame. Use practical, worn timber and plaster-like surfaces consistent with the project's accepted family-house print, with no ornamental ethnic motifs or museum staging.\nSubject: The tabletop circle and the chipped-corner box are readable but natural and understated; two nearby shelves remain visible as part of the familiar room. The box is the only focal object. No contents, documents or extra photographs are visible.\nStyle/medium: Mature painterly material realism matching the existing URMAN family prints: broad, confident brushwork, tangible ordinary wood, paper and wall surfaces; believable domestic wear; a family memory in a painterly game, not photoreal CGI, not toy-like low-poly.\nComposition/framing: 3:2 landscape, camera at ordinary standing height from B00, natural perspective and moderate field of view. Table fills the lower foreground/midground; both shelves sit to the left and rear, with the small circle mark and chipped corner easy to recognize. Cropped naturally, not symmetrical or staged like a product photo.\nLighting/mood: Soft diffuse daytime light from the unseen entrance, calm and dry, a gentle warm patch on wood balanced by cool quiet shadows; no dramatic darkness, yellow wash or sepia.\nConstraints: This is an original project art candidate, not an archival photograph or claim about a real household. No people, faces, hands, photographer, camera shadow, text, labels, symbols, religious objects, dates, captions, border or watermark. No magical glow, portals, cave, underground cellar, extra shelves, extra boxes or new clues. Do not invent a family member or story event.",
+  "targeted_edit_prompt": "Use case: precise-object-edit\nAsset type: project-generated P-CELLAR family-album front image for URMAN, 3:2 landscape.\nInput image: Image 1 is the current generated source art candidate. Keep it as the edit target.\nPrimary request: Add exactly one small, plain, softly worn folded cotton cloth on the left wooden shelf, satisfying the specified B00 photo support fabric. The cloth should be a muted natural gray-beige with no pattern, embroidery, fringe or lettering.\nConstraints: Change only the addition of this folded cloth. Preserve the existing camera, crop, painterly style, two shelves, table, circular ring mark, chipped-corner wooden photo box, door, light, shadows, colors, proportions and all existing details exactly. Do not add people, hands, family photos, extra objects, text, symbols, ornaments, border or watermark. This remains fictional project art, not an archival or documentary photograph.",
+  "source_generation": {
+    "path": "/Users/unterlantas/.codex/generated_images/01a1e57c-c2a1-7941-8db1-2fc81cf5946d/exec-37633d15-ab5b-464c-b0f0-a45cb268cd07.png",
+    "sha256": "2d7bc20747297cfdac205f323490620088fc39bd092fd9645e650202da798bef",
+    "bytes": 2562272,
+    "size_px": [1536, 1024]
+  },
+  "final_generated_source": {
+    "path": "/Users/unterlantas/.codex/generated_images/01a1e57c-c2a1-7941-8db1-2fc81cf5946d/exec-ad1ef368-167b-48e8-b180-673311582542.png",
+    "sha256": "3f1fb01d2747040863d69f01cec0b8bfb6fb318a7c3237d499ee8b3b92f95279",
+    "bytes": 2331155,
+    "size_px": [1536, 1024]
+  },
+  "runtime_front": {
+    "path": "game/assets/textures/photobook/p-cellar-front-v1.png",
+    "sha256": "946f76c5975657663117ae0fe9c048037445eef87f87e42f1fee728a304a27c7",
+    "size_px": [1800, 1200],
+    "export": "sips -z 1200 1800 final edited source --out runtime front; no visual edits"
+  },
+  "runtime_thumbnail": {
+    "path": "game/assets/textures/photobook/p-cellar-front-v1-thumbnail.png",
+    "sha256": "01e6e18609e4ce429513ac4870c8e22c271a2ed854eea0d16fbd4fcddb467a95",
+    "bytes": 72289,
+    "size_px": [256, 171],
+    "export": "sips -z 171 256 runtime front --out thumbnail; no visual edits"
+  },
+  "observed_landmarks": [
+    "exactly two plain neighboring shelf boards",
+    "one small folded, plain, muted gray-beige cloth on the left shelf",
+    "one natural circular ring on the tabletop",
+    "one wooden family photo box with a chipped corner",
+    "right-side niche remains outside the image"
+  ],
+  "physical_representation": "The existing family-box card uses this front on its upper face and the authored P-CELLAR reverse on the underside. The book reader maps the same front and a 256x171 list thumbnail. No photo-flip interaction or W05 runtime change was added.",
+  "rights": "Original project-generated fictional art based on project-authored briefs only; no third-party photographs, real people, faces, personal data, or archival authenticity are claimed. The content contract says the fictional family-box print is permitted for viewing. Human artistic, cultural, and rights acceptance remains open.",
+  "cultural_evidence_limit": "The research package states that no directly surveyed ordinary home interior from the target village/time is available. The image follows the authored fictional B00 content brief and accepted project material language; its wall/door treatment is an art proposal, not a documented household reconstruction.",
+  "remaining_acceptance": [
+    "Godot import and full-image/thumbnail rendering in the book and physical family-box print",
+    "W05 B00 F0 correspondence to actual runtime geometry, for the W05 owner to review separately",
+    "author artistic and cultural acceptance of the domestic interior, box, and cloth",
+    "final rights acceptance; generated artwork is a candidate, not a documentary source"
+  ]
+}

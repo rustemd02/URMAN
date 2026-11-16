@@ -323,6 +323,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var wasReducedMotion = _accessibility.ReducedMotion;
         _accessibility = settings;
         ApplyShuraleAccessibilitySettings(settings, wasReducedMotion);
+        if (GodotObject.IsInstanceValid(_signalPrompt)) AccessibilityPresentation.ApplyToControl(_signalPrompt, settings);
         if (_prologueSkipButton is not { } button || !GodotObject.IsInstanceValid(button)) return;
         AccessibilityPresentation.ApplyToControl(button, settings);
         if (_prologueHintPanel is { } hintPanel && GodotObject.IsInstanceValid(hintPanel))
@@ -1585,7 +1586,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         var projection = bridge.CurrentW01BranchProjection();
         ApplyPrologueMood(projection?.ActiveSceneId == PrologueSceneId);
-        ProjectPrologueMitten(bridge, projection?.ActiveSceneId == PrologueSceneId);
+        ProjectStopObjects(bridge, projection?.ActiveSceneId == PrologueSceneId);
         if (ForestEpisodeReady)
         {
             ApplyRootPassageProjection(projection);

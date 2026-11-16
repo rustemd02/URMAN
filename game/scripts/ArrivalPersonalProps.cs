@@ -176,13 +176,22 @@ internal partial class ArrivalPersonalProps : Node3D
 
         var target = house.MakeInteractionBox("PhotoWorldFamilyBookTarget", new(.30f, .08f, .24f),
             book.Position, "674b45", "urman.fullgame:interaction/pw-book-handoff",
-            "Принять семейную книгу от Гөлсинә", rayOnly: true);
+            "Положить книгу на стол и открыть снимок", rayOnly: true);
         target.AfterDispatch = async () =>
         {
             var tree = house.GetTree();
             if (tree.GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge bridge
                 && tree.GetFirstNodeInGroup("journal_ui") is JournalUi journal)
-                journal.OpenPhotoBook(bridge);
+            {
+                var session = bridge.SessionIdentity;
+                if (book.GetNodeOrNull<FamilyBookTablePresence>("PhotoWorldFamilyBookTablePresence") is { } presence
+                    && !await presence.PlaceForArrivalAsync(bridge)) return false;
+                if (!GodotObject.IsInstanceValid(house) || !house.IsInsideTree()
+                    || !GodotObject.IsInstanceValid(bridge) || !bridge.IsInsideTree()
+                    || !GodotObject.IsInstanceValid(journal) || !journal.IsInsideTree()
+                    || session is null || !ReferenceEquals(session, bridge.SessionIdentity)) return false;
+                journal.OpenPhotoBook(bridge, "P-FOREST");
+            }
             return await Task.FromResult(true);
         };
 
@@ -674,6 +683,27 @@ internal partial class ArrivalPersonalProps : Node3D
         };
         sheetPaper.SetMeta("visualOnly", true);
         sheet.AddChild(sheetPaper);
+        const string sheetFrontPath = "res://assets/textures/photobook/p-common-front-v1.png";
+        var sheetFrontTexture = ResourceLoader.Load<Texture2D>(sheetFrontPath)
+            ?? throw new InvalidOperationException("The P-COMMON front has not been packaged.");
+        var front = new MeshInstance3D
+        {
+            Name = "PrinterSheetFront",
+            Position = new(0f, .0011f, 0f),
+            RotationDegrees = new(-90f, 0f, 180f),
+            Mesh = new QuadMesh { Size = new(.140f, .094f) },
+            MaterialOverride = new StandardMaterial3D
+            {
+                AlbedoTexture = sheetFrontTexture,
+                Roughness = 1f,
+                TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmaps
+            }
+        };
+        front.SetMeta("visualOnly", true);
+        front.SetMeta("assetSource", sheetFrontPath);
+        front.SetMeta("assetStatus", "project-generated P-COMMON front candidate; author artistic/cultural acceptance pending");
+        sheet.AddChild(front);
+
         const string sheetBackPath = "res://assets/textures/photobook/backs-v1/p-common-back.svg";
         if (ResourceLoader.Exists(sheetBackPath)
             && ResourceLoader.Load<Texture2D>(sheetBackPath) is { } backTexture)
@@ -687,15 +717,14 @@ internal partial class ArrivalPersonalProps : Node3D
             var back = new MeshInstance3D
             {
                 Name = "PrinterSheetBack",
-                Position = new(0f, .0011f, 0f),
-                // The authored page reads from the room side, like the water print.
-                RotationDegrees = new(-90f, 0f, 180f),
+                Position = new(0f, -.0011f, 0f),
+                RotationDegrees = new(90f, 0f, 0f),
                 Mesh = new QuadMesh { Size = new(.140f, .094f) },
                 MaterialOverride = backMaterial
             };
             back.SetMeta("visualOnly", true);
             back.SetMeta("assetSource", sheetBackPath);
-            back.SetMeta("assetStatus", "authored back face; the P-COMMON front art remains specified, not produced");
+            back.SetMeta("assetStatus", "authored P-COMMON reverse face on the underside of the printed sheet");
             sheet.AddChild(back);
         }
 

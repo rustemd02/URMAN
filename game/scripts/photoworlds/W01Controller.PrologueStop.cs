@@ -5,22 +5,8 @@ using Godot;
 namespace Urman.Godot;
 
 /// <summary>
-/// Prologue, written as a story (author request 2026-11-13).
-///
-/// «Остановка». The last bus leaves Aidar at the turn to Kara-Urman, under the
-/// only lamp for kilometres. Babai's message gives him one rule: wait at the
-/// stop, not a step from it. Then a voice he knows cannot be there calls his
-/// name from the trees across the road, and a torch blinks twice — the signal
-/// two boys once used. The lamp does not go out until he breaks the
-/// rule. The prints he follows are a child's. They do not stay a child's.
-/// On a stick in the snow hangs a small blue mitten, dry, as if hung a minute
-/// ago; he can leave it there or take it. Where the prints end, something
-/// that has been walking in front of him all along turns round.
-///
-/// He wakes in babai's car: the bus was late, he fell asleep on the way from
-/// the stop. A dream, then — until, at the gate, he puts his hand in his pocket.
-///
-/// This file owns the stop itself and the opening beats. Presentation only.
+/// A late bus, a message from Babai and a light across the road. Aidar can
+/// signal back or cross without answering; only what he did carries into the ride.
 /// </summary>
 public partial class W01Controller
 {
@@ -32,9 +18,9 @@ public partial class W01Controller
     private const float StopLampEnergy = 5.2f;
     private const float StopRoadReach = 62f;      // how far the road is drawn each way
     private const float StopRoadWalk = 19f;       // how far along it he can go
-    private const double StopLampPatience = 55;   // seconds before the lamp gives up by itself
 
     internal const string PrologueMittenKey = "prologue/blue-mitten";
+    internal const string PrologueSignalKey = "prologue/forest-signal";
 
     private Node3D? _stop;
     private SpotLight3D? _stopLamp;
@@ -50,9 +36,10 @@ public partial class W01Controller
     private Label? _stopCardLabel;
     private readonly bool[] _stopFired = new bool[12];
     private bool _stopLeft;
-    private double _stopLeftAt;
     private double _stopSignalAt = -1;
-    private Vector3 _stopPrintLocal;
+    private double _replyAt = -1;
+    private bool _answeredSignal, _writingSignal, _signalInputReleased;
+    private Label? _signalPrompt;
 
     // The journal is available on demand, including before the voice or the signal.
     internal RuntimeBridge.PhotoWorldHintProjection StopJournalHint(bool branchMoved)
@@ -64,9 +51,12 @@ public partial class W01Controller
             return new("prologue-branch", "Кто здесь прошёл?", "За дальней обочиной в снегу видны следы.",
                 "Идите по следам до упавшей ветки. Возьмитесь за середину ветки и освободите проход.");
         if (_stopSignalAt >= 0)
-            return new("prologue-branch", "Кто подал сигнал?", "Свет мигнул среди деревьев напротив остановки.",
-                "Перейдите дорогу к просвету между деревьями.");
-        return new("prologue-branch", "Остановка у поворота", "За спиной навес со скамейкой.",
+            return _answeredSignal
+                ? new("prologue-branch", "Кто вышел к дороге?", "Огонёк появился прямо у обочины.",
+                    "Перейдите дорогу и посмотрите, кто оставил следы.")
+                : new("prologue-branch", "Кто подал сигнал?", "Свет мигает среди деревьев напротив остановки.",
+                    "Повернитесь к огоньку. Можно ответить фонариком или перейти дорогу.");
+        return new("prologue-branch", "Остановка у поворота", "Под навесом стоит скамейка.",
             "Осмотритесь на остановке. На скамейке лежит фотография.");
     }
 
@@ -156,8 +146,8 @@ public partial class W01Controller
             });
         }
 
-        // The shelter: a concrete box open to the road, a bench, snow on the roof.
-        var shelter = new Node3D { Name = "Shelter", Position = StopPoint(-1.9f, 0f) };
+        // The shelter sits beside the road, leaving the first view open to the far side.
+        var shelter = new Node3D { Name = "Shelter", Position = StopPoint(-1.9f, -3.5f) };
         shelter.Basis = Basis.LookingAt(-along3, Vector3.Up); // local +Z looks across the road at the forest
         stop.AddChild(shelter);
         var concrete = PainterlyMaterialLibrary.ForColor("7f8a8c", "plaster");
@@ -176,24 +166,24 @@ public partial class W01Controller
             });
             return piece;
         }
-        Piece(shelter, "BackWall", new(3.5f, 2.35f, .14f), new(0f, 1.17f, -.95f), paint, solid: true);
-        Piece(shelter, "BackWallBand", new(3.52f, .5f, .15f), new(0f, .25f, -.95f), concrete);
-        foreach (var x in new[] { -1.68f, 1.68f })
-            Piece(shelter, "Side" + x, new(.14f, 2.35f, 1.6f), new(x, 1.17f, -.2f), paint, solid: true);
+        Piece(shelter, "BackWall", new(3.5f, 2.35f, .14f), new(0f, 1.17f, -.55f), paint, solid: true);
+        Piece(shelter, "BackWallBand", new(3.52f, .5f, .15f), new(0f, .25f, -.55f), concrete);
+        Piece(shelter, "Side-1.68", new(.14f, 2.35f, 1.6f), new(-1.68f, 1.17f, -.2f), paint, solid: true);
+        // Leave the front corner open to the outside view of the bench print.
+        Piece(shelter, "Side1.68", new(.14f, 2.35f, 1.15f), new(1.68f, 1.17f, -.55f), paint, solid: true);
         Piece(shelter, "Roof", new(4.0f, .12f, 2.3f), new(0f, 2.41f, -.05f), concrete, solid: true);
         Piece(shelter, "RoofSnow", new(3.9f, .17f, 2.2f), new(0f, 2.55f, -.05f), snowMaterial);
-        Piece(shelter, "BenchSeat", new(2.5f, .06f, .4f), new(0f, .46f, -.6f), wood, solid: true);
-        Piece(shelter, "BenchBack", new(2.5f, .28f, .05f), new(0f, .78f, -.82f), wood);
+        Piece(shelter, "BenchSeat", new(2.5f, .06f, .4f), new(0f, .46f, 0f), wood, solid: true);
+        Piece(shelter, "BenchBack", new(2.5f, .28f, .05f), new(0f, .78f, -.22f), wood);
         foreach (var x in new[] { -1.05f, 1.05f })
-            Piece(shelter, "BenchLeg" + x, new(.07f, .46f, .36f), new(x, .23f, -.6f), concrete);
-        Piece(shelter, "BenchSnow", new(.9f, .05f, .34f), new(.75f, .515f, -.6f), snowMaterial);
+            Piece(shelter, "BenchLeg" + x, new(.07f, .46f, .36f), new(x, .23f, 0f), concrete);
+        Piece(shelter, "BenchSnow", new(.9f, .05f, .34f), new(.75f, .515f, 0f), snowMaterial);
         // The print somebody left on the bench: the forest he is about to walk into.
         // Move the existing readable photograph together with its interaction shape.
         var print = GetNode<Marker3D>("Anchors/F00/ProloguePhotoSource");
         print.GlobalTransform = shelter.GlobalTransform * new Transform3D(
             Basis.FromEuler(new Vector3(-Mathf.Pi / 2f, Mathf.DegToRad(17f), 0f)),
-            new Vector3(-.55f, .496f, -.56f));
-        _stopPrintLocal = ToLocal(print.GlobalPosition);
+            new Vector3(1.2f, .496f, .15f));
         _stopShelterFill = new OmniLight3D
         {
             Name = "ShelterBounce", Position = new Vector3(0f, 1.5f, .35f), LightColor = new Color(1f, .72f, .42f),
@@ -355,6 +345,16 @@ public partial class W01Controller
         _stopCardLabel.AddThemeColorOverride("font_outline_color", new Color(0, 0, 0, .7f));
         _stopCardLabel.AddThemeConstantOverride("outline_size", 6);
         _stopCard.AddChild(_stopCardLabel);
+        _signalPrompt = new Label
+        {
+            Name = "AnswerTheLight", Visible = false, AnchorLeft = .5f, AnchorRight = .5f,
+            AnchorTop = .67f, AnchorBottom = .67f, OffsetLeft = -260, OffsetRight = 260,
+            HorizontalAlignment = HorizontalAlignment.Center, MouseFilter = Control.MouseFilterEnum.Ignore
+        };
+        _signalPrompt.AddThemeFontSizeOverride("font_size", 24);
+        _signalPrompt.AddThemeConstantOverride("outline_size", 6);
+        AccessibilityPresentation.ApplyToControl(_signalPrompt, _accessibility);
+        _stopCard.AddChild(_signalPrompt);
         stop.AddChild(_stopCard);
     }
 
@@ -362,8 +362,11 @@ public partial class W01Controller
     {
         Array.Clear(_stopFired);
         _stopLeft = false;
-        _stopLeftAt = 0;
         _stopSignalAt = -1;
+        _replyAt = -1;
+        HideSignalPrompt();
+        if (GodotObject.IsInstanceValid(_stopSignal) && GodotObject.IsInstanceValid(_stopSignalLight))
+            _stopSignal.Position = _stopSignalLight.Position = StopPoint(34f, 1.2f, 1.25f);
         if (_stopLamp is { } lamp && GodotObject.IsInstanceValid(lamp)) lamp.LightEnergy = StopLampEnergy;
         if (_stopLampFill is { } fill && GodotObject.IsInstanceValid(fill)) fill.LightEnergy = .5f;
         if (_stopShelterFill is { } bounce && GodotObject.IsInstanceValid(bounce)) bounce.LightEnergy = .55f;
@@ -385,7 +388,7 @@ public partial class W01Controller
 
     // ---- Every frame ---------------------------------------------------------------------------
 
-    private void ProcessPrologueStop(FirstPersonController player, Vector2 feet, float progress, double t, float delta)
+    private void ProcessPrologueStop(FirstPersonController player, Vector2 feet, float progress, double t)
     {
         if (_stop is null || !GodotObject.IsInstanceValid(_stop)) return;
         var (along, _) = PrologueStopAxes();
@@ -414,56 +417,107 @@ public partial class W01Controller
                 lamp.LightEnergy = StopLampEnergy * buzz;
             }
             // Babai's message. The one rule.
-            if (StopOnce(1, t > 5.2))
-                ShowNightmareThought("Голосовое от бабая: «Улым, я выехал. Жди на остановке.\nС остановки — ни шагу. Слышишь? Ни шагу».", 7.5);
-            // The print on the bench.
-            var local = ToLocal(player.GlobalPosition);
-            if (StopOnce(2, t > 13.5 && _prologueCaptionRemaining <= 0
-                    && new Vector2(local.X - _stopPrintLocal.X, local.Z - _stopPrintLocal.Z).Length() < 2.3f))
-                ShowNightmareThought("На скамейке кто-то оставил снимок. Лес. Этот самый, через дорогу.", 4.5);
+            if (StopOnce(1, t > 2.4))
+                ShowNightmareThought("Бабай · 23:38\n«Выехал. Увидишь фары — махни. Там легко проскочить».", 5);
             // After the voice: two short blinks of a torch between the trunks.
             if (StopOnce(3, _nightmareRecognitionAt > 0 && t >= _nightmareRecognitionAt + 4.5)) _stopSignalAt = t;
-            if (StopOnce(4, _stopSignalAt >= 0 && t >= _stopSignalAt + 2.2))
-                ShowNightmareThought("Два коротких. Наш с Маратом сигнал. Из детства.", 4.5);
-            if (StopOnce(5, _stopSignalAt >= 0 && t >= _stopSignalAt + 8.2))
-                ShowNightmareThought("Он там, за дорогой. Я только посмотрю — и сразу назад.", 4.5);
-            if (u > StopLeaveAt) LeavePrologueStop(player, t, waited: false);
-            else if (t > StopLampPatience) LeavePrologueStop(player, t, waited: true);
+            if (StopOnce(4, _stopSignalAt >= 0 && t >= _stopSignalAt + 1.2))
+                ShowNightmareThought("Два коротких. Мы так друг друга искали.", 3);
+            if (u > StopLeaveAt) LeavePrologueStop(player);
         }
         else
         {
-            if (StopOnce(6, t >= _stopLeftAt + 3.4 && progress >= StopPrintsFrom - 1f))
-                ShowNightmareThought("Следы. Маленькие, детские. Уходят от дороги прямо в лес.", 4.5);
             if (StopOnce(7, progress >= PrologueRouteLength * .5f))
-                ShowNightmareThought("Следы стали крупнее. Тот, кто шёл, будто вырос на ходу.", 4.5);
-            if (StopOnce(8, progress >= PrologueRouteLength * .86f))
-                ShowNightmareThought("Это уже не детский шаг. И не мой.", 4);
+                ShowNightmareThought("У дороги был детский след. Этот — больше моего.", 3.5);
         }
-        // The answering torch blinks: on, off, on.
+        // He can test whether those are headlights. The returning light has crossed
+        // the distance from the trees to the shoulder between two flashes.
         if (_stopSignal is { } signal && _stopSignalLight is { } signalLight && GodotObject.IsInstanceValid(signal))
         {
             var since = _stopSignalAt < 0 ? -1.0 : t - _stopSignalAt;
-            var lit = since is >= 0 and < .28 or >= .62 and < .9;
+            var replying = _replyAt >= 0 ? t - _replyAt : -1;
+            var pulse = since >= 0 && !_stopLeft && !_answeredSignal ? since % 7.0 : -1;
+            var lit = _accessibility.ReducedMotion ? pulse is >= 0 and < 1.2 : pulse is >= 0 and < .34 or >= .78 and < 1.15;
+            if (replying >= 0)
+            {
+                if (!_stopLeft && replying < 1.2)
+                    _torchOverride = (_accessibility.ReducedMotion || replying is < .34 or >= .78) ? 1f : 0f;
+                if (replying >= 1.45)
+                {
+                    lit = replying < 3.25;
+                    if (StopOnce(10, true))
+                    {
+                        signal.Position = signalLight.Position = StopPoint(StopRoadFar + 1.1f, 1.2f, 1.25f);
+                        UiFoley.PlayWorld(this, signal.GlobalPosition, "forest/brush_rustle", -8f, 18f, 2f);
+                        ShowNightmareThought("Уже у дороги. Как он так быстро?..", 2.5);
+                    }
+                }
+            }
             signal.Visible = signalLight.Visible = lit;
+            var camera = GetViewport().GetCamera3D();
+            var facing = since >= 1.2 && !_stopLeft && !_answeredSignal && !_writingSignal
+                && camera is not null && (-camera.GlobalBasis.Z).Dot(camera.GlobalPosition.DirectionTo(signal.GlobalPosition)) > .77f;
+            if (facing && _signalPrompt is { } prompt)
+            {
+                if (!prompt.Visible || prompt.GetMeta("binding", "").AsString() != player.InteractionHint)
+                {
+                    prompt.SetMeta("binding", player.InteractionHint);
+                    prompt.Text = $"{player.InteractionHint}  Ответить фонариком";
+                    prompt.Show();
+                }
+                if (!Input.IsActionPressed("interact")) _signalInputReleased = true;
+                if (_signalInputReleased && Input.IsActionJustPressed("interact") && player.PeekRayTarget() is null)
+                    _ = AnswerForestSignalAsync();
+            }
+            else HideSignalPrompt();
         }
         // Walking past lets Aidar notice it. Only the focused object action takes it.
         if (_stopMitten is { Visible: true } mitten && GodotObject.IsInstanceValid(mitten))
         {
             var gap = mitten.GlobalPosition.DistanceTo(player.GlobalPosition + Vector3.Up * 1.2f);
             if (StopOnce(9, gap < 4.2f))
-                ShowNightmareThought("Синяя детская варежка на палке. Сухая, без снега — её повесили только что.", 4.5);
+                ShowNightmareThought("Одна варежка. А где вторая?", 3);
         }
     }
 
-    private void ProjectPrologueMitten(RuntimeBridge bridge, bool inPrologue)
+    private void HideSignalPrompt()
     {
+        _signalInputReleased = false;
+        if (_signalPrompt is { } prompt && GodotObject.IsInstanceValid(prompt) && prompt.Visible) prompt.Hide();
+    }
+
+    private async Task AnswerForestSignalAsync()
+    {
+        if (_writingSignal || _answeredSignal || _stopLeft || _bridge is not { } bridge
+            || bridge.SessionIdentity is not { } session || bridge.ActiveSceneId != PrologueSceneId) return;
+        _writingSignal = true;
+        HideSignalPrompt();
+        try
+        {
+            if (await bridge.DispatchWorldPropsAsync(new JsonArray(new JsonObject
+                { ["propId"] = PrologueSignalKey, ["answered"] = true }))
+                && GodotObject.IsInstanceValid(this) && IsInsideTree() && GodotObject.IsInstanceValid(bridge)
+                && ReferenceEquals(session, bridge.SessionIdentity) && bridge.ActiveSceneId == PrologueSceneId)
+            {
+                _answeredSignal = true;
+                _replyAt = _nightmareElapsed;
+            }
+        }
+        catch (Exception error) { GD.PushWarning($"Could not answer the forest light: {error.Message}"); }
+        finally { _writingSignal = false; }
+    }
+
+    private void ProjectStopObjects(RuntimeBridge bridge, bool inPrologue)
+    {
+        var props = inPrologue ? bridge.SelectWorldProps() : default;
+        _answeredSignal = inPrologue && YardMechanism.Flag(props, PrologueSignalKey, "answered");
         if (_stopMittenTarget is not { } target || !GodotObject.IsInstanceValid(target)) return;
         if (_stopMitten is not { } mitten || !GodotObject.IsInstanceValid(mitten))
         {
             target.SetPresentationEnabled(false);
             return;
         }
-        var available = inPrologue && !YardMechanism.Flag(bridge.SelectWorldProps(), PrologueMittenKey, "taken");
+        var available = inPrologue && !YardMechanism.Flag(props, PrologueMittenKey, "taken");
         mitten.Visible = available;
         target.SetPresentationEnabled(available && !_takingMitten);
     }
@@ -499,23 +553,25 @@ public partial class W01Controller
         {
             _takingMitten = false;
             if (GodotObject.IsInstanceValid(this) && IsInsideTree() && GodotObject.IsInstanceValid(bridge))
-                ProjectPrologueMitten(bridge, bridge.SessionIdentity is not null && bridge.ActiveSceneId == PrologueSceneId);
+                ProjectStopObjects(bridge, bridge.SessionIdentity is not null && bridge.ActiveSceneId == PrologueSceneId);
         }
     }
 
-    private void LeavePrologueStop(FirstPersonController player, double t, bool waited)
+    private void LeavePrologueStop(FirstPersonController player)
     {
         _stopLeft = true;
-        _stopLeftAt = t;
         _torchOverride = null;
         UiFoley.PlayWorld(this, player.GlobalPosition, "ui_click", -8f, 6f, 1f);
         // Behind him the lamp gives one bright stutter and dies.
         if (_stopLamp is { } lamp && GodotObject.IsInstanceValid(lamp))
         {
             var dying = lamp.CreateTween();
-            dying.TweenProperty(lamp, "light_energy", StopLampEnergy * 1.5f, .08);
-            dying.TweenProperty(lamp, "light_energy", StopLampEnergy * .2f, .12);
-            dying.TweenProperty(lamp, "light_energy", StopLampEnergy * .9f, .1);
+            if (!_accessibility.ReducedMotion)
+            {
+                dying.TweenProperty(lamp, "light_energy", StopLampEnergy * 1.5f, .08);
+                dying.TweenProperty(lamp, "light_energy", StopLampEnergy * .2f, .12);
+                dying.TweenProperty(lamp, "light_energy", StopLampEnergy * .9f, .1);
+            }
             dying.TweenProperty(lamp, "light_energy", 0f, .5);
         }
         foreach (var glow in new[] { _stopLampFill, _stopShelterFill })
@@ -523,10 +579,6 @@ public partial class W01Controller
                 glow.CreateTween().TweenProperty(glow, "light_energy", 0f, .8);
         if (_stopBulb is { } bulb)
             GetTree().CreateTimer(.8).Timeout += () => bulb.EmissionEnergyMultiplier = 0f;
-        var warned = _stopFired[1];
         _stopFired[1] = true;
-        ShowNightmareThought(waited ? "Лампа погасла. Темно. В рюкзаке был фонарик."
-            : warned ? "«Ни шагу», — сказал бабай. За спиной погасла лампа."
-            : "За спиной погасла лампа. Остановки больше не видно.", 4.5);
     }
 }

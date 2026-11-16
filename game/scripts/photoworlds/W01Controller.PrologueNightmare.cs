@@ -146,6 +146,7 @@ public partial class W01Controller
         if (world?.Environment is null) return;
         _nightmareMoodApplied = nightmare;
         SetPrologueThicketVisible(nightmare);
+        _hutDoorTarget?.SetPresentationEnabled(nightmare && !_prologueHutExtinguished);
         _daylightEnvironment ??= world.Environment;
         if (sun is not null && _daylightEnergy < 0f)
         {
@@ -365,22 +366,20 @@ public partial class W01Controller
             eyeLight.GlobalPosition = player.GlobalPosition + Vector3.Up * 1.9f - player.GlobalBasis.Z * .6f;
 
         if (Fire(16, t > .05)) BeginPrologueWaking();
-        ProcessPrologueHut(player,p);
-        ProcessPrologueStop(player, feet, p, t, (float)delta);
-        if (Fire(0, t > 17))
+        ProcessPrologueHut();
+        ProcessPrologueStop(player, feet, p, t);
+        if (Fire(0, t > 8.5))
         {
             var ahead = PrologueRoutePoint(Math.Min(Math.Max(p, 8f) + 22f, PrologueRouteLength), 1.5f, 1.4f);
             var length = PlayPrologueForestVoice(new Vector2(ahead.X, ahead.Z), "forest-name-call", "«Айдар…»", -3f);
             _nightmareRecognitionAt = t + Math.Max(2.4, length) + .25;
         }
-        if (Fire(1, _nightmareRecognitionAt > 0 && t >= _nightmareRecognitionAt))
-            ShowNightmareThought("Марат?.. Нет. Марата больше нет.", 4);
         if (Fire(9, t > .4)) StartNightmareSound(ref _nightmareAir, NightmareAirStream, -24f);
 
         ProcessDread(player, p, t, (float)delta);
         if (!branchMoved && !_branchMoveInProgress && _prologueCaptionRemaining <= 0
             && Fire(5, feet.DistanceTo(new Vector2(BranchF01.X, BranchF01.Z)) <= 6.5f))
-            ShowNightmareThought("Следы уходят под ветку. Если взяться посередине, её можно поднять.", 4);
+            ShowNightmareThought("Следы уходят под ветку.", 3);
 
         if (Fire(4, branchMoved))
         {
@@ -410,10 +409,10 @@ public partial class W01Controller
             StopParallelSteps();
             StopNightmareSound(ref _nightmareAir, 2);
         }
-        if (t - _nightmareLastGain > 24 && t > 20 && !_nightmareSilence)
+        if (_stopLeft && t - _nightmareLastGain > 30 && !_nightmareSilence
+            && Fire(1, _prologueCaptionRemaining <= 0))
         {
-            _nightmareLastGain = t;
-            ShowNightmareThought(_stopLeft ? "Следы уходят дальше, в чащу." : "Он звал оттуда. Из-за дороги.", 4);
+            ShowNightmareThought("Следы ещё видно.", 2);
         }
     }
 

@@ -112,6 +112,10 @@ internal partial class WaterChainHomePresence : Node3D
         const string photographerPermissionId = "urman.fullgame:interaction/pw-photographer-photo-permission";
         const string photographerVerifyId = "urman.fullgame:interaction/pw-verify-photographer-evidence";
         var homeActive = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home";
+        const string initialPhotoTalkId = "urman.fullgame:interaction/pw-home-forest-print";
+        var initialPhotoPending = JournalUi.InitialHomePhotoTaskPending(bridge);
+        var initialPhotoTalkLive = homeActive && initialPhotoPending
+            && bridge.IsInteractionAvailable(initialPhotoTalkId);
         var photographerFound = bridge.PhotoWorldFactObserved("photographer_copy_found");
         var photographerPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "S-PHOTOGRAPHER");
         var photographerAcquired = photographerPhoto is not null;
@@ -150,7 +154,7 @@ internal partial class WaterChainHomePresence : Node3D
             && !homeReturnLive && !housePermissionLive && !permissionLive && !filePermissionLive
             && (photographerPermissionAvailable || photographerAuthorAvailable);
         var talkLive = bookReceived && !told && !homeReturnLive && !housePermissionLive
-            && !photographerCanTakeHomeTalk;
+            && !photographerCanTakeHomeTalk && !initialPhotoPending;
         var sourceLive = bookReceived && !found;
         // Unfinished visits begin at the real bank. Only the completed world
         // keeps its home convenience; acquisition and permission stay here.
@@ -245,12 +249,15 @@ internal partial class WaterChainHomePresence : Node3D
         {
             // The same physical NPC owns the tea greeting and the earned author conversation.
             teaTarget.SetAuthoredBinding(
-                photographerAuthorLive ? photographerAuthorInteractionId : "urman.fullgame:interaction/pw-arrival-tea-talk",
-                photographerAuthorLive ? bridge.ResolveText("urman.fullgame:text/pw-label-gulsina-author-talk")
+                initialPhotoTalkLive ? initialPhotoTalkId
+                    : photographerAuthorLive ? photographerAuthorInteractionId : "urman.fullgame:interaction/pw-arrival-tea-talk",
+                initialPhotoTalkLive ? "Показать әби оборот лесного снимка"
+                    : photographerAuthorLive ? bridge.ResolveText("urman.fullgame:text/pw-label-gulsina-author-talk")
                     : "Поприветствовать әби и остаться на чай",
-                photographerAuthorLive ? "urman.fullgame:dialogue/pw-gulsina-author"
+                initialPhotoTalkLive ? "urman.fullgame:dialogue/pw-home-forest-print"
+                    : photographerAuthorLive ? "urman.fullgame:dialogue/pw-gulsina-author"
                     : "urman.fullgame:dialogue/pw-arrival-tea");
-            teaTarget.SetPresentationEnabled(photographerAuthorLive || (!photographerWindowLive && teaLive));
+            teaTarget.SetPresentationEnabled(initialPhotoTalkLive || photographerAuthorLive || (!photographerWindowLive && teaLive));
         }
 
         if (HousePhotoEnvelope is { } houseEnvelope)

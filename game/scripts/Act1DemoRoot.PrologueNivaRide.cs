@@ -143,19 +143,21 @@ public partial class Act1DemoRoot
             {
                 _ = bridge.RequireDialogue(PhotoNivaArrivalDialogue);
                 var droveFromPrologue = ReferenceEquals(session, _photoNivaPrologueSession);
-                var offerLanguage = droveFromPrologue && !bridge.HasNivaLanguageResponse;
-                if (offerLanguage) _ = bridge.RequireDialogue(PrologueRideDialogue);
                 if (GetTree().GetFirstNodeInGroup("dialogue_ui") is not DialogueUi dialogue || dialogue.IsOpen)
                     return;
                 var visual = VehicleVisualFactory.Build(niva.Definition);
                 _photoNivaPresentation = _rideNiva = visual.Root;
                 _photoNivaSession = session;
                 _photoNivaPrologueSession = null;
-                _photoNivaLanguageActive = offerLanguage;
+                _photoNivaLanguageActive = false;
                 _photoNivaLanguageWrite = Task.FromResult(true);
+                _photoNivaPhotoInspected = _photoNivaPhotoShown = false;
+                _photoNivaBookInspection = _photoNivaBookShowing = 0f;
+                _photoNivaEvidenceClock = -1f;
                 var openingProps = bridge.SelectWorldProps();
                 _photoNivaMittenTaken = YardMechanism.Flag(openingProps, W01Controller.PrologueMittenKey, "taken");
                 _photoNivaGateDone = YardMechanism.Flag(openingProps, W01Controller.PrologueMittenKey, "gateSeen");
+                _photoNivaSignalAnswered = YardMechanism.Flag(openingProps, W01Controller.PrologueSignalKey, "answered");
                 _photoNivaPlayer = player;
                 _photoNivaPhysicsEnabled = player.IsPhysicsProcessing();
                 _photoNivaInputEnabled = player.IsProcessingUnhandledInput();
@@ -168,6 +170,7 @@ public partial class Act1DemoRoot
                     Near = .045f, Fov = Mathf.Min(player.GetNode<Camera3D>("Head/Camera3D").Fov, 62f) };
                 _rideNiva.AddChild(_rideCamera);
                 BuildPrologueDriver();
+                _photoNivaDriverGazeRest = _driverGazeTarget?.Position ?? Vector3.Zero;
                 _rideShake = Vector2.Zero;
                 _rideLook = new(35f, 0f);
                 ApplyPrologueRideLook();
@@ -192,7 +195,7 @@ public partial class Act1DemoRoot
                 else
                 {
                     PrologueDreamCut.Release(fadeSeconds: .5);
-                    bridge.OpenDialogueUi(offerLanguage ? PrologueRideDialogue : PhotoNivaArrivalDialogue);
+                    bridge.OpenDialogueUi(PhotoNivaArrivalDialogue);
                 }
                 UpdateRouteCue();
             }
@@ -236,6 +239,19 @@ public partial class Act1DemoRoot
 
     private bool HandlePhotoNivaArrivalInput(InputEvent inputEvent)
     {
+        if (inputEvent is InputEventMouseMotion motion && Input.MouseMode == Input.MouseModeEnum.Captured
+            && _photoNivaSession is { } lookSession && IsCurrentPhotoNivaArrival(lookSession)
+            && !PhotoNivaDrivePaused && !PhotoNivaDialogueOpen
+            && (_photoNivaGateClock < 0f || !_photoNivaDriving))
+        {
+            var sensitivity = _photoNivaPlayer!.MouseSensitivity;
+            _rideLook -= motion.ScreenRelative * sensitivity;
+            _photoNivaGazeTaken = true;
+            ApplyPrologueRideLook();
+            GetViewport().SetInputAsHandled();
+            return true;
+        }
+        if (HandlePhotoNivaEvidenceInput(inputEvent)) return true;
         if (_photoNivaDriving && _photoNivaSession is { } driveSession && IsCurrentPhotoNivaArrival(driveSession)
             && !PhotoNivaDrivePaused && !PhotoNivaDialogueOpen
             && inputEvent is not InputEventKey { Echo: true }
@@ -267,9 +283,9 @@ public partial class Act1DemoRoot
         if (dialogueId == PrologueRideDialogue)
         {
             _photoNivaLanguageWrite = ApplyPhotoNivaLanguageChoiceAsync(_bridge!, session, choiceId, _photoNivaLanguageWrite);
-            // The real skip is already recorded. Closing here invalidates the
-            // pending reply so its legacy road-ahead line cannot precede arrival.
-            if (_photoNivaLanguageActive && choiceId == "answer-skip")
+            // The reply WAVs predate the shortened text. Accept the real choice,
+            // then close before DialogueUi starts an incompatible recording.
+            if (_photoNivaLanguageActive)
                 (GetTree().GetFirstNodeInGroup("dialogue_ui") as DialogueUi)?.CloseIfDialogue(PrologueRideDialogue);
             return;
         }
@@ -698,7 +714,7 @@ public partial class Act1DemoRoot
         UpdateRideRadio(delta);
         if (talking) return;
         var look = Input.GetVector("look_left", "look_right", "look_up", "look_down");
-        _rideLook -= look * delta * 105f;
+        _rideLook -= look * delta * (_photoNivaPlayer?.GamepadLookSpeed ?? _player?.GamepadLookSpeed ?? 105f);
         ApplyPrologueRideLook();
     }
 

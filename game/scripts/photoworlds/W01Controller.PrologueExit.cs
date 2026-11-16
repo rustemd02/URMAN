@@ -198,6 +198,7 @@ public partial class W01Controller
         }
         if (ProloguePresentationPaused() || player.ModalOpen || player.VehicleControlled || player.IsClimbingLadder)
         {
+            HideSignalPrompt();
             StopParallelSteps();
             if (_prologueVoiceCaption is { } hidden) hidden.Hide();
             return;

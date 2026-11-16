@@ -101,8 +101,32 @@ internal partial class ArrivalPersonalProps
         var cellarCard = BuildCellarBackCard(box, "CellarPhotoCard",
             new(0f, cellarCardY, .055f),
             "res://assets/textures/photobook/backs-v1/p-cellar-back.svg",
-            "P-CELLAR", paper, "authored back face; front art is not produced");
+            "P-CELLAR", paper, "authored reverse face; project-generated front candidate attached, acceptance pending");
         cellarCard.Visible = false;
+        const string cellarFrontPath = "res://assets/textures/photobook/p-cellar-front-v1.png";
+        var cellarFrontTexture = ResourceLoader.Load<Texture2D>(cellarFrontPath)
+            ?? throw new InvalidOperationException("The P-CELLAR front has not been packaged.");
+        var cellarFront = new MeshInstance3D
+        {
+            Name = "PhotoFront",
+            Position = Vector3.Up * (CellarPhotoBackOffset - .0002f),
+            RotationDegrees = new(-90f, 0f, 180f),
+            Mesh = new QuadMesh { Size = new(.150f, .100f) },
+            MaterialOverride = new StandardMaterial3D
+            {
+                AlbedoTexture = cellarFrontTexture,
+                Roughness = 1f,
+                TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmaps
+            }
+        };
+        cellarFront.SetMeta("visualOnly", true);
+        cellarFront.SetMeta("assetSource", cellarFrontPath);
+        cellarFront.SetMeta("assetStatus", "project-generated P-CELLAR front candidate; author artistic/cultural acceptance pending");
+        cellarCard.AddChild(cellarFront);
+        cellarCard.SetMeta("presentationRole", "physical two-sided P-CELLAR print; front faces up, authored reverse is on the underside");
+        var cellarBack = cellarCard.GetNode<MeshInstance3D>("PhotoBack");
+        cellarBack.Position = Vector3.Down * CellarPhotoBackOffset;
+        cellarBack.RotationDegrees = new(90f, 0f, 0f);
         var photographerCard = BuildCellarBackCard(box, "PhotographerPhotoCard",
             new(0f, photographerCardY, -.010f),
             "res://assets/textures/photobook/backs-v1/s-photographer-back.svg",

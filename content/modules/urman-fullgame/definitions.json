@@ -1991,11 +1991,6 @@
             "op": "photoworlds.book.receive",
             "sourceId": "urman.fullgame:interaction/pw-book-handoff",
             "giverId": "urman.chapter1:character/gulsina"
-          },
-          {
-            "op": "beat.set-state",
-            "beatId": "urman.fullgame:beat/pw-b02-family-book",
-            "state": "completed"
           }
         ]
       },
@@ -2906,6 +2901,33 @@
             "photoId": "P-CELLAR",
             "sourceId": "urman.fullgame:interaction/pw-family-box-source"
           }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-home-forest-print",
+        "labelTextId": "urman.fullgame:text/pw-label-home-forest-print",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-FOREST",
+            "state": "back-read"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "beat.state",
+              "beatId": "urman.fullgame:beat/pw-b02-family-book",
+              "state": "completed"
+            }
+          }
+        ],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/pw-home-forest-print",
+        "worldLocations": [
+          "house_old_pc"
         ]
       }
     ],
@@ -4071,9 +4093,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-label-book-handoff",
     "value": {
-      "default": "Взять семейную книгу",
+      "default": "Положить книгу на стол и открыть снимок",
       "translations": {
-        "ru": "Взять семейную книгу"
+        "ru": "Положить книгу на стол и открыть снимок"
       }
     },
     "purpose": "ui"
@@ -6652,9 +6674,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-niva-arrival-d00-01",
     "value": {
-      "default": "Айдар, приехали. Что-нибудь нашёл в книге?",
+      "default": "Приехали. Әби только не пугай: она тебя ждала.",
       "translations": {
-        "ru": "Айдар, приехали. Что-нибудь нашёл в книге?"
+        "ru": "Приехали. Әби только не пугай: она тебя ждала."
       }
     },
     "purpose": "dialogue"
@@ -6663,9 +6685,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-choice-niva-arrival-d00-02",
     "value": {
-      "default": "Я её в дороге открывал? Не помню.",
+      "default": "А я сам к тебе в машину сел? Помню только лес.",
       "translations": {
-        "ru": "Я её в дороге открывал? Не помню."
+        "ru": "А я сам к тебе в машину сел? Помню только лес."
       }
     },
     "purpose": "dialogue"
@@ -6674,9 +6696,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-niva-arrival-d00-03",
     "value": {
-      "default": "Да, всю дорогу листал. Пойдём в дом, әби нас ждёт.",
+      "default": "Ты сам вышел на дорогу. Я больше ничего не видел. Снимок покажи Гөлсинә — она помнит, кто на нём.",
       "translations": {
-        "ru": "Да, всю дорогу листал. Пойдём в дом, әби нас ждёт."
+        "ru": "Ты сам вышел на дорогу. Я больше ничего не видел. Снимок покажи Гөлсинә — она помнит, кто на нём."
       }
     },
     "purpose": "dialogue"
@@ -6974,8 +6996,38 @@
       "aidar",
       "gulsina"
     ],
-    "startNodeId": "greeting",
+    "startNodeId": "home-book-request",
     "nodes": [
+      {
+        "id": "home-book-request",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-arrival-book-request",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "show-forest-photo",
+            "textId": "urman.fullgame:text/pw-choice-arrival-book-request",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "home-book-turn"
+          }
+        ]
+      },
+      {
+        "id": "home-book-turn",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-arrival-book-turn",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "beat.set-state",
+            "beatId": "urman.fullgame:beat/pw-b01-warm-arrival",
+            "state": "completed"
+          }
+        ],
+        "choices": []
+      },
       {
         "id": "greeting",
         "speakerRole": "gulsina",
@@ -8062,5 +8114,161 @@
     "reveals": [],
     "contradicts": [],
     "unlocks": []
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-home-forest-print",
+    "value": {
+      "default": "Показать әби оборот лесного снимка",
+      "translations": {
+        "ru": "Показать әби оборот лесного снимка"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-home-forest-print",
+    "participantRoles": [
+      "aidar",
+      "gulsina"
+    ],
+    "startNodeId": "d01-03",
+    "nodes": [
+      {
+        "id": "d01-03",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-home-forest-print-caption",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "d01-04",
+            "textId": "urman.fullgame:text/pw-choice-home-forest-print-memory",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "d01-05"
+          }
+        ]
+      },
+      {
+        "id": "d01-05",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-home-forest-print-school",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "d01-06",
+            "textId": "urman.fullgame:text/pw-choice-home-forest-print-compare",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "d01-07"
+          }
+        ]
+      },
+      {
+        "id": "d01-07",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-home-forest-print-return",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "beat.set-state",
+            "beatId": "urman.fullgame:beat/pw-b02-family-book",
+            "state": "completed"
+          }
+        ],
+        "choices": []
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-arrival-book-request",
+    "value": {
+      "default": "Айдар, положи книгу сюда, на стол. Покажешь лесной снимок.",
+      "translations": {
+        "ru": "Айдар, положи книгу сюда, на стол. Покажешь лесной снимок."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-arrival-book-request",
+    "value": {
+      "default": "Я видел этот лес. Хочу тебе показать.",
+      "translations": {
+        "ru": "Я видел этот лес. Хочу тебе показать."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-arrival-book-turn",
+    "value": {
+      "default": "Открой снимок на свету и переверни. Лица я помню, а место — никак.",
+      "translations": {
+        "ru": "Открой снимок на свету и переверни. Лица я помню, а место — никак."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-home-forest-print-caption",
+    "value": {
+      "default": "Дай посмотрю. «У леса. Перед отъездом»… Это Марат подписал. А где — не дописал.",
+      "translations": {
+        "ru": "Дай посмотрю. «У леса. Перед отъездом»… Это Марат подписал. А где — не дописал."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-home-forest-print-memory",
+    "value": {
+      "default": "Я видел эти деревья сегодня. Хочу понять, откуда я их знаю.",
+      "translations": {
+        "ru": "Я видел эти деревья сегодня. Хочу понять, откуда я их знаю."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-home-forest-print-school",
+    "value": {
+      "default": "Я тебе не подскажу, Айдар. Но в школе есть второй снимок этой группы. В учительской, в старом альбоме. Может, там край лучше виден.",
+      "translations": {
+        "ru": "Я тебе не подскажу, Айдар. Но в школе есть второй снимок этой группы. В учительской, в старом альбоме. Может, там край лучше виден."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-home-forest-print-compare",
+    "value": {
+      "default": "Схожу и сравню. Потом покажу тебе.",
+      "translations": {
+        "ru": "Схожу и сравню. Потом покажу тебе."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-home-forest-print-return",
+    "value": {
+      "default": "Покажешь. Может, по второму я и вспомню.",
+      "translations": {
+        "ru": "Покажешь. Может, по второму я и вспомню."
+      }
+    },
+    "purpose": "dialogue"
   }
 ]

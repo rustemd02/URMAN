@@ -69,6 +69,22 @@ public partial class JournalUi
         => HomeWorldResultPending(bridge, "urman.fullgame:quest/pw-w01",
             "urman.fullgame:knowledge/pw-forest-inside");
 
+    internal static bool InitialHomePhotoTaskPending(RuntimeBridge bridge)
+    {
+        if (!bridge.IsPhotoWorldsCampaign || !bridge.CanInspectReceivedPhotoBook
+            || bridge.SessionIdentity is not { } session) return false;
+        var state = session.SelectState();
+        // Shipped saves completed this beat at handoff. An independently found
+        // school copy or another photo route also keeps its earned priority.
+        return !ContentRuleEngine.Evaluate(JsonSerializer.SerializeToElement(new
+            { op = "beat.state", beatId = "urman.fullgame:beat/pw-b02-family-book", state = "completed" }), state)
+            && !bridge.PhotoWorldFactObserved("school_copy_identified")
+            && !bridge.PhotoWorldFactObserved("home_water_place_told")
+            && !bridge.PhotoWorldFactObserved("water_photo_found")
+            && !bridge.PhotoWorldFactObserved("family_box_opened")
+            && !bridge.PhotoBookPhotos().Any(photo => photo.PhotoId != "P-FOREST");
+    }
+
     private static bool HomeWorldResultPending(RuntimeBridge bridge, string questId, string knowledgeId)
     {
         if (!bridge.IsPhotoWorldsCampaign || !bridge.CanInspectReceivedPhotoBook
@@ -100,9 +116,9 @@ public partial class JournalUi
         }
         if (bridge.ActiveSceneId != "urman.fullgame:scene/pw-home") return null;
         if (bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-book-handoff"))
-            return HomeMission(bridge, "arrival-book", "Семейная книга", "Возьмите семейную книгу со стола.", "pw-book-handoff", "Семейная книга");
+            return HomeMission(bridge, "arrival-book", "Показать лесной снимок", "Положите книгу на стол и откройте лесной снимок.", "pw-book-handoff", "Место для книги");
         if (bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-arrival-tea-talk"))
-            return HomeMission(bridge, "arrival-tea", "Чай с семьёй", "Поговорите с Гөлсинә за чайным столом.", "pw-arrival-tea-talk", "Гөлсинә");
+            return HomeMission(bridge, "arrival-tea", "Показать снимок әби", "Подойдите к Гөлсинә со снимком, который видели в дороге.", "pw-arrival-tea-talk", "Гөлсинә");
         return null;
     }
 
@@ -113,6 +129,16 @@ public partial class JournalUi
             || (activeSceneId.StartsWith("urman.fullgame:scene/pw-", StringComparison.Ordinal)
                 && activeSceneId is not ("urman.fullgame:scene/pw-home" or "urman.fullgame:scene/pw-niva-arrival")))
             return null;
+
+        if (InitialHomePhotoTaskPending(bridge))
+        {
+            var forest = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-FOREST");
+            if (forest is { BackRead: false })
+                return new("arrival-photo-back", "Что написано на снимке", "Переверните лесной снимок в книге и прочитайте подпись.",
+                    BookPhotoId: "P-FOREST", BookAction: PlayerBookAction.ReadBack);
+            return HomeMission(bridge, "arrival-show-photo", "Показать подпись әби", "Покажите Гөлсинә оборот лесного снимка.",
+                "pw-home-forest-print", "Гөлсинә");
+        }
 
         if (ForestHomeResultPending(bridge))
             return HomeMission(bridge, "first-return-talk", "Рассказать о лесном снимке",

@@ -1,0 +1,70 @@
+{
+  "asset_id": "P-COMMON",
+  "status": "project_generated_source_art_candidate; runtime_and_author_acceptance_pending",
+  "tool": "built-in image_gen.imagegen",
+  "generation_id": "exec-a2613410-0718-42b1-ae5b-35156899acbd",
+  "method": "One original built-in ImageGen generation. No external photograph or project screenshot was supplied to the generator. Runtime front and thumbnail are mechanical sips resamples only.",
+  "source_spec": "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json#P-COMMON",
+  "fictional_attribution": "Authorized print from Marat's family file, as specified by the in-game content contract. This is not a real family photograph or documentary claim.",
+  "canonical_camera": {
+    "source": "content/campaigns/urman.fullgame/photoworlds-sources/worlds.spec.json#W04.photo",
+    "level_source": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W04_Общий_кадр_RU.md#Исходный отпечаток",
+    "node": "C00",
+    "height_m": 1.6,
+    "vertical_fov_degrees": 48,
+    "forward": [0, 0, 1],
+    "required_content": "First opening with only partial views of the forest, shore, and distant home; unfinished peripheral frame, not a complete postcard panorama.",
+    "limit": "The candidate follows the authored C00 brief but has not been compared with an imported or runtime W04 F0 frame; exact scene-camera correspondence remains unverified."
+  },
+  "style_reviewed": [
+    {
+      "path": "game/assets/textures/photobook/p-forest-front-v2.png",
+      "sha256": "c4b64f07534aca8a5e021b55f9e695686cd0180379d4227ebad19d169149c60e",
+      "role": "Visually inspected for mature painterly brushwork and material realism; not passed as an ImageGen input."
+    },
+    {
+      "path": "game/assets/textures/photobook/p-house-front-v1.png",
+      "sha256": "31950224adae5861f351fe8ee30091a04fd116d5cfa536ebda93f125981e4b5a",
+      "role": "Visually inspected for the accepted project's timber-house material language; not passed as an ImageGen input."
+    },
+    {
+      "path": "game/assets/textures/photobook/p-water-front-v1.png",
+      "sha256": "9dab3cf3c3be43565310eb4443896bad43701102339409f0bc48c94e02fbec76",
+      "role": "Visually inspected for the painterly family-print treatment and ordinary shoreline; not passed as an ImageGen input."
+    }
+  ],
+  "prompt": "Use case: stylized-concept\nAsset type: one full-bleed 3:2 family-album front print for the fictional URMAN game photo P-COMMON; target 1800x1200.\nPrimary request: Create an original painterly memory image for an authorized print from Marat's in-game family file. At ordinary standing camera height (1.6 m) from the first opening, show only a partial, peripheral view containing a forest edge, shoreline and one distant modest home. It must feel like someone caught only part of a familiar place, not a scenic postcard or ideal panorama.\nScene/backdrop: One continuous ordinary late-summer rural landscape. A narrow natural edge of the existing opening is close to the camera and slightly occludes the view; through it, tree mass, calm shore and a small low timber house sit far away within the same horizon. Keep these landmarks incomplete and unevenly framed, with modest visual weight. No separate panels.\nStyle/medium: Mature painterly material realism matching the project's family prints: broad confident brushwork, believable foliage, water and weathered wood; image reads as a family memory held in a painterly game, not photoreal CGI and not toy-like low-poly. Natural variation and lived-in restraint; no decorative ethnic motifs.\nComposition/framing: Landscape 3:2, ordinary eye-level perspective, first-aperture view, moderate field of view (the source spec is vFOV 48 degrees), partial forest/shore/house silhouettes. The horizon is softly rosy and the near foreground cool, following the authored common-world palette; preserve a quiet realistic landscape rather than a travel poster.\nLighting/mood: Soft diffuse late-day light with cool blue-green foreground shade, subdued rosy light at the far horizon, gentle calm; no golden-yellow or sepia wash.\nConstraints: This is a source-art candidate, not a screenshot, archival photograph or documentary claim. No people, faces, family portrait, photographer, shadow, camera gear, writing, signs, captions, labels, border or watermark. No portal, supernatural glow, fantasy architecture, mountains, mosque, bridge, road or extra landmark. Keep the single distant house simple and low; do not invent a new family, clue or story event.",
+  "original_generated_source": {
+    "path": "/Users/unterlantas/.codex/generated_images/01a1e57c-c2a1-7941-8db1-2fc81cf5946d/exec-a2613410-0718-42b1-ae5b-35156899acbd.png",
+    "sha256": "beb01683fd12eafe6443a1a300a8d3ce27c74c6bea8107ecf0ebaaee52798b19",
+    "bytes": 2998547,
+    "size_px": [1536, 1024]
+  },
+  "runtime_front": {
+    "path": "game/assets/textures/photobook/p-common-front-v1.png",
+    "sha256": "90c15ff92f728ddf43a0ccc3daa1a42957cad5c84241fbf00bf97b05adbacb25",
+    "size_px": [1800, 1200],
+    "export": "sips -z 1200 1800 original --out runtime front; no visual edits"
+  },
+  "runtime_thumbnail": {
+    "path": "game/assets/textures/photobook/p-common-front-v1-thumbnail.png",
+    "sha256": "a4ef9d8846048171ddabf26c3054b485a00c143ba61091e9291b0231840a447d",
+    "bytes": 84156,
+    "size_px": [256, 171],
+    "export": "sips -z 171 256 runtime front --out thumbnail; no visual edits"
+  },
+  "observed_landmarks": [
+    "partly occluded forest edge in the foreground",
+    "quiet shoreline and water sharing one continuous horizon",
+    "one small low timber home in the distance",
+    "no people, faces, signs, captions or supernatural imagery"
+  ],
+  "physical_representation": "The existing printer output uses this same front texture on its upper face and the existing authored P-COMMON reverse on the underside. The photo-book reader maps the same front and a 256x171 list thumbnail; no flip interaction was added.",
+  "rights": "Original project-generated fictional art based on project-authored briefs only; no third-party photographs, real people, family likenesses, or archival authenticity are claimed. Content authorization is fictional in-game provenance. Final project rights, cultural, artistic, and author acceptance remain open.",
+  "remaining_acceptance": [
+    "Godot import and full-image/thumbnail rendering in the book and physical printer sheet",
+    "W04 C00 F0 correspondence to the actual scene and its three landmark placements",
+    "author artistic and cultural acceptance of the P-COMMON image and distant home",
+    "final rights acceptance; generated artwork is a candidate, not a documentary source"
+  ]
+}
