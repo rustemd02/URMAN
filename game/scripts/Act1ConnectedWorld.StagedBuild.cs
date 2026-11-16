@@ -144,6 +144,10 @@ public partial class Act1ConnectedWorld
         }
         home.Visible = true;
         ActiveZoneId = "house_old_pc";
+        // This path deliberately bypasses SetActiveLogicalZone while the rest
+        // of the village is still being built. Keep any surviving escort owner
+        // pending against the absent street collision until the exterior returns.
+        AlsuStreetWalkPresentation.SessionOwner(GetTree())?.SetZonePresentation(ActiveZoneId, exterior: false);
         SetMeta("activeZoneId", ActiveZoneId);
         SetMeta("activeWorldEnvironmentCount", _environmentsByZone[ActiveZoneId].Count);
         SetMeta("activeExteriorAtmosphere", false);

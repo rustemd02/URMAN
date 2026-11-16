@@ -37,6 +37,15 @@ public partial class Act1ConnectedWorld
         GeneratedCharacterKitDressing.GroundSolesOnAnchor(alsu);
         _alsuWalk = AlsuStreetWalkPresentation.Attach(alsu,
             _zoneInstances["village_day"].GetNode<InteractionTarget>("AlsuNpc"));
+        // A home-first staged build creates this owner before street collision
+        // jobs finish. Initialize it from the current logical zone synchronously,
+        // before its first physics callback can validate against partial geometry.
+        var activeZone = ActiveZoneId;
+        var exteriorActive = activeZone.Length > 0
+            && activeZone != "kara_urman_night"
+            && Act1WorldLayout.TryGetPlacement(activeZone, out var activePlacement)
+            && !activePlacement.Interior;
+        _alsuWalk.SetZonePresentation(activeZone, exteriorActive);
 
         _gulsinaNpc = _zoneInstances["house_old_pc"]
             .GetNode<Node3D>("Act1NpcPresentation/Npc_gulsina");

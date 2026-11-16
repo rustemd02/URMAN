@@ -552,7 +552,12 @@ public partial class Main : Node3D
     {
         CancelHomeStagedRestore(retirePartialWorld: false);
         if (_connectedWorld is not { } retiringWorld) return;
-        AlsuStreetWalkPresentation.SessionOwner(GetTree())?.DisableContactForZoneDisposal();
+        var alsu = AlsuStreetWalkPresentation.SessionOwner(GetTree());
+        // The owner can outlive this world for the deferred-free frame. Mark its
+        // street support unavailable before disposing the actual collision world;
+        // loaded exact poses remain pending until a real exterior is active again.
+        alsu?.SetZonePresentation(retiringWorld.ActiveZoneId, exterior: false);
+        alsu?.DisableContactForZoneDisposal();
         _connectedWorld = null;
         RetireWorldPresentation(retiringWorld);
     }
