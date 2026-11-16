@@ -161,6 +161,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public void Open(RuntimeBridge bridge, string? selectedEntryId = null, string? selectedPhotoId = null)
     {
+        ClosePhotoBookImageReader();
         RefreshCloseHint();
         RefreshQuickAccessLabels();
         if (_bridge is not null) _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
@@ -896,6 +897,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
                 || !SessionStillMatches()) return false;
         }
         if (!await SaveNotebookDraftAsync() || !SessionStillMatches()) return false;
+        ClosePhotoBookImageReader();
         _screen.Visible = false;
         _excerpts.Clear();
         _images.SetImages(null);
@@ -939,6 +941,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         {
             return;
         }
+        if (RefitFocusedPhotoInspection(viewport)) return;
 
         var size = new Vector2(
             Mathf.Max(1f, Mathf.Min(viewport.X * 0.80f, 1200f * Mathf.Clamp((float)_accessibility.TextScale, 0.8f, 1.6f))),

@@ -190,7 +190,7 @@ internal partial class ArrivalPersonalProps : Node3D
                     || !GodotObject.IsInstanceValid(bridge) || !bridge.IsInsideTree()
                     || !GodotObject.IsInstanceValid(journal) || !journal.IsInsideTree()
                     || session is null || !ReferenceEquals(session, bridge.SessionIdentity)) return false;
-                journal.OpenPhotoBook(bridge, "P-FOREST");
+                journal.OpenPhotoBook(bridge, "P-FOREST", physicalOpen: true);
             }
             return await Task.FromResult(true);
         };

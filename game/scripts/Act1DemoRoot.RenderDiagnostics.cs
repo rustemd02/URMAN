@@ -181,7 +181,10 @@ public partial class Act1DemoRoot
             + $"viewport={Mathf.RoundToInt(viewportSize.X)}x{Mathf.RoundToInt(viewportSize.Y)} "
             + $"avg_ms={average:F3} p95_ms={Percentile(sorted, 0.95):F3} max_ms={sorted[^1]:F3} fps={1000.0 / average:F2} "
             + $"movement_frames={_manualPhotoWorldMovementFrames}/{sorted.Length} movement_pct={movementPercent:F1} "
-            + $"gpu={ProbeToken(RenderingServer.GetVideoAdapterName())}"));
+            + $"gpu={ProbeToken(RenderingServer.GetVideoAdapterName())} "
+            + $"texture_bytes={RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.TextureMemUsed)} "
+            + $"buffer_bytes={RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.BufferMemUsed)} "
+            + $"video_bytes={RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.VideoMemUsed)}"));
         ResetManualPhotoWorldFrameSample();
     }
 

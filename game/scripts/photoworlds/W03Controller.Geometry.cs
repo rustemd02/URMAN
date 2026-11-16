@@ -841,6 +841,7 @@ public partial class W03Controller
         AddSolidBlock(body, "SillDripMoulding", new Vector3(1.56f, .045f, .08f), new Vector3(0f, 1.015f, -.24f), paleTimber, .008f);
         AddSolidBlock(body, "WindowMullion", new Vector3(.055f, 1.20f, .12f), new Vector3(0f, 1.73f, -.12f), timber, .008f);
         AddSolidBlock(body, "WindowCrossRail", new Vector3(1.30f, .06f, .12f), new Vector3(0f, 1.70f, -.12f), timber, .008f);
+        BuildHouseFrameInscription(window);
         AddSolidBlock(body, "RecessedBlueShadow", new Vector3(1.30f, 1.16f, .035f), new Vector3(0f, 1.73f, .086f),
             RuralPropMaterials.Surface("wood", "46545c"), .006f);
         AddSolidBlock(body, "DimBlueWindowPane", new Vector3(1.23f, 1.10f, .022f), new Vector3(0f, 1.73f, -.068f),

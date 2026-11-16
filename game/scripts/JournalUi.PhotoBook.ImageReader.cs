@@ -5,7 +5,7 @@ namespace Urman.Godot;
 public partial class JournalUi
 {
     private Button _photoBookInspectFrontButton = null!;
-    private HBoxContainer? _photoBookImageReaderHeader;
+    private VBoxContainer? _photoBookImageReaderHeader;
     private Label? _photoBookImageReaderTitle;
     private Button? _photoBookImageReaderReturnButton;
     private RichTextLabel? _photoBookImageReaderBody;
@@ -14,7 +14,7 @@ public partial class JournalUi
 
     private void BuildPhotoBookImageReader()
     {
-        _photoBookImageReaderHeader = new HBoxContainer
+        _photoBookImageReaderHeader = new VBoxContainer
         {
             Name = "PhotoFrontImageReaderHeader",
             Visible = false,
@@ -34,8 +34,15 @@ public partial class JournalUi
             Text = "Вернуться к фотоальбому",
             FocusMode = Control.FocusModeEnum.All
         };
-        _photoBookImageReaderHeader.AddChild(_photoBookImageReaderReturnButton);
-        _photoBookImageReaderReturnButton.Pressed += () => ClosePhotoBookImageReader(returnFocus: true);
+        var actions = new HFlowContainer { Name = "PhotoReaderActions" };
+        _photoBookImageReaderHeader.AddChild(actions);
+        actions.AddChild(_photoBookImageReaderReturnButton);
+        _photoBookImageReaderReturnButton.Pressed += () =>
+        {
+            if (_focusedPhotoInspection) Close();
+            else ClosePhotoBookImageReader(returnFocus: true);
+        };
+        BuildFocusedPhotoActions(actions);
         _photoBookPage.AddChild(_photoBookImageReaderHeader);
 
         _photoBookImageReaderBody = new RichTextLabel
@@ -127,6 +134,8 @@ public partial class JournalUi
             albumSplit.Visible = false;
         header.Visible = true;
         reader.ShowPicture(true);
+        _focusedPhotoBack = false;
+        RefreshFocusedPhotoInspection();
     }
 
     private void OpenSelectedPhotoBookBackReader()
@@ -173,6 +182,8 @@ public partial class JournalUi
             albumSplit.Visible = false;
         header.Visible = true;
         reader.ShowPicture(true);
+        _focusedPhotoBack = true;
+        RefreshFocusedPhotoInspection();
     }
 
     private static bool IsReadableAuthoredPhotoBack(RuntimeBridge.PhotoBookPhoto photo) =>
@@ -190,6 +201,8 @@ public partial class JournalUi
 
     private void ClosePhotoBookImageReader(bool returnFocus = false)
     {
+        var wasFocused = _focusedPhotoInspection;
+        EndFocusedPhotoInspection();
         var readerWasOpen = _photoBookImageReaderHeader?.Visible == true
             || _photoBookImageReaderBody?.Visible == true;
         if (_photoBookImageReader is { } reader && GodotObject.IsInstanceValid(reader))
@@ -210,6 +223,7 @@ public partial class JournalUi
 
         var launchButton = _photoBookImageReaderLaunchButton;
         _photoBookImageReaderLaunchButton = null;
+        if (returnFocus && wasFocused && _screen.Visible) RefreshPhotoBookPage();
         if (returnFocus && _screen.Visible && _photoBookPage.Visible
             && _tabs.CurrentTab == PhotoBookTabIndex
             && launchButton is { } button

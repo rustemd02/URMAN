@@ -69,7 +69,8 @@ public partial class W03Controller
     public bool PhotoBookReturnActionInProgress => _housePhysicalPhase != HousePhysicalPhase.Idle
         || _houseViewDispatching
         || _twoViewsDispatching
-        || _housePhotographerDispatching;
+        || _housePhotographerDispatching
+        || HouseFrameReaderOpen;
 
     private void BuildHouseGameplay()
     {
@@ -116,8 +117,9 @@ public partial class W03Controller
                 clothTarget.PresentationBeforeDispatch = BeginHouseClothAction;
         }
 
-        EnsureHouseTarget("HouseFrameInspectionTarget", FrameInteractionId,
-            "urman.fullgame:text/pw-label-house-frame", _windowFrame, 0.40f, 1.1f, bridge);
+        var frameTarget = EnsureHouseTarget("HouseFrameInspectionTarget", FrameInteractionId,
+            "urman.fullgame:text/pw-label-house-frame", _houseFrameInk, 0.32f, 0f, bridge);
+        if (frameTarget is not null) frameTarget.PresentationBeforeDispatch = BeginHouseFrameReading;
         EnsureHouseTarget("HouseReturnTarget", ReturnInteractionId,
             "urman.fullgame:text/pw-label-house-return", _houseExitAnchor, 0.55f, 1.1f, bridge);
         BuildHouseSpatialLinks();
@@ -163,6 +165,7 @@ public partial class W03Controller
 
     private void ProcessHouseGameplay(double delta)
     {
+        ProcessHouseFrameReader();
         ProcessHousePhysicalAction(delta);
         ProcessHousePhotographerObservation();
         TryDispatchHouseTwoViews();
@@ -170,6 +173,7 @@ public partial class W03Controller
 
     private void ApplyHouseGameplayProjection(RuntimeBridge.FullGamePhotoWorldRouteProjection? route, bool visible)
     {
+        ProjectHouseFrameInscription(visible);
         if (!visible || route is null || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge))
         {
             CancelHousePhysicalAction(restoreCommittedPose: true);
@@ -195,11 +199,14 @@ public partial class W03Controller
             {
                 ShutterInteractionId => bridge.PhotoWorldFactObserved(ShutterFactId),
                 ClothInteractionId => bridge.PhotoWorldFactObserved(ClothFactId),
-                FrameInteractionId => bridge.PhotoWorldFactObserved(FrameFactId),
+                // The inscription remains a physical source to reread. Its
+                // reader prevents a second fact dispatch after confirmation.
+                FrameInteractionId => false,
                 _ => false
             };
             target.SetPresentationEnabled(!ReferenceEquals(target, _housePhysicalActionTarget)
-                && !alreadyCommitted);
+                && !alreadyCommitted
+                && (target.InteractionId != FrameInteractionId || bridge.PhotoWorldFactObserved(ClothFactId)));
         }
 
         var actionStillOwnsPose = _housePhysicalPhase != HousePhysicalPhase.Idle
@@ -230,6 +237,7 @@ public partial class W03Controller
 
     private void ExitHouseGameplay()
     {
+        ExitHouseFrameReader();
         CancelHousePhysicalAction(restoreCommittedPose: false);
         ResetHouseDoorObservationSession(null);
         ResetHousePhotographerObservationSession(null);

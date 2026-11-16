@@ -33,7 +33,7 @@ public static class GeneratedCharacterKitDressing
     public static readonly IReadOnlyCollection<string> HeroConversationPrefixes =
         new HashSet<string>(StringComparer.Ordinal) { "Mansur", "Gulsina", "TimurHazrat" };
 
-    /// <summary>VIS-048: the one distant NPC whose visual work is governed in the first patch.</summary>
+    /// <summary>VIS-048 prototype: the woodpile resident has no authored resident ID.</summary>
     private const string GovernedDistantCharacterId = "background_resident";
 
     // Every NPC instantiates this one kit. Without a managed owner its C#
@@ -220,15 +220,17 @@ public static class GeneratedCharacterKitDressing
         instance.SetMeta("anchorReference", anchorNode.Name);
         instance.SetMeta("characterFocus", HeroConversationPrefixes.Contains(prefix) ? "hero-dialogue" : "cast");
         // VIS-048: startup receipt, in its own phases, separate from the steady-state
-        // counters the governor below reports every frame.
+        // counters the governor below reports when its work state changes.
         instance.SetMeta("kitLoadMicroseconds", (long)(loadedAt - startupBegin));
         instance.SetMeta("kitClipSelectionMicroseconds", (long)(clipsSelectedAt - loadedAt));
         instance.SetMeta("kitMaterialMicroseconds", (long)(dressedAt - clipsSelectedAt));
         instance.SetMeta("kitStartupMicroseconds", (long)(Time.GetTicksUsec() - startupBegin));
-        // VIS-048: one anonymous far NPC, one prototype governor. Everything the
-        // governor touches is instance-local; the per-instance AnimationLibrary
-        // built above stays private to this person (no library is shared).
-        if (characterId == GovernedDistantCharacterId)
+        // Background residents have no dialogue target or quest ownership. Their
+        // authored routines continue to move and change presentation state; the
+        // governor only stops their mixer beyond the visual LOD and yields if a
+        // routine starts a different clip while it is stopped.
+        if (characterId == GovernedDistantCharacterId
+            || characterId.StartsWith("resident-", StringComparison.Ordinal))
             AttachDistantWorkGovernor(instance, animationPlayer, idleClip);
         // Keep the selected imported surfaces and their authored proportions.
         // CodePerson hid these meshes with Layers=0 and replaced the adult
@@ -568,18 +570,15 @@ public static class GeneratedCharacterKitDressing
     private static string NodeName(Node node) => node.Name.ToString();
 
     /// <summary>
-    /// VIS-048: the prototype that removes the unnecessary animation work of one
-    /// far NPC without touching his logic.
-    ///
-    /// He is the woodpile neighbour: no interaction target, no narrative state,
-    /// no route, only a looping idle that exists so the village looks lived in.
-    /// Beyond the end of his own LOD1 range (48 m + 4 m margin) the engine already
-    /// draws nothing, so the mixer keeps advancing bones for nobody.
+    /// VIS-048: stops unnecessary animation work for far background residents
+    /// without touching their route, presence, interaction, or narrative owners.
+    /// Their meshes fade out by 52 m; a timer prefetches the mixer before they
+    /// return to view and uses separate stop/resume distances to avoid chatter.
     ///
     /// Rules the card sets, and how they hold here:
     /// • only invisible *visual* work stops; nothing in this file moves a
     ///   interaction, a runtime state or a logical clock;
-    /// • logical time is kept: the loop phase the idle would have reached is
+    /// • logical time is kept: the loop phase the current clip would have reached is
     ///   recomputed from the wall-clock time spent gated, so he returns in the
     ///   pose his own clock says, not restarted at frame zero;
     /// • no shared mutable state: the counters, the mixer reference and the timer
@@ -591,7 +590,6 @@ public static class GeneratedCharacterKitDressing
     /// </summary>
     private static void AttachDistantWorkGovernor(Node3D instance, AnimationPlayer player, string clip)
     {
-        var state = new DistantWorkState(instance, player, clip);
         // Godot's Timer node, not System.Threading.Timer: this tick has to run on
         // the scene thread inside the tree so it can read and stop the mixer.
         var timer = new global::Godot.Timer
@@ -605,24 +603,28 @@ public static class GeneratedCharacterKitDressing
             // process mode, the successor of the old process_always flag.
             ProcessMode = Node.ProcessModeEnum.Pausable,
         };
+        var state = new DistantWorkState(instance, player, clip, timer);
         instance.AddChild(timer);
         timer.Timeout += state.Tick;
         timer.Start();
         state.Report();
     }
 
-    /// <summary>Instance-local state of the VIS-048 prototype. Plain C#, not a
+    /// <summary>Instance-local state of the VIS-048 governor. Plain C#, not a
     /// Godot script class: nothing here is reachable from another character.</summary>
     private sealed class DistantWorkState
     {
         internal const float TickSeconds = .25f;
+        private const float ResumeDistance = Lod1End + Lod1EndMargin + 4f;
+        private const float StopDistance = Lod1End + Lod1EndMargin + 12f;
 
         private readonly Node3D _instance;
         private readonly AnimationPlayer _player;
-        private readonly float _cycleSeconds;
-        private readonly float _beyondMetres;
+        private readonly global::Godot.Timer _timer;
+        private float _cycleSeconds;
         private string _clip;
         private double _lastPosition;
+        private float _gatedSpeedScale = 1f;
         private bool _gated;
         private bool _disarmed;
         private int _stalledReads;
@@ -632,15 +634,13 @@ public static class GeneratedCharacterKitDressing
         private long _stopMicroseconds;
         private long _resumeMicroseconds;
 
-        internal DistantWorkState(Node3D instance, AnimationPlayer player, string clip)
+        internal DistantWorkState(Node3D instance, AnimationPlayer player, string clip, global::Godot.Timer timer)
         {
             _instance = instance;
             _player = player;
+            _timer = timer;
             _clip = clip;
-            // The character's own far limit, read from the LOD constants this file
-            // already owns, plus a margin so the return never races the fade.
-            _beyondMetres = Lod1End + Lod1EndMargin;
-            _cycleSeconds = player.HasAnimation(clip) ? (float)player.GetAnimation(clip).Length : 0f;
+            _cycleSeconds = ClipLength(clip);
             // Godot 4's mixer exposes the playing clip's cursor as
             // AnimationPlayer.CurrentAnimationPosition (there is no playback_position
             // member on the C# AnimationPlayer).
@@ -657,49 +657,104 @@ public static class GeneratedCharacterKitDressing
             {
                 // No viewer means no evidence about visibility. Do not invent work
                 // stopping in a headless test or before the player exists.
-                if (++_noOwnerReads >= 40) _disarmed = true;
-                Report();
+                if (_gated)
+                {
+                    var unownedAnimation = _player.GetCurrentAnimation().ToString();
+                    if (_player.IsPlaying() || unownedAnimation.Length > 0 && unownedAnimation != _clip)
+                    {
+                        Disarm();
+                        _gated = false;
+                        Report();
+                        return;
+                    }
+                    // Restore the mixer rather than leave a frozen resident when
+                    // there is no camera left to drive its distance policy.
+                    Disarm();
+                    Resume();
+                    Report();
+                }
+                else if (++_noOwnerReads >= 40)
+                {
+                    Disarm();
+                    Report();
+                }
                 return;
             }
+            _noOwnerReads = 0;
 
-            // A mixer with no current clip was stopped by its owner (zirat station
-            // run 10.10 logged 26 engine errors reading its cursor); their stop wins.
-            if (string.IsNullOrEmpty(_player.CurrentAnimation)) { _disarmed = true; Report(); return; }
-            var position = _player.CurrentAnimationPosition;
-            var advanced = position - _lastPosition;
-            _lastPosition = position;
-            if (!_gated)
+            var current = _player.GetCurrentAnimation().ToString();
+            if (_gated)
             {
-                // Someone else owns this mixer now (the caller stopped it after
-                // Attach, as the woodpile sway driver does). Their stop wins.
+                // A routine may choose a new motion while the mixer is stopped.
+                // Yield permanently to that owner instead of replaying a stale clip.
+                if (_player.IsPlaying() || current.Length > 0 && current != _clip)
+                {
+                    Disarm();
+                    _gated = false;
+                    Report();
+                    return;
+                }
+            }
+            else
+            {
+                // A mixer with no current clip was stopped by its owner; their
+                // stop wins, as it did for the original one-resident prototype.
+                if (current.Length == 0) { Disarm(); Report(); return; }
+                var position = _player.CurrentAnimationPosition;
+                var advanced = position - _lastPosition;
                 if (System.Math.Abs(advanced) < .000001) _stalledReads++;
                 else _stalledReads = 0;
-                if (_stalledReads >= 2) { _disarmed = true; Report(); return; }
-                var current = _player.GetCurrentAnimation().ToString();
-                if (current.Length > 0) _clip = current;
+                if (_stalledReads >= 2) { Disarm(); Report(); return; }
+                if (current != _clip)
+                {
+                    _clip = current;
+                    _cycleSeconds = ClipLength(current);
+                    _stalledReads = 0;
+                }
+                _lastPosition = position;
             }
 
             var distance = camera.GlobalPosition.DistanceTo(_instance.GlobalPosition);
-            if (distance > _beyondMetres && !_gated)
+            var visible = _instance.IsVisibleInTree();
+            var stateChanged = false;
+            if ((!visible || distance > StopDistance) && !_gated)
             {
                 var stopped = Time.GetTicksUsec();
-                // AnimationMixer.stop() applies no transition and no reset: the
-                // skeleton keeps the pose it held, so nothing pops on the way out.
-                _player.Stop();
+                // Keep the evaluated pose while suspending the mixer; Stop()'s
+                // default resets animated properties and can make a distant actor
+                // snap before it fades out. The pose is restored by the resumed loop.
+                _gatedSpeedScale = _player.SpeedScale;
+                _player.Stop(keepState: true);
                 _stopMicroseconds = (long)(Time.GetTicksUsec() - stopped);
                 _gated = true;
                 _gatedSeconds = 0;
                 _lastPosition = 0;
+                stateChanged = true;
             }
             else if (_gated)
             {
-                if (distance <= _beyondMetres) Resume();
+                if (visible && distance <= ResumeDistance)
+                {
+                    Resume();
+                    stateChanged = true;
+                }
                 else _gatedSeconds += TickSeconds;
             }
 
             _decisionMicrosecondsMax = System.Math.Max(_decisionMicrosecondsMax,
                 (long)(Time.GetTicksUsec() - began));
-            Report();
+            // Publish bounded receipt metadata only on a state transition, not
+            // on every timer tick for every resident.
+            if (stateChanged) Report();
+        }
+
+        private float ClipLength(string clip) => _player.HasAnimation(clip)
+            ? (float)_player.GetAnimation(clip).Length : 0f;
+
+        private void Disarm()
+        {
+            _disarmed = true;
+            _timer.Stop();
         }
 
         private void Resume()
@@ -709,29 +764,32 @@ public static class GeneratedCharacterKitDressing
             // the mixer was stopped, then one evaluation so the pose is in place
             // before the first frame that actually draws him.
             var phase = _cycleSeconds > 0f
-                ? (float)(_gatedSeconds % _cycleSeconds)
+                ? (float)(_gatedSeconds * _gatedSpeedScale % _cycleSeconds)
                 : 0f;
             _player.Play(_clip);
+            _player.SpeedScale = _gatedSpeedScale;
             if (_cycleSeconds > 0f) _player.Seek(phase);
             _player.Advance(0);
             _resumeMicroseconds = (long)(Time.GetTicksUsec() - began);
             _gated = false;
             _gatedSeconds = 0;
             _stalledReads = 0;
+            _lastPosition = phase;
             _instance.SetMeta("kitWorkResumePhaseSeconds", phase);
             _instance.SetMeta("kitWorkResumeClip", _clip);
         }
 
-        private Camera3D? ViewerCamera() =>
-            (_instance.GetTree()?.GetFirstNodeInGroup("player_controller") as FirstPersonController)
+        private Camera3D? ViewerCamera() => _instance.GetViewport()?.GetCamera3D()
+            ?? (_instance.GetTree()?.GetFirstNodeInGroup("player_controller") as FirstPersonController)
                 ?.GetNodeOrNull<Camera3D>("Head/Camera3D");
 
         internal void Report()
         {
-            // Startup numbers live on the instance from Attach; these are the
-            // steady-state ones, and the card demands the two stay separate.
-            _instance.SetMeta("kitWorkPolicy", "beyond-lod1-end-mixer-stop");
-            _instance.SetMeta("kitWorkBeyondMetres", _beyondMetres);
+            // Startup numbers live on the instance from Attach; these state
+            // transition counters stay separate and are not written every tick.
+            _instance.SetMeta("kitWorkPolicy", "lod1-prefetch-hysteresis-mixer-stop");
+            _instance.SetMeta("kitWorkStopMetres", StopDistance);
+            _instance.SetMeta("kitWorkResumeMetres", ResumeDistance);
             _instance.SetMeta("kitWorkTickSeconds", TickSeconds);
             _instance.SetMeta("kitWorkGated", _gated);
             _instance.SetMeta("kitWorkDisarmed", _disarmed);

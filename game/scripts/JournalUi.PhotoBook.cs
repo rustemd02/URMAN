@@ -536,13 +536,19 @@ public partial class JournalUi
             _photoBookScroll.ScrollVertical = 0;
     }
 
-    internal void OpenPhotoBook(RuntimeBridge bridge, string? photoId = null, bool focusEntry = false)
+    internal void OpenPhotoBook(RuntimeBridge bridge, string? photoId = null, bool focusEntry = false, bool physicalOpen = false)
     {
         if (!IsInsideTree() || bridge.SessionIdentity is null || !bridge.IsPhotoWorldsCampaign) return;
         Open(bridge, selectedPhotoId: photoId);
         if (bridge.SessionIdentity is null || !bridge.IsPhotoWorldsCampaign) return;
         _tabs.CurrentTab = PhotoBookTabIndex;
         FocusCurrentPage();
+        if (physicalOpen && photoId is not null && _photoBookSelectedId == photoId)
+        {
+            OpenSelectedPhotoBookFrontReader();
+            BeginFocusedPhotoInspection();
+            return;
+        }
         // A physical entry anchor explicitly selects this print's action.
         if (focusEntry && photoId is not null && _photoBookSelectedId == photoId)
         {
@@ -650,6 +656,7 @@ public partial class JournalUi
         RefreshPhotoBookPreparation(bridge, mission, selected);
         RefreshPhotoBookActionButtons();
         RefreshBookInspection();
+        RefreshFocusedPhotoInspection();
     }
 
     private void ClearPhotoBookPage(bool resetSession)
@@ -1085,6 +1092,16 @@ public partial class JournalUi
                 : reason;
             _photoBookEntryHint.Visible = _photoBookEntryHint.Text.Length > 0;
         }
+        if (selected?.PhotoId == "P-FOREST" && _bridge is { } homeBridge && InitialHomePhotoTaskPending(homeBridge))
+        {
+            // A locked world's future prerequisite is not the task at this table.
+            _photoBookEnterButton.Visible = false;
+            _photoBookEntryHint.Text = selected.BackRead
+                ? "Покажите әби подпись на обороте снимка."
+                : "Переверните снимок и прочитайте подпись.";
+            _photoBookEntryHint.Visible = true;
+        }
+        RefreshFocusedPhotoInspection();
     }
 
     private async Task EnterSelectedPhotoBookAsync()
@@ -1306,6 +1323,7 @@ public partial class JournalUi
         if (photo is null || (readBack ? !photo.CanReadBack : !photo.CanMount)) return;
 
         var photoId = photo.PhotoId;
+        var visibilityGeneration = _photoBookVisibilityGeneration;
         _photoBookActionBusy = true;
         _photoBookActionStatus.Text = readBack ? "Читаю оборот…" : "Вклеиваю снимок…";
         RefreshPhotoBookActionButtons();
@@ -1326,7 +1344,8 @@ public partial class JournalUi
                     ? readBack ? "Оборот прочитан." : "Снимок вклеен в альбом."
                     : readBack ? "Не удалось прочитать оборот. Попробуйте ещё раз."
                     : "Не удалось вклеить снимок. Попробуйте ещё раз.";
-            if (readBack && completed && photoId == "P-FOREST" && InitialHomePhotoTaskPending(bridge))
+            if (readBack && completed && photoId == "P-FOREST" && InitialHomePhotoTaskPending(bridge)
+                && visibilityGeneration == _photoBookVisibilityGeneration)
                 OpenSelectedPhotoBookBackReader();
         }
         catch (Exception exception)
