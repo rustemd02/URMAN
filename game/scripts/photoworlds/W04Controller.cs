@@ -14,6 +14,7 @@ public partial class W04Controller : Node3D
     {
         yield return KaraForestKitPath;
         yield return HouseKitPath;
+        foreach (var source in CommonCaptionSources) yield return source.ImagePath;
     }
 
     public override void _Ready()

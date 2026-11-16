@@ -754,6 +754,7 @@ public partial class W04Controller
         };
         paperWitness.SetMeta("presentationRole", "actual blank-caption paper surface, 1.3 cm above the paper top");
         desk.AddChild(paperWitness);
+        BuildCommonCaptionSpread(desk);
     }
 
     private void AddCommonWitness(string name, Vector3 position, string role, string viewContract)

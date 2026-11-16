@@ -68,6 +68,7 @@ public partial class W04Controller
     private bool _commonMissingMarkerWarningSent;
 
     public bool PhotoBookReturnActionInProgress => _clothPhase != ClothPhase.Idle
+        || _commonSpreadMoving
         || _relationsDispatching
         || _horizonDispatching
         || CommonNoteOpen;
@@ -226,6 +227,7 @@ public partial class W04Controller
 
     private void ProcessCommonGameplay(double delta)
     {
+        ProcessCommonCaptionSpread(delta);
         ProcessCommonNote();
         ProcessCommonClothAction(delta);
         ProcessCommonRelationsObservation();
@@ -293,6 +295,7 @@ public partial class W04Controller
 
     private void ExitCommonGameplay()
     {
+        ClearCommonCaptionSpread();
         ExitCommonNote();
         CancelCommonClothAction(restoreCommittedPose: false);
         ResetRelationsObservation(null);

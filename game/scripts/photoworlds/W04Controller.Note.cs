@@ -48,6 +48,7 @@ public partial class W04Controller : IAccessibilitySettingsTarget
         var prior = bridge.PreparedCommonCaptionText();
         _commonNotePriorCaption.Text = "Моя подпись, подготовленная на ПК:\n"
             + (string.IsNullOrEmpty(prior) ? "Подпись в этом сохранении недоступна." : prior);
+        RefreshCommonCaptionSources(bridge);
         _commonNoteText.Text = _commonNoteReadOnly ? bridge.CommonFrameNoteText() : string.Empty;
         _commonNoteRetrySave = _commonNoteReadOnly && !string.IsNullOrEmpty(_commonNoteText.Text);
         _commonNoteStatus.Text = _commonNoteReadOnly
@@ -102,6 +103,9 @@ public partial class W04Controller : IAccessibilitySettingsTarget
         _commonNotePriorCaption = new Label { AutowrapMode = TextServer.AutowrapMode.WordSmart,
             FocusMode = Control.FocusModeEnum.All };
         content.AddChild(_commonNotePriorCaption);
+        _commonNoteSources = new VBoxContainer();
+        _commonNoteSources.AddThemeConstantOverride("separation", 8);
+        content.AddChild(_commonNoteSources);
         content.AddChild(new Label { Text = "Моя итоговая помета", AutowrapMode = TextServer.AutowrapMode.WordSmart });
         _commonNoteText = new LineEdit { Name = "FinalNote", MaxLength = 120,
             PlaceholderText = DefaultCommonNote, SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
@@ -198,6 +202,7 @@ public partial class W04Controller : IAccessibilitySettingsTarget
         _commonNoteClose.Disabled = _commonNoteSaving;
         _commonNoteConfirm.Disabled = _commonNoteSaving
             || !RuntimeBridge.TryNormalizeCommonNote(_commonNoteText.Text, out _);
+        foreach (var button in _commonSourceButtons) button.Disabled = _commonNoteSaving || _commonNoteReadOnly;
     }
 
     private async void ConfirmCommonNote()

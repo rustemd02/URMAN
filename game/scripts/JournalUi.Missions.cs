@@ -508,6 +508,11 @@ public partial class JournalUi
     private static PlayerMission? PhotoWorldMission(RuntimeBridge bridge)
     {
         if (bridge.CurrentPhotoWorldHint() is not { } hint) return null;
+        if (bridge.ActiveSceneId == "urman.fullgame:scene/pw-forest" && hint.Key == "exit")
+            return new("forest-take-result-home", "Рассказать Гөлсинә", bridge.HasForestFieldPrint
+                ? "Ваш снимок уже в книге. Откройте её и выберите «Вернуться к Гөлсинә»."
+                : "Можно снять Шурале у корня или сразу открыть книгу и выбрать «Вернуться к Гөлсинә».",
+                BookPhotoId: "P-FOREST", BookAction: PlayerBookAction.Return);
         // Keys come from the bridge's current earned hint. This table contains
         // presentation and authored spatial references, never progress rules.
         (string Title, string Action, string Interaction, string? Anchor, string Label)? target =
@@ -527,8 +532,6 @@ public partial class JournalUi
                     ("Поговорить у корней", "Поговорите с незнакомцем у корня.", "pw-forest-shurale", "ZoneHost/W01/Anchors/F14/ShuraleRoot", "Незнакомец у корней"),
                 ("urman.fullgame:scene/pw-forest", "bag") =>
                     ("Освободить сумку", "Снимите ремень с корня и поставьте сумку на землю.", "pw-forest-bag-release", "ZoneHost/W01/Anchors/F14/BagSnagContact", "Застрявшая сумка"),
-                ("urman.fullgame:scene/pw-forest", "exit") =>
-                    ("Вернуться к семье", "Идите к выходу из снимка. Дома расскажите Гөлсинә, что нашлось за корнями.", "pw-forest-return", "ZoneHost/W01/Anchors/F16", "Выход из снимка"),
                 ("urman.fullgame:scene/pw-river", "river-reflection") =>
                     ("Отражение мостков", "С площадки у воды посмотрите вниз на отражение стоек и настила.",
                         "pw-water-reflection", "ZoneHost/W02/W02World/ReflectionObservationStand", "Площадка у воды"),

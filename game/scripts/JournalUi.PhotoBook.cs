@@ -541,6 +541,7 @@ public partial class JournalUi
         if (!IsInsideTree() || bridge.SessionIdentity is null || !bridge.IsPhotoWorldsCampaign) return;
         Open(bridge, selectedPhotoId: photoId);
         if (bridge.SessionIdentity is null || !bridge.IsPhotoWorldsCampaign) return;
+        if (!_photoBookActionBusy) _photoBookActionStatus.Text = string.Empty;
         _tabs.CurrentTab = PhotoBookTabIndex;
         FocusCurrentPage();
         if (physicalOpen && photoId is not null && _photoBookSelectedId == photoId)
@@ -563,7 +564,7 @@ public partial class JournalUi
         {
             PlayerBookAction.Mount => _photoBookMountButton,
             PlayerBookAction.ReadBack => _photoBookReadBackButton,
-            PlayerBookAction.Enter => _photoBookEnterButton,
+            PlayerBookAction.Enter or PlayerBookAction.Return => _photoBookEnterButton,
             _ => null
         };
         if (button is { Disabled: false } && button.IsVisibleInTree()) button.GrabFocus();
@@ -1059,7 +1060,8 @@ public partial class JournalUi
             && (selected.PhotoId is "P-FOREST" or "P-WATER" or "P-HOUSE" or "P-COMMON" or "P-CELLAR" || selected.WorldCompleted);
         _photoBookEnterButton.Text = showReturn && _bridge is { } returnBridge
             ? _photoBookReturnSession is not null ? "Подтвердить возвращение"
-                : returnBridge.ResolveText("urman.fullgame:text/pw-label-forest-book-return")
+                : returnBridge.ActiveSceneId == "urman.fullgame:scene/pw-forest" && returnBridge.PhotoWorldFactObserved("forest_encounter_resolved")
+                    ? "Вернуться к Гөлсинә" : returnBridge.ResolveText("urman.fullgame:text/pw-label-forest-book-return")
             : selected?.WorldCompleted == true ? "Вернуться в снимок"
                 : selected?.HasResumePoint == true ? "Продолжить снимок" : "Войти в снимок";
         _photoBookEnterButton.Visible = showEntry || showReturn;

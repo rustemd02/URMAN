@@ -1,6 +1,6 @@
 namespace Urman.Godot;
 
-internal enum PlayerBookAction { None, Mount, ReadBack, Enter }
+internal enum PlayerBookAction { None, Mount, ReadBack, Enter, Return }
 
 /// <summary>A read-only presentation of the next earned campaign action.</summary>
 internal sealed record PlayerMission(
