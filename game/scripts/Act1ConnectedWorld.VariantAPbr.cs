@@ -43,6 +43,8 @@ public partial class Act1ConnectedWorld
                 throw new InvalidOperationException($"The addressed Variant A house is not visible: {houseId}.");
             GraftVariantAPbr(houseRoot, packed);
         }
+        if (!_studioPreview && AttachPrivateVariantAOuterWallOccluders(authoredWorld) > 0 && !DeferBuildOnReady)
+            EnableConnectedWorldOcclusionCulling();
     }
 
     private static void GraftVariantAPbr(Node3D houseRoot, PackedScene packed)

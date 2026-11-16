@@ -45,15 +45,6 @@ public partial class Act1ConnectedWorld
         }
         foreach (var job in ProfileAuthoredBuildJobs("authored-materials", MaterialJobs()))
             yield return job;
-        if (!_studioPreview)
-        {
-            IEnumerable<Action> OccluderJobs()
-            {
-                yield return () => AttachPrivateVariantAOuterWallOccluders(AuthoredWorld!);
-            }
-            foreach (var job in ProfileAuthoredBuildJobs("authored-wall-occluders", OccluderJobs()))
-                yield return job;
-        }
         // Use the same plot discovery contract as the director. A household
         // keeps its address when it moves between quarters; no second list of
         // addressed plots should silently omit the far bank.
@@ -106,7 +97,9 @@ public partial class Act1ConnectedWorld
                 continue;
             }
 
-            var meshes = FindDescendants<MeshInstance3D>(root)
+            var mounted = root.GetNodeOrNull<Node3D>(VariantAPbrDwellingPath + "/" + VariantAPbrMountedRootName);
+            if (mounted is null || !mounted.IsVisibleInTree()) { skipped++; continue; }
+            var meshes = FindDescendants<MeshInstance3D>(mounted)
                 .Where(mesh => requiredNames.Contains(mesh.Name.ToString()))
                 .GroupBy(mesh => mesh.Name.ToString(), StringComparer.Ordinal)
                 .ToDictionary(group => group.Key, group => group.ToArray(), StringComparer.Ordinal);
@@ -171,24 +164,14 @@ public partial class Act1ConnectedWorld
 
     private static bool IsOpaqueStaticOccluderSurface(MeshInstance3D mesh)
     {
-        if (mesh.MaterialOverride is not null || mesh.MaterialOverlay is not null || mesh.Transparency > 0f)
-            return false;
-
-        var sourceMesh = mesh.Mesh;
-        if (sourceMesh is null || sourceMesh.GetSurfaceCount() != 1
-            || mesh.GetSurfaceOverrideMaterial(0) is not null
-            || sourceMesh.SurfaceGetMaterial(0) is not ShaderMaterial material
-            || material.NextPass is not null)
-            return false;
-
-        var shader = material.Shader;
-        if (shader is null)
-            return false;
-        var code = shader.Code;
-        return code.Contains("shader_type spatial;", StringComparison.Ordinal)
-            && code.Contains("render_mode diffuse_burley, specular_schlick_ggx;", StringComparison.Ordinal)
-            && !code.Contains("blend_", StringComparison.Ordinal)
-            && !code.Contains("ALPHA =", StringComparison.Ordinal);
+        // Query the material that Godot actually draws on the final imported wall.
+        // Decorations, glass, alpha cuts and displacement shaders do not qualify.
+        return mesh.MaterialOverlay is null && mesh.Transparency <= 0f
+            && mesh.GetActiveMaterial(0) is BaseMaterial3D
+            {
+                Transparency: BaseMaterial3D.TransparencyEnum.Disabled,
+                HeightmapEnabled: false, NextPass: null
+            };
     }
 
     private static bool TryGetRelativeTransform(Node3D node, Node3D ancestor, out Transform3D transform)

@@ -418,7 +418,7 @@ public partial class Act1ConnectedWorld : Node3D
             throw new InvalidOperationException($"Connected Act I world has no layout placement for '{zoneId}'.");
         }
 
-        if (!_studioPreview)
+        if (!_studioPreview && AuthoredWorld?.GetMeta("privateVariantAOuterWallOccluderCount", 0).AsInt32() > 0)
             EnableConnectedWorldOcclusionCulling();
 
         // Save the visible grade before changing the WorldEnvironment owner.
