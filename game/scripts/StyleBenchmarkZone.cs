@@ -781,7 +781,7 @@ public partial class StyleBenchmarkZone : Node3D
         });
 
         });
-        yield return HouseBuildJob("family-book", () => ArrivalPersonalProps.AddFamilyBook(this, photoWorlds));
+        foreach (var job in ArrivalPersonalProps.AddFamilyBookJobs(this, photoWorlds)) yield return job;
         yield return HouseBuildJob("epilogue-presence", () =>
         {
         if (photoWorlds)

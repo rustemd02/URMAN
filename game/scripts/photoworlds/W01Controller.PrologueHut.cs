@@ -34,11 +34,16 @@ public partial class W01Controller
         if(generatedLogWood is null)GD.PushWarning("W01 hut log PBR material is missing; retaining its painterly fallback.");
         using var logs=new SurfaceTool(); logs.Begin(Mesh.PrimitiveType.Triangles);
         using var round=new CylinderMesh { TopRadius=.105f,BottomRadius=.105f,Height=1f,RadialSegments=10,Rings=1 };
+        var logIndex=0;
         void Log(Vector3 a,Vector3 b)
         {
-            var delta=b-a;
+            // Roll by whole faces and alternate cut direction. The ten-sided
+            // profile and atlas islands stay intact; knots no longer stack up at the door.
+            var index=logIndex++;
+            var delta=(index&2)==0?b-a:a-b;
+            var roll=new Basis(Vector3.Up,((index*7+index/5)%10)*Mathf.Tau/10f);
             logs.AppendFrom(round,0,new Transform3D(new Basis(new Quaternion(Vector3.Up,delta.Normalized()))
-                *Basis.FromScale(new Vector3(1,delta.Length(),1)),(a+b)*.5f));
+                *roll*Basis.FromScale(new Vector3(1,delta.Length(),1)),(a+b)*.5f));
         }
         for(var row=0;row<12;row++)
         {

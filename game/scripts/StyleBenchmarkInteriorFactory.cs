@@ -62,6 +62,7 @@ public static partial class StyleBenchmarkInteriorFactory
         yield return HomeCupboardPbrModelPath;
         yield return "res://assets/images/arrival_marat_childhood_existing_v1.png";
         yield return "res://assets/textures/painterly/old_fabric_v3_albedo.png";
+        foreach (var path in ArrivalPersonalProps.FamilyBookResourcePaths()) yield return path;
         foreach (var path in PainterlyMaterialLibrary.DynamicResourcePaths(
                      ["wood", "wood_prop", "wood_painted_trim", "wood_floor_planked", "wood_furniture_interior",
                       "plaster", "plaster_domestic", "metal", "stone", "cloth", "cloth_towel", "cloth_curtain",

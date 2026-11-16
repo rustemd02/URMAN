@@ -16,6 +16,28 @@ internal partial class ArrivalPersonalProps : Node3D
     private const float FamilyBookPlacementYawDegrees = 90f;
     private static readonly Vector2 FamilyBookTablePosition = new(.712f, -2.1025f);
 
+    internal static IEnumerable<string> FamilyBookResourcePaths()
+    {
+        // These are loaded by the physical album and its existing home sources,
+        // not the journal reader. Preserve optional-model/texture fallbacks.
+        foreach (var path in new[]
+        {
+            "res://assets/models/photoworlds/family-book-v1.glb",
+            "res://assets/textures/painterly/book_paper_fibers_v1_albedo.png",
+            "res://assets/textures/photobook/backs-v1/p-water-back.svg",
+            "res://assets/textures/photobook/backs-v1/p-house-back.svg",
+            "res://assets/textures/photobook/p-common-front-v1.png",
+            "res://assets/textures/photobook/backs-v1/p-common-back.svg",
+            "res://assets/textures/photobook/backs-v1/p-cellar-back.svg",
+            "res://assets/textures/photobook/backs-v1/s-hand-back.svg",
+            "res://assets/textures/photobook/backs-v1/s-photographer-back.svg",
+            "res://assets/textures/photobook/p-cellar-front-v1.png",
+            "res://assets/textures/photobook/s-photographer-front-v1.png"
+        })
+            if (ResourceLoader.Exists(path)) yield return path;
+        foreach (var path in RuralPropMaterials.DynamicResourcePaths(["rubber", "plastic"])) yield return path;
+    }
+
     internal static ArrivalPersonalProps Build(StyleBenchmarkZone house, bool photoWorlds)
     {
         var table = house.FindChildren("*", nameof(MeshInstance3D), true, false)
@@ -75,142 +97,161 @@ internal partial class ArrivalPersonalProps : Node3D
 
     internal static void AddFamilyBook(StyleBenchmarkZone house, bool photoWorlds)
     {
-        // The old-PC presentation imports a second copy of the modular kit after
-        // this room has been built. Resolve the actual household table by its
-        // owning furniture group, not by a recursive name match across both kits.
-        var table = house.GetNode<Node3D>("GeneratedHouseInteriorAct1")
-            .FindChildren("*", nameof(MeshInstance3D), true, false)
-            .OfType<MeshInstance3D>().Single(mesh => mesh.Name == "HouseInterior_TableTop_LOD0");
-        var support = PublicBuildingShell.Bounds(house, table);
-        var faceTransform = house.GlobalTransform.AffineInverse() * table.GlobalTransform;
-        var faces = table.Mesh!.GetFaces().Select(face => faceTransform * face).ToArray();
-        // The local .220 × .285 portrait footprint is yawed 90° in the room,
-        // so its room-space X/Z extents are .285 × .220.
-        var footprint = new[]
-        {
-            new Vector2(FamilyBookTablePosition.X - FamilyBookDepth * .5f, FamilyBookTablePosition.Y - FamilyBookWidth * .5f),
-            new Vector2(FamilyBookTablePosition.X + FamilyBookDepth * .5f, FamilyBookTablePosition.Y - FamilyBookWidth * .5f),
-            new Vector2(FamilyBookTablePosition.X - FamilyBookDepth * .5f, FamilyBookTablePosition.Y + FamilyBookWidth * .5f),
-            new Vector2(FamilyBookTablePosition.X + FamilyBookDepth * .5f, FamilyBookTablePosition.Y + FamilyBookWidth * .5f),
-            FamilyBookTablePosition
-        };
-        var supportHeights = footprint.Select(point => TableTopHeightAt(
-            point, faces, support.Position.Y - .01f, support.End.Y + .01f)).ToArray();
-        if (supportHeights.Any(float.IsNaN)
-            || supportHeights.Max() - supportHeights.Min() > .002f)
-            throw new InvalidOperationException("The family book footprint is not fully supported by the measured TableTop surface.");
+        foreach (var job in AddFamilyBookJobs(house, photoWorlds)) job();
+    }
 
-        const float clothSurfaceOffset = .004f;
-        const float clearance = .001f;
-        var clothTop = supportHeights.Max() + clothSurfaceOffset;
-        var bookBounds = new Aabb(
-            new(FamilyBookTablePosition.X - FamilyBookDepth * .5f,
-                clothTop + clearance, FamilyBookTablePosition.Y - FamilyBookWidth * .5f),
-            new(FamilyBookDepth, FamilyBookThickness, FamilyBookWidth));
-        foreach (var mesh in house.FindChildren("*", nameof(MeshInstance3D), true, false)
-                     .OfType<MeshInstance3D>()
-                     .Where(mesh => mesh.Mesh is not null && mesh.IsVisibleInTree()
-                         && mesh.Name != "HouseInterior_TableTop_LOD0" && mesh.Name != "TeaTablecloth"))
+    internal static IEnumerable<Action> AddFamilyBookJobs(StyleBenchmarkZone house, bool photoWorlds)
+    {
+        Node3D book = null!;
+        ShaderMaterial paper = null!;
+        ArrivalPersonalProps things = null!;
+        Aabb support = default;
+        float clothTop = 0;
+        yield return StyleBenchmarkZone.HouseBuildJob("family-book/physical-album", () =>
         {
-            var occupied = PublicBuildingShell.Bounds(house, mesh);
-            if (Overlaps(bookBounds, occupied))
-                throw new InvalidOperationException($"The family book footprint overlaps existing home prop {mesh.GetPath()}.");
-        }
-
-        var book = new Node3D
-        {
-            Name = "FamilyTukayBookPresentation",
-            Position = new(FamilyBookTablePosition.X,
-                clothTop + clearance + FamilyBookThickness * .5f, FamilyBookTablePosition.Y),
-            RotationDegrees = new(0f, FamilyBookPlacementYawDegrees, 0f)
-        };
-        book.SetMeta("geometryOwner", nameof(ArrivalPersonalProps));
-        book.SetMeta("presentationRole", "closed family literary volume; muted cloth cover and visible page block; no invented cover text");
-        book.SetMeta("dimensionsMetres", new Vector3(FamilyBookWidth, FamilyBookThickness, FamilyBookDepth));
-        book.SetMeta("supportMesh", table.GetPath().ToString());
-
-        var things = house.GetNodeOrNull<ArrivalPersonalProps>("ArrivalPersonalThings")
-            ?? throw new InvalidOperationException("Home props must be built before the family book is placed.");
-        things.AddChild(book);
-        var cloth = (StandardMaterial3D)RuralPropMaterials.Surface("cloth", "674b45").Duplicate();
-        cloth.ResourceName = "FamilyBook_ClothMetric80mm";
-        cloth.Uv1Scale = new(12.5f, 12.5f, 1f);
-        cloth.SetMeta("surfaceTileMetres", .08f);
-        var paper = (ShaderMaterial)PainterlyMaterialLibrary.ForColor("d6ccb3", "paper", sheltered: true).Duplicate();
-        const string paperTexturePath = "res://assets/textures/painterly/book_paper_fibers_v1_albedo.png";
-        if (ResourceLoader.Exists(paperTexturePath)
-            && ResourceLoader.Load<Texture2D>(paperTexturePath) is { } paperTexture)
-        {
-            paper.SetShaderParameter("albedo_texture", paperTexture);
-            paper.SetShaderParameter("has_albedo_texture", true);
-            paper.SetShaderParameter("authored_uv_texture", true);
-            paper.SetShaderParameter("texture_scale", new Vector2(12.5f, 12.5f));
-            // The shared shader amplifies pale albedo; keep the book's quiet ivory tint.
-            paper.SetShaderParameter("texture_strength", .10f);
-            paper.SetMeta("sourceTexture", paperTexturePath);
-            paper.SetMeta("surfaceTileMetres", .08f);
-        }
-        AddBookPart(book, "LowerClothBoard", new(FamilyBookWidth, .004f, FamilyBookDepth),
-            new(0f, -.017f, 0f), cloth, .0015f);
-        var pageBlock = RuralPropGeometry.Part(book, "RecessedPageBlock",
-            RuralPropGeometry.BevelBox(new(FamilyBookWidth - .010f, .028f, FamilyBookDepth - .010f), .001f),
-            Vector3.Zero, paper);
-        pageBlock.SetMeta("visualOnly", true);
-        var upperClothBoard = new MeshInstance3D
-        {
-            Name = "UpperClothBoard",
-            Position = new(0f, .0162f, 0f),
-            RotationDegrees = new(-90f, 0f, 0f),
-            Mesh = RuralPropGeometry.BowedPanel(FamilyBookWidth, FamilyBookDepth, .004f, .0015f, .0008f),
-            MaterialOverride = cloth
-        };
-        upperClothBoard.SetMeta("visualOnly", true);
-        book.AddChild(upperClothBoard);
-        AddBookPart(book, "ClothSpine", new(.020f, .030f, FamilyBookDepth),
-            new(-FamilyBookWidth * .5f + .010f, 0f, 0f), cloth, .004f);
-        ReplaceWithAuthoredFamilyBook(book, cloth, paper);
-
-        if (!photoWorlds) return;
-
-        book.AddChild(new FamilyBookTablePresence { Name = "PhotoWorldFamilyBookTablePresence" });
-
-        // Before the handoff the book is in Aidar's hands. Let him aim at the
-        // clear part of the real worktop, not at the outline of an absent book.
-        var halfPatch = new Vector2(Mathf.Min(.43f, support.Size.X * .5f),
-            Mathf.Min(.32f, support.Size.Z * .5f));
-        var patchCentre = new Vector3(
-            Mathf.Clamp(book.Position.X, support.Position.X + halfPatch.X, support.End.X - halfPatch.X),
-            clothTop + .072f,
-            Mathf.Clamp(book.Position.Z, support.Position.Z + halfPatch.Y, support.End.Z - halfPatch.Y));
-        var target = house.MakeInteractionBox("PhotoWorldFamilyBookTarget", new(2f * halfPatch.X, .14f, 2f * halfPatch.Y),
-            patchCentre, "674b45", "urman.fullgame:interaction/pw-book-handoff",
-            "Положить книгу на стол и открыть снимок", rayOnly: true);
-        target.AfterDispatch = async () =>
-        {
-            var tree = house.GetTree();
-            if (tree.GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge bridge
-                && tree.GetFirstNodeInGroup("journal_ui") is JournalUi journal)
+            // The old-PC presentation imports a second copy of the modular kit after
+            // this room has been built. Resolve the actual household table by its
+            // owning furniture group, not by a recursive name match across both kits.
+            var table = house.GetNode<Node3D>("GeneratedHouseInteriorAct1")
+                .FindChildren("*", nameof(MeshInstance3D), true, false)
+                .OfType<MeshInstance3D>().Single(mesh => mesh.Name == "HouseInterior_TableTop_LOD0");
+            support = PublicBuildingShell.Bounds(house, table);
+            var faceTransform = house.GlobalTransform.AffineInverse() * table.GlobalTransform;
+            var faces = table.Mesh!.GetFaces().Select(face => faceTransform * face).ToArray();
+            // The local .220 × .285 portrait footprint is yawed 90° in the room,
+            // so its room-space X/Z extents are .285 × .220.
+            var footprint = new[]
             {
-                var session = bridge.SessionIdentity;
-                if (book.GetNodeOrNull<FamilyBookTablePresence>("PhotoWorldFamilyBookTablePresence") is { } presence
-                    && !await presence.PlaceForArrivalAsync(bridge)) return false;
-                if (!GodotObject.IsInstanceValid(house) || !house.IsInsideTree()
-                    || !GodotObject.IsInstanceValid(bridge) || !bridge.IsInsideTree()
-                    || !GodotObject.IsInstanceValid(journal) || !journal.IsInsideTree()
-                    || session is null || !ReferenceEquals(session, bridge.SessionIdentity)) return false;
-                journal.OpenPhotoBook(bridge, "P-FOREST", physicalOpen: true);
+                new Vector2(FamilyBookTablePosition.X - FamilyBookDepth * .5f, FamilyBookTablePosition.Y - FamilyBookWidth * .5f),
+                new Vector2(FamilyBookTablePosition.X + FamilyBookDepth * .5f, FamilyBookTablePosition.Y - FamilyBookWidth * .5f),
+                new Vector2(FamilyBookTablePosition.X - FamilyBookDepth * .5f, FamilyBookTablePosition.Y + FamilyBookWidth * .5f),
+                new Vector2(FamilyBookTablePosition.X + FamilyBookDepth * .5f, FamilyBookTablePosition.Y + FamilyBookWidth * .5f),
+                FamilyBookTablePosition
+            };
+            var supportHeights = footprint.Select(point => TableTopHeightAt(
+                point, faces, support.Position.Y - .01f, support.End.Y + .01f)).ToArray();
+            if (supportHeights.Any(float.IsNaN)
+                || supportHeights.Max() - supportHeights.Min() > .002f)
+                throw new InvalidOperationException("The family book footprint is not fully supported by the measured TableTop surface.");
+
+            const float clothSurfaceOffset = .004f;
+            const float clearance = .001f;
+            clothTop = supportHeights.Max() + clothSurfaceOffset;
+            var bookBounds = new Aabb(
+                new(FamilyBookTablePosition.X - FamilyBookDepth * .5f,
+                    clothTop + clearance, FamilyBookTablePosition.Y - FamilyBookWidth * .5f),
+                new(FamilyBookDepth, FamilyBookThickness, FamilyBookWidth));
+            foreach (var mesh in house.FindChildren("*", nameof(MeshInstance3D), true, false)
+                         .OfType<MeshInstance3D>()
+                         .Where(mesh => mesh.Mesh is not null && mesh.IsVisibleInTree()
+                             && mesh.Name != "HouseInterior_TableTop_LOD0" && mesh.Name != "TeaTablecloth"))
+            {
+                var occupied = PublicBuildingShell.Bounds(house, mesh);
+                if (Overlaps(bookBounds, occupied))
+                    throw new InvalidOperationException($"The family book footprint overlaps existing home prop {mesh.GetPath()}.");
             }
-            return await Task.FromResult(true);
-        };
 
-        house.MakeInteractionBox("PhotoWorldForestEntryTarget", new(.30f, .08f, .24f),
-            book.Position, "4f5148",
-            "urman.fullgame:interaction/pw-enter-forest", "Открыть лесной снимок", rayOnly: true);
+            book = new Node3D
+            {
+                Name = "FamilyTukayBookPresentation",
+                Position = new(FamilyBookTablePosition.X,
+                    clothTop + clearance + FamilyBookThickness * .5f, FamilyBookTablePosition.Y),
+                RotationDegrees = new(0f, FamilyBookPlacementYawDegrees, 0f)
+            };
+            book.SetMeta("geometryOwner", nameof(ArrivalPersonalProps));
+            book.SetMeta("presentationRole", "closed family literary volume; muted cloth cover and visible page block; no invented cover text");
+            book.SetMeta("dimensionsMetres", new Vector3(FamilyBookWidth, FamilyBookThickness, FamilyBookDepth));
+            book.SetMeta("supportMesh", table.GetPath().ToString());
 
-        var waterChain = BuildWaterChain(house, things, paper);
-        BuildHomePrinter(house, things, paper);
-        BuildHousePhotoChain(house, things, paper, waterChain);
-        BuildCellarPhotoChain(house, things, paper, waterChain);
+            things = house.GetNodeOrNull<ArrivalPersonalProps>("ArrivalPersonalThings")
+                ?? throw new InvalidOperationException("Home props must be built before the family book is placed.");
+            things.AddChild(book);
+            var cloth = (StandardMaterial3D)RuralPropMaterials.Surface("cloth", "674b45").Duplicate();
+            cloth.ResourceName = "FamilyBook_ClothMetric80mm";
+            cloth.Uv1Scale = new(12.5f, 12.5f, 1f);
+            cloth.SetMeta("surfaceTileMetres", .08f);
+            paper = (ShaderMaterial)PainterlyMaterialLibrary.ForColor("d6ccb3", "paper", sheltered: true).Duplicate();
+            const string paperTexturePath = "res://assets/textures/painterly/book_paper_fibers_v1_albedo.png";
+            if (ResourceLoader.Exists(paperTexturePath)
+                && ResourceLoader.Load<Texture2D>(paperTexturePath) is { } paperTexture)
+            {
+                paper.SetShaderParameter("albedo_texture", paperTexture);
+                paper.SetShaderParameter("has_albedo_texture", true);
+                paper.SetShaderParameter("authored_uv_texture", true);
+                paper.SetShaderParameter("texture_scale", new Vector2(12.5f, 12.5f));
+                // The shared shader amplifies pale albedo; keep the book's quiet ivory tint.
+                paper.SetShaderParameter("texture_strength", .10f);
+                paper.SetMeta("sourceTexture", paperTexturePath);
+                paper.SetMeta("surfaceTileMetres", .08f);
+            }
+            AddBookPart(book, "LowerClothBoard", new(FamilyBookWidth, .004f, FamilyBookDepth),
+                new(0f, -.017f, 0f), cloth, .0015f);
+            var pageBlock = RuralPropGeometry.Part(book, "RecessedPageBlock",
+                RuralPropGeometry.BevelBox(new(FamilyBookWidth - .010f, .028f, FamilyBookDepth - .010f), .001f),
+                Vector3.Zero, paper);
+            pageBlock.SetMeta("visualOnly", true);
+            var upperClothBoard = new MeshInstance3D
+            {
+                Name = "UpperClothBoard",
+                Position = new(0f, .0162f, 0f),
+                RotationDegrees = new(-90f, 0f, 0f),
+                Mesh = RuralPropGeometry.BowedPanel(FamilyBookWidth, FamilyBookDepth, .004f, .0015f, .0008f),
+                MaterialOverride = cloth
+            };
+            upperClothBoard.SetMeta("visualOnly", true);
+            book.AddChild(upperClothBoard);
+            AddBookPart(book, "ClothSpine", new(.020f, .030f, FamilyBookDepth),
+                new(-FamilyBookWidth * .5f + .010f, 0f, 0f), cloth, .004f);
+            ReplaceWithAuthoredFamilyBook(book, cloth, paper);
+
+        });
+        if (!photoWorlds) yield break;
+        yield return StyleBenchmarkZone.HouseBuildJob("family-book/arrival-targets", () =>
+        {
+
+            book.AddChild(new FamilyBookTablePresence { Name = "PhotoWorldFamilyBookTablePresence" });
+
+            // Before the handoff the book is in Aidar's hands. Let him aim at the
+            // clear part of the real worktop, not at the outline of an absent book.
+            var halfPatch = new Vector2(Mathf.Min(.43f, support.Size.X * .5f),
+                Mathf.Min(.32f, support.Size.Z * .5f));
+            var patchCentre = new Vector3(
+                Mathf.Clamp(book.Position.X, support.Position.X + halfPatch.X, support.End.X - halfPatch.X),
+                clothTop + .072f,
+                Mathf.Clamp(book.Position.Z, support.Position.Z + halfPatch.Y, support.End.Z - halfPatch.Y));
+            var target = house.MakeInteractionBox("PhotoWorldFamilyBookTarget", new(2f * halfPatch.X, .14f, 2f * halfPatch.Y),
+                patchCentre, "674b45", "urman.fullgame:interaction/pw-book-handoff",
+                "Положить книгу на стол и открыть снимок", rayOnly: true);
+            target.AfterDispatch = async () =>
+            {
+                var tree = house.GetTree();
+                if (tree.GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge bridge
+                    && tree.GetFirstNodeInGroup("journal_ui") is JournalUi journal)
+                {
+                    var session = bridge.SessionIdentity;
+                    if (book.GetNodeOrNull<FamilyBookTablePresence>("PhotoWorldFamilyBookTablePresence") is { } presence
+                        && !await presence.PlaceForArrivalAsync(bridge)) return false;
+                    if (!GodotObject.IsInstanceValid(house) || !house.IsInsideTree()
+                        || !GodotObject.IsInstanceValid(bridge) || !bridge.IsInsideTree()
+                        || !GodotObject.IsInstanceValid(journal) || !journal.IsInsideTree()
+                        || session is null || !ReferenceEquals(session, bridge.SessionIdentity)) return false;
+                    journal.OpenPhotoBook(bridge, "P-FOREST", physicalOpen: true);
+                }
+                return await Task.FromResult(true);
+            };
+
+            house.MakeInteractionBox("PhotoWorldForestEntryTarget", new(.30f, .08f, .24f),
+                book.Position, "4f5148",
+                "urman.fullgame:interaction/pw-enter-forest", "Открыть лесной снимок", rayOnly: true);
+
+        });
+        WaterChainHomePresence waterChain = null!;
+        yield return StyleBenchmarkZone.HouseBuildJob("family-book/water-envelope",
+            () => waterChain = BuildWaterChain(house, things, paper));
+        foreach (var job in BuildHomePrinterJobs(house, things, paper)) yield return job;
+        foreach (var job in BuildHousePhotoChainJobs(house, things, paper, waterChain)) yield return job;
+        yield return StyleBenchmarkZone.HouseBuildJob("family-book/cellar-photo-box",
+            () => BuildCellarPhotoChain(house, things, paper, waterChain));
     }
 
     // The family envelope with the second print of the old footbridges lies one
@@ -378,123 +419,117 @@ internal partial class ArrivalPersonalProps : Node3D
     // The first return uses Gulsina's existing anchor. After that authored
     // conversation, its already-produced back print appears in a family envelope.
     // The front is deliberately not fabricated while its passport remains pending.
-    private static void BuildHousePhotoChain(StyleBenchmarkZone house, ArrivalPersonalProps things,
+    private static IEnumerable<Action> BuildHousePhotoChainJobs(StyleBenchmarkZone house, ArrivalPersonalProps things,
         Material paper, WaterChainHomePresence presence)
     {
         const float envelopeWidth = .165f;
         const float envelopeDepth = .115f;
         const string backPath = "res://assets/textures/photobook/backs-v1/p-house-back.svg";
         const float envelopeYawDegrees = FamilyBookPlacementYawDegrees + 104f;
-        var envelopePosition = FindHousePhotoEnvelopePosition(
-            house, envelopeWidth, envelopeDepth, envelopeYawDegrees);
-        var envelope = new Node3D
+        Vector3 envelopePosition = default;
+        foreach (var job in FindHousePhotoEnvelopePositionJobs(house, envelopeWidth, envelopeDepth,
+                     envelopeYawDegrees, position => envelopePosition = position)) yield return job;
+        yield return StyleBenchmarkZone.HouseBuildJob("family-book/house-envelope", () =>
         {
-            Name = "FamilyHousePhotoEnvelope",
-            Position = envelopePosition,
-            RotationDegrees = new(0f, envelopeYawDegrees, 0f),
-            Visible = false
-        };
-        envelope.SetMeta("geometryOwner", nameof(ArrivalPersonalProps));
-        envelope.SetMeta("presentationRole", "family envelope with the authored P-HOUSE back print");
-        envelope.SetMeta("assetStatus", "project-original envelope; P-HOUSE generated front candidate is available in the book; world print remains back-up");
-        things.AddChild(envelope);
-
-        var envelopePaper = paper.Duplicate() as ShaderMaterial ?? throw new InvalidOperationException(
-            "The family envelope requires the existing paper shader material.");
-        envelopePaper.SetShaderParameter("base_color", Color.FromHtml("c8b184"));
-        var body = new MeshInstance3D
-        {
-            Name = "EnvelopeBody",
-            Mesh = RuralPropGeometry.BevelBox(new(envelopeWidth, .006f, envelopeDepth), .001f),
-            MaterialOverride = envelopePaper
-        };
-        body.SetMeta("visualOnly", true);
-        envelope.AddChild(body);
-        var flap = new MeshInstance3D
-        {
-            Name = "EnvelopeFlap",
-            Position = new(0f, .0043f, -.034f),
-            RotationDegrees = new(9f, 0f, 0f),
-            Mesh = RuralPropGeometry.BevelBox(new(envelopeWidth, .0028f, .058f), .0008f),
-            MaterialOverride = envelopePaper
-        };
-        flap.SetMeta("visualOnly", true);
-        envelope.AddChild(flap);
-        var print = new Node3D { Name = "HousePhotoPrint", Position = new(0f, .0046f, .024f) };
-        print.SetMeta("visualOnly", true);
-        envelope.AddChild(print);
-        var printPaper = new MeshInstance3D
-        {
-            Name = "PrintPaper",
-            Mesh = RuralPropGeometry.BevelBox(new(.150f, .0014f, .100f), .0004f),
-            MaterialOverride = paper
-        };
-        printPaper.SetMeta("visualOnly", true);
-        print.AddChild(printPaper);
-
-        var backTexture = ResourceLoader.Load<Texture2D>(backPath)
-            ?? throw new InvalidOperationException("The authored P-HOUSE back has not been packaged.");
-        var back = new MeshInstance3D
-        {
-            Name = "PrintBack",
-            Position = new(0f, .0012f, 0f),
-            RotationDegrees = new(-90f, 0f, 180f),
-            Mesh = new QuadMesh { Size = new(.150f, .100f) },
-            MaterialOverride = new StandardMaterial3D
+            var envelope = new Node3D
             {
-                AlbedoTexture = backTexture,
-                Roughness = 1f,
-                TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmaps
-            }
-        };
-        back.SetMeta("visualOnly", true);
-        back.SetMeta("assetSource", backPath);
-        back.SetMeta("assetStatus", "authored back-up print; generated P-HOUSE book front awaits W03 correspondence and author acceptance");
-        print.AddChild(back);
+                Name = "FamilyHousePhotoEnvelope",
+                Position = envelopePosition,
+                RotationDegrees = new(0f, envelopeYawDegrees, 0f),
+                Visible = false
+            };
+            envelope.SetMeta("geometryOwner", nameof(ArrivalPersonalProps));
+            envelope.SetMeta("presentationRole", "family envelope with the authored P-HOUSE back print");
+            envelope.SetMeta("assetStatus", "project-original envelope; P-HOUSE generated front candidate is available in the book; world print remains back-up");
+            things.AddChild(envelope);
 
-        var entryTargetPosition = things.Transform * envelope.Transform
-            * new Vector3(0f, .06f, presence.PrintOutLocalZ);
-        house.MakeInteractionBox("HousePhotoEntryTarget", new(.30f, .16f, .26f),
-            entryTargetPosition, "8fa694", "urman.fullgame:interaction/pw-enter-house",
-            "Открыть снимок двора", rayOnly: true);
+            var envelopePaper = paper.Duplicate() as ShaderMaterial ?? throw new InvalidOperationException(
+                "The family envelope requires the existing paper shader material.");
+            envelopePaper.SetShaderParameter("base_color", Color.FromHtml("c8b184"));
+            var body = new MeshInstance3D
+            {
+                Name = "EnvelopeBody",
+                Mesh = RuralPropGeometry.BevelBox(new(envelopeWidth, .006f, envelopeDepth), .001f),
+                MaterialOverride = envelopePaper
+            };
+            body.SetMeta("visualOnly", true);
+            envelope.AddChild(body);
+            var flap = new MeshInstance3D
+            {
+                Name = "EnvelopeFlap",
+                Position = new(0f, .0043f, -.034f),
+                RotationDegrees = new(9f, 0f, 0f),
+                Mesh = RuralPropGeometry.BevelBox(new(envelopeWidth, .0028f, .058f), .0008f),
+                MaterialOverride = envelopePaper
+            };
+            flap.SetMeta("visualOnly", true);
+            envelope.AddChild(flap);
+            var print = new Node3D { Name = "HousePhotoPrint", Position = new(0f, .0046f, .024f) };
+            print.SetMeta("visualOnly", true);
+            envelope.AddChild(print);
+            var printPaper = new MeshInstance3D
+            {
+                Name = "PrintPaper",
+                Mesh = RuralPropGeometry.BevelBox(new(.150f, .0014f, .100f), .0004f),
+                MaterialOverride = paper
+            };
+            printPaper.SetMeta("visualOnly", true);
+            print.AddChild(printPaper);
 
-        var source = house.MakeInteractionBox("HousePhotoSourceTarget", new(.26f, .14f, .24f),
-            envelopePosition + Vector3.Up * .06f, "cfc4a8",
-            "urman.fullgame:interaction/pw-house-photo-source", "Узнать старый снимок собственного двора",
-            rayOnly: true);
-        source.SetPresentationEnabled(false);
-        var npcAnchor = StyleBenchmarkInteriorFactory.GulsinaAnchor + Vector3.Up * .95f;
-        var homeTalk = house.MakeInteractionBox("FirstWorldHomeTalkTarget", new(.62f, 1.90f, .46f),
-            npcAnchor, "6f6257", "urman.fullgame:interaction/pw-first-world-home-talk",
-            "Поговорить о первом возвращении из снимка",
-            dialogueId: "urman.fullgame:dialogue/pw-first-world-home", rayOnly: true);
-        homeTalk.SetPresentationEnabled(false);
-        var permission = house.MakeInteractionBox("HousePhotoPermissionTarget", new(.62f, 1.90f, .46f),
-            npcAnchor, "6f6257", "urman.fullgame:interaction/pw-house-photo-permission",
-            "Попросить семейную копию снимка двора",
-            dialogueId: "urman.fullgame:dialogue/pw-house-photo-permission", rayOnly: true);
-        permission.SetPresentationEnabled(false);
+            var backTexture = ResourceLoader.Load<Texture2D>(backPath)
+                ?? throw new InvalidOperationException("The authored P-HOUSE back has not been packaged.");
+            var back = new MeshInstance3D
+            {
+                Name = "PrintBack",
+                Position = new(0f, .0012f, 0f),
+                RotationDegrees = new(-90f, 0f, 180f),
+                Mesh = new QuadMesh { Size = new(.150f, .100f) },
+                MaterialOverride = new StandardMaterial3D
+                {
+                    AlbedoTexture = backTexture,
+                    Roughness = 1f,
+                    TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmaps
+                }
+            };
+            back.SetMeta("visualOnly", true);
+            back.SetMeta("assetSource", backPath);
+            back.SetMeta("assetStatus", "authored back-up print; generated P-HOUSE book front awaits W03 correspondence and author acceptance");
+            print.AddChild(back);
 
-        presence.HomeReturnTarget = homeTalk;
-        presence.HousePhotoSourceTarget = source;
-        presence.HousePhotoPermissionTarget = permission;
-        presence.HousePhotoEnvelope = envelope;
-        presence.HousePhotoPrint = print;
+            var entryTargetPosition = things.Transform * envelope.Transform
+                * new Vector3(0f, .06f, presence.PrintOutLocalZ);
+            house.MakeInteractionBox("HousePhotoEntryTarget", new(.30f, .16f, .26f),
+                entryTargetPosition, "8fa694", "urman.fullgame:interaction/pw-enter-house",
+                "Открыть снимок двора", rayOnly: true);
+
+            var source = house.MakeInteractionBox("HousePhotoSourceTarget", new(.26f, .14f, .24f),
+                envelopePosition + Vector3.Up * .06f, "cfc4a8",
+                "urman.fullgame:interaction/pw-house-photo-source", "Узнать старый снимок собственного двора",
+                rayOnly: true);
+            source.SetPresentationEnabled(false);
+            var npcAnchor = StyleBenchmarkInteriorFactory.GulsinaAnchor + Vector3.Up * .95f;
+            var homeTalk = house.MakeInteractionBox("FirstWorldHomeTalkTarget", new(.62f, 1.90f, .46f),
+                npcAnchor, "6f6257", "urman.fullgame:interaction/pw-first-world-home-talk",
+                "Поговорить о первом возвращении из снимка",
+                dialogueId: "urman.fullgame:dialogue/pw-first-world-home", rayOnly: true);
+            homeTalk.SetPresentationEnabled(false);
+            var permission = house.MakeInteractionBox("HousePhotoPermissionTarget", new(.62f, 1.90f, .46f),
+                npcAnchor, "6f6257", "urman.fullgame:interaction/pw-house-photo-permission",
+                "Попросить семейную копию снимка двора",
+                dialogueId: "urman.fullgame:dialogue/pw-house-photo-permission", rayOnly: true);
+            permission.SetPresentationEnabled(false);
+
+            presence.HomeReturnTarget = homeTalk;
+            presence.HousePhotoSourceTarget = source;
+            presence.HousePhotoPermissionTarget = permission;
+            presence.HousePhotoEnvelope = envelope;
+            presence.HousePhotoPrint = print;
+        });
     }
 
-    private static Vector3 FindHousePhotoEnvelopePosition(StyleBenchmarkZone house,
-        float envelopeWidth, float envelopeDepth, float envelopeYawDegrees)
+    private static IEnumerable<Action> FindHousePhotoEnvelopePositionJobs(StyleBenchmarkZone house,
+        float envelopeWidth, float envelopeDepth, float envelopeYawDegrees, Action<Vector3> placed)
     {
-        var table = house.GetNode<Node3D>("GeneratedHouseInteriorAct1")
-            .FindChildren("*", nameof(MeshInstance3D), true, false)
-            .OfType<MeshInstance3D>().Single(mesh => mesh.Name == "HouseInterior_TableTop_LOD0");
-        var support = PublicBuildingShell.Bounds(house, table);
-        var faceTransform = house.GlobalTransform.AffineInverse() * table.GlobalTransform;
-        var faces = table.Mesh!.GetFaces().Select(face => faceTransform * face).ToArray();
-        var chosen = Vector3.Zero;
-        var placed = false;
-        var bestDistance = float.PositiveInfinity;
-        const float gridStep = .06f;
         var marginX = envelopeWidth * .5f + .01f;
         var marginZ = envelopeDepth * .5f + .01f;
         var yaw = Mathf.DegToRad(envelopeYawDegrees);
@@ -502,49 +537,100 @@ internal partial class ArrivalPersonalProps : Node3D
         var forward = new Vector2(Mathf.Sin(yaw), Mathf.Cos(yaw));
         var extentX = Math.Abs(right.X) * marginX + Math.Abs(forward.X) * marginZ;
         var extentZ = Math.Abs(right.Y) * marginX + Math.Abs(forward.Y) * marginZ;
-
-        for (var x = support.Position.X + extentX; x <= support.End.X - extentX; x += gridStep)
-        for (var z = support.Position.Z + extentZ; z <= support.End.Z - extentZ; z += gridStep)
+        var footprint = new[]
         {
-            var center = new Vector2(x, z);
-            var points = new[]
-            {
-                center,
-                center - right * marginX - forward * marginZ,
-                center - right * marginX + forward * marginZ,
-                center + right * marginX - forward * marginZ,
-                center + right * marginX + forward * marginZ
-            };
-            var heights = points.Select(point => TableTopHeightAt(
-                point, faces, support.Position.Y - .01f, support.End.Y + .01f)).ToArray();
-            if (heights.Any(float.IsNaN) || heights.Max() - heights.Min() > .002f)
-                continue;
+            Vector2.Zero, -right * marginX - forward * marginZ, -right * marginX + forward * marginZ,
+            right * marginX - forward * marginZ, right * marginX + forward * marginZ
+        };
+        foreach (var job in FindFreeTablePatchJobs(house, "house-print", new(extentX, extentZ),
+                     new(extentX, extentZ), footprint, .003f, .020f, FamilyBookTablePosition, placed)) yield return job;
+    }
 
-            var left = points.Min(point => point.X);
-            var rightEdge = points.Max(point => point.X);
-            var back = points.Min(point => point.Y);
-            var front = points.Max(point => point.Y);
-            var bounds = new Aabb(
-                new(left, heights.Max() + .003f, back),
-                new(rightEdge - left, .020f, front - back));
-            var blocker = house.FindChildren("*", nameof(MeshInstance3D), true, false)
+    // The house does not move while these construction jobs run. Snapshot its
+    // visible contacts once per search, before creating that search's prop.
+    // A later search takes a fresh snapshot, so the printer still blocks the
+    // envelope exactly as before. Candidate order, full triangle support, margins,
+    // strict overlap and nearest-preferred-patch tie breaking remain unchanged.
+    private static IEnumerable<Action> FindFreeTablePatchJobs(StyleBenchmarkZone house, string role,
+        Vector2 lowInset, Vector2 highInset, Vector2[] footprint, float bottomOffset,
+        float height, Vector2 preferred, Action<Vector3> placed)
+    {
+        Aabb support = default;
+        Vector3[] faces = [];
+        MeshInstance3D[] meshes = [];
+        var occupied = new List<Aabb>();
+        yield return StyleBenchmarkZone.HouseBuildJob("family-book/" + role + "/support", () =>
+        {
+            var table = house.GetNode<Node3D>("GeneratedHouseInteriorAct1")
+                .FindChildren("*", nameof(MeshInstance3D), true, false)
+                .OfType<MeshInstance3D>().Single(mesh => mesh.Name == "HouseInterior_TableTop_LOD0");
+            support = PublicBuildingShell.Bounds(house, table);
+            var transform = house.GlobalTransform.AffineInverse() * table.GlobalTransform;
+            faces = table.Mesh!.GetFaces().Select(face => transform * face).ToArray();
+            meshes = house.FindChildren("*", nameof(MeshInstance3D), true, false)
                 .OfType<MeshInstance3D>()
                 .Where(mesh => mesh.Mesh is not null && mesh.IsVisibleInTree()
-                    && mesh.Name != "HouseInterior_TableTop_LOD0" && mesh.Name != "TeaTablecloth")
-                .FirstOrDefault(mesh => Overlaps(bounds, PublicBuildingShell.Bounds(house, mesh)));
-            if (blocker is not null) continue;
-
-            var distance = new Vector2(x, z).DistanceSquaredTo(
-                new Vector2(FamilyBookTablePosition.X, FamilyBookTablePosition.Y));
-            if (distance >= bestDistance) continue;
-            bestDistance = distance;
-            chosen = new Vector3(x, heights.Max() + .004f, z);
-            placed = true;
+                    && mesh.Name != "HouseInterior_TableTop_LOD0" && mesh.Name != "TeaTablecloth").ToArray();
+        });
+        const int boundsBatchSize = 16;
+        for (var offset = 0; offset < meshes.Length; offset += boundsBatchSize)
+        {
+            var first = offset;
+            yield return StyleBenchmarkZone.HouseBuildJob("family-book/" + role + "/bounds", () =>
+            {
+                for (var i = first; i < Math.Min(first + boundsBatchSize, meshes.Length); i++)
+                    occupied.Add(PublicBuildingShell.Bounds(house, meshes[i]));
+            });
         }
 
-        if (!placed)
-            throw new InvalidOperationException("No supported free table patch remains for the P-HOUSE print.");
-        return chosen;
+        var chosen = Vector3.Zero;
+        var found = false;
+        var bestDistance = float.PositiveInfinity;
+        const float gridStep = .06f;
+        const int candidatesPerJob = 16;
+        var candidates = new List<Vector2>(candidatesPerJob);
+        void Evaluate(Vector2 candidate)
+        {
+            var points = footprint.Select(offset => candidate + offset).ToArray();
+            var heights = points.Select(point => TableTopHeightAt(
+                point, faces, support.Position.Y - .01f, support.End.Y + .01f)).ToArray();
+            if (heights.Any(float.IsNaN) || heights.Max() - heights.Min() > .002f) return;
+            var bounds = new Aabb(
+                new(points.Min(point => point.X), heights.Max() + bottomOffset, points.Min(point => point.Y)),
+                new(points.Max(point => point.X) - points.Min(point => point.X), height,
+                    points.Max(point => point.Y) - points.Min(point => point.Y)));
+            if (occupied.Any(other => Overlaps(bounds, other))) return;
+            var distance = candidate.DistanceSquaredTo(preferred);
+            if (distance >= bestDistance) return;
+            bestDistance = distance;
+            chosen = new(candidate.X, heights.Max() + .004f, candidate.Y);
+            found = true;
+        }
+        for (var x = support.Position.X + lowInset.X; x <= support.End.X - highInset.X; x += gridStep)
+        for (var z = support.Position.Z + lowInset.Y; z <= support.End.Z - highInset.Y; z += gridStep)
+        {
+            candidates.Add(new(x, z));
+            if (candidates.Count < candidatesPerJob) continue;
+            var batch = candidates.ToArray();
+            candidates.Clear();
+            yield return StyleBenchmarkZone.HouseBuildJob("family-book/" + role + "/candidates", () =>
+            {
+                foreach (var candidate in batch) Evaluate(candidate);
+            });
+        }
+        if (candidates.Count > 0)
+        {
+            var batch = candidates.ToArray();
+            yield return StyleBenchmarkZone.HouseBuildJob("family-book/" + role + "/candidates", () =>
+            {
+                foreach (var candidate in batch) Evaluate(candidate);
+            });
+        }
+        yield return StyleBenchmarkZone.HouseBuildJob("family-book/" + role + "/placement", () =>
+        {
+            if (!found) throw new InvalidOperationException($"No supported free table patch remains for {role}.");
+            placed(chosen);
+        });
     }
 
     // The desk printer beside the old PC. Its sheet is the same authored
@@ -552,7 +638,7 @@ internal partial class ArrivalPersonalProps : Node3D
     // source. The patch is picked from measured free table area: every
     // candidate must sit flat on the real TableTop faces and stay clear of
     // every already visible home prop, exactly like the book and envelope.
-    private static void BuildHomePrinter(StyleBenchmarkZone house, ArrivalPersonalProps things,
+    private static IEnumerable<Action> BuildHomePrinterJobs(StyleBenchmarkZone house, ArrivalPersonalProps things,
         Material paper)
     {
         const float bodyWidth = .36f;
@@ -562,193 +648,146 @@ internal partial class ArrivalPersonalProps : Node3D
         const float footprintHalfWidth = bodyWidth * .5f + placementMargin;
         const float footprintBack = -bodyDepth * .5f - placementMargin;
         const float footprintFront = bodyDepth * .5f + .12f + placementMargin;
-        var table = house.GetNode<Node3D>("GeneratedHouseInteriorAct1")
-            .FindChildren("*", nameof(MeshInstance3D), true, false)
-            .OfType<MeshInstance3D>().Single(mesh => mesh.Name == "HouseInterior_TableTop_LOD0");
-        var support = PublicBuildingShell.Bounds(house, table);
-        var faceTransform = house.GlobalTransform.AffineInverse() * table.GlobalTransform;
-        var faces = table.Mesh!.GetFaces().Select(face => faceTransform * face).ToArray();
-
-        // Keep the full tray supported and prefer the front-left patch, where
-        // the CRT is less likely to hide the sheet. Other clear patches remain valid.
-        var preferredPosition = new Vector2(-.55f, -2.08f);
-        var chosen = Vector3.Zero;
-        var placed = false;
-        var bestDistance = float.PositiveInfinity;
-        var gridStep = .06f;
-        var xs = new List<float>();
-        var zs = new List<float>();
-        for (var x = support.Position.X + footprintHalfWidth; x <= support.End.X - footprintHalfWidth; x += gridStep)
-            xs.Add(x);
-        for (var z = support.Position.Z - footprintBack; z <= support.End.Z - footprintFront; z += gridStep)
-            zs.Add(z);
-
-        foreach (var x in xs)
-        foreach (var z in zs)
+        var footprint = new[]
         {
-            var candidate = new Vector2(x, z);
-            var points = new List<Vector2> { candidate };
-            foreach (var signX in new[] { -1f, 1f })
-            foreach (var offsetZ in new[] { footprintBack, footprintFront })
-                points.Add(candidate + new Vector2(signX * footprintHalfWidth, offsetZ));
-            var heights = points.Select(point => TableTopHeightAt(
-                point, faces, support.Position.Y - .01f, support.End.Y + .01f)).ToArray();
-            if (heights.Any(float.IsNaN) || heights.Max() - heights.Min() > .002f)
-                continue;
-
-            var bounds = new Aabb(
-                new(points.Min(point => point.X), heights.Max(), points.Min(point => point.Y)),
-                new(points.Max(point => point.X) - points.Min(point => point.X), bodyHeight + .01f,
-                    points.Max(point => point.Y) - points.Min(point => point.Y)));
-            var blocker = house.FindChildren("*", nameof(MeshInstance3D), true, false)
-                .OfType<MeshInstance3D>()
-                .Where(mesh => mesh.Mesh is not null && mesh.IsVisibleInTree()
-                    && mesh.Name != "HouseInterior_TableTop_LOD0" && mesh.Name != "TeaTablecloth")
-                .FirstOrDefault(mesh => Overlaps(bounds, PublicBuildingShell.Bounds(house, mesh)));
-            if (blocker is not null)
+            Vector2.Zero, new Vector2(-footprintHalfWidth, footprintBack), new(-footprintHalfWidth, footprintFront),
+            new(footprintHalfWidth, footprintBack), new(footprintHalfWidth, footprintFront)
+        };
+        Vector3 chosen = default;
+        foreach (var job in FindFreeTablePatchJobs(house, "desk-printer", new(footprintHalfWidth, -footprintBack),
+                     new(footprintHalfWidth, footprintFront), footprint, 0, bodyHeight + .01f,
+                     new(-.55f, -2.08f), position => chosen = position)) yield return job;
+        yield return StyleBenchmarkZone.HouseBuildJob("family-book/printer-geometry", () =>
+        {
+            var printer = new Node3D
             {
-                // Overlap is an expected grid-search rejection, not a warning condition.
-                continue;
-            }
-
-            var distance = (candidate - preferredPosition).LengthSquared();
-            if (distance >= bestDistance) continue;
-            bestDistance = distance;
-            chosen = new Vector3(x, heights.Max() + .004f, z);
-            placed = true;
-        }
-
-        if (!placed)
-            throw new InvalidOperationException("No supported free table patch remains for the desk printer.");
-
-        var printer = new Node3D
-        {
-            Name = "HomeDeskPrinter",
-            Position = chosen
-        };
-        printer.SetMeta("geometryOwner", nameof(ArrivalPersonalProps));
-        printer.SetMeta("presentationRole", "desk printer that turns the authored P-COMMON print into paper");
-        printer.SetMeta("assetStatus", "project-original procedural printer; the sheet reuses the authored p-common back artwork");
-        things.AddChild(printer);
-
-        var body = new MeshInstance3D
-        {
-            Name = "PrinterBody",
-            Position = new(0f, bodyHeight * .5f, 0f),
-            Mesh = RuralPropGeometry.BevelBox(new(bodyWidth, bodyHeight, bodyDepth), .004f),
-            MaterialOverride = RuralPropMaterials.Surface("plastic", "c9bfa6")
-        };
-        body.SetMeta("visualOnly", true);
-        printer.AddChild(body);
-
-        var lid = new MeshInstance3D
-        {
-            Name = "PrinterLidSeam",
-            Position = new(0f, bodyHeight + .001f, -.008f),
-            Mesh = RuralPropGeometry.BevelBox(new(bodyWidth - .04f, .006f, bodyDepth - .06f), .0015f),
-            MaterialOverride = RuralPropMaterials.Surface("plastic", "b3a98f")
-        };
-        lid.SetMeta("visualOnly", true);
-        printer.AddChild(lid);
-
-        var slot = new MeshInstance3D
-        {
-            Name = "PrinterOutputSlot",
-            Position = new(0f, .052f, bodyDepth * .5f),
-            Mesh = RuralPropGeometry.BevelBox(new(bodyWidth - .10f, .022f, .012f), .001f),
-            MaterialOverride = RuralPropMaterials.Surface("rubber", "3f3a33")
-        };
-        slot.SetMeta("visualOnly", true);
-        printer.AddChild(slot);
-
-        var outputTray = new MeshInstance3D
-        {
-            Name = "PrinterOutputTray",
-            Position = new(0f, .044f, bodyDepth * .5f + .06f),
-            Mesh = RuralPropGeometry.BevelBox(new(bodyWidth - .08f, .006f, .12f), .002f),
-            MaterialOverride = RuralPropMaterials.Surface("plastic", "bdb397")
-        };
-        outputTray.SetMeta("visualOnly", true);
-        printer.AddChild(outputTray);
-
-        var led = new MeshInstance3D
-        {
-            Name = "PrinterPowerLed",
-            Position = new(.12f, .052f, bodyDepth * .5f + .001f),
-            Mesh = new BoxMesh { Size = new(.008f, .004f, .002f) },
-            MaterialOverride = PainterlyMaterialLibrary.ForColor("86a86b")
-        };
-        led.SetMeta("visualOnly", true);
-        printer.AddChild(led);
-
-        var sheet = new Node3D { Name = "PrinterSheet", Position = new(0f, .049f, .075f), Visible = false };
-        printer.AddChild(sheet);
-        var sheetPaper = new MeshInstance3D
-        {
-            Name = "PrinterSheetPaper",
-            Mesh = RuralPropGeometry.BevelBox(new(.148f, .0014f, .100f), .0004f),
-            MaterialOverride = paper
-        };
-        sheetPaper.SetMeta("visualOnly", true);
-        sheet.AddChild(sheetPaper);
-        const string sheetFrontPath = "res://assets/textures/photobook/p-common-front-v1.png";
-        var sheetFrontTexture = ResourceLoader.Load<Texture2D>(sheetFrontPath)
-            ?? throw new InvalidOperationException("The P-COMMON front has not been packaged.");
-        var front = new MeshInstance3D
-        {
-            Name = "PrinterSheetFront",
-            Position = new(0f, .0011f, 0f),
-            RotationDegrees = new(-90f, 0f, 180f),
-            Mesh = new QuadMesh { Size = new(.140f, .094f) },
-            MaterialOverride = new StandardMaterial3D
-            {
-                AlbedoTexture = sheetFrontTexture,
-                Roughness = 1f,
-                TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmaps
-            }
-        };
-        front.SetMeta("visualOnly", true);
-        front.SetMeta("assetSource", sheetFrontPath);
-        front.SetMeta("assetStatus", "project-generated P-COMMON front candidate; author artistic/cultural acceptance pending");
-        sheet.AddChild(front);
-
-        const string sheetBackPath = "res://assets/textures/photobook/backs-v1/p-common-back.svg";
-        if (ResourceLoader.Exists(sheetBackPath)
-            && ResourceLoader.Load<Texture2D>(sheetBackPath) is { } backTexture)
-        {
-            var backMaterial = new StandardMaterial3D
-            {
-                AlbedoTexture = backTexture,
-                Roughness = 1f,
-                TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmaps
+                Name = "HomeDeskPrinter",
+                Position = chosen
             };
-            var back = new MeshInstance3D
+            printer.SetMeta("geometryOwner", nameof(ArrivalPersonalProps));
+            printer.SetMeta("presentationRole", "desk printer that turns the authored P-COMMON print into paper");
+            printer.SetMeta("assetStatus", "project-original procedural printer; the sheet reuses the authored p-common back artwork");
+            things.AddChild(printer);
+
+            var body = new MeshInstance3D
             {
-                Name = "PrinterSheetBack",
-                Position = new(0f, -.0011f, 0f),
-                RotationDegrees = new(90f, 0f, 0f),
+                Name = "PrinterBody",
+                Position = new(0f, bodyHeight * .5f, 0f),
+                Mesh = RuralPropGeometry.BevelBox(new(bodyWidth, bodyHeight, bodyDepth), .004f),
+                MaterialOverride = RuralPropMaterials.Surface("plastic", "c9bfa6")
+            };
+            body.SetMeta("visualOnly", true);
+            printer.AddChild(body);
+
+            var lid = new MeshInstance3D
+            {
+                Name = "PrinterLidSeam",
+                Position = new(0f, bodyHeight + .001f, -.008f),
+                Mesh = RuralPropGeometry.BevelBox(new(bodyWidth - .04f, .006f, bodyDepth - .06f), .0015f),
+                MaterialOverride = RuralPropMaterials.Surface("plastic", "b3a98f")
+            };
+            lid.SetMeta("visualOnly", true);
+            printer.AddChild(lid);
+
+            var slot = new MeshInstance3D
+            {
+                Name = "PrinterOutputSlot",
+                Position = new(0f, .052f, bodyDepth * .5f),
+                Mesh = RuralPropGeometry.BevelBox(new(bodyWidth - .10f, .022f, .012f), .001f),
+                MaterialOverride = RuralPropMaterials.Surface("rubber", "3f3a33")
+            };
+            slot.SetMeta("visualOnly", true);
+            printer.AddChild(slot);
+
+            var outputTray = new MeshInstance3D
+            {
+                Name = "PrinterOutputTray",
+                Position = new(0f, .044f, bodyDepth * .5f + .06f),
+                Mesh = RuralPropGeometry.BevelBox(new(bodyWidth - .08f, .006f, .12f), .002f),
+                MaterialOverride = RuralPropMaterials.Surface("plastic", "bdb397")
+            };
+            outputTray.SetMeta("visualOnly", true);
+            printer.AddChild(outputTray);
+
+            var led = new MeshInstance3D
+            {
+                Name = "PrinterPowerLed",
+                Position = new(.12f, .052f, bodyDepth * .5f + .001f),
+                Mesh = new BoxMesh { Size = new(.008f, .004f, .002f) },
+                MaterialOverride = PainterlyMaterialLibrary.ForColor("86a86b")
+            };
+            led.SetMeta("visualOnly", true);
+            printer.AddChild(led);
+
+            var sheet = new Node3D { Name = "PrinterSheet", Position = new(0f, .049f, .075f), Visible = false };
+            printer.AddChild(sheet);
+            var sheetPaper = new MeshInstance3D
+            {
+                Name = "PrinterSheetPaper",
+                Mesh = RuralPropGeometry.BevelBox(new(.148f, .0014f, .100f), .0004f),
+                MaterialOverride = paper
+            };
+            sheetPaper.SetMeta("visualOnly", true);
+            sheet.AddChild(sheetPaper);
+            const string sheetFrontPath = "res://assets/textures/photobook/p-common-front-v1.png";
+            var sheetFrontTexture = ResourceLoader.Load<Texture2D>(sheetFrontPath)
+                ?? throw new InvalidOperationException("The P-COMMON front has not been packaged.");
+            var front = new MeshInstance3D
+            {
+                Name = "PrinterSheetFront",
+                Position = new(0f, .0011f, 0f),
+                RotationDegrees = new(-90f, 0f, 180f),
                 Mesh = new QuadMesh { Size = new(.140f, .094f) },
-                MaterialOverride = backMaterial
+                MaterialOverride = new StandardMaterial3D
+                {
+                    AlbedoTexture = sheetFrontTexture,
+                    Roughness = 1f,
+                    TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmaps
+                }
             };
-            back.SetMeta("visualOnly", true);
-            back.SetMeta("assetSource", sheetBackPath);
-            back.SetMeta("assetStatus", "authored P-COMMON reverse face on the underside of the printed sheet");
-            sheet.AddChild(back);
-        }
+            front.SetMeta("visualOnly", true);
+            front.SetMeta("assetSource", sheetFrontPath);
+            front.SetMeta("assetStatus", "project-generated P-COMMON front candidate; author artistic/cultural acceptance pending");
+            sheet.AddChild(front);
 
-        var entryPosition = things.Transform * printer.Transform * new Vector3(0f, .08f, .215f);
-        var entry = house.MakeInteractionBox("CommonPhotoEntryTarget", new(.22f, .14f, .18f),
-            entryPosition, "8fa694", "urman.fullgame:interaction/pw-enter-common",
-            "Открыть общий кадр", rayOnly: true);
-        entry.SetPresentationEnabled(false);
+            const string sheetBackPath = "res://assets/textures/photobook/backs-v1/p-common-back.svg";
+            if (ResourceLoader.Exists(sheetBackPath)
+                && ResourceLoader.Load<Texture2D>(sheetBackPath) is { } backTexture)
+            {
+                var backMaterial = new StandardMaterial3D
+                {
+                    AlbedoTexture = backTexture,
+                    Roughness = 1f,
+                    TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmaps
+                };
+                var back = new MeshInstance3D
+                {
+                    Name = "PrinterSheetBack",
+                    Position = new(0f, -.0011f, 0f),
+                    RotationDegrees = new(90f, 0f, 0f),
+                    Mesh = new QuadMesh { Size = new(.140f, .094f) },
+                    MaterialOverride = backMaterial
+                };
+                back.SetMeta("visualOnly", true);
+                back.SetMeta("assetSource", sheetBackPath);
+                back.SetMeta("assetStatus", "authored P-COMMON reverse face on the underside of the printed sheet");
+                sheet.AddChild(back);
+            }
 
-        printer.AddChild(new HomePrinterPresence
-        {
-            Name = "HomePrinterPresence",
-            Sheet = sheet,
-            EntryTarget = entry,
-            SheetInLocalZ = .075f,
-            SheetOutLocalZ = .215f
+            var entryPosition = things.Transform * printer.Transform * new Vector3(0f, .08f, .215f);
+            var entry = house.MakeInteractionBox("CommonPhotoEntryTarget", new(.22f, .14f, .18f),
+                entryPosition, "8fa694", "urman.fullgame:interaction/pw-enter-common",
+                "Открыть общий кадр", rayOnly: true);
+            entry.SetPresentationEnabled(false);
+
+            printer.AddChild(new HomePrinterPresence
+            {
+                Name = "HomePrinterPresence",
+                Sheet = sheet,
+                EntryTarget = entry,
+                SheetInLocalZ = .075f,
+                SheetOutLocalZ = .215f
+            });
         });
     }
 
