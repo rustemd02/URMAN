@@ -174,8 +174,16 @@ internal partial class ArrivalPersonalProps : Node3D
 
         book.AddChild(new FamilyBookTablePresence { Name = "PhotoWorldFamilyBookTablePresence" });
 
-        var target = house.MakeInteractionBox("PhotoWorldFamilyBookTarget", new(.30f, .08f, .24f),
-            book.Position, "674b45", "urman.fullgame:interaction/pw-book-handoff",
+        // Before the handoff the book is in Aidar's hands. Let him aim at the
+        // clear part of the real worktop, not at the outline of an absent book.
+        var halfPatch = new Vector2(Mathf.Min(.43f, support.Size.X * .5f),
+            Mathf.Min(.32f, support.Size.Z * .5f));
+        var patchCentre = new Vector3(
+            Mathf.Clamp(book.Position.X, support.Position.X + halfPatch.X, support.End.X - halfPatch.X),
+            clothTop + .072f,
+            Mathf.Clamp(book.Position.Z, support.Position.Z + halfPatch.Y, support.End.Z - halfPatch.Y));
+        var target = house.MakeInteractionBox("PhotoWorldFamilyBookTarget", new(2f * halfPatch.X, .14f, 2f * halfPatch.Y),
+            patchCentre, "674b45", "urman.fullgame:interaction/pw-book-handoff",
             "Положить книгу на стол и открыть снимок", rayOnly: true);
         target.AfterDispatch = async () =>
         {

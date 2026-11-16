@@ -6,7 +6,7 @@ Expected paid usage (official API pricing checked 2026-10-20):
     --geometry-only costs 20 credits.
   submit-multi-image: 30 credits — meshy-7.1, 1–4 geometry views, standard
     geometry, 4K PBR texture; --geometry-only costs 20 credits.
-  submit-retexture: 10 credits — 4K PBR; optional 8K costs 15 credits.
+  submit-retexture: 10 credits — 2K/4K PBR; optional 8K costs 15 credits.
   submit-remesh: 5 credits — one 100,000-face remesh task by default.
   submit-rig: 5 credits — rig one successful textured model task.
 One image model plus one default remesh, retexture and rig is 50 credits.
@@ -388,7 +388,7 @@ def build_parser():
     style = retexture_parser.add_mutually_exclusive_group(required=True)
     style.add_argument("--style-prompt", help="Meshy retexture style prompt, up to 800 characters")
     style.add_argument("--style-image", type=Path, help="local PNG style reference (maximum 20 MB)")
-    retexture_parser.add_argument("--texture-resolution", choices=("4k", "8k"), default="4k")
+    retexture_parser.add_argument("--texture-resolution", choices=("2k", "4k", "8k"), default="4k")
     retexture_parser.add_argument("--keep-uv", action="store_true", help="preserve the input model's UV layout")
     retexture_parser.add_argument("--spend-credits", type=int, help="must equal the printed estimate before a paid task is created")
 
@@ -599,7 +599,7 @@ def run(args):
             "image_style_url": data_uri(args.style_image, ".png", "image/png", MAX_IMAGE_BYTES,
                                          signature=b"\x89PNG\r\n\x1a\n")
         })
-        credits = 10 if args.texture_resolution == "4k" else 15
+        credits = 10 if args.texture_resolution in ("2k", "4k") else 15
         require_spend_ack(f"{args.texture_resolution.upper()} PBR retexture", credits, args.spend_credits)
         payload = {
             "model_url": model,

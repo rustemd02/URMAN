@@ -55,8 +55,29 @@ public static partial class StyleBenchmarkInteriorFactory
     public static Transform3D TransformFromFacade(Node3D facade) =>
         facade.GlobalTransform * new Transform3D(Basis.Identity, RoomOffset);
 
+    internal static IEnumerable<string> BuildResourcePaths()
+    {
+        yield return GeneratedModularKitDressing.ScenePath;
+        yield return GeneratedCharacterKitDressing.HumanScenePath;
+        yield return HomeCupboardPbrModelPath;
+        yield return "res://assets/images/arrival_marat_childhood_existing_v1.png";
+        yield return "res://assets/textures/painterly/old_fabric_v3_albedo.png";
+        foreach (var path in PainterlyMaterialLibrary.DynamicResourcePaths(
+                     ["wood", "wood_prop", "wood_painted_trim", "wood_floor_planked", "wood_furniture_interior",
+                      "plaster", "plaster_domestic", "metal", "stone", "cloth", "cloth_towel", "cloth_curtain",
+                      "fabric_pattern", "fabric_upholstery", "wallpaper", "glass", "paper"])) yield return path;
+        foreach (var path in RuralPropMaterials.DynamicResourcePaths(["wood", "plywood", "cloth"])) yield return path;
+    }
+
     internal static void Build(Node3D room, HeroHouseRecipe recipe)
     {
+        foreach (var job in BuildJobs(room, recipe)) job();
+    }
+
+    internal static IEnumerable<Action> BuildJobs(Node3D room, HeroHouseRecipe recipe)
+    {
+        yield return StyleBenchmarkZone.HouseBuildJob("room-floor-ceiling", () =>
+        {
         var windowClearWidth = recipe.WindowClearWidth;
         room.SetMeta("heroHouseContract", ContractVersion);
         room.SetMeta("heroHouseWindowClearWidth", windowClearWidth);
@@ -64,7 +85,10 @@ public static partial class StyleBenchmarkInteriorFactory
         Block(room, "Floor", new(8.4f, .18f, 7.4f), new(0, -.09f, 0), "7a4634", "wood_floor_planked");
         // P2 / VIS-098: whitewashed plaster ceiling, warm off-white so the lamp light bounces.
         Block(room, "Ceiling", new(8.4f, .16f, 7.4f), new(0, 2.68f, 0), "e6e0d2", "plaster_domestic");
-        BuildWindowShell(room, recipe);
+        });
+        foreach (var windowJob in BuildWindowShellJobs(room, recipe)) yield return windowJob;
+        yield return StyleBenchmarkZone.HouseBuildJob("room-trim", () =>
+        {
 
         // Exposed beams sit above the clear ceiling datum, never through heads.
         foreach (var x in new[] { -2.25f, 2.25f })
@@ -86,8 +110,11 @@ public static partial class StyleBenchmarkInteriorFactory
         Block(room, "HouseExitDoorThreshold", new(DoorWidth, .025f, .34f),
             new(DoorX, .0125f, 3.49f), "574636", "wood", false);
 
-        AttachFurniture(room);
-        BuildHouseRooms(room);
+        });
+        foreach (var furnitureJob in AttachFurnitureJobs(room)) yield return furnitureJob;
+        foreach (var roomJob in BuildHouseRoomsJobs(room)) yield return roomJob;
+        yield return StyleBenchmarkZone.HouseBuildJob("room-lamp-and-shelf", () =>
+        {
         AddCeilingLamp(room);
         // The photograph can turn over on this shallow shelf without rotating
         // through a wall. Its frame bottom rests on the shelf at 1.11m.
@@ -95,7 +122,8 @@ public static partial class StyleBenchmarkInteriorFactory
         foreach (var z in new[] { -2.90f, -2.10f })
             Block(room, "FamilyPhotoShelfBracket" + (z < -2.5f ? "Rear" : "Front"),
                 new(.44f, .14f, .065f), new(-3.77f, .96f, z), "493629", "wood", false);
-        BuildNewBabaiHouseInterior(room);
+        });
+        foreach (var houseJob in BuildNewBabaiHouseInteriorJobs(room)) yield return houseJob;
     }
 
     internal static IReadOnlyList<StaticBody3D> RefreshWindowShell(
@@ -195,20 +223,26 @@ public static partial class StyleBenchmarkInteriorFactory
     private static StaticBody3D[] BuildWindowShell(Node3D room, HeroHouseRecipe recipe)
     {
         var bodies = new List<StaticBody3D>();
-        bodies.AddRange(Wall(room, "FrontWall", 4.2f, 3.6f, false,
-            [new(DoorX, DoorWidth, 0, DoorHeight),
-             new(-.85f, recipe.WidthFor("Front0"), WindowSill, WindowHead),
-             new(1f, recipe.WidthFor("Front1"), WindowSill, WindowHead),
-             new(2.85f, recipe.WidthFor("Front2"), WindowSill, WindowHead)]));
-        bodies.AddRange(Wall(room, "BackWall", 4.2f, -3.6f, false,
-            [new(-2.55f, recipe.WidthFor("Rear0"), WindowSill, WindowHead),
-             new(2.55f, recipe.WidthFor("Rear1"), WindowSill, WindowHead)]));
-        bodies.AddRange(Wall(room, "LeftWall", 3.5f, -4.1f, true,
-            [new(.60f, recipe.WidthFor("Left0"), WindowSill, WindowHead)]));
-        bodies.AddRange(Wall(room, "RightWall", 3.5f, 4.1f, true,
-            [new(.90f, recipe.WidthFor("Right0"), WindowSill, WindowHead)]));
-        foreach (var window in Windows) bodies.Add(BuildWindow(room, window, recipe.WidthFor(window.Name)));
+        foreach (var job in BuildWindowShellJobs(room, recipe, bodies)) job();
         return bodies.ToArray();
+    }
+
+    private static IEnumerable<Action> BuildWindowShellJobs(Node3D room, HeroHouseRecipe recipe, List<StaticBody3D>? bodies = null)
+    {
+        bodies ??= new List<StaticBody3D>();
+        yield return StyleBenchmarkZone.HouseBuildJob("window-shell-walls", () =>
+        {
+            bodies.AddRange(Wall(room, "FrontWall", 4.2f, 3.6f, false,
+                [new(DoorX, DoorWidth, 0, DoorHeight), new(-.85f, recipe.WidthFor("Front0"), WindowSill, WindowHead),
+                 new(1f, recipe.WidthFor("Front1"), WindowSill, WindowHead), new(2.85f, recipe.WidthFor("Front2"), WindowSill, WindowHead)]));
+            bodies.AddRange(Wall(room, "BackWall", 4.2f, -3.6f, false,
+                [new(-2.55f, recipe.WidthFor("Rear0"), WindowSill, WindowHead), new(2.55f, recipe.WidthFor("Rear1"), WindowSill, WindowHead)]));
+            bodies.AddRange(Wall(room, "LeftWall", 3.5f, -4.1f, true, [new(.60f, recipe.WidthFor("Left0"), WindowSill, WindowHead)]));
+            bodies.AddRange(Wall(room, "RightWall", 3.5f, 4.1f, true, [new(.90f, recipe.WidthFor("Right0"), WindowSill, WindowHead)]));
+        });
+        foreach (var window in Windows)
+            yield return StyleBenchmarkZone.HouseBuildJob("window-" + window.Name,
+                () => bodies.Add(BuildWindow(room, window, recipe.WidthFor(window.Name))));
     }
 
     private static bool IsWindowShellRoot(Node node)
@@ -522,9 +556,12 @@ public static partial class StyleBenchmarkInteriorFactory
         }
     }
 
-    private static void AttachFurniture(Node3D room)
+    private static IEnumerable<Action> AttachFurnitureJobs(Node3D room)
     {
-        var kit = GeneratedModularKitDressing.AttachPresentationOnly(room, "style-house-interior-eight-by-seven",
+        Node3D kit = null!;
+        yield return StyleBenchmarkZone.HouseBuildJob("furniture-source", () =>
+        {
+        kit = GeneratedModularKitDressing.AttachPresentationOnly(room, "style-house-interior-eight-by-seven",
             ["HouseInterior_Table", "HouseInterior_Chair", "HouseInterior_Cupboard", "HouseInterior_Daybed",
              "HouseInterior_StorageChest", "HouseInterior_Hearth", "HouseInterior_LeftWallCupboard",
              "HouseInterior_StorageBasket", "HouseInterior_RugField", "HouseInterior_RugBandA",
@@ -539,14 +576,18 @@ public static partial class StyleBenchmarkInteriorFactory
         kit.SetMeta("collisionOwner", "none");
         kit.SetMeta("scaledHouseFurnitureMeshCount", 0);
         kit.SetMeta("houseInteriorCompositionPass", "rigid furniture groups; 8x7 shell is built from the exterior opening contract");
-        ApplyHomeCupboardPbr(kit);
+        });
+        yield return StyleBenchmarkZone.HouseBuildJob("cupboard-pbr", () => ApplyHomeCupboardPbr(kit));
         var body = new StaticBody3D { Name = "HouseInteriorFurnitureCollision", CollisionLayer = 1, CollisionMask = 1 };
         body.SetMeta("collisionOwner", "house-interior-floor-furniture");
         room.AddChild(body);
         var count = 0;
-        foreach (var mesh in kit.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>())
+        foreach (var mesh in kit.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>()
+                     .Where(mesh => mesh.Visible && mesh.Mesh is not null))
         {
-            if (!mesh.Visible || mesh.Mesh is null) continue;
+            yield return StyleBenchmarkZone.HouseBuildJob("furniture-" + mesh.Name, () =>
+            {
+            if (!mesh.Visible || mesh.Mesh is null) return;
             var name = mesh.Name.ToString();
             Vector3 source, destination;
             var yaw = 0f;
@@ -559,7 +600,7 @@ public static partial class StyleBenchmarkInteriorFactory
                 // silhouette and its contacts before adding the shaped chair.
                 mesh.Visible = false;
                 mesh.SetMeta("replacementModel", "LivingRoomPlywoodChair");
-                continue;
+                return;
             }
             else if (name.StartsWith("HouseInterior_Cupboard", StringComparison.Ordinal))
             { source = new(-4.82f, 0, -3.88f); destination = new(3.52f, 0, -2.40f); yaw = -90; }
@@ -592,9 +633,9 @@ public static partial class StyleBenchmarkInteriorFactory
             if (name.StartsWith("HouseInterior_HearthFlue_", StringComparison.Ordinal))
             {
                 mesh.Visible = false;
-                continue;
+                return;
             }
-            if (!name.EndsWith("_LOD0", StringComparison.Ordinal) || !NeedsContact(name)) continue;
+            if (!name.EndsWith("_LOD0", StringComparison.Ordinal) || !NeedsContact(name)) return;
             var relative = body.GlobalTransform.AffineInverse() * mesh.GlobalTransform;
             var shape = new CollisionShape3D { Name = name + "_Contact",
                 Position = relative.Origin,
@@ -602,7 +643,10 @@ public static partial class StyleBenchmarkInteriorFactory
             shape.SetMeta("authoredSourceMesh", mesh.GetPath().ToString());
             body.AddChild(shape);
             count++;
+            });
         }
+        yield return StyleBenchmarkZone.HouseBuildJob("chair-contacts", () =>
+        {
         var chair = RuralPropModels.Chair(room, "LivingRoomPlywoodChair", new(-1.25f, 0, -1.20f));
         var chairBody = new StaticBody3D { Name = "LivingRoomChairContact", CollisionLayer = 1, CollisionMask = 1 };
         chair.AddChild(chairBody);
@@ -618,8 +662,9 @@ public static partial class StyleBenchmarkInteriorFactory
         Block(room, "HearthCeilingFirestop", new(.48f, .035f, .48f), StoveAnchor + new Vector3(0, 2.58f, 0), "777067", "metal", false);
         room.SetMeta("houseInteriorFloorCollisionProxies", count);
         room.SetMeta("houseInteriorPresentation", "8x7 opening-matched room; project-original GLB furniture with unchanged dimensions");
-        BuildTablecloth(room, kit.FindChildren("*", nameof(MeshInstance3D), true, false)
-            .OfType<MeshInstance3D>().Single(mesh => mesh.Name == "HouseInterior_TableTop_LOD0"));
+        });
+        yield return StyleBenchmarkZone.HouseBuildJob("tablecloth", () => BuildTablecloth(room, kit.FindChildren("*", nameof(MeshInstance3D), true, false)
+            .OfType<MeshInstance3D>().Single(mesh => mesh.Name == "HouseInterior_TableTop_LOD0")));
     }
 
     private static void ApplyHomeCupboardPbr(Node3D kit)

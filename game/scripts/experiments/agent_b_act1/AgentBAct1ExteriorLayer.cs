@@ -525,20 +525,33 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var kit = GetNodeOrNull<Node3D>("AgentB_TerrainRoadKit");
         var terrain = kit is null ? null : EnumerateDescendants<MeshInstance3D>(kit).FirstOrDefault(mesh => mesh.Name == "Terrain_Main");
         if (terrain?.Mesh is not ArrayMesh current) return;
-        var surface = new SurfaceTool();
-        surface.Begin(Mesh.PrimitiveType.Triangles);
-        foreach (var vertex in AgentBAct1HeightField.TerrainFaces)
-        {
-            surface.SetUV(new Vector2(vertex.X, vertex.Z));
-            surface.AddVertex(terrain.ToLocal(ToGlobal(vertex)));
-        }
-
-        surface.Index();
-        surface.GenerateNormals();
         var result = new ArrayMesh();
-        surface.Commit(result);
+        PopulateHeightFieldSurface(terrain, result);
         result.SurfaceSetMaterial(0, current.SurfaceGetMaterial(0));
         terrain.Mesh = result;
+    }
+
+    private void PopulateHeightFieldSurface(MeshInstance3D terrain, ArrayMesh destination)
+    {
+        var faces = AgentBAct1HeightField.TerrainFaces;
+        var positions = new Vector3[faces.Length];
+        var uv = new Vector2[faces.Length];
+        var layerToMesh = terrain.GlobalTransform.AffineInverse() * GlobalTransform;
+        for (var i = 0; i < faces.Length; i++)
+        {
+            var vertex = faces[i];
+            positions[i] = layerToMesh * vertex;
+            uv[i] = new Vector2(vertex.X, vertex.Z);
+        }
+        using var arrays = new global::Godot.Collections.Array();
+        arrays.Resize((int)Mesh.ArrayType.Max);
+        arrays[(int)Mesh.ArrayType.Vertex] = positions;
+        arrays[(int)Mesh.ArrayType.TexUV] = uv;
+        using var surface = new SurfaceTool();
+        surface.CreateFromArrays(arrays, Mesh.PrimitiveType.Triangles);
+        surface.Index();
+        surface.GenerateNormals();
+        surface.Commit(destination);
     }
 
     private void BuildTerrainCollision()
@@ -593,16 +606,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 var result = new ArrayMesh();
                 if (name == "Terrain_Main")
                 {
-                    var surface = new SurfaceTool();
-                    surface.Begin(Mesh.PrimitiveType.Triangles);
-                    foreach (var vertex in AgentBAct1HeightField.TerrainFaces)
-                    {
-                        surface.SetUV(new Vector2(vertex.X, vertex.Z));
-                        surface.AddVertex(mesh.ToLocal(ToGlobal(vertex)));
-                    }
-                    surface.Index();
-                    surface.GenerateNormals();
-                    surface.Commit(result);
+                    PopulateHeightFieldSurface(mesh, result);
                     result.SurfaceSetMaterial(0, original.SurfaceGetMaterial(0));
                     // The recessed lane is a property of the shared field, not of this
                     // mesh, and the traversal triangles below use the same samples.
@@ -755,16 +759,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var mesh = EnumerateDescendants<MeshInstance3D>(GetNode<Node3D>("AgentB_TerrainRoadKit"))
             .Single(node => node.Name == "Terrain_Main");
         var material = mesh.Mesh.SurfaceGetMaterial(0);
-        var surface = new SurfaceTool();
-        surface.Begin(Mesh.PrimitiveType.Triangles);
-        foreach (var vertex in AgentBAct1HeightField.TerrainFaces)
-        {
-            surface.SetUV(new Vector2(vertex.X, vertex.Z));
-            surface.AddVertex(mesh.ToLocal(ToGlobal(vertex)));
-        }
-        surface.Index();
-        surface.GenerateNormals();
-        var rebuilt = surface.Commit();
+        var rebuilt = new ArrayMesh();
+        PopulateHeightFieldSurface(mesh, rebuilt);
         rebuilt.SurfaceSetMaterial(0, material);
         mesh.Mesh = rebuilt;
         var apron = EnumerateDescendants<MeshInstance3D>(GetNode<Node3D>("AgentB_TerrainRoadKit"))

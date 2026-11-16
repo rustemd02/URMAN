@@ -8,6 +8,7 @@ public partial class W01Controller
 {
     internal const string PrologueHutKey = "prologue/hut-door";
     internal const string PrologueHutInteractionId = "urman.fullgame:interaction/pw-prologue-hut-door";
+    private const string PrologueHutLogMaterialPath = "res://assets/materials/act1/w01_winter_hut_log_pbr_v1/w01_winter_hut_log_pbr_v1.tres";
     private static Vector3 PrologueHutPosition => StopPoint(42f, -8.5f);
     private Node3D? _hutHinge;
     private bool _writingKnock;
@@ -28,6 +29,9 @@ public partial class W01Controller
         hut.Basis=Basis.LookingAt(-towards.Normalized(),Vector3.Up);
         owner.AddChild(hut);
         var wood=PainterlyMaterialLibrary.ForColor("655346","wood_facade");
+        var generatedLogWood=ResourceLoader.Load<StandardMaterial3D>(PrologueHutLogMaterialPath);
+        Material logWood=generatedLogWood??wood;
+        if(generatedLogWood is null)GD.PushWarning("W01 hut log PBR material is missing; retaining its painterly fallback.");
         using var logs=new SurfaceTool(); logs.Begin(Mesh.PrimitiveType.Triangles);
         using var round=new CylinderMesh { TopRadius=.105f,BottomRadius=.105f,Height=1f,RadialSegments=10,Rings=1 };
         void Log(Vector3 a,Vector3 b)
@@ -50,7 +54,7 @@ public partial class W01Controller
                 else Log(new(from,y,1.70f),new(to,y,1.70f));
             }
         }
-        hut.AddChild(new MeshInstance3D { Name="JoinedLogWalls",Mesh=logs.Commit(),MaterialOverride=wood });
+        hut.AddChild(new MeshInstance3D { Name="JoinedLogWalls",Mesh=logs.Commit(),MaterialOverride=logWood });
         MeshInstance3D Box(string name,Vector3 size,Vector3 at,string color,string material,Vector3 rotation=default)
         {
             var part = new MeshInstance3D { Name=name,Position=at,Rotation=rotation,

@@ -37,6 +37,10 @@ public partial class Act1DemoRoot
     private int _manualPhotoWorldWarmupRemaining;
     private int _manualPhotoWorldMovementFrames;
     private bool _manualPhotoWorldStartOnWalk;
+    private bool _manualViewportTimers;
+    private double _manualGpuSum, _manualCpuSum;
+    private long _manualVisibleDraws, _manualShadowDraws;
+    private int _manualRendererSamples;
 
     private bool ManualPhotoWorldSampleEnabled => OS.IsDebugBuild()
         && OS.GetEnvironment("URMAN_PROTECTED_RUN") == "1" && UsesPhotoWorldsCampaign;
@@ -62,6 +66,11 @@ public partial class Act1DemoRoot
             _manualPhotoWorldStartOnWalk = sampleKey.Keycode == Key.V;
             _manualPhotoWorldWarmupRemaining = ManualPhotoWorldWarmupFrames;
             _manualPhotoWorldMovementFrames = 0;
+            if (!_rendererTimersOwned)
+            {
+                RenderingServer.ViewportSetMeasureRenderTime(GetViewport().GetViewportRid(), true);
+                _manualViewportTimers = true;
+            }
             _manualPhotoWorldSamplePhase = ManualPhotoWorldSamplePhase.Warmup;
         }
         return true;
@@ -149,6 +158,20 @@ public partial class Act1DemoRoot
         if (horizontalMovement > 0.001f) _manualPhotoWorldMovementFrames++;
         _manualPhotoWorldLastPosition = position;
         _manualPhotoWorldFrameMilliseconds.Add(frameMilliseconds);
+        if ((_manualPhotoWorldFrameMilliseconds.Count & 7) == 0)
+        {
+            var rid = GetViewport().GetViewportRid();
+            var gpu = RenderingServer.ViewportGetMeasuredRenderTimeGpu(rid);
+            var cpu = RenderingServer.ViewportGetMeasuredRenderTimeCpu(rid);
+            if (double.IsFinite(gpu) && gpu > 0 && double.IsFinite(cpu))
+            {
+                _manualGpuSum += gpu;
+                _manualCpuSum += cpu;
+                _manualVisibleDraws += RenderingServer.ViewportGetRenderInfo(rid, RenderingServer.ViewportRenderInfoType.Visible, RenderingServer.ViewportRenderInfo.DrawCallsInFrame);
+                _manualShadowDraws += RenderingServer.ViewportGetRenderInfo(rid, RenderingServer.ViewportRenderInfoType.Shadow, RenderingServer.ViewportRenderInfo.DrawCallsInFrame);
+                _manualRendererSamples++;
+            }
+        }
         if (_manualPhotoWorldFrameMilliseconds.Count == ManualPhotoWorldSampleFrames)
             CompleteManualPhotoWorldFrameSample();
     }
@@ -182,6 +205,11 @@ public partial class Act1DemoRoot
             + $"avg_ms={average:F3} p95_ms={Percentile(sorted, 0.95):F3} max_ms={sorted[^1]:F3} fps={1000.0 / average:F2} "
             + $"movement_frames={_manualPhotoWorldMovementFrames}/{sorted.Length} movement_pct={movementPercent:F1} "
             + $"gpu={ProbeToken(RenderingServer.GetVideoAdapterName())} "
+            + $"renderer_samples={_manualRendererSamples} "
+            + $"viewport_gpu_ms={(_manualRendererSamples > 0 ? _manualGpuSum / _manualRendererSamples : double.NaN):F2} "
+            + $"viewport_render_cpu_ms={(_manualRendererSamples > 0 ? _manualCpuSum / _manualRendererSamples : double.NaN):F2} "
+            + $"visible_draws={(_manualRendererSamples > 0 ? _manualVisibleDraws / _manualRendererSamples : -1)} "
+            + $"shadow_draws={(_manualRendererSamples > 0 ? _manualShadowDraws / _manualRendererSamples : -1)} "
             + $"texture_bytes={RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.TextureMemUsed)} "
             + $"buffer_bytes={RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.BufferMemUsed)} "
             + $"video_bytes={RenderingServer.GetRenderingInfo(RenderingServer.RenderingInfo.VideoMemUsed)}"));
@@ -200,6 +228,12 @@ public partial class Act1DemoRoot
 
     private void ResetManualPhotoWorldFrameSample()
     {
+        if (_manualViewportTimers && !_rendererTimersOwned)
+            RenderingServer.ViewportSetMeasureRenderTime(GetViewport().GetViewportRid(), false);
+        _manualViewportTimers = false;
+        _manualGpuSum = _manualCpuSum = 0;
+        _manualVisibleDraws = _manualShadowDraws = 0;
+        _manualRendererSamples = 0;
         _manualPhotoWorldSamplePhase = ManualPhotoWorldSamplePhase.Idle;
         _manualPhotoWorldSampleSession = null;
         _manualPhotoWorldSceneId = _manualPhotoWorldScenePath = _manualPhotoWorldZone = string.Empty;

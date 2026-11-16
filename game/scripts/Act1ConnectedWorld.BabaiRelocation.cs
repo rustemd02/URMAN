@@ -26,65 +26,21 @@ public partial class Act1ConnectedWorld
 
     private void RelocateBabaiHousehold()
     {
+        foreach (var job in RelocateBabaiHouseholdJobs()) job();
+    }
+
+    private IEnumerable<Action> RelocateBabaiHouseholdJobs()
+    {
         var core = GetNode<Node3D>("Act1CoreWorldGreybox");
         var kit = core.GetNode<Node3D>("Act1AuthoredExteriorKitPresentation");
-        // Outbuildings go: the loft barn, the street shed and the second "banya yard" parcel
-        // whose dwelling the real bath already replaced. Their two discoveries go with them.
-        foreach (var path in new[] { "BabaiYardAuthoredShed", "DistantPerimeterParcels/PerimeterWestStreetShed",
-                     "DistantPerimeterParcels/BabaiEastDepthParcel",
-                     "BabaiYardAuthoredParcels/BabaiYardWestDepthBanyaYardParcel" })
-            if (kit.GetNodeOrNull(path) is { } outbuilding)
-            {
-                HidePresentationNode(outbuilding);
-                outbuilding.SetMeta("suppressionReason", "relayout v3 stage 5: babai yard keeps only house, bath, workshop and firewood");
-            }
-        foreach (var target in FindDescendants<InteractionTarget>(this).Where(target =>
-                     target.Name.ToString() is "Discovery_shed-loft-roofline" or "Discovery_underdeck-rattle"))
-            RetireInteraction(target, "the loft barn was removed with the other outbuildings");
-
         var transform = BabaiRelocation.Transform;
         var moved = new List<Node3D>();
+        var cleared = 0;
         void Move(Node3D node)
         {
             node.GlobalTransform = transform * node.GlobalTransform;
             node.SetMeta("babaiRelocated", true);
             moved.Add(node);
-        }
-        Move(_zoneInstances["house_old_pc"]);
-        // The household's own builder roots move whole, whatever their bounds (the roof and
-        // eaves of the house reach past the old yard line).
-        foreach (var root in core.GetChildren().OfType<Node3D>().Concat(kit.GetChildren().OfType<Node3D>()))
-        {
-            var name = root.Name.ToString();
-            if ((name.StartsWith("Babai", StringComparison.Ordinal) || name is "YardRepairCorner" or "WatchingFormsPilot" or "RearYardGate")
-                && !name.Contains("Neighbor", StringComparison.Ordinal) && name != "BabaiYardAuthoredParcels")
-                Move(root);
-        }
-        if (core.GetNodeOrNull<Node3D>("HouseExteriorApproach") is { } approach)
-            foreach (var root in approach.GetChildren().OfType<Node3D>().Where(n => n.Name.ToString().StartsWith("Babai", StringComparison.Ordinal)
-                         && !n.Name.ToString().Contains("Neighbor", StringComparison.Ordinal)))
-                Move(root);
-        // Blockout volumes and stray scrap of the old yard: the bath, the workshop and the
-        // firewood are the yard now.
-        if (core.GetNodeOrNull("BabaiEbiYard") is { } oldYard)
-            foreach (var junk in oldYard.GetChildren().Where(n => n.Name.ToString() is "BabaiYardBarnVolume" or "BabaiYardBackHouseVolume"
-                         or "BabaiYardToolShed" or "BabaiYardHaystack"))
-                HidePresentationNode(junk);
-        if (core.GetNodeOrNull("HouseExteriorApproach/BabaiEbiHouseSideOutbuilding") is { } sideShed) HidePresentationNode(sideShed);
-        // Everything else that stands wholly inside the old yard moves, at the highest level
-        // at which it does: a whole builder root where possible, single pieces of shared
-        // owners (one architecture body, one zone) otherwise.
-        var inside = new Dictionary<Node, bool>();
-        bool Inside(Node node)
-        {
-            if (inside.TryGetValue(node, out var known)) return known;
-            if (Skipped(node)) return inside[node] = false;
-            var result = node is Node3D spatial && OwnInside(spatial);
-            // Cache every eligible descendant before Collect moves any of them.
-            foreach (var child in node.GetChildren())
-                if (!Inside(child) && child is Node3D) result = false;
-            inside[node] = result;
-            return result;
         }
         bool Skipped(Node node)
         {
@@ -95,8 +51,7 @@ public partial class Act1ConnectedWorld
         }
         static bool OwnInside(Node3D node)
         {
-            // Architecture contacts are baked in world space under shapes at the origin:
-            // judge a shape by its real bounds, not by its node position.
+            // Keep the same world-space shape/visual bounds and margins.
             if (node is CollisionShape3D { Shape: { } shape } collision && shape is not HeightMapShape3D)
             {
                 var box = collision.GlobalTransform * shape.GetDebugMesh().GetAabb();
@@ -118,50 +73,6 @@ public partial class Act1ConnectedWorld
             var origin = node.GlobalPosition;
             return BabaiRelocation.InsideOldYard(origin.X, origin.Z);
         }
-        void Collect(Node node)
-        {
-            if (Skipped(node)) return;
-            if (node is Node3D spatial && Inside(node)) { Move(spatial); return; }
-            foreach (var child in node.GetChildren()) Collect(child);
-        }
-        foreach (var root in new Node[] { core, _zoneInstances["village_day"] }
-                     .Concat(GetChildren().Where(child => child.Name.ToString() is "CarryCoordinator" or "Act1People")))
-            Collect(root);
-
-        // The bath (and the firewood and old spinner beside it) stand at the back of the yard,
-        // not beside the house on the street.
-        var bathCentre = _bathhouse!.GlobalPosition;
-        foreach (var node in moved)
-        {
-            Vector3 offset;
-            if (node.Name == "WatchingFormsPilot") offset = new(-13.5f, 0, 0);
-            else if (node == _bathhouse || node.GlobalPosition.DistanceTo(bathCentre) < 4.6f
-                     || node.Name.ToString() is "BabaiFirewoodShelter" or "BabaiYardAuthoredWoodpile")
-                offset = new(-7.5f, 0, -.5f);
-            else continue;
-            var before = node.GlobalPosition;
-            var after = before + offset;
-            var lift = AgentBAct1HeightField.CollisionGround(after.X, after.Z) - AgentBAct1HeightField.CollisionGround(before.X, before.Z);
-            node.GlobalPosition = after + Vector3.Up * lift;
-        }
-        if (core.GetNodeOrNull<Node3D>("WatchingFormsPilot/YardDeadSnag") is { } snag)
-        {
-            var at = snag.GlobalPosition;
-            snag.GlobalPosition = at with { Y = AgentBAct1HeightField.CollisionGround(at.X, at.Z) };
-        }
-
-        // Clear the new plot of what stood there before: houses, sheds, fences, trees.
-        var cleared = 0;
-        var newInside = new Dictionary<Node, bool>();
-        bool OnNewPlot(Node node)
-        {
-            if (newInside.TryGetValue(node, out var known)) return known;
-            if (Skipped(node) || node is InteractionTarget or RuntimeBridge) return newInside[node] = false;
-            var result = node is Node3D spatial && OwnOnNewPlot(spatial);
-            foreach (var child in node.GetChildren()) if (!OnNewPlot(child) && child is Node3D) result = false;
-            newInside[node] = result;
-            return result;
-        }
         static bool OwnOnNewPlot(Node3D node)
         {
             if (node is VisualInstance3D visual && node is not Light3D)
@@ -169,64 +80,245 @@ public partial class Act1ConnectedWorld
                 var box = visual.GlobalTransform * visual.GetAabb();
                 if (box.Size.Length() > 40f) return false;
                 var centre = box.GetCenter();
-                // Neighbours that only reach onto the plot go too: no house stands against the fence.
                 return BabaiRelocation.OutsideNewYard(centre.X, centre.Z) <= Mathf.Min(4f, box.Size.Length() * .25f + .3f);
             }
             var origin = node.GlobalPosition;
             return BabaiRelocation.OutsideNewYard(origin.X, origin.Z) <= .3f;
         }
-        void Clear(Node node)
-        {
-            if (node.HasMeta("babaiRelocated") || Skipped(node) || node is InteractionTarget or RuntimeBridge) return;
-            if (node is Node3D && OnNewPlot(node)
-                && node.GetParent() is { } parent && parent != core && parent != _zoneInstances["village_day"])
-            {
-                HidePresentationNode(node);
-                node.SetMeta("suppressionReason", "relayout v3 stage 5: the babai yard now stands here");
-                cleared++;
-                return;
-            }
-            foreach (var child in node.GetChildren()) Clear(child);
-        }
-        foreach (var root in new Node[] { core, _zoneInstances["village_day"] }) Clear(root);
-        // Foliage instances and road-kit ribbons (the old long house path) on the new plot.
-        foreach (var multi in FindDescendants<MultiMeshInstance3D>(core))
-        {
-            if (multi.Multimesh is not { } mm) continue;
-            var count = mm.VisibleInstanceCount < 0 ? mm.InstanceCount : mm.VisibleInstanceCount;
-            for (var i = 0; i < count; i++)
-            {
-                var t = mm.GetInstanceTransform(i);
-                var at = multi.GlobalTransform * t.Origin;
-                if (BabaiRelocation.OutsideNewYard(at.X, at.Z) > .5f) continue;
-                mm.SetInstanceTransform(i, new Transform3D(Basis.Identity.Scaled(Vector3.One * .0001f), t.Origin + Vector3.Down * 40f));
-            }
-        }
-        if (core.GetNodeOrNull<Node3D>("AgentBExteriorWorld/AgentB_TerrainRoadKit") is Node3D roadKit)
-            foreach (var mesh in FindDescendants<MeshInstance3D>(roadKit).Where(m => m.Name != "Terrain_Main" && m.Mesh is ArrayMesh))
-            {
-                ClipMeshTriangles(mesh, p => BabaiRelocation.OutsideNewYard(p.X, p.Z) <= 0f);
-                // A raised shoulder carries its own exact contact: it follows the clipped surface.
-                foreach (var contact in FindDescendants<CollisionShape3D>(mesh).Where(c => c.HasMeta("authoredSourceMesh")))
-                    contact.Shape = mesh.Mesh.CreateTrimeshShape();
-            }
 
-        // H018's old house reached onto the yard; the household lives on its plan plot now.
-        if (kit.GetNodeOrNull("NeighborParcels/MainStreet/ForwardWestParcel") is { } h018) HidePresentationNode(h018);
-        // PlantFoliage ran against the old roof. Reuse its exact owner/contact
-        // reconciliation after the household's move, including every tree LOD.
+        IEnumerable<Action> PrepareHousehold()
+        {
+            foreach (var path in new[] { "BabaiYardAuthoredShed", "DistantPerimeterParcels/PerimeterWestStreetShed",
+                         "DistantPerimeterParcels/BabaiEastDepthParcel", "BabaiYardAuthoredParcels/BabaiYardWestDepthBanyaYardParcel" })
+                yield return () =>
+                {
+                    if (kit.GetNodeOrNull(path) is not { } outbuilding) return;
+                    HidePresentationNode(outbuilding);
+                    outbuilding.SetMeta("suppressionReason", "relayout v3 stage 5: babai yard keeps only house, bath, workshop and firewood");
+                };
+            // Keep the scan order without retaining a second array of all descendants.
+            var targets = FindDescendants<Node>(this).GetEnumerator();
+            using (targets)
+            {
+                var done = false;
+                while (!done)
+                    yield return () =>
+                    {
+                        for (var count = 0; count < 128; count++)
+                        {
+                            if (!targets.MoveNext()) { done = true; break; }
+                            if (targets.Current is InteractionTarget target
+                                && target.Name.ToString() is ("Discovery_shed-loft-roofline" or "Discovery_underdeck-rattle"))
+                                RetireInteraction(target, "the loft barn was removed with the other outbuildings");
+                        }
+                    };
+            }
+            yield return () => Move(_zoneInstances["house_old_pc"]);
+            foreach (var root in core.GetChildren().OfType<Node3D>().Concat(kit.GetChildren().OfType<Node3D>()))
+            {
+                var name = root.Name.ToString();
+                if ((name.StartsWith("Babai", StringComparison.Ordinal) || name is "YardRepairCorner" or "WatchingFormsPilot" or "RearYardGate")
+                    && !name.Contains("Neighbor", StringComparison.Ordinal) && name != "BabaiYardAuthoredParcels")
+                    yield return () => Move(root);
+            }
+            if (core.GetNodeOrNull<Node3D>("HouseExteriorApproach") is { } approach)
+                foreach (var root in approach.GetChildren().OfType<Node3D>().Where(n => n.Name.ToString().StartsWith("Babai", StringComparison.Ordinal)
+                             && !n.Name.ToString().Contains("Neighbor", StringComparison.Ordinal)))
+                    yield return () => Move(root);
+            if (core.GetNodeOrNull("BabaiEbiYard") is { } oldYard)
+                foreach (var junk in oldYard.GetChildren().Where(n => n.Name.ToString() is "BabaiYardBarnVolume" or "BabaiYardBackHouseVolume"
+                             or "BabaiYardToolShed" or "BabaiYardHaystack"))
+                    yield return () => HidePresentationNode(junk);
+            yield return () =>
+            {
+                if (core.GetNodeOrNull("HouseExteriorApproach/BabaiEbiHouseSideOutbuilding") is { } sideShed)
+                    HidePresentationNode(sideShed);
+            };
+        }
+
+        // A resumable depth-first equivalent of the original recursive Inside.
+        // Each eligible node reads GetChildren once. Retain only the active
+        // traversal stack, dispose its native arrays on completion or cancellation.
+        IEnumerable<Action> CacheBounds(Node[] roots, Dictionary<Node, bool> cache, bool newPlot)
+        {
+            var frames = new Stack<(Node Node, global::Godot.Collections.Array<Node> Children, int Next, bool Result)>();
+            void Push(Node node)
+            {
+                if (cache.ContainsKey(node)) return;
+                if (Skipped(node) || newPlot && node is (InteractionTarget or RuntimeBridge))
+                { cache[node] = false; return; }
+                var own = node is Node3D spatial && (newPlot ? OwnOnNewPlot(spatial) : OwnInside(spatial));
+                frames.Push((node, node.GetChildren(), 0, own));
+            }
+            try
+            {
+                foreach (var root in roots)
+                {
+                    yield return () => Push(root);
+                    while (frames.Count > 0)
+                        yield return () =>
+                        {
+                            for (var work = 0; work < 128 && frames.Count > 0; work++)
+                            {
+                                var frame = frames.Pop();
+                                if (frame.Next >= frame.Children.Count)
+                                {
+                                    cache[frame.Node] = frame.Result;
+                                    ((global::Godot.Collections.Array)frame.Children).Dispose();
+                                    continue;
+                                }
+                                var child = frame.Children[frame.Next];
+                                if (!cache.TryGetValue(child, out var childInside))
+                                {
+                                    frames.Push(frame);
+                                    Push(child);
+                                    continue;
+                                }
+                                if (!childInside && child is Node3D) frame.Result = false;
+                                frame.Next++;
+                                frames.Push(frame);
+                            }
+                        };
+                }
+            }
+            finally
+            {
+                foreach (var frame in frames) ((global::Godot.Collections.Array)frame.Children).Dispose();
+            }
+        }
+
+        IEnumerable<Action> VisitCached(Node[] roots, Dictionary<Node, bool> cache, bool clear)
+        {
+            var pending = new Stack<Node>();
+            for (var index = roots.Length - 1; index >= 0; index--) pending.Push(roots[index]);
+            while (pending.Count > 0)
+                yield return () =>
+                {
+                    var wholeSubtrees = 0;
+                    for (var work = 0; work < 128 && pending.Count > 0 && wholeSubtrees < 4; work++)
+                    {
+                        var node = pending.Pop();
+                        if (Skipped(node) || clear && node is (InteractionTarget or RuntimeBridge)) continue;
+                        var eligible = node is Node3D && cache.GetValueOrDefault(node)
+                            && (!clear || node.GetParent() is { } parent && parent != core && parent != _zoneInstances["village_day"]);
+                        if (eligible)
+                        {
+                            if (clear)
+                            {
+                                HidePresentationNode(node);
+                                node.SetMeta("suppressionReason", "relayout v3 stage 5: the babai yard now stands here");
+                                cleared++;
+                            }
+                            else Move((Node3D)node);
+                            wholeSubtrees++;
+                            continue;
+                        }
+                        var children = node.GetChildren();
+                        using var childrenOwner = (global::Godot.Collections.Array)children;
+                        for (var index = children.Count - 1; index >= 0; index--) pending.Push(children[index]);
+                    }
+                };
+        }
+
+        foreach (var job in ProfileAuthoredBuildJobs("relocate-babai-prepare", PrepareHousehold())) yield return job;
+        var roots = new Node[] { core, _zoneInstances["village_day"] }
+            .Concat(GetChildren().Where(child => child.Name.ToString() is "CarryCoordinator" or "Act1People")).ToArray();
+        var inside = new Dictionary<Node, bool>();
+        // All old-yard bounds finish before the first selected subtree moves.
+        foreach (var job in ProfileAuthoredBuildJobs("relocate-babai-old-bounds", CacheBounds(roots, inside, false))) yield return job;
+        foreach (var job in ProfileAuthoredBuildJobs("relocate-babai-move", VisitCached(roots, inside, false))) yield return job;
+
+        var bathCentre = _bathhouse!.GlobalPosition;
+        for (var start = 0; start < moved.Count; start += 8)
+        {
+            var from = start;
+            yield return () =>
+            {
+                for (var index = from; index < Math.Min(from + 8, moved.Count); index++)
+                {
+                    var node = moved[index];
+                    Vector3 offset;
+                    if (node.Name == "WatchingFormsPilot") offset = new(-13.5f, 0, 0);
+                    else if (node == _bathhouse || node.GlobalPosition.DistanceTo(bathCentre) < 4.6f
+                             || node.Name.ToString() is "BabaiFirewoodShelter" or "BabaiYardAuthoredWoodpile") offset = new(-7.5f, 0, -.5f);
+                    else continue;
+                    var before = node.GlobalPosition;
+                    var after = before + offset;
+                    var lift = AgentBAct1HeightField.CollisionGround(after.X, after.Z) - AgentBAct1HeightField.CollisionGround(before.X, before.Z);
+                    node.GlobalPosition = after + Vector3.Up * lift;
+                }
+            };
+        }
+        yield return () =>
+        {
+            if (core.GetNodeOrNull<Node3D>("WatchingFormsPilot/YardDeadSnag") is not { } snag) return;
+            var at = snag.GlobalPosition;
+            snag.GlobalPosition = at with { Y = AgentBAct1HeightField.CollisionGround(at.X, at.Z) };
+        };
+
+        var newRoots = new Node[] { core, _zoneInstances["village_day"] };
+        var newInside = new Dictionary<Node, bool>();
+        // This second cache is deliberately rebuilt after every move/offset.
+        foreach (var job in ProfileAuthoredBuildJobs("relocate-babai-new-bounds", CacheBounds(newRoots, newInside, true))) yield return job;
+        foreach (var job in ProfileAuthoredBuildJobs("relocate-babai-clear", VisitCached(newRoots, newInside, true))) yield return job;
+
+        IEnumerable<Action> FoliageJobs()
+        {
+            foreach (var multi in FindDescendants<MultiMeshInstance3D>(core))
+            {
+                if (multi.Multimesh is not { } mm) continue;
+                var count = mm.VisibleInstanceCount < 0 ? mm.InstanceCount : mm.VisibleInstanceCount;
+                for (var start = 0; start < count; start += 512)
+                {
+                    var from = start;
+                    yield return () =>
+                    {
+                        for (var index = from; index < Math.Min(from + 512, count); index++)
+                        {
+                            var pose = mm.GetInstanceTransform(index);
+                            var at = multi.GlobalTransform * pose.Origin;
+                            if (BabaiRelocation.OutsideNewYard(at.X, at.Z) > .5f) continue;
+                            mm.SetInstanceTransform(index, new Transform3D(Basis.Identity.Scaled(Vector3.One * .0001f), pose.Origin + Vector3.Down * 40f));
+                        }
+                    };
+                }
+            }
+        }
+        foreach (var job in ProfileAuthoredBuildJobs("relocate-babai-foliage", FoliageJobs())) yield return job;
+        IEnumerable<Action> RoadJobs()
+        {
+            if (core.GetNodeOrNull<Node3D>("AgentBExteriorWorld/AgentB_TerrainRoadKit") is not { } roadKit) yield break;
+            foreach (var mesh in FindDescendants<MeshInstance3D>(roadKit).Where(m => m.Name != "Terrain_Main" && m.Mesh is ArrayMesh))
+                yield return () =>
+                {
+                    ClipMeshTriangles(mesh, p => BabaiRelocation.OutsideNewYard(p.X, p.Z) <= 0f);
+                    foreach (var contact in FindDescendants<CollisionShape3D>(mesh).Where(c => c.HasMeta("authoredSourceMesh")))
+                        contact.Shape = mesh.Mesh.CreateTrimeshShape();
+                };
+        }
+        foreach (var job in ProfileAuthoredBuildJobs("relocate-babai-road", RoadJobs())) yield return job;
+        yield return () =>
+        {
+            if (kit.GetNodeOrNull("NeighborParcels/MainStreet/ForwardWestParcel") is { } h018) HidePresentationNode(h018);
+        };
         var facade = kit.GetNode<Node3D>("BabaiApproachDwellingFacade");
-        core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld").ReconcileBuildingFoliage(facade);
-        GD.Print($"act1-babai-foliage: owners={facade.GetMeta("roofSuppressedFoliageOwners").AsStringArray().Length} contacts={facade.GetMeta("roofSuppressedFoliageContacts").AsStringArray().Length}");
-        core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld").RecutOccupiedRoomTerrain(_zoneInstances["house_old_pc"], new Vector2(
-            StyleBenchmarkInteriorFactory.ClearWidth * .5f, StyleBenchmarkInteriorFactory.ClearDepth * .5f));
-        // Recut restores the shared terrain source. The larger house cut must
-        // be published afterwards or that restore refills its rear rooms.
-        BuildBabaiRebuiltHouse(facade);
-        SetMeta("babaiRelocatedNodes", moved.Count);
-        GD.Print($"act1-babai-relocation: moved={moved.Count} cleared={cleared} door=({BabaiRelocation.DoorX},{BabaiRelocation.DoorZ}) yaw+={BabaiRelocation.YawDegrees:0.00}");
-        if (System.Environment.GetEnvironmentVariable("URMAN_BABAI_DEBUG") == "1")
-            foreach (var node in moved) GD.Print($"act1-babai-moved: {node.GetPath()}");
+        yield return () =>
+        {
+            core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld").ReconcileBuildingFoliage(facade);
+            GD.Print($"act1-babai-foliage: owners={facade.GetMeta("roofSuppressedFoliageOwners").AsStringArray().Length} contacts={facade.GetMeta("roofSuppressedFoliageContacts").AsStringArray().Length}");
+        };
+        yield return () => ProfileWorldBuildStep("relocate-babai-terrain-recut", () =>
+            core.GetNode<AgentBAct1ExteriorLayer>("AgentBExteriorWorld").RecutOccupiedRoomTerrain(_zoneInstances["house_old_pc"], new Vector2(
+                StyleBenchmarkInteriorFactory.ClearWidth * .5f, StyleBenchmarkInteriorFactory.ClearDepth * .5f)));
+        // Recut restores the terrain source; the larger house cut must follow it.
+        yield return () => ProfileWorldBuildStep("relocate-babai-rebuilt-house", () => BuildBabaiRebuiltHouse(facade));
+        yield return () =>
+        {
+            SetMeta("babaiRelocatedNodes", moved.Count);
+            GD.Print($"act1-babai-relocation: moved={moved.Count} cleared={cleared} door=({BabaiRelocation.DoorX},{BabaiRelocation.DoorZ}) yaw+={BabaiRelocation.YawDegrees:0.00}");
+            if (System.Environment.GetEnvironmentVariable("URMAN_BABAI_DEBUG") == "1")
+                foreach (var node in moved) GD.Print($"act1-babai-moved: {node.GetPath()}");
+        };
     }
 
     private static void RetireInteraction(InteractionTarget target, string reason)

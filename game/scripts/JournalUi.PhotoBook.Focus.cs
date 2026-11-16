@@ -81,6 +81,7 @@ public partial class JournalUi
     {
         if (_photoBookImageReaderHeader?.Visible != true || _photoBookImageReader?.Visible != true) return;
         _focusedPhotoInspection = true;
+        _photoBookImageReader.ShowCanvasTooltip(false);
         RefreshFocusedPhotoInspection();
         RefitToViewport();
         _focusedPhotoFlip?.GrabFocus();
@@ -130,6 +131,7 @@ public partial class JournalUi
     {
         if (!_focusedPhotoInspection) return;
         _focusedPhotoInspection = _focusedPhotoBack = false;
+        _photoBookImageReader?.ShowCanvasTooltip(true);
         foreach (var (control, visible) in _focusedPhotoChrome)
             if (GodotObject.IsInstanceValid(control)) control.Visible = visible;
         _focusedPhotoChrome.Clear();

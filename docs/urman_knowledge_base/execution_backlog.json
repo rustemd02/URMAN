@@ -148016,13 +148016,13 @@
         ],
         "budget": {
           "author_cap": 4000,
-          "actual_consumed": 510,
-          "remaining_author_cap": 3490,
+          "actual_consumed": 660,
+          "remaining_author_cap": 3340,
           "first_family_cap": 90,
           "first_family_consumed": 40,
           "active_task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
           "active_task_state": "SUCCEEDED, actual30credits",
-          "live_balance_observed": 3770,
+          "live_balance_observed": 3620,
           "balance_is_not_author_budget": true,
           "active_remesh_task_id": "01a153a5-6669-7608-af5d-4ac72650653d",
           "active_remesh_task_state": "SUCCEEDED, actual5credits",
@@ -148085,7 +148085,24 @@
           "winter_birch_v2_consumed": 35,
           "winter_birch_v2_task_id": "01a175ad-5bc0-7560-a1e0-1fcfbb0c46e5",
           "winter_birch_v2_task_state": "RawSUCCEEDED30, remeshSUCCEEDED5 actual24730tri; prepared24730/7999/4 source accepted, runtimeintegration/nativepending.",
-          "winter_birch_v2_remesh_task_id": "01a175b9-840c-7357-bd85-03fb0586f8c1"
+          "winter_birch_v2_remesh_task_id": "01a175b9-840c-7357-bd85-03fb0586f8c1",
+          "w01_winter_hut_log_2026_11_16": {
+            "kind": "retexture",
+            "task_id": "01a1e611-7d90-72f9-92bd-bd0b66352384",
+            "status": "SUCCEEDED",
+            "actual_credits": 10,
+            "material": "W01 winter hut wall logs; one 2K PBR texture set",
+            "source_glb_sha256": "1b8cfdc3e44b77c5e3d2be7d42123aba867e46abb13cb8273bb0f4150f7df720",
+            "balance_before": 3630,
+            "balance_after": 3620,
+            "reconciliation": "590 through the 29 Oct balance check (3690), plus three 10-credit jobs, the 30-credit W05 image job conservatively counted against the same cap, and this 10-credit retexture. No additional reservation.",
+            "preceding_task_ids": [
+              "01a184a4-5aca-7534-8851-0323465d09d3",
+              "01a18607-ccf9-7185-b5bc-fdb69c58ade6",
+              "01a18697-6785-7058-9e1b-e0e1aada649c",
+              "01a1afaf-e7c9-74b6-94fd-88d40e943dfe"
+            ]
+          }
         },
         "current_artifact": "Babai side-gate literal8part96tri/2KgeneratedPBR integrated; sourceart+import/worldconstructionstrictbounds accepted, action/sceneview blocked byseparateglobalgorgeaudit. AS05birch frozenHOLD remainsno runtime; existing generatedconifers/hero house preserved.",
         "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",

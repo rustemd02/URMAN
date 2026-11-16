@@ -35,31 +35,40 @@ public static partial class StyleBenchmarkInteriorFactory
 
     private static void BuildHouseRooms(Node3D room)
     {
-        room.SetMeta("houseRooms", "zal(stove)|kitchen|hall|bedroom|toilet|attic");
-        room.SetMeta("houseWingOrigin", WingOrigin);
-        room.SetMeta("houseWingPolicy", "outside: ordinary log house; inside: separate larger space reached by a fade door");
-        var wing = new Node3D { Name = "BabaiHouseWing", Position = WingOrigin };
-        room.AddChild(wing);
-        // The wing lies under the village terrain; its own floor holds the player.
-        FirstPersonController.SealedInteriorVolume = point =>
+        foreach (var job in BuildHouseRoomsJobs(room)) job();
+    }
+
+    private static IEnumerable<Action> BuildHouseRoomsJobs(Node3D room)
+    {
+        Node3D wing = null!;
+        yield return () =>
         {
-            if (!GodotObject.IsInstanceValid(wing) || !wing.IsInsideTree()) return false;
-            var local = wing.ToLocal(point);
-            return Mathf.Abs(local.X) < 5.6f && Mathf.Abs(local.Z) < 4.2f && local.Y > -1.5f && local.Y < 7.5f;
+            wing = new Node3D { Name = "BabaiHouseWing", Position = WingOrigin };
+            room.SetMeta("houseRooms", "zal(stove)|kitchen|hall|bedroom|toilet|attic");
+            room.SetMeta("houseWingOrigin", WingOrigin);
+            room.SetMeta("houseWingPolicy", "outside: ordinary log house; inside: separate larger space reached by a fade door");
+            room.AddChild(wing);
+            // The wing lies under the village terrain; its own floor holds the player.
+            FirstPersonController.SealedInteriorVolume = point =>
+            {
+                if (!GodotObject.IsInstanceValid(wing) || !wing.IsInsideTree()) return false;
+                var local = wing.ToLocal(point);
+                return Mathf.Abs(local.X) < 5.6f && Mathf.Abs(local.Z) < 4.2f && local.Y > -1.5f && local.Y < 7.5f;
+            };
         };
 
-        BuildWingShell(wing);
-        BuildKitchen(wing);
-        BuildHall(wing);
-        BuildBedroom(wing);
-        BuildToilet(wing);
-        BuildStairs(wing);
-        BuildAttic(wing);
-        DressBabaiWingFurniture(wing);
+        yield return () => BuildWingShell(wing);
+        yield return () => BuildKitchen(wing);
+        yield return () => BuildHall(wing);
+        yield return () => BuildBedroom(wing);
+        yield return () => BuildToilet(wing);
+        yield return () => BuildStairs(wing);
+        yield return () => BuildAttic(wing);
+        foreach (var job in DressBabaiWingFurnitureJobs(wing)) yield return job;
 
         // Two doors, one pair: zal east wall <-> kitchen south wall.
-        BuildZalWingDoor(room, wing);
-        BuildKitchenZalDoor(wing, room);
+        yield return () => BuildZalWingDoor(room, wing);
+        yield return () => BuildKitchenZalDoor(wing, room);
     }
 
     // ------------------------------------------------------------ shell

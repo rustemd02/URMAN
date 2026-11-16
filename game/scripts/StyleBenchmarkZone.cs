@@ -74,6 +74,17 @@ public partial class StyleBenchmarkZone : Node3D
         GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge bridge
         && bridge.IsPhotoWorldsCampaign;
 
+    internal bool DeferHouseBuildOnReady { get; set; }
+
+    internal static Action HouseBuildJob(string phase, Action action) => () =>
+    {
+        var begin = Time.GetTicksUsec();
+        action();
+        var elapsed = Time.GetTicksUsec() - begin;
+        // Named native timings distinguish I/O/import from geometry and NPC work.
+        GD.Print($"arrival-house-profile|{phase}|usec={elapsed}");
+    };
+
     public override void _Ready()
     {
         BuildEnvironment();
@@ -83,7 +94,7 @@ public partial class StyleBenchmarkZone : Node3D
                 BuildDayStreet();
                 break;
             case BenchmarkKind.HouseOldPc:
-                BuildHouseOldPc();
+                if (!DeferHouseBuildOnReady) BuildHouseOldPc();
                 break;
             case BenchmarkKind.KaraUrmanNight:
                 BuildKaraUrmanNight();
@@ -498,9 +509,16 @@ public partial class StyleBenchmarkZone : Node3D
 
     private void BuildHouseOldPc()
     {
+        foreach (var job in BuildHouseOldPcJobs()) job();
+    }
+
+    internal IEnumerable<Action> BuildHouseOldPcJobs()
+    {
         var photoWorlds = IsPhotoWorldsCampaign;
-        StyleBenchmarkInteriorFactory.Build(this, HeroHouseRecipe.Load());
-        ArrivalPersonalProps.Build(this, photoWorlds);
+        foreach (var job in StyleBenchmarkInteriorFactory.BuildJobs(this, HeroHouseRecipe.Load())) yield return job;
+        yield return HouseBuildJob("arrival-personal-props", () => ArrivalPersonalProps.Build(this, photoWorlds));
+        yield return HouseBuildJob("small-domestic-props", () =>
+        {
         // Small domestic items follow their actual support, independently of
         // the resized room shell and the unchanged furniture/character scale.
         MakeBox("HouseThresholdCoatRail", new(.62f, .08f, .10f), new(-1.78f, 2.18f, 3.43f), "5d4a38", collision: false, surface: "wood");
@@ -521,7 +539,11 @@ public partial class StyleBenchmarkZone : Node3D
         MakeRotatedBox("DocumentTopPage", new(.30f, .008f, .40f), new(-.98f, .941f, -2.29f), new(0, -4, 1), "d3c39d");
         MakeBox("DocumentRedMark", new(.18f, .009f, .01f), new(-.98f, .947f, -2.37f), "9b5a4c", collision: false);
         MakeCup(new(-1.34f, .94f, -2.62f));
+        });
         var oldPcAnchor = StyleBenchmarkInteriorFactory.PcAnchor;
+        Node3D oldPc = null!;
+        yield return HouseBuildJob("old-pc-source", () =>
+        {
         MakeInteractionBox(
             "OldPc",
             new(0.94f, 0.66f, 0.50f),
@@ -529,7 +551,7 @@ public partial class StyleBenchmarkZone : Node3D
             "3b403c",
             "urman.chapter1:interaction/oldpc-power",
             "Включить старый компьютер");
-        var oldPc = GeneratedModularKitDressing.AttachPresentationOnly(
+        oldPc = GeneratedModularKitDressing.AttachPresentationOnly(
             this,
             "style-house-old-pc",
             ["OldPc_"],
@@ -540,6 +562,9 @@ public partial class StyleBenchmarkZone : Node3D
         oldPc.SetMeta("stylePresentationModule", "OldPc_project_original");
         SetMeta("styleImportedModules", "OldPc_project_original");
 
+        });
+        yield return HouseBuildJob("lamp-photo-calendar-radio", () =>
+        {
         SetMeta(
             "houseInteriorLivedInCluster",
             "stove below chimney|indoor fuel and wash water|PC with powered desk|entry chest and coat|unscaled project-original furniture");
@@ -585,6 +610,9 @@ public partial class StyleBenchmarkZone : Node3D
         var grille = MakeBox("RadioGrille", new(.42f, .14f, .02f), new(-.40f, 1.07f, 2.65f), "302f2e", collision: false);
         grille.Reparent(radio);
         StyleBenchmarkInteriorFactory.SeatOnChest(this, radio);
+        });
+        yield return HouseBuildJob("npc-mansur", () =>
+        {
         AttachAct1Npc(
             "mansur",
             "Mansur",
@@ -600,6 +628,9 @@ public partial class StyleBenchmarkZone : Node3D
             "urman.chapter1:interaction/talk-mansur",
             "Поговорить с бабаем Мансуром",
             dialogueId: "urman.chapter1:dialogue/mansur_pc_request");
+        });
+        yield return HouseBuildJob("npc-gulsina", () =>
+        {
         // The conversation anchors leave the entrance, stove and PC approaches clear.
         AttachAct1Npc(
             "gulsina",
@@ -619,6 +650,9 @@ public partial class StyleBenchmarkZone : Node3D
             dialogueId: photoWorlds
                 ? "urman.fullgame:dialogue/pw-arrival-tea"
                 : "urman.chapter1:dialogue/gulsina_yaramyy");
+        });
+        yield return HouseBuildJob("home-interactions", () =>
+        {
         var houseExit = MakeInteractionBox(
             "HouseExit",
             new(1.3f, 2.1f, 0.22f),
@@ -684,6 +718,9 @@ public partial class StyleBenchmarkZone : Node3D
             "village_side");
         FitOldPcTargetsToModel(oldPc);
 
+        });
+        yield return HouseBuildJob("home-lights", () =>
+        {
         var lamp = new OmniLight3D
         {
             Name = "WarmTableLamp",
@@ -743,9 +780,13 @@ public partial class StyleBenchmarkZone : Node3D
             LightSize = .08f
         });
 
-        ArrivalPersonalProps.AddFamilyBook(this, photoWorlds);
+        });
+        yield return HouseBuildJob("family-book", () => ArrivalPersonalProps.AddFamilyBook(this, photoWorlds));
+        yield return HouseBuildJob("epilogue-presence", () =>
+        {
         if (photoWorlds)
             PhotoWorldEpiloguePresence.Attach(this);
+        });
     }
 
     private void BuildKaraUrmanNight()
@@ -2186,6 +2227,11 @@ public partial class StyleBenchmarkZone : Node3D
             throw new InvalidOperationException($"Act 1 NPC '{prefix}' could not play its authored Idle clip.");
         }
 
+        if (ZoneKind == BenchmarkKind.HouseOldPc)
+            GD.Print($"arrival-house-npc-profile|{prefix}|load_usec={npc.GetMeta("kitLoadMicroseconds")}"
+                + $"|instantiate_select_usec={npc.GetMeta("kitClipSelectionMicroseconds")}"
+                + $"|materials_tree_usec={npc.GetMeta("kitMaterialMicroseconds")}"
+                + $"|total_usec={npc.GetMeta("kitStartupMicroseconds")}");
         npc.Name = $"Npc_{characterId}";
         npc.RotationDegrees = new Vector3(0, yawDegrees, 0);
         npc.SetMeta("role", role);

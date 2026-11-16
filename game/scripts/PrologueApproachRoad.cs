@@ -17,6 +17,10 @@ public partial class PrologueApproachRoad : Node3D
     public const float RoadEndZ = -RoadLength - 40f;
     public const float ForestStart = -390f;
     private const float FieldHalfWidth = 170f;
+    private const float NearTreeVisibilityEnd = 460f;
+    private const float NearTreeVisibilityFade = 60f;
+    private const float FarTreeVisibilityEnd = 900f;
+    private const float FarTreeVisibilityFade = 140f;
 
     private readonly RandomNumberGenerator _rng = new() { Seed = 0x55524d32 };
 
@@ -193,9 +197,13 @@ public partial class PrologueApproachRoad : Node3D
         var edgeZ = Mathf.Max(Mathf.Abs(z - centreZ) - innerHalfDepth, 0f);
         var distance = new Vector2(edgeX, edgeZ).Length();
         var transition = Mathf.SmoothStep(0f, 420f, distance);
+        // Three broad, low folds overlap beyond the close field. They give
+        // the snow horizon a few natural breaks without raising the road or
+        // changing its collision height field.
         var broadRelief = .2f
-            + 2.2f * Mathf.Sin((x + z * .11f) / 760f)
-            + 1.7f * Mathf.Cos((z - x * .08f) / 940f);
+            + 2.2f * Mathf.Sin((x + z * .22f) / 640f)
+            + 1.7f * Mathf.Cos((z - x * .15f) / 790f)
+            + .85f * Mathf.Sin((x * .8f + z) / 380f);
         var height = Mathf.Lerp(Ground(x, z), broadRelief, transition);
 
         // The village and its collision terrain own the arrival side. Fade the
@@ -322,8 +330,10 @@ public partial class PrologueApproachRoad : Node3D
         foreach (var (centre, side) in new[] { (-55f, -1f), (-135f, 1f), (-270f, -1f), (-340f, 1f) })
             for (var index = 0; index < 5; index++)
             {
-                var z = centre + (index - 2) * 4.8f + _rng.RandfRange(-.8f, .8f);
-                Birch(RoadX(z) + side * _rng.RandfRange(17f, 25f), z, _rng.RandfRange(9f, 14f));
+                var along = (index - 2) / 2f;
+                var z = centre + (index - 2) * 4.8f + _rng.RandfRange(-1.4f, 1.4f);
+                var arc = 2.4f * (1f - along * along);
+                Birch(RoadX(z) + side * (_rng.RandfRange(17f, 25f) + arc), z, _rng.RandfRange(9f, 14f));
             }
         // A single jittered grid caps the forest at 480 candidate instances
         // (40 rows × 6 lanes × 2 sides), rather than 3,750 densely repeated
@@ -346,10 +356,16 @@ public partial class PrologueApproachRoad : Node3D
                 if (clearNearRoad && lane < 2) continue;
                 if (density <= 0f || _rng.Randf() >= density) continue;
 
-                var z = rowZ + _rng.RandfRange(-1.8f, 1.8f);
-                var offset = forestLanes[lane] + _rng.RandfRange(-1.8f, 1.8f);
+                // Keep the same two RNG draws and utility-corridor decision as
+                // before; widen their placement effect without shifting the
+                // later power-line jitter sequence.
+                var rowJitter = _rng.RandfRange(-1.8f, 1.8f);
+                var laneJitter = _rng.RandfRange(-1.8f, 1.8f);
+                var z = rowZ + rowJitter * (2.8f / 1.8f);
+                var corridorOffset = forestLanes[lane] + laneJitter;
+                var offset = forestLanes[lane] + laneJitter * (2.6f / 1.8f);
                 var x = RoadX(z) + side * offset;
-                var roadOffset = x - RoadX(z);
+                var roadOffset = (RoadX(z) + side * corridorOffset) - RoadX(z);
                 // The utility corridor continues into the settlement; trunks
                 // stay out of the existing poles and wires on the right.
                 if (Mathf.Abs(roadOffset - 11f) < 3f) continue;
@@ -388,8 +404,12 @@ public partial class PrologueApproachRoad : Node3D
                 local.Origin -= origin;
                 multi.SetInstanceTransform(index, local * source.Local);
             }
+            var isNear = name.EndsWith("Near", StringComparison.Ordinal);
             AddChild(new MultiMeshInstance3D { Name = name + "_" + cell.Key.X + "_" + cell.Key.Y,
-                Position = origin, Multimesh = multi, VisibilityRangeEnd = 230f, VisibilityRangeEndMargin = 25f,
+                Position = origin, Multimesh = multi,
+                VisibilityRangeEnd = isNear ? NearTreeVisibilityEnd : FarTreeVisibilityEnd,
+                VisibilityRangeEndMargin = isNear ? NearTreeVisibilityFade : FarTreeVisibilityFade,
+                VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self,
                 CastShadow = name.EndsWith("Near", StringComparison.Ordinal) ? GeometryInstance3D.ShadowCastingSetting.On
                     : GeometryInstance3D.ShadowCastingSetting.Off });
         }

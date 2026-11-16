@@ -9,6 +9,8 @@ namespace Urman.Godot;
 /// </summary>
 public partial class DocumentImageReader : VBoxContainer
 {
+    private const string ImageNavigationHint = "Колесо — масштаб; перетаскивание или стрелки — сдвиг изображения";
+    internal void ShowCanvasTooltip(bool visible) => _canvas.TooltipText = visible ? ImageNavigationHint : string.Empty;
     private RichTextLabel _body = null!;
     private HBoxContainer _tabs = null!;
     private VBoxContainer _picturePage = null!;
@@ -90,7 +92,7 @@ public partial class DocumentImageReader : VBoxContainer
             SizeFlagsVertical = SizeFlags.ExpandFill, SizeFlagsHorizontal = SizeFlags.ExpandFill,
             CustomMinimumSize = new Vector2(0, 80), MouseFilter = MouseFilterEnum.Stop,
             FocusMode = FocusModeEnum.All,
-            TooltipText = "Колесо — масштаб; перетаскивание или стрелки — сдвиг изображения" };
+            TooltipText = ImageNavigationHint };
         _picturePage.AddChild(_canvas);
         _picture = new TextureRect { Name = "Image", ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
             StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered, MouseFilter = MouseFilterEnum.Ignore,

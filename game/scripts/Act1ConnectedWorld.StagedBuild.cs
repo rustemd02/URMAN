@@ -25,7 +25,7 @@ public partial class Act1ConnectedWorld
             SetMeta("worldSpacePlacementPolicy", "fixed deterministic child origins; connected root remains stable across logical transitions");
         };
         foreach (var placement in Act1WorldLayout.Placements)
-            yield return () => BuildLogicalPlacement(placement);
+            foreach (var job in BuildLogicalPlacementJobs(placement)) yield return job;
         yield return () => BuildConnectorPresentation();
         yield return () =>
         {
@@ -89,11 +89,7 @@ public partial class Act1ConnectedWorld
         yield return () => ComposeBabaiYard();
         foreach (var job in ProfileAuthoredBuildJobs("authored", BuildAuthoredWorldJobs())) yield return job;
         yield return () => ProfileWorldBuildStep("clear-open", ClearOpenPartOfLegacyPresentation);
-        yield return () =>
-        {
-            // Relayout v3 stage 5: the babai household moves whole onto the main street.
-            ProfileWorldBuildStep("relocate-babai", RelocateBabaiHousehold);
-        };
+        foreach (var job in ProfileAuthoredBuildJobs("relocate-babai", RelocateBabaiHouseholdJobs())) yield return job;
         yield return () =>
         {
             // Relocation rebuilds the base field to fill the old house footprint.
@@ -236,11 +232,20 @@ public partial class Act1ConnectedWorld
         AuthoredWorld?.ActivateAfterBuild();
     }
 
-    private void BuildLogicalPlacement(Act1WorldLayout.ZonePlacement placement)
+    private IEnumerable<Action> BuildLogicalPlacementJobs(Act1WorldLayout.ZonePlacement placement)
     {
-        var packed = ResourceLoader.Load<PackedScene>(placement.ScenePath)
+        PackedScene packed = null!;
+        Node3D zone = null!;
+        try
+        {
+        yield return StyleBenchmarkZone.HouseBuildJob(placement.ZoneId + "/scene-load", () =>
+        {
+        packed = ResourceLoader.Load<PackedScene>(placement.ScenePath)
             ?? throw new InvalidOperationException($"Connected Act I zone is missing: {placement.ScenePath}.");
-        var zone = packed.Instantiate<Node3D>()
+        });
+        yield return StyleBenchmarkZone.HouseBuildJob(placement.ZoneId + "/scene-instantiate", () =>
+        {
+        zone = packed.Instantiate<Node3D>()
             ?? throw new InvalidOperationException($"Connected Act I zone did not instantiate: {placement.ZoneId}.");
 
         zone.Name = placement.PlacementId;
@@ -252,7 +257,25 @@ public partial class Act1ConnectedWorld
         zone.SetMeta("presentationOwner", nameof(Act1ConnectedWorld));
         zone.SetMeta("interactionOwnership", "existing InteractionTarget nodes");
         zone.SetMeta("runtimeStateOwnership", "RuntimeBridge");
-        AddChild(zone);
+        if (zone is StyleBenchmarkZone { ZoneKind: StyleBenchmarkZone.BenchmarkKind.HouseOldPc } house)
+            house.DeferHouseBuildOnReady = true;
+        });
+        yield return StyleBenchmarkZone.HouseBuildJob(placement.ZoneId + "/add-child-ready", () =>
+        {
+            AddChild(zone);
+            // Capture before the scheduler clears pending WorldEnvironments.
+            // The resource binding must survive the subsequent house-content jobs.
+            var environments = FindDescendants<WorldEnvironment>(zone)
+                .Select(environment => new EnvironmentBinding(environment,
+                    environment.Environment ?? throw new InvalidOperationException(
+                        $"Act I zone has an empty WorldEnvironment: {placement.ZoneId}.")))
+                .ToArray();
+            _environmentsByZone.Add(placement.ZoneId, environments);
+        });
+        if (zone is StyleBenchmarkZone { ZoneKind: StyleBenchmarkZone.BenchmarkKind.HouseOldPc } stagedHouse)
+            foreach (var job in stagedHouse.BuildHouseOldPcJobs()) yield return job;
+        yield return StyleBenchmarkZone.HouseBuildJob(placement.ZoneId + "/register", () =>
+        {
         _zoneInstances.Add(placement.ZoneId, zone);
 
         ApplyLogicalZonePresentationSuppressions(zone, placement.ZoneId);
@@ -262,19 +285,20 @@ public partial class Act1ConnectedWorld
                 "506058", "urman.chapter1:interaction/route-to-mosque", "Поговорить с Тимуром хәзрәтом",
                 dialogueId: "urman.chapter1:dialogue/timur_restraint");
 
-        var environments = FindDescendants<WorldEnvironment>(zone)
-            .Select(environment => new EnvironmentBinding(
-                environment,
-                environment.Environment
-                    ?? throw new InvalidOperationException($"Act I zone has an empty WorldEnvironment: {placement.ZoneId}.")))
-            .ToArray();
-        _environmentsByZone.Add(placement.ZoneId, environments);
         _lightsByZone.Add(
             placement.ZoneId,
             FindDescendants<Light3D>(zone)
                 .Where(light => !light.HasMeta("connectedWorldHidden"))
                 .ToArray());
-
+        });
+        }
+        finally
+        {
+            // Cancellation can occur between Instantiate and AddChild. An
+            // unparented scene is not covered by the pending world's QueueFree.
+            if (zone is not null && GodotObject.IsInstanceValid(zone) && zone.GetParent() is null)
+                zone.Free();
+        }
     }
 
     private IEnumerable<Action> BuildCoreWorldJobs()

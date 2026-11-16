@@ -34,6 +34,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             yield return ShuraleWorkAudioPath;
         }
         yield return ProloguePhotoTexturePath;
+        yield return PrologueHutLogMaterialPath;
         yield return FreshSnowTexturePath;
         yield return TrampledSnowTexturePath;
         yield return ForestRootsTexturePath;

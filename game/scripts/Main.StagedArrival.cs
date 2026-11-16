@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using Urman.Core.Persistence;
 using Urman.Experiments.AgentBAct1;
@@ -10,6 +11,10 @@ public partial class Main
 {
     private object? _arrivalStageSession;
     private Act1ConnectedWorld? _arrivalBuildingWorld;
+    private System.Threading.Tasks.Task<Resource?[]>? _arrivalHousePreload;
+    private readonly List<Resource> _arrivalHouseResources = new();
+    private ulong _arrivalHousePreloadStartedAt;
+
     private IEnumerator<Action>? _arrivalJobs;
     private string? _arrivalFailure;
     private ulong _arrivalCabinFrame = ulong.MaxValue;
@@ -156,6 +161,29 @@ public partial class Main
                 _arrivalWatchingNodes = true;
                 _zoneHost.AddChild(_arrivalBuildingWorld);
                 _arrivalJobs = _arrivalBuildingWorld.BuildJobs().GetEnumerator();
+                var paths = StyleBenchmarkInteriorFactory.BuildResourcePaths().Distinct(StringComparer.Ordinal).ToArray();
+                var generation = System.Threading.Interlocked.Increment(ref _photoSceneRequestSequence);
+                var tree = GetTree();
+                // Reuse the same engine-token ownership and abandoned-request
+                // cleanup as photo scene loading; no second request registry.
+                _arrivalHousePreloadStartedAt = Time.GetTicksUsec();
+                _arrivalHousePreload = System.Threading.Tasks.Task.WhenAll(paths.Select(path =>
+                    PreloadPhotoResourceAsync(path, "", generation, tree,
+                        () => IsCurrentArrivalStage(session) && _arrivalFailure is null, _ => { })));
+                GD.Print($"arrival-house-resources-requested|count={paths.Length}");
+            }
+            // Native threaded I/O progresses while the real cabin keeps rendering
+            // and accepting its own input. Never block Get, spin no-op jobs, or
+            // advance the incomplete world while a required source is still loading.
+            if (_arrivalHousePreload is { } preload)
+            {
+                if (!preload.IsCompleted) return;
+                var resources = preload.GetAwaiter().GetResult();
+                if (resources.Any(resource => resource is null))
+                    throw new InvalidOperationException("A required household resource could not be prepared.");
+                _arrivalHouseResources.AddRange(resources.Select(resource => resource!));
+                _arrivalHousePreload = null;
+                GD.Print($"arrival-house-resources-ready|count={resources.Length}|wait_wall_usec={Time.GetTicksUsec() - _arrivalHousePreloadStartedAt}");
             }
             // Cooperative budget; the measured worst job includes MoveNext and
             // native resource calls. A single overrun is visible, never called bounded.
@@ -274,6 +302,8 @@ public partial class Main
     private void FailStagedArrival(Exception error)
     {
         _arrivalFailure = error.Message;
+        _arrivalHousePreload = null;
+        _arrivalHouseResources.Clear();
         _arrivalJobs?.Dispose();
         _arrivalJobs = null;
         QuarantineArrivalNodes();
@@ -304,6 +334,8 @@ public partial class Main
         if (!_arrivalPublished && _arrivalBuildingWorld is { } world && GodotObject.IsInstanceValid(world)) world.QueueFree();
         ClearArrivalQuarantine();
         _arrivalBuildingWorld = null; _arrivalStageSession = null; _arrivalFailure = null;
+        _arrivalHousePreload = null;
+        _arrivalHouseResources.Clear();
         _arrivalPublished = _arrivalPlaced = false; _arrivalCabinFrame = ulong.MaxValue;
         _arrivalJobCount = _arrivalOverruns = 0; _arrivalCpuUsec = _arrivalWorstUsec = 0;
     }
