@@ -15,6 +15,7 @@ public partial class Act1ConnectedWorld
     private void BuildSchoolInterior(Node3D school, Material outer, Material trim)
     {
         const float w = 20f, d = 11f, h = 3.4f, t = .35f, corridorZ = 2.9f;
+        var firstInteriorChild = school.GetChildCount();
         var ix = w * .5f - t; var iz = d * .5f - t;
         // P2: warm cream over Soviet school green; the corridor takes a taller green band.
         var cream = Mat("ebe2c8", "wall_institution");
@@ -67,6 +68,32 @@ public partial class Act1ConnectedWorld
         BuildSchoolGround(school,body,cream,trim,corridorZ);
         BuildSchoolMuseum(school,body);
         BuildSchoolDoorSet(school,frontWall,corridorWall,lamps);
+        var rangedInteriorVisuals = 0;
+        void ApplyInteriorRange(GeometryInstance3D visual)
+        {
+            if (visual.VisibilityRangeEnd > 0f || visual.VisibilityRangeBegin > 0f) return;
+            visual.VisibilityRangeEnd = 46f;
+            visual.VisibilityRangeEndMargin = 4f;
+            visual.VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self;
+            rangedInteriorVisuals++;
+        }
+
+        for (var childIndex = firstInteriorChild; childIndex < school.GetChildCount(); childIndex++)
+        {
+            var child = school.GetChild(childIndex);
+            var name = child.Name.ToString();
+            // Keep the wall/opening assembly and room envelope available at every
+            // distance. The range applies only to interior detail created below it.
+            if (name is "FrontWall" or "BackWall" or "EastWall" or "WestWall"
+                or "CorridorWall0" or "GroundFloor" or "SchoolCeiling"
+                || name.StartsWith("RoomWall0_", StringComparison.Ordinal))
+                continue;
+
+            if (child is GeometryInstance3D ownVisual) ApplyInteriorRange(ownVisual);
+            foreach (var visual in child.FindChildren("*", nameof(GeometryInstance3D), true, false).OfType<GeometryInstance3D>())
+                ApplyInteriorRange(visual);
+        }
+        school.SetMeta("distanceRangedInteriorVisualCount", rangedInteriorVisuals);
         school.SetMeta("interior", "single-storey school; combined classes, staff tea corner and ground-floor museum");
     }
 

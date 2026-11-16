@@ -238,6 +238,7 @@ public partial class Main
                 ["jobId"] = job, ["requestId"] = id, ["capturePhysicsFrame"] = Engine.GetPhysicsFrames(),
                 ["lastMovingSample"] = _interactiveMovementSample?.DeepClone()
             }.ToJsonString());
+            CaptureInteractiveHouseFloor(job, id, camera);
             if (target is not null && GodotObject.IsInstanceValid(target))
             {
                 static string? BoundedText(string? value, int limit) => value is null ? null
@@ -291,6 +292,123 @@ public partial class Main
             }
             _interactiveFrameBusy = false;
         }
+    }
+
+    private void CaptureInteractiveHouseFloor(string job, string requestId, Camera3D? camera)
+    {
+        if (_connectedWorld is not { ActiveZoneId: "house_old_pc" } world || camera is null) return;
+        // Read-only, bounded to a requested protected frame in this one interior.
+        // Keep the worker's strict response schema and all game state unchanged.
+        try
+        {
+            static JsonArray Vector(Vector3 value) => new(value.X, value.Y, value.Z);
+            static JsonObject? MaterialInfo(Material? material)
+            {
+                if (material is null || !GodotObject.IsInstanceValid(material)) return null;
+                var result = new JsonObject { ["class"] = material.GetClass().ToString(), ["rid"] = material.GetRid().Id };
+                if (material is not ShaderMaterial shader) return result;
+                result["shaderRid"] = shader.Shader?.GetRid().Id;
+                result["sheltered"] = material.HasMeta("sheltered") ? JsonValue.Create(material.GetMeta("sheltered").AsBool()) : null;
+                foreach (var name in new[] { "base_color", "snow_coverage", "floor_board_width", "has_albedo_texture", "low_quality" })
+                {
+                    var value = shader.GetShaderParameter(name);
+                    result[name] = value.VariantType switch
+                    {
+                        Variant.Type.Color => JsonValue.Create(value.AsColor().ToHtml(false)),
+                        Variant.Type.Float => JsonValue.Create(value.AsDouble()),
+                        Variant.Type.Bool => JsonValue.Create(value.AsBool()),
+                        _ => null
+                    };
+                }
+                return result;
+            }
+            static JsonObject MeshInfo(VisualInstance3D visual, uint cameraMask)
+            {
+                var bounds = visual.GlobalTransform * visual.GetAabb();
+                var result = new JsonObject
+                {
+                    ["path"] = visual.GetPath().ToString(), ["visible"] = visual.Visible,
+                    ["visibleInTree"] = visual.IsVisibleInTree(), ["layers"] = visual.Layers,
+                    ["cameraMaskIntersects"] = (visual.Layers & cameraMask) != 0,
+                    ["position"] = Vector(visual.GlobalPosition),
+                    ["rotationDegrees"] = Vector(visual.GlobalRotationDegrees), ["scale"] = Vector(visual.GlobalBasis.Scale),
+                    ["boundsMin"] = Vector(bounds.Position), ["boundsMax"] = Vector(bounds.End)
+                };
+                if (visual is MeshInstance3D mesh)
+                {
+                    result["override"] = MaterialInfo(mesh.MaterialOverride);
+                    result["overlay"] = MaterialInfo(mesh.MaterialOverlay);
+                    result["activeSurface0"] = mesh.Mesh?.GetSurfaceCount() > 0 ? MaterialInfo(mesh.GetActiveMaterial(0)) : null;
+                }
+                return result;
+            }
+            var house = world.GetZoneInstance("house_old_pc");
+            if (house is null) return;
+            var interior = house.FindChildren("NewBabaiHouseInterior", nameof(Node3D), true, false).OfType<Node3D>().FirstOrDefault();
+            var floor = interior?.GetNodeOrNull<MeshInstance3D>("GroundFloor/Visible");
+            var roads = new JsonArray();
+            foreach (var road in GetChildren().OfType<PrologueApproachRoad>().Take(2))
+                roads.Add(new JsonObject { ["path"] = road.GetPath().ToString(), ["queuedForDeletion"] = road.IsQueuedForDeletion(),
+                    ["distantSnowfield"] = road.GetNodeOrNull<MeshInstance3D>("DistantSnowfield")?.GetPath().ToString() });
+            // In the reported table view this is the exposed strip between
+            // the book/table and the doorway, clear of the rug and chair.
+            var pixel = GetViewport().GetVisibleRect().Size * new Vector2(.62f, .74f);
+            var from = camera.ProjectRayOrigin(pixel);
+            var direction = camera.ProjectRayNormal(pixel);
+            var distance = direction.Y < -.01f ? Mathf.Clamp((-2f - from.Y) / direction.Y, .1f, 64f) : 20f;
+            var to = from + direction * distance;
+            var hits = new List<(float Distance, JsonObject Row)>();
+            var unresolvedVisuals = new JsonArray();
+            var examinedTriangles = 0;
+            var truncated = false;
+            // RenderingServer supplies broadphase candidates; intersect their
+            // final CPU mesh triangles to identify actual geometry on this ray.
+            // This is not a GPU depth-buffer or shader-displacement readback.
+            var ids = RenderingServer.InstancesCullRay(from, to, camera.GetWorld3D().Scenario);
+            foreach (var instanceId in ids.Take(64))
+            {
+                if (GodotObject.InstanceFromId(unchecked((ulong)instanceId)) is MultiMeshInstance3D batch
+                    && batch.IsVisibleInTree() && (batch.Layers & camera.CullMask) != 0 && unresolvedVisuals.Count < 8)
+                    unresolvedVisuals.Add(MeshInfo(batch, camera.CullMask));
+                if (GodotObject.InstanceFromId(unchecked((ulong)instanceId)) is not MeshInstance3D { Mesh: { } source } mesh
+                    || !mesh.IsVisibleInTree() || (mesh.Layers & camera.CullMask) == 0) continue;
+                var faces = source.GetFaces();
+                var localFrom = mesh.ToLocal(from);
+                var localTo = mesh.ToLocal(to);
+                var nearestDistance = float.PositiveInfinity;
+                var nearest = Vector3.Zero;
+                for (var index = 0; index + 2 < faces.Length; index += 3)
+                {
+                    if (++examinedTriangles > 200000) { truncated = true; break; }
+                    var hit = Geometry3D.SegmentIntersectsTriangle(localFrom, localTo, faces[index], faces[index + 1], faces[index + 2]);
+                    if (hit.VariantType == Variant.Type.Nil) continue;
+                    var point = mesh.ToGlobal(hit.AsVector3());
+                    var gap = point.DistanceTo(from);
+                    if (gap >= nearestDistance) continue;
+                    nearestDistance = gap; nearest = point;
+                }
+                if (float.IsFinite(nearestDistance))
+                {
+                    var row = MeshInfo(mesh, camera.CullMask);
+                    row["triangleHit"] = Vector(nearest); row["distance"] = nearestDistance;
+                    hits.Add((nearestDistance, row));
+                }
+                if (truncated) break;
+            }
+            var triangleHits = new JsonArray();
+            foreach (var hit in hits.OrderBy(hit => hit.Distance).Take(8)) triangleHits.Add(hit.Row);
+            GD.Print("interactive-house-floor-sample: " + new JsonObject
+            {
+                ["jobId"] = job, ["requestId"] = requestId, ["cameraCullMask"] = camera.CullMask,
+                ["floor"] = floor is null ? null : MeshInfo(floor, camera.CullMask), ["liveApproachRoads"] = roads,
+                ["renderRayFrom"] = Vector(from), ["renderRayTo"] = Vector(to),
+                ["renderRayPixelFraction"] = new JsonArray(.62f, .74f),
+                ["renderRayCandidateCount"] = ids.Length, ["trianglesExamined"] = examinedTriangles,
+                ["readbackTruncated"] = truncated || ids.Length > 64, ["meshTriangleHits"] = triangleHits,
+                ["unresolvedMultiMeshCandidates"] = unresolvedVisuals
+            }.ToJsonString());
+        }
+        catch (Exception error) { GD.PushWarning($"Interactive house floor readback failed: {error.GetType().Name}."); }
     }
 
     private static void WriteInteractiveFrameResult(string directory, string id, JsonObject result)

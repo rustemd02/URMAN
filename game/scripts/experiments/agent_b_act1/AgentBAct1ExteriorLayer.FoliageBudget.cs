@@ -286,6 +286,85 @@ public partial class AgentBAct1ExteriorLayer
 
     private int _outerRowUnderstorySkipped;
 
+#if DEBUG
+    private bool _mediumLod1TreeShadowsSuppressed;
+
+    /// <summary>
+    /// Protected in-game A/B for the medium village renderer sample. Unlike the
+    /// permanent far-tier budget, this changes only the current LOD1 tree shadow
+    /// casters near the player; visible foliage, planting, collisions and LOD
+    /// ranges stay intact. Ctrl+Shift+Z reverses the change in the same session.
+    /// </summary>
+    public override void _UnhandledInput(InputEvent inputEvent)
+    {
+        if (inputEvent is not InputEventKey
+            { Pressed: true, Echo: false, Keycode: Key.Z, CtrlPressed: true, ShiftPressed: true,
+                AltPressed: false, MetaPressed: false }) return;
+        var connectedWorld = GetParent()?.GetParent() as Act1ConnectedWorld;
+        if (!OS.IsDebugBuild() || OS.GetEnvironment("URMAN_PROTECTED_RUN") != "1"
+            || !DisplayServer.WindowIsFocused() || GetTree().Paused
+            || connectedWorld is not { IsBuilt: true }
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
+            || player.ModalOpen || player.VehicleControlled || player.SessionTransitionActive
+            || GetViewport().GetCamera3D() is not { } camera
+            || GetNodeOrNull<Node3D>("AgentB_PlantedFoliage") is not { } plants) return;
+
+        // Enabling is restricted to the actual medium village sample. If the
+        // player leaves that zone or changes preset, they can still reverse it.
+        if (!_mediumLod1TreeShadowsSuppressed
+            && (GraphicsQuality.Preset != "medium" || connectedWorld.ActiveZoneId != "village_day")) return;
+
+        const float MediumShadowDistanceMeters = 56f;
+        var treeRoots = plants.GetChildren().OfType<Node3D>()
+            .Where(tree => tree.HasMeta("plantPosition")).ToArray();
+        var nearbyTrees = treeRoots
+            .Where(tree => tree.IsVisibleInTree()
+                && tree.GlobalPosition.DistanceTo(camera.GlobalPosition) <= MediumShadowDistanceMeters)
+            .ToArray();
+        var selectedTrees = _mediumLod1TreeShadowsSuppressed ? treeRoots : nearbyTrees;
+        var lod1Meshes = selectedTrees
+            .SelectMany(tree => tree.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>())
+            .Where(mesh =>
+            {
+                if (mesh.GetMeta("visibilityRangeTier", -1).AsInt32() != 1) return false;
+                if (_mediumLod1TreeShadowsSuppressed) return mesh.HasMeta("mediumLod1TreeShadowBeforeDebug");
+                var distance = camera.GlobalPosition.DistanceTo(mesh.GlobalPosition);
+                return distance >= mesh.VisibilityRangeBegin && distance < mesh.VisibilityRangeEnd;
+            })
+            .ToArray();
+
+        var suppress = !_mediumLod1TreeShadowsSuppressed;
+        if (suppress && lod1Meshes.Length == 0)
+        {
+            GetViewport().SetInputAsHandled();
+            GD.Print($"act1-foliage-medium-shadow-ab: state=unchanged reason=no-active-lod1-trees-within-shadow-range zone=village_day preset=medium radius_m={MediumShadowDistanceMeters:F0} plant_roots_in_range={nearbyTrees.Length} lod1_meshes=0");
+            return;
+        }
+        var castersBefore = lod1Meshes.Count(mesh => mesh.CastShadow != GeometryInstance3D.ShadowCastingSetting.Off);
+        var changed = 0;
+        foreach (var mesh in lod1Meshes)
+        {
+            if (suppress)
+            {
+                mesh.SetMeta("mediumLod1TreeShadowBeforeDebug", (int)mesh.CastShadow);
+                if (mesh.CastShadow != GeometryInstance3D.ShadowCastingSetting.Off) changed++;
+                mesh.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
+            }
+            else if (mesh.HasMeta("mediumLod1TreeShadowBeforeDebug"))
+            {
+                var original = (GeometryInstance3D.ShadowCastingSetting)
+                    mesh.GetMeta("mediumLod1TreeShadowBeforeDebug").AsInt32();
+                if (mesh.CastShadow != original) changed++;
+                mesh.CastShadow = original;
+                mesh.RemoveMeta("mediumLod1TreeShadowBeforeDebug");
+            }
+        }
+        _mediumLod1TreeShadowsSuppressed = suppress;
+        GetViewport().SetInputAsHandled();
+        GD.Print($"act1-foliage-medium-shadow-ab: state={(suppress ? "lod1-shadow-off" : "restored")} zone=village_day preset={(suppress ? "medium" : GraphicsQuality.Preset)} radius_m={MediumShadowDistanceMeters:F0} plant_roots_in_range={nearbyTrees.Length} lod1_meshes={lod1Meshes.Length} casters_before={castersBefore} changed_meshes={changed} casters_after={lod1Meshes.Count(mesh => mesh.CastShadow != GeometryInstance3D.ShadowCastingSetting.Off)}");
+    }
+#endif
+
     /// <summary>
     /// VIS-027 audit of every authored LOD tier family plus VIS-030 verification of
     /// every ground-cover cell. Runs once at build time, writes metas for readback
