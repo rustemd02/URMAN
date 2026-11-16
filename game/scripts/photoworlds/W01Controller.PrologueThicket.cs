@@ -67,14 +67,15 @@ public partial class W01Controller
         AddChild(thicket);
         _prologueThicket = thicket;
 
+        var originalGround = GroundBoundsLocal();
+        var ground = originalGround.Grow(32f);
+        BuildPrologueStop(thicket);
+        BuildPrologueForestLandmarks(thicket);
+        BuildPrologueLandscape(thicket, originalGround);
         var dead = LoadMeshFromScene(DeadTreeScenePath, "WinterDeadTree_LOD1");
         var deadBounds = dead.Mesh.GetAabb();
         var deadTrunkRadius = MeasureTrunkRadius(dead.Mesh, deadBounds, .08f, .22f);
 
-        var originalGround = GroundBoundsLocal();
-        var ground = originalGround.Grow(32f);
-        BuildPrologueBackdropGround(thicket, originalGround);
-        BuildPrologueStop(thicket);
         var rng = new RandomNumberGenerator { Seed = 0x55524d36 };
         var exclusions = new (Vector2 Centre, float Radius)[]
         {
@@ -83,20 +84,28 @@ public partial class W01Controller
             (new Vector2(PrologueHutPosition.X, PrologueHutPosition.Z), 3.5f),
             (new Vector2(PrologueF03.X, PrologueF03.Z), 3.8f)
         };
-        var hutTrail = PrologueRoutePoint(PrologueRouteLength * .58f, 0);
-        var hutStart = new Vector2(hutTrail.X, hutTrail.Z);
-        var hutEnd = new Vector2(PrologueHutPosition.X, PrologueHutPosition.Z);
-        var hutApproach = hutEnd - hutStart;
+        static Vector2 Xz(Vector3 p) => new(p.X, p.Z);
+        var shoulder = Xz(HutPathStart);
+        var threshold = Xz(HutTrailPoint(1f));
+        var shelterEye = Xz(GetNode<Node3D>("Anchors/F00").Position);
+        var window = Xz(PrologueHutPosition);
+        static float DistanceToLane(Vector2 point, Vector2 a, Vector2 b)
+        {
+            var ab = b - a;
+            return point.DistanceTo(a + ab * Mathf.Clamp((point - a).Dot(ab) / ab.LengthSquared(), 0f, 1f));
+        }
         bool Free(Vector2 point, float lane)
         {
             if (point.X < ground.Position.X + 1f || point.X > ground.End.X - 1f
                 || point.Y < ground.Position.Z + 1f || point.Y > ground.End.Z - 1f) return false;
             if (PrologueRouteProgress(point).Lateral < lane) return false;
-            if (InsidePrologueStopClearing(point)) return false;
+            if (InsidePrologueStopClearing(point) || InsidePrologueRoadContinuation(point)) return false;
             foreach (var (centre, radius) in exclusions)
                 if (point.DistanceTo(centre) < radius) return false;
-            var alongHut = Mathf.Clamp((point - hutStart).Dot(hutApproach) / hutApproach.LengthSquared(), 0, 1);
-            if (point.DistanceTo(hutStart + hutApproach * alongHut) < 1.3f) return false;
+            // Leave room for the branches as well as for the trunk. The familiar
+            // window must remain visible from the roof, and the boot trail passable.
+            if (DistanceToLane(point, shoulder, threshold) < 4.8f + lane
+                || DistanceToLane(point, shelterEye, window) < 4.7f + lane) return false;
             return true;
         }
         Vector2 AlongRoute(float progress, float side)
@@ -269,7 +278,6 @@ public partial class W01Controller
             Material = bark ?? new StandardMaterial3D { AlbedoColor = new Color(.24f, .2f, .17f), Roughness = 1f }
         }, Transform3D.Identity, stubs, castShadow: false, cell: 20f, end: 40f, endMargin: 6f);
 
-        BuildPrologueForestLandmarks(thicket);
         GD.Print($"w01-prologue-thicket: trees={trees} undergrowth={undergrowth.Count} snags={snags.Count} hollows={hollows.Count} "
             + $"stubs={stubs.Count} fallen={fallen.Count} built={Time.GetTicksMsec() - started}ms");
     }

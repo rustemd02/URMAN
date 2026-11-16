@@ -264,6 +264,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         BuildBranch();
         BuildPrologueTracks();
         BuildPhotoTableau();
+        BuildForestPhotoComparisonTarget();
         BuildProloguePhotoSource();
         BuildPrologueUi();
         _forestExitFrame = GetNode<Marker3D>("Anchors/F16");
@@ -314,6 +315,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _forestObservationPollElapsed += delta;
         if (_forestObservationPollElapsed < ForestObservationPollSeconds) return;
         _forestObservationPollElapsed = 0;
+        RefreshForestPhotoComparisonTarget();
         TryObserveForestCameraBack();
         TryObserveRootPassageBack();
     }
@@ -1587,6 +1589,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var projection = bridge.CurrentW01BranchProjection();
         ApplyPrologueMood(projection?.ActiveSceneId == PrologueSceneId);
         ProjectStopObjects(bridge, projection?.ActiveSceneId == PrologueSceneId);
+        RefreshForestPhotoComparisonTarget();
         if (ForestEpisodeReady)
         {
             ApplyRootPassageProjection(projection);
@@ -1670,11 +1673,13 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         if (projection is null || projection.ActiveSceneId != ForestSceneId
             || !ReferenceEquals(projection.SessionIdentity, session))
         {
+            ClearForestComparisonCue();
             SetPhysicsProcess(_rootPassageEnabled);
             return;
         }
         if (bridge.PhotoWorldFactObserved(ForestCameraBackFactId))
         {
+            ClearForestComparisonCue();
             SetPhysicsProcess(_rootPassageEnabled);
             return;
         }
@@ -1682,18 +1687,34 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         if (MainMenuUi.AnyUndismissed(GetTree())
             || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
             || player.ModalOpen || player.VehicleControlled || player.IsClimbingLadder || !player.IsOnFloor())
+        {
+            ClearForestComparisonCue();
             return;
+        }
+
+        // The existing F11 fact belongs to an explicit comparison with the
+        // acquired physical print. Looking at the tableau alone cannot record it.
+        if (!ForestPhotoReferenceRaised(player, bridge, session))
+        {
+            ClearForestComparisonCue();
+            _forestObservationFailedSession = null;
+            return;
+        }
 
         var camera = player.GetNodeOrNull<Camera3D>("Head/Camera3D");
         var f11 = GetNodeOrNull<Marker3D>("Anchors/F11");
         if (camera is null || !GodotObject.IsInstanceValid(camera) || !camera.Current
             || f11 is null || !GodotObject.IsInstanceValid(f11))
+        {
+            ClearForestComparisonCue();
             return;
+        }
 
         var playerPosition = player.GlobalPosition;
         var offset = playerPosition - f11.GlobalPosition;
         if (Math.Abs(offset.X) > 1.5f || Math.Abs(offset.Z) > 1.5f)
         {
+            ClearForestComparisonCue();
             _forestObservationFailedSession = null;
             return;
         }
@@ -1711,7 +1732,10 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             || !GodotObject.IsInstanceValid(tableauBody)
             || _photoTableauVisual is not { Visible: true } tableauVisual
             || !GodotObject.IsInstanceValid(tableauVisual))
+        {
+            ClearForestComparisonCue();
             return;
+        }
 
         if (!_forestObservationRayExclusions.Contains(player.GetRid()))
         {
@@ -1722,13 +1746,25 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var space = GetWorld3D().DirectSpaceState;
         var eye = camera.GlobalPosition;
         if (!ForestLandmarkFramedAndVisible(camera, eye, _forestSplitBirchObservationPoint,
-                splitBirchContact, tableauBody, space)
-            || !ForestLandmarkFramedAndVisible(camera, eye, _forestCrossbarObservationPoint,
-                crossbarContact, tableauBody, space)
-            || !ForestLandmarkFramedAndVisible(camera, eye, _forestRootArchObservationPoint,
-                rootArchContact, tableauBody, space))
+                splitBirchContact, tableauBody, space))
+        {
+            SetForestComparisonCue(session, 1);
             return;
+        }
+        if (!ForestLandmarkFramedAndVisible(camera, eye, _forestCrossbarObservationPoint,
+                crossbarContact, tableauBody, space))
+        {
+            SetForestComparisonCue(session, 2);
+            return;
+        }
+        if (!ForestLandmarkFramedAndVisible(camera, eye, _forestRootArchObservationPoint,
+                rootArchContact, tableauBody, space))
+        {
+            SetForestComparisonCue(session, 3);
+            return;
+        }
 
+        SetForestComparisonCue(session, 0);
         _forestObservationDispatching = true;
         SetPhysicsProcess(_rootPassageEnabled);
         DispatchForestCameraBackObservationAsync(bridge, session, player, playerPosition, forward);
@@ -1793,6 +1829,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             && ReferenceEquals(current.SessionIdentity, session)
             && bridge.PhotoWorldFactObserved(ForestCameraBackFactId))
         {
+            ClearForestComparisonCue();
             _forestObservationFailedSession = null;
             SetPhysicsProcess(_rootPassageEnabled);
             if (GodotObject.IsInstanceValid(player)
@@ -1805,6 +1842,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             && ReferenceEquals(stillCurrent.SessionIdentity, session)
             && !bridge.PhotoWorldFactObserved(ForestCameraBackFactId))
         {
+            SetForestComparisonCue(session, 4);
             _forestObservationFailedSession = session;
             _forestObservationFailedPosition = playerPosition;
             _forestObservationFailedForward = forward;

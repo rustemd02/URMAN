@@ -729,6 +729,17 @@ public partial class W04Controller
                 new Vector3(legX, .40f, legZ), wood, .01f);
         var note = RuralPropGeometry.Block(desk, "BlankCaptionPaper", new Vector3(.72f, .018f, .48f),
             new Vector3(-.10f, .894f, .02f), paper, .006f, new Vector3(0f, -4f, 0f));
+        _commonNoteInk = new Label3D
+        {
+            Name = "MyWrittenCaption", Position = note.Position + Vector3.Up * .011f,
+            RotationDegrees = new Vector3(-90f, -4f, 0f), FontSize = 38, PixelSize = .0007f,
+            Width = 880, AutowrapMode = TextServer.AutowrapMode.Arbitrary,
+            OutlineSize = 0, Shaded = true, DoubleSided = false,
+            Modulate = Color.FromHtml("343a38"), Visible = false
+        };
+        desk.AddChild(_commonNoteInk);
+        RuralPropGeometry.Tube(desk, "CaptionPencil", new Vector3(.38f, .90f, -.18f),
+            new Vector3(.46f, .90f, .12f), .008f, RuralPropMaterials.Surface("wood", "8f775b"), 8);
         desk.AddChild(new CollisionShape3D
         {
             Name = "BlankCaptionPaperContact",

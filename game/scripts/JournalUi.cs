@@ -341,7 +341,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         }
         _taskRows.Clear();
         if (titles.Count == 0
-            && !(photoWorldHint is { Key: "prologue-branch" or "prologue-exit" } prologueHint
+            && !(photoWorldHint is { Key: "prologue-hut" or "prologue-branch" or "prologue-exit" } prologueHint
                 && _bridge?.SessionIdentity is not null
                 && photoWorldHintContextKey is not null
                 && photoWorldHintContextKey == PhotoWorldHintContextKey(_bridge, null, prologueHint.Key)))
@@ -546,7 +546,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         string? hintKey)
     {
         if (bridge is null || hintKey is null) return null;
-        if (hintKey is "prologue-branch" or "prologue-exit")
+        if (hintKey is "prologue-hut" or "prologue-branch" or "prologue-exit")
             return bridge.ActiveSceneId == "urman.fullgame:scene/pw-prologue"
                 ? $"{bridge.ActiveSceneId}\u001f{hintKey}"
                 : null;

@@ -8,8 +8,8 @@ public partial class Act1DemoRoot
     // N2.2 prologue (beat sheet P3-P4): after the forest teaser cuts to
     // black, Aidar rides the last stretch to Kara-Urman on the Niva's front
     // passenger seat. The car follows the entry road to the stop where the
-    // world's parked Niva stands; during the ride Mansur's teasing talk
-    // contains the introductory language conversation.
+    // world's parked Niva stands. The player can stay for the full road or
+    // arrive by montage; the language conversation is offered voluntarily.
     private Node3D? _rideNiva;
     private Camera3D? _rideCamera;
     private CanvasLayer? _playerHudForRide;
@@ -112,6 +112,7 @@ public partial class Act1DemoRoot
         if (_photoNivaPresentation is not null
             && (_photoNivaSession is not { } activeSession || !IsCurrentPhotoNivaArrival(activeSession, allowLiveMenu: true)))
             ReleasePhotoNivaArrival();
+        if (_photoNivaPresentation is not null && !_photoNivaDriving) UpdateParkedPhotoNivaCue((float)delta);
 
         if (MainMenuVisible && _photoNivaDriving)
         {
@@ -158,6 +159,7 @@ public partial class Act1DemoRoot
                 _photoNivaMittenTaken = YardMechanism.Flag(openingProps, W01Controller.PrologueMittenKey, "taken");
                 _photoNivaGateDone = YardMechanism.Flag(openingProps, W01Controller.PrologueMittenKey, "gateSeen");
                 _photoNivaSignalAnswered = YardMechanism.Flag(openingProps, W01Controller.PrologueSignalKey, "answered");
+                _photoNivaHutKnocked = YardMechanism.Flag(openingProps, W01Controller.PrologueHutKey, "knocked");
                 _photoNivaPlayer = player;
                 _photoNivaPhysicsEnabled = player.IsPhysicsProcessing();
                 _photoNivaInputEnabled = player.IsProcessingUnhandledInput();
@@ -195,7 +197,7 @@ public partial class Act1DemoRoot
                 else
                 {
                     PrologueDreamCut.Release(fadeSeconds: .5);
-                    bridge.OpenDialogueUi(PhotoNivaArrivalDialogue);
+                    PresentParkedPhotoNiva();
                 }
                 UpdateRouteCue();
             }
@@ -230,7 +232,7 @@ public partial class Act1DemoRoot
                 player.NotifyTraversal("Не удалось сохранить настройку разговора. Подойдите к Ниве, чтобы продолжить.");
                 return;
             }
-            bridge.OpenDialogueUi(PhotoNivaArrivalDialogue);
+            PresentParkedPhotoNiva(speak: false);
         }
 
         if (IsCurrentPhotoNivaArrival(session) && !player.ModalOpen && _pauseMenu?.IsOpen != true)
@@ -242,6 +244,7 @@ public partial class Act1DemoRoot
         if (inputEvent is InputEventMouseMotion motion && Input.MouseMode == Input.MouseModeEnum.Captured
             && _photoNivaSession is { } lookSession && IsCurrentPhotoNivaArrival(lookSession)
             && !PhotoNivaDrivePaused && !PhotoNivaDialogueOpen
+            && _photoNivaJourneyCut < 0f
             && (_photoNivaGateClock < 0f || !_photoNivaDriving))
         {
             var sensitivity = _photoNivaPlayer!.MouseSensitivity;
@@ -252,18 +255,21 @@ public partial class Act1DemoRoot
             return true;
         }
         if (HandlePhotoNivaEvidenceInput(inputEvent)) return true;
+        if (_photoNivaDriving && _photoNivaWoke && _photoNivaJourneyCut < 0f && _photoNivaGateClock < 0f
+            && !PhotoNivaDrivePaused && !PhotoNivaDialogueOpen && inputEvent is not InputEventKey { Echo: true }
+            && inputEvent.IsActionPressed("move_forward"))
+        {
+            _photoNivaKeepRiding = true;
+            GetViewport().SetInputAsHandled();
+            return true;
+        }
         if (_photoNivaDriving && _photoNivaSession is { } driveSession && IsCurrentPhotoNivaArrival(driveSession)
             && !PhotoNivaDrivePaused && !PhotoNivaDialogueOpen
             && inputEvent is not InputEventKey { Echo: true }
             && !inputEvent.IsActionPressed("pause") && inputEvent.IsActionPressed("skip_prologue"))
         {
-            if (PhotoNivaGatePending)
-            {
-                if (_photoNivaGateClock < 0f && _photoNivaDriveVisual is { } visual)
-                    BeginPhotoNivaParkedGate(visual);
-                else CompletePhotoNivaGate();
-            }
-            else FinishPhotoNivaDrive();
+            if (_photoNivaGateClock >= 0f) CompletePhotoNivaGate();
+            else BeginPhotoNivaJourneyCut();
             GetViewport().SetInputAsHandled();
             return true;
         }
@@ -272,7 +278,11 @@ public partial class Act1DemoRoot
             || _photoNivaExitPending || _photoNivaPlayer?.ModalOpen != false
             || _pauseMenu?.IsOpen == true || inputEvent is InputEventKey { Echo: true }
             || !inputEvent.IsActionPressed("interact")) return false;
-        if (!_photoNivaLanguageActive) _bridge!.OpenDialogueUi(PhotoNivaArrivalDialogue);
+        if (!_photoNivaLanguageActive)
+        {
+            _photoNivaExitPending = true;
+            _ = ExitPhotoNivaArrivalAsync(session);
+        }
         GetViewport().SetInputAsHandled();
         return true;
     }
@@ -315,8 +325,8 @@ public partial class Act1DemoRoot
     {
         try
         {
-            // The accepted terminal choice closes DialogueUi before normal
-            // interaction dispatch/checkpoint capture can resume the player.
+            // Let the cabin's input frame finish before the normal interaction
+            // dispatch/checkpoint hands control back to the standing player.
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             var languageWrite = _photoNivaLanguageWrite;
             var languageSaved = await languageWrite;
@@ -325,7 +335,10 @@ public partial class Act1DemoRoot
             var bridge = _bridge!;
             if (!await bridge.DispatchInteractionAsync("urman.fullgame:interaction/pw-niva-stop")
                 && IsCurrentPhotoNivaArrival(session))
-                bridge.OpenDialogueUi(PhotoNivaArrivalDialogue);
+            {
+                PresentParkedPhotoNiva(speak: false);
+                ShowPrologueCaption("Не удалось выйти. Попробуйте ещё раз.", 3);
+            }
         }
         catch (Exception error)
         {
@@ -346,6 +359,8 @@ public partial class Act1DemoRoot
     {
         if (_photoNivaPresentation is not { } presentation) return;
         ReleasePhotoNivaDrive();
+        ReleasePhotoNivaLapBook();
+        ReleasePrologueOverlay();
         var player = _photoNivaPlayer;
         _photoNivaPresentation = null;
         _photoNivaSession = null;

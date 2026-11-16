@@ -11106,6 +11106,8 @@ public partial class Act1ConnectedWorld : Node3D
         var trees = onlyTree is null
             ? FindDescendants<Node3D>(core).Where(node => node.HasMeta("winterVariant")).ToArray()
             : new[] { onlyTree };
+        var roadBoundsSkipped = 0;
+        var roadVertexCandidates = 0;
         foreach (var tree in trees)
         {
             // Dressing replacements may suppress the empty root before meshes bind.
@@ -11124,8 +11126,29 @@ public partial class Act1ConnectedWorld : Node3D
             var source = layer.FoliageMesh(variant, region);
             var scale = tree.GetMeta("winterHeight").AsSingle() / source.GetAabb().Size.Y;
             tree.Scale = Vector3.One * scale;
+            // Every source vertex lies in this affine-transformed mesh AABB.
+            // Its farthest projected corner bounds every vertex's XZ distance
+            // from the root, including tilted/scaled parent transforms.
+            var sourceBounds = source.GetAabb();
+            var radiusSquared = 0.0;
+            for (var corner = 0; corner < 8; corner++)
+            {
+                var point = tree.ToGlobal(sourceBounds.GetEndpoint(corner));
+                var dx = (double)point.X - root.X;
+                var dz = (double)point.Z - root.Z;
+                radiusSquared = System.Math.Max(radiusSquared, dx * dx + dz * dz);
+            }
+            // Distance to the union of all road-axis segments is 1-Lipschitz.
+            // Subtracting this radius still leaves every vertex beyond the
+            // widest CURRENT road plus the original 10 cm rejection margin.
+            // This needs no terrain-height assumption: adaptive relief cannot
+            // make a horizontally disjoint vertex block the carriageway.
+            var clearOfAllRoads = AgentBAct1HeightField.RoadInfo(root.X, root.Z).Distance
+                > System.Math.Sqrt(radiusSquared) + AgentBAct1HeightField.MaxRoadHalfWidth + .11;
+            if (clearOfAllRoads) roadBoundsSkipped++;
+            else roadVertexCandidates++;
             var blocksRoad = false;
-            for (var surface = 0; surface < source.GetSurfaceCount() && !blocksRoad; surface++)
+            for (var surface = 0; !clearOfAllRoads && surface < source.GetSurfaceCount() && !blocksRoad; surface++)
             {
                 using var surfaceArrays = source.SurfaceGetArrays(surface);
                 foreach (var vertex in surfaceArrays[(int)Mesh.ArrayType.Vertex].AsVector3Array())
@@ -11147,6 +11170,8 @@ public partial class Act1ConnectedWorld : Node3D
                     source.GetAabb().Size.Y * scale);
             }
         }
+        if (onlyTree is null)
+            GD.Print($"world-tree-road-check|bounded={roadBoundsSkipped}|vertex_candidates={roadVertexCandidates}");
     }
 
     private static void ReplaceKitWinterShrubs(Node3D core)

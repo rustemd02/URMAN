@@ -29,7 +29,7 @@ public partial class RuntimeBridge
             var interactionId = branch.Moved
                 ? "urman.fullgame:interaction/pw-prologue-f03-end"
                 : "urman.fullgame:interaction/pw-prologue-branch-move";
-            if (!IsInteractionAvailable(interactionId)
+            if ((!IsInteractionAvailable(W01Controller.PrologueHutInteractionId) && !IsInteractionAvailable(interactionId))
                 || _loadingSlot || _loadPreparing || !ReferenceEquals(session, SessionIdentity))
                 return null;
 

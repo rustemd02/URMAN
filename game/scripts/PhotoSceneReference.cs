@@ -18,6 +18,10 @@ public partial class PhotoSceneReference : CanvasLayer
     private AccessibilitySettingsSnapshot? _presentation;
     private bool _dismissed;
 
+    internal bool IsRaisedFor(FirstPersonController player, RuntimeBridge bridge, object session, string photoId) =>
+        !_dismissed && Visible && ReferenceEquals(_player, player) && ReferenceEquals(_bridge, bridge)
+        && ReferenceEquals(_session, session) && _photoId == photoId;
+
     internal static bool CanShow(FirstPersonController player, RuntimeBridge bridge, string photoId, bool allowJournalModal) =>
         (photoId is "P-FOREST" or "S-SCHOOL")
         && GodotObject.IsInstanceValid(player) && player.IsInsideTree() && !player.IsQueuedForDeletion()
@@ -128,7 +132,9 @@ public partial class PhotoSceneReference : CanvasLayer
             AccessibilityPresentation.ApplyToControl(_panel, _presentation);
         }
         var close = InputBindingService.ActionHint("pause", _player.CurrentInputDevice == "gamepad");
-        _hint.Text = $"Можно идти и осматриваться. {close} — убрать снимок";
+        _hint.Text = _photoId == "P-FOREST"
+            ? $"Совместите раздвоенную берёзу, низкую перекладину и дугу корня. Сверяйте их форму и соседство. {close} — опустить снимок"
+            : $"Можно идти и осматриваться. {close} — убрать снимок";
     }
 
     internal void Dismiss()

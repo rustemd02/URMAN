@@ -15,7 +15,9 @@ public partial class W01Controller
     private const float StopRoadFar = 8.4f;
     private const float StopLeaveAt = 8.9f;       // past the far edge of the road: the rule is broken
     private const float StopPrintsFrom = 9.6f;    // the child's prints begin where the road ends
-    private const float StopLampEnergy = 5.2f;
+    private const float StopLampEnergy = 1.8f;
+    private const float StopLampFillEnergy = .16f;
+    private const float StopShelterFillEnergy = .28f;
     private const float StopRoadReach = 62f;      // how far the road is drawn each way
     private const float StopRoadWalk = 19f;       // how far along it he can go
 
@@ -44,20 +46,11 @@ public partial class W01Controller
     // The journal is available on demand, including before the voice or the signal.
     internal RuntimeBridge.PhotoWorldHintProjection StopJournalHint(bool branchMoved)
     {
-        if (branchMoved)
-            return new("prologue-exit", "Где заканчиваются следы?", "За поворотом тропа выходит на поляну.",
-                "Идите по следам до поляны.");
-        if (_stopLeft)
-            return new("prologue-branch", "Кто здесь прошёл?", "За дальней обочиной в снегу видны следы.",
-                "Идите по следам до упавшей ветки. Возьмитесь за середину ветки и освободите проход.");
-        if (_stopSignalAt >= 0)
-            return _answeredSignal
-                ? new("prologue-branch", "Кто вышел к дороге?", "Огонёк появился прямо у обочины.",
-                    "Перейдите дорогу и посмотрите, кто оставил следы.")
-                : new("prologue-branch", "Кто подал сигнал?", "Свет мигает среди деревьев напротив остановки.",
-                    "Повернитесь к огоньку. Можно ответить фонариком или перейти дорогу.");
-        return new("prologue-branch", "Остановка у поворота", "Под навесом стоит скамейка.",
-            "Осмотритесь на остановке. На скамейке лежит фотография.");
+        if (branchMoved && _nightmareBestProgress > PrologueRouteLength * .52f)
+            return new("prologue-exit", "Куда ведут следы?", "За поворотом тропа выходит на поляну.", "Осмотрите последние следы на поляне.");
+        return new("prologue-hut", "Где дождаться бабая?", "Через дорогу светится окно сторожки.",
+            "Перейдите дорогу и постучите в дверь сторожки.");
+
     }
 
     private static (Vector2 Along, Vector2 Across) PrologueStopAxes()
@@ -103,6 +96,19 @@ public partial class W01Controller
         // The road: packed snow with two ruts, running off into the dark both ways.
         using (var surface = new SurfaceTool())
         {
+            ShaderMaterial RoadSnow(string tint, string family)
+            {
+                // Keep this lamp's matte snow response local; the shared daytime
+                // family and its winded-snow normal maps stay unchanged.
+                var material = (ShaderMaterial)PainterlyMaterialLibrary.ForColor(tint, family).Duplicate();
+                material.SetShaderParameter("snow_texture_contrast", .16f);
+                material.SetShaderParameter("snow_sparkle", 0f);
+                material.SetShaderParameter("snow_roughness_range", new Vector2(.88f, .97f));
+                material.SetShaderParameter("roughness_value", .94f);
+                material.SetShaderParameter("specular_value", .08f);
+                material.SetShaderParameter("snow_relief_scale", .3f);
+                return material;
+            }
             surface.Begin(Mesh.PrimitiveType.Triangles);
             void Strip(float from, float to, float lift, bool wheelTrack)
             {
@@ -121,20 +127,25 @@ public partial class W01Controller
                     var c = RoadPoint(u1, v + 1.25f); var d = RoadPoint(u0, v + 1.25f);
                     foreach (var point in new[] { a, b, c, a, c, d })
                     {
-                        surface.SetNormal(Vector3.Up);
+                        const float sample = .25f;
+                        var dx = ForestGroundHeight(point.X + sample, point.Z) - ForestGroundHeight(point.X - sample, point.Z);
+                        var dz = ForestGroundHeight(point.X, point.Z + sample) - ForestGroundHeight(point.X, point.Z - sample);
+                        surface.SetNormal(new Vector3(-dx, 2f * sample, -dz).Normalized());
                         surface.SetUV(new Vector2(point.X, point.Z) * .3f);
                         surface.AddVertex(point);
                     }
                 }
             }
-            surface.SetMaterial(PainterlyMaterialLibrary.ForColor("b2b7b9", "snow_road"));
-            Strip(StopRoadNear, StopRoadFar, .05f, false);
+            surface.SetMaterial(RoadSnow("b8bbbc", "snow_road"));
+            // The shared trample field may lower this ribbon by 5 cm. Keep a
+            // positive gap above the undeformed imported ground even then.
+            Strip(StopRoadNear, StopRoadFar, .08f, false);
             var roadMesh = surface.Commit();
             surface.Clear();
             surface.Begin(Mesh.PrimitiveType.Triangles);
-            surface.SetMaterial(PainterlyMaterialLibrary.ForColor("929da3", "snow_trampled"));
-            Strip(StopRoadNear + 1.42f, StopRoadNear + 1.78f, .073f, true);
-            Strip(StopRoadFar - 1.78f, StopRoadFar - 1.42f, .073f, true);
+            surface.SetMaterial(RoadSnow("a3a9ad", "snow_trampled"));
+            Strip(StopRoadNear + 1.42f, StopRoadNear + 1.78f, .092f, true);
+            Strip(StopRoadFar - 1.78f, StopRoadFar - 1.42f, .092f, true);
             surface.Commit(roadMesh);
             // He cannot walk the road home: nine kilometres of dark either way.
             var bounds = new StaticBody3D { Name = "RoadEnds", CollisionLayer = 1, CollisionMask = 0 };
@@ -194,8 +205,8 @@ public partial class W01Controller
             new Vector3(1.2f, .496f, .15f));
         _stopShelterFill = new OmniLight3D
         {
-            Name = "ShelterBounce", Position = new Vector3(0f, 1.5f, .35f), LightColor = new Color(1f, .72f, .42f),
-            LightEnergy = .55f, OmniRange = 3.2f, ShadowEnabled = false, LightSpecular = 0f
+            Name = "ShelterBounce", Position = new Vector3(0f, 1.5f, .35f), LightColor = new Color(1f, .9f, .75f),
+            LightEnergy = StopShelterFillEnergy, OmniRange = 3.2f, ShadowEnabled = false, LightSpecular = 0f
         };
         shelter.AddChild(_stopShelterFill);
         // The stop sign: a plate with the letter every such stop carries.
@@ -234,8 +245,8 @@ public partial class W01Controller
         arm.Basis = Basis.LookingAt((head - (lampFoot + Vector3.Up * 5.55f)).Normalized(), Vector3.Up);
         _stopBulb = new StandardMaterial3D
         {
-            AlbedoColor = new Color(1f, .8f, .5f), EmissionEnabled = true,
-            Emission = new Color(1f, .68f, .3f), EmissionEnergyMultiplier = 4f
+            AlbedoColor = new Color(1f, .9f, .72f), EmissionEnabled = true,
+            Emission = new Color(1f, .82f, .57f), EmissionEnergyMultiplier = 2f
         };
         stop.AddChild(new MeshInstance3D
         {
@@ -246,16 +257,16 @@ public partial class W01Controller
         _stopLamp = new SpotLight3D
         {
             Name = "StopLamp", Position = head - Vector3.Up * .12f, RotationDegrees = new Vector3(-90f, 0f, 0f),
-            LightColor = new Color(1f, .7f, .36f), LightEnergy = StopLampEnergy,
-            SpotRange = 13f, SpotAngle = 58f, SpotAngleAttenuation = .9f, SpotAttenuation = .7f,
-            ShadowEnabled = true, ShadowBias = .06f, ShadowBlur = 1.6f, LightSpecular = .2f,
+            LightColor = new Color(1f, .87f, .67f), LightEnergy = StopLampEnergy,
+            SpotRange = 13f, SpotAngle = 58f, SpotAngleAttenuation = 1.6f, SpotAttenuation = 1f,
+            ShadowEnabled = true, ShadowBias = .06f, ShadowBlur = 1.6f, ShadowOpacity = .65f, LightSpecular = .03f,
             DistanceFadeEnabled = true, DistanceFadeBegin = 70f, DistanceFadeShadow = 36f, DistanceFadeLength = 14f
         };
         stop.AddChild(_stopLamp);
         _stopLampFill = new OmniLight3D
         {
-            Name = "StopLampFill", Position = head - Vector3.Up * .5f, LightColor = new Color(1f, .7f, .4f),
-            LightEnergy = .5f, OmniRange = 6f, ShadowEnabled = false, LightSpecular = 0f
+            Name = "StopLampFill", Position = head - Vector3.Up * .5f, LightColor = new Color(1f, .9f, .75f),
+            LightEnergy = StopLampFillEnergy, OmniRange = 6f, ShadowEnabled = false, LightSpecular = 0f
         };
         stop.AddChild(_stopLampFill);
         // Snow turning in the cone of the lamp.
@@ -315,7 +326,7 @@ public partial class W01Controller
         stop.AddChild(_stopSignalLight);
 
         // The mitten, on a stick someone pushed into the snow beside the prints.
-        var mittenAt = PrologueRoutePoint(PrologueRouteLength * .71f, .85f);
+        var mittenAt = HutTrailPoint(.78f) + Vector3.Right * .8f;
         var stick = new MeshInstance3D
         {
             Name = "MittenStick", Mesh = new CylinderMesh { TopRadius = .012f, BottomRadius = .02f, Height = 1.5f, RadialSegments = 6 },
@@ -376,9 +387,9 @@ public partial class W01Controller
         if (GodotObject.IsInstanceValid(_stopSignal) && GodotObject.IsInstanceValid(_stopSignalLight))
             _stopSignal.Position = _stopSignalLight.Position = StopPoint(34f, 1.2f, 1.25f);
         if (_stopLamp is { } lamp && GodotObject.IsInstanceValid(lamp)) lamp.LightEnergy = StopLampEnergy;
-        if (_stopLampFill is { } fill && GodotObject.IsInstanceValid(fill)) fill.LightEnergy = .5f;
-        if (_stopShelterFill is { } bounce && GodotObject.IsInstanceValid(bounce)) bounce.LightEnergy = .55f;
-        if (_stopBulb is { } bulb) bulb.EmissionEnergyMultiplier = 4f;
+        if (_stopLampFill is { } fill && GodotObject.IsInstanceValid(fill)) fill.LightEnergy = StopLampFillEnergy;
+        if (_stopShelterFill is { } bounce && GodotObject.IsInstanceValid(bounce)) bounce.LightEnergy = StopShelterFillEnergy;
+        if (_stopBulb is { } bulb) bulb.EmissionEnergyMultiplier = 2f;
         if (_stopBusLights is { } bus && GodotObject.IsInstanceValid(bus))
         {
             bus.Visible = true;
@@ -426,7 +437,7 @@ public partial class W01Controller
             }
             // Babai's message. The one rule.
             if (StopOnce(1, t > 2.4))
-                ShowNightmareThought("Бабай · 23:38\n«Выехал. Увидишь фары — махни. Там легко проскочить».", 5);
+                ShowNightmareThought("Бабай · 23:38\n«Жди у сторожки, там светло. Подъеду — посигналю».", 5);
             // After the voice: two short blinks of a torch between the trunks.
             if (StopOnce(3, _nightmareRecognitionAt > 0 && t >= _nightmareRecognitionAt + 4.5)) _stopSignalAt = t;
             if (StopOnce(4, _stopSignalAt >= 0 && t >= _stopSignalAt + 1.2))

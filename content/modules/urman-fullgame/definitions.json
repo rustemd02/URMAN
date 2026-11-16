@@ -1874,6 +1874,22 @@
         "targetSceneId": "urman.fullgame:scene/pw-niva-arrival"
       },
       {
+        "id": "urman.fullgame:interaction/pw-prologue-hut-door",
+        "labelTextId": "urman.fullgame:text/pw-label-prologue-hut-door",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "photoworlds.prologue.complete"
+          },
+          {
+            "op": "beat.set-state",
+            "beatId": "urman.fullgame:beat/pw-b00-prologue",
+            "state": "completed"
+          }
+        ],
+        "targetSceneId": "urman.fullgame:scene/pw-niva-arrival"
+      },
+      {
         "id": "urman.fullgame:interaction/pw-prologue-skip",
         "labelTextId": "urman.fullgame:text/pw-label-prologue-skip",
         "conditions": [],
@@ -4074,6 +4090,17 @@
       "default": "Осмотреть следы",
       "translations": {
         "ru": "Осмотреть следы"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-prologue-hut-door",
+    "value": {
+      "default": "Постучать в дверь сторожки",
+      "translations": {
+        "ru": "Постучать в дверь сторожки"
       }
     },
     "purpose": "ui"
@@ -6674,9 +6701,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-niva-arrival-d00-01",
     "value": {
-      "default": "Приехали. Әби только не пугай: она тебя ждала.",
+      "default": "Дома. Книгу забери с собой.",
       "translations": {
-        "ru": "Приехали. Әби только не пугай: она тебя ждала."
+        "ru": "Дома. Книгу забери с собой."
       }
     },
     "purpose": "dialogue"
@@ -6685,9 +6712,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-choice-niva-arrival-d00-02",
     "value": {
-      "default": "А я сам к тебе в машину сел? Помню только лес.",
+      "default": "Дома прочту, что на обороте.",
       "translations": {
-        "ru": "А я сам к тебе в машину сел? Помню только лес."
+        "ru": "Дома прочту, что на обороте."
       }
     },
     "purpose": "dialogue"
@@ -6696,9 +6723,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-niva-arrival-d00-03",
     "value": {
-      "default": "Ты сам вышел на дорогу. Я больше ничего не видел. Снимок покажи Гөлсинә — она помнит, кто на нём.",
+      "default": "Сначала выйди, ноги разомни.",
       "translations": {
-        "ru": "Ты сам вышел на дорогу. Я больше ничего не видел. Снимок покажи Гөлсинә — она помнит, кто на нём."
+        "ru": "Сначала выйди, ноги разомни."
       }
     },
     "purpose": "dialogue"
@@ -7391,9 +7418,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-forest-camera-action",
     "value": {
-      "default": "Осмотри место у трёх стволов, затем пройди за поворот у старого корня.",
+      "default": "У трёх стволов подними снимок. Сравни расположение деревьев с фотографией.",
       "translations": {
-        "ru": "Осмотри место у трёх стволов, затем пройди за поворот у старого корня."
+        "ru": "У трёх стволов подними снимок. Сравни расположение деревьев с фотографией."
       }
     },
     "purpose": "ui"
@@ -8187,9 +8214,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-arrival-book-request",
     "value": {
-      "default": "Айдар, положи книгу сюда, на стол. Покажешь лесной снимок.",
+      "default": "Айдар, поставь книгу сюда, к свету. Не на край — снимки выскальзывают.",
       "translations": {
-        "ru": "Айдар, положи книгу сюда, на стол. Покажешь лесной снимок."
+        "ru": "Айдар, поставь книгу сюда, к свету. Не на край — снимки выскальзывают."
       }
     },
     "purpose": "dialogue"
@@ -8209,9 +8236,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-arrival-book-turn",
     "value": {
-      "default": "Открой снимок на свету и переверни. Лица я помню, а место — никак.",
+      "default": "Поверни снимок. Что там сзади?",
       "translations": {
-        "ru": "Открой снимок на свету и переверни. Лица я помню, а место — никак."
+        "ru": "Поверни снимок. Что там сзади?"
       }
     },
     "purpose": "dialogue"
@@ -8242,9 +8269,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-home-forest-print-school",
     "value": {
-      "default": "Я тебе не подскажу, Айдар. Но в школе есть второй снимок этой группы. В учительской, в старом альбоме. Может, там край лучше виден.",
+      "default": "Людей я помню. А место — нет. В школе есть второй снимок этой группы, в учительской, в старом альбоме. Может, там край лучше виден.",
       "translations": {
-        "ru": "Я тебе не подскажу, Айдар. Но в школе есть второй снимок этой группы. В учительской, в старом альбоме. Может, там край лучше виден."
+        "ru": "Людей я помню. А место — нет. В школе есть второй снимок этой группы, в учительской, в старом альбоме. Может, там край лучше виден."
       }
     },
     "purpose": "dialogue"

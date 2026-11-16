@@ -6,7 +6,7 @@ namespace Urman.Godot;
 public partial class Act1DemoRoot
 {
     private Node3D? _photoNivaLapBook;
-    private bool _photoNivaPhotoInspected, _photoNivaPhotoShown, _photoNivaSignalAnswered;
+    private bool _photoNivaPhotoInspected, _photoNivaPhotoShown, _photoNivaSignalAnswered, _photoNivaHutKnocked;
     private float _photoNivaBookInspection, _photoNivaBookShowing;
     private float _photoNivaEvidenceClock = -1f;
     private Vector3 _photoNivaDriverGazeRest;
@@ -91,7 +91,6 @@ public partial class Act1DemoRoot
         foreach (var animation in model.FindChildren("*", nameof(AnimationPlayer), true, false)
                      .OfType<AnimationPlayer>())
         {
-            animation.Autoplay = string.Empty;
             animation.Stop();
             if (!animation.HasAnimation(clip)) continue;
             animation.Play(clip);
@@ -124,15 +123,13 @@ public partial class Act1DemoRoot
         get
         {
             if (!_photoNivaWoke || _photoNivaGateClock >= 0f || PhotoNivaDialogueOpen
+                || _photoNivaJourneyCut >= 0f
                 || _photoNivaEvidenceClock >= 0f || _photoNivaLapBook is not { } book
                 || !IsInstanceValid(book) || !book.Visible) return null;
             var canSpeak = _photoNivaDriveElapsed >= _photoNivaNextBarkReady;
-            if (_rideLook.Y < -20f && Math.Abs(_rideLook.X) < 40f && !_photoNivaPhotoShown)
-            {
-                // Hands are free as soon as Aidar opens his eyes. Only speech waits for Babai.
-                if (!_photoNivaPhotoInspected) return "Рассмотреть снимок";
-                return canSpeak ? "Показать снимок бабаю" : null;
-            }
+            // The photograph remains an action after the automatic waking glance ends.
+            if (!_photoNivaPhotoInspected) return "Рассмотреть снимок";
+            if (!_photoNivaPhotoShown) return canSpeak ? "Спросить бабая о снимке" : null;
             return canSpeak && CanOfferPhotoNivaLanguage ? "Выбрать язык разговора с бабаем" : null;
         }
     }
@@ -146,26 +143,33 @@ public partial class Act1DemoRoot
             || PhotoNivaDrivePaused || inputEvent is InputEventKey { Echo: true }
             || !inputEvent.IsActionPressed("interact") || PhotoNivaEvidenceAction is null) return false;
         _photoNivaGazeTaken = true;
-        if (CanOfferPhotoNivaLanguage)
+        _photoNivaArrivalNotBefore = Mathf.Max(_photoNivaArrivalNotBefore, _photoNivaDriveElapsed + 15.2f);
+        if (!_photoNivaPhotoInspected)
+        {
+            _photoNivaPhotoInspected = true;
+            _rideLook = PhotoNivaLapGaze;
+            ApplyPrologueRideLook();
+            _photoNivaNextBarkReady = Math.Max(_photoNivaWakeVoiceEnds + .25, _photoNivaDriveElapsed + .6);
+        }
+        else if (!_photoNivaPhotoShown)
+        {
+            _photoNivaPhotoShown = true;
+            _photoNivaEvidenceClock = 0f;
+            _rideLook = new Vector2(32f, -8f);
+            ApplyPrologueRideLook();
+            StopRideRadio(.4);
+            PrologueVoice.Stop();
+            ShowPrologueCaption(_photoNivaHutKnocked
+                ? "Айдар: «Ты велел ждать у сторожки. Я постучал. Кто там открыл?»"
+                : _photoNivaSignalAnswered ? "Айдар: «Это ты мне мигал с дороги? Я тебе ответил»."
+                : "Айдар: «Я этот лес видел, пока спал. Посмотри на снимок».", 3.8);
+            _photoNivaNextBarkReady = _photoNivaDriveElapsed + 14.2f;
+        }
+        else if (CanOfferPhotoNivaLanguage)
         {
             _photoNivaLanguageActive = true;
             _photoNivaLanguageOpenedAt = _photoNivaDriveElapsed;
             _bridge!.OpenDialogueUi(PrologueRideDialogue);
-        }
-        else if (!_photoNivaPhotoInspected)
-        {
-            _photoNivaPhotoInspected = true;
-            _photoNivaNextBarkReady = Math.Max(_photoNivaWakeVoiceEnds + .25, _photoNivaDriveElapsed + .6);
-        }
-        else
-        {
-            _photoNivaPhotoShown = true;
-            _photoNivaEvidenceClock = 0f;
-            StopRideRadio(.4);
-            PrologueVoice.Stop();
-            ShowPrologueCaption(_photoNivaSignalAnswered
-                ? "Айдар: «Это ты мне мигал с дороги? Я тебе ответил».": "Айдар: «Этот лес был во сне. Посмотри на снимок».", 3.2);
-            _photoNivaNextBarkReady = _photoNivaDriveElapsed + 11.3f;
         }
         GetViewport().SetInputAsHandled();
         return true;
@@ -177,18 +181,27 @@ public partial class Act1DemoRoot
         {
             var before = _photoNivaEvidenceClock;
             _photoNivaEvidenceClock += delta;
-            if (before < 3.5f && _photoNivaEvidenceClock >= 3.5f)
-                ShowPrologueCaption(_photoNivaSignalAnswered
-                    ? "Мансур бабай: «Не я. Я тебе не мигал»." : "Мансур бабай: «Покажи…».", 2.4);
-            if (before < 6.3f && _photoNivaEvidenceClock >= 6.3f)
-                ShowPrologueCaption("Мансур бабай: «Гөлсинә покажешь. Она людей на снимках помнит. Убери пока».", 4.3);
-            if (_photoNivaEvidenceClock >= 11f) _photoNivaEvidenceClock = -1f;
+            if (before < 4f && _photoNivaEvidenceClock >= 4f)
+                ShowPrologueCaption(_photoNivaHutKnocked
+                    ? _photoNivaMittenTaken
+                        ? "Мансур бабай: «Не у сторожки я тебя взял. Ты один на дорогу вышел»."
+                        : "Мансур бабай: «Я тебя у остановки забрал. Ты один был»."
+                    : _photoNivaSignalAnswered ? "Мансур бабай: «Не я. Я тебе не мигал»."
+                        : "Мансур бабай: «Ты с этой книгой и задремал».", 2.9);
+            if (before < 7.2f && _photoNivaEvidenceClock >= 7.2f)
+                ShowPrologueCaption("Айдар: «Эти деревья… Я их уже видел. Откуда у нас этот снимок?»", 3.0);
+            if (before < 10.6f && _photoNivaEvidenceClock >= 10.6f)
+                ShowPrologueCaption("Мансур бабай: «Не сгибай угол. Дома повернёшь, посмотришь, что сзади написано».", 3.0);
+            if (_photoNivaEvidenceClock >= 14f) _photoNivaEvidenceClock = -1f;
         }
         if (_photoNivaEvidenceCue is not { } cue || !IsInstanceValid(cue)) return;
         var action = PhotoNivaEvidenceAction;
-        cue.Visible = action is not null && !PhotoNivaDrivePaused;
-        if (action is not null)
-            cue.Text = InputBindingService.ActionHint("interact", _photoNivaPlayer?.CurrentInputDevice == "gamepad") + " — " + action;
+        cue.Visible = _photoNivaWoke && !PhotoNivaDrivePaused && !PhotoNivaDialogueOpen
+            && _photoNivaGateClock < 0f && _photoNivaJourneyCut < 0f;
+        var gamepad = _photoNivaPlayer?.CurrentInputDevice == "gamepad";
+        var main = action is null ? string.Empty : InputBindingService.ActionHint("interact", gamepad) + " — " + action + "\n";
+        var stay = _photoNivaKeepRiding ? string.Empty : InputBindingService.ActionHint("move_forward", gamepad) + " — Остаться в поездке · ";
+        cue.Text = main + stay + InputBindingService.ActionHint("skip_prologue", gamepad) + " — Доехать до дома";
     }
 
     private void ReleasePhotoNivaLapBook()

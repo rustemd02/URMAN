@@ -8,6 +8,7 @@ namespace Urman.Godot;
 public partial class W04Controller : IAccessibilitySettingsTarget
 {
     private const string DefaultCommonNote = "Это не весь вид";
+    private Label3D? _commonNoteInk;
     private CanvasLayer? _commonNoteLayer;
     private ColorRect _commonNoteScreen = null!;
     private PanelContainer _commonNotePanel = null!;
@@ -43,11 +44,11 @@ public partial class W04Controller : IAccessibilitySettingsTarget
         _commonNoteRequest = new object();
         _commonNotePlayer = player;
         _commonNoteReadOnly = bridge.PhotoWorldFactObserved(NoteFactId);
-        _commonNoteText.PlaceholderText = _commonNoteReadOnly ? string.Empty : DefaultCommonNote;
+        _commonNoteText.PlaceholderText = _commonNoteReadOnly ? string.Empty : "Моя строка к этому виду";
         var prior = bridge.PreparedCommonCaptionText();
         _commonNotePriorCaption.Text = "Моя подпись, подготовленная на ПК:\n"
             + (string.IsNullOrEmpty(prior) ? "Подпись в этом сохранении недоступна." : prior);
-        _commonNoteText.Text = _commonNoteReadOnly ? bridge.CommonFrameNoteText() : DefaultCommonNote;
+        _commonNoteText.Text = _commonNoteReadOnly ? bridge.CommonFrameNoteText() : string.Empty;
         _commonNoteRetrySave = _commonNoteReadOnly && !string.IsNullOrEmpty(_commonNoteText.Text);
         _commonNoteStatus.Text = _commonNoteReadOnly
             ? string.IsNullOrEmpty(_commonNoteText.Text)
@@ -108,7 +109,7 @@ public partial class W04Controller : IAccessibilitySettingsTarget
         _commonNoteStatus = new Label { AutowrapMode = TextServer.AutowrapMode.WordSmart,
             FocusMode = Control.FocusModeEnum.All };
         content.AddChild(_commonNoteStatus);
-        _commonNoteDefault = new Button { Text = "Вернуть готовую помету" };
+        _commonNoteDefault = new Button { Text = $"Выбрать помету: «{DefaultCommonNote}»" };
         layout.AddChild(_commonNoteDefault);
         var actions = new HBoxContainer();
         actions.AddThemeConstantOverride("separation", 12);
@@ -250,6 +251,20 @@ public partial class W04Controller : IAccessibilitySettingsTarget
         _commonNoteConfirm.Text = committed ? "Повторить сохранение" : "Записать помету";
         RefreshCommonNoteControls();
         _commonNoteClose.GrabFocus();
+        ProjectCommonWrittenNote();
+        if (result == RuntimeBridge.CommonNoteSaveResult.Saved)
+            CloseCommonNote();
+    }
+
+    private void ProjectCommonWrittenNote()
+    {
+        if (_commonNoteInk is not { } ink || !GodotObject.IsInstanceValid(ink)) return;
+        // The paper projects the same confirmed string as the book, including on Continue.
+        // Never fill an old save's missing text with the suggested answer.
+        var text = _bridge is { } bridge && GodotObject.IsInstanceValid(bridge)
+            ? bridge.CommonFrameNoteText() : string.Empty;
+        ink.Text = text;
+        ink.Visible = !string.IsNullOrEmpty(text);
     }
 
     private void CloseCommonNote()

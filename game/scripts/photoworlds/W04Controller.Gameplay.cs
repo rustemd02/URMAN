@@ -63,6 +63,8 @@ public partial class W04Controller
     private int _horizonGeneration;
     private bool _horizonDispatching;
     private bool _horizonArmed;
+    private double _horizonViewElapsed;
+    private const double CommonViewSettleTime = .4;
     private bool _commonMissingMarkerWarningSent;
 
     public bool PhotoBookReturnActionInProgress => _clothPhase != ClothPhase.Idle
@@ -227,13 +229,14 @@ public partial class W04Controller
         ProcessCommonNote();
         ProcessCommonClothAction(delta);
         ProcessCommonRelationsObservation();
-        ProcessCommonHorizonObservation();
+        ProcessCommonHorizonObservation(delta);
     }
 
     private void ApplyCommonGameplayProjection(
         RuntimeBridge.FullGamePhotoWorldRouteProjection? route, bool visible)
     {
         ProjectCommonNote(visible);
+        ProjectCommonWrittenNote();
         if (!visible || route is null || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge))
         {
             CancelCommonClothAction(restoreCommittedPose: true);
@@ -365,6 +368,7 @@ public partial class W04Controller
         else
         {
             ResetHorizonObservation(session);
+            _horizonViewElapsed = 0;
             _horizonArmed = true;
         }
         target.SetPresentationEnabled(false);
@@ -593,11 +597,12 @@ public partial class W04Controller
             seenMask |= bit;
     }
 
-    private void ProcessCommonHorizonObservation()
+    private void ProcessCommonHorizonObservation(double delta)
     {
         if (!TryGetCommonObservationContext(HorizonInteractionId, out var bridge, out var session,
                 out var player, out var camera, out var stance, HorizonFactId))
         {
+            _horizonViewElapsed = 0;
             if (!HasCurrentCommonRoute()) ResetHorizonObservation(null);
             return;
         }
@@ -605,18 +610,33 @@ public partial class W04Controller
         if (_horizonDispatching || bridge.PhotoWorldFactObserved(HorizonFactId)) return;
         if (player.GlobalPosition.DistanceTo(stance.GlobalPosition) > ObservationStanceRadius)
         {
+            _horizonViewElapsed = 0;
             _horizonArmed = false;
             UpdateCommonObservationTarget(_horizonTarget, HorizonInteractionId, HorizonFactId, false);
             return;
         }
         if (!_horizonArmed || _commonHorizonWitness is not { } witness
             || !GodotObject.IsInstanceValid(witness) || !witness.IsVisibleInTree()
-            || !HasCommonHorizontalSector(camera, 35f)) return;
+            || !HasCommonHorizontalSector(camera, 35f))
+        {
+            _horizonViewElapsed = 0;
+            return;
+        }
 
         EnsureCommonViewRayExclusion(player);
-        if (!CommonWitnessFramedAndVisible(camera, witness.GlobalPosition, _commonHorizonCollider,
+        // A point at the edge of the frustum is not an observed common view.
+        // Let the player compose it with their own camera; never turn or lock it for them.
+        var direction = (witness.GlobalPosition - camera.GlobalPosition).Normalized();
+        if ((-camera.GlobalBasis.Z).Dot(direction) < .97f
+            || !CommonWitnessFramedAndVisible(camera, witness.GlobalPosition, _commonHorizonCollider,
                 GetWorld3D().DirectSpaceState)
-            || !bridge.IsInteractionAvailable(HorizonInteractionId)) return;
+            || !bridge.IsInteractionAvailable(HorizonInteractionId))
+        {
+            _horizonViewElapsed = 0;
+            return;
+        }
+        _horizonViewElapsed += Math.Max(0, Math.Min(delta, .1));
+        if (_horizonViewElapsed < CommonViewSettleTime) return;
 
         _horizonDispatching = true;
         DispatchCommonHorizonAsync(bridge, session, ++_horizonGeneration);
@@ -727,6 +747,7 @@ public partial class W04Controller
         _horizonSession = session;
         _horizonDispatching = false;
         _horizonArmed = false;
+        _horizonViewElapsed = 0;
     }
 
     private async void DispatchCommonRelationsAsync(RuntimeBridge bridge, object session, int generation)

@@ -24,17 +24,10 @@ public partial class W01Controller
         var soles = new List<Transform3D>();
         var heels = new List<Transform3D>();
         var left = true;
-        // One walker's prints by arc length: a real stride, wandering a little.
-        // They begin where the road ends, small and close together: a child's.
-        // By the end the same walker's stride is longer than a man's.
-        var grown = .6f;
-        for (var along = StopPrintsFrom; along < PrologueRouteLength - 4f; along += (.7f + .09f * Mathf.Sin(along * .77f)) * Mathf.Lerp(.62f, 1.3f, (grown - .6f) / .85f))
+        void Stamp(Vector3 here, Vector3 next, float along, float grown)
         {
-            grown = Mathf.Lerp(.6f, 1.45f, Mathf.SmoothStep(.12f, .93f, along / PrologueRouteLength));
-            var here = PrologueRoutePoint(along, 0f);
-            var next = PrologueRoutePoint(along + .5f, 0f);
             var direction = new Vector3(next.X - here.X, 0, next.Z - here.Z).Normalized();
-            if (direction == Vector3.Zero) continue;
+            if (direction == Vector3.Zero) return;
             var side = direction.Cross(Vector3.Up);
             var point = here + side * ((left ? -.12f : .12f) * grown + .1f * Mathf.Sin(along * .31f));
             point.Y = ForestGroundHeight(point.X, point.Z);
@@ -44,6 +37,13 @@ public partial class W01Controller
             heels.Add(new Transform3D(basis * Basis.FromScale(new Vector3(grown, 1f, grown)), point + basis * new Vector3(0, .029f, .075f * grown)));
             left = !left;
         }
+        var length = HutPathStart.DistanceTo(HutTrailPoint(1f));
+        for (var along = 0f; along < length; along += .54f + .06f * Mathf.Sin(along * .8f))
+            Stamp(HutTrailPoint(along / length), HutTrailPoint((along + .5f) / length), along, .82f);
+        // The fainter, older tracks resume deeper in the forest for those who explore past the cabin.
+        for (var along = 46f; along < PrologueRouteLength - 4f; along += .88f)
+            Stamp(PrologueRoutePoint(along, 0f), PrologueRoutePoint(along + .5f, 0f), along,
+                Mathf.Lerp(.76f, 1.38f, along / PrologueRouteLength));
         BuildTroddenTrail(trail);
 
         // With a drawn boot print in the texture slot, each step is that print
@@ -88,10 +88,11 @@ public partial class W01Controller
         Vector3 previousLeft = default, previousRight = default, previousCentre = default;
         var previousShade = 0f;
         var first = true;
-        for (var along = StopPrintsFrom - .6f; along < PrologueRouteLength - 2f; along += step)
+        var distance = HutPathStart.DistanceTo(HutTrailPoint(1f));
+        for (var along = 0f; along < distance; along += step)
         {
-            var here = PrologueRoutePoint(along, 0f);
-            var next = PrologueRoutePoint(along + .5f, 0f);
+            var here = HutTrailPoint(along / distance);
+            var next = HutTrailPoint((along + step) / distance);
             var direction = new Vector3(next.X - here.X, 0, next.Z - here.Z).Normalized();
             if (direction == Vector3.Zero) continue;
             var side = direction.Cross(Vector3.Up);
@@ -252,10 +253,10 @@ public partial class W01Controller
         return false;
     }
 
-    private double PlayPrologueForestVoice(Vector2 point, string clip, string subtitle, float volume)
+    private double PlayPrologueForestVoice(Vector2 point, string clip, string subtitle, float volume, float range = 36f)
     {
         var source = ToGlobal(new Vector3(point.X, ForestGroundHeight(point.X, point.Y) + 1.4f, point.Y));
-        var duration = PrologueVoice.PlayAt(this, source, clip, volume, 36f);
+        var duration = PrologueVoice.PlayAt(this, source, clip, volume, range);
         if (_prologueVoiceCaption is { } caption)
         {
             _prologueCaptionThought = false;

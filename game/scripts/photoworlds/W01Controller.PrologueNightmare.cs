@@ -370,8 +370,8 @@ public partial class W01Controller
         ProcessPrologueStop(player, feet, p, t);
         if (Fire(0, t > 8.5))
         {
-            var ahead = PrologueRoutePoint(Math.Min(Math.Max(p, 8f) + 22f, PrologueRouteLength), 1.5f, 1.4f);
-            var length = PlayPrologueForestVoice(new Vector2(ahead.X, ahead.Z), "forest-name-call", "«Айдар…»", -3f);
+            var ahead = PrologueHutPosition;
+            var length = PlayPrologueForestVoice(new Vector2(ahead.X, ahead.Z), "forest-name-call", "«Айдар…»", -3f, 66f);
             _nightmareRecognitionAt = t + Math.Max(2.4, length) + .25;
         }
         if (Fire(9, t > .4)) StartNightmareSound(ref _nightmareAir, NightmareAirStream, -24f);
@@ -461,7 +461,7 @@ public partial class W01Controller
     // ---- The end of the prints -----------------------------------------------------------
 
     /// <summary>The player has examined the last print. The answer comes from behind.</summary>
-    private async void RunNightmareClimaxAsync(RuntimeBridge bridge, object session, FirstPersonController player)
+    private async void RunNightmareClimaxAsync(RuntimeBridge bridge, object session, FirstPersonController player, bool atHut = false)
     {
         if (_nightmareClimax) return;
         _nightmareClimax = true;
@@ -475,18 +475,22 @@ public partial class W01Controller
             StopParallelSteps();
             StopNightmareSound(ref _nightmareAir, 1.5);
             PrologueVoice.StopSpatial(this);
-            ShowNightmareThought("Следы обрываются. Дальше — чистый снег.", 3);
-            if (!await NightmareWaitAsync(2.6, session)) return;
-
-            // He never gets to answer.
+            if (!atHut)
+            {
+                ShowNightmareThought("Следы обрываются. Дальше — чистый снег.", 3);
+                if (!await NightmareWaitAsync(2.6, session)) return;
+            }
             player.SetSessionTransition(true);
             transitionHeld = true;
             if (_prologueVoiceCaption is { } spoken) spoken.Hide();
             _prologueCaptionRemaining = 0;
-            // The attack owns the first fade, so claim cleanup before awaiting it.
             cut = true;
-            if (!await RunDreadAttackAsync(player, session)) return;
-            ReleaseFallCamera(player);
+            if (atHut) PrologueDreamCut.Show(GetTree(), fadeSeconds: .65);
+            else
+            {
+                if (!await RunDreadAttackAsync(player, session)) return;
+                ReleaseFallCamera(player);
+            }
             PrologueVoice.StopSpatial(this);
             PrologueDreamCut.PlayVoiceMorph(GetTree());
             if (_prologueVoiceCaption is { } caption) caption.Hide();
@@ -496,7 +500,7 @@ public partial class W01Controller
             // RuntimeBridge owns the actual scene transition and its checkpoint.
             player.SetSessionTransition(false);
             transitionHeld = false;
-            committed = await bridge.DispatchInteractionAsync(PrologueEndInteractionId);
+            committed = await bridge.DispatchInteractionAsync(atHut ? PrologueHutInteractionId : PrologueEndInteractionId);
         }
         catch (Exception error)
         {
@@ -513,6 +517,7 @@ public partial class W01Controller
                 && sameSession && bridge.ActiveSceneId == PrologueSceneId)
             {
                 _nightmareClimax = false;
+                if (atHut) ResetHutDoor();
                 _torchOverride = null;
                 _prologueExitDispatching = false;
                 _prologueEndTarget?.SetPresentationEnabled(true);

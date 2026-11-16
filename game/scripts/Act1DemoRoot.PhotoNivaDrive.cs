@@ -6,18 +6,11 @@ namespace Urman.Godot;
 
 public partial class Act1DemoRoot
 {
-    // The ride home, rebuilt from nothing (author request 2026-11-12).
-    //
-    // One unbroken first-person shot, about a minute and a half, in a frame with
-    // film bars. He wakes with the photograph of that forest open on his lap;
-    // babai has seen the dream on his face. The last field, the radio, then the
-    // forest closes over the road: the music breaks up into a voice that says
-    // his name, someone far too tall stands among the trunks, and babai, who
-    // has not looked, says only «на лес не смотри». The trees let go, the
-    // village opens and the title comes up over it. Nothing is explained.
-    //
-    // The car ends in its authored parked pose. Reading and showing the print
-    // are player actions; language selection is a separate voluntary talk.
+    // He wakes with the real forest print open on his lap. The default passage
+    // gives him time to inspect it, then cuts to the authored parked Niva.
+    // Choosing to stay keeps the continuous road, radio and forest encounter.
+    // Reading and showing the print are player actions; language selection is
+    // a separate voluntary talk. Both routes use the same physical exit.
 
     // ---- Tuning ---------------------------------------------------------------------------
     private const float PhotoNivaFieldBeforeForest = 190f;                 // metres of open road before the trees
@@ -108,6 +101,7 @@ public partial class Act1DemoRoot
         _photoNivaVillagePath = northernApproach.Concat(PrologueRidePath.Take(pullOverAt + 1))
             .Concat(new[] { new Vector3(-1.3f, 0f, 13f), new Vector3(-1.3f, 0f, 17f) }).ToArray();
         _photoNivaDriving = true;
+        ResetPhotoNivaJourney();
         _photoNivaDriveElapsed = 0f;
         _photoNivaApproachDistance = 0f;
         _photoNivaVillageStarted = false;
@@ -155,7 +149,7 @@ public partial class Act1DemoRoot
             ShadowEnabled = false
         };
         visual.Root.AddChild(_photoNivaCabinLight);
-        BuildPrologueOverlay("пропустить поездку", "skip_prologue");
+        BuildPrologueOverlay("доехать до дома", "skip_prologue");
         if (_prologueBlackout is { } blackout) blackout.Color = Colors.Black;
         BuildPhotoNivaFrame();
         // The ride's own black now covers the frame; the nightmare cut hands over without a flash.
@@ -304,10 +298,14 @@ public partial class Act1DemoRoot
         }
         _photoNivaDriveElapsed += delta;
         var t = _photoNivaDriveElapsed;
-        UpdatePhotoNivaWake(t);
-        UpdatePhotoNivaEvidence(delta);
-        UpdatePhotoNivaGaze(delta);
+        if (_photoNivaJourneyCut < 0f)
+        {
+            UpdatePhotoNivaWake(t);
+            UpdatePhotoNivaEvidence(delta);
+            UpdatePhotoNivaGaze(delta);
+        }
         if (_photoNivaTitleClock >= 0f) _photoNivaTitleClock += delta;
+        if (UpdatePhotoNivaJourney(delta)) return;
         // The bars open for a conversation and leave for good at the gate — after its last scene, if there is one.
         var openFrame = talking || (metresToStop < 7f && (!PhotoNivaGatePending || _photoNivaGateCut));
         _photoNivaBars = Mathf.MoveToward(_photoNivaBars, openFrame ? 0f : 1f, delta * (talking ? 1.4f : .6f));
@@ -689,14 +687,14 @@ public partial class Act1DemoRoot
         if (_rideNiva is { } niva) niva.GlobalTransform = _photoNivaStopTransform;
         if (_rideCamera is { } camera) camera.Position = RideCameraRest;
         ReleasePhotoNivaDrive();
-        _bridge!.OpenDialogueUi(_photoNivaLanguageActive ? PrologueRideDialogue : PhotoNivaArrivalDialogue);
-        UpdateRouteCue();
+        PresentParkedPhotoNiva();
     }
 
     private void ReleasePhotoNivaDrive()
     {
         if (!_photoNivaDriving) return;
         _photoNivaDriving = false;
+        _photoNivaJourneyCut = -1f;
         _photoNivaParkedGate = _photoNivaGateWritePending = false;
         _photoNivaEvidenceClock = -1f;
         _photoNivaGateClock = -1f;

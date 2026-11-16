@@ -44,6 +44,10 @@ public partial class PrologueApproachRoad : Node3D
         SetMeta("presentationOnly", true);
         SetMeta("presentationOwner", nameof(Act1DemoRoot));
         BuildGround();
+        // AlignPhotoNivaApproachToVillage sets this node's final transform just
+        // after AddChild returns. Build the distant continuation after that so
+        // it can sit below the real village terrain where the two overlap.
+        CallDeferred(nameof(BuildDistantGround));
         BuildRoad();
         BuildTrees();
         BuildPowerLine();
@@ -67,6 +71,146 @@ public partial class PrologueApproachRoad : Node3D
         }
         st.GenerateNormals();
         AddChild(new MeshInstance3D { Name = "ApproachFields", Mesh = st.Commit(), MaterialOverride = PainterlyMaterialLibrary.ForColor("d7dde2", "snow_ground") });
+    }
+
+    /// <summary>
+    /// Continue the open snow fields into broad, low landforms. The near patch
+    /// used to stop at x=±170 m and at the road ends; from the passenger seat
+    /// those straight edges were visible whenever the camera turned away from
+    /// the sparse groves. This visual-only annulus follows the exact near-ground
+    /// boundary, then eases into large rolling forms and runs beyond the normal
+    /// passenger-camera far plane. Where it crosses the authored village, it
+    /// sinks below the real height field instead of covering it.
+    /// </summary>
+    private void BuildDistantGround()
+    {
+        const float fieldStartZ = 40f;
+        const float innerHalfWidth = FieldHalfWidth;
+        const int sideCellsX = 68;   // 5 m samples, matching ApproachFields
+        const int sideCellsZ = 144;  // 5 m samples, matching ApproachFields
+        const int radialRings = 36;
+        const float outerHalfWidth = 6500f;
+        const float outerHalfDepth = 6500f;
+
+        var groundEndZ = TrimGroundAtRoadEnd ? RoadEndZ : -RoadLength - 60f;
+        var centreZ = (fieldStartZ + groundEndZ) * .5f;
+        var innerHalfDepth = (fieldStartZ - groundEndZ) * .5f;
+        var boundary = new Vector2[(sideCellsX + sideCellsZ) * 2];
+        var cursor = 0;
+        for (var i = 0; i < sideCellsX; i++)
+            boundary[cursor++] = new Vector2(-innerHalfWidth + i * 5f, fieldStartZ);
+        for (var i = 0; i < sideCellsZ; i++)
+            boundary[cursor++] = new Vector2(innerHalfWidth, fieldStartZ - i * 5f);
+        for (var i = 0; i < sideCellsX; i++)
+            boundary[cursor++] = new Vector2(innerHalfWidth - i * 5f, groundEndZ);
+        for (var i = 0; i < sideCellsZ; i++)
+            boundary[cursor++] = new Vector2(-innerHalfWidth, groundEndZ + i * 5f);
+
+        var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        Vector3[]? previousRing = null;
+        for (var ring = 0; ring <= radialRings; ring++)
+        {
+            var t = ring / (float)radialRings;
+            // Dense rings preserve the 5 m field edge and the first few hundred
+            // metres; the far end becomes coarse only well beyond the fog band.
+            var spread = t * t;
+            var halfWidth = Mathf.Lerp(innerHalfWidth, outerHalfWidth, spread);
+            var halfDepth = Mathf.Lerp(innerHalfDepth, outerHalfDepth, spread);
+            var currentRing = new Vector3[boundary.Length];
+            for (var i = 0; i < boundary.Length; i++)
+            {
+                float x, z;
+                if (ring == 0)
+                {
+                    x = boundary[i].X;
+                    z = boundary[i].Y;
+                }
+                else
+                {
+                    var edge = i;
+                    if (edge < sideCellsX)
+                    {
+                        x = Mathf.Lerp(-halfWidth, halfWidth, edge / (float)sideCellsX);
+                        z = centreZ + halfDepth;
+                    }
+                    else if ((edge -= sideCellsX) < sideCellsZ)
+                    {
+                        x = halfWidth;
+                        z = Mathf.Lerp(centreZ + halfDepth, centreZ - halfDepth, edge / (float)sideCellsZ);
+                    }
+                    else if ((edge -= sideCellsZ) < sideCellsX)
+                    {
+                        x = Mathf.Lerp(halfWidth, -halfWidth, edge / (float)sideCellsX);
+                        z = centreZ - halfDepth;
+                    }
+                    else
+                    {
+                        edge -= sideCellsX;
+                        x = -halfWidth;
+                        z = Mathf.Lerp(centreZ - halfDepth, centreZ + halfDepth, edge / (float)sideCellsZ);
+                    }
+                }
+
+                var height = DistantGroundHeight(x, z, centreZ, innerHalfWidth, innerHalfDepth);
+                currentRing[i] = new Vector3(x, height, z);
+            }
+
+            if (previousRing is not null)
+            {
+                for (var i = 0; i < boundary.Length; i++)
+                {
+                    var next = (i + 1) % boundary.Length;
+                    var innerA = previousRing[i];
+                    var outerA = currentRing[i];
+                    var innerB = previousRing[next];
+                    var outerB = currentRing[next];
+                    foreach (var vertex in new[] { innerA, outerA, innerB, innerB, outerA, outerB })
+                    {
+                        surface.SetUV(new Vector2(vertex.X, vertex.Z) * .08f);
+                        surface.AddVertex(vertex);
+                    }
+                }
+            }
+            previousRing = currentRing;
+        }
+
+        surface.Index();
+        surface.GenerateNormals();
+        var mesh = surface.Commit();
+        AddChild(new MeshInstance3D
+        {
+            Name = "DistantSnowfield",
+            Mesh = mesh,
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("d7dde2", "snow_ground"),
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+        });
+    }
+
+    private float DistantGroundHeight(float x, float z, float centreZ, float innerHalfWidth, float innerHalfDepth)
+    {
+        var edgeX = Mathf.Max(Mathf.Abs(x) - innerHalfWidth, 0f);
+        var edgeZ = Mathf.Max(Mathf.Abs(z - centreZ) - innerHalfDepth, 0f);
+        var distance = new Vector2(edgeX, edgeZ).Length();
+        var transition = Mathf.SmoothStep(0f, 420f, distance);
+        var broadRelief = .2f
+            + 2.2f * Mathf.Sin((x + z * .11f) / 760f)
+            + 1.7f * Mathf.Cos((z - x * .08f) / 940f);
+        var height = Mathf.Lerp(Ground(x, z), broadRelief, transition);
+
+        // The village and its collision terrain own the arrival side. Fade the
+        // underlay below those authored surfaces after a short transition, so
+        // this horizon mesh cannot draw over streets, yards, or buildings.
+        if (distance > 55f)
+        {
+            var world = GlobalTransform * new Vector3(x, height, z);
+            var mapGround = Urman.Experiments.AgentBAct1.AgentBAct1HeightField.CollisionGround(world.X, world.Z);
+            var localMapGround = mapGround - GlobalPosition.Y;
+            var underlayWeight = Mathf.SmoothStep(55f, 230f, distance);
+            height = Mathf.Lerp(height, Mathf.Min(height, localMapGround - .35f), underlayWeight);
+        }
+
+        return height;
     }
 
     private void BuildRoad()

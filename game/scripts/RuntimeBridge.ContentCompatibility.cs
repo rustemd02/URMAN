@@ -103,6 +103,9 @@ public partial class RuntimeBridge
     // The opening keeps all legacy notebook nodes, saved facts, and completed handoffs.
     private const string FullGameHomePrintFingerprint = "c47058b1cd9e2f4ccea1a347dbb60abb28d449715bfdefaeb4e9ef65f3ecae3d";
 
+    // The hut adds an alternative prologue exit. All saved legacy interactions and notebook nodes remain.
+    private const string FullGameWinterHutFingerprint = "4b6abe2dfad9a6417d99a68cfee8369714351cc1ee563a3a4465d002b3e3c03f";
+
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
         // 80266983 -> 5b0a7ccf: 18 UI texts/provides IDs only; proof in PW-025.
@@ -452,7 +455,7 @@ public partial class RuntimeBridge
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
     {
         var isFullGame = StringComparer.Ordinal.Equals(_content.CampaignId, FullGameCampaignId);
-        if (isFullGame && _content.CampaignFingerprint is FullGameSchoolRouteTextFingerprint or FullGameHomePrintFingerprint)
+        if (isFullGame && _content.CampaignFingerprint is FullGameSchoolRouteTextFingerprint or FullGameHomePrintFingerprint or FullGameWinterHutFingerprint)
         {
             var current = _content.CampaignFingerprint;
             var compatible = FullGameTextRevisionCompatibility
@@ -462,8 +465,10 @@ public partial class RuntimeBridge
                 .Append(new(FullGameSchoolPhotoCueFingerprint, current))
                 .Append(new(FullGamePrologueNightmareHintFingerprint, current))
                 .Append(new(FullGamePrologueSearchHintFingerprint, current));
-            if (current == FullGameHomePrintFingerprint)
+            if (current is FullGameHomePrintFingerprint or FullGameWinterHutFingerprint)
                 compatible = compatible.Append(new(FullGameSchoolRouteTextFingerprint, current));
+            if (current == FullGameWinterHutFingerprint)
+                compatible = compatible.Append(new(FullGameHomePrintFingerprint, current));
             return new AtomicSaveGameStore(directory, fingerprintCompatibility: compatible.ToArray());
         }
 

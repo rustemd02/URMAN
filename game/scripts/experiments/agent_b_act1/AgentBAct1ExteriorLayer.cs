@@ -25,6 +25,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private const string GeneratedWinterPinePath = "res://assets/models/act1/urman_winter_pine_meshy_v1.glb";
     private const string PhysicalWinterPinePath = "res://assets/models/act1/urman_winter_pine.glb";
     private const string GeneratedWinterBirchPath = "res://assets/models/act1/urman_winter_birch_meshy_v2.glb";
+    private const float BuildingRoofHorizontalMargin = .35f;
 
     internal static IEnumerable<string> WinterPineResourcePaths
     {
@@ -55,10 +56,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         .Select(mesh => mesh.GlobalTransform * mesh.Mesh.GetAabb())
         .Where(bounds => bounds.Size.X > 1 && bounds.Size.Z > 1).ToArray();
 
-    internal static bool UnderBuildingRoof(Vector3 root, Aabb[] roofs) => roofs.Any(bounds =>
-        root.X >= bounds.Position.X - .35f && root.X <= bounds.End.X + .35f
-        && root.Z >= bounds.Position.Z - .35f && root.Z <= bounds.End.Z + .35f
-        && bounds.End.Y > root.Y + .4f);
+    internal static bool UnderBuildingRoof(Vector3 root, Aabb[] roofs) =>
+        roofs.Any(bounds => UnderBuildingRoof(root, bounds));
+
+    private static bool UnderBuildingRoof(Vector3 root, Aabb bounds) =>
+        root.X >= bounds.Position.X - BuildingRoofHorizontalMargin && root.X <= bounds.End.X + BuildingRoofHorizontalMargin
+        && root.Z >= bounds.Position.Z - BuildingRoofHorizontalMargin && root.Z <= bounds.End.Z + BuildingRoofHorizontalMargin
+        && bounds.End.Y > root.Y + .4f;
 
     internal void ReconcileBuildingFoliage(Node building)
     {
@@ -1611,6 +1615,34 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         kit.SetMeta("templateSourcePolicy", "hidden source library; shared geometry is rebased once per variant");
         var batches = new Dictionary<(Vector2I Cell, string Variant, string Region, int Lod), List<Transform3D>>();
         var roofs = BuildingRoofBounds(GetParent());
+        const float roofIndexCellSize = 16f;
+        var roofsByCell = new Dictionary<Vector2I, List<Aabb>>();
+        foreach (var roof in roofs)
+        {
+            // Index the same expanded XZ footprint the root test uses. Any roof
+            // that can contain a root is therefore present in that root's cell;
+            // the original exact predicate below still decides suppression.
+            var minCellX = Mathf.FloorToInt((roof.Position.X - BuildingRoofHorizontalMargin) / roofIndexCellSize);
+            var maxCellX = Mathf.FloorToInt((roof.End.X + BuildingRoofHorizontalMargin) / roofIndexCellSize);
+            var minCellZ = Mathf.FloorToInt((roof.Position.Z - BuildingRoofHorizontalMargin) / roofIndexCellSize);
+            var maxCellZ = Mathf.FloorToInt((roof.End.Z + BuildingRoofHorizontalMargin) / roofIndexCellSize);
+            for (var cellZ = minCellZ; cellZ <= maxCellZ; cellZ++)
+            for (var cellX = minCellX; cellX <= maxCellX; cellX++)
+            {
+                var cell = new Vector2I(cellX, cellZ);
+                if (!roofsByCell.TryGetValue(cell, out var cellRoofs))
+                    roofsByCell[cell] = cellRoofs = new List<Aabb>();
+                cellRoofs.Add(roof);
+            }
+        }
+        bool UnderIndexedBuildingRoof(Vector3 root)
+        {
+            var cell = new Vector2I(
+                Mathf.FloorToInt(root.X / roofIndexCellSize),
+                Mathf.FloorToInt(root.Z / roofIndexCellSize));
+            if (!roofsByCell.TryGetValue(cell, out var candidates)) return false;
+            return candidates.Any(bounds => UnderBuildingRoof(root, bounds));
+        }
         var plan = new List<FoliagePlanEntry>();
         Act1ConnectedWorld.ProfileWorldBuildStep("agent-b-densified-plan", () => plan = BuildDensifiedPlan());
         var maxRoadHalfWidth = AgentBAct1HeightField.MaxRoadHalfWidth;
@@ -1727,7 +1759,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 && new[] { "FallenBranch_", "GrassTuft_", "MossStone_" }.Any(prefix => sourceVariant.StartsWith(prefix, StringComparison.Ordinal));
             if (karaSuppression) suppressedKara++;
             var worldRoot = ToGlobal(target);
-            hidden |= UnderBuildingRoof(worldRoot, roofs);
+            hidden |= UnderIndexedBuildingRoof(worldRoot);
             if (!hidden)
             {
                 var roadSamplesDefinitelyClear = road.Distance

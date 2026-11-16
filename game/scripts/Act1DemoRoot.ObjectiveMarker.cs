@@ -183,6 +183,12 @@ public partial class Act1DemoRoot
         label = string.Empty;
         inspectionTarget = false;
         var playerPosition = player.GlobalPosition;
+        if (mission.InteractionId is ("urman.fullgame:interaction/pw-winter-piles-inspected"
+                or "urman.fullgame:interaction/pw-verify-bank-evidence")
+            && target.GetParent() is PhotoBankApproachPresence bank
+            && bank.TryGetPilesObservationObjective(bridge.SessionIdentity, player, mission.InteractionId,
+                out waypoint, out label, out inspectionTarget))
+            return true;
         if (mission.InteractionId == PhotoBankApproachPresence.LeafWitnessInteractionId
             && _objectiveMarkerUsingAnchor && playerPosition.DistanceSquaredTo(target.GlobalPosition)
                 <= PhotoBankApproachPresence.LeafObservationRange * PhotoBankApproachPresence.LeafObservationRange)

@@ -22,6 +22,10 @@ public partial class W01Controller
     private bool _rootPassageObservationFailed;
     private Vector3 _rootPassageObservationFailedPosition;
     private Vector3 _rootPassageObservationFailedForward;
+    private InteractionTarget? _forestPhotoComparisonTarget;
+    private object? _forestComparisonCueSession;
+    private int _forestComparisonMissingLandmarkIndex = -1;
+    private bool _forestComparisonCueValid;
 
     internal ForestPassageObservationSnapshot? CaptureForestPassageObservation(object session, string visitId)
     {
@@ -89,8 +93,8 @@ public partial class W01Controller
         }
 
         // Preserve the observation owner's existing ±1.5 m square around F11.
-        // Outside it, keep the route cue at F11; inside it, point at the real
-        // crossbar observation surface from the active tableau.
+        // Outside it, keep the route cue at F11; inside it, point at a real
+        // tableau landmark or the next unframed landmark while comparing.
         point = frame.GlobalPosition;
         label = "За тремя стволами";
         var offset = playerPosition - frame.GlobalPosition;
@@ -104,10 +108,170 @@ public partial class W01Controller
             || _forestRootArchContact is not { } rootArch || !GodotObject.IsInstanceValid(rootArch))
             return true;
 
+        if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
+            && _bridge is { } currentBridge && currentBridge.SessionIdentity is { } session
+            && ForestPhotoReferenceRaised(player, currentBridge, session)
+            && player.GetNodeOrNull<Camera3D>("Head/Camera3D") is { } camera
+            && GodotObject.IsInstanceValid(camera) && camera.Current)
+        {
+            if (!_forestComparisonCueValid || !ReferenceEquals(_forestComparisonCueSession, session))
+            {
+                point = _forestCrossbarObservationPoint;
+                label = "Сверьте три ориентира вместе";
+                inspectionPoint = true;
+                return true;
+            }
+
+            switch (_forestComparisonMissingLandmarkIndex)
+            {
+                case 1:
+                    point = _forestSplitBirchObservationPoint;
+                    label = ForestLandmarkCue(camera, point, "раздвоенную берёзу");
+                    break;
+                case 2:
+                    point = _forestCrossbarObservationPoint;
+                    label = ForestLandmarkCue(camera, point, "перекладину");
+                    break;
+                case 3:
+                    point = _forestRootArchObservationPoint;
+                    label = ForestLandmarkCue(camera, point, "дугу корня");
+                    break;
+                case 4:
+                    point = _forestCrossbarObservationPoint;
+                    label = "Сместитесь и повторите сравнение";
+                    break;
+                default:
+                    point = _forestCrossbarObservationPoint;
+                    label = "Сверьте три ориентира вместе";
+                    break;
+            }
+            inspectionPoint = true;
+            return true;
+        }
+
         point = _forestCrossbarObservationPoint;
-        label = "Посмотрите на всю группу";
+        label = "Поднимите P-FOREST и найдите три ориентира";
         inspectionPoint = true;
         return true;
+    }
+
+    private string ForestLandmarkCue(Camera3D camera, Vector3 point, string landmark)
+    {
+        var local = camera.ToLocal(point);
+        if (local.Z >= -0.05f) return $"Повернитесь к {landmark}";
+        var viewport = camera.GetViewport().GetVisibleRect().Size;
+        var aspect = viewport.X / Math.Max(viewport.Y, 1f);
+        var tangent = Mathf.Tan(Mathf.DegToRad(camera.Fov) * 0.5f);
+        var halfWidth = camera.KeepAspect == Camera3D.KeepAspectEnum.Width ? tangent : tangent * aspect;
+        var halfHeight = camera.KeepAspect == Camera3D.KeepAspectEnum.Width ? tangent / aspect : tangent;
+        if (Math.Abs(local.Y / -local.Z) > halfHeight)
+            return local.Y > 0f ? $"Поднимите взгляд к {landmark}" : $"Опустите взгляд к {landmark}";
+        if (Math.Abs(local.X / -local.Z) > halfWidth)
+            return local.X > 0f ? $"Найдите справа {landmark}" : $"Найдите слева {landmark}";
+        return $"Найдите в просвете {landmark}";
+    }
+
+    private bool ForestPhotoReferenceRaised(FirstPersonController player, RuntimeBridge bridge, object session) =>
+        player.GetNodeOrNull<PhotoSceneReference>("PhotoSceneReference") is { } reference
+        && reference.IsRaisedFor(player, bridge, session, "P-FOREST");
+
+    private void SetForestComparisonCue(object session, int missingLandmarkIndex)
+    {
+        _forestComparisonCueSession = session;
+        _forestComparisonMissingLandmarkIndex = missingLandmarkIndex;
+        _forestComparisonCueValid = true;
+    }
+
+    private void ClearForestComparisonCue()
+    {
+        _forestComparisonCueSession = null;
+        _forestComparisonMissingLandmarkIndex = -1;
+        _forestComparisonCueValid = false;
+    }
+
+    private void RefreshForestPhotoComparisonTarget()
+    {
+        if (_forestPhotoComparisonTarget is null || !GodotObject.IsInstanceValid(_forestPhotoComparisonTarget)) return;
+
+        var frame = GetNodeOrNull<Marker3D>("Anchors/F11");
+        var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        var shouldPresent = false;
+        if (_bridge is { } bridge && GodotObject.IsInstanceValid(bridge)
+            && bridge.SessionIdentity is { } session
+            && bridge.ActiveSceneId == ForestSceneId
+            && !bridge.PhotoWorldFactObserved(ForestCameraBackFactId)
+            && bridge.CanInspectReceivedPhotoBook
+            && !GetTree().Paused && !MainMenuUi.AnyUndismissed(GetTree())
+            && frame is not null && GodotObject.IsInstanceValid(frame)
+            && player is not null && GodotObject.IsInstanceValid(player)
+            && !player.ModalOpen && !player.VehicleControlled && !player.IsClimbingLadder
+            && !ForestPhotoReferenceRaised(player, bridge, session))
+        {
+            shouldPresent = Math.Abs(player.GlobalPosition.X - frame.GlobalPosition.X) <= 1.5f
+                && Math.Abs(player.GlobalPosition.Z - frame.GlobalPosition.Z) <= 1.5f;
+        }
+        if (_forestPhotoComparisonTarget.PresentationEnabled != shouldPresent)
+            _forestPhotoComparisonTarget.SetPresentationEnabled(shouldPresent);
+    }
+
+    internal void BuildForestPhotoComparisonTarget()
+    {
+        if (_forestPhotoComparisonTarget is { } current && GodotObject.IsInstanceValid(current)) return;
+        if (GetNodeOrNull<Marker3D>("Anchors/F11") is not { } frame
+            || !GodotObject.IsInstanceValid(frame)) return;
+
+        var towardPhoto = new Vector3(
+            _forestCrossbarObservationPoint.X - frame.GlobalPosition.X,
+            0f,
+            _forestCrossbarObservationPoint.Z - frame.GlobalPosition.Z);
+        if (towardPhoto.LengthSquared() < .001f) return;
+        towardPhoto = towardPhoto.Normalized();
+        var horizontalDistance = new Vector2(
+            _forestCrossbarObservationPoint.X - frame.GlobalPosition.X,
+            _forestCrossbarObservationPoint.Z - frame.GlobalPosition.Z).Length();
+        var target = new InteractionTarget
+        {
+            Name = "ForestPhotoComparisonTarget",
+            InteractionId = ForestCameraBackInteractionId,
+            Prompt = "Сверить со снимком",
+            CollisionLayer = 4u,
+            CollisionMask = 0u
+        };
+        target.ConfigureRayOnly();
+        target.AddChild(new CollisionShape3D
+        {
+            Name = "ForestPhotoComparisonRayShape",
+            Shape = new BoxShape3D { Size = new Vector3(2.8f, 1.6f, .08f) }
+        });
+        AddChild(target);
+        var distanceAlongView = 1.6f;
+        var photoPoint = _forestCrossbarObservationPoint;
+        target.GlobalPosition = new Vector3(
+            frame.GlobalPosition.X + towardPhoto.X * distanceAlongView,
+            Mathf.Lerp(frame.GlobalPosition.Y + 1.7f, photoPoint.Y,
+                distanceAlongView / Math.Max(horizontalDistance, distanceAlongView)),
+            frame.GlobalPosition.Z + towardPhoto.Z * distanceAlongView);
+        target.LookAt(target.GlobalPosition + towardPhoto, Vector3.Up);
+        target.PresentationBeforeDispatch = OpenForestPhotoReferenceLocally;
+        target.SetPresentationEnabled(false);
+        _forestPhotoComparisonTarget = target;
+    }
+
+    private bool OpenForestPhotoReferenceLocally()
+    {
+        var bridge = _bridge;
+        var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        if (bridge is null || !GodotObject.IsInstanceValid(bridge)
+            || bridge.SessionIdentity is not { } session
+            || player is null || !GodotObject.IsInstanceValid(player)
+            || !player.CanShowPhotoSceneReference(bridge, "P-FOREST", allowJournalModal: false)
+            || JournalUi.PhotoBookFrontTexture("P-FOREST") is not { } front)
+            return false;
+
+        if (player.TryShowPhotoSceneReference(bridge, session, "P-FOREST", front)
+            && _forestPhotoComparisonTarget is { } target && GodotObject.IsInstanceValid(target))
+            target.SetPresentationEnabled(false);
+        return false;
     }
 
     /// <summary>Guides the player along the actual root ribbon and then to the next observation subject.</summary>

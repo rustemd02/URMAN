@@ -23,7 +23,7 @@ public partial class Act1DemoRoot
     private Vector2 _rendererMouseScreenDelta;
 
 #if DEBUG
-    private enum ManualPhotoWorldSamplePhase { Idle, Warmup, Measuring }
+    private enum ManualPhotoWorldSamplePhase { Idle, Warmup, AwaitingWalk, Measuring }
     private const int ManualPhotoWorldWarmupFrames = 60;
     private const int ManualPhotoWorldSampleFrames = 240;
     private ManualPhotoWorldSamplePhase _manualPhotoWorldSamplePhase;
@@ -36,6 +36,7 @@ public partial class Act1DemoRoot
     private Vector3 _manualPhotoWorldLastPosition;
     private int _manualPhotoWorldWarmupRemaining;
     private int _manualPhotoWorldMovementFrames;
+    private bool _manualPhotoWorldStartOnWalk;
 
     private bool ManualPhotoWorldSampleEnabled => OS.IsDebugBuild()
         && OS.GetEnvironment("URMAN_PROTECTED_RUN") == "1" && UsesPhotoWorldsCampaign;
@@ -45,7 +46,7 @@ public partial class Act1DemoRoot
         if (!ManualPhotoWorldSampleEnabled
             || inputEvent is not InputEventKey
                 { Pressed: true, Keycode: Key.F, CtrlPressed: true, ShiftPressed: true,
-                    AltPressed: false, MetaPressed: false }) return false;
+                    MetaPressed: false } sampleKey) return false;
 
         GetViewport().SetInputAsHandled();
         if (inputEvent is InputEventKey { Echo: false }
@@ -58,6 +59,7 @@ public partial class Act1DemoRoot
             _manualPhotoWorldScenePath = _main.ActiveZoneScenePath;
             _manualPhotoWorldZone = _bridge.CurrentZoneId;
             _manualPhotoWorldLastTicks = 0;
+            _manualPhotoWorldStartOnWalk = sampleKey.AltPressed;
             _manualPhotoWorldWarmupRemaining = ManualPhotoWorldWarmupFrames;
             _manualPhotoWorldMovementFrames = 0;
             _manualPhotoWorldSamplePhase = ManualPhotoWorldSamplePhase.Warmup;
@@ -130,13 +132,20 @@ public partial class Act1DemoRoot
         {
             _manualPhotoWorldLastPosition = position;
             if (--_manualPhotoWorldWarmupRemaining <= 0)
-                _manualPhotoWorldSamplePhase = ManualPhotoWorldSamplePhase.Measuring;
+                _manualPhotoWorldSamplePhase = _manualPhotoWorldStartOnWalk ? ManualPhotoWorldSamplePhase.AwaitingWalk : ManualPhotoWorldSamplePhase.Measuring;
             return;
         }
 
         var horizontalMovement = new Vector2(
             position.X - _manualPhotoWorldLastPosition.X,
             position.Z - _manualPhotoWorldLastPosition.Z).Length();
+        if (_manualPhotoWorldSamplePhase == ManualPhotoWorldSamplePhase.AwaitingWalk)
+        {
+            _manualPhotoWorldLastPosition = position;
+            if (horizontalMovement <= 0.001f) return;
+            // Record every following frame, including stalls, collisions or a pause in walking.
+            _manualPhotoWorldSamplePhase = ManualPhotoWorldSamplePhase.Measuring;
+        }
         if (horizontalMovement > 0.001f) _manualPhotoWorldMovementFrames++;
         _manualPhotoWorldLastPosition = position;
         _manualPhotoWorldFrameMilliseconds.Add(frameMilliseconds);

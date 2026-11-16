@@ -950,7 +950,10 @@ public partial class Act1ConnectedWorld
         var basis = new Basis(right, Vector3.Up, -back);
         var ground = AgentBAct1HeightField.CollisionGround(centre.X, centre.Y);
         var at = new Vector3(centre.X, ground, centre.Y);
-        var paint = colour + "|wood_painted_trim";
+        // The gate belongs to the same authored fence family as its frontage:
+        // weathered families keep weathered timber, while painted families keep
+        // the lot's existing wash.
+        var paint = (design.Surface == "wood_fence" ? "9b886b" : colour) + "|" + design.Surface;
         // The passage is measured from the two posts' own inner faces, not from the
         // distance between their centres: a cart gate has to clear a person plus the
         // authored 0.15 m (VIS-089), and here it clears a cart.
@@ -975,16 +978,31 @@ public partial class Act1ConnectedWorld
             // VIS-009: each gate post stands on its own ground. Both used the
             // centre sample, so on a slope one post hung 1.72 m away from it.
             var postBase = SupportBase(new Vector2(post.X, post.Z), basis, postHalf, postHalf) - .015f;
-            var postTop = ground + 2.4f;
+            // Keep the documented gate-plate band (+1.47 m) on the post, without
+            // repeating the old 2.4 m portal over every ordinary yard entrance.
+            var postTopHeight = Mathf.Max(1.78f, design.Height + .55f);
+            var postTop = ground + postTopHeight;
             FencePart(parts, paint, new(.17f, postTop - postBase, .17f), new(basis, new(post.X, (postTop + postBase) * .5f, post.Z)));
-            FencePart(parts, "eadcc0|wood_painted_trim", new(.23f, .055f, .23f), new(basis, post + Vector3.Up * 2.42f));
+            FencePart(parts, "eadcc0|wood_painted_trim", new(.23f, .055f, .23f), new(basis, post + Vector3.Up * (postTopHeight + .0275f)));
             // Leaves folded 90 degrees into the yard: the street access stays fully open.
             var leaf = post + back * .65f;
             var leafBasis = new Basis(back, Vector3.Up, right);
-            foreach (var y in new[] { .40f, 1.38f })
+            var railHeights = new[] { design.LowerRailHeight, 1.38f }
+                .Concat(design.ExtraRailHeights).Where(y => y < 1.48f).Distinct().OrderBy(y => y).ToArray();
+            foreach (var y in railHeights)
                 FencePart(parts, paint, new(1.30f, .09f, .065f), new(leafBasis, leaf + Vector3.Up*y));
-            for (var k=0;k<9;k++)
-                FencePart(parts, paint, new(.105f, 1.48f, .04f), new(leafBasis, post + back*(.09f+k*.145f)+Vector3.Up*.82f));
+            var boardCount = Mathf.Max(7, Mathf.FloorToInt(1.30f / design.BoardSpacing));
+            for (var k = 0; k < boardCount; k++)
+            {
+                var t = k / (float)(boardCount - 1);
+                var boardWidth = design.MixedBoards && k % 2 == 1 ? design.BoardWidth * .65f : design.BoardWidth;
+                var wovenOffset = design.Woven ? right * (k % 2 == 0 ? .03f : -.03f) : Vector3.Zero;
+                FencePart(parts, paint, new(boardWidth, 1.48f, design.BoardThickness),
+                    new(leafBasis, post + back * (.09f + t * 1.12f) + Vector3.Up * .82f + wovenOffset));
+            }
+            if (design.CapRail)
+                FencePart(parts, "eadcc0|wood_painted_trim", new(1.30f, .06f, .055f),
+                    new(leafBasis, leaf + Vector3.Up * 1.53f));
             // The diagonal that keeps a 1.3 m leaf square, nailed from the hinge
             // corner to the far bottom rail end.
             var braceAngle = Mathf.Atan2(.98f, 1.30f);
@@ -1003,14 +1021,15 @@ public partial class Act1ConnectedWorld
             body.AddChild(new CollisionShape3D { Name=$"OpenGateLeaf{body.GetChildCount()}",
                 Shape=new BoxShape3D {Size=new(1.3f,1.55f,.10f)}, Transform=new(leafBasis,leaf+Vector3.Up*.80f) });
         }
-        FencePart(parts, paint, new(3.6f,.14f,.19f),new(basis,at+Vector3.Up*2.32f));
-        FencePart(parts, "eadcc0|wood_painted_trim",new(3.72f,.065f,.25f),new(basis,at+Vector3.Up*2.44f));
-        // A restrained fan over the capka; actual bars cast their own shadows.
+        var headerY = Mathf.Max(1.86f, design.Height + .68f);
+        FencePart(parts, paint, new(3.6f,.14f,.19f),new(basis,at+Vector3.Up*headerY));
+        FencePart(parts, "eadcc0|wood_painted_trim",new(3.72f,.065f,.25f),new(basis,at+Vector3.Up*(headerY + .12f)));
+        // Keep the existing restrained capka fan, scaled down with the lower frame.
         for(var k=0;k<7;k++)
         {
             var angle=(k-3)*.24f;
-            FencePart(parts, "eadcc0|wood_painted_trim", new(.035f,.40f,.04f),
-                new(basis*new Basis(Vector3.Back,angle),at+Vector3.Up*2.63f+right*Mathf.Sin(angle)*.20f));
+            FencePart(parts, "eadcc0|wood_painted_trim", new(.035f,.28f,.04f),
+                new(basis*new Basis(Vector3.Back,angle),at+Vector3.Up*(headerY + .33f)+right*Mathf.Sin(angle)*.16f));
         }
     }
 

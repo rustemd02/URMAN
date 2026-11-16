@@ -111,14 +111,14 @@ public partial class JournalUi
             var inCabin = bridge.GetTree().GetFirstNodeInGroup("act1_demo_root")
                 is Act1DemoRoot { PhotoNivaArrivalActive: true };
             return inCabin
-                ? new("arrival-niva", "Разговор с бабаем", "Выслушайте бабая и выйдите из машины.", stop)
+                ? new("arrival-niva", "Домой с дороги", "Выйдите из Нивы и зайдите в дом.", stop)
                 : new("arrival-niva", "Остановка у дома", "Подойдите к Ниве, чтобы продолжить.", stop, TargetLabel: "Нива");
         }
         if (bridge.ActiveSceneId != "urman.fullgame:scene/pw-home") return null;
         if (bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-book-handoff"))
-            return HomeMission(bridge, "arrival-book", "Показать лесной снимок", "Положите книгу на стол и откройте лесной снимок.", "pw-book-handoff", "Место для книги");
+            return HomeMission(bridge, "arrival-book", "Книга к свету", "Положите книгу на стол и откройте лесной снимок.", "pw-book-handoff", "Место для книги");
         if (bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-arrival-tea-talk"))
-            return HomeMission(bridge, "arrival-tea", "Показать снимок әби", "Подойдите к Гөлсинә со снимком, который видели в дороге.", "pw-arrival-tea-talk", "Гөлсинә");
+            return HomeMission(bridge, "arrival-tea", "Дом после дороги", "Зайдите в дом и подойдите к столу Гөлсинә.", "pw-arrival-tea-talk", "Гөлсинә");
         return null;
     }
 
@@ -511,6 +511,8 @@ public partial class JournalUi
         (string Title, string Action, string Interaction, string? Anchor, string Label)? target =
             (bridge.ActiveSceneId, hint.Key) switch
             {
+                ("urman.fullgame:scene/pw-prologue", "prologue-hut") =>
+                    (hint.Question, hint.Action, "pw-prologue-hut-door", "ZoneHost/W01/WinterHutKnock", "Сторожка"),
                 ("urman.fullgame:scene/pw-prologue", "prologue-branch") =>
                     (hint.Question, hint.Action, "pw-prologue-branch-move", "ZoneHost/W01/Anchors/F01", "Следы"),
                 ("urman.fullgame:scene/pw-prologue", "prologue-exit") =>
@@ -569,7 +571,7 @@ public partial class JournalUi
                 ("urman.fullgame:scene/pw-cellar", "cellar-object") =>
                     ("Вернуть семейную коробку", "Перенесите семейную коробку на пустую подставку у полки.", "pw-cellar-object", "ZoneHost/W05/W05World/FamilyBoxReturnedPose", "Подставка для семейной коробки"),
                 ("urman.fullgame:scene/pw-cellar", "cellar-response") =>
-                    ("Чашка на столике", "Осмотрите переставленную чашку.", "pw-cellar-response", null, "Переставленная чашка"),
+                    ("Чашка у низкого столика", "Найдите чашку у низкого столика и осмотрите её. Проследите, что с ней произойдёт.", "pw-cellar-response", null, "Чашка у низкого столика"),
                 ("urman.fullgame:scene/pw-cellar", "cellar-niche") =>
                     ("Ниша под полкой", "Осмотрите нишу под нижней полкой.", "pw-cellar-niche", null, "Ниша под полкой"),
                 ("urman.fullgame:scene/pw-cellar", "cellar-exit") =>

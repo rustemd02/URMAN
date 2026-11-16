@@ -58,12 +58,14 @@ public partial class PhotoBankApproachPresence : Node3D
         }
         ApplyProjection();
         ProcessLeafWitness(delta);
+        ProcessPilesObservation();
     }
 
     private bool TryBindBridge()
     {
         if (_bridge is { } current && GodotObject.IsInstanceValid(current)) return true;
         _bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        if (_bridge is not null) _bridge.PlayTimeBoundary += OnPilesPlayTimeBoundary;
         return _bridge is not null;
     }
 
@@ -97,8 +99,15 @@ public partial class PhotoBankApproachPresence : Node3D
             _enterBankTarget = CreateTarget("EnterBankApproachTarget", EnterBankInteractionId,
                 "urman.fullgame:text/pw-label-enter-bank-approach", entry, .58f, .82f);
         if (_winterPilesTarget is null && _oldPilesWitness is { } piles)
+        {
             _winterPilesTarget = CreateTarget("WinterPilesTarget", WinterPilesInteractionId,
                 "urman.fullgame:text/pw-label-winter-piles-inspected", piles, .52f, .30f);
+            if (_winterPilesTarget is { } pilesTarget)
+            {
+                pilesTarget.PresentationBeforeDispatch = BeginPilesObservation;
+                pilesTarget.PresentationGate = () => _pilesObservationSession is null && !_pilesCommitting;
+            }
+        }
         if (_verifyBankTarget is null && _oldPilesWitness is { } verifyPiles)
         {
             _verifyBankTarget = CreateTarget("VerifyBankEvidenceTarget", VerifyBankInteractionId,
@@ -289,6 +298,7 @@ public partial class PhotoBankApproachPresence : Node3D
 
     private void DeactivateBankPresentation()
     {
+        ResetPilesObservation();
         if (_bankApproach is { } bankApproach && GodotObject.IsInstanceValid(bankApproach))
             bankApproach.Visible = false;
         SetBankCollisionLayers(false);
@@ -320,6 +330,8 @@ public partial class PhotoBankApproachPresence : Node3D
     public override void _ExitTree()
     {
         DeactivateBankPresentation();
+        if (_bridge is { } bridge && GodotObject.IsInstanceValid(bridge))
+            bridge.PlayTimeBoundary -= OnPilesPlayTimeBoundary;
         _bridge = null;
     }
 }
