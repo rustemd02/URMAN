@@ -15,6 +15,7 @@ public static class CivicSurfaceLibrary
         ["«КАРА УРМАН» СОВХОЗЫ\nИДАРӘСЕ · КОНТОРА"] = ("a",2), ["ПОЧТА"] = ("a",3),
         ["МАКТАУ ТАКТАСЫ\nДОСКА ПОЧЁТА"] = ("a",4), ["Часть рамок снята"] = ("a",5),
         ["М.  А."] = ("a",6), ["УРМАН КАМИЛЛӘРЕ — КАРА-УРМАН МӘКТӘБЕ"] = ("a",7),
+        ["Учительская"] = ("staff",0),
         ["ГАРДЕРОБ · ЧИК"] = ("a",8), ["КАССА"] = ("a",9), ["ЗАЛ · 96 УРЫН"] = ("a",10),
         ["КОСТЮМЕРНАЯ"] = ("a",11), ["ИНСТРУМЕНТЫ"] = ("a",12),
         ["Мәктәп почмагы\nШкольный уголок"] = ("a",13),
@@ -32,7 +33,8 @@ public static class CivicSurfaceLibrary
     {
         if (!Signs.TryGetValue(text, out var cell)) throw new InvalidOperationException("Uninventoried civic sign: " + text);
         var exterior = cell.Atlas == "a" && cell.Index < 4;
-        var pigment = exterior ? Face("signs_exterior_v1_atlas.png",2,2,cell.Index,.55f)
+        var pigment = cell.Atlas == "staff" ? Face("staff_room_door.png")
+            : exterior ? Face("signs_exterior_v1_atlas.png",2,2,cell.Index,.55f)
             : cell.Atlas == "b" && cell.Index == 10 ? Face("costume_tag_v1_basecolor.png")
             : Face("signs_civic_"+cell.Atlas+(cell.Atlas == "b" ? "_v2_atlas.png" : "_v1_atlas.png"),4,4,cell.Index);
         var node = FramedFace(parent,"HandmadeSign",at,yaw,size,pigment,paper:!exterior);
