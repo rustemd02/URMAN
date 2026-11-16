@@ -7,7 +7,7 @@
   "native_or_godot_import_verified": false,
   "collision_surface_generated_or_verified": false,
   "source_script": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/hero_root_turn_v1.py",
-  "source_script_sha256": "6907f77928c7e8045405644d3bc2be82f0b1df9b6af73fd1d6e88eda081159e0",
+  "source_script_sha256": "8535a52759676ae4b0ceeb806000208d42231c7160623a9a88a1f7351b3fb42c",
   "input_specs": {
     "asset_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json",
     "asset_spec_sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
@@ -45,21 +45,9 @@
     "file_blend": "hero-root-turn-v1.blend",
     "file_glb": "hero-root-turn-v1.glb",
     "root_node": "A_HERO_ROOT_Turn",
-    "vertex_count": 15656,
-    "triangle_count": 30108,
+    "vertex_count": 14204,
+    "triangle_count": 27428,
     "mesh_objects": {
-      "HeroRoot_Arch_Root_One": {
-        "vertices": 920,
-        "triangles": 1764
-      },
-      "HeroRoot_Arch_Root_Three": {
-        "vertices": 776,
-        "triangles": 1476
-      },
-      "HeroRoot_Arch_Root_Two": {
-        "vertices": 920,
-        "triangles": 1764
-      },
       "HeroRoot_Buttress_Root_East": {
         "vertices": 702,
         "triangles": 1320
@@ -127,11 +115,15 @@
       "HeroRoot_WalkRibbon_LOD0": {
         "vertices": 1448,
         "triangles": 2892
+      },
+      "HeroRoot_WashoutBank_West_LOD0": {
+        "vertices": 1164,
+        "triangles": 2324
       }
     },
     "godot_bounds_m": {
       "x": [
-        -6.099999904632568,
+        -8.535110473632812,
         7.138066291809082
       ],
       "y": [
@@ -174,10 +166,10 @@
       "source": "game/assets/textures/painterly/procedural_bake_receipt_v1.json#textures.F03",
       "provenance": "project-original procedural (no third-party source)"
     },
-    "file_blend_sha256": "77fea773a68405ac9843cd6600392d9176da166a8bf1bcf06fc31e36940b1fd5",
-    "file_glb_sha256": "dbdfb18788a2b0d1202b7caa1bce68646f2a30f44267fb4e9615533c08494761",
-    "file_blend_bytes": 4144445,
-    "file_glb_bytes": 3102268
+    "file_blend_sha256": "ffb339b266c3bab0db7de75d661d9fe14a98f414de4c9d66455bd9d2cafa8abb",
+    "file_glb_sha256": "df7a4ba6d055301a7092eba24c73fc5df3ed3dadf9cf7f148b191161a5ec3304",
+    "file_blend_bytes": 3996055,
+    "file_glb_bytes": 3006396
   },
   "spatial_link": {
     "frame_node": "SpatialLinkFrame",
@@ -251,8 +243,8 @@
     "eye_height_m": 1.62,
     "minimum_route_turn_radius_m": 2.5938223012438475,
     "clear_walkway_width_m": 2.2,
-    "minimum_sampled_side_clearance_m": 2.0098220921063996,
-    "minimum_sampled_headroom_m": 2.8530436472501606,
+    "minimum_sampled_side_clearance_m": 1.3529775411415164,
+    "minimum_sampled_headroom_m": 4.16,
     "headroom_requirement_m": 2.15,
     "headroom_sample_method": "raycast up from five lateral stations at 0.16 m above ribbon, 321 longitudinal stations; recorded ground-to-first-obstruction height (4.16 m lower bound when no hit within 4 m)",
     "walkable_floor": "HeroRoot_WalkRibbon_LOD0, solid mesh with closed sides and underside"
@@ -274,12 +266,12 @@
   },
   "offline_preview_receipts": {
     "hero-root-turn-v1-entry.png": {
-      "sha256": "4bcbded8e8be5838d930ae514da40374718941305a8c386a74cc3e9e7a6d60fd",
-      "bytes": 1842785
+      "sha256": "7a8acc0cc151cef4b5475de58e92c8d3c07c1e7d87fab31acffc6544a962e470",
+      "bytes": 1895123
     },
     "hero-root-turn-v1-overview.png": {
-      "sha256": "7ef6a5f1a67d5098b59690deee0cd7a237c9b168c43f87b2875f6cc8af50d8aa",
-      "bytes": 1860582
+      "sha256": "255cf72087ef5f3479a99e8e6331bb37d9db4d5da686c0946b4a170997b731cd",
+      "bytes": 1844156
     }
   }
 }

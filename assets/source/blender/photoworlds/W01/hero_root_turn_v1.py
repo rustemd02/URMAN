@@ -515,6 +515,74 @@ def make_floor(material, parent, slices=256, across=6, half_width=ROUTE_HALF_WID
     return make_mesh_object("HeroRoot_WalkRibbon_LOD0", vertices, faces, uv, material, parent)
 
 
+def make_washout_bank(name, material, parent, slices=96):
+    """A buried, uneven root bank that follows one side of the walkable bend."""
+    vertices, faces, uv = [], [], []
+    offsets = (1.48, 1.72, 2.05, 2.47, 2.92, 3.42)
+    heights = (0.01, 0.22, 0.61, 1.04, 0.68, 0.02)
+    z_values = [-8.0 + 16.0 * index / slices for index in range(slices + 1)]
+    centers = [route_center(z) for z in z_values]
+    lengths = [0.0]
+    for before, after in zip(centers, centers[1:]):
+        lengths.append(lengths[-1] + (after - before).length)
+
+    columns = len(offsets)
+    top_count = len(z_values) * columns
+    for index, (z, center) in enumerate(zip(z_values, centers)):
+        before = centers[max(0, index - 1)]
+        after = centers[min(slices, index + 1)]
+        tangent = Vector((after.x - before.x, 0.0, after.z - before.z)).normalized()
+        lateral = Vector((tangent.z, 0.0, -tangent.x)).normalized()
+        mouth_distance = min(z + 8.0, 8.0 - z)
+        mouth_taper = smoothstep01(mouth_distance / 2.6)
+        roughness = 0.92 + 0.08 * math.sin(z * 1.17 + 0.8) + 0.04 * math.sin(z * 2.31 + 1.6)
+        lateral_wander = 0.10 * math.sin(z * 0.73 + 1.1) + 0.05 * math.sin(z * 2.05 + 0.4)
+        for offset, height in zip(offsets, heights):
+            point = center + lateral * -(offset + lateral_wander)
+            vertices.append((point.x, center.y + height * mouth_taper * roughness, point.z))
+            uv.append((lengths[index] / ROOT_BARK_REPEAT_M, offset / ROOT_BARK_REPEAT_M))
+
+    for index, (z, center) in enumerate(zip(z_values, centers)):
+        before = centers[max(0, index - 1)]
+        after = centers[min(slices, index + 1)]
+        tangent = Vector((after.x - before.x, 0.0, after.z - before.z)).normalized()
+        lateral = Vector((tangent.z, 0.0, -tangent.x)).normalized()
+        lateral_wander = 0.10 * math.sin(z * 0.73 + 1.1) + 0.05 * math.sin(z * 2.05 + 0.4)
+        for offset in offsets:
+            point = center + lateral * -(offset + lateral_wander)
+            vertices.append((point.x, center.y - 0.36, point.z))
+            uv.append((lengths[index] / ROOT_BARK_REPEAT_M, offset / ROOT_BARK_REPEAT_M))
+
+    lower_base = top_count
+    for index in range(slices):
+        for cross in range(columns - 1):
+            a = index * columns + cross
+            b = a + 1
+            c = (index + 1) * columns + cross + 1
+            d = c - 1
+            faces.append((a, b, c, d))
+            faces.append((lower_base + d, lower_base + c, lower_base + b, lower_base + a))
+        for cross in (0, columns - 1):
+            a = index * columns + cross
+            b = (index + 1) * columns + cross
+            c = lower_base + (index + 1) * columns + cross
+            d = lower_base + index * columns + cross
+            faces.append((a, b, c, d))
+
+    for cross in range(columns - 1):
+        entry_a, entry_b = cross, cross + 1
+        entry_c, entry_d = lower_base + cross + 1, lower_base + cross
+        faces.append((entry_a, entry_b, entry_c, entry_d))
+        exit_base = slices * columns
+        exit_a, exit_b = exit_base + cross, exit_base + cross + 1
+        exit_c, exit_d = lower_base + exit_base + cross + 1, lower_base + exit_base + cross
+        faces.append((exit_d, exit_c, exit_b, exit_a))
+
+    bank = make_mesh_object(name, vertices, faces, uv, material, parent)
+    bank["semantic_role"] = "low exposed-root washout bank; its buried base and tapered ends leave both path mouths open"
+    return bank
+
+
 def make_anchor(root, name, godot_position, yaw_degrees=0.0):
     obj = bpy.data.objects.new(name, None)
     bpy.context.collection.objects.link(obj)
@@ -653,30 +721,18 @@ def build_asset(root_path: Path, output_dir: Path):
         side_count = 20 if index < 3 else 16
         add_root_tube(name, points, radii, material, root, sides=side_count, phase=index * 0.7)
 
-    # Natural arching roots canopy the walking line, with their lowest point
-    # intentionally above the passport capsule-clearance height.
-    arch_specs = [
-        ("HeroRoot_Arch_Root_One",
-         [(-0.55, 5.3, -2.2), (-1.6, 4.3, -1.2), (-3.7, 3.45, -0.2), (-5.2, 3.40, 1.5), (-4.8, 3.75, 3.2), (-2.6, 4.85, 5.2), (1.8, 5.4, 6.8)],
-         [0.92, 0.74, 0.54, 0.46, 0.40, 0.36, 0.20]),
-        ("HeroRoot_Arch_Root_Two",
-         [(1.0, 5.8, 1.0), (0.0, 4.7, 1.8), (-2.4, 3.75, 2.2), (-4.5, 3.55, 1.0), (-5.1, 3.70, -1.3), (-3.9, 4.4, -3.2), (-1.2, 5.4, -5.5)],
-         [0.72, 0.60, 0.50, 0.43, 0.40, 0.34, 0.18]),
-        ("HeroRoot_Arch_Root_Three",
-         [(4.0, 6.1, -7.5), (1.4, 5.1, -6.1), (-1.2, 4.2, -5.2), (-3.0, 3.55, -4.2), (-3.7, 3.38, -3.0), (-2.8, 3.65, -1.9)],
-         [0.78, 0.62, 0.50, 0.42, 0.34, 0.20]),
-    ]
-    for index, (name, points, radii) in enumerate(arch_specs):
-        arch = add_root_tube(name, points, radii, material, root, sides=18, phase=1.2 + index)
-        arch["lowest_authored_centerline_y_m"] = min(point[1] for point in points)
-
-    # Long exposed roots describe the old tree's load path and avoid a floating arch.
+    # The old version looped three elevated root tubes over the walk like a gantry.
+    # Keep its structural roots low, connected to their tree bases and outside the ribbon.
     for index, (name, points, radii) in enumerate([
-        ("HeroRoot_Entry_Support_Root", [(4.3, 1.8, -8.4), (3.1, 2.3, -7.3), (1.5, 2.9, -6.4), (-0.6, 3.8, -5.1)], [0.82, 0.67, 0.48, 0.14]),
-        ("HeroRoot_Exit_Support_Root", [(4.2, 2.1, 8.3), (2.8, 2.7, 7.2), (1.0, 3.4, 6.2), (-1.4, 4.4, 5.0)], [0.86, 0.68, 0.50, 0.14]),
-        ("HeroRoot_Central_Root_Rib", [(0.5, 1.6, 0.8), (-0.8, 2.0, 0.2), (-2.2, 2.6, -0.8), (-3.6, 3.15, -1.8)], [0.94, 0.70, 0.45, 0.14]),
+        ("HeroRoot_Entry_Support_Root", [(4.3, 0.52, -8.4), (3.25, 0.35, -7.3), (2.15, 0.22, -6.2), (0.4, 0.12, -4.8)], [0.78, 0.62, 0.38, 0.12]),
+        ("HeroRoot_Exit_Support_Root", [(4.2, 0.56, 8.3), (3.1, 0.36, 7.2), (2.0, 0.22, 6.2), (0.5, 0.12, 4.8)], [0.82, 0.64, 0.40, 0.12]),
+        ("HeroRoot_Central_Root_Rib", [(0.5, 0.82, 0.8), (-0.5, 0.58, 0.2), (-1.6, 0.38, -0.8), (-2.7, 0.16, -1.8)], [0.98, 0.72, 0.44, 0.12]),
     ]):
         add_root_tube(name, points, radii, material, root, sides=14, phase=0.4 + index)
+
+    # A low uneven bank bounds the outside of the curved lane. The central
+    # buttress and its buried flares form the opposite wall and the visible bend.
+    washout_bank = make_washout_bank("HeroRoot_WashoutBank_West_LOD0", material, root)
 
     # Support ribs are kept outside the swept player corridor at floor level.
     for index, (name, points, radii) in enumerate([
@@ -689,7 +745,7 @@ def build_asset(root_path: Path, output_dir: Path):
     make_anchor(root, "WalkExit", WALK_EXIT_LOCAL_GODOT, 0.0)
     make_anchor(root, "SpatialLinkFrame", SPATIAL_LINK_LOCAL_GODOT, 0.0)
 
-    for obj in [floor, buttress, main_trunk, left_trunk, right_trunk]:
+    for obj in [floor, buttress, main_trunk, left_trunk, right_trunk, washout_bank]:
         orient_normals(obj)
     # Keep only root and its geometry selected for export; preview-only nodes
     # are created later and remain unselected.
