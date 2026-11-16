@@ -522,7 +522,7 @@ public partial class JournalUi
                 ("urman.fullgame:scene/pw-forest", "camera") =>
                     ("Три ориентира на опушке", "У трёх стволов повернитесь так, чтобы видеть берёзу, перекладину и дугу корня сразу.", "pw-forest-group", "ZoneHost/W01/Anchors/F11", "За тремя стволами"),
                 ("urman.fullgame:scene/pw-forest", "path") =>
-                    ("Три ствола за корнем", "Пройдите под корнем, обернитесь и осмотрите три ствола по очереди.", "pw-forest-photographer", "ZoneHost/W01/Anchors/F13", "Поворот у корней"),
+                    ("По другую сторону снимка", "Пройдите под корнями и оглянитесь. Как выглядит это место со стороны леса?", "pw-forest-photographer", "ZoneHost/W01/Anchors/F13", "Поворот у корней"),
                 ("urman.fullgame:scene/pw-forest", "talk") =>
                     ("Поговорить у корней", "Поговорите с незнакомцем у корня.", "pw-forest-shurale", "ZoneHost/W01/Anchors/F14/ShuraleRoot", "Незнакомец у корней"),
                 ("urman.fullgame:scene/pw-forest", "bag") =>

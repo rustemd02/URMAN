@@ -470,19 +470,12 @@ public partial class W01Controller
             return true;
         }
 
-        // Keep the last subject while its earned dispatch finishes, rather than pointing back into the passage.
-        point = _rootPassageObservationSubjects[^1].Point;
-        var unseenMask = (1 << _rootPassageObservationSubjects.Length) - 1;
-        var seenCount = 0;
-        for (var bits = _rootPassageSeenSubjects & unseenMask; bits != 0; bits &= bits - 1)
-            seenCount++;
-        for (var index = 0; index < _rootPassageObservationSubjects.Length; index++)
-        {
-            if ((_rootPassageSeenSubjects & (1 << index)) != 0) continue;
-            point = _rootPassageObservationSubjects[index].Point;
-            break;
-        }
-        label = $"Осмотрите стволы: {seenCount}/3";
+        // The first side established the individual landmarks. Here the discovery
+        // is seeing the shape of the same group from behind, not counting them again.
+        point = Vector3.Zero;
+        foreach (var subject in _rootPassageObservationSubjects) point += subject.Point;
+        point /= _rootPassageObservationSubjects.Length;
+        label = "Обернитесь к проходу";
         inspectionPoint = true;
         return true;
     }
@@ -610,7 +603,7 @@ public partial class W01Controller
             _forestObservationRayExclusions.Add(player.GetRid());
         }
         var space = GetWorld3D().DirectSpaceState;
-        // Inspect the group by walking and looking around, as with W03's separate subjects.
+        // Two distinct, genuinely visible trunks establish the reverse view even when a root hides the third.
         for (var index = 0; index < _rootPassageObservationSubjects.Length; index++)
         {
             var bit = 1 << index;
@@ -620,7 +613,7 @@ public partial class W01Controller
                     subject.Contact, contact, space))
                 _rootPassageSeenSubjects |= bit;
         }
-        if (_rootPassageSeenSubjects != (1 << _rootPassageObservationSubjects.Length) - 1) return;
+        if ((_rootPassageSeenSubjects & (_rootPassageSeenSubjects - 1)) == 0) return;
 
         var generation = _rootPassageObservationGeneration;
         _rootPassageObservationDispatching = true;
