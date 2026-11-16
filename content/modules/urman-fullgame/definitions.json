@@ -2049,6 +2049,13 @@
             "op": "photoworlds.book.received"
           },
           {
+            "op": "not",
+            "condition": {
+              "op": "photoworlds.fact.observed",
+              "factId": "home_water_place_told"
+            }
+          },
+          {
             "op": "any",
             "conditions": [
               { "op": "photoworlds.fact.observed", "factId": "first_world_home_talk" },
@@ -4533,6 +4540,17 @@
   },
   {
     "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-first-world-home-ask-bridges",
+    "value": {
+      "default": "А где были наши старые мостки?",
+      "translations": {
+        "ru": "А где были наши старые мостки?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-choice-first-world-home-answer-place",
     "value": {
       "default": "Показать на снимке знакомое место и рассказать, что увидел дальше",
@@ -4753,6 +4771,29 @@
         "effects": [],
         "choices": [
           {
+            "id": "ask-about-old-bridges",
+            "textId": "urman.fullgame:text/pw-choice-first-world-home-ask-bridges",
+            "conditions": [],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "first_world_home_talk",
+                "sourceId": "urman.fullgame:interaction/pw-first-world-home-talk"
+              },
+              {
+                "op": "knowledge.set-status",
+                "knowledgeId": "urman.fullgame:knowledge/pw-forest-inside",
+                "status": "confirmed"
+              },
+              {
+                "op": "journal.record",
+                "entryId": "urman.fullgame:knowledge/pw-forest-inside",
+                "sourceId": "urman.fullgame:knowledge/pw-forest-inside"
+              }
+            ],
+            "nextNodeId": "water-place"
+          },
+          {
             "id": "record-forest-caption",
             "textId": "urman.fullgame:text/pw-choice-first-world-home-record-caption",
             "conditions": [],
@@ -4771,6 +4812,28 @@
                 "op": "journal.record",
                 "entryId": "urman.fullgame:knowledge/pw-forest-inside",
                 "sourceId": "urman.fullgame:knowledge/pw-forest-inside"
+              }
+            ],
+            "nextNodeId": null
+          }
+        ]
+      },
+      {
+        "id": "water-place",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-water-place-place",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "look-for-old-descent",
+            "textId": "urman.fullgame:text/pw-choice-water-place-ask-name",
+            "conditions": [],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "home_water_place_told",
+                "sourceId": "urman.fullgame:interaction/pw-first-world-home-talk"
               }
             ],
             "nextNodeId": null

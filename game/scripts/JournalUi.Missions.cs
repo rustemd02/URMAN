@@ -200,16 +200,15 @@ public partial class JournalUi
             return LaterCampaignMission(bridge);
         if (!selectedForestPhotoIsIncomplete && houseQuestStatus == "completed" && forestQuestStatus == "completed")
             return PhotoBookWaterMission(bridge);
-        if (!selectedForestPhotoIsIncomplete && houseQuestStatus != "completed" && (houseObjectiveIsActive
-            || bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-house")))
+        if (!selectedForestPhotoIsIncomplete && houseQuestStatus != "completed" && houseStarted)
             return PhotoBookHouseMission(bridge);
         if (!selectedForestPhotoIsIncomplete && houseQuestStatus != "completed" && waterQuestStatus == "completed")
             return PhotoBookHouseMission(bridge);
-        // After the forest debrief, Gөлсинә points to the courtyard print.
-        // A water route already started by the player was handled above.
+        // After the forest debrief, the main route continues with the river.
+        // W03 remains available through its authored entry or an already-started visit.
         if (!selectedForestPhotoIsIncomplete && houseQuestStatus != "completed"
             && forestQuestStatus == "completed" && bridge.PhotoWorldFactObserved("first_world_home_talk"))
-            return PhotoBookHouseMission(bridge);
+            return PhotoBookWaterMission(bridge);
         if (!selectedForestPhotoIsIncomplete && forestQuestStatus == "completed")
             return PhotoBookWaterMission(bridge);
         return PhotoBookForestMission(bridge);
