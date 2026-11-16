@@ -10,6 +10,34 @@ namespace Urman.Godot;
 
 public partial class Main
 {
+    // Opening the book leans the player against its table. That standing pose can
+    // touch the tabletop; reserve a supported step back for the return ticket,
+    // without moving the reader or accepting a route through the furniture.
+    internal static bool TryGetPhotoReturnStance(FirstPersonController player, string anchorId,
+        Node3D anchor, out Vector3 feet)
+    {
+        feet = player.GlobalPosition;
+        if (!player.IsOnFloor() || anchor.GlobalPosition.DistanceSquaredTo(feet) > 36f) return false;
+        if (PhotoVisitPoseHasSupport(player, feet)) return true;
+        if (anchorId != "PW_HOME_TABLE") return false;
+        var away = feet - anchor.GlobalPosition;
+        away.Y = 0f;
+        if (away.LengthSquared() < .0001f) away = player.GlobalBasis.Z;
+        away.Y = 0f;
+        away = away.Normalized();
+        var start = player.GlobalTransform;
+        start.Origin += Vector3.Up * .025f;
+        for (var step = 1; step <= 3; step++)
+        {
+            var motion = away * (.35f * step);
+            var candidate = feet + motion;
+            if (player.TestMove(start, motion) || !PhotoVisitPoseHasSupport(player, candidate)) continue;
+            feet = candidate;
+            return true;
+        }
+        return false;
+    }
+
     private static int _photoSceneRequestSequence;
     private int _photoScenePreloadGeneration;
     private string? _preparedPhotoSceneId;

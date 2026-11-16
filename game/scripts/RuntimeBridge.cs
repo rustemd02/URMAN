@@ -782,6 +782,13 @@ public partial class RuntimeBridge : Node
             || CurrentZoneId != originZone)
             throw new InvalidOperationException("The photo visit's authored physical origin is not active.");
         var pose = player.CapturePortableTransform();
+        if (originAnchor == "PW_HOME_TABLE")
+        {
+            if (!main.TryGetPhotoVisitOriginAnchor(originZone, originAnchor, out var table)
+                || !Main.TryGetPhotoReturnStance(player, originAnchor, table, out var feet))
+                throw new InvalidOperationException("The family table has no supported return stance.");
+            pose = pose with { Position = new(feet.X, feet.Y, feet.Z) };
+        }
         var audio = GetTree().GetFirstNodeInGroup("ambient_audio") as AmbientAudioDirector
             ?? throw new InvalidOperationException("The origin audio owner is not ready.");
         if (string.IsNullOrWhiteSpace(AtmosphereProfiles.AppliedProfileId) || string.IsNullOrWhiteSpace(audio.CurrentStemId))

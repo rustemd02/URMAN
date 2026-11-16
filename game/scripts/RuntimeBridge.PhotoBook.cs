@@ -335,7 +335,9 @@ public partial class RuntimeBridge
         var carry = GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
         if (carry is { ActionInProgress: true }) return "Дождитесь завершения действия с предметом.";
         if (carry is { HeldItem: not null }) return "Сначала поставьте предмет из рук.";
-        if (!player.IsOnFloor() || !player.CanStandAt(player.GlobalPosition))
+        if (originAnchor == "PW_HOME_TABLE"
+            ? !Main.TryGetPhotoReturnStance(player, originAnchor, anchor, out _)
+            : !player.IsOnFloor() || !player.CanStandAt(player.GlobalPosition))
             return forestOrigin ? "Встаньте на свободное место у трёх стволов на опушке."
                 : cellarOrigin ? "Встаньте на свободное место перед дверью сухих сеней."
                     : houseOrigin ? "Встаньте на свободное место во дворе у наружного окна семейного дома."

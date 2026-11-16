@@ -90,8 +90,7 @@ public partial class Main : Node3D
             && Act1WorldLayout.TryGetPlacement(originZone, out var placement) && placement.SpawnPoints.ContainsKey(safeNode)
             && world.TryGetWorldSpawn(originZone, safeNode, out _)
             && TryGetPhotoVisitOriginAnchor(originZone, originAnchor, out var anchor)
-            && anchor.GlobalPosition.DistanceSquaredTo(player.GlobalPosition) <= 36f
-            && player.IsOnFloor() && PhotoVisitPoseHasSupport(player, player.GlobalPosition);
+            && TryGetPhotoReturnStance(player, originAnchor, anchor, out _);
     }
 
     internal bool TryGetPhotoVisitOriginAnchor(string zoneId, string anchorId, out Node3D anchor)
