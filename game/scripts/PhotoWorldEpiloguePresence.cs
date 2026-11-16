@@ -13,6 +13,7 @@ public partial class PhotoWorldEpiloguePresence : Node3D
     internal const string TakeNowInteractionId = "urman.fullgame:interaction/pw-take-now-photo";
     internal const string TakeNowTargetName = "TakeNowPhotoTarget";
     internal const float CameraStanceRadius = .70f;
+    internal const string PhotoContextGroup = "epilogue_photo_context";
     private const string FamilyTalkInteractionId = "urman.fullgame:interaction/pw-home-epilogue-talk";
     internal const string ReturnHomeInteractionId = "urman.fullgame:interaction/pw-epilogue-return-home";
     private const string HouseExitLabelId = "urman.fullgame:text/pw-label-home-exit-house";
@@ -33,6 +34,7 @@ public partial class PhotoWorldEpiloguePresence : Node3D
     private CollisionObject3D? _tableCollider;
     private bool _worldReferencesResolved;
     private bool _warnedMissingWorldObjects;
+    private bool _photoContextEnabled;
 
     internal static void Attach(StyleBenchmarkZone home)
     {
@@ -45,12 +47,14 @@ public partial class PhotoWorldEpiloguePresence : Node3D
     {
         if (!ResolveWorldReferences())
         {
+            SetPhotoContextEnabled(false);
             SetTargetsEnabled(false, false);
             return;
         }
 
         if (!TryBindBridge())
         {
+            SetPhotoContextEnabled(false);
             SetTargetsEnabled(false, false);
             return;
         }
@@ -71,6 +75,7 @@ public partial class PhotoWorldEpiloguePresence : Node3D
 
         var takeNowReady = epilogueCurrent && interactionWindowOpen && !hasNowPhoto
             && IsInteractionReady(bridge, TakeNowInteractionId);
+        SetPhotoContextEnabled(takeNowReady && _familyPhotoRequest is null);
         if (_takeNowTarget is { } takeNow && GodotObject.IsInstanceValid(takeNow))
         {
             takeNow.PresentationGateHint = "Встаньте у стола и наведите камеру на близких и чай.";
@@ -196,17 +201,20 @@ public partial class PhotoWorldEpiloguePresence : Node3D
 
         if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
             || !GodotObject.IsInstanceValid(player) || player.ModalOpen || player.VehicleControlled
-            || player.IsClimbingLadder || !player.IsOnFloor()
+            || player.IsClimbingLadder || !player.IsOnFloor() || player.HasPhotoBookGrip
             || player.GlobalPosition.DistanceTo(stance.GlobalPosition) > CameraStanceRadius
             || player.GetNodeOrNull<Camera3D>("Head/Camera3D") is not { Current: true } camera
             || player.GetNodeOrNull<RayCast3D>("Head/Camera3D/InteractionRay") is not { } interactionRay)
             return false;
 
-        if (MainMenuUi.AnyUndismissed(GetTree()))
+        if (MainMenuUi.AnyUndismissed(GetTree())
+            || GetTree().GetFirstNodeInGroup("carry_coordinator") is CarryCoordinator
+                { HeldItem: not null } or CarryCoordinator { ActionInProgress: true })
             return false;
 
-        interactionRay.ForceRaycastUpdate();
-        if (!ReferenceEquals(interactionRay.GetCollider(), target))
+        // As with W01's field print, prove ordinary interaction range without
+        // pinning the centre of a personal photograph to an invisible button.
+        if (camera.GlobalPosition.DistanceTo(target.GlobalPosition) > interactionRay.TargetPosition.Length() + .3f)
             return false;
 
         var tablePoint = target.GlobalPosition;
@@ -226,6 +234,19 @@ public partial class PhotoWorldEpiloguePresence : Node3D
             return false;
 
         return ReferenceEquals(session, bridge.SessionIdentity);
+    }
+
+    internal InteractionTarget? FamilyPhotoContextTarget(FirstPersonController player) =>
+        _photoContextEnabled && _familyPhotoRequest is null
+        && ReferenceEquals(GetTree().GetFirstNodeInGroup("player_controller"), player)
+        && CanFrameFamilyTablePhoto() ? _takeNowTarget : null;
+
+    private void SetPhotoContextEnabled(bool enabled)
+    {
+        if (_photoContextEnabled == enabled) return;
+        _photoContextEnabled = enabled;
+        if (enabled) AddToGroup(PhotoContextGroup);
+        else RemoveFromGroup(PhotoContextGroup);
     }
 
     private static bool WitnessFramedAndVisible(Camera3D camera, Vector3 point,
@@ -290,6 +311,7 @@ public partial class PhotoWorldEpiloguePresence : Node3D
 
     public override void _ExitTree()
     {
+        SetPhotoContextEnabled(false);
         _familyPhotoRequest = null;
         SetTargetsEnabled(false, false);
         if (_bridge is { } bridge && GodotObject.IsInstanceValid(bridge))

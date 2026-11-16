@@ -732,6 +732,9 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
             return;
         }
         var candidate = PeekRayTarget();
+        if (candidate is null && GetTree().GetFirstNodeInGroup(PhotoWorldEpiloguePresence.PhotoContextGroup)
+                is PhotoWorldEpiloguePresence familyPhoto)
+            candidate = familyPhoto.FamilyPhotoContextTarget(this);
         var target = ResolveFocusedTarget(candidate);
         if (target is null)
         {
