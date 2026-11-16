@@ -57,9 +57,10 @@ public partial class PhotoWorldEpiloguePresence : Node3D
         }
 
         var bridge = _bridge!;
+        ProcessBookResult();
         var epilogueCurrent = IsEpilogueCurrent(bridge, out _);
-        var interactionWindowOpen = IsInteractionWindowOpen();
-        var hasNowPhoto = HasNowPhoto(bridge);
+        var interactionWindowOpen = epilogueCurrent && IsInteractionWindowOpen();
+        var hasNowPhoto = epilogueCurrent && HasNowPhoto(bridge);
 
         ConfigureTarget(_takeNowTarget, bridge, TakeNowLabelId);
         ConfigureTarget(_familyTalkTarget, bridge, FamilyTalkLabelId);
@@ -252,6 +253,7 @@ public partial class PhotoWorldEpiloguePresence : Node3D
         if (_bridge is { } current && GodotObject.IsInstanceValid(current))
             return true;
         _bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        if (_bridge is not null) _bridge.RuntimeStateChanged += MarkBookResultDirty;
         return _bridge is not null;
     }
 
@@ -296,6 +298,8 @@ public partial class PhotoWorldEpiloguePresence : Node3D
     public override void _ExitTree()
     {
         SetTargetsEnabled(false, false);
+        if (_bridge is { } bridge && GodotObject.IsInstanceValid(bridge))
+            bridge.RuntimeStateChanged -= MarkBookResultDirty;
         _bridge = null;
     }
 }

@@ -9,8 +9,6 @@ public partial class W02Controller
 {
     private const double ReflectionObservationPollSeconds = 0.2;
     private const float ReflectionComparisonHoldSeconds = 0.45f;
-    private const float ReflectionCompositionTolerance = 0.62f;
-    private const float ReflectionViewpointTolerance = 0.52f;
     private const string ReflectionFactId = "water_reflection_relation_seen";
     private const string ReflectionSketchAssetId = "urman.fullgame:asset/w02-water-reflection-relation-sketch";
     private const string ReflectionLabelTextId = "urman.fullgame:text/pw-label-water-reflection";
@@ -29,6 +27,7 @@ public partial class W02Controller
     private Label3D? _reflectionComparisonGuide;
     private object? _reflectionObservationSessionIdentity;
     private bool _reflectionComparisonActive;
+    private bool _reflectionFrameReady;
     private double _reflectionComparisonElapsed;
     private object? _reflectionComparisonSession;
     private string? _reflectionComparisonSceneId;
@@ -59,16 +58,9 @@ public partial class W02Controller
                 return true;
             }
 
-            var stance = stand.ToLocal(player.GlobalPosition);
-            if (stance.X * stance.X + stance.Z * stance.Z > ReflectionViewpointTolerance * ReflectionViewpointTolerance)
-            {
-                point = stand.GlobalPosition;
-                label = "Сместитесь к центру площадки — отсюда читается ракурс";
-                return true;
-            }
-
+            if (_reflectionFrameReady) return false;
             point = ReflectionComparisonCenter();
-            label = "Сведите отражённые опоры и край в кадре";
+            label = "Сверьте отражённые опоры и край с отпечатком";
             inspectionPoint = true;
             return true;
         }
@@ -91,18 +83,8 @@ public partial class W02Controller
             return true;
         }
 
-        var offset = stand.ToLocal(player.GlobalPosition);
-        const float centredRadius = 0.55f;
-        if (offset.X * offset.X + offset.Z * offset.Z > centredRadius * centredRadius)
-        {
-            point = stand.GlobalPosition;
-            label = "Площадка у воды";
-            return true;
-        }
-
-        point = ReflectionComparisonCenter();
-        label = "Сверьте три стойки и край настила с отпечатком";
-        inspectionPoint = true;
+        point = stand.GlobalPosition;
+        label = "Площадка у воды";
         return true;
     }
 
@@ -169,6 +151,7 @@ public partial class W02Controller
         if (discovered)
         {
             _reflectionComparisonActive = false;
+            _reflectionFrameReady = false;
             _reflectionComparisonElapsed = 0;
             _reflectionComparisonSession = null;
             _reflectionComparisonSceneId = null;
@@ -181,6 +164,7 @@ public partial class W02Controller
         _reflectionObservationGeneration++;
         _reflectionObservationSessionIdentity = sessionIdentity;
         _reflectionComparisonActive = false;
+        _reflectionFrameReady = false;
         _reflectionComparisonElapsed = 0;
         _reflectionComparisonSession = null;
         _reflectionComparisonSceneId = null;
@@ -215,13 +199,14 @@ public partial class W02Controller
             return false;
 
         _reflectionComparisonActive = true;
+        _reflectionFrameReady = false;
         _reflectionComparisonSession = session;
         _reflectionComparisonSceneId = projection.ActiveSceneId;
         _reflectionComparisonElapsed = 0;
         _reflectionObservationGeneration++;
         var cancelHint = InputBindingService.ActionHint("ui_cancel", player.CurrentInputDevice == "gamepad");
         SetReflectionComparisonGuide(
-            $"Сравните три отражённые опоры и край настила с отпечатком.\nСведите их к центру взгляда; {cancelHint} — выйти, можно отойти от площадки.");
+            $"Сравните три отражённые опоры и край настила с отпечатком.\nПоверните взгляд, чтобы увидеть все четыре; {cancelHint} — выйти, можно отойти от площадки.");
         _reflectionTarget?.SetPresentationEnabled(false);
         return false;
     }
@@ -241,6 +226,7 @@ public partial class W02Controller
         if (!_reflectionComparisonActive) return;
         _reflectionObservationGeneration++;
         _reflectionComparisonActive = false;
+        _reflectionFrameReady = false;
         _reflectionComparisonElapsed = 0;
         _reflectionComparisonSession = null;
         _reflectionComparisonSceneId = null;
@@ -321,14 +307,6 @@ public partial class W02Controller
             return;
         }
 
-        var stance = stand.ToLocal(player.GlobalPosition);
-        if (stance.X * stance.X + stance.Z * stance.Z > ReflectionViewpointTolerance * ReflectionViewpointTolerance)
-        {
-            _reflectionComparisonElapsed = 0;
-            SetReflectionComparisonGuide("Сместитесь к центру сухой площадки — оттуда читается нужный ракурс.");
-            return;
-        }
-
         var camera = player.GetNodeOrNull<Camera3D>("Head/Camera3D");
         if (camera is null || !GodotObject.IsInstanceValid(camera) || !camera.Current)
         {
@@ -347,10 +325,12 @@ public partial class W02Controller
         SetReflectionComparisonGuide(feedback);
         if (!ready)
         {
+            _reflectionFrameReady = false;
             _reflectionComparisonElapsed = 0;
             return;
         }
 
+        _reflectionFrameReady = true;
         _reflectionComparisonElapsed += Math.Clamp(delta, 0d, 0.1d);
         if (_reflectionComparisonElapsed < ReflectionComparisonHoldSeconds) return;
 
@@ -375,7 +355,6 @@ public partial class W02Controller
         var tangent = Mathf.Tan(Mathf.DegToRad(camera.Fov) * 0.5f);
         var halfWidth = camera.KeepAspect == Camera3D.KeepAspectEnum.Width ? tangent : tangent * aspect;
         var halfHeight = camera.KeepAspect == Camera3D.KeepAspectEnum.Width ? tangent / aspect : tangent;
-        var localCenter = Vector3.Zero;
         foreach (var point in _reflectionObservationPoints)
         {
             var local = camera.ToLocal(point);
@@ -401,20 +380,9 @@ public partial class W02Controller
                 return false;
             }
 
-            localCenter += local;
         }
 
-        localCenter /= _reflectionObservationPoints.Length;
-        var centerX = localCenter.X / -localCenter.Z / Math.Max(halfWidth, 0.001f);
-        var centerY = localCenter.Y / -localCenter.Z / Math.Max(halfHeight, 0.001f);
-        if (Math.Abs(centerX) > ReflectionCompositionTolerance
-            || Math.Abs(centerY) > ReflectionCompositionTolerance)
-        {
-            feedback = "Поверните взгляд к середине между отражёнными стойками.";
-            return false;
-        }
-
-        feedback = "Совпало. Удержите кадр ещё мгновение.";
+        feedback = "Все четыре ориентира видны. Удержите текущий ракурс ещё мгновение.";
         return true;
     }
 
@@ -455,6 +423,7 @@ public partial class W02Controller
             // Keep only this newly earned payoff; normal save restoration never seeds it.
             _reflectionRemarkPendingSession = session;
             _reflectionComparisonActive = false;
+            _reflectionFrameReady = false;
             _reflectionComparisonSession = null;
             _reflectionComparisonSceneId = null;
             SetReflectionComparisonGuide(string.Empty, visible: false);
@@ -465,6 +434,7 @@ public partial class W02Controller
             && bridge.PhotoWorldFactObserved(ReflectionFactId))
         {
             _reflectionComparisonActive = false;
+            _reflectionFrameReady = false;
             _reflectionComparisonSession = null;
             _reflectionComparisonSceneId = null;
             SetReflectionComparisonGuide(string.Empty, visible: false);
@@ -475,6 +445,7 @@ public partial class W02Controller
         }
 
         _reflectionComparisonActive = false;
+        _reflectionFrameReady = false;
         _reflectionComparisonSession = null;
         _reflectionComparisonSceneId = null;
         SetReflectionComparisonGuide(string.Empty, visible: false);

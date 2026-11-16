@@ -803,6 +803,7 @@ public partial class JournalUi
         var commonNote = photo.PhotoId == "P-COMMON" ? _bridge?.CommonFrameNoteText() : null;
         _photoBookCommonNote.Text = string.IsNullOrEmpty(commonNote) ? string.Empty : "Моя помета:\n" + commonNote;
         _photoBookCommonNote.Visible = !string.IsNullOrEmpty(commonNote);
+        RefreshPhotoBookEpilogueResult(photo);
         RefreshPhotoBookCommonRelationsStudy();
         if (photo.BackRead
             && PhotoBookBackImages.TryGetValue(photo.PhotoId, out var authoredBack)
