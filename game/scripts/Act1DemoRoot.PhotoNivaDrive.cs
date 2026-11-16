@@ -77,7 +77,7 @@ public partial class Act1DemoRoot
 
     // A conversation in the car is part of the ride, not a pause of it.
     private bool PhotoNivaDrivePaused => MainMenuVisible || _pauseMenu?.IsOpen == true
-        || (_photoNivaPlayer?.ModalOpen != false && !PhotoNivaDialogueOpen)
+        || (_photoNivaPlayer?.UiModalOpen != false && !PhotoNivaDialogueOpen)
         || (!DisplayServer.WindowIsFocused() && !PhotoNivaUnattended)
         || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true };
 
@@ -288,7 +288,7 @@ public partial class Act1DemoRoot
         UpdatePhotoNivaScore(delta, paused, metresToStop);
         RefreshPhotoNivaLapBook(paused ? 0f : Mathf.Clamp(delta, 0f, .1f));
         if (_prologueOverlay is { } overlay)
-            overlay.Visible = !MainMenuVisible && !talking && _photoNivaPlayer?.ModalOpen == false && _pauseMenu?.IsOpen != true;
+            overlay.Visible = !MainMenuVisible && !talking && _photoNivaPlayer?.UiModalOpen == false && _pauseMenu?.IsOpen != true;
         if (paused) return;
         if (_photoNivaArrivalFailure is not null)
         {

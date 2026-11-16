@@ -89,7 +89,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
             && !_backgroundInputReplay
             && !_open
             && CanOpenPause?.Invoke() == true
-            && FindPlayer() is { ModalOpen: false })
+            && PlayerCanOpenPause())
         {
             OpenFrom("window-focus-out");
         }
@@ -167,7 +167,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         }
 
         if (CanOpenPause?.Invoke() == true
-            && FindPlayer() is { ModalOpen: false })
+            && PlayerCanOpenPause())
         {
             OpenFrom("pause-action");
             GetViewport().SetInputAsHandled();
@@ -176,6 +176,17 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public void Open()
         => OpenFrom("explicit-call");
+
+    private bool PlayerCanOpenPause()
+    {
+        var player = FindPlayer();
+        if (player is null || player.UiModalOpen) return false;
+        if (!player.SessionTransitionActive) return true;
+        // The live arrival deliberately holds body/world input while its
+        // passenger camera is usable. Other transition owners keep their gate.
+        return GetTree().GetFirstNodeInGroup("act1_demo_root") is Act1DemoRoot root
+            && root.CanPauseStagedPhotoNivaArrival(player);
+    }
 
     private void OpenFrom(string reason)
     {

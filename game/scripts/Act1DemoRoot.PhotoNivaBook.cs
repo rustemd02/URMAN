@@ -103,7 +103,7 @@ public partial class Act1DemoRoot
     {
         if (_photoNivaLapBook is not { } book || !IsInstanceValid(book)) return;
         book.Visible = !MainMenuVisible && _pauseMenu?.IsOpen != true && !_menuBusy
-            && _photoNivaPlayer?.ModalOpen == false
+            && _photoNivaPlayer?.UiModalOpen == false
             && GetTree().GetFirstNodeInGroup("settings_ui") is not SettingsUi { IsOpen: true };
         if (!book.Visible || PhotoNivaDrivePaused) return;
         var showing = _photoNivaEvidenceClock >= 0f;

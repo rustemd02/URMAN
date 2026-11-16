@@ -99,6 +99,9 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     }
 
     public bool ModalOpen => _modalOpen || _sessionTransition;
+    // Presentation owners can keep a session transition held while their own
+    // camera/input remain live. A real UI still pauses those presentations.
+    internal bool UiModalOpen => _modalOpen;
     internal bool SessionTransitionActive => _sessionTransition;
     internal string ModalDiagnostic => $"modalFlag={_modalOpen} sessionTransition={_sessionTransition}";
     internal bool InIntro => GetParent()?.GetParent() is Act1DemoRoot { IntroVisible: true };

@@ -92,7 +92,7 @@ public partial class Act1DemoRoot
     {
         RefreshPhotoNivaLapBook(delta);
         var visible = !MainMenuVisible && !_menuBusy && _pauseMenu?.IsOpen != true
-            && !PhotoNivaDialogueOpen && _photoNivaPlayer?.ModalOpen == false
+            && !PhotoNivaDialogueOpen && _photoNivaPlayer?.UiModalOpen == false
             && GetTree().GetFirstNodeInGroup("settings_ui") is not SettingsUi { IsOpen: true };
         if (_prologueOverlay is { } overlay) overlay.Visible = visible;
         if (_photoNivaEvidenceCue is { } cue && IsInstanceValid(cue))

@@ -3,20 +3,22 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cp7xpc4q5y2yd"
-path="res://.godot/imported/weathered_wood_boards_v3_albedo.png-e89a69225418947dea9cb105f83dadd6.ctex"
+path.s3tc="res://.godot/imported/weathered_wood_boards_v3_albedo.png-e89a69225418947dea9cb105f83dadd6.s3tc.ctex"
+path.etc2="res://.godot/imported/weathered_wood_boards_v3_albedo.png-e89a69225418947dea9cb105f83dadd6.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png"
-dest_files=["res://.godot/imported/weathered_wood_boards_v3_albedo.png-e89a69225418947dea9cb105f83dadd6.ctex"]
+dest_files=["res://.godot/imported/weathered_wood_boards_v3_albedo.png-e89a69225418947dea9cb105f83dadd6.s3tc.ctex", "res://.godot/imported/weathered_wood_boards_v3_albedo.png-e89a69225418947dea9cb105f83dadd6.etc2.ctex"]
 
 [params]
 
-compress/mode=0
-compress/high_quality=false
+compress/mode=2
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

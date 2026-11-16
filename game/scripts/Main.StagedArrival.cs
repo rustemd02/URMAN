@@ -48,6 +48,7 @@ public partial class Main
         bridge.SetWorldLocation("village_day", "arrival");
         if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
             player.SetSessionTransition(true);
+        GD.Print("arrival-stage-reserved: live prologue -> niva; awaiting real cabin");
         return true;
     }
 
@@ -59,6 +60,13 @@ public partial class Main
         _arrivalCabinFrame = Engine.GetProcessFrames();
         if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
             player.SetSessionTransition(true);
+        GD.Print("arrival-cabin-ready: real visual/camera/approach mounted; village jobs may follow");
+    }
+
+    internal void ReportStagedArrivalCabinFailure(object expectedSession, string reason)
+    {
+        if (!IsCurrentArrivalStage(expectedSession) || _arrivalFailure is not null) return;
+        FailStagedArrival(new InvalidOperationException($"The arrival cabin could not be mounted: {reason}"));
     }
 
     internal bool TryGetStagedArrivalSaveTransform(object expectedSession, out PlayerTransform transform)

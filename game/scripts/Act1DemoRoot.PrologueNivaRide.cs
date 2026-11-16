@@ -85,6 +85,11 @@ public partial class Act1DemoRoot
         && bridge.ActiveSceneId == PhotoNivaArrivalScene && bridge.SessionIdentity is { } session
         && !ReferenceEquals(session, _photoNivaFailedSession);
 
+    internal bool CanPauseStagedPhotoNivaArrival(FirstPersonController player) => IsInsideTree()
+        && !_orderlyShutdownRequested && !MainMenuVisible && !_menuBusy
+        && ReferenceEquals(player, _player) && !player.UiModalOpen && OwnsPhotoNivaArrival
+        && _bridge?.SessionIdentity is { } session && _main.TryBeginStagedArrival(session);
+
     private bool IsCurrentPhotoNivaArrival(object session, bool allowLiveMenu = false) => PhotoNivaArrivalActive
         && IsInsideTree() && !IsQueuedForDeletion() && !_orderlyShutdownRequested
         && ReferenceEquals(session, _photoNivaSession)
@@ -136,7 +141,7 @@ public partial class Act1DemoRoot
             // Let the existing driver's deferred seating finish against its old
             // owner before another session can reuse the ride fields.
             if (_rideNiva is not null || Engine.GetProcessFrames() <= _photoNivaReleasedFrame + 3
-                || player.ModalOpen || (!staged && (player.SessionTransitionActive || !player.IsOnFloor()
+                || player.UiModalOpen || (!staged && (player.SessionTransitionActive || !player.IsOnFloor()
                     || !player.CanStandAt(player.GlobalPosition) || _main.ConnectedWorld?.ActiveZoneId != "village_day"))) return;
             var niva = staged ? null : FindParkedPhotoNiva();
             if (!staged && niva is null) return;
@@ -212,7 +217,13 @@ public partial class Act1DemoRoot
                 PrologueDreamCut.Release(fadeSeconds: .5);
                 ReleasePhotoNivaArrival();
                 GD.PushWarning($"PhotoWorld Niva arrival presentation failed: {error.Message}");
-                player.NotifyTraversal("Не удалось открыть разговор в Ниве. Подойдите к машине, чтобы продолжить.");
+                if (staged)
+                {
+                    _main.ReportStagedArrivalCabinFailure(session, error.Message);
+                    if (!MainMenuVisible) BuildMainMenu();
+                    _mainMenu?.ShowStatus("Не удалось подготовить поездку. Загрузите последнее сохранение или начните новую игру.");
+                }
+                else player.NotifyTraversal("Не удалось открыть разговор в Ниве. Подойдите к машине, чтобы продолжить.");
             }
         }
 
@@ -223,7 +234,7 @@ public partial class Act1DemoRoot
         }
 
         if (_photoNivaLanguageActive && IsCurrentPhotoNivaArrival(session)
-            && !player.ModalOpen && _pauseMenu?.IsOpen != true
+            && !player.UiModalOpen && _pauseMenu?.IsOpen != true
             && GetTree().GetFirstNodeInGroup("dialogue_ui") is DialogueUi { IsOpen: false }
             && _photoNivaLanguageWrite.IsCompleted && _shutdownSavesInFlight == 0)
         {
@@ -240,7 +251,7 @@ public partial class Act1DemoRoot
             PresentParkedPhotoNiva(speak: false);
         }
 
-        if (IsCurrentPhotoNivaArrival(session) && !player.ModalOpen && _pauseMenu?.IsOpen != true)
+        if (IsCurrentPhotoNivaArrival(session) && !player.UiModalOpen && _pauseMenu?.IsOpen != true)
             UpdateRideLook(false, (float)delta);
     }
 
@@ -281,7 +292,7 @@ public partial class Act1DemoRoot
         }
         if (_photoNivaDriving) return false;
         if (_photoNivaSession is not { } session || !IsCurrentPhotoNivaArrival(session)
-            || _photoNivaExitPending || _photoNivaPlayer?.ModalOpen != false
+            || _photoNivaExitPending || _photoNivaPlayer?.UiModalOpen != false
             || _pauseMenu?.IsOpen == true || inputEvent is InputEventKey { Echo: true }
             || !inputEvent.IsActionPressed("interact")) return false;
         if (!_photoNivaLanguageActive)
