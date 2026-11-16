@@ -788,41 +788,68 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var terrainToRoom = room.GlobalTransform.AffineInverse() * mesh.GlobalTransform;
         TerrainCutVertex ReadVertex(int index) => new(vertices[index], normals[index], uv.Length == 0 ? Vector2.Zero : uv[index]);
 
-        var output = new List<TerrainCutVertex>(indices.Length + 120);
+        // A room intersects tens of triangles in a field of tens of thousands.
+        // Retain the indexed field; publish packed arrays once, not three native
+        // SurfaceTool calls for every corner on every subsequent room cut.
+        var positions = new List<Vector3>(vertices.Length);
+        var outNormals = new List<Vector3>(vertices.Length);
+        var outUv = new List<Vector2>(uv.Length);
+        var output = new List<int>(indices.Length + 120);
+        var remap = new Dictionary<TerrainCutVertex, int>(vertices.Length);
+        var originalIndices = new int[vertices.Length];
+        var roomPoints = new Vector3[vertices.Length];
+        Array.Fill(originalIndices, -1);
+        for (var i = 0; i < vertices.Length; ++i) roomPoints[i] = terrainToRoom * vertices[i];
+        int VertexIndex(TerrainCutVertex vertex)
+        {
+            if (remap.TryGetValue(vertex, out int existing)) return existing;
+            int index = positions.Count;
+            remap.Add(vertex, index);
+            positions.Add(vertex.Position);
+            outNormals.Add(vertex.Normal);
+            if (uv.Length != 0) outUv.Add(vertex.Uv);
+            return index;
+        }
+        void CopyOriginal(int index)
+        {
+            ref var mapped = ref originalIndices[index];
+            if (mapped < 0) mapped = VertexIndex(ReadVertex(index));
+            output.Add(mapped);
+        }
+        var clipped = new List<TerrainCutVertex>(18);
         var changedTriangles = 0;
         for (var triangle = 0; triangle < indices.Length; triangle += 3)
         {
-            var a = ReadVertex(indices[triangle]);
-            var b = ReadVertex(indices[triangle + 1]);
-            var c = ReadVertex(indices[triangle + 2]);
+            var a = indices[triangle];
+            var b = indices[triangle + 1];
+            var c = indices[triangle + 2];
             // Most triangles are wholly outside a room. Keep their vertices
             // in source order and allocate a polygon only when clipping is needed.
-            if (OutsideTerrainFootprint(terrainToRoom * a.Position, terrainToRoom * b.Position,
-                    terrainToRoom * c.Position, halfSize))
+            if (OutsideTerrainFootprint(roomPoints[a], roomPoints[b], roomPoints[c], halfSize))
             {
-                output.Add(a);
-                output.Add(b);
-                output.Add(c);
+                CopyOriginal(a);
+                CopyOriginal(b);
+                CopyOriginal(c);
                 continue;
             }
             changedTriangles++;
-            var polygon = new List<TerrainCutVertex>(3) { a, b, c };
+            clipped.Clear();
+            var polygon = new List<TerrainCutVertex>(3) { ReadVertex(a), ReadVertex(b), ReadVertex(c) };
             for (var plane = 0; plane < 4 && polygon.Count > 0; plane++)
             {
-                AppendTerrainPolygon(output, ClipTerrainPolygon(polygon, terrainToRoom, halfSize, plane, keepInside: false));
+                AppendTerrainPolygon(clipped, ClipTerrainPolygon(polygon, terrainToRoom, halfSize, plane, keepInside: false));
                 polygon = ClipTerrainPolygon(polygon, terrainToRoom, halfSize, plane, keepInside: true);
             }
+            foreach (var vertex in clipped) output.Add(VertexIndex(vertex));
         }
-        using var surface = new SurfaceTool();
-        surface.Begin(Mesh.PrimitiveType.Triangles);
-        foreach (var vertex in output)
-        {
-            surface.SetNormal(vertex.Normal);
-            if (uv.Length != 0) surface.SetUV(vertex.Uv);
-            surface.AddVertex(vertex.Position);
-        }
-        surface.Index();
-        var result = surface.Commit();
+        using var packed = new global::Godot.Collections.Array();
+        packed.Resize((int)Mesh.ArrayType.Max);
+        packed[(int)Mesh.ArrayType.Vertex] = positions.ToArray();
+        packed[(int)Mesh.ArrayType.Normal] = outNormals.ToArray();
+        if (uv.Length != 0) packed[(int)Mesh.ArrayType.TexUV] = outUv.ToArray();
+        packed[(int)Mesh.ArrayType.Index] = output.ToArray();
+        var result = new ArrayMesh();
+        result.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, packed);
         result.SurfaceSetMaterial(0, original.SurfaceGetMaterial(0));
         result.SurfaceSetName(0, original.SurfaceGetName(0));
         return (result, changedTriangles, output.Count);

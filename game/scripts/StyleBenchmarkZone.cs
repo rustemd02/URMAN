@@ -436,8 +436,9 @@ public partial class StyleBenchmarkZone : Node3D
         return target;
     }
 
-    private void AttachNivaStopTargetToConnectedFleet()
+    internal void AttachNivaStopTargetToConnectedFleet()
     {
+        if (GetParent() is Act1ConnectedWorld { DeferBuildOnReady: true, IsBuilt: false }) return;
         var target = GetNodeOrNull<InteractionTarget>("PhotoWorldNivaStop");
         var fleet = GetTree().GetFirstNodeInGroup("vehicle_fleet") as VehicleFleet;
         var niva = fleet?.Vehicles.SingleOrDefault(vehicle =>
