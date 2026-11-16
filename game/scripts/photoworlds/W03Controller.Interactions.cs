@@ -58,6 +58,7 @@ public partial class W03Controller
     private double _housePhysicalActionDuration;
     private bool _twoViewsDispatching;
     private object? _twoViewsDispatchSession;
+    private object? _twoViewsRemarkSession;
     private object? _housePhotographerObservationSession;
     private int _housePhotographerGeneration;
     private bool _housePhotographerDispatching;
@@ -664,9 +665,10 @@ public partial class W03Controller
 
     private async void DispatchHouseTwoViewsAsync(RuntimeBridge bridge, object session)
     {
+        var committed = false;
         try
         {
-            await bridge.DispatchInteractionAsync(TwoViewsInteractionId);
+            committed = await bridge.DispatchInteractionAsync(TwoViewsInteractionId);
         }
         catch (Exception error)
         {
@@ -679,5 +681,15 @@ public partial class W03Controller
             _twoViewsDispatchSession = null;
             _twoViewsDispatching = false;
         }
+        var earnedLive = ReferenceEquals(_twoViewsRemarkSession, session);
+        if (earnedLive) _twoViewsRemarkSession = null;
+        if (committed && earnedLive && GodotObject.IsInstanceValid(bridge)
+            && ReferenceEquals(bridge.SessionIdentity, session)
+            && bridge.CurrentFullGamePhotoWorldRouteProjection() is { ActiveSceneId: HouseSceneId } route
+            && ReferenceEquals(route.SessionIdentity, session)
+            && !bridge.IsPhotoWorldPresentationDeferred && !HouseActionModalOpen()
+            && bridge.PhotoWorldFactObserved(TwoViewsFactId)
+            && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+            player.ShowRemark("Айдар", "Стул тот же. И яблоня. Я просто смотрю с другой стороны. А где стоял фотограф?");
     }
 }

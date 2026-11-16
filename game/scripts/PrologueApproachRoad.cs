@@ -139,17 +139,20 @@ public partial class PrologueApproachRoad : Node3D
         if (pine is null || pineNear is null || dead is null) return;
         var far = new List<Transform3D>(); var near = new List<Transform3D>(); var bare = new List<Transform3D>();
         var fieldBirches = new List<Transform3D>(); var roadsideBirches = new List<Transform3D>();
+        // The GLB tree meshes are authored at exactly one metre tall; height is
+        // the intended world-space height, while the lower X/Z multiplier keeps
+        // their crowns from turning into overlapping walls.
         void Birch(float x, float z, float height)
         {
             if (birch is null || birchNear is null) { Tree(x, z, height, true); return; }
-            var width = height * _rng.RandfRange(.7f, .9f);
+            var width = height * _rng.RandfRange(.34f, .48f);
             var pose = new Transform3D(new Basis(Vector3.Up, _rng.RandfRange(0, Mathf.Tau))
                 * Basis.FromScale(new Vector3(width, height, width)), new(x, Ground(x, z) - .04f, z));
             (Mathf.Abs(x - RoadX(z)) < 27f ? roadsideBirches : fieldBirches).Add(pose);
         }
         void Tree(float x, float z, float height, bool leafless)
         {
-            var girth = height * (leafless ? _rng.RandfRange(.6f, .8f) : _rng.RandfRange(.42f, .58f));
+            var girth = height * (leafless ? _rng.RandfRange(.36f, .50f) : _rng.RandfRange(.30f, .43f));
             var t = new Transform3D(new Basis(Vector3.Up, _rng.RandfRange(0, Mathf.Tau)) * Basis.FromScale(new Vector3(girth, height, girth)),
                 new Vector3(x, Ground(x, z) - .1f, z));
             if (leafless) bare.Add(t);
@@ -157,46 +160,61 @@ public partial class PrologueApproachRoad : Node3D
             else far.Add(t);
         }
         // Field groves: birch-like leafless clumps and small pine islands.
-        for (var grove = 0; grove < 26; grove++)
+        for (var grove = 0; grove < 18; grove++)
         {
             var gz = _rng.RandfRange(-RoadLength * .58f, 20f);
             var side = _rng.Randf() < .5f ? -1f : 1f;
             var gx = RoadX(gz) + side * _rng.RandfRange(28f, 150f);
             var leafless = _rng.Randf() < .55f;
-            for (var index = 0; index < 5 + _rng.RandiRange(0, 9); index++)
+            for (var index = 0; index < 5 + _rng.RandiRange(0, 6); index++)
             {
                 var x = gx + _rng.RandfRange(-9f, 9f); var z = gz + _rng.RandfRange(-9f, 9f);
-                if (leafless) Birch(x, z, _rng.RandfRange(9f, 15f));
-                else Tree(x, z, _rng.RandfRange(12f, 22f), false);
+                if (leafless) Birch(x, z, _rng.RandfRange(8f, 14f));
+                else Tree(x, z, _rng.RandfRange(11f, 19f), false);
             }
         }
         // Field boundaries pass close to the window: ordinary birch shelter
         // belts give depth and parallax without turning farmland into forest.
         foreach (var (centre, side) in new[] { (-55f, -1f), (-135f, 1f), (-270f, -1f), (-340f, 1f) })
-            for (var index = 0; index < 8; index++)
+            for (var index = 0; index < 5; index++)
             {
-                var z = centre + (index - 4) * 3.4f + _rng.RandfRange(-.6f, .6f);
+                var z = centre + (index - 2) * 4.8f + _rng.RandfRange(-.8f, .8f);
                 Birch(RoadX(z) + side * _rng.RandfRange(17f, 25f), z, _rng.RandfRange(9f, 14f));
             }
-        // The forest encloses the middle of the ride, then opens over the last
-        // ninety-five metres to reveal the real village instead of ending in
-        // an equally dense straight wall at the route handover.
-        for (var z = ForestStart + 25f; z > RoadEndZ; z -= 4.2f)
-        for (var offset = 7f; offset < 110f; offset += 4.2f)
-        foreach (var side in new[] { -1f, 1f })
+        // A single jittered grid caps the forest at 480 candidate instances
+        // (40 rows × 6 lanes × 2 sides), rather than 3,750 densely repeated
+        // slots. It enters gradually, opens a paired roadside sightline, then thins
+        // over the final 135 m so the already-built village yards appear ahead.
+        const float forestRowStep = 8f;
+        const float villageRevealLength = 135f;
+        const float sightlineWindowZ = -468f;
+        const float sightlineWindowHalfLength = 12f;
+        var forestLanes = new[] { 14f, 27f, 41f, 57f, 75f, 96f };
+        for (var rowZ = ForestStart + 24f; rowZ > RoadEndZ; rowZ -= forestRowStep)
         {
-            var villageEdge = 1f - Mathf.SmoothStep(RoadEndZ, RoadEndZ + 95f, z);
-            if (_rng.Randf() < Mathf.Lerp(.12f, .72f, villageEdge)) continue;
-            var x = RoadX(z) + side * (offset + _rng.RandfRange(-1.4f, 1.4f));
-            var roadOffset = x - RoadX(z);
-            if (Mathf.Abs(roadOffset) < Mathf.Lerp(7f, 16f, villageEdge)) continue;
-            // The same utility corridor continues out of the fields into the
-            // settlement; trunks do not grow through its poles and wires.
-            if (Mathf.Abs(roadOffset - 11f) < 3f) continue;
-            var edge = 1f - Mathf.SmoothStep(ForestStart - 15f, ForestStart + 25f, z);
-            if (_rng.Randf() > edge) continue;
-            Tree(x, z + _rng.RandfRange(-1.5f, 1.5f),
-                _rng.RandfRange(24f, 32f) * Mathf.Lerp(1f, .62f, villageEdge), _rng.Randf() < .1f);
+            var forestEntry = 1f - Mathf.SmoothStep(ForestStart - 18f, ForestStart + 24f, rowZ);
+            var villageReveal = 1f - Mathf.SmoothStep(RoadEndZ, RoadEndZ + villageRevealLength, rowZ);
+            var density = forestEntry * (1f - villageReveal);
+            var clearNearRoad = Mathf.Abs(rowZ - sightlineWindowZ) < sightlineWindowHalfLength;
+            foreach (var side in new[] { -1f, 1f })
+            for (var lane = 0; lane < forestLanes.Length; lane++)
+            {
+                if (clearNearRoad && lane < 2) continue;
+                if (density <= 0f || _rng.Randf() >= density) continue;
+
+                var z = rowZ + _rng.RandfRange(-1.8f, 1.8f);
+                var offset = forestLanes[lane] + _rng.RandfRange(-1.8f, 1.8f);
+                var x = RoadX(z) + side * offset;
+                var roadOffset = x - RoadX(z);
+                // The utility corridor continues into the settlement; trunks
+                // stay out of the existing poles and wires on the right.
+                if (Mathf.Abs(roadOffset - 11f) < 3f) continue;
+
+                var species = _rng.Randf();
+                if (species < .28f) Birch(x, z, _rng.RandfRange(11f, 17f));
+                else if (species < .36f) Tree(x, z, _rng.RandfRange(10f, 15f), true);
+                else Tree(x, z, _rng.RandfRange(16f, 23f), false);
+            }
         }
         Add("GroveAndForestFar", pine.Value, far);
         Add("ForestNear", pineNear.Value, near);

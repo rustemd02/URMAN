@@ -7,7 +7,7 @@ public partial class W02Controller
 {
     private const string WaterEncounterFactId = "water_encounter_resolved";
     private const float EncounterBoardRestY = 1.42f;
-    private const float EncounterBoardLiftY = 1.47f;
+    private const float EncounterBoardLiftY = 1.74f;
     private const float EncounterPresenceRestY = -1.35f;
     private const float EncounterPresenceAnswerY = 0.15f;
     private const float EncounterLiftSeconds = 0.7f;
@@ -15,6 +15,8 @@ public partial class W02Controller
     private const float EncounterCurrentFlowSeconds = 2.6f;
     private const float EncounterCurrentSettleSeconds = 1.1f;
     private const float EncounterCurrentCalmAlpha = 0.12f;
+    private const float EncounterPresencePassSeconds = 3.2f;
+    private static readonly Vector3 EncounterPresencePassOffset = new(-3.4f, 0f, 1.3f);
     private static readonly Vector3 EncounterCurrentFlowOffset = new(12f, 0f, -0.5f);
     private static readonly Vector3 EncounterCurrentCalmScale = new(1f, 0.35f, 1f);
 
@@ -48,6 +50,8 @@ public partial class W02Controller
     private Vector3 _encounterBoardEndRotation;
     private float _encounterPresenceStartY;
     private float _encounterPresenceEndY;
+    private Vector3? _encounterPresenceOrigin;
+    private float _encounterPresencePassProgress;
     private readonly global::Godot.Collections.Array<Rid> _encounterRayExclusions = new();
     private FirstPersonController? _encounterRayExcludedPlayer;
     private bool? _encounterLastModalOpen;
@@ -94,7 +98,7 @@ public partial class W02Controller
             BeginBoardMotion(
                 EncounterPresentationPhase.LiftingBoard,
                 new Vector3(board.Position.X, EncounterBoardLiftY, board.Position.Z),
-                new Vector3(-7f, -128f, 3f),
+                new Vector3(-24f, -128f, 6f),
                 EncounterLiftSeconds,
                 movePresence: false);
         }
@@ -116,9 +120,14 @@ public partial class W02Controller
     {
         if (_encounterPresentationPhase == EncounterPresentationPhase.Idle)
         {
+            var modalOpen = EncounterModalOpen();
             if (_encounterWasResolved && _suAnasy is { } resolvedPresence
-                && GodotObject.IsInstanceValid(resolvedPresence))
+                && GodotObject.IsInstanceValid(resolvedPresence) && resolvedPresence.IsVisibleInTree() && !modalOpen)
             {
+                _encounterPresencePassProgress = CurrentPlayerUsesReducedMotion() ? 1f
+                    : Mathf.MoveToward(_encounterPresencePassProgress, 1f,
+                        (float)Math.Clamp(delta, 0d, .1d) / EncounterPresencePassSeconds);
+                SetEncounterPresenceHeight(_suAnasyY);
                 var bob = CurrentPlayerUsesReducedMotion()
                     ? 0f
                     : Mathf.Sin((float)Time.GetTicksMsec() * 0.0004f) * 0.045f;
@@ -126,7 +135,6 @@ public partial class W02Controller
                     resolvedPresence.Position.X, _suAnasyY + bob, resolvedPresence.Position.Z);
             }
 
-            var modalOpen = EncounterModalOpen();
             if (_encounterLastModalOpen != modalOpen)
             {
                 _encounterLastModalOpen = modalOpen;
@@ -327,6 +335,7 @@ public partial class W02Controller
             _encounterActionElapsed = 0f;
             UpdateEncounterPrompt(encounterResolved: false);
             RefreshEncounterTargetAvailability();
+            ShowEncounterBoardRemark("Под дощечкой два упора. Верну её ровно на оба.");
             return;
         }
 
@@ -338,6 +347,7 @@ public partial class W02Controller
             _boardLifted = false;
             _encounterPresentationPhase = EncounterPresentationPhase.AwaitingObservation;
             _encounterActionElapsed = 0f;
+            ShowEncounterBoardRemark("Легла на оба упора. Отойду к берегу на шаг и посмотрю на воду рядом.");
         }
     }
 
@@ -415,6 +425,13 @@ public partial class W02Controller
 
     private void ProjectResolvedEncounterPose()
     {
+        if (!_encounterWasResolved)
+        {
+            // A live answer continues past the place the player freed. A loaded
+            // fact restores its result, without replaying the encounter.
+            _encounterPresencePassProgress = _encounterPresentationPhase == EncounterPresentationPhase.Committing
+                && ReferenceEquals(_encounterActionSession, _bridge?.SessionIdentity) ? 0f : 1f;
+        }
         CancelEncounterAction(resetUnresolvedPose: false);
         MarkEncounterCurrentAnswerArrived();
         _encounterWasResolved = true;
@@ -444,6 +461,7 @@ public partial class W02Controller
 
         ResetEncounterCurrentRings();
         _encounterWasResolved = false;
+        _encounterPresencePassProgress = 0f;
         _boardLifted = false;
         SetEncounterBoardRestPose();
         SetEncounterPresenceHeight(EncounterPresenceRestY);
@@ -690,7 +708,30 @@ public partial class W02Controller
     {
         _suAnasyY = y;
         if (_suAnasy is { } presence && GodotObject.IsInstanceValid(presence))
-            presence.Position = new Vector3(presence.Position.X, y, presence.Position.Z);
+        {
+            _encounterPresenceOrigin ??= presence.Position;
+            var position = _encounterPresenceOrigin.Value + EncounterPresencePassOffset
+                * Mathf.SmoothStep(0f, 1f, _encounterPresencePassProgress);
+            presence.Position = new Vector3(position.X, y, position.Z);
+        }
+    }
+
+    private void ShowEncounterBoardRemark(string text)
+    {
+        if (!EncounterModalOpen() && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+            player.ShowRemark("Айдар", text);
+    }
+
+    private bool HasGivenWaterAnswerSpace(FirstPersonController player)
+    {
+        if (_looseBoard is not { } board || !GodotObject.IsInstanceValid(board)) return false;
+        var inland = ToGlobal(FarPierRoute[^2]) - ToGlobal(FarPierRoute[^1]);
+        inland.Y = 0f;
+        inland = inland.Normalized();
+        var offset = player.GlobalPosition - board.GlobalPosition;
+        offset.Y = 0f;
+        var velocity = new Vector2(player.Velocity.X, player.Velocity.Z);
+        return offset.Dot(inland) >= 1.1f && velocity.LengthSquared() <= .09f;
     }
 
     private void RefreshEncounterTargetAvailability()
@@ -751,7 +792,7 @@ public partial class W02Controller
             || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
             || !GodotObject.IsInstanceValid(player)
             || player.ModalOpen || player.VehicleControlled || player.IsClimbingLadder
-            || !player.IsOnFloor())
+            || !player.IsOnFloor() || !HasGivenWaterAnswerSpace(player))
             return false;
 
         var camera = player.GetNodeOrNull<Camera3D>("Head/Camera3D");

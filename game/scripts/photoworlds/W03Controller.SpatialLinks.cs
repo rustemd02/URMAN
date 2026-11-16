@@ -296,6 +296,9 @@ public partial class W03Controller
             || !HouseWitnessFramedAndVisible(camera, chair.GlobalPosition, _houseChairWitnessCollider, space))
             return false;
 
+        if (bridge.PhotoWorldFactObserved(pair == 0 ? DoorRightFactId : DoorLeftFactId)
+            && !bridge.PhotoWorldFactObserved(TwoViewsFactId))
+            _twoViewsRemarkSession = session;
         _houseViewDispatching = true;
         var generation = ++_houseViewDispatchGeneration;
         DispatchHouseDoorObservationAsync(bridge, session, pair, generation);
@@ -397,6 +400,7 @@ public partial class W03Controller
         _housePassageCooldownFrame = null;
         _twoViewsDispatching = false;
         _twoViewsDispatchSession = null;
+        _twoViewsRemarkSession = null;
     }
 
     private void ResetHousePassageTracking()

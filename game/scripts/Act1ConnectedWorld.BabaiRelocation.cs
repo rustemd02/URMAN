@@ -39,7 +39,7 @@ public partial class Act1ConnectedWorld
                 outbuilding.SetMeta("suppressionReason", "relayout v3 stage 5: babai yard keeps only house, bath, workshop and firewood");
             }
         foreach (var target in FindDescendants<InteractionTarget>(this).Where(target =>
-                     target.Name.ToString() is "Discovery_shed-loft-roofline" or "Discovery_underdeck-rattle").ToArray())
+                     target.Name.ToString() is "Discovery_shed-loft-roofline" or "Discovery_underdeck-rattle"))
             RetireInteraction(target, "the loft barn was removed with the other outbuildings");
 
         var transform = BabaiRelocation.Transform;
@@ -53,7 +53,7 @@ public partial class Act1ConnectedWorld
         Move(_zoneInstances["house_old_pc"]);
         // The household's own builder roots move whole, whatever their bounds (the roof and
         // eaves of the house reach past the old yard line).
-        foreach (var root in core.GetChildren().OfType<Node3D>().Concat(kit.GetChildren().OfType<Node3D>()).ToArray())
+        foreach (var root in core.GetChildren().OfType<Node3D>().Concat(kit.GetChildren().OfType<Node3D>()))
         {
             var name = root.Name.ToString();
             if ((name.StartsWith("Babai", StringComparison.Ordinal) || name is "YardRepairCorner" or "WatchingFormsPilot" or "RearYardGate")
@@ -62,13 +62,13 @@ public partial class Act1ConnectedWorld
         }
         if (core.GetNodeOrNull<Node3D>("HouseExteriorApproach") is { } approach)
             foreach (var root in approach.GetChildren().OfType<Node3D>().Where(n => n.Name.ToString().StartsWith("Babai", StringComparison.Ordinal)
-                         && !n.Name.ToString().Contains("Neighbor", StringComparison.Ordinal)).ToArray())
+                         && !n.Name.ToString().Contains("Neighbor", StringComparison.Ordinal)))
                 Move(root);
         // Blockout volumes and stray scrap of the old yard: the bath, the workshop and the
         // firewood are the yard now.
         if (core.GetNodeOrNull("BabaiEbiYard") is { } oldYard)
             foreach (var junk in oldYard.GetChildren().Where(n => n.Name.ToString() is "BabaiYardBarnVolume" or "BabaiYardBackHouseVolume"
-                         or "BabaiYardToolShed" or "BabaiYardHaystack").ToArray())
+                         or "BabaiYardToolShed" or "BabaiYardHaystack"))
                 HidePresentationNode(junk);
         if (core.GetNodeOrNull("HouseExteriorApproach/BabaiEbiHouseSideOutbuilding") is { } sideShed) HidePresentationNode(sideShed);
         // Everything else that stands wholly inside the old yard moves, at the highest level
@@ -78,12 +78,11 @@ public partial class Act1ConnectedWorld
         bool Inside(Node node)
         {
             if (inside.TryGetValue(node, out var known)) return known;
-            var result = node is Node3D spatial && !Skipped(node) && OwnInside(spatial);
-            if (result)
-                foreach (var child in node.GetChildren())
-                    if (!Inside(child) && child is Node3D) { result = false; }
-            // Evaluate every child once so the second pass can pick maximal subtrees.
-            foreach (var child in node.GetChildren()) Inside(child);
+            if (Skipped(node)) return inside[node] = false;
+            var result = node is Node3D spatial && OwnInside(spatial);
+            // Cache every eligible descendant before Collect moves any of them.
+            foreach (var child in node.GetChildren())
+                if (!Inside(child) && child is Node3D) result = false;
             inside[node] = result;
             return result;
         }
@@ -123,7 +122,7 @@ public partial class Act1ConnectedWorld
         {
             if (Skipped(node)) return;
             if (node is Node3D spatial && Inside(node)) { Move(spatial); return; }
-            foreach (var child in node.GetChildren().ToArray()) Collect(child);
+            foreach (var child in node.GetChildren()) Collect(child);
         }
         foreach (var root in new Node[] { core, _zoneInstances["village_day"] }
                      .Concat(GetChildren().Where(child => child.Name.ToString() is "CarryCoordinator" or "Act1People")))
@@ -132,7 +131,7 @@ public partial class Act1ConnectedWorld
         // The bath (and the firewood and old spinner beside it) stand at the back of the yard,
         // not beside the house on the street.
         var bathCentre = _bathhouse!.GlobalPosition;
-        foreach (var node in moved.ToArray())
+        foreach (var node in moved)
         {
             Vector3 offset;
             if (node.Name == "WatchingFormsPilot") offset = new(-13.5f, 0, 0);
@@ -157,8 +156,8 @@ public partial class Act1ConnectedWorld
         bool OnNewPlot(Node node)
         {
             if (newInside.TryGetValue(node, out var known)) return known;
-            var result = node is Node3D spatial && !node.HasMeta("babaiRelocated") && !Skipped(node)
-                && node is not InteractionTarget && OwnOnNewPlot(spatial);
+            if (Skipped(node) || node is InteractionTarget or RuntimeBridge) return newInside[node] = false;
+            var result = node is Node3D spatial && OwnOnNewPlot(spatial);
             foreach (var child in node.GetChildren()) if (!OnNewPlot(child) && child is Node3D) result = false;
             newInside[node] = result;
             return result;
@@ -187,7 +186,7 @@ public partial class Act1ConnectedWorld
                 cleared++;
                 return;
             }
-            foreach (var child in node.GetChildren().ToArray()) Clear(child);
+            foreach (var child in node.GetChildren()) Clear(child);
         }
         foreach (var root in new Node[] { core, _zoneInstances["village_day"] }) Clear(root);
         // Foliage instances and road-kit ribbons (the old long house path) on the new plot.
@@ -204,7 +203,7 @@ public partial class Act1ConnectedWorld
             }
         }
         if (core.GetNodeOrNull<Node3D>("AgentBExteriorWorld/AgentB_TerrainRoadKit") is Node3D roadKit)
-            foreach (var mesh in FindDescendants<MeshInstance3D>(roadKit).Where(m => m.Name != "Terrain_Main" && m.Mesh is ArrayMesh).ToArray())
+            foreach (var mesh in FindDescendants<MeshInstance3D>(roadKit).Where(m => m.Name != "Terrain_Main" && m.Mesh is ArrayMesh))
             {
                 ClipMeshTriangles(mesh, p => BabaiRelocation.OutsideNewYard(p.X, p.Z) <= 0f);
                 // A raised shoulder carries its own exact contact: it follows the clipped surface.

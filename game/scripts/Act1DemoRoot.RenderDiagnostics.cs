@@ -1,4 +1,5 @@
 using Godot;
+using System.Globalization;
 using System.Text.Json;
 
 namespace Urman.Godot;
@@ -20,6 +21,187 @@ public partial class Act1DemoRoot
     private int _rendererKeyEvents, _rendererMouseEvents, _rendererJoyEvents, _rendererActionEvents;
     private int _rendererLastInputDevice = -1;
     private Vector2 _rendererMouseScreenDelta;
+
+#if DEBUG
+    private enum ManualPhotoWorldSamplePhase { Idle, Warmup, Measuring }
+    private const int ManualPhotoWorldWarmupFrames = 60;
+    private const int ManualPhotoWorldSampleFrames = 240;
+    private ManualPhotoWorldSamplePhase _manualPhotoWorldSamplePhase;
+    private readonly List<double> _manualPhotoWorldFrameMilliseconds = new(ManualPhotoWorldSampleFrames);
+    private object? _manualPhotoWorldSampleSession;
+    private string _manualPhotoWorldSceneId = string.Empty;
+    private string _manualPhotoWorldScenePath = string.Empty;
+    private string _manualPhotoWorldZone = string.Empty;
+    private ulong _manualPhotoWorldLastTicks;
+    private Vector3 _manualPhotoWorldLastPosition;
+    private int _manualPhotoWorldWarmupRemaining;
+    private int _manualPhotoWorldMovementFrames;
+
+    private bool ManualPhotoWorldSampleEnabled => OS.IsDebugBuild()
+        && OS.GetEnvironment("URMAN_PROTECTED_RUN") == "1" && UsesPhotoWorldsCampaign;
+
+    private bool HandleManualPhotoWorldSampleShortcut(InputEvent inputEvent)
+    {
+        if (!ManualPhotoWorldSampleEnabled
+            || inputEvent is not InputEventKey
+                { Pressed: true, Keycode: Key.F, CtrlPressed: true, ShiftPressed: true,
+                    AltPressed: false, MetaPressed: false }) return false;
+
+        GetViewport().SetInputAsHandled();
+        if (inputEvent is InputEventKey { Echo: false }
+            && _manualPhotoWorldSamplePhase == ManualPhotoWorldSamplePhase.Idle
+            && ManualPhotoWorldSampleContext(out _))
+        {
+            _manualPhotoWorldFrameMilliseconds.Clear();
+            _manualPhotoWorldSampleSession = _bridge!.SessionIdentity;
+            _manualPhotoWorldSceneId = _bridge.ActiveSceneId!;
+            _manualPhotoWorldScenePath = _main.ActiveZoneScenePath;
+            _manualPhotoWorldZone = _bridge.CurrentZoneId;
+            _manualPhotoWorldLastTicks = 0;
+            _manualPhotoWorldWarmupRemaining = ManualPhotoWorldWarmupFrames;
+            _manualPhotoWorldMovementFrames = 0;
+            _manualPhotoWorldSamplePhase = ManualPhotoWorldSamplePhase.Warmup;
+        }
+        return true;
+    }
+
+    private bool ManualPhotoWorldSampleContext(out string reason)
+    {
+        if (!ManualPhotoWorldSampleEnabled) { reason = "not-authorized"; return false; }
+        if (_main is null || !GodotObject.IsInstanceValid(_main)
+            || _bridge is null || !GodotObject.IsInstanceValid(_bridge)
+            || _player is null || !GodotObject.IsInstanceValid(_player)
+            || _bridge.SessionIdentity is null)
+        { reason = "no-session"; return false; }
+        if (!_playerSessionSelected || MainMenuVisible || _menuBusy || IntroVisible || _endingShown
+            || _endingPending || _endingScreen is not null || _photoNivaSession is not null)
+        { reason = "menu-or-transition"; return false; }
+        if (GetTree().Paused || _pauseMenu?.IsOpen == true)
+        { reason = "paused"; return false; }
+        if (!DisplayServer.WindowIsFocused())
+        { reason = "focus-lost"; return false; }
+        if (DisplayServer.GetName() == "headless")
+        { reason = "headless"; return false; }
+        if (_player.ModalOpen || _player.VehicleControlled || _player.SessionTransitionActive
+            || _bridge.NeedsPhysicalRecovery
+            || GetTree().GetFirstNodeInGroup("dialogue_ui") is DialogueUi { IsOpen: true }
+            || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true })
+        { reason = "modal-or-transition"; return false; }
+        if (_bridge.ActiveSceneId is not { } sceneId
+            || !sceneId.StartsWith("urman.fullgame:scene/", StringComparison.Ordinal)
+            || string.IsNullOrWhiteSpace(_main.ActiveZoneScenePath))
+        { reason = "no-photo-world"; return false; }
+        if (_manualPhotoWorldSamplePhase != ManualPhotoWorldSamplePhase.Idle
+            && (!ReferenceEquals(_manualPhotoWorldSampleSession, _bridge.SessionIdentity)
+                || !string.Equals(_manualPhotoWorldSceneId, sceneId, StringComparison.Ordinal)
+                || !string.Equals(_manualPhotoWorldZone, _bridge.CurrentZoneId, StringComparison.Ordinal)
+                || !string.Equals(_manualPhotoWorldScenePath, _main.ActiveZoneScenePath, StringComparison.Ordinal)))
+        { reason = "scene-or-session-changed"; return false; }
+        reason = string.Empty;
+        return true;
+    }
+
+    private void RecordManualPhotoWorldFrameSample()
+    {
+        if (_manualPhotoWorldSamplePhase == ManualPhotoWorldSamplePhase.Idle) return;
+        if (!ManualPhotoWorldSampleContext(out var reason))
+        {
+            AbortManualPhotoWorldFrameSample(reason);
+            return;
+        }
+
+        var now = Time.GetTicksUsec();
+        if (_manualPhotoWorldLastTicks == 0)
+        {
+            _manualPhotoWorldLastTicks = now;
+            _manualPhotoWorldLastPosition = _player!.GlobalPosition;
+            return;
+        }
+        if (now <= _manualPhotoWorldLastTicks)
+        {
+            AbortManualPhotoWorldFrameSample("invalid-clock");
+            return;
+        }
+
+        var frameMilliseconds = (now - _manualPhotoWorldLastTicks) / 1000.0;
+        var position = _player!.GlobalPosition;
+        _manualPhotoWorldLastTicks = now;
+        if (_manualPhotoWorldSamplePhase == ManualPhotoWorldSamplePhase.Warmup)
+        {
+            _manualPhotoWorldLastPosition = position;
+            if (--_manualPhotoWorldWarmupRemaining <= 0)
+                _manualPhotoWorldSamplePhase = ManualPhotoWorldSamplePhase.Measuring;
+            return;
+        }
+
+        var horizontalMovement = new Vector2(
+            position.X - _manualPhotoWorldLastPosition.X,
+            position.Z - _manualPhotoWorldLastPosition.Z).Length();
+        if (horizontalMovement > 0.001f) _manualPhotoWorldMovementFrames++;
+        _manualPhotoWorldLastPosition = position;
+        _manualPhotoWorldFrameMilliseconds.Add(frameMilliseconds);
+        if (_manualPhotoWorldFrameMilliseconds.Count == ManualPhotoWorldSampleFrames)
+            CompleteManualPhotoWorldFrameSample();
+    }
+
+    private void CheckManualPhotoWorldFrameSampleContext()
+    {
+        if (_manualPhotoWorldSamplePhase == ManualPhotoWorldSamplePhase.Idle) return;
+        if (!ManualPhotoWorldSampleContext(out var reason))
+            AbortManualPhotoWorldFrameSample(reason);
+    }
+
+    private void OnManualPhotoWorldPauseChanged(bool paused)
+    {
+        if (paused) AbortManualPhotoWorldFrameSample("paused");
+    }
+
+    private void CompleteManualPhotoWorldFrameSample()
+    {
+        var sorted = _manualPhotoWorldFrameMilliseconds.Order().ToArray();
+        var average = sorted.Average();
+        var movementPercent = _manualPhotoWorldMovementFrames * 100.0 / sorted.Length;
+        var window = DisplayServer.WindowGetSize();
+        var viewport = GetViewport();
+        var viewportSize = viewport.GetVisibleRect().Size;
+        GD.Print(string.Create(CultureInfo.InvariantCulture,
+            $"urman-ordinary-frame-sample: status=complete frames={sorted.Length} warmup={ManualPhotoWorldWarmupFrames} "
+            + $"scene_id={ProbeToken(_manualPhotoWorldSceneId)} scene={ProbeToken(_manualPhotoWorldScenePath)} "
+            + $"zone={ProbeToken(_manualPhotoWorldZone)} preset={ProbeToken(_player?.GraphicsPreset ?? "unknown")} "
+            + $"effective_scale={viewport.Scaling3DScale:F3} window={window.X}x{window.Y} "
+            + $"viewport={Mathf.RoundToInt(viewportSize.X)}x{Mathf.RoundToInt(viewportSize.Y)} "
+            + $"avg_ms={average:F3} p95_ms={Percentile(sorted, 0.95):F3} max_ms={sorted[^1]:F3} fps={1000.0 / average:F2} "
+            + $"movement_frames={_manualPhotoWorldMovementFrames}/{sorted.Length} movement_pct={movementPercent:F1} "
+            + $"gpu={ProbeToken(RenderingServer.GetVideoAdapterName())}"));
+        ResetManualPhotoWorldFrameSample();
+    }
+
+    private void AbortManualPhotoWorldFrameSample(string reason)
+    {
+        if (_manualPhotoWorldSamplePhase == ManualPhotoWorldSamplePhase.Idle) return;
+        GD.Print(string.Create(CultureInfo.InvariantCulture,
+            $"urman-ordinary-frame-sample: status=aborted reason={ProbeToken(reason)} "
+            + $"scene_id={ProbeToken(_manualPhotoWorldSceneId)} zone={ProbeToken(_manualPhotoWorldZone)} "
+            + $"frames={_manualPhotoWorldFrameMilliseconds.Count}/{ManualPhotoWorldSampleFrames}"));
+        ResetManualPhotoWorldFrameSample();
+    }
+
+    private void ResetManualPhotoWorldFrameSample()
+    {
+        _manualPhotoWorldSamplePhase = ManualPhotoWorldSamplePhase.Idle;
+        _manualPhotoWorldSampleSession = null;
+        _manualPhotoWorldSceneId = _manualPhotoWorldScenePath = _manualPhotoWorldZone = string.Empty;
+        _manualPhotoWorldLastTicks = 0;
+        _manualPhotoWorldWarmupRemaining = _manualPhotoWorldMovementFrames = 0;
+        _manualPhotoWorldFrameMilliseconds.Clear();
+    }
+
+    public override void _Notification(int what)
+    {
+        if (what is (int)NotificationApplicationFocusOut or (int)NotificationWMWindowFocusOut)
+            AbortManualPhotoWorldFrameSample("focus-lost");
+    }
+#endif
 
     private readonly record struct RendererPoint(float X, float Y, float Z)
     {
@@ -45,6 +227,9 @@ public partial class Act1DemoRoot
 
     public override void _Input(InputEvent inputEvent)
     {
+#if DEBUG
+        if (HandleManualPhotoWorldSampleShortcut(inputEvent)) return;
+#endif
         if (DevQuickKey(inputEvent)) return;
         if (_rideCamera is not null && inputEvent is InputEventMouseMotion rideMotion
             && Input.MouseMode == Input.MouseModeEnum.Captured)

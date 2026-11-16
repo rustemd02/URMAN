@@ -119,13 +119,23 @@ public partial class Act1DemoRoot
             gaze.Position = _photoNivaDriverGazeRest.Lerp(book.Position + Vector3.Up * .08f, _photoNivaBookShowing);
     }
 
-    private string? PhotoNivaEvidenceAction => !_photoNivaWoke
-        || _photoNivaGateClock >= 0f || PhotoNivaDialogueOpen || _photoNivaEvidenceClock >= 0f
-        || _photoNivaDriveElapsed < _photoNivaNextBarkReady
-        || _photoNivaLapBook is not { } book || !IsInstanceValid(book) || !book.Visible
-            ? null : _rideLook.Y < -20f && Math.Abs(_rideLook.X) < 40f && !_photoNivaPhotoShown
-                ? _photoNivaPhotoInspected ? "Показать снимок бабаю" : "Поднять снимок и рассмотреть"
-                : CanOfferPhotoNivaLanguage ? "Выбрать язык разговора с бабаем" : null;
+    private string? PhotoNivaEvidenceAction
+    {
+        get
+        {
+            if (!_photoNivaWoke || _photoNivaGateClock >= 0f || PhotoNivaDialogueOpen
+                || _photoNivaEvidenceClock >= 0f || _photoNivaLapBook is not { } book
+                || !IsInstanceValid(book) || !book.Visible) return null;
+            var canSpeak = _photoNivaDriveElapsed >= _photoNivaNextBarkReady;
+            if (_rideLook.Y < -20f && Math.Abs(_rideLook.X) < 40f && !_photoNivaPhotoShown)
+            {
+                // Hands are free as soon as Aidar opens his eyes. Only speech waits for Babai.
+                if (!_photoNivaPhotoInspected) return "Рассмотреть снимок";
+                return canSpeak ? "Показать снимок бабаю" : null;
+            }
+            return canSpeak && CanOfferPhotoNivaLanguage ? "Выбрать язык разговора с бабаем" : null;
+        }
+    }
 
     private bool CanOfferPhotoNivaLanguage => _rideLook.X > 25f && _rideLook.Y > -18f
         && !_photoNivaVillageStarted && !_photoNivaLanguageActive && _bridge is { HasNivaLanguageResponse: false };
@@ -145,8 +155,7 @@ public partial class Act1DemoRoot
         else if (!_photoNivaPhotoInspected)
         {
             _photoNivaPhotoInspected = true;
-            ShowPrologueCaption("Айдар (про себя): «Эти стволы… Я только что шёл между ними».", 3.2);
-            _photoNivaNextBarkReady = _photoNivaDriveElapsed + 3.4f;
+            _photoNivaNextBarkReady = Math.Max(_photoNivaWakeVoiceEnds + .25, _photoNivaDriveElapsed + .6);
         }
         else
         {

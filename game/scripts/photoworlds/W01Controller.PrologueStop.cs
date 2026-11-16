@@ -84,6 +84,7 @@ public partial class W01Controller
         var u = offset.Dot(along);
         var v = offset.Dot(across);
         if (u > StopRoadNear - 2.2f && u < StopRoadFar + 1.6f && Mathf.Abs(v) < StopRoadReach + 30f) return true;   // the road
+        if (u > -4f && u < -.5f && v > -8.2f && v < -5f) return true; // clearance around the opening camera
         return u > -7.5f && u <= StopRoadNear && Mathf.Abs(v) < 7f;                                   // the stop
     }
 
@@ -103,26 +104,38 @@ public partial class W01Controller
         using (var surface = new SurfaceTool())
         {
             surface.Begin(Mesh.PrimitiveType.Triangles);
-            void Strip(float from, float to, float lift, Color colour)
+            void Strip(float from, float to, float lift, bool wheelTrack)
             {
                 var rows = Mathf.Max(1, Mathf.CeilToInt((to - from) / 1f));
+                Vector3 RoadPoint(float u, float v)
+                {
+                    // Both wheel tracks follow the same steering line.
+                    if (wheelTrack) u += .13f * Mathf.Sin(v * .16f) + .045f * Mathf.Sin(v * .63f);
+                    return StopPoint(u, v, lift);
+                }
                 for (var row = 0; row < rows; row++)
                 for (var v = -StopRoadReach; v < StopRoadReach; v += 1.25f)
                 {
                     var u0 = Mathf.Lerp(from, to, (float)row / rows); var u1 = Mathf.Lerp(from, to, (row + 1f) / rows);
-                    var a = StopPoint(u0, v, lift); var b = StopPoint(u1, v, lift);
-                    var c = StopPoint(u1, v + 1.25f, lift); var d = StopPoint(u0, v + 1.25f, lift);
+                    var a = RoadPoint(u0, v); var b = RoadPoint(u1, v);
+                    var c = RoadPoint(u1, v + 1.25f); var d = RoadPoint(u0, v + 1.25f);
                     foreach (var point in new[] { a, b, c, a, c, d })
                     {
                         surface.SetNormal(Vector3.Up);
-                        surface.SetColor(colour);
+                        surface.SetUV(new Vector2(point.X, point.Z) * .3f);
                         surface.AddVertex(point);
                     }
                 }
             }
-            Strip(StopRoadNear, StopRoadFar, .05f, new Color(.6f, .65f, .74f));
-            Strip(StopRoadNear + 1.3f, StopRoadNear + 1.8f, .065f, new Color(.42f, .47f, .57f));
-            Strip(StopRoadFar - 1.8f, StopRoadFar - 1.3f, .065f, new Color(.42f, .47f, .57f));
+            surface.SetMaterial(PainterlyMaterialLibrary.ForColor("b2b7b9", "snow_road"));
+            Strip(StopRoadNear, StopRoadFar, .05f, false);
+            var roadMesh = surface.Commit();
+            surface.Clear();
+            surface.Begin(Mesh.PrimitiveType.Triangles);
+            surface.SetMaterial(PainterlyMaterialLibrary.ForColor("929da3", "snow_trampled"));
+            Strip(StopRoadNear + 1.42f, StopRoadNear + 1.78f, .073f, true);
+            Strip(StopRoadFar - 1.78f, StopRoadFar - 1.42f, .073f, true);
+            surface.Commit(roadMesh);
             // He cannot walk the road home: nine kilometres of dark either way.
             var bounds = new StaticBody3D { Name = "RoadEnds", CollisionLayer = 1, CollisionMask = 0 };
             stop.AddChild(bounds);
@@ -136,12 +149,7 @@ public partial class W01Controller
             Wall(StopPoint(-8.2f, 0f), new Vector3(2f * StopRoadWalk, 6f, .4f), facing);
             stop.AddChild(new MeshInstance3D
             {
-                Name = "Road", Mesh = surface.Commit(),
-                MaterialOverride = new StandardMaterial3D
-                {
-                    VertexColorUseAsAlbedo = true, Roughness = 1f, MetallicSpecular = 0f,
-                    CullMode = BaseMaterial3D.CullModeEnum.Disabled
-                },
+                Name = "Road", Mesh = roadMesh,
                 CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
             });
         }

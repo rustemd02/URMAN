@@ -130,6 +130,7 @@ public static class PainterlyMaterialLibrary
         // Live frost sparkle: view-dependent micro-glints on snow surfaces.
         uniform float snow_sparkle = 0.0;
         uniform bool snow_material = false;
+        uniform float snow_texture_contrast = 0.12;
         uniform bool has_snow_micro = false;
         uniform sampler2D snow_micro_response : filter_linear_mipmap_anisotropic, repeat_enable;
         uniform sampler2D snow_micro_normal : hint_normal, filter_linear_mipmap_anisotropic, repeat_enable;
@@ -201,6 +202,13 @@ public static class PainterlyMaterialLibrary
         varying vec3 local_wood_position;
         varying vec3 local_wood_normal;
         varying vec2 frost_uv;
+
+        vec3 snow_texture_tint(vec3 detail) {
+            // Keep the established white midpoint while letting each painted
+            // snow state retain its own clumps, compression and crust.
+            return clamp(vec3(0.978) + (detail - vec3(0.65)) * snow_texture_contrast,
+                vec3(0.78), vec3(1.08));
+        }
 
         vec3 triplanar_albedo(vec3 position, vec3 normal) {
             vec3 blend = pow(abs(normal), vec3(4.0));
@@ -317,7 +325,7 @@ public static class PainterlyMaterialLibrary
                         : axis.x >= axis.z ? (upright_texture ? position.zy : position.yz) : position.xy;
                     vec3 detail = texture(albedo_texture, uv * texture_scale).rgb;
                     vec3 tinted = snow_material
-                        ? low_color * (vec3(0.90) + detail * 0.12)
+                        ? low_color * snow_texture_tint(detail)
                         : low_color * (vec3(0.30) + detail * 1.75);
                     low_color = mix(low_color, tinted, texture_strength);
                 }
@@ -375,7 +383,7 @@ public static class PainterlyMaterialLibrary
             // Texture-dominant balance: the albedo painting owns the value
             // range; base_color acts as a light tint over it.
             vec3 tinted_texture = snow_material
-                ? pigment * (vec3(0.90) + texture_color * 0.12)
+                ? pigment * snow_texture_tint(texture_color)
                 : pigment * (vec3(0.30) + texture_color * 1.75);
             vec3 painted_color = has_albedo_texture
                 ? mix(pigment, tinted_texture, texture_strength)
@@ -1684,6 +1692,7 @@ public static class PainterlyMaterialLibrary
 
         if (surface.Length > 0
             && !SurfaceTextures.ContainsKey(surface)
+            && !WinterTextures.ContainsKey(surface)
             && !TunedWithoutMap.Contains(surface)
             && !FlatByDesign.Contains(surface)
             && ReportedUnknownSurfaces.Add(surface))
@@ -2130,6 +2139,14 @@ public static class PainterlyMaterialLibrary
 
         var snowMaterial = surface is "snow_ground" or "snow_road" or "snow_trampled" or "snow_grass" or "snow_roof" or "ice";
         material.SetShaderParameter("snow_material", snowMaterial);
+        material.SetShaderParameter("snow_texture_contrast", surface switch
+        {
+            "snow_ground" => .50f,
+            "snow_road" => .60f,
+            "snow_trampled" => .42f,
+            "snow_roof" => .30f,
+            _ => .12f
+        });
         material.SetShaderParameter("trample_ground_surface", surface is "snow_ground" or "snow_road" or "snow_trampled" or "snow_grass");
         material.SetMeta("snowTrampleBlocked", surface is "water" or "ice");
         if (snowMaterial)

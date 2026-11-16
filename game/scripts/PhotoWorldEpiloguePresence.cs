@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 
 namespace Urman.Godot;
@@ -140,6 +141,11 @@ public partial class PhotoWorldEpiloguePresence : Node3D
         _takeNowTarget = takeNowTarget;
         _familyTalkTarget = familyTalkTarget;
         takeNowTarget.PresentationGate = CanFrameFamilyTablePhoto;
+        takeNowTarget.AfterDispatch = () =>
+        {
+            ShowNewFamilyPhoto();
+            return Task.FromResult(true);
+        };
         takeNowTarget.PresentationGateHint = "Встаньте у стола и наведите камеру на близких и чай.";
         takeNowTarget.SetMeta("physicalSource", "existing family tea table surface; kernel action owns S-NOW");
         familyTalkTarget.SetMeta("physicalSource", "existing Gulsina at the family tea table");
@@ -169,6 +175,19 @@ public partial class PhotoWorldEpiloguePresence : Node3D
         target.GlobalPosition = globalPosition;
         target.SetPresentationEnabled(false);
         return target;
+    }
+
+    private void ShowNewFamilyPhoto()
+    {
+        if (!IsInsideTree() || IsQueuedForDeletion()
+            || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || !IsEpilogueCurrent(bridge, out _)
+            || bridge.IsPhotoBookProjectionDeferred || !HasNowPhoto(bridge)
+            || !IsInteractionWindowOpen())
+            return;
+
+        if (GetTree().GetFirstNodeInGroup("journal_ui") is JournalUi journal)
+            journal.OpenPhotoBook(bridge, "S-NOW");
     }
 
     private bool CanFrameFamilyTablePhoto()

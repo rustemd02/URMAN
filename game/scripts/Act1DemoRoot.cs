@@ -444,6 +444,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             return;
         }
         if (StudioPreviewMode) return;
+#if DEBUG
+        RecordManualPhotoWorldFrameSample();
+#endif
         RefreshMenuResumeAvailability();
         UpdatePhotoNivaArrival(delta);
 
@@ -521,6 +524,10 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _ExitTree()
     {
+#if DEBUG
+        AbortManualPhotoWorldFrameSample("root-exit");
+        if (_pauseMenu is not null) _pauseMenu.PauseChanged -= OnManualPhotoWorldPauseChanged;
+#endif
         ReleasePhotoNivaArrival();
         RestoreOrderlyShutdownHooks();
         StopIntroFlyover();
@@ -570,6 +577,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private void OnRuntimeStateChanged()
     {
         if (_orderlyShutdownRequested) return;
+#if DEBUG
+        CheckManualPhotoWorldFrameSampleContext();
+#endif
         if (UsesPhotoWorldsCampaign)
         {
             if (_photoNivaSession is { } arrivalSession && !IsCurrentPhotoNivaArrival(arrivalSession))
@@ -1427,6 +1437,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private void BuildPauseMenu()
     {
         _pauseMenu = new PauseMenuUi { Name = "Act1PauseMenu" };
+#if DEBUG
+        _pauseMenu.PauseChanged += OnManualPhotoWorldPauseChanged;
+#endif
         _pauseMenu.QuitRequested += RequestOrderlyShutdown;
         _pauseMenu.CanOpenPause = () =>
             !_orderlyShutdownRequested

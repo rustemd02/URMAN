@@ -1053,6 +1053,16 @@ public partial class W02Controller : Node3D
         };
         _world!.AddChild(board);
         _looseBoard = board;
+        // The loose plank rests on two real bearers, visible when it is lifted.
+        foreach (var end in new[] { -.43f, .43f })
+            _world.AddChild(new MeshInstance3D
+            {
+                Name = end < 0f ? "FarPierBoardSupportNear" : "FarPierBoardSupportFar",
+                Mesh = new BoxMesh { Size = new Vector3(.36f, .06f, .12f) },
+                Position = board.Position + board.Basis * new Vector3(0f, -.0525f, end),
+                RotationDegrees = board.RotationDegrees,
+                MaterialOverride = WetPostMaterial()
+            });
         var mark = new MeshInstance3D
         {
             Name = "FarPierBoardMark",
@@ -1922,6 +1932,7 @@ public partial class W02Controller : Node3D
         if (encounterResolved)
         {
             _encounterWasResolved = true;
+            _encounterPresencePassProgress = 1f;
             _boardLifted = false;
             SetEncounterBoardRestPose();
             SetEncounterPresenceHeight(0.15f);

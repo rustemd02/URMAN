@@ -56,9 +56,10 @@ omni_attenuation = 1.2
 [node name="Anchors" type="Node3D" parent="."]
 
 [node name="F00" type="Marker3D" parent="Anchors"]
-rotation_degrees = Vector3(0, -166.5, 0)
+position = Vector3(6.221334, 0.002787, -3.858433)
+rotation_degrees = Vector3(0, 130.5, 0)
 
-; Inside F00's authored 1.2 m walkable pad, off the route centerline for a downward print inspection.
+; The stop builder places the print on the bench; F00 stays outside contacts with it and the road in view.
 [node name="ProloguePhotoSource" type="Marker3D" parent="Anchors/F00"]
 position = Vector3(-0.75, 0.025, 0.48)
 rotation_degrees = Vector3(-90, 180, 0)
