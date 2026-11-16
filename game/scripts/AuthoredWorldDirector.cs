@@ -42,6 +42,9 @@ public partial class AuthoredWorldDirector : Node3D
     // scratch on every ApplyStates pass, which is the only place PendingState is
     // written (set at the overlap guard, cleared when the state is committed).
     private int _pendingStates;
+    private bool _buildJobsStarted;
+    private bool _contentReady;
+    private bool _activated;
 
     private sealed class AuthoredObject
     {
@@ -78,25 +81,37 @@ public partial class AuthoredWorldDirector : Node3D
 
     public static AuthoredWorldDirector Build(Node3D parent, Node interactionHost)
     {
-        var director = new AuthoredWorldDirector { Name = "AuthoredWorldDirector" };
-        parent.AddChild(director);
-        director.BuildContent(interactionHost);
+        var director = CreateForBuild(parent, interactionHost);
+        foreach (var job in director.BuildJobs()) job();
+        director.ActivateAfterBuild();
         return director;
     }
 
-    private void BuildContent(Node interactionHost)
+    internal static AuthoredWorldDirector CreateForBuild(Node3D parent, Node interactionHost)
     {
-        _interactionHost = interactionHost;
-        AddToGroup("authored_world_director");
-        SetMeta("runtimeStateOwner", "none: reads RuntimeBridge state, dispatches compiled interactions");
-        if (global::Godot.FileAccess.FileExists(CatalogPath))
+        var director = new AuthoredWorldDirector
         {
+            Name = "AuthoredWorldDirector", _interactionHost = interactionHost
+        };
+        director.SetMeta("runtimeStateOwner", "none: reads RuntimeBridge state, dispatches compiled interactions");
+        parent.AddChild(director);
+        return director;
+    }
+
+    internal IEnumerable<Action> BuildJobs()
+    {
+        if (_contentReady) yield break;
+        if (_buildJobsStarted) throw new InvalidOperationException("Authored world construction is already in progress.");
+        _buildJobsStarted = true;
+        yield return () =>
+        {
+            if (!global::Godot.FileAccess.FileExists(CatalogPath)) return;
             using var catalog = JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString(CatalogPath));
             foreach (var entry in catalog.RootElement.GetProperty("entities").EnumerateArray())
             {
                 _catalog[entry.GetProperty("id").GetString()!] = entry.Clone();
             }
-        }
+        };
 
         foreach (var file in DirAccess.GetFilesAt(PlotDirectory).Where(file => file.EndsWith(".world.v1.json", StringComparison.Ordinal)).Order(StringComparer.Ordinal))
         {
@@ -109,22 +124,39 @@ public partial class AuthoredWorldDirector : Node3D
 
             foreach (var entity in root.GetProperty("entities").EnumerateArray())
             {
-                BuildObject(entity.Clone());
+                var captured = entity.Clone();
+                yield return () => BuildObject(captured);
             }
         }
 
-        GD.Print($"authored-world: {_objects.Count} objects from {PlotDirectory}");
+        yield return () =>
+        {
+            _contentReady = true;
+            GD.Print($"authored-world: {_objects.Count} objects from {PlotDirectory}");
+        };
     }
 
     public override void _Ready()
     {
+        // Staged construction may span frames. No global worker or state pass
+        // observes its partial object dictionary before the world is published.
+        SetPhysicsProcess(false);
+    }
+
+    internal void ActivateAfterBuild()
+    {
+        if (_activated) return;
+        if (!_contentReady) throw new InvalidOperationException("Authored world cannot activate before all content exists.");
+        _activated = true;
+        AddToGroup("authored_world_director");
         _bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
         if (_bridge is not null)
         {
             _bridge.RuntimeStateChanged += ApplyStates;
         }
 
-        CallDeferred(nameof(ApplyStates));
+        ApplyStates();
+        SetPhysicsProcess(true);
     }
 
     public override void _ExitTree()
@@ -140,6 +172,7 @@ public partial class AuthoredWorldDirector : Node3D
 
     public override void _PhysicsProcess(double delta)
     {
+        if (!_activated) return;
         // A state held back because the player stood where its collision
         // would appear is applied as soon as they step away (STATE05).
         StepAmbientPresence(delta);
@@ -679,6 +712,7 @@ public partial class AuthoredWorldDirector : Node3D
 
     private void ApplyStates()
     {
+        if (!_activated) return;
         if (_bridge?.SelectRuntimeState() is not { ValueKind: JsonValueKind.Object } state)
         {
             return;

@@ -158,6 +158,7 @@ public partial class Act1DemoRoot
         BuildPhotoNivaLapBook();
         _rideLook = PhotoNivaLapGaze;
         ApplyPrologueRideLook();
+        BuildPhotoNivaStagingLight();
         PrologueVoice.SetPaused(false);
         // The dream's voice blend may still be finishing: babai's «уян» follows it,
         // never on top of it, and the eyes open just after he speaks.
@@ -276,11 +277,12 @@ public partial class Act1DemoRoot
 
     private void UpdatePhotoNivaDrive(float delta)
     {
+        TryPreparePhotoNivaArrival();
         var paused = PhotoNivaDrivePaused;
         var talking = PhotoNivaDialogueOpen;
         SetRideRadioPaused(paused);
         PrologueVoice.SetPaused(paused);
-        _photoNivaDriveAudio?.SetState(VehicleKind.Niva, _photoNivaGateClock < 0f, _photoNivaDriveSpeed, .35f, paused);
+        _photoNivaDriveAudio?.SetState(VehicleKind.Niva, _photoNivaGateClock < 0f && _photoNivaArrivalFailure is null, _photoNivaDriveSpeed, .35f, paused);
         var metresToStop = (_photoNivaVillageStarted ? 0f : PhotoNivaApproachLength - _photoNivaApproachDistance)
             + (_photoNivaVillageLength - _photoNivaVillageDistance);
         UpdatePhotoNivaScore(delta, paused, metresToStop);
@@ -288,6 +290,11 @@ public partial class Act1DemoRoot
         if (_prologueOverlay is { } overlay)
             overlay.Visible = !MainMenuVisible && !talking && _photoNivaPlayer?.ModalOpen == false && _pauseMenu?.IsOpen != true;
         if (paused) return;
+        if (_photoNivaArrivalFailure is not null)
+        {
+            HoldPhotoNivaStagedFailure();
+            return;
+        }
 
         // A focus change or slow import must not jump the entire presentation.
         delta = Mathf.Clamp(delta, 0f, .1f);
@@ -311,7 +318,8 @@ public partial class Act1DemoRoot
         _photoNivaBars = Mathf.MoveToward(_photoNivaBars, openFrame ? 0f : 1f, delta * (talking ? 1.4f : .6f));
         LayoutPhotoNivaFrame();
         // Development: URMAN_RIDE_GATE_TEST=1 plays the scene at the gate half a minute after waking.
-        if (PhotoNivaGateTest && _photoNivaWoke && _photoNivaGateClock < 0f && !_photoNivaGateDone && t > _photoNivaWokeAt + 34f)
+        if (PhotoNivaGateTest && _photoNivaWoke && _photoNivaGateClock < 0f && !_photoNivaGateDone
+            && t > _photoNivaWokeAt + 34f && TryPreparePhotoNivaArrival())
             BeginPhotoNivaGate();
         if (_photoNivaGateClock >= 0f && UpdatePhotoNivaGate(delta)) return;
 
@@ -327,8 +335,12 @@ public partial class Act1DemoRoot
                 // Arrive at the village street at its own speed, never with a lurch.
                 var targetSpeed = Mathf.Min(cruise,
                     Mathf.Sqrt(PhotoNivaVillageCruise * PhotoNivaVillageCruise + 2f * 1.2f * Mathf.Max(0f, remaining)));
+                var approachEnd = _photoNivaStagedArrival && !_photoNivaStagedPlaced
+                    ? PhotoNivaApproachLength - PhotoNivaStagingStopBeforeEnd : PhotoNivaApproachLength;
+                if (approachEnd < PhotoNivaApproachLength)
+                    targetSpeed = Mathf.Min(targetSpeed, Mathf.Sqrt(2f * Mathf.Max(0f, approachEnd - d)));
                 _photoNivaDriveSpeed = Mathf.MoveToward(_photoNivaDriveSpeed, targetSpeed, 1.1f * delta);
-                _photoNivaApproachDistance = Mathf.Min(PhotoNivaApproachLength, d + _photoNivaDriveSpeed * delta);
+                _photoNivaApproachDistance = Mathf.Min(approachEnd, d + _photoNivaDriveSpeed * delta);
                 var before = visual.Root.GlobalPosition;
                 PlacePhotoNivaOnApproach(road, PhotoNivaApproachStartZ - _photoNivaApproachDistance, snap: false);
                 SpinRideWheels(visual, before);
@@ -683,7 +695,7 @@ public partial class Act1DemoRoot
 
     private void FinishPhotoNivaDrive()
     {
-        if (!_photoNivaDriving) return;
+        if (!_photoNivaDriving || !TryPreparePhotoNivaArrival()) return;
         if (_rideNiva is { } niva) niva.GlobalTransform = _photoNivaStopTransform;
         if (_rideCamera is { } camera) camera.Position = RideCameraRest;
         ReleasePhotoNivaDrive();

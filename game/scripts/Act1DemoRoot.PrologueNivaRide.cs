@@ -92,7 +92,7 @@ public partial class Act1DemoRoot
         && ReferenceEquals(session, bridge.SessionIdentity) && bridge.ActiveSceneId == PhotoNivaArrivalScene
         && !bridge.IsPhotoBookProjectionDeferred && !bridge.NeedsPhysicalRecovery
         && _photoNivaPlayer is { } player && IsInstanceValid(player) && player.IsInsideTree()
-        && !player.SessionTransitionActive
+        && (!player.SessionTransitionActive || _photoNivaStagedArrival)
         && ((!MainMenuVisible && !_menuBusy)
             || (allowLiveMenu && ReferenceEquals(_menuReturnSession, session)
                 && ReferenceEquals(_menuReturnBridge, bridge)));
@@ -127,28 +127,33 @@ public partial class Act1DemoRoot
             || bridge.IsPhotoBookProjectionDeferred || bridge.NeedsPhysicalRecovery
             || ReferenceEquals(session, _photoNivaFailedSession)
             || _player is not { } player || !IsInstanceValid(player) || !player.IsInsideTree()
-            || player.SessionTransitionActive)
+            || (player.SessionTransitionActive && _photoNivaPresentation is not null && !_photoNivaStagedArrival))
             return;
 
         if (_photoNivaPresentation is null)
         {
+            var staged = _main.TryBeginStagedArrival(session);
             // Let the existing driver's deferred seating finish against its old
             // owner before another session can reuse the ride fields.
             if (_rideNiva is not null || Engine.GetProcessFrames() <= _photoNivaReleasedFrame + 3
-                || player.ModalOpen || !player.IsOnFloor() || !player.CanStandAt(player.GlobalPosition)
-                || _main.ConnectedWorld?.ActiveZoneId != "village_day") return;
-            var niva = (GetTree().GetFirstNodeInGroup("vehicle_fleet") as VehicleFleet)?.Vehicles
-                .SingleOrDefault(vehicle => vehicle.Definition.Id == "babay-niva" && vehicle.Definition.Kind == VehicleKind.Niva);
-            if (niva is null || !IsInstanceValid(niva) || !niva.IsInsideTree() || niva.Driver is not null) return;
+                || player.ModalOpen || (!staged && (player.SessionTransitionActive || !player.IsOnFloor()
+                    || !player.CanStandAt(player.GlobalPosition) || _main.ConnectedWorld?.ActiveZoneId != "village_day"))) return;
+            var niva = staged ? null : FindParkedPhotoNiva();
+            if (!staged && niva is null) return;
             try
             {
                 _ = bridge.RequireDialogue(PhotoNivaArrivalDialogue);
-                var droveFromPrologue = ReferenceEquals(session, _photoNivaPrologueSession);
+                var droveFromPrologue = staged || ReferenceEquals(session, _photoNivaPrologueSession);
                 if (GetTree().GetFirstNodeInGroup("dialogue_ui") is not DialogueUi dialogue || dialogue.IsOpen)
                     return;
-                var visual = VehicleVisualFactory.Build(niva.Definition);
+                var definition = niva?.Definition ?? LoadBabayNivaDefinition()
+                    ?? throw new InvalidOperationException("The authored Niva definition is unavailable.");
+                var visual = VehicleVisualFactory.Build(definition);
                 _photoNivaPresentation = _rideNiva = visual.Root;
                 _photoNivaSession = session;
+                _photoNivaStagedArrival = staged;
+                _photoNivaStagedPlaced = false;
+                _photoNivaArrivalFailure = null;
                 _photoNivaPrologueSession = null;
                 _photoNivaLanguageActive = false;
                 _photoNivaLanguageWrite = Task.FromResult(true);
@@ -167,7 +172,8 @@ public partial class Act1DemoRoot
                 _rideNiva.SetMeta("presentationOnly", true);
                 _rideNiva.SetMeta("presentationOwner", nameof(Act1DemoRoot));
                 _main.AddChild(_rideNiva);
-                _rideNiva.GlobalTransform = niva.GlobalTransform;
+                _rideNiva.GlobalTransform = niva?.GlobalTransform
+                    ?? new Transform3D(new Basis(Vector3.Up, Mathf.DegToRad(definition.YawDegrees)), definition.Spawn);
                 _rideCamera = new Camera3D { Name = "PhotoWorldPassengerCamera", Position = RideCameraRest,
                     Near = .045f, Fov = Mathf.Min(player.GetNode<Camera3D>("Head/Camera3D").Fov, 62f) };
                 _rideNiva.AddChild(_rideCamera);
@@ -176,17 +182,15 @@ public partial class Act1DemoRoot
                 _rideShake = Vector2.Zero;
                 _rideLook = new(35f, 0f);
                 ApplyPrologueRideLook();
-                _parkedNivaForRide = niva;
-                _parkedNivaWasVisible = niva.Visible;
-                niva.Visible = false;
+                if (niva is not null) BindParkedPhotoNiva(niva);
                 _playerHudForRide = player.GetNodeOrNull<CanvasLayer>("Hud");
                 if (_playerHudForRide is { } hud)
                 {
                     _playerHudWasVisibleForRide = hud.Visible;
                     hud.Visible = false;
                 }
-                // The cabin is presentation only. Saves retain the already
-                // validated standing pose; Continue reconstructs this scene.
+                // The camera travels, the physical player does not. Main supplies
+                // the canonical arrival save pose until the village is placed.
                 player.Velocity = Vector3.Zero;
                 player.SetPhysicsProcess(false);
                 player.SetProcessUnhandledInput(false);
@@ -199,6 +203,7 @@ public partial class Act1DemoRoot
                     PrologueDreamCut.Release(fadeSeconds: .5);
                     PresentParkedPhotoNiva();
                 }
+                if (staged) _main.NotifyStagedArrivalCabinReady(session);
                 UpdateRouteCue();
             }
             catch (Exception error)
@@ -260,6 +265,7 @@ public partial class Act1DemoRoot
             && inputEvent.IsActionPressed("move_forward"))
         {
             _photoNivaKeepRiding = true;
+            _photoNivaArrivalRequested = false;
             GetViewport().SetInputAsHandled();
             return true;
         }
@@ -333,6 +339,11 @@ public partial class Act1DemoRoot
             if (!IsCurrentPhotoNivaArrival(session)) return;
             if (!languageSaved) throw new InvalidOperationException("The language setting could not be saved.");
             var bridge = _bridge!;
+            if (!TryPlacePhotoNivaPassengerExit(session))
+            {
+                ShowPrologueCaption("У пассажирской двери пока негде встать. Попробуйте ещё раз.", 4);
+                return;
+            }
             if (!await bridge.DispatchInteractionAsync("urman.fullgame:interaction/pw-niva-stop")
                 && IsCurrentPhotoNivaArrival(session))
             {
@@ -345,12 +356,15 @@ public partial class Act1DemoRoot
             GD.PushWarning($"PhotoWorld Niva exit failed: {error.Message}");
             if (IsCurrentPhotoNivaArrival(session))
             {
-                _photoNivaFailedSession = session;
-                ReleasePhotoNivaArrival();
+                PresentParkedPhotoNiva(speak: false);
+                ShowPrologueCaption("Не удалось выйти. Попробуйте ещё раз.", 3);
             }
         }
         finally
         {
+            // Rejected/cancelled exit restores only this session's hidden body.
+            // Main keeps a successful Home intent until deferred route consume.
+            if (IsInsideTree()) _main.CancelNivaPassengerExit(session);
             if (ReferenceEquals(session, _photoNivaSession)) _photoNivaExitPending = false;
         }
     }
@@ -362,6 +376,12 @@ public partial class Act1DemoRoot
         ReleasePhotoNivaLapBook();
         ReleasePrologueOverlay();
         var player = _photoNivaPlayer;
+        var releaseTransition = _photoNivaStagedArrival && _photoNivaStagedPlaced
+            && ReferenceEquals(_photoNivaSession, _bridge?.SessionIdentity)
+            && _bridge?.ActiveSceneId == "urman.fullgame:scene/pw-home";
+        ReleasePhotoNivaStagingLight();
+        _photoNivaStagedArrival = _photoNivaStagedPlaced = false;
+        _photoNivaArrivalFailure = null;
         _photoNivaPresentation = null;
         _photoNivaSession = null;
         _photoNivaPlayer = null;
@@ -382,6 +402,7 @@ public partial class Act1DemoRoot
         else if (IsInstanceValid(presentation)) presentation.QueueFree();
         if (player is not null && IsInstanceValid(player) && player.IsInsideTree())
         {
+            if (releaseTransition) player.SetSessionTransition(false);
             player.SetPhysicsProcess(_photoNivaPhysicsEnabled);
             player.SetProcessUnhandledInput(_photoNivaInputEnabled);
             if (IsInsideTree() && (MainMenuVisible || _pauseMenu?.IsOpen == true || _orderlyShutdownRequested

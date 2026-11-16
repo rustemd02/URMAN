@@ -124,6 +124,7 @@ public partial class Act1DemoRoot
         {
             if (!_photoNivaWoke || _photoNivaGateClock >= 0f || PhotoNivaDialogueOpen
                 || _photoNivaJourneyCut >= 0f
+                || _photoNivaArrivalFailure is not null
                 || _photoNivaEvidenceClock >= 0f || _photoNivaLapBook is not { } book
                 || !IsInstanceValid(book) || !book.Visible) return null;
             var canSpeak = _photoNivaDriveElapsed >= _photoNivaNextBarkReady;
@@ -201,7 +202,8 @@ public partial class Act1DemoRoot
         var gamepad = _photoNivaPlayer?.CurrentInputDevice == "gamepad";
         var main = action is null ? string.Empty : InputBindingService.ActionHint("interact", gamepad) + " — " + action + "\n";
         var stay = _photoNivaKeepRiding ? string.Empty : InputBindingService.ActionHint("move_forward", gamepad) + " — Остаться в поездке · ";
-        cue.Text = main + stay + InputBindingService.ActionHint("skip_prologue", gamepad) + " — Доехать до дома";
+        cue.Text = (PhotoNivaWaitingAtVillage ? "Деревня ещё загружается.\n" : string.Empty)
+            + main + stay + InputBindingService.ActionHint("skip_prologue", gamepad) + " — Доехать до дома";
     }
 
     private void ReleasePhotoNivaLapBook()

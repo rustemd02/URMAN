@@ -91,6 +91,19 @@ public partial class RuntimeBridge
             if (!Current()) return (false, null);
             await ProjectPhysicalWorldAsync();
             if (!Current()) return (false, null);
+            if (preserveLoadedTransform && sceneId == Main.PrologueSceneId)
+            {
+                await tree.ToSignal(tree, SceneTree.SignalName.PhysicsFrame);
+                if (!Current()) return (false, null);
+                if (FindPlayer() is { } savedPlayer
+                    && main.GetNodeOrNull<W01Controller>("ZoneHost/W01") is { } prologue
+                    && prologue.TryResolveLegacyPrologueLandscapeFeet(savedPlayer, out var raisedFeet))
+                {
+                    var original = savedPlayer.CapturePortableTransform();
+                    savedPlayer.ApplyPortableTransform(new(
+                        new(raisedFeet.X, raisedFeet.Y, raisedFeet.Z), original.RotationDegrees));
+                }
+            }
             var carry = tree.GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
             if (sceneId == "urman.fullgame:scene/pw-cellar"
                 && (carry is null || !GodotObject.IsInstanceValid(carry) || carry.IsQueuedForDeletion()

@@ -45,8 +45,8 @@ public partial class Act1DemoRoot
     {
         if (!ManualPhotoWorldSampleEnabled
             || inputEvent is not InputEventKey
-                { Pressed: true, Keycode: Key.F, CtrlPressed: true, ShiftPressed: true,
-                    MetaPressed: false } sampleKey) return false;
+                { Pressed: true, Keycode: Key.F or Key.V, CtrlPressed: true, ShiftPressed: true,
+                    AltPressed: false, MetaPressed: false } sampleKey) return false;
 
         GetViewport().SetInputAsHandled();
         if (inputEvent is InputEventKey { Echo: false }
@@ -59,7 +59,7 @@ public partial class Act1DemoRoot
             _manualPhotoWorldScenePath = _main.ActiveZoneScenePath;
             _manualPhotoWorldZone = _bridge.CurrentZoneId;
             _manualPhotoWorldLastTicks = 0;
-            _manualPhotoWorldStartOnWalk = sampleKey.AltPressed;
+            _manualPhotoWorldStartOnWalk = sampleKey.Keycode == Key.V;
             _manualPhotoWorldWarmupRemaining = ManualPhotoWorldWarmupFrames;
             _manualPhotoWorldMovementFrames = 0;
             _manualPhotoWorldSamplePhase = ManualPhotoWorldSamplePhase.Warmup;

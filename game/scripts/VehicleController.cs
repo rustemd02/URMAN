@@ -557,11 +557,28 @@ public partial class VehicleController : CharacterBody3D
     {
         feet = default;
         if (Driver is not { } player) return false;
+        return TryFindSafeExit(player, passengerOnly: false, out feet);
+    }
+
+    // The authored arrival uses a passenger camera, not vehicle control. It
+    // must leave through that same front-right door and use the ordinary checks.
+    internal bool TryFindSafePassengerExit(FirstPersonController player, out Vector3 feet)
+    {
+        feet = default;
+        return Definition.Kind == VehicleKind.Niva && Driver is null && PlacementAvailable
+            && Math.Abs(Speed) <= .25f && TryFindSafeExit(player, passengerOnly: true, out feet);
+    }
+
+    private bool TryFindSafeExit(FirstPersonController player, bool passengerOnly, out Vector3 feet)
+    {
+        feet = default;
         var side = Definition.HullSize.X*.5f + player.BodyRadius + .19f;
         var seatZ = Definition.Kind == VehicleKind.HorseCart ? .39f : .15f;
         // Prefer the sides; a motorcycle can also be left behind its rear wheel.
-        var offsets = new List<Vector3>{new(-side,0,seatZ),new(side,0,seatZ),
-            new(-side,0,seatZ+.7f),new(side,0,seatZ+.7f)};
+        var offsets = passengerOnly
+            ? new List<Vector3>{new(side,0,seatZ),new(side,0,seatZ+.7f)}
+            : new List<Vector3>{new(-side,0,seatZ),new(side,0,seatZ),
+                new(-side,0,seatZ+.7f),new(side,0,seatZ+.7f)};
         if (Definition.Kind == VehicleKind.Motorcycle)
             offsets.Add(new(0,0,Definition.HullSize.Z*.5f+player.BodyRadius+.19f));
         foreach (var offset in offsets)
@@ -571,6 +588,7 @@ public partial class VehicleController : CharacterBody3D
             // the returned dictionary otherwise all end up in the finalizer queue.
             using var ray = PhysicsRayQueryParameters3D.Create(candidate+Vector3.Up*2.0f,candidate-Vector3.Up*2.1f,3);
             var exclude = Excluded();
+            if (!ReferenceEquals(Driver, player)) exclude.Add(player.GetRid());
             using var excludeOwner = (global::Godot.Collections.Array)exclude;
             ray.Exclude = exclude;
             using var hit = GetWorld3D().DirectSpaceState.IntersectRay(ray);
@@ -583,6 +601,7 @@ public partial class VehicleController : CharacterBody3D
                 : ToGlobal(new(Math.Sign(offset.X)*(Definition.HullSize.X*.5f+.02f),0,offset.Z));
             start.Y = candidate.Y;
             var sweepExclude = Excluded();
+            if (!ReferenceEquals(Driver, player)) sweepExclude.Add(player.GetRid());
             using var sweepExcludeOwner = (global::Godot.Collections.Array)sweepExclude;
             using var sweep = new PhysicsShapeQueryParameters3D { Shape = _exitShape,
                 Transform = new(Basis.Identity,start+Vector3.Up*(player.StandingBodyHeight*.5f+.025f)),

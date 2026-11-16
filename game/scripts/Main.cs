@@ -286,6 +286,7 @@ public partial class Main : Node3D
 
     public override void _ExitTree()
     {
+        CancelStagedArrival();
         RestoreW04CameraFar();
         InvalidatePhotoScenePreload();
         if (_fullGameRouteBridge is { } bridge && GodotObject.IsInstanceValid(bridge))
@@ -482,6 +483,7 @@ public partial class Main : Node3D
     private void EnsureConnectedWorld()
     {
         if (_connectedWorld is not null) return;
+        if (_arrivalStageSession is not null) CancelStagedArrival();
 
         AlsuStreetWalkPresentation.SessionOwner(GetTree())?.DisableContactForZoneDisposal();
         _mountedW01 = null;
@@ -546,6 +548,7 @@ public partial class Main : Node3D
 
     internal bool PhotoRouteAwaitingPlacement(object session, string? sceneId)
     {
+        if (sceneId == NivaArrivalSceneId && TryGetStagedArrivalSaveTransform(session, out _)) return false;
         if (sceneId is not (NivaArrivalSceneId or BankApproachSceneId or PhotoEpilogueSceneId)) return false;
         if (!ReferenceEquals(_lastFullGameRouteSession, session) || _lastFullGameRouteScene != sceneId) return true;
         return sceneId switch
@@ -576,6 +579,8 @@ public partial class Main : Node3D
         _routingFullGameScene = true;
         try
         {
+            if (ReserveStagedArrival(projection, bridge)) return;
+            if (ConsumeNivaPassengerExit(projection, bridge)) return;
             if (TryMountPhotoScene(projection, bridge)) return;
 
             var targetZone = projection.ActiveSceneId == PhotoEpilogueSceneId

@@ -258,12 +258,18 @@ public partial class RuntimeBridge : Node
         if (_content.HasPhotoWorlds)
             PhotoWorldState.ValidateCurrentSnapshot(
                 runtime.State, _content.CampaignId, _content.CampaignExactVersion, requireNamespace: true);
+        var playerTransform = player.CapturePortableTransform();
+        if (_content.HasPhotoWorlds
+            && GetTree().GetFirstNodeInGroup("zone_manager") is Main { EnableFullGamePhotoWorldRouting: true } main
+            && SessionIdentity is { } session
+            && main.TryGetStagedArrivalSaveTransform(session, out var stagedArrivalTransform))
+            playerTransform = stagedArrivalTransform;
         return new SaveGameV3(
             SaveGameV3.CurrentSchemaVersion, _content.CampaignFingerprint,
             runtime.EventSequence, runtime, _clock.CaptureSnapshot(),
             _rngStreams.CaptureSnapshot(), _scheduler.CaptureSnapshot(),
             _capabilities.CaptureAll(), new WorldLocationId(CurrentZoneId),
-            new SpawnPointId(CurrentSpawnPointId), player.CapturePortableTransform(),
+            new SpawnPointId(CurrentSpawnPointId), playerTransform,
             player.CaptureSettings(), _playTimeSeconds)
         {
             ForestPassageObservation = CaptureForestPassageObservation()

@@ -278,133 +278,177 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
     public void Build()
     {
+        foreach (var job in BuildJobs()) job();
+    }
+
+    /// <summary>
+    /// Same construction as Build, with main-thread yields between units.
+    /// Execute each action exactly once before advancing; dispose on cancellation.
+    /// </summary>
+    internal IEnumerable<Action> BuildJobs()
+    {
         if (_built)
         {
-            return;
+            yield break;
         }
 
         _built = true;
-        SetMeta("presentationOwner", nameof(Act1ConnectedWorld));
-        SetMeta("variantStatus", "production-canonical");
-        SetMeta("retiredVariants", "AgentBAct1World");
-        SetMeta("runtimeEntryPoint", "res://scenes/act1_demo.tscn");
-        SetMeta("visualOnlyPolicy", "terrain, architecture, reachable tree stems and boundary thicket collidable; small decor walk-through");
-        SetMeta(
-            "collisionPolicy",
-            "AgentB_TerrainCollision and AgentB_ArchitectureCollision own traversal; rooted stems join architecture after visible-plant filtering; small decor remains walk-through");
-        SetMeta(
-            "traversalCollisionOwners",
-            "AgentB_TerrainCollision:act1-exterior-terrain|AgentB_ArchitectureCollision:act1-exterior-architecture");
-        SetMeta("navigationPolicy", "none");
-        SetMeta("interactionPolicy", "none");
-        SetMeta("runtimeStateOwnership", "RuntimeBridge");
+        yield return () =>
+        {
+            SetMeta("presentationOwner", nameof(Act1ConnectedWorld));
+            SetMeta("variantStatus", "production-canonical");
+            SetMeta("retiredVariants", "AgentBAct1World");
+            SetMeta("runtimeEntryPoint", "res://scenes/act1_demo.tscn");
+            SetMeta("visualOnlyPolicy", "terrain, architecture, reachable tree stems and boundary thicket collidable; small decor walk-through");
+            SetMeta(
+                "collisionPolicy",
+                "AgentB_TerrainCollision and AgentB_ArchitectureCollision own traversal; rooted stems join architecture after visible-plant filtering; small decor remains walk-through");
+            SetMeta(
+                "traversalCollisionOwners",
+                "AgentB_TerrainCollision:act1-exterior-terrain|AgentB_ArchitectureCollision:act1-exterior-architecture");
+            SetMeta("navigationPolicy", "none");
+            SetMeta("interactionPolicy", "none");
+            SetMeta("runtimeStateOwnership", "RuntimeBridge");
+        };
         foreach (var (kitFile, rootName) in Kits)
         {
-            var instance = AgentBKitMaterials.InstantiateKit(this, KitDirectory + kitFile, rootName);
-            instance.SetMeta("exteriorKit", kitFile);
+            yield return () =>
+            {
+                var instance = AgentBKitMaterials.InstantiateKit(this, KitDirectory + kitFile, rootName);
+                instance.SetMeta("exteriorKit", kitFile);
 
-            // The village-building kit is a broad authored context kit and
-            // includes a complete FAP family. The connected world has a
-            // dedicated clinic kit with the approved facade/porch/yard
-            // composition, so keep exactly one exterior FAP presentation
-            // owner. Suppress the duplicate before building architecture
-            // collision; the local FAP interior and its targets remain
-            // separate authoritative owners.
-            if (string.Equals(kitFile, "agentb_village_buildings_kit.glb", System.StringComparison.Ordinal))
-            {
-                SuppressDuplicateFapPresentation(instance);
-                SuppressDuplicateBabaiHouse(instance);
-                SuppressDuplicateBabaiOutbuildings(instance);
-                SuppressDuplicateYardWell(instance);
-                SuppressRouteOccludingHouseA7(instance);
-                SuppressDuplicateNearStreetHouses(instance);
-                SuppressRouteOccludingHouseA5Architecture(instance);
-                SuppressRouteOccludingFarHouse3(instance);
-                SuppressRemainingPreviewArchitecture(instance);
-            }
-            else if (string.Equals(kitFile, "agentb_kara_edge_kit.glb", System.StringComparison.Ordinal))
-            {
-                SuppressRouteOccludingKaraMasses(instance);
-            }
-            else if (string.Equals(kitFile, "agentb_zirat_kit.glb", System.StringComparison.Ordinal))
-            {
-                SuppressZiratRouteFenceRails(instance);
-            }
+                // The village-building kit is a broad authored context kit and
+                // includes a complete FAP family. The connected world has a
+                // dedicated clinic kit with the approved facade/porch/yard
+                // composition, so keep exactly one exterior FAP presentation
+                // owner. Suppress the duplicate before building architecture
+                // collision; the local FAP interior and its targets remain
+                // separate authoritative owners.
+                if (string.Equals(kitFile, "agentb_village_buildings_kit.glb", System.StringComparison.Ordinal))
+                {
+                    SuppressDuplicateFapPresentation(instance);
+                    SuppressDuplicateBabaiHouse(instance);
+                    SuppressDuplicateBabaiOutbuildings(instance);
+                    SuppressDuplicateYardWell(instance);
+                    SuppressRouteOccludingHouseA7(instance);
+                    SuppressDuplicateNearStreetHouses(instance);
+                    SuppressRouteOccludingHouseA5Architecture(instance);
+                    SuppressRouteOccludingFarHouse3(instance);
+                    SuppressRemainingPreviewArchitecture(instance);
+                }
+                else if (string.Equals(kitFile, "agentb_kara_edge_kit.glb", System.StringComparison.Ordinal))
+                {
+                    SuppressRouteOccludingKaraMasses(instance);
+                }
+                else if (string.Equals(kitFile, "agentb_zirat_kit.glb", System.StringComparison.Ordinal))
+                {
+                    SuppressZiratRouteFenceRails(instance);
+                }
+            };
         }
 
-        ConformRoadPresentation();
-        BuildTerrainCollision();
-        BuildKaraGradeSupports();
+        foreach (var job in ConformRoadPresentationJobs()) yield return job;
+        yield return BuildTerrainCollision;
+        yield return BuildKaraGradeSupports;
         // Settle the retained banks into the ground before creating their
         // collision, so the visible low profile and physical boundary agree.
         foreach (var mesh in EnumerateDescendants<MeshInstance3D>(GetNode<Node3D>("AgentB_KaraEdgeKit")).ToArray())
         {
-            var name = mesh.Name.ToString();
-            if (!name.StartsWith("KaraRoot_") && !name.StartsWith("FallenLog_K") && !name.StartsWith("KaraStone_")) continue;
-            var source = mesh.Mesh;
-            if (source is null) continue;
-            if (name.StartsWith("FallenLog_K"))
+            yield return () =>
             {
-                // Deadfall rests on two tapered broken branches. Their feet
-                // explain the raised trunk without turning it into a solid wall.
-                using var sourceArrays = source.SurfaceGetArrays(0);
-                var points = sourceArrays[(int)Mesh.ArrayType.Vertex].AsVector3Array()
-                    .Select(vertex => mesh.ToGlobal(vertex)).OrderBy(point => point.X).ToArray();
-                foreach (var t in new[] { .2f, .8f })
+                var name = mesh.Name.ToString();
+                if (!name.StartsWith("KaraRoot_") && !name.StartsWith("FallenLog_K") && !name.StartsWith("KaraStone_")) return;
+                var source = mesh.Mesh;
+                if (source is null) return;
+                if (name.StartsWith("FallenLog_K"))
                 {
-                    var top = points.First().Lerp(points.Last(), t);
-                    var bottom = new Vector3(top.X + (t - .5f) * .45f,
-                        AgentBAct1HeightField.CollisionGround(top.X, top.Z) - .04f, top.Z + (t < .5f ? -.34f : .27f));
-                    var support = new MeshInstance3D { Name = "DeadfallBrokenBranch",
-                        Mesh = new CylinderMesh { Height = top.DistanceTo(bottom), TopRadius = .045f, BottomRadius = .11f,
-                            RadialSegments = 7, Rings = 1 },
-                        MaterialOverride = PainterlyMaterialLibrary.ForColor("655b51", "bark_pine") };
-                    AddChild(support);
-                    support.GlobalTransform = new Transform3D(new Basis(new Quaternion(Vector3.Up,
-                        (top - bottom).Normalized())), (top + bottom) * .5f);
+                    // Deadfall rests on two tapered broken branches. Their feet
+                    // explain the raised trunk without turning it into a solid wall.
+                    using var sourceArrays = source.SurfaceGetArrays(0);
+                    var points = sourceArrays[(int)Mesh.ArrayType.Vertex].AsVector3Array()
+                        .Select(vertex => mesh.ToGlobal(vertex)).OrderBy(point => point.X).ToArray();
+                    foreach (var t in new[] { .2f, .8f })
+                    {
+                        var top = points.First().Lerp(points.Last(), t);
+                        var bottom = new Vector3(top.X + (t - .5f) * .45f,
+                            AgentBAct1HeightField.CollisionGround(top.X, top.Z) - .04f, top.Z + (t < .5f ? -.34f : .27f));
+                        var support = new MeshInstance3D { Name = "DeadfallBrokenBranch",
+                            Mesh = new CylinderMesh { Height = top.DistanceTo(bottom), TopRadius = .045f, BottomRadius = .11f,
+                                RadialSegments = 7, Rings = 1 },
+                            MaterialOverride = PainterlyMaterialLibrary.ForColor("655b51", "bark_pine") };
+                        AddChild(support);
+                        support.GlobalTransform = new Transform3D(new Basis(new Quaternion(Vector3.Up,
+                            (top - bottom).Normalized())), (top + bottom) * .5f);
+                    }
+                    mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("655b51", "bark_pine");
+                    return;
                 }
-                mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("655b51", "bark_pine");
-                continue;
-            }
-            var reshaped = new ArrayMesh();
-            for (var i = 0; i < source.GetSurfaceCount(); i++)
-            {
-                using var arrays = source.SurfaceGetArrays(i);
-                var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
-                var bounds = mesh.GlobalTransform * source.GetAabb();
-                var center = bounds.GetCenter();
-                for (var v = 0; v < vertices.Length; v++)
+                var reshaped = new ArrayMesh();
+                for (var i = 0; i < source.GetSurfaceCount(); i++)
                 {
-                    var point = mesh.ToGlobal(vertices[v]);
-                    var level = Mathf.Clamp((point.Y - bounds.Position.Y) / Mathf.Max(bounds.Size.Y, .01f), 0f, 1f);
-                    var shoulder = .95f + .20f * Mathf.Sin(level * Mathf.Pi);
-                    point.X = center.X + (point.X - center.X) * shoulder;
-                    point.Z = center.Z + (point.Z - center.Z) * shoulder;
-                    point.Y = AgentBAct1HeightField.CollisionGround(point.X, point.Z)
-                        + Mathf.Lerp(-.60f, name.StartsWith("KaraRoot_") ? .80f : .65f, level);
-                    vertices[v] = mesh.ToLocal(point);
+                    using var arrays = source.SurfaceGetArrays(i);
+                    var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+                    var bounds = mesh.GlobalTransform * source.GetAabb();
+                    var center = bounds.GetCenter();
+                    for (var v = 0; v < vertices.Length; v++)
+                    {
+                        var point = mesh.ToGlobal(vertices[v]);
+                        var level = Mathf.Clamp((point.Y - bounds.Position.Y) / Mathf.Max(bounds.Size.Y, .01f), 0f, 1f);
+                        var shoulder = .95f + .20f * Mathf.Sin(level * Mathf.Pi);
+                        point.X = center.X + (point.X - center.X) * shoulder;
+                        point.Z = center.Z + (point.Z - center.Z) * shoulder;
+                        point.Y = AgentBAct1HeightField.CollisionGround(point.X, point.Z)
+                            + Mathf.Lerp(-.60f, name.StartsWith("KaraRoot_") ? .80f : .65f, level);
+                        vertices[v] = mesh.ToLocal(point);
+                    }
+                    arrays[(int)Mesh.ArrayType.Vertex] = vertices;
+                    using var surfaceMesh = new ArrayMesh();
+                    surfaceMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
+                    using var surface = new SurfaceTool();
+                    surface.CreateFrom(surfaceMesh, 0);
+                    surface.GenerateNormals();
+                    surface.SetMaterial(source.SurfaceGetMaterial(i));
+                    surface.Commit(reshaped);
                 }
-                arrays[(int)Mesh.ArrayType.Vertex] = vertices;
-                using var surfaceMesh = new ArrayMesh();
-                surfaceMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
-                using var surface = new SurfaceTool();
-                surface.CreateFrom(surfaceMesh, 0);
-                surface.GenerateNormals();
-                surface.SetMaterial(source.SurfaceGetMaterial(i));
-                surface.Commit(reshaped);
-            }
-            mesh.Mesh = reshaped;
-            mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("60685d", "stone");
+                mesh.Mesh = reshaped;
+                mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("60685d", "stone");
+            };
         }
-        BuildArchitectureCollision();
-        Act1ConnectedWorld.ProfileWorldBuildStep("agent-b-foliage", PlantFoliage);
-        BuildForestBoundaryCollision();
-        BuildEnvironment();
-        BuildKaraAccentLights();
-        BuildSnow();
-        BuildWindStreaks();
-        _snowTrample = new SnowTrampleField { Name = "AgentBSnowTrample" };
-        AddChild(_snowTrample);
+        foreach (var job in BuildArchitectureCollisionJobs()) yield return job;
+        foreach (var job in ProfileExteriorJobs("agent-b-foliage", PlantFoliageJobs())) yield return job;
+        yield return BuildForestBoundaryCollision;
+        yield return BuildEnvironment;
+        yield return BuildKaraAccentLights;
+        yield return BuildSnow;
+        yield return BuildWindStreaks;
+        yield return () =>
+        {
+            _snowTrample = new SnowTrampleField { Name = "AgentBSnowTrample" };
+            AddChild(_snowTrample);
+        };
+    }
+
+    // Construction CPU only: paused render frames do not inflate the existing phase profile.
+    private static IEnumerable<Action> ProfileExteriorJobs(string stage, IEnumerable<Action> jobs)
+    {
+        using var iterator = jobs.GetEnumerator();
+        var elapsed = new System.Diagnostics.Stopwatch();
+        while (true)
+        {
+            elapsed.Start();
+            bool more;
+            try { more = iterator.MoveNext(); }
+            finally { elapsed.Stop(); }
+            if (!more) break;
+            var job = iterator.Current;
+            yield return () =>
+            {
+                elapsed.Start();
+                try { job(); }
+                finally { elapsed.Stop(); }
+            };
+        }
+        GD.Print($"world-build-profile|{stage}|{elapsed.Elapsed.TotalSeconds.ToString("0.000", System.Globalization.CultureInfo.InvariantCulture)}s");
     }
 
     public global::Godot.Environment? ExteriorAtmosphere => _environmentResource;
@@ -526,118 +570,121 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         shoulder.SetMeta("supportOwner", support.GetPath().ToString());
     }
 
-    private void ConformRoadPresentation()
+    private IEnumerable<Action> ConformRoadPresentationJobs()
     {
         var kit = GetNode<Node3D>("AgentB_TerrainRoadKit");
         foreach (var mesh in EnumerateDescendants<MeshInstance3D>(kit))
         {
-            var name = mesh.Name.ToString();
-            // Legacy yard and field-horizon sheets overlap the walkable Terrain_Main.
-            // The current western horizon already belongs to the native forest.
-            if (name is "Apron_BabaiYard" or "Grade_Babai_West" or "Ditch_FieldBank_WestStreet")
+            yield return () =>
             {
-                mesh.Visible = false;
-                mesh.SetMeta("agentBPresentationSuppressed", "canonical-terrain-replaces-preview-snow-sheets");
-            }
-            var shoulder = name == "Grade_Street_West";
-            // Other authored grades only follow the southern gorge down (relayout v3); elsewhere they stay as authored.
-            var gorgeOnly = !shoulder && name.StartsWith("Grade_", StringComparison.Ordinal);
-            if (mesh.Mesh is not ArrayMesh original || (name != "Terrain_Main" && !name.StartsWith("Road_", StringComparison.Ordinal) && !shoulder && !gorgeOnly)) continue;
-            var bounds = (GlobalTransform.AffineInverse() * mesh.GlobalTransform) * original.GetAabb();
-            var result = new ArrayMesh();
-            if (name == "Terrain_Main")
-            {
-                var surface = new SurfaceTool();
-                surface.Begin(Mesh.PrimitiveType.Triangles);
-                foreach (var vertex in AgentBAct1HeightField.TerrainFaces)
+                var name = mesh.Name.ToString();
+                // Legacy yard and field-horizon sheets overlap the walkable Terrain_Main.
+                // The current western horizon already belongs to the native forest.
+                if (name is "Apron_BabaiYard" or "Grade_Babai_West" or "Ditch_FieldBank_WestStreet")
                 {
-                    surface.SetUV(new Vector2(vertex.X, vertex.Z));
-                    surface.AddVertex(mesh.ToLocal(ToGlobal(vertex)));
+                    mesh.Visible = false;
+                    mesh.SetMeta("agentBPresentationSuppressed", "canonical-terrain-replaces-preview-snow-sheets");
                 }
-                surface.Index();
-                surface.GenerateNormals();
-                surface.Commit(result);
-                result.SurfaceSetMaterial(0, original.SurfaceGetMaterial(0));
-                // The recessed lane is a property of the shared field, not of this
-                // mesh, and the traversal triangles below use the same samples.
-                // Record the numbers the ground was cut with where a capture
-                // can read them instead of re-deriving them (VIS-077 proof).
-                mesh.SetMeta("snowLaneProfile", System.FormattableString.Invariant(
-                    $"owner=AgentBAct1HeightField.RoadProfile depth={AgentBAct1HeightField.LaneDepthFootTrack}..{AgentBAct1HeightField.LaneDepthCarriageway} bank={AgentBAct1HeightField.BankRiseFootTrack}..{AgentBAct1HeightField.BankRiseCarriageway} reach={AgentBAct1HeightField.LaneInfluence}"));
-            }
-            else
-            {
-                for (var index = 0; index < original.GetSurfaceCount(); index++)
+                var shoulder = name == "Grade_Street_West";
+                // Other authored grades only follow the southern gorge down (relayout v3); elsewhere they stay as authored.
+                var gorgeOnly = !shoulder && name.StartsWith("Grade_", StringComparison.Ordinal);
+                if (mesh.Mesh is not ArrayMesh original || (name != "Terrain_Main" && !name.StartsWith("Road_", StringComparison.Ordinal) && !shoulder && !gorgeOnly)) return;
+                var bounds = (GlobalTransform.AffineInverse() * mesh.GlobalTransform) * original.GetAabb();
+                var result = new ArrayMesh();
+                if (name == "Terrain_Main")
                 {
-                    // Both the caller-owned source array and its duplicate must be
-                    // released; AddSurfaceFromArrays copies the data it is given.
-                    using var sourceArrays = original.SurfaceGetArrays(index);
-                    using var arrays = sourceArrays.Duplicate(true);
-                    var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
-                    var pathUv = name == "Road_HousePath" ? new Vector2[vertices.Length] : null;
-                    var inCut = new bool[vertices.Length];
-                    for (var i = 0; i < vertices.Length; i++)
-                    {
-                        var point = ToLocal(mesh.ToGlobal(vertices[i]));
-                        inCut[i] = AgentBAct1HeightField.RiverChannel(point.X, point.Z) < -.05;
-                        var ground = AgentBAct1HeightField.CollisionGround(point.X, point.Z);
-                        if (shoulder)
-                        {
-                            // The old presentation-only bank ended at full crest
-                            // height. Ease its two ends into walkable ground.
-                            var endDistance = Math.Min(point.Z - bounds.Position.Z, bounds.End.Z - point.Z);
-                            point.Y = Mathf.Lerp(ground + .005f, point.Y, Mathf.SmoothStep(0, 1, endDistance / 3f));
-                        }
-                        else if (!gorgeOnly) point.Y += ground - (float)AgentBAct1HeightField.Ground(point.X, point.Z);
-                        if (pathUv is not null)
-                        {
-                            var world = ToGlobal(point);
-                            var position = new Vector2(world.X, world.Z);
-                            var nearest = float.MaxValue;
-                            var across = 0f;
-                            var axis = AgentBAct1Layout.HousePathAxis;
-                            for (var segment = 0; segment < axis.Length - 1; segment++)
-                            {
-                                var edge = axis[segment + 1] - axis[segment];
-                                var offset = position - axis[segment];
-                                var onAxis = axis[segment] + edge * Mathf.Clamp(offset.Dot(edge) / edge.LengthSquared(), 0f, 1f);
-                                var delta = position - onAxis;
-                                if (delta.LengthSquared() >= nearest) continue;
-                                nearest = delta.LengthSquared();
-                                across = edge.Normalized().Cross(delta);
-                            }
-                            pathUv[i] = new Vector2(Mathf.Clamp(.5f + across / 3f, 0f, 1f), 0f);
-                        }
-                        vertices[i] = mesh.ToLocal(ToGlobal(point));
-                    }
-                    arrays[(int)Mesh.ArrayType.Vertex] = vertices;
-                    if (pathUv is not null) arrays[(int)Mesh.ArrayType.TexUV] = pathUv;
-                    // The authored road ribbons and grades predate the southern gorge (relayout v3):
-                    // every triangle touching the cut is dropped, so no sheet or slab spans the void
-                    // or pierces its slopes; the suspension bridge carries the path across.
-                    if (inCut.Any(cut => cut))
-                    {
-                        var indices = arrays[(int)Mesh.ArrayType.Index].VariantType == Variant.Type.Nil
-                            ? Enumerable.Range(0, vertices.Length).ToArray()
-                            : arrays[(int)Mesh.ArrayType.Index].AsInt32Array();
-                        var kept = new List<int>(indices.Length);
-                        for (var t = 0; t + 2 < indices.Length; t += 3)
-                            if (!inCut[indices[t]] && !inCut[indices[t + 1]] && !inCut[indices[t + 2]])
-                                kept.AddRange([indices[t], indices[t + 1], indices[t + 2]]);
-                        if (kept.Count == 0) continue;
-                        arrays[(int)Mesh.ArrayType.Index] = kept.ToArray();
-                    }
-                    var reshaped = new ArrayMesh();
-                    reshaped.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
                     var surface = new SurfaceTool();
-                    surface.CreateFrom(reshaped, 0);
+                    surface.Begin(Mesh.PrimitiveType.Triangles);
+                    foreach (var vertex in AgentBAct1HeightField.TerrainFaces)
+                    {
+                        surface.SetUV(new Vector2(vertex.X, vertex.Z));
+                        surface.AddVertex(mesh.ToLocal(ToGlobal(vertex)));
+                    }
+                    surface.Index();
                     surface.GenerateNormals();
                     surface.Commit(result);
-                    result.SurfaceSetMaterial(result.GetSurfaceCount() - 1, original.SurfaceGetMaterial(index));
+                    result.SurfaceSetMaterial(0, original.SurfaceGetMaterial(0));
+                    // The recessed lane is a property of the shared field, not of this
+                    // mesh, and the traversal triangles below use the same samples.
+                    // Record the numbers the ground was cut with where a capture
+                    // can read them instead of re-deriving them (VIS-077 proof).
+                    mesh.SetMeta("snowLaneProfile", System.FormattableString.Invariant(
+                        $"owner=AgentBAct1HeightField.RoadProfile depth={AgentBAct1HeightField.LaneDepthFootTrack}..{AgentBAct1HeightField.LaneDepthCarriageway} bank={AgentBAct1HeightField.BankRiseFootTrack}..{AgentBAct1HeightField.BankRiseCarriageway} reach={AgentBAct1HeightField.LaneInfluence}"));
                 }
-            }
-            mesh.Mesh = result;
-            mesh.SetMeta("supportOwner", "AgentB_TerrainCollision");
+                else
+                {
+                    for (var index = 0; index < original.GetSurfaceCount(); index++)
+                    {
+                        // Both the caller-owned source array and its duplicate must be
+                        // released; AddSurfaceFromArrays copies the data it is given.
+                        using var sourceArrays = original.SurfaceGetArrays(index);
+                        using var arrays = sourceArrays.Duplicate(true);
+                        var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+                        var pathUv = name == "Road_HousePath" ? new Vector2[vertices.Length] : null;
+                        var inCut = new bool[vertices.Length];
+                        for (var i = 0; i < vertices.Length; i++)
+                        {
+                            var point = ToLocal(mesh.ToGlobal(vertices[i]));
+                            inCut[i] = AgentBAct1HeightField.RiverChannel(point.X, point.Z) < -.05;
+                            var ground = AgentBAct1HeightField.CollisionGround(point.X, point.Z);
+                            if (shoulder)
+                            {
+                                // The old presentation-only bank ended at full crest
+                                // height. Ease its two ends into walkable ground.
+                                var endDistance = Math.Min(point.Z - bounds.Position.Z, bounds.End.Z - point.Z);
+                                point.Y = Mathf.Lerp(ground + .005f, point.Y, Mathf.SmoothStep(0, 1, endDistance / 3f));
+                            }
+                            else if (!gorgeOnly) point.Y += ground - (float)AgentBAct1HeightField.Ground(point.X, point.Z);
+                            if (pathUv is not null)
+                            {
+                                var world = ToGlobal(point);
+                                var position = new Vector2(world.X, world.Z);
+                                var nearest = float.MaxValue;
+                                var across = 0f;
+                                var axis = AgentBAct1Layout.HousePathAxis;
+                                for (var segment = 0; segment < axis.Length - 1; segment++)
+                                {
+                                    var edge = axis[segment + 1] - axis[segment];
+                                    var offset = position - axis[segment];
+                                    var onAxis = axis[segment] + edge * Mathf.Clamp(offset.Dot(edge) / edge.LengthSquared(), 0f, 1f);
+                                    var delta = position - onAxis;
+                                    if (delta.LengthSquared() >= nearest) continue;
+                                    nearest = delta.LengthSquared();
+                                    across = edge.Normalized().Cross(delta);
+                                }
+                                pathUv[i] = new Vector2(Mathf.Clamp(.5f + across / 3f, 0f, 1f), 0f);
+                            }
+                            vertices[i] = mesh.ToLocal(ToGlobal(point));
+                        }
+                        arrays[(int)Mesh.ArrayType.Vertex] = vertices;
+                        if (pathUv is not null) arrays[(int)Mesh.ArrayType.TexUV] = pathUv;
+                        // The authored road ribbons and grades predate the southern gorge (relayout v3):
+                        // every triangle touching the cut is dropped, so no sheet or slab spans the void
+                        // or pierces its slopes; the suspension bridge carries the path across.
+                        if (inCut.Any(cut => cut))
+                        {
+                            var indices = arrays[(int)Mesh.ArrayType.Index].VariantType == Variant.Type.Nil
+                                ? Enumerable.Range(0, vertices.Length).ToArray()
+                                : arrays[(int)Mesh.ArrayType.Index].AsInt32Array();
+                            var kept = new List<int>(indices.Length);
+                            for (var t = 0; t + 2 < indices.Length; t += 3)
+                                if (!inCut[indices[t]] && !inCut[indices[t + 1]] && !inCut[indices[t + 2]])
+                                    kept.AddRange([indices[t], indices[t + 1], indices[t + 2]]);
+                            if (kept.Count == 0) continue;
+                            arrays[(int)Mesh.ArrayType.Index] = kept.ToArray();
+                        }
+                        var reshaped = new ArrayMesh();
+                        reshaped.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
+                        var surface = new SurfaceTool();
+                        surface.CreateFrom(reshaped, 0);
+                        surface.GenerateNormals();
+                        surface.Commit(result);
+                        result.SurfaceSetMaterial(result.GetSurfaceCount() - 1, original.SurfaceGetMaterial(index));
+                    }
+                }
+                mesh.Mesh = result;
+                mesh.SetMeta("supportOwner", "AgentB_TerrainCollision");
+            };
         }
     }
 
@@ -942,7 +989,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         }
     }
 
-    private void BuildArchitectureCollision()
+    private IEnumerable<Action> BuildArchitectureCollisionJobs()
     {
         var body = new StaticBody3D { Name = "AgentB_ArchitectureCollision" };
         body.SetMeta("collisionOwner", "act1-exterior-architecture");
@@ -959,30 +1006,33 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
             foreach (var meshInstance in EnumerateDescendants<MeshInstance3D>(kitRoot))
             {
-                if (!ShouldCollide(meshInstance.Name.ToString()) || meshInstance.Mesh is null)
+                yield return () =>
                 {
-                    continue;
-                }
+                    if (!ShouldCollide(meshInstance.Name.ToString()) || meshInstance.Mesh is null)
+                    {
+                        return;
+                    }
 
-                if (meshInstance.HasMeta("agentBPresentationSuppressed"))
-                {
-                    continue;
-                }
+                    if (meshInstance.HasMeta("agentBPresentationSuppressed"))
+                    {
+                        return;
+                    }
 
-                var trimesh = meshInstance.Mesh.CreateTrimeshShape();
-                if (trimesh is null)
-                {
-                    continue;
-                }
+                    var trimesh = meshInstance.Mesh.CreateTrimeshShape();
+                    if (trimesh is null)
+                    {
+                        return;
+                    }
 
-                var contact = new CollisionShape3D
-                {
-                    Name = $"Col_{meshInstance.Name}",
-                    Shape = trimesh,
-                    Transform = meshInstance.GlobalTransform
+                    var contact = new CollisionShape3D
+                    {
+                        Name = $"Col_{meshInstance.Name}",
+                        Shape = trimesh,
+                        Transform = meshInstance.GlobalTransform
+                    };
+                    contact.SetMeta("authoredSourceMesh", meshInstance.GetPath().ToString());
+                    body.AddChild(contact);
                 };
-                contact.SetMeta("authoredSourceMesh", meshInstance.GetPath().ToString());
-                body.AddChild(contact);
             }
         }
     }
@@ -1487,13 +1537,18 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
     private readonly record struct FoliagePlanEntry(Vector2 Position, string Variant, (double Distance, double HalfWidth) Road);
 
-    private void PlantFoliage()
+    private IEnumerable<Action> PlantFoliageJobs()
     {
-        var kit = GetNode<Node3D>("AgentB_FoliageKit");
-        var parts = EnumerateDescendants<Node3D>(kit)
-            .Where(node => VariantKey(node.Name.ToString()) is not null && HasMeshInSubtree(node))
-            .GroupBy(node => VariantKey(node.Name.ToString())!)
-            .ToDictionary(group => group.Key, group => group.ToList(), StringComparer.Ordinal);
+        Node3D kit = null!;
+        Dictionary<string, List<Node3D>> parts = null!;
+        yield return () =>
+        {
+            kit = GetNode<Node3D>("AgentB_FoliageKit");
+            parts = EnumerateDescendants<Node3D>(kit)
+                .Where(node => VariantKey(node.Name.ToString()) is not null && HasMeshInSubtree(node))
+                .GroupBy(node => VariantKey(node.Name.ToString())!)
+                .ToDictionary(group => group.Key, group => group.ToList(), StringComparer.Ordinal);
+        };
         var geometry = new Dictionary<string, (ArrayMesh Mesh, string[] Kinds, Vector3[] LowVertices, double LowVertexRadius)>(StringComparer.Ordinal);
         var rootedStems = new Dictionary<string, Vector3[]>(StringComparer.Ordinal);
         var graded = _foliageMeshes;
@@ -1605,35 +1660,43 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             graded[(variant, region)] = result;
             return result;
         }
-        var plants = new Node3D { Name = "AgentB_PlantedFoliage" };
-        AddChild(plants);
-        plants.SetMeta("presentationOnly", true);
-        plants.SetMeta("visualOnly", true);
-        plants.SetMeta("variationPolicy", "shared rooted meshes; native distance LOD; 12m ground-cover cells");
-        kit.Visible = false;
-        kit.SetMeta("templateSourceHidden", true);
-        kit.SetMeta("templateSourcePolicy", "hidden source library; shared geometry is rebased once per variant");
+        Node3D plants = null!;
+        yield return () =>
+        {
+            plants = new Node3D { Name = "AgentB_PlantedFoliage" };
+            AddChild(plants);
+            plants.SetMeta("presentationOnly", true);
+            plants.SetMeta("visualOnly", true);
+            plants.SetMeta("variationPolicy", "shared rooted meshes; native distance LOD; 12m ground-cover cells");
+            kit.Visible = false;
+            kit.SetMeta("templateSourceHidden", true);
+            kit.SetMeta("templateSourcePolicy", "hidden source library; shared geometry is rebased once per variant");
+        };
         var batches = new Dictionary<(Vector2I Cell, string Variant, string Region, int Lod), List<Transform3D>>();
-        var roofs = BuildingRoofBounds(GetParent());
+        Aabb[] roofs = [];
+        yield return () => roofs = BuildingRoofBounds(GetParent());
         const float roofIndexCellSize = 16f;
         var roofsByCell = new Dictionary<Vector2I, List<Aabb>>();
         foreach (var roof in roofs)
         {
-            // Index the same expanded XZ footprint the root test uses. Any roof
-            // that can contain a root is therefore present in that root's cell;
-            // the original exact predicate below still decides suppression.
-            var minCellX = Mathf.FloorToInt((roof.Position.X - BuildingRoofHorizontalMargin) / roofIndexCellSize);
-            var maxCellX = Mathf.FloorToInt((roof.End.X + BuildingRoofHorizontalMargin) / roofIndexCellSize);
-            var minCellZ = Mathf.FloorToInt((roof.Position.Z - BuildingRoofHorizontalMargin) / roofIndexCellSize);
-            var maxCellZ = Mathf.FloorToInt((roof.End.Z + BuildingRoofHorizontalMargin) / roofIndexCellSize);
-            for (var cellZ = minCellZ; cellZ <= maxCellZ; cellZ++)
-            for (var cellX = minCellX; cellX <= maxCellX; cellX++)
+            yield return () =>
             {
-                var cell = new Vector2I(cellX, cellZ);
-                if (!roofsByCell.TryGetValue(cell, out var cellRoofs))
-                    roofsByCell[cell] = cellRoofs = new List<Aabb>();
-                cellRoofs.Add(roof);
-            }
+                // Index the same expanded XZ footprint the root test uses. Any roof
+                // that can contain a root is therefore present in that root's cell;
+                // the original exact predicate below still decides suppression.
+                var minCellX = Mathf.FloorToInt((roof.Position.X - BuildingRoofHorizontalMargin) / roofIndexCellSize);
+                var maxCellX = Mathf.FloorToInt((roof.End.X + BuildingRoofHorizontalMargin) / roofIndexCellSize);
+                var minCellZ = Mathf.FloorToInt((roof.Position.Z - BuildingRoofHorizontalMargin) / roofIndexCellSize);
+                var maxCellZ = Mathf.FloorToInt((roof.End.Z + BuildingRoofHorizontalMargin) / roofIndexCellSize);
+                for (var cellZ = minCellZ; cellZ <= maxCellZ; cellZ++)
+                for (var cellX = minCellX; cellX <= maxCellX; cellX++)
+                {
+                    var cell = new Vector2I(cellX, cellZ);
+                    if (!roofsByCell.TryGetValue(cell, out var cellRoofs))
+                        roofsByCell[cell] = cellRoofs = new List<Aabb>();
+                    cellRoofs.Add(roof);
+                }
+            };
         }
         bool UnderIndexedBuildingRoof(Vector3 root)
         {
@@ -1644,15 +1707,16 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             return candidates.Any(bounds => UnderBuildingRoof(root, bounds));
         }
         var plan = new List<FoliagePlanEntry>();
-        Act1ConnectedWorld.ProfileWorldBuildStep("agent-b-densified-plan", () => plan = BuildDensifiedPlan());
+        yield return () => Act1ConnectedWorld.ProfileWorldBuildStep("agent-b-densified-plan", () => plan = BuildDensifiedPlan());
         var maxRoadHalfWidth = AgentBAct1HeightField.MaxRoadHalfWidth;
         var architecture = GetNode<StaticBody3D>("AgentB_ArchitectureCollision");
         var stemCount = 0;
         var suppressed = 0;
         var suppressedKara = 0;
         var minimumClearance = float.MaxValue;
-        foreach (var (position, sourceVariant, road) in plan)
+        void PlantEntry(FoliagePlanEntry entry)
         {
+            var (position, sourceVariant, road) = entry;
             var smallShrub = sourceVariant.StartsWith("Shrub_", StringComparison.Ordinal);
             var woodlandRegrowth = smallShrub && position.X <= -44f && position.X >= -64f && Mathf.Abs(position.Y) <= 24f;
             var groundCover = smallShrub || sourceVariant.StartsWith("Fern_", StringComparison.Ordinal)
@@ -1780,7 +1844,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                     hidden = true; break;
                 }
             }
-            if (hidden) { suppressed++; continue; }
+            if (hidden) { suppressed++; return; }
             if (variant == "WinterPine" && position.X >= -64f && position.X <= -44f && Mathf.Abs(position.Y) <= 24f)
             {
                 // Rooted, irregular lean breaks the vertical colonnade. Use the
@@ -1893,7 +1957,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 stemCount++;
             }
         }
-        foreach (var (key, transforms) in batches)
+        foreach (var entry in plan)
+            yield return () => PlantEntry(entry);
+        void PublishBatch((Vector2I Cell, string Variant, string Region, int Lod) key, List<Transform3D> transforms)
         {
             var origin = new Vector3(key.Cell.X * 12f + 6f, 0, key.Cell.Y * 12f + 6f);
             var multi = new MultiMesh { TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
@@ -1932,32 +1998,37 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             group.SetMeta("plantVariant", key.Variant);
             ConfigureFoliageRange(group, key.Lod, true, 0f);
         }
+        foreach (var (key, transforms) in batches)
+            yield return () => PublishBatch(key, transforms);
         foreach (var region in new[] { "village", "zirat", "kara" })
         foreach (var variant in new[] { "WinterBirch_1", "WinterBirch_2", "WinterLinden_1", "WinterBirdCherry_1",
                      "WinterLightBirch_1", "WinterLightBirch_2", "WinterLightLinden_1", "WinterLightBirdCherry_1",
                      "WinterFarBirch_1", "WinterFarBirch_2", "WinterFarLinden_1", "WinterFarBirdCherry_1",
                      "WinterSpruce_1", "WinterLightSpruce_1", "WinterFarSpruce_1",
                      "WinterSpruce_2", "WinterLightSpruce_2", "WinterFarSpruce_2" })
-            RegionalMesh(variant, region);
+            yield return () => RegionalMesh(variant, region);
         // VIS-027/029/030: silhouette parity across every authored tier switch, the
         // measured culling volume of every plant cell and the structural census of
         // this layer. Runs after every mesh and instance exists, so it reads what the
         // frame will actually contain.
-        AuditFoliageLodAndCullingBounds(plants);
-        SetMeta("roadEnvelopeSuppressedFoliageEntryCount", suppressed);
-        SetMeta("plantedVariantCount", parts.Count);
-        SetMeta("plannedFoliageEntryCount", plan.Count);
-        SetMeta("plantedFoliageEntryCount", plan.Count);
-        SetMeta("plantedFoliageNodeCount", plants.GetChildCount());
-        SetMeta("suppressedKaraFoliageEntryCount", suppressedKara);
-        SetMeta("minimumFoliageRoadClearance", minimumClearance);
-        SetMeta("foliagePlacementPolicy", "roots and full lower silhouette clear road; suppressed entries remain counted separately");
-        SetMeta("foliageRebasePolicy", "one layer-space root pivot per shared geometry variant");
-        SetMeta("createdPlantedStemCollisionCount", stemCount);
-        SetMeta("plantedStemCollisionPolicy", "root-connected lower wood of visible large plants inside thicket; existing architecture body; interior exclusions remain authoritative");
-        SetMeta("regionalFoliageGradePolicy", "semantic snow/bark/dry ground cover; winter deciduous village, conifers at Kara only");
-        foreach (var template in kit.GetChildren()) template.Free();
-        kit.SetMeta("templateSourcePolicy", "source owner retained; template instances released after shared geometry extraction");
+        yield return () =>
+        {
+            AuditFoliageLodAndCullingBounds(plants);
+            SetMeta("roadEnvelopeSuppressedFoliageEntryCount", suppressed);
+            SetMeta("plantedVariantCount", parts.Count);
+            SetMeta("plannedFoliageEntryCount", plan.Count);
+            SetMeta("plantedFoliageEntryCount", plan.Count);
+            SetMeta("plantedFoliageNodeCount", plants.GetChildCount());
+            SetMeta("suppressedKaraFoliageEntryCount", suppressedKara);
+            SetMeta("minimumFoliageRoadClearance", minimumClearance);
+            SetMeta("foliagePlacementPolicy", "roots and full lower silhouette clear road; suppressed entries remain counted separately");
+            SetMeta("foliageRebasePolicy", "one layer-space root pivot per shared geometry variant");
+            SetMeta("createdPlantedStemCollisionCount", stemCount);
+            SetMeta("plantedStemCollisionPolicy", "root-connected lower wood of visible large plants inside thicket; existing architecture body; interior exclusions remain authoritative");
+            SetMeta("regionalFoliageGradePolicy", "semantic snow/bark/dry ground cover; winter deciduous village, conifers at Kara only");
+            foreach (var template in kit.GetChildren()) template.Free();
+            kit.SetMeta("templateSourcePolicy", "source owner retained; template instances released after shared geometry extraction");
+        };
     }
 
     // SurfaceGetArrays builds a new caller-owned Array on every call, and each call
@@ -3004,9 +3075,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         return value - Mathf.Floor(value);
     }
 
-    private void BuildEnvironment()
+    internal static DirectionalLight3D CreateExteriorSun()
     {
-        _sun = new DirectionalLight3D
+        return new DirectionalLight3D
         {
             Name = "AgentBSun",
             LightColor = Color.FromHtml("c7d3d1"),
@@ -3015,7 +3086,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             ShadowOpacity = 0.30f,
             RotationDegrees = new Vector3(-48f, 32f, 0f)
         };
-        AddChild(_sun);
+    }
+
+    internal static global::Godot.Environment CreateExteriorEnvironment()
+    {
         var skyMaterial = new ProceduralSkyMaterial
         {
             // Keep the rainy day cold and readable. A lower-value sky
@@ -3034,7 +3108,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         {
             SkyMaterial = skyMaterial
         };
-        var environment = new global::Godot.Environment
+        return new global::Godot.Environment
         {
             BackgroundMode = global::Godot.Environment.BGMode.Sky,
             Sky = sky,
@@ -3051,6 +3125,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             FogSkyAffect = 0.18f,
             FogSunScatter = 0.10f
         };
+    }
+
+    private void BuildEnvironment()
+    {
+        _sun = CreateExteriorSun();
+        AddChild(_sun);
+        var environment = CreateExteriorEnvironment();
         _environmentResource = environment;
         _environment = new WorldEnvironment { Name = "AgentBEnvironment", Environment = environment };
         AddChild(_environment);

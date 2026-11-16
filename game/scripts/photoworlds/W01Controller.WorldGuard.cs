@@ -311,4 +311,92 @@ public partial class W01Controller
         var groundWorld = ToGlobal(new Vector3(localX, ForestGroundHeight(localX, localZ), localZ));
         return (new Vector3(clampedWorld.X, worldPosition.Y, clampedWorld.Z), groundWorld.Y);
     }
+
+    internal bool TryResolveLegacyPrologueLandscapeFeet(FirstPersonController player, out Vector3 destination)
+    {
+        var oldFeet = player.GlobalPosition;
+        destination = oldFeet;
+        var projection = _bridge?.CurrentW01BranchProjection();
+        if (player.VehicleControlled
+            || !IsCurrentForestWorldProjection(projection, out _)
+            || projection is not { ActiveSceneId: PrologueSceneId }
+            || _prologueThicket is not { } thicket || !thicket.IsVisibleInTree()
+            || _prologueLandscapeBounds.Size.X <= 0f || _prologueLandscapeBounds.Size.Z <= 0f)
+            return false;
+
+        var local = ToLocal(oldFeet);
+        var bounds = _prologueLandscapeBounds;
+        if (local.X < bounds.Position.X || local.X > bounds.End.X
+            || local.Z < bounds.Position.Z || local.Z > bounds.End.Z)
+            return false;
+        var inset = Mathf.Min(Mathf.Min(local.X - bounds.Position.X, bounds.End.X - local.X),
+            Mathf.Min(local.Z - bounds.Position.Z, bounds.End.Z - local.Z));
+        if (inset > 44f) return false;
+
+        var bank = thicket.GetNodeOrNull<StaticBody3D>("ForestBeyondTrail/SnowBankContact");
+        if (bank is null || !bank.IsInsideTree() || !thicket.IsAncestorOf(bank)
+            || !bank.IsVisibleInTree() || (bank.CollisionLayer & player.CollisionMask) == 0u
+            || !bank.HasMeta("footstepSurface") || bank.GetMeta("footstepSurface").AsString() != "snow_soft")
+            return false;
+
+        var space = player.GetWorld3D().DirectSpaceState;
+        var rayExclusions = new global::Godot.Collections.Array<Rid> { player.GetRid() };
+        using var rayExclusionsOwner = (global::Godot.Collections.Array)rayExclusions;
+        using var ray = PhysicsRayQueryParameters3D.Create(
+            oldFeet + Vector3.Up * 32f, oldFeet - Vector3.Up * .05f, player.CollisionMask, rayExclusions);
+        using var hit = space.IntersectRay(ray);
+        if (hit.Count == 0 || hit["collider"].AsGodotObject() != bank
+            || hit["normal"].AsVector3().Dot(Vector3.Up) < .7f)
+            return false;
+
+        var face = hit["position"].AsVector3();
+        if (_groundBody is not { } ground || !ground.IsInsideTree() || !IsAncestorOf(ground)
+            || (ground.CollisionLayer & player.CollisionMask) == 0u)
+            return false;
+        var groundExclusions = new global::Godot.Collections.Array<Rid> { player.GetRid(), bank.GetRid() };
+        using var groundExclusionsOwner = (global::Godot.Collections.Array)groundExclusions;
+        using var groundRay = PhysicsRayQueryParameters3D.Create(
+            oldFeet + Vector3.Up * .5f, oldFeet - Vector3.Up * .5f, player.CollisionMask, groundExclusions);
+        using var groundHit = space.IntersectRay(groundRay);
+        if (groundHit.Count == 0 || groundHit["collider"].AsGodotObject() != ground
+            || groundHit["normal"].AsVector3().Dot(Vector3.Up) < .7f)
+            return false;
+        var oldGroundFace = groundHit["position"].AsVector3();
+        if (Mathf.Abs(oldFeet.Y - oldGroundFace.Y) > .35f || face.Y - oldGroundFace.Y <= .30f)
+            return false;
+        var candidate = new Vector3(oldFeet.X, face.Y + .003f, oldFeet.Z);
+        var motion = candidate - oldFeet;
+        if (motion.Y <= .02f || motion.Y > 20f
+            || player.GetNodeOrNull<CollisionShape3D>("CollisionShape3D") is not { Shape: { } shape } capsule)
+            return false;
+
+        var moveExclusions = new global::Godot.Collections.Array<Rid> { player.GetRid(), bank.GetRid() };
+        using var moveExclusionsOwner = (global::Godot.Collections.Array)moveExclusions;
+        using var query = new PhysicsShapeQueryParameters3D
+        {
+            Shape = shape,
+            Transform = capsule.GlobalTransform,
+            CollisionMask = player.CollisionMask,
+            Exclude = moveExclusions,
+            Margin = .002f
+        };
+        var initialOverlap = space.IntersectShape(query, 1);
+        using var initialOverlapOwner = (global::Godot.Collections.Array)initialOverlap;
+        if (initialOverlap.Count != 0) return false;
+        query.Motion = motion;
+        var travel = space.CastMotion(query);
+        if (travel.Length < 2 || travel[0] < .999999f || travel[1] < .999999f) return false;
+
+        var finalExclusions = new global::Godot.Collections.Array<Rid> { player.GetRid() };
+        using var finalExclusionsOwner = (global::Godot.Collections.Array)finalExclusions;
+        query.Motion = Vector3.Zero;
+        query.Transform = new Transform3D(capsule.GlobalBasis, capsule.GlobalPosition + motion);
+        query.Exclude = finalExclusions;
+        var finalOverlap = space.IntersectShape(query, 1);
+        using var finalOverlapOwner = (global::Godot.Collections.Array)finalOverlap;
+        if (finalOverlap.Count != 0 || !player.CanCrouchAt(candidate)) return false;
+
+        destination = candidate;
+        return true;
+    }
 }

@@ -48,7 +48,8 @@ public partial class RuntimeBridge
             SampleLoadingTime();
             _prologueArrivalLoading = false;
             if (ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing && GodotObject.IsInstanceValid(player))
-                player.SetSessionTransition(NeedsPhysicalRecovery);
+                player.SetSessionTransition(NeedsPhysicalRecovery
+                    || GetTree().GetFirstNodeInGroup("zone_manager") is Main main && main.TryBeginStagedArrival(session));
         }
     }
 

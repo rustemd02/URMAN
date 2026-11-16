@@ -5,6 +5,7 @@ namespace Urman.Godot;
 public partial class Act1DemoRoot
 {
     private bool _photoNivaKeepRiding;
+    private bool _photoNivaArrivalRequested;
     private float _photoNivaArrivalNotBefore;
     private float _photoNivaJourneyCut = -1f;
     private float _photoNivaJourneyCutDuration;
@@ -14,6 +15,7 @@ public partial class Act1DemoRoot
     private void ResetPhotoNivaJourney()
     {
         _photoNivaKeepRiding = false;
+        _photoNivaArrivalRequested = false;
         _photoNivaArrivalNotBefore = 0f;
         _photoNivaJourneyCut = -1f;
         _photoNivaJourneyCutPlaced = false;
@@ -23,6 +25,9 @@ public partial class Act1DemoRoot
     {
         if (!_photoNivaDriving || _photoNivaJourneyCut >= 0f || _photoNivaGateClock >= 0f
             || _photoNivaLanguageActive || !_photoNivaLanguageWrite.IsCompleted) return;
+        _photoNivaArrivalRequested = true;
+        _photoNivaKeepRiding = false;
+        if (!TryPreparePhotoNivaArrival()) return;
         _photoNivaEvidenceClock = -1f;
         _photoNivaJourneyCut = 0f;
         _photoNivaJourneyCutPlaced = false;
@@ -39,7 +44,8 @@ public partial class Act1DemoRoot
         if (_photoNivaJourneyCut < 0f && !_photoNivaKeepRiding && _photoNivaWoke
             && _photoNivaGateClock < 0f && !PhotoNivaDialogueOpen && !_photoNivaLanguageActive
             && _photoNivaEvidenceClock < 0f && _photoNivaDriveElapsed >= _photoNivaNextBarkReady
-            && _photoNivaDriveElapsed >= Mathf.Max(_photoNivaWokeAt + 16f, _photoNivaArrivalNotBefore))
+            && (_photoNivaArrivalRequested
+                || _photoNivaDriveElapsed >= Mathf.Max(_photoNivaWokeAt + 16f, _photoNivaArrivalNotBefore)))
             BeginPhotoNivaJourneyCut();
         if (_photoNivaJourneyCut < 0f) return false;
         _photoNivaJourneyCut += delta;
