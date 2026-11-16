@@ -359,8 +359,8 @@ public partial class AgentBAct1ExteriorLayer
 
         // --- VIS-030: one cell at a time, from the transformed source bounds of
         // every instance it carries. This is the group culling Godot applies to a
-        // MultiMesh; the measurement proves the group is a 12 m cell and not a
-        // forest-sized box, and sizes the wind reserve the engine cannot know.
+        // MultiMesh; ground cover uses 12 m cells and opaque far tree tiers use 4 m
+        // cells, so each footprint is checked against its own configured size.
         var cells = 0;
         var cellInstances = 0;
         var maxCellDiagonal = 0f;
@@ -368,6 +368,8 @@ public partial class AgentBAct1ExteriorLayer
         var cellsOverFootprint = 0;
         var maxSwayReserve = 0f;
         var uncoveredInstances = 0;
+        var minCellFootprint = float.MaxValue;
+        var maxCellFootprint = 0f;
         var silhouetteCache = new Dictionary<ulong, AgentBFoliageSilhouette.Sample>();
         AgentBFoliageSilhouette.Sample SampleOf(ArrayMesh? mesh)
         {
@@ -377,6 +379,18 @@ public partial class AgentBAct1ExteriorLayer
             var measured = AgentBFoliageSilhouette.Measure(mesh);
             silhouetteCache[rid] = measured;
             return measured;
+        }
+        static Vector3 TransformedSwayExtent(Basis basis, AgentBFoliageSilhouette.Sample sample)
+        {
+            // The shader's local X/Z offsets are transformed with each tree's
+            // basis. Expand the cell by the AABB of that transformed envelope,
+            // including yaw and non-uniform scale.
+            var localX = sample.SwayMarginX;
+            var localZ = sample.SwayMarginZ;
+            return new Vector3(
+                Mathf.Abs(basis.X.X) * localX + Mathf.Abs(basis.Z.X) * localZ,
+                Mathf.Abs(basis.X.Y) * localX + Mathf.Abs(basis.Z.Y) * localZ,
+                Mathf.Abs(basis.X.Z) * localX + Mathf.Abs(basis.Z.Z) * localZ);
         }
         foreach (var cell in EnumerateDescendants<MultiMeshInstance3D>(plants))
         {
@@ -396,8 +410,8 @@ public partial class AgentBAct1ExteriorLayer
             {
                 var transform = multimesh.GetInstanceTransform(index);
                 var instanceBounds = transform * sourceBounds;
-                var reserve = AgentBFoliageSilhouette.SwayExtent(sample, transform.Basis.Scale);
-                cellSway = Mathf.Max(cellSway, Mathf.Max(reserve.X, reserve.Z));
+                var reserve = TransformedSwayExtent(transform.Basis, sample);
+                cellSway = Mathf.Max(cellSway, Mathf.Max(reserve.X, Mathf.Max(reserve.Y, reserve.Z)));
                 var paddedPosition = instanceBounds.Position - reserve;
                 var paddedEnd = instanceBounds.End + reserve;
                 mergedPosition = ComponentMin(mergedPosition, paddedPosition);
@@ -416,7 +430,12 @@ public partial class AgentBAct1ExteriorLayer
             // stays so a future change of the merge rule cannot silently drop an
             // instance out of the volume it is supposed to describe.
             if (merged.Size.Length() < plain.Size.Length() - .001f) uncoveredInstances++;
-            var footprintSide = GroundCoverCellSize * 1.75f;
+            var footprintSide = (cell.HasMeta("spatialCellSize")
+                ? cell.GetMeta("spatialCellSize").AsSingle()
+                : GroundCoverCellSize) * 1.75f;
+            var cellFootprint = footprintSide / 1.75f;
+            minCellFootprint = Mathf.Min(minCellFootprint, cellFootprint);
+            maxCellFootprint = Mathf.Max(maxCellFootprint, cellFootprint);
             if (cellVolume > footprintSide * footprintSide * footprintSide * CellVolumeFootprintFactor) cellsOverFootprint++;
             maxSwayReserve = Mathf.Max(maxSwayReserve, cellSway);
             if (FoliageBoundsMeasured && cellSway > 0f)
@@ -434,12 +453,9 @@ public partial class AgentBAct1ExteriorLayer
             cell.SetMeta("cullingCellSwayReserve", cellSway);
         }
 
-        // --- VIS-030 for the individually culled trees: the same wind reserve,
-        // measured per instance mesh. Their bounds are per trunk, so no group box is
-        // involved and nothing is merged into one large volume.
-        // Trees only: the batched ground-cover groups carry plantVariant too, but they
-        // are VisualInstance3D and were measured as cells above. Same discriminator
-        // ReconcileBuildingFoliage uses.
+        // --- VIS-030 for the individually culled tree tiers: the same wind reserve,
+        // measured per instance mesh. Batched far tiers and ground cover were measured
+        // as bounded cells above. Same root discriminator ReconcileBuildingFoliage uses.
         var treeInstances = 0;
         var maxTreeSway = 0f;
         var tierCounts = new int[3];
@@ -485,6 +501,21 @@ public partial class AgentBAct1ExteriorLayer
                 var reserve = Mathf.Max(sample.SwayMarginX, sample.SwayMarginZ);
                 maxTreeSway = Mathf.Max(maxTreeSway, reserve);
                 if (FoliageBoundsMeasured && reserve > 0f) instance.ExtraCullMargin = reserve;
+            }
+
+            // Far LOD2 is stored in one cell MultiMesh for eligible trees. Keep
+            // the per-root LOD contract visible to this audit using the actual
+            // cell's range, rather than treating a removed MeshInstance as absent.
+            if (_batchedFarFoliageLods.TryGetValue(tree.GetInstanceId(), out var batchedFar))
+            {
+                present[2] = true;
+                tierCounts[2]++;
+                bands[0, 2] = batchedFar.Cell.VisibilityRangeBegin;
+                bands[1, 2] = batchedFar.Cell.VisibilityRangeBeginMargin;
+                bands[2, 2] = batchedFar.Cell.VisibilityRangeEnd;
+                bands[3, 2] = batchedFar.Cell.VisibilityRangeEndMargin;
+                if ((batchedFar.Cell.GlobalTransform * batchedFar.Transform).IsEqualApprox(tree.GlobalTransform))
+                    sharedRootTrees++;
             }
 
             if (!present[0] || !present[1] || !present[2]) continue;
@@ -547,6 +578,8 @@ public partial class AgentBAct1ExteriorLayer
         plants.SetMeta("cullingCellMaxVolumeCubicMeters", maxCellVolume);
         plants.SetMeta("cullingCellsOverFootprintLimit", cellsOverFootprint);
         plants.SetMeta("cullingCellFootprintMeters", GroundCoverCellSize);
+        plants.SetMeta("cullingCellMinFootprintMeters", minCellFootprint == float.MaxValue ? 0f : minCellFootprint);
+        plants.SetMeta("cullingCellMaxFootprintMeters", maxCellFootprint);
         plants.SetMeta("cullingSwayReserveMaxMeters", maxSwayReserve);
         plants.SetMeta("cullingTreeSwayReserveMaxMeters", maxTreeSway);
         plants.SetMeta("cullingInstancesUncovered", uncoveredInstances);
@@ -557,6 +590,9 @@ public partial class AgentBAct1ExteriorLayer
         plants.SetMeta("foliageBudgetMode", FoliageBudgetMode);
         plants.SetMeta("foliageLodTierTreeCounts", tierCounts);
         plants.SetMeta("foliageTreeInstanceCount", treeInstances);
+        plants.SetMeta("foliageFarLodBatchedTreeCount", _batchedFarFoliageLods.Count);
+        plants.SetMeta("foliageFarLodBatchCellCount", _batchedFarFoliageLods.Values
+            .Select(batch => batch.Cell.GetInstanceId()).Distinct().Count());
         plants.SetMeta("foliageSceneNodeCount", plants.GetChildCount());
         plants.SetMeta("foliageDistinctMeshCount", meshes.Count);
         plants.SetMeta("foliageDistinctMaterialCount", materials.Count);
@@ -588,6 +624,7 @@ public partial class AgentBAct1ExteriorLayer
             FormattableString.Invariant($" bounds={FoliageBoundsMode} budget={FoliageBudgetMode} lodRangeScaleCeiling={LodRangeScaleCeiling:F2}"),
             FormattableString.Invariant($" tieredTrees={tieredTrees} sharedRootInstances={sharedRootTrees} rangeGaps={rangeGapTrees}"),
             FormattableString.Invariant($" doubleFullBands={doubleFullBandTrees}"),
+            FormattableString.Invariant($" farLodBatchedTrees={_batchedFarFoliageLods.Count} farLodCells={_batchedFarFoliageLods.Values.Select(batch => batch.Cell.GetInstanceId()).Distinct().Count()} cellFootprints={minCellFootprint:F0}-{maxCellFootprint:F0}m"),
             FormattableString.Invariant($" tiers=[{tierCounts[0]},{tierCounts[1]},{tierCounts[2]}] meshes={meshes.Count} materials={materials.Count}"),
             FormattableString.Invariant($" surfaces={surfaceTotal} alphaSurfaces={alphaSurfaces}"),
             FormattableString.Invariant($" shadowCasters={shadowCasterTrees + shadowCasterCells} skippedOuterUnderstory={_outerRowUnderstorySkipped}"),

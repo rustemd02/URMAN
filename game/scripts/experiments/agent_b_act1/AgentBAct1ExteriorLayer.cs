@@ -26,6 +26,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private const string PhysicalWinterPinePath = "res://assets/models/act1/urman_winter_pine.glb";
     private const string GeneratedWinterBirchPath = "res://assets/models/act1/urman_winter_birch_meshy_v2.glb";
     private const float BuildingRoofHorizontalMargin = .35f;
+    private const float FarFoliageLodCellSize = 4f;
+    private const float FarFoliageLodHeightBandSize = 2f;
 
     internal static IEnumerable<string> WinterPineResourcePaths
     {
@@ -47,6 +49,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private SnowTrampleField? _snowTrample;
     private readonly List<OmniLight3D> _karaAccentLights = new();
     private readonly Dictionary<(string Variant, string Region), ArrayMesh> _foliageMeshes = new();
+    private readonly Dictionary<ulong, (MultiMeshInstance3D Cell, int Index, Transform3D Transform)> _batchedFarFoliageLods = new();
     private const int MaximumGeneratedFoliageFits = 12;
     private sealed record GeneratedFoliageFit(PackedScene Scene, ArrayMesh Source, ArrayMesh Fitted, Action Invalidated);
     private static readonly Dictionary<(ulong Scene, ulong Mesh, int Lod, Vector3 Scale), GeneratedFoliageFit> GeneratedFoliageFits = new();
@@ -63,6 +66,27 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         root.X >= bounds.Position.X - BuildingRoofHorizontalMargin && root.X <= bounds.End.X + BuildingRoofHorizontalMargin
         && root.Z >= bounds.Position.Z - BuildingRoofHorizontalMargin && root.Z <= bounds.End.Z + BuildingRoofHorizontalMargin
         && bounds.End.Y > root.Y + .4f;
+
+    private void SyncBatchedFarFoliageLod(Node3D plant)
+    {
+        var hidden = !plant.Visible || plant.HasMeta("connectedWorldHidden")
+            && plant.GetMeta("connectedWorldHidden").AsBool();
+        SetBatchedFarFoliageLodVisible(plant, !hidden);
+    }
+
+    private void SetBatchedFarFoliageLodVisible(Node3D plant, bool visible)
+    {
+        if (!_batchedFarFoliageLods.TryGetValue(plant.GetInstanceId(), out var batch)) return;
+        if (plant.HasMeta("connectedWorldHidden") && plant.GetMeta("connectedWorldHidden").AsBool()) visible = false;
+        if (!plant.Visible) visible = false;
+        if (plant.GetMeta("batchedFarFoliageLodVisible", true).AsBool() == visible) return;
+
+        var transform = visible
+            ? batch.Transform
+            : new Transform3D(new Basis(Vector3.Zero, Vector3.Zero, Vector3.Zero), batch.Transform.Origin);
+        batch.Cell.Multimesh?.SetInstanceTransform(batch.Index, transform);
+        plant.SetMeta("batchedFarFoliageLodVisible", visible);
+    }
 
     internal void ReconcileBuildingFoliage(Node building)
     {
@@ -83,6 +107,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             if (!UnderBuildingRoof(tree.GlobalPosition, roofs)) continue;
             var owner = tree.GetPath().ToString();
             tree.Visible = false;
+            SetBatchedFarFoliageLodVisible(tree, false);
             tree.SetMeta("roofSuppressedBy", buildingPath);
             tree.SetMeta("roofSuppressionWorldRoot", tree.GlobalPosition);
             owners.Add(owner);
@@ -1578,6 +1603,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         };
         var geometry = new Dictionary<string, (ArrayMesh Mesh, string[] Kinds, Vector3[] LowVertices, double LowVertexRadius)>(StringComparer.Ordinal);
         var rootedStems = new Dictionary<string, Vector3[]>(StringComparer.Ordinal);
+        var farTierBatchability = new Dictionary<ulong, bool>();
         var graded = _foliageMeshes;
         double LowVertexRadius(Vector3[] vertices)
         {
@@ -1591,6 +1617,31 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             }
 
             return Math.Sqrt(maximumSquared);
+        }
+
+        bool CanBatchOpaqueFarTier(ArrayMesh mesh)
+        {
+            var meshId = mesh.GetRid().Id;
+            if (farTierBatchability.TryGetValue(meshId, out var cached)) return cached;
+            var opaque = mesh.GetSurfaceCount() > 0;
+            for (var surface = 0; surface < mesh.GetSurfaceCount(); surface++)
+            {
+                var material = mesh.SurfaceGetMaterial(surface);
+                // Only imported PBR base materials with the engine's opaque
+                // transparency mode and no second pass are eligible. Painterly
+                // ShaderMaterials retain per-tree instances: their shared program
+                // declares per-instance uniforms and several variants use ALPHA,
+                // discard, or instance-specific state.
+                if (material is not BaseMaterial3D baseMaterial
+                    || baseMaterial.Transparency != BaseMaterial3D.TransparencyEnum.Disabled
+                    || baseMaterial.NextPass is not null)
+                {
+                    opaque = false;
+                    break;
+                }
+            }
+            farTierBatchability[meshId] = opaque;
+            return opaque;
         }
 
         (ArrayMesh Mesh, string[] Kinds, Vector3[] LowVertices, double LowVertexRadius) Geometry(string variant)
@@ -1699,7 +1750,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             kit.SetMeta("templateSourceHidden", true);
             kit.SetMeta("templateSourcePolicy", "hidden source library; shared geometry is rebased once per variant");
         };
-        var batches = new Dictionary<(Vector2I Cell, string Variant, string Region, int Lod), List<Transform3D>>();
+        var batches = new Dictionary<(Vector2I Cell, int HeightBand, string Variant, string Region, int Lod, bool GroundCover),
+            List<(Transform3D Transform, Node3D? Plant)>>();
         Aabb[] roofs = [];
         yield return () => roofs = BuildingRoofBounds(GetParent());
         const float roofIndexCellSize = 16f;
@@ -1899,6 +1951,14 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var hasLods = variant.StartsWith("Winter", StringComparison.Ordinal);
             var generatedBirchVisual = IsWinterBirchVariant(variant);
             var generatedConiferVisual = IsWinterSpruceVariant(variant);
+            var treeHeight = template.Mesh.GetAabb().Size.Y * vertical;
+            // Cell-batch only an opaque far tier whose projected-size scale is
+            // exactly 1. The individual root and near/mid LODs remain authoritative;
+            // the far tier uses the same mesh/material and per-instance transform.
+            var batchFarFoliageLod = !groundCover && hasLods
+                && FoliageRangeScale(false, treeHeight) == 1f
+                && CanBatchOpaqueFarTier(RegionalMesh(
+                    variant.Replace("Winter", "WinterFar", StringComparison.Ordinal), region));
             var tiers = hasLods ? new[] { variant, variant.Replace("Winter", "WinterLight", StringComparison.Ordinal), variant.Replace("Winter", "WinterFar", StringComparison.Ordinal) }
                 : new[] { variant };
             var tree = groundCover ? null : new Node3D { Name = $"{variant}_Plant{plants.GetChildCount()}", Position = target, Basis = basis };
@@ -1916,10 +1976,20 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 var mesh = RegionalMesh(tiers[lod], region);
                 if (groundCover)
                 {
-                    var cell = new Vector2I(Mathf.FloorToInt(position.X / 12f), Mathf.FloorToInt(position.Y / 12f));
-                    var key = (cell, tiers[lod], region, hasLods ? lod : -1);
+                    var cell = new Vector2I(Mathf.FloorToInt(position.X / GroundCoverCellSize),
+                        Mathf.FloorToInt(position.Y / GroundCoverCellSize));
+                    var key = (cell, HeightBand: 0, tiers[lod], region, hasLods ? lod : -1, GroundCover: true);
                     if (!batches.TryGetValue(key, out var instances)) batches[key] = instances = new();
-                    instances.Add(new Transform3D(basis, target));
+                    instances.Add((new Transform3D(basis, target), null));
+                }
+                else if (batchFarFoliageLod && lod == 2)
+                {
+                    var cell = new Vector2I(Mathf.FloorToInt(position.X / FarFoliageLodCellSize),
+                        Mathf.FloorToInt(position.Y / FarFoliageLodCellSize));
+                    var heightBand = Mathf.FloorToInt(target.Y / FarFoliageLodHeightBandSize);
+                    var key = (cell, heightBand, tiers[lod], region, lod, GroundCover: false);
+                    if (!batches.TryGetValue(key, out var instances)) batches[key] = instances = new();
+                    instances.Add((new Transform3D(basis, target), tree!));
                 }
                 else
                 {
@@ -1935,7 +2005,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                         instance.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
                     tree!.AddChild(instance);
                     ConfigureFoliageRange(instance, hasLods ? lod : -1, false,
-                        template.Mesh.GetAabb().Size.Y * vertical);
+                        treeHeight);
                 }
             }
             // A visible, independently approachable trunk must stop the player.
@@ -1986,17 +2056,47 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         }
         foreach (var entry in plan)
             yield return () => PlantEntry(entry);
-        void PublishBatch((Vector2I Cell, string Variant, string Region, int Lod) key, List<Transform3D> transforms)
+        void PublishBatch((Vector2I Cell, int HeightBand, string Variant, string Region, int Lod, bool GroundCover) key,
+            List<(Transform3D Transform, Node3D? Plant)> instances)
         {
-            var origin = new Vector3(key.Cell.X * 12f + 6f, 0, key.Cell.Y * 12f + 6f);
-            var multi = new MultiMesh { TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
-                Mesh = RegionalMesh(key.Variant, key.Region), InstanceCount = transforms.Count };
-            for (var index = 0; index < transforms.Count; index++)
+            var cellSize = key.GroundCover ? GroundCoverCellSize : FarFoliageLodCellSize;
+            if (!key.GroundCover && instances.Count < 2)
             {
-                var transform = transforms[index]; transform.Origin -= origin;
+                // A one-instance MultiMesh still submits the same mesh and adds
+                // cell bookkeeping. Keep the original individual far LOD there.
+                var plant = instances[0].Plant
+                    ?? throw new InvalidOperationException("Far foliage singleton lost its plant root.");
+                var plantVariant = plant.GetMeta("plantVariant").AsString();
+                var instance = new MeshInstance3D
+                {
+                    Name = $"{plantVariant}_LOD{key.Lod}",
+                    Mesh = RegionalMesh(key.Variant, key.Region)
+                };
+                instance.SetMeta("visualMeshVariant", IsWinterBirchVariant(key.Variant) ? BirchVisualTier(key.Variant)
+                    : IsWinterSpruceVariant(key.Variant) ? PineVisualTier(key.Variant) : key.Variant);
+                if (SuppressFarTierShadow(key.Lod))
+                    instance.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
+                plant.AddChild(instance);
+                ConfigureFoliageRange(instance, key.Lod, false, 8f);
+                return;
+            }
+            var origin = new Vector3(key.Cell.X * cellSize + cellSize * .5f,
+                key.GroundCover ? 0f : (key.HeightBand + .5f) * FarFoliageLodHeightBandSize,
+                key.Cell.Y * cellSize + cellSize * .5f);
+            var multi = new MultiMesh { TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
+                Mesh = RegionalMesh(key.Variant, key.Region), InstanceCount = instances.Count };
+            for (var index = 0; index < instances.Count; index++)
+            {
+                var transform = instances[index].Transform;
+                transform.Origin -= origin;
                 multi.SetInstanceTransform(index, transform);
             }
-            var group = new MultiMeshInstance3D { Name = $"{key.Variant}_Cell{key.Cell.X}_{key.Cell.Y}", Position = origin, Multimesh = multi };
+            var group = new MultiMeshInstance3D
+            {
+                Name = $"{key.Variant}_{key.Region}_Cell{key.Cell.X}_{key.Cell.Y}_H{key.HeightBand}",
+                Position = origin,
+                Multimesh = multi
+            };
             // VIS-030: the cell is culled as one AABB built from the instances, but the
             // wind shader moves vertices by up to |gust| (<=1) x wind_sway x height,
             // 1.17x that with the z component. Cover that real reach, measured from the
@@ -2010,7 +2110,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             // rotates that vector. Y scale is unrelated to that reach on tilted,
             // non-uniformly scaled plants. Read the material rather than guess by name.
             var displacement = new Vector3(meshTop * sway, 0f, meshTop * sway * .6f);
-            group.ExtraCullMargin = transforms.Max(transform => (transform.Basis * displacement).Length());
+            group.ExtraCullMargin = instances.Max(instance => (instance.Transform.Basis * displacement).Length());
             group.SetMeta("windCullMargin", group.ExtraCullMargin);
             // VIS-029: knee-high grass, fern and sedge add shadow-pass work without a
             // readable shadow, and so does every ground-cover cell past its first LOD
@@ -2018,12 +2118,30 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var lowCover = key.Variant.Contains("Grass", StringComparison.Ordinal)
                 || key.Variant.Contains("Fern", StringComparison.Ordinal)
                 || key.Variant.Contains("Sedge", StringComparison.Ordinal);
-            if (lowCover || key.Lod >= 1)
+            if (lowCover || key.GroundCover && key.Lod >= 1
+                || !key.GroundCover && SuppressFarTierShadow(key.Lod))
                 group.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
             plants.AddChild(group);
+            for (var index = 0; index < instances.Count; index++)
+            {
+                var plant = instances[index].Plant;
+                if (plant is null) continue;
+                _batchedFarFoliageLods[plant.GetInstanceId()] = (group, index,
+                    multi.GetInstanceTransform(index));
+                plant.VisibilityChanged += () => SyncBatchedFarFoliageLod(plant);
+                foreach (var tier in EnumerateSelfAndDescendants<MeshInstance3D>(plant))
+                    tier.VisibilityChanged += () => SyncBatchedFarFoliageLod(plant);
+                plant.SetMeta("batchedFarFoliageLodVisible", true);
+                SyncBatchedFarFoliageLod(plant);
+            }
             group.SetMeta("presentationOnly", true);
             group.SetMeta("plantVariant", key.Variant);
-            ConfigureFoliageRange(group, key.Lod, true, 0f);
+            group.SetMeta("spatialCellSize", cellSize);
+            // Eligible far tiers keep rangeScale 1. In a 4 m XZ cell and 2 m
+            // height band, the origin differs from a root by at most 3 m, inside
+            // the authored 4 m fade margin; near/mid tiers stay individually culled.
+            ConfigureFoliageRange(group, key.Lod, key.GroundCover,
+                key.GroundCover ? 0f : 8f);
         }
         foreach (var (key, transforms) in batches)
             yield return () => PublishBatch(key, transforms);
