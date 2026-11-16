@@ -8,6 +8,7 @@ namespace Urman.Godot;
 public partial class PhotoSceneReference : CanvasLayer
 {
     private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
+    private const string RiverSceneId = "urman.fullgame:scene/pw-river";
     private FirstPersonController _player = null!;
     private RuntimeBridge _bridge = null!;
     private object _session = null!;
@@ -23,21 +24,28 @@ public partial class PhotoSceneReference : CanvasLayer
         && ReferenceEquals(_session, session) && _photoId == photoId;
 
     internal static bool CanShow(FirstPersonController player, RuntimeBridge bridge, string photoId, bool allowJournalModal) =>
-        (photoId is "P-FOREST" or "S-SCHOOL")
-        && GodotObject.IsInstanceValid(player) && player.IsInsideTree() && !player.IsQueuedForDeletion()
+        GodotObject.IsInstanceValid(player) && player.IsInsideTree() && !player.IsQueuedForDeletion()
         && !player.SessionTransitionActive && !player.InIntro
         && (allowJournalModal || !player.ModalOpen) && !player.VehicleControlled && !player.IsClimbingLadder
         && GodotObject.IsInstanceValid(bridge) && bridge.IsInsideTree() && !bridge.IsQueuedForDeletion()
-        && bridge.CanInspectReceivedPhotoBook && bridge.ActiveSceneId == ForestSceneId
+        && bridge.CanInspectReceivedPhotoBook && MatchesMountedScene(player, bridge, photoId)
         && bridge.SessionIdentity is { } session
         && ReferenceEquals(session, bridge.PhotoWorldPresentationIdentity)
         && ReferenceEquals(player.GetTree().GetFirstNodeInGroup("player_controller"), player)
         && ReferenceEquals(player.GetTree().GetFirstNodeInGroup("runtime_bridge"), bridge)
-        && player.GetTree().GetFirstNodeInGroup("zone_manager") is Main
-            { ActiveZoneScenePath: "res://scenes/photoworlds/W01/W01.tscn" }
         && player.GetTree().GetFirstNodeInGroup("carry_coordinator") is not CarryCoordinator { HeldItem: not null }
         && player.GetTree().GetFirstNodeInGroup("carry_coordinator") is not CarryCoordinator { ActionInProgress: true }
         && bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == photoId);
+
+    private static bool MatchesMountedScene(FirstPersonController player, RuntimeBridge bridge, string photoId) =>
+        player.GetTree().GetFirstNodeInGroup("zone_manager") is Main main && (photoId switch
+        {
+            "P-FOREST" or "S-SCHOOL" => bridge.ActiveSceneId == ForestSceneId
+                && main.ActiveZoneScenePath == "res://scenes/photoworlds/W01/W01.tscn",
+            "P-WATER" => bridge.ActiveSceneId == RiverSceneId
+                && main.ActiveZoneScenePath == "res://scenes/photoworlds/W02/W02.tscn",
+            _ => false
+        });
 
     internal void Prepare(FirstPersonController player, RuntimeBridge bridge, object session, string photoId, Texture2D front)
     {
@@ -89,17 +97,24 @@ public partial class PhotoSceneReference : CanvasLayer
         if (_dismissed) return;
         if (!GodotObject.IsInstanceValid(_bridge) || !GodotObject.IsInstanceValid(_player)
             || _player.SessionTransitionActive || !ReferenceEquals(_session, _bridge.SessionIdentity)
-            || !_bridge.CanInspectReceivedPhotoBook || _bridge.ActiveSceneId != ForestSceneId
+            || !_bridge.CanInspectReceivedPhotoBook || !MatchesMountedScene(_player, _bridge, _photoId)
             || !ReferenceEquals(_session, _bridge.PhotoWorldPresentationIdentity)
             || !ReferenceEquals(GetTree().GetFirstNodeInGroup("player_controller"), _player)
-            || !ReferenceEquals(GetTree().GetFirstNodeInGroup("runtime_bridge"), _bridge)
-            || GetTree().GetFirstNodeInGroup("zone_manager") is not Main
-                { ActiveZoneScenePath: "res://scenes/photoworlds/W01/W01.tscn" })
+            || !ReferenceEquals(GetTree().GetFirstNodeInGroup("runtime_bridge"), _bridge))
         {
             Dismiss();
             return;
         }
         var carry = GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
+        if (_photoId == "P-WATER" && (_player.ModalOpen || _player.VehicleControlled || _player.IsClimbingLadder
+            || carry is { HeldItem: not null } or { ActionInProgress: true }
+            || MainMenuUi.AnyUndismissed(GetTree())
+            || GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true }
+            || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true }))
+        {
+            Dismiss();
+            return;
+        }
         Visible = !_player.ModalOpen && !_player.VehicleControlled && !_player.IsClimbingLadder
             && carry is not { HeldItem: not null } and not { ActionInProgress: true };
         RefreshPresentation();
@@ -132,9 +147,12 @@ public partial class PhotoSceneReference : CanvasLayer
             AccessibilityPresentation.ApplyToControl(_panel, _presentation);
         }
         var close = InputBindingService.ActionHint("pause", _player.CurrentInputDevice == "gamepad");
-        _hint.Text = _photoId == "P-FOREST"
-            ? $"Совместите раздвоенную берёзу, низкую перекладину и дугу корня. Сверяйте их форму и соседство. {close} — опустить снимок"
-            : $"Можно идти и осматриваться. {close} — убрать снимок";
+        _hint.Text = _photoId switch
+        {
+            "P-FOREST" => $"Совместите раздвоенную берёзу, низкую перекладину и дугу корня. Сверяйте их форму и соседство. {close} — опустить снимок",
+            "P-WATER" => $"Сверьте три опоры и диагональный край настила на снимке с отражением. {close} — опустить снимок",
+            _ => $"Можно идти и осматриваться. {close} — убрать снимок"
+        };
     }
 
     internal void Dismiss()

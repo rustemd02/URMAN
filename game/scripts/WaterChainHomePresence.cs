@@ -133,6 +133,10 @@ internal partial class WaterChainHomePresence : Node3D
         const string photographerAuthorInteractionId = "urman.fullgame:interaction/pw-gulsina-author-talk";
         var photographerAuthorAvailable = !photographerAuthorConversation
             && bridge.IsInteractionAvailable(photographerAuthorInteractionId);
+        const string houseNoteComparisonInteractionId = "urman.fullgame:interaction/pw-house-note-comparison";
+        var houseNoteComparisonAvailable = homeActive
+            && !bridge.PhotoWorldFactObserved("house_note_comparison_recorded")
+            && bridge.IsInteractionAvailable(houseNoteComparisonInteractionId);
 
         // Both completed first-world results reuse the first return's authored
         // talk target; JournalUi owns the shared saved-state predicates.
@@ -168,15 +172,16 @@ internal partial class WaterChainHomePresence : Node3D
 
         var otherHomeWindowLive = homeReturnLive || housePermissionLive || talkLive
             || permissionLive || filePermissionLive;
+        var houseNoteComparisonLive = houseNoteComparisonAvailable && !otherHomeWindowLive;
         // W03 may precede W02. Its album questions must not hide an unfinished
         // main-route conversation at the same NPC anchor.
         var photographerPermissionLive = homeActive && !otherHomeWindowLive
             && photographerFound && !photographerAcquired
             && bridge.IsInteractionAvailable(photographerPermissionId);
         var photographerAuthorLive = homeActive && !otherHomeWindowLive
-            && photographerAuthorAvailable;
+            && !houseNoteComparisonLive && photographerAuthorAvailable;
         var photographerWindowLive = photographerSourceLive || photographerPermissionLive
-            || photographerAuthorLive || photographerVerifyLive;
+            || houseNoteComparisonLive || photographerAuthorLive || photographerVerifyLive;
         var cellarHomeActive = homeActive && !photographerWindowLive;
         var familyBoxSourceLive = cellarHomeActive && bookReceived && !familyBoxOpened
             && FamilyBoxSourceTarget is not null
@@ -247,17 +252,21 @@ internal partial class WaterChainHomePresence : Node3D
             && !familyBoxPermissionLive && !cellarPhotoPermissionLive);
         if (TeaTarget is { } teaTarget)
         {
-            // The same physical NPC owns the tea greeting and the earned author conversation.
+            // The same physical NPC owns the tea greeting and earned photo conversations.
             teaTarget.SetAuthoredBinding(
                 initialPhotoTalkLive ? initialPhotoTalkId
+                    : houseNoteComparisonLive ? houseNoteComparisonInteractionId
                     : photographerAuthorLive ? photographerAuthorInteractionId : "urman.fullgame:interaction/pw-arrival-tea-talk",
                 initialPhotoTalkLive ? "Показать әби оборот лесного снимка"
+                    : houseNoteComparisonLive ? bridge.ResolveText("urman.fullgame:text/pw-label-house-note-comparison")
                     : photographerAuthorLive ? bridge.ResolveText("urman.fullgame:text/pw-label-gulsina-author-talk")
                     : "Поприветствовать әби и остаться на чай",
                 initialPhotoTalkLive ? "urman.fullgame:dialogue/pw-home-forest-print"
+                    : houseNoteComparisonLive ? "urman.fullgame:dialogue/pw-house-note-comparison"
                     : photographerAuthorLive ? "urman.fullgame:dialogue/pw-gulsina-author"
                     : "urman.fullgame:dialogue/pw-arrival-tea");
-            teaTarget.SetPresentationEnabled(initialPhotoTalkLive || photographerAuthorLive || (!photographerWindowLive && teaLive));
+            teaTarget.SetPresentationEnabled(initialPhotoTalkLive || houseNoteComparisonLive
+                || photographerAuthorLive || (!photographerWindowLive && teaLive));
         }
 
         if (HousePhotoEnvelope is { } houseEnvelope)

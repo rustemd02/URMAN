@@ -2436,6 +2436,35 @@
         "targetDialogueId": "urman.fullgame:dialogue/pw-gulsina-author"
       },
       {
+        "id": "urman.fullgame:interaction/pw-house-note-comparison",
+        "labelTextId": "urman.fullgame:text/pw-label-house-note-comparison",
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w03",
+            "status": "completed"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "house_frame_seen"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-HOUSE",
+            "state": "back-read"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "photoworlds.fact.observed",
+              "factId": "house_note_comparison_recorded"
+            }
+          }
+        ],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/pw-house-note-comparison"
+      },
+      {
         "id": "urman.fullgame:interaction/pw-enter-forest",
         "labelTextId": "urman.fullgame:text/pw-label-enter-forest",
         "conditions": [
@@ -5047,6 +5076,110 @@
   },
   {
     "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-house-note-comparison",
+    "value": {
+      "default": "Сверить помету с оборотом семейного снимка",
+      "translations": {
+        "ru": "Сверить помету с оборотом семейного снимка"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-house-note-comparison-ask",
+    "value": {
+      "default": "На рамке было: «Ткань приподними, а то крючок вырвешь». А на обороте нашего дворового снимка: «Ставня опять заедала». Это про одну ставню? Ты помнишь, кто снимал двор?",
+      "translations": {
+        "ru": "На рамке было: «Ткань приподними, а то крючок вырвешь». А на обороте нашего дворового снимка: «Ставня опять заедала». Это про одну ставню? Ты помнишь, кто снимал двор?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-house-note-comparison-show",
+    "value": {
+      "default": "Показать әби обе записи.",
+      "translations": {
+        "ru": "Показать әби обе записи."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-house-note-comparison-answer",
+    "value": {
+      "default": "Да, про ту ставню. Она всё время заедала, а ткань цеплялась за крючок. Но по этим строкам не понять, кто стоял за камерой.",
+      "translations": {
+        "ru": "Да, про ту ставню. Она всё время заедала, а ткань цеплялась за крючок. Но по этим строкам не понять, кто стоял за камерой."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-house-note-comparison-record",
+    "value": {
+      "default": "Запомню: эти строки говорят о ставне, но не о том, кто снимал.",
+      "translations": {
+        "ru": "Запомню: эти строки говорят о ставне, но не о том, кто снимал."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-house-note-comparison",
+    "participantRoles": [
+      "aidar",
+      "gulsina"
+    ],
+    "startNodeId": "ask",
+    "nodes": [
+      {
+        "id": "ask",
+        "speakerRole": "aidar",
+        "textId": "urman.fullgame:text/pw-dialogue-house-note-comparison-ask",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "show-both-notes",
+            "textId": "urman.fullgame:text/pw-choice-house-note-comparison-show",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "answer"
+          }
+        ]
+      },
+      {
+        "id": "answer",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-house-note-comparison-answer",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "record-comparison",
+            "textId": "urman.fullgame:text/pw-choice-house-note-comparison-record",
+            "conditions": [],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "house_note_comparison_recorded",
+                "sourceId": "urman.fullgame:interaction/pw-house-note-comparison"
+              }
+            ],
+            "nextNodeId": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
     "id": "urman.fullgame:dialogue/pw-gulsina-author",
     "participantRoles": [
       "aidar",
@@ -5357,9 +5490,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-label-house-return",
     "value": {
-      "default": "Вернуться и спросить, кто снимал двор",
+      "default": "Вернуться и сверить помету с семейным снимком",
       "translations": {
-        "ru": "Вернуться и спросить, кто снимал двор"
+        "ru": "Вернуться и сверить помету с семейным снимком"
       }
     },
     "purpose": "ui"

@@ -55,6 +55,7 @@
     "urman.fullgame:dialogue/pw-water-place",
     "urman.fullgame:dialogue/pw-first-world-home",
     "urman.fullgame:dialogue/pw-gulsina-author",
+    "urman.fullgame:dialogue/pw-house-note-comparison",
     "urman.fullgame:dialogue/pw-common-file-permission",
     "urman.fullgame:dialogue/pw-alsu-leaf",
     "urman.fullgame:dialogue/pw-home-epilogue",
@@ -726,6 +727,13 @@
         "provenanceKind": "spatial-observation",
         "sourceIds": [
           "urman.fullgame:interaction/pw-house-frame"
+        ]
+      },
+      {
+        "id": "house_note_comparison_recorded",
+        "provenanceKind": "family-conversation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-house-note-comparison"
         ]
       },
       {

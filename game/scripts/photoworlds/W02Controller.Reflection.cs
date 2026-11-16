@@ -37,6 +37,14 @@ public partial class W02Controller
     private double _reflectionObservationPollElapsed;
     private object? _reflectionRemarkShownSession;
     private object? _reflectionRemarkPendingSession;
+    private PhotoSceneReference? _reflectionPhotoReference;
+
+    private void LowerReflectionPhoto()
+    {
+        if (_reflectionPhotoReference is { } reference && GodotObject.IsInstanceValid(reference))
+            reference.Dismiss();
+        _reflectionPhotoReference = null;
+    }
 
     internal bool TryGetReflectionObjectiveTarget(object? identity, FirstPersonController player,
         out Vector3 point, out string label, out bool inspectionPoint)
@@ -150,6 +158,7 @@ public partial class W02Controller
 
         if (discovered)
         {
+            LowerReflectionPhoto();
             _reflectionComparisonActive = false;
             _reflectionFrameReady = false;
             _reflectionComparisonElapsed = 0;
@@ -161,6 +170,7 @@ public partial class W02Controller
 
     private void ResetReflectionObservation(object? sessionIdentity)
     {
+        LowerReflectionPhoto();
         _reflectionObservationGeneration++;
         _reflectionObservationSessionIdentity = sessionIdentity;
         _reflectionComparisonActive = false;
@@ -198,6 +208,13 @@ public partial class W02Controller
             || !IsInsideReflectionStand(stand, player.GlobalPosition))
             return false;
 
+        // The acquired print is a local reference, never another observation
+        // flag. A legacy recorded result needs no replay or new saved state.
+        if (JournalUi.PhotoBookFrontTexture("P-WATER") is { } front
+            && player.TryShowPhotoSceneReference(bridge, session, "P-WATER", front))
+            _reflectionPhotoReference = player.GetChildren().OfType<PhotoSceneReference>()
+                .FirstOrDefault(reference => reference.IsRaisedFor(player, bridge, session, "P-WATER"));
+
         _reflectionComparisonActive = true;
         _reflectionFrameReady = false;
         _reflectionComparisonSession = session;
@@ -223,6 +240,7 @@ public partial class W02Controller
 
     private void CancelReflectionComparison(bool restoreTarget)
     {
+        LowerReflectionPhoto();
         if (!_reflectionComparisonActive) return;
         _reflectionObservationGeneration++;
         _reflectionComparisonActive = false;
@@ -299,6 +317,8 @@ public partial class W02Controller
             || GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true }
             || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
             || player.ModalOpen || player.VehicleControlled || player.IsClimbingLadder || !player.IsOnFloor()
+            || _reflectionPhotoReference is { } reference
+                && (!GodotObject.IsInstanceValid(reference) || !reference.IsRaisedFor(player, bridge, session, "P-WATER"))
             || _reflectionObservationStand is not { } stand
             || !GodotObject.IsInstanceValid(stand)
             || !IsInsideReflectionStand(stand, player.GlobalPosition))
@@ -403,6 +423,7 @@ public partial class W02Controller
 
         if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()
             || generation != _reflectionObservationGeneration) return;
+        LowerReflectionPhoto();
         if (ReferenceEquals(_reflectionObservationDispatchSession, session))
         {
             _reflectionObservationDispatchSession = null;

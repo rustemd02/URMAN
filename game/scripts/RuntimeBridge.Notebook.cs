@@ -225,6 +225,18 @@ public partial class RuntimeBridge
                 && sourceId.ValueKind == JsonValueKind.String
                 && StringComparer.Ordinal.Equals(sourceId.GetString(), commonRelationsSourceId));
 
+        const string houseNoteComparisonFactId = "house_note_comparison_recorded";
+        const string houseNoteComparisonSourceId = "urman.fullgame:interaction/pw-house-note-comparison";
+        var savedHouseNoteComparison = facts.TryGetProperty(houseNoteComparisonFactId, out var houseNoteComparisonFact)
+            && houseNoteComparisonFact.ValueKind == JsonValueKind.Object
+            && houseNoteComparisonFact.TryGetProperty("sources", out var houseNoteComparisonSources)
+            && houseNoteComparisonSources.ValueKind == JsonValueKind.Array
+            && houseNoteComparisonSources.EnumerateArray().Any(savedSource =>
+                savedSource.ValueKind == JsonValueKind.Object
+                && savedSource.TryGetProperty("sourceId", out var sourceId)
+                && sourceId.ValueKind == JsonValueKind.String
+                && StringComparer.Ordinal.Equals(sourceId.GetString(), houseNoteComparisonSourceId));
+
         // One card per actual source. A source that contributed more than one
         // saved fact keeps its authored title and shows each saved provenance
         // category without exposing internal fact/source IDs.
@@ -288,6 +300,11 @@ public partial class RuntimeBridge
                         "urman.fullgame:asset/w04-common-relations-study",
                         "res://assets/photoworlds/W04/common-relations-study.svg",
                         studyDescription)];
+                }
+                if (savedHouseNoteComparison
+                    && StringComparer.Ordinal.Equals(pair.Key, houseNoteComparisonSourceId))
+                {
+                    body += "\n\nМы сравнили помету на рамке с оборотом дворового снимка. Әби подтвердила: ткань цеплялась за заедавшую ставню. Эти строки не устанавливают, кто снимал двор.";
                 }
 
                 return new ResolvedJournalEntry(
