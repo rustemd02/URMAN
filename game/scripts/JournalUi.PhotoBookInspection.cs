@@ -29,6 +29,7 @@ public partial class JournalUi
         render_mode cull_back, unshaded, depth_draw_opaque;
 
         uniform sampler2D photo_front : source_color, filter_linear, repeat_disable;
+        uniform vec2 photo_fit = vec2(1.0);
         varying float insert_height;
         varying float insert_normal_y;
 
@@ -42,6 +43,7 @@ public partial class JournalUi
 
             vec2 photo_uv = (UV - vec2(-0.0747075006365776, 0.9502924680709839))
                 / vec2(0.1494150012731552, 0.0994150638580322);
+            photo_uv = (photo_uv - vec2(0.5)) / photo_fit + vec2(0.5);
             if (any(lessThan(photo_uv, vec2(0.0))) || any(greaterThan(photo_uv, vec2(1.0)))) discard;
             ALBEDO = texture(photo_front, photo_uv).rgb;
         }
@@ -246,7 +248,7 @@ public partial class JournalUi
         // The selected projection is acquired-only, and its PageId comes from
         // the validated catalog. Mounted verifies that exact page before the
         // existing front-only resolver feeds the physical insert.
-        var frontTexture = PhotoBookFrontTexture(selected.PhotoId);
+        var frontTexture = PhotoBookFrontTexture(_bridge, selected.PhotoId);
         if (frontTexture is null)
         {
             ClearBookInspectionPhotoOverride();
@@ -281,6 +283,13 @@ public partial class JournalUi
             Shader = new Shader { Code = InspectionGardenOverlayShader }
         };
         overlay.SetShaderParameter("photo_front", frontTexture);
+        if (selected.PhotoId == "S-NOW")
+        {
+            const float insertAspect = .1494150013f / .0994150639f;
+            var aspect = (float)frontTexture.GetWidth() / frontTexture.GetHeight();
+            overlay.SetShaderParameter("photo_fit", aspect >= insertAspect
+                ? new Vector2(1f, insertAspect / aspect) : new Vector2(aspect / insertAspect, 1f));
+        }
         isolatedMaterial.NextPass = overlay;
         insert.SetSurfaceOverrideMaterial(surface, isolatedMaterial);
         _bookInspectionPhotoInsert = insert;

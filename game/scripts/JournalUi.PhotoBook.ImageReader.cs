@@ -65,8 +65,7 @@ public partial class JournalUi
             && GodotObject.IsInstanceValid(frontButton))
         {
             var path = PhotoBookFrontImageResourcePath(photo.PhotoId);
-            var available = path is not null && ResourceLoader.Exists(path)
-                && PhotoBookFrontTexture(photo.PhotoId) is not null;
+            var available = path is not null && PhotoBookFrontTexture(_bridge, photo.PhotoId) is not null;
             frontButton.Visible = available;
             frontButton.Disabled = !available;
             frontButton.Text = photo.PhotoId == "P-FOREST" && _bridge?.HasForestFieldPrint == true
@@ -109,8 +108,7 @@ public partial class JournalUi
         var photo = bridge.PhotoBookPhotos()
             .FirstOrDefault(candidate => candidate.PhotoId == selectedId);
         var path = photo is null ? null : PhotoBookFrontImageResourcePath(photo.PhotoId);
-        if (photo is null || path is null || !ResourceLoader.Exists(path)
-            || PhotoBookFrontTexture(photo.PhotoId) is null)
+        if (photo is null || path is null || PhotoBookFrontTexture(bridge, photo.PhotoId) is not { } front)
         {
             if (photo is not null) RefreshPhotoBookImageReaderAction(photo);
             return;
@@ -130,6 +128,7 @@ public partial class JournalUi
         {
             new DocumentImageContent(photo.PhotoId, path, description)
         });
+        if (photo.PhotoId == "S-NOW") reader.OverrideImageTexture(front);
         if (photo.PhotoId == "P-FOREST" && bridge.DevelopForestFieldPrint() is { } fieldPrint)
             reader.CompareWith(fieldPrint, "Снимок Айдара · за корнями", "Семейная фотография");
         _photoBookImageReaderLaunchButton = _photoBookInspectFrontButton;

@@ -622,7 +622,7 @@ public partial class JournalUi
         {
             var photo = _photoBookProjection[index];
             var rowTitle = photo.PhotoId == missionPhotoId ? $"Сейчас · {photo.Title}" : photo.Title;
-            _photoBookList.AddItem($"{index + 1:D2} · {rowTitle}", PhotoBookFrontTexture(photo.PhotoId, thumbnail: true));
+            _photoBookList.AddItem($"{index + 1:D2} · {rowTitle}", PhotoBookFrontTexture(bridge, photo.PhotoId, thumbnail: true));
             _photoBookList.SetItemTooltip(index, photo.Title);
         }
 
@@ -755,10 +755,15 @@ public partial class JournalUi
             ? ResourceLoader.Load<Texture2D>(path) : null;
     }
 
+    internal static Texture2D? PhotoBookFrontTexture(RuntimeBridge? bridge, string photoId, bool thumbnail = false) =>
+        photoId == "S-NOW" && bridge is not null && GodotObject.IsInstanceValid(bridge)
+            && bridge.DevelopFamilyNowPhoto(thumbnail) is { } ownPhoto
+                ? ownPhoto : PhotoBookFrontTexture(photoId, thumbnail);
+
     private void ShowPhotoBookPhoto(RuntimeBridge.PhotoBookPhoto photo)
     {
         ClearPhotoBookImages();
-        if (PhotoBookFrontTexture(photo.PhotoId) is { } frontImage)
+        if (PhotoBookFrontTexture(_bridge, photo.PhotoId) is { } frontImage)
         {
             _photoBookFrontImage.Texture = frontImage;
             _photoBookFrontImage.Visible = true;

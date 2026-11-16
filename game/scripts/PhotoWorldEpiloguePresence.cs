@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Godot;
 
 namespace Urman.Godot;
@@ -71,7 +70,6 @@ public partial class PhotoWorldEpiloguePresence : Node3D
             string.Empty);
 
         var takeNowReady = epilogueCurrent && interactionWindowOpen && !hasNowPhoto
-            && ResourceLoader.Exists(JournalUi.SNowFrontImagePath)
             && IsInteractionReady(bridge, TakeNowInteractionId);
         if (_takeNowTarget is { } takeNow && GodotObject.IsInstanceValid(takeNow))
         {
@@ -141,12 +139,8 @@ public partial class PhotoWorldEpiloguePresence : Node3D
             _gulsinaBodyTarget.GlobalPosition, .24f, "urman.fullgame:dialogue/pw-home-epilogue");
         _takeNowTarget = takeNowTarget;
         _familyTalkTarget = familyTalkTarget;
-        takeNowTarget.PresentationGate = CanFrameFamilyTablePhoto;
-        takeNowTarget.AfterDispatch = () =>
-        {
-            ShowNewFamilyPhoto();
-            return Task.FromResult(true);
-        };
+        takeNowTarget.PresentationGate = () => _familyPhotoRequest is null && CanFrameFamilyTablePhoto();
+        takeNowTarget.PresentationBeforeDispatch = BeginFamilyPhoto;
         takeNowTarget.PresentationGateHint = "Встаньте у стола и наведите камеру на близких и чай.";
         takeNowTarget.SetMeta("physicalSource", "existing family tea table surface; kernel action owns S-NOW");
         familyTalkTarget.SetMeta("physicalSource", "existing Gulsina at the family tea table");
@@ -195,7 +189,6 @@ public partial class PhotoWorldEpiloguePresence : Node3D
     {
         if (_bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
             || !IsEpilogueCurrent(bridge, out var session)
-            || !ResourceLoader.Exists(JournalUi.SNowFrontImagePath)
             || !IsInteractionReady(bridge, TakeNowInteractionId)
             || _cameraStance is not { } stance || !GodotObject.IsInstanceValid(stance)
             || _takeNowTarget is not { } target || !GodotObject.IsInstanceValid(target))
@@ -297,6 +290,7 @@ public partial class PhotoWorldEpiloguePresence : Node3D
 
     public override void _ExitTree()
     {
+        _familyPhotoRequest = null;
         SetTargetsEnabled(false, false);
         if (_bridge is { } bridge && GodotObject.IsInstanceValid(bridge))
             bridge.RuntimeStateChanged -= MarkBookResultDirty;

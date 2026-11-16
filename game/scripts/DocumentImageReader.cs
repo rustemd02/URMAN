@@ -152,6 +152,16 @@ public partial class DocumentImageReader : VBoxContainer
         CompareWith(texture, reference.Description, currentCaption);
     }
 
+    // An enclosing acquired-photo reader may supply pixels stored in its save.
+    // SetImages and SelectImage replace the texture for the next document/page.
+    internal void OverrideImageTexture(Texture2D texture)
+    {
+        if (_images.Count != 1) return;
+        ClearComparison();
+        _picture.Texture = texture;
+        ResetView();
+    }
+
     public void CompareWith(Texture2D texture, string referenceCaption, string currentCaption)
     {
         if (_images.Count != 1 || _picture.Texture is null) return;

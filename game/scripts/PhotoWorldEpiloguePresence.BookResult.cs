@@ -17,6 +17,7 @@ public partial class PhotoWorldEpiloguePresence
     private object? _bookResultSession;
     private bool _bookResultDirty = true;
     private bool _bookResultRecorded;
+    private object? _bookResultTextureSession;
 
     internal static bool HasRecordedBookResult(RuntimeBridge bridge) => bridge.SessionIdentity is { } session
         && ContentRuleEngine.Evaluate(BookResultCondition, session.SelectState());
@@ -46,6 +47,8 @@ public partial class PhotoWorldEpiloguePresence
         }
         var current = BookResultContextCurrent(bridge);
         if (current && _resultBook is null) BuildBookResult();
+        if (current && !ReferenceEquals(_bookResultTextureSession, bridge.SessionIdentity))
+            RefreshBookResultTexture(bridge);
         if (_resultPrint is { } print) print.Visible = current;
         _resultBookTarget?.SetPresentationEnabled(current && IsInteractionWindowOpen()
             && _resultBook is { } book && book.IsVisibleInTree());
@@ -55,8 +58,8 @@ public partial class PhotoWorldEpiloguePresence
     {
         if (GetParent()?.GetNodeOrNull<Node3D>("ArrivalPersonalThings/FamilyTukayBookPresentation") is not { } book
             || !book.IsVisibleInTree()
-            || !ResourceLoader.Exists(JournalUi.SNowFrontImagePath)
-            || ResourceLoader.Load<Texture2D>(JournalUi.SNowFrontImagePath) is not { } photograph) return;
+            || _bridge is not { } bridge
+            || JournalUi.PhotoBookFrontTexture(bridge, "S-NOW") is not { } photograph) return;
 
         // Measure the actual closed volume, including the authored GLB. The
         // new print stays inside its supported footprint; no furniture moves.
@@ -70,7 +73,7 @@ public partial class PhotoWorldEpiloguePresence
             Name = "TodayFamilyPrint",
             Position = new(0f, top + .0015f, 0f),
             RotationDegrees = new(-90f, 0f, 0f),
-            Mesh = new QuadMesh { Size = new(.18f, .12f) },
+            Mesh = new QuadMesh { Size = new(.18f, .18f * photograph.GetHeight() / photograph.GetWidth()) },
             MaterialOverride = new StandardMaterial3D
             {
                 AlbedoTexture = photograph, Roughness = 1f,
@@ -79,7 +82,8 @@ public partial class PhotoWorldEpiloguePresence
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
         };
         _resultPrint.SetMeta("visualOnly", true);
-        _resultPrint.SetMeta("assetSource", JournalUi.SNowFrontImagePath);
+        _resultPrint.SetMeta("assetSource", bridge.HasFamilyNowPhotoPrint ? "save:photobook/family-now-print" : JournalUi.SNowFrontImagePath);
+        _bookResultTextureSession = bridge.SessionIdentity;
         book.AddChild(_resultPrint);
 
         // This thin ray box sits above the older forest-page target. Only the
@@ -99,6 +103,16 @@ public partial class PhotoWorldEpiloguePresence
         _resultBookTarget.PresentationRepeatAvailable = () => _bridge is { } current && BookResultContextCurrent(current);
         _resultBookTarget.PresentationRepeat = OpenBookResult;
         book.AddChild(_resultBookTarget);
+    }
+
+    private void RefreshBookResultTexture(RuntimeBridge bridge)
+    {
+        if (_resultPrint is not { MaterialOverride: StandardMaterial3D material, Mesh: QuadMesh quad } print
+            || JournalUi.PhotoBookFrontTexture(bridge, "S-NOW") is not { } photograph) return;
+        material.AlbedoTexture = photograph;
+        quad.Size = new(.18f, .18f * photograph.GetHeight() / photograph.GetWidth());
+        print.SetMeta("assetSource", bridge.HasFamilyNowPhotoPrint ? "save:photobook/family-now-print" : JournalUi.SNowFrontImagePath);
+        _bookResultTextureSession = bridge.SessionIdentity;
     }
 
     private void OpenBookResult()
