@@ -25,8 +25,7 @@ public partial class Main
     private readonly List<Node> _arrivalNewNodes = new();
     private readonly List<(Node Node, StringName Group)> _arrivalGroups = new();
     private readonly List<(Node Node, ProcessModeEnum Mode)> _arrivalModes = new();
-    private readonly List<(VisualInstance3D Node, uint Layers)> _arrivalVisuals = new();
-    private readonly List<(Light3D Node, uint Mask)> _arrivalLights = new();
+    private readonly HashSet<VisualInstance3D> _arrivalVisuals = new();
     private readonly List<(Node Node, bool Paused)> _arrivalAudio = new();
     private readonly List<WorldEnvironment> _arrivalEnvironments = new();
 
@@ -233,21 +232,16 @@ public partial class Main
                 _arrivalModes.Add((node, node.ProcessMode));
                 node.ProcessMode = ProcessModeEnum.Inherit;
             }
-            if (node is VisualInstance3D visual)
+            if (node is VisualInstance3D visual && visual.IsInsideTree()
+                && _arrivalBuildingWorld is { } pendingWorld && pendingWorld.IsAncestorOf(visual))
             {
-                // Duplicating an already built piece must copy its authored
-                // layers, not permanently inherit the construction quarantine.
-                var layers = visual.HasMeta("arrivalAuthoredLayers")
-                    ? (uint)visual.GetMeta("arrivalAuthoredLayers").AsInt64() : visual.Layers;
-                visual.SetMeta("arrivalAuthoredLayers", layers);
-                _arrivalVisuals.Add((visual, layers)); visual.Layers = 0;
-            }
-            if (node is Light3D light)
-            {
-                var mask = light.HasMeta("arrivalAuthoredLightMask")
-                    ? (uint)light.GetMeta("arrivalAuthoredLightMask").AsInt64() : light.LightCullMask;
-                light.SetMeta("arrivalAuthoredLightMask", mask);
-                _arrivalLights.Add((light, mask)); light.LightCullMask = 0;
+                // Godot 4.7 Forward+ can retain stale light/geometry pairs when
+                // live Layers change (godotengine/godot#121989). Detach the RID
+                // instead: authored masks and IsVisibleInTree stay authoritative.
+                // Reparenting enters the world again and emits NodeAdded again;
+                // detach on every such event, while retaining only one publish entry.
+                _arrivalVisuals.Add(visual);
+                RenderingServer.InstanceSetScenario(visual.GetInstance(), default);
             }
             if (node is WorldEnvironment environment) _arrivalEnvironments.Add(environment);
             switch (node)
@@ -271,10 +265,12 @@ public partial class Main
         StopArrivalNodeWatch();
         foreach (var (node, group) in _arrivalGroups) if (GodotObject.IsInstanceValid(node)) node.AddToGroup(group);
         foreach (var (node, mode) in _arrivalModes) if (GodotObject.IsInstanceValid(node)) node.ProcessMode = mode;
-        foreach (var (node, layers) in _arrivalVisuals)
-            if (GodotObject.IsInstanceValid(node)) { node.Layers = layers; node.RemoveMeta("arrivalAuthoredLayers"); }
-        foreach (var (node, mask) in _arrivalLights)
-            if (GodotObject.IsInstanceValid(node)) { node.LightCullMask = mask; node.RemoveMeta("arrivalAuthoredLightMask"); }
+        foreach (var visual in _arrivalVisuals)
+            if (GodotObject.IsInstanceValid(visual) && visual.IsInsideTree() && !visual.IsQueuedForDeletion()
+                && _arrivalBuildingWorld!.IsAncestorOf(visual))
+                // Do not set visibility: retired/hidden pieces keep the exact
+                // visibility already projected by their Node3D owners.
+                RenderingServer.InstanceSetScenario(visual.GetInstance(), visual.GetWorld3D().Scenario);
         foreach (var (node, paused) in _arrivalAudio)
             if (GodotObject.IsInstanceValid(node))
                 switch (node)
@@ -323,7 +319,7 @@ public partial class Main
     private void ClearArrivalQuarantine()
     {
         _arrivalNewNodes.Clear(); _arrivalGroups.Clear(); _arrivalModes.Clear();
-        _arrivalVisuals.Clear(); _arrivalLights.Clear(); _arrivalAudio.Clear();
+        _arrivalVisuals.Clear(); _arrivalAudio.Clear();
         _arrivalEnvironments.Clear();
     }
 
