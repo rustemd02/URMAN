@@ -1,3 +1,6 @@
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using Urman.Core.Narrative;
 using Urman.Core.Persistence;
 
 namespace Urman.Godot;
@@ -105,6 +108,14 @@ public partial class RuntimeBridge
 
     // The hut adds an alternative prologue exit. All saved legacy interactions and notebook nodes remain.
     private const string FullGameWinterHutFingerprint = "4b6abe2dfad9a6417d99a68cfee8369714351cc1ee563a3a4465d002b3e3c03f";
+
+    // Accepted home-entry and subsequent dialogue revisions retain all saved IDs.
+    // The last two add only the catalog declarations prepared below, never earned state.
+    private const string FullGameHomeEntryFingerprint = "a17bd8d7b51d9aee0b56d57f04d3d7dac687fc0ea059a7deb00135b4a160ee1a";
+    private const string FullGameFamilyRequestFingerprint = "b8337e6a53c308779aa2f59a9a5c1d843431b69f6773f0cff4f1cc16d8bcc67a";
+    private const string FullGameFamilyDialogueFingerprint = "8b9fd0fe9110d3536fbd1abadc0fe5d8a35d296227c5870a0b706fd3192c3322";
+    private const string FullGameHouseNoteComparisonFingerprint = "c88a18253a58bcacdde87faa8995b4e66fa958397a624c0581590ad4e179b538";
+    private const string FullGameForestRiverLeadFingerprint = "533ee8b556136d549cdcb59effb83abf79416797be3636e9fb68cd2f34070af0";
 
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
@@ -452,10 +463,54 @@ public partial class RuntimeBridge
             FullGameGulsinaAuthorshipReplyFingerprint)
     ];
 
+    private JsonElement PrepareCompatiblePhotoBookCatalog(JsonElement state)
+    {
+        if (_content.CampaignId != FullGameCampaignId
+            || _content.CampaignFingerprint != FullGameForestRiverLeadFingerprint)
+            return state;
+
+        // The accepted packs differ only in these two fact declarations. Keep every
+        // other catalog entry and all player state, including provenance and visits.
+        var root = JsonNode.Parse(state.GetRawText())!.AsObject();
+        var facts = root["photoworlds"]!["catalog"]!["facts"]!.AsArray();
+        var savedById = facts.ToDictionary(
+            fact => fact!["id"]!.GetValue<string>(), fact => fact!, StringComparer.Ordinal);
+        var authoredById = _content.PhotoWorldCatalog.GetProperty("facts").EnumerateArray()
+            .ToDictionary(fact => fact.GetProperty("id").GetString()!, StringComparer.Ordinal);
+        foreach (var id in new[] { "home_water_place_told", "house_note_comparison_recorded" })
+        {
+            var current = JsonNode.Parse(authoredById[id].GetRawText())!.AsObject();
+            savedById.TryGetValue(id, out var saved);
+            if (JsonNode.DeepEquals(saved, current)) continue;
+
+            if (id == "home_water_place_told")
+            {
+                var previous = current.DeepClone().AsObject();
+                previous["sourceIds"] = new JsonArray("urman.fullgame:interaction/pw-water-place-talk");
+                if (!JsonNode.DeepEquals(saved, previous))
+                    throw new InvalidDataException("The saved river conversation declaration is not a supported revision.");
+                facts[facts.IndexOf(saved)] = current;
+            }
+            else
+            {
+                // This optional declaration was absent before c88a1825. Its observed
+                // state stays absent; acquiring it still requires the real dialogue.
+                if (saved is not null)
+                    throw new InvalidDataException("The saved house comparison declaration is not a supported revision.");
+                facts.Add(current);
+            }
+        }
+
+        var prepared = JsonSerializer.SerializeToElement(root);
+        PhotoWorldState.ValidateCurrentSnapshot(prepared,
+            _content.CampaignId, _content.CampaignExactVersion, requireNamespace: true);
+        return prepared;
+    }
+
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
     {
         var isFullGame = StringComparer.Ordinal.Equals(_content.CampaignId, FullGameCampaignId);
-        if (isFullGame && _content.CampaignFingerprint is FullGameSchoolRouteTextFingerprint or FullGameHomePrintFingerprint or FullGameWinterHutFingerprint)
+        if (isFullGame && _content.CampaignFingerprint is FullGameSchoolRouteTextFingerprint or FullGameHomePrintFingerprint or FullGameWinterHutFingerprint or FullGameForestRiverLeadFingerprint)
         {
             var current = _content.CampaignFingerprint;
             var compatible = FullGameTextRevisionCompatibility
@@ -465,10 +520,17 @@ public partial class RuntimeBridge
                 .Append(new(FullGameSchoolPhotoCueFingerprint, current))
                 .Append(new(FullGamePrologueNightmareHintFingerprint, current))
                 .Append(new(FullGamePrologueSearchHintFingerprint, current));
-            if (current is FullGameHomePrintFingerprint or FullGameWinterHutFingerprint)
+            if (current is FullGameHomePrintFingerprint or FullGameWinterHutFingerprint or FullGameForestRiverLeadFingerprint)
                 compatible = compatible.Append(new(FullGameSchoolRouteTextFingerprint, current));
-            if (current == FullGameWinterHutFingerprint)
+            if (current is FullGameWinterHutFingerprint or FullGameForestRiverLeadFingerprint)
                 compatible = compatible.Append(new(FullGameHomePrintFingerprint, current));
+            if (current == FullGameForestRiverLeadFingerprint)
+                compatible = compatible
+                    .Append(new(FullGameWinterHutFingerprint, current))
+                    .Append(new(FullGameHomeEntryFingerprint, current))
+                    .Append(new(FullGameFamilyRequestFingerprint, current))
+                    .Append(new(FullGameFamilyDialogueFingerprint, current))
+                    .Append(new(FullGameHouseNoteComparisonFingerprint, current));
             return new AtomicSaveGameStore(directory, fingerprintCompatibility: compatible.ToArray());
         }
 

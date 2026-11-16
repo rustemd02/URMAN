@@ -307,6 +307,7 @@ public partial class RuntimeBridge : Node
         if (!_content.HasPhotoWorlds) return save;
         var preparedState = PhotoWorldState.PrepareSnapshotForLoad(
             save.Runtime.State, _content.CampaignId, _content.CampaignExactVersion);
+        preparedState = PrepareCompatiblePhotoBookCatalog(preparedState);
         preparedState = PrepareTamaraFenceQuestForLoad(preparedState);
         return save with { Runtime = save.Runtime with { State = preparedState } };
     }
