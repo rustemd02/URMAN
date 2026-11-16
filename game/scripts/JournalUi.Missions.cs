@@ -45,14 +45,12 @@ public partial class JournalUi
 
         string summary;
         if (recorded)
-            summary = "ЛЕСНОЙ СНИМОК · Әби узнала старый корень. Место съёмки и встреча с Шурале записаны в книгу.";
+            summary = "ЛЕСНОЙ СНИМОК · Разговор дома и то, что нашлось за корнями, записаны в книгу.";
         else
         {
-            summary = "ЛЕСНОЙ СНИМОК · Помочь әби узнать место: она помнит людей на снимке, но не помнит, где они стояли.";
+            summary = "ЛЕСНОЙ СНИМОК · Проверить место на семейном снимке и вернуться к Гөлсинә с тем, что удалось увидеть.";
             if (bridge.PhotoWorldFactObserved("forest_camera_back_seen"))
-                summary += " Берёза и перекладина совпали со школьной копией — место найдено.";
-            else if (bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-SCHOOL"))
-                summary += " Копия из школьного альбома получена.";
+                summary += " Берёза, перекладина и дуга корня совпали со снимком.";
             if (bridge.PhotoWorldFactObserved("forest_encounter_resolved"))
                 summary += " Ремень сумки у корня освобождён.";
         }
@@ -74,10 +72,12 @@ public partial class JournalUi
         if (!bridge.IsPhotoWorldsCampaign || !bridge.CanInspectReceivedPhotoBook
             || bridge.SessionIdentity is not { } session) return false;
         var state = session.SelectState();
-        // Shipped saves completed this beat at handoff. An independently found
-        // school copy or another photo route also keeps its earned priority.
+        // Shipped saves completed this beat at handoff. A visit or another
+        // discovered photo route must not reintroduce the initial table scene.
         return !ContentRuleEngine.Evaluate(JsonSerializer.SerializeToElement(new
             { op = "beat.state", beatId = "urman.fullgame:beat/pw-b02-family-book", state = "completed" }), state)
+            && !MissionWorldVisited(state, "W01")
+            && PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w01") != "completed"
             && !bridge.PhotoWorldFactObserved("school_copy_identified")
             && !bridge.PhotoWorldFactObserved("home_water_place_told")
             && !bridge.PhotoWorldFactObserved("water_photo_found")
@@ -131,18 +131,11 @@ public partial class JournalUi
             return null;
 
         if (InitialHomePhotoTaskPending(bridge))
-        {
-            var forest = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-FOREST");
-            if (forest is { BackRead: false })
-                return new("arrival-photo-back", "Что написано на снимке", "Переверните лесной снимок в книге и прочитайте подпись.",
-                    BookPhotoId: "P-FOREST", BookAction: PlayerBookAction.ReadBack);
-            return HomeMission(bridge, "arrival-show-photo", "Показать подпись әби", "Покажите Гөлсинә оборот лесного снимка.",
-                "pw-home-forest-print", "Гөлсинә");
-        }
+            return PhotoBookForestMission(bridge);
 
         if (ForestHomeResultPending(bridge))
             return HomeMission(bridge, "first-return-talk", "Рассказать о лесном снимке",
-                "Расскажите Гөлсинә, что нашли за корнями.",
+                "Расскажите Гөлсинә о повороте за корнями и освобождённой сумке.",
                 "pw-first-world-home-talk", "Гөлсинә");
 
         if (WaterHomeResultPending(bridge))
@@ -160,7 +153,6 @@ public partial class JournalUi
         var houseObjectiveIsActive = activeObjectives.Any(objective => objective.QuestId == "urman.fullgame:quest/pw-w03");
         var photos = bridge.PhotoBookPhotos();
         var forestPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-FOREST");
-        var schoolPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "S-SCHOOL");
         var waterPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-WATER");
         var waterRouteHasProgress = waterPhoto is not null
             || bridge.PhotoWorldFactObserved("home_water_place_told")
@@ -168,17 +160,17 @@ public partial class JournalUi
         var selectedForestPhotoIsIncomplete = selectedPhotoId == "P-FOREST"
             && forestPhoto is { WorldCompleted: false };
         var selectedForestPhotoCanResume = selectedForestPhotoIsIncomplete
-            && forestPhoto is { Mounted: true, HasResumePoint: true } && schoolPhoto is not null;
+            && forestPhoto is { Mounted: true, BackRead: true, HasResumePoint: true };
         if (selectedPhotoId == "P-CELLAR") return PhotoBookCellarMission(bridge);
         if (!selectedForestPhotoIsIncomplete && waterQuestStatus != "completed"
             && (waterObjectiveIsActive || waterRouteHasProgress))
             return PhotoBookWaterMission(bridge, requireFirstWorldHomeTalk: forestQuestStatus == "completed");
         if (selectedForestPhotoCanResume || (!selectedForestPhotoIsIncomplete && forestObjectiveIsActive))
-            return ForestEntryMission(bridge, forestPhoto?.HasResumePoint == true);
-        // The family forest print is present from the beginning; only the
-        // school copy or an actual visit means the player started this route.
+            return PhotoBookForestMission(bridge);
+        // Reading/mounting the family print starts this route. A school copy is
+        // an independent discovery, never a prerequisite for the main visit.
         var forestStarted = forestQuestStatus == "completed" || forestObjectiveIsActive
-            || bridge.PhotoWorldFactObserved("school_copy_identified") || schoolPhoto is not null
+            || forestPhoto is { Mounted: true, BackRead: true }
             || MissionWorldVisited(state, "W01");
         var houseStarted = houseQuestStatus == "completed" || houseObjectiveIsActive
             || bridge.PhotoWorldFactObserved("house_print_found")
@@ -227,26 +219,36 @@ public partial class JournalUi
     {
         var photos = bridge.PhotoBookPhotos();
         var forestPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-FOREST");
-        var schoolPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "S-SCHOOL");
         if (forestPhoto is null) return null;
-        if (schoolPhoto is null)
-            return bridge.PhotoWorldFactObserved("school_copy_identified")
-                ? StreetMission(bridge, "forest-school-copy", "Получить копию снимка", "В учительской попросите у сотрудницы копию лесного снимка.", "pw-school-copy-permission", "Сотрудница школы")
-                : StreetMission(bridge, "forest-school-album", "Открыть школьный альбом", "Откройте альбом в учительской старой школы: Лесная, 12.", "pw-school-copy-source", "Школьный альбом");
-        if (forestPhoto.Mounted) return ForestEntryMission(bridge, forestPhoto.HasResumePoint);
-        if (!forestPhoto.Mounted && forestPhoto.CanMount)
-            return new("forest-mount", "Лесной снимок", "Вклейте снимок в книгу.", BookPhotoId: forestPhoto.PhotoId, BookAction: PlayerBookAction.Mount);
-        return null;
+        if (!forestPhoto.BackRead)
+            return ForestBookMission(bridge, "forest-back", "Что на обороте снимка",
+                "Рассмотрите лесной снимок в альбоме, переверните его и прочитайте подпись.", PlayerBookAction.ReadBack);
+        if (!forestPhoto.Mounted)
+            return forestPhoto.CanMount ? ForestBookMission(bridge, "forest-mount", "Лесной снимок",
+                "Вклейте прочитанный снимок в семейный альбом.", PlayerBookAction.Mount) : null;
+        return ForestEntryMission(bridge, forestPhoto.HasResumePoint);
     }
 
-    private static PlayerMission ForestEntryMission(RuntimeBridge bridge, bool resume) =>
-        StreetMission(bridge, "forest-enter", "Лесной снимок",
-            resume
-                ? "У отметки на тропе повернитесь к трём стволам. В книге выберите «Продолжить снимок»."
-                : "Встаньте у отметки на тропе лицом к трём стволам. Выберите в книге «Войти в снимок».",
-            "pw-enter-forest", "Вход в лесной снимок",
-            "ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/PhotoForestEntry/ForestPhotoEntryAnchor",
-            bookPhotoId: "P-FOREST");
+    private static PlayerMission ForestBookMission(RuntimeBridge bridge, string id, string title,
+        string action, PlayerBookAction bookAction)
+    {
+        if (bridge.CurrentZoneId != MissionHomeZone)
+            return HomeMission(bridge, id, title, action);
+        return new(id, title, action, AnchorPath: MissionBookAnchor, TargetZoneId: MissionHomeZone,
+            TargetLabel: "Семейный альбом", BookPhotoId: "P-FOREST", BookAction: bookAction);
+    }
+
+    private static PlayerMission ForestEntryMission(RuntimeBridge bridge, bool resume)
+    {
+        var action = resume
+            ? "Откройте лесной снимок в домашнем альбоме и выберите «Продолжить снимок». Сделанное сохранено."
+            : "Откройте лесной снимок в домашнем альбоме и выберите «Войти в снимок».";
+        if (bridge.CurrentZoneId != MissionHomeZone)
+            return HomeMission(bridge, "forest-enter", "Лесной снимок", action);
+        return new("forest-enter", "Лесной снимок", action, RuntimeBridge.PhotoBookForestEntryInteractionId,
+            "ZoneHost/Act1ConnectedWorld/babay-abi-house/PhotoWorldForestEntryTarget",
+            MissionHomeZone, "Семейный альбом", "P-FOREST", PlayerBookAction.Enter);
+    }
 
     private static PlayerMission EntryMission(RuntimeBridge bridge, string id, string title,
         RuntimeBridge.PhotoBookPhoto photo, string interaction, string destination)
@@ -526,7 +528,7 @@ public partial class JournalUi
                 ("urman.fullgame:scene/pw-forest", "bag") =>
                     ("Освободить сумку", "Снимите ремень с корня и поставьте сумку на землю.", "pw-forest-bag-release", "ZoneHost/W01/Anchors/F14/BagSnagContact", "Застрявшая сумка"),
                 ("urman.fullgame:scene/pw-forest", "exit") =>
-                    ("Вернуться к семье", "Идите по тропе к выходу из снимка.", "pw-forest-return", "ZoneHost/W01/Anchors/F16", "Выход из снимка"),
+                    ("Вернуться к семье", "Идите к выходу из снимка. Дома расскажите Гөлсинә, что нашлось за корнями.", "pw-forest-return", "ZoneHost/W01/Anchors/F16", "Выход из снимка"),
                 ("urman.fullgame:scene/pw-river", "river-reflection") =>
                     ("Отражение мостков", "С площадки у воды посмотрите вниз на отражение стоек и настила.",
                         "pw-water-reflection", "ZoneHost/W02/W02World/ReflectionObservationStand", "Площадка у воды"),

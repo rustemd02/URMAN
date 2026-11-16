@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using Urman.Core.Persistence;
@@ -26,6 +27,190 @@ public partial class W01Controller
     private object? _forestComparisonCueSession;
     private int _forestComparisonMissingLandmarkIndex = -1;
     private bool _forestComparisonCueValid;
+    private InteractionTarget? _forestFieldPrintTarget;
+    private bool _forestFieldPrintDispatching;
+
+    private void BuildForestFieldPrintTarget()
+    {
+        if (_forestFieldPrintTarget is { } existing && GodotObject.IsInstanceValid(existing)) return;
+        if (_bagSnagContact is not { } snag || !GodotObject.IsInstanceValid(snag)) return;
+
+        var target = new InteractionTarget
+        {
+            Name = "ForestFieldPrintTarget",
+            InteractionId = BagInteractionId,
+            Prompt = "Снять обратный ракурс",
+            CollisionLayer = 4u,
+            CollisionMask = 0u
+        };
+        target.ConfigureRayOnly();
+        target.PresentationRepeatAvailable = IsForestFieldPrintActionPending;
+        target.PresentationRepeat = () => BeginForestFieldPrintCapture();
+        target.PresentationBeforeDispatch = BeginForestFieldPrintCapture;
+        target.PresentationGate = CanCaptureForestFieldPrint;
+        target.SetMeta("observationBlockedHint", "В кадре нужны Шурале, сумка и пустой зацеп на корне.");
+        target.AddChild(new CollisionShape3D
+        {
+            Name = "ForestFieldPrintRayShape",
+            Shape = new SphereShape3D { Radius = 0.32f }
+        });
+        AddChild(target);
+        target.GlobalPosition = snag.GlobalPosition;
+        target.SetPresentationEnabled(false);
+        _forestFieldPrintTarget = target;
+    }
+
+    private void RefreshForestFieldPrintTarget()
+    {
+        if (_forestFieldPrintTarget is not { } target || !GodotObject.IsInstanceValid(target)) return;
+        target.Prompt = "Снять обратный ракурс";
+        var enabled = IsForestFieldPrintActionPending();
+        if (target.PresentationEnabled != enabled) target.SetPresentationEnabled(enabled);
+    }
+
+    private bool IsForestFieldPrintActionPending()
+    {
+        var bridge = _bridge;
+        return !_forestFieldPrintDispatching
+            && bridge is { } current && IsValidCurrentBridge(current)
+            && current.CurrentW01BranchProjection() is { ActiveSceneId: ForestSceneId } projection
+            && ReferenceEquals(projection.SessionIdentity, current.SessionIdentity)
+            && current.PhotoWorldFactObserved(BagEncounterFactId)
+            && !current.HasForestFieldPrint;
+    }
+
+    private bool CanCaptureForestFieldPrint()
+    {
+        if (!IsForestFieldPrintActionPending()
+            || _bagActionPhase != BagActionPhase.Idle || _bagPendingDialogueSession is not null
+            || _shuraleRoot is not { Visible: true } shurale || !GodotObject.IsInstanceValid(shurale)
+            || !_shuraleEncounterResolved || !string.Equals(_shuraleCurrentAnimation, "work", StringComparison.Ordinal)
+            || _shuraleContact is not { } shuraleContact || !GodotObject.IsInstanceValid(shuraleContact)
+            || _bagRoot is not { Visible: true } bag || !GodotObject.IsInstanceValid(bag)
+            || _bagSnagContact is not { } snag || !GodotObject.IsInstanceValid(snag)
+            || _f14OldRootSupportVisual is not { Visible: true } oldRoot || !oldRoot.IsVisibleInTree()
+            || _f14OldRootSupportContact is not { } oldRootContact || !GodotObject.IsInstanceValid(oldRootContact)
+            || BagModalOpen()
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
+            || !GodotObject.IsInstanceValid(player)
+            || player.ModalOpen || player.SessionTransitionActive || player.VehicleControlled
+            || player.IsClimbingLadder || !player.IsOnFloor()
+            || player.GetNodeOrNull<Camera3D>("Head/Camera3D") is not { Current: true } camera
+            || !GodotObject.IsInstanceValid(camera) || camera != GetViewport().GetCamera3D()
+            || camera.GlobalPosition.DistanceTo(snag.GlobalPosition) > 7f)
+            return false;
+
+        var shuraleShape = FirstCollisionShape(shuraleContact);
+        var rootShape = FirstCollisionShape(oldRootContact);
+        var bagMesh = Descendants<MeshInstance3D>(bag)
+            .FirstOrDefault(mesh => mesh.Name.ToString() == "BagBody");
+        if (shuraleShape is null || rootShape is null || bagMesh is null
+            || !GodotObject.IsInstanceValid(shuraleShape) || !GodotObject.IsInstanceValid(rootShape)
+            || !GodotObject.IsInstanceValid(bagMesh) || !bagMesh.IsVisibleInTree())
+            return false;
+
+        if (!_forestObservationRayExclusions.Contains(player.GetRid()))
+        {
+            _forestObservationRayExclusions.Clear();
+            _forestObservationRayExclusions.Add(player.GetRid());
+        }
+
+        var eye = camera.GlobalPosition;
+        var space = GetWorld3D().DirectSpaceState;
+        if (!ForestLandmarkFramedAndVisible(camera, eye, snag.GlobalPosition,
+                rootShape, oldRootContact, space)
+            || !ForestLandmarkFramedAndVisible(camera, eye, shuraleContact.GlobalPosition,
+                shuraleShape, shuraleContact, space))
+            return false;
+
+        var bagPoint = bagMesh.GlobalTransform * bagMesh.GetAabb().GetCenter();
+        if (!ForestFieldPrintPointInCamera(camera, bagPoint)) return false;
+        using var bagRay = PhysicsRayQueryParameters3D.Create(eye, bagPoint, 3u, _forestObservationRayExclusions);
+        using var bagHit = space.IntersectRay(bagRay);
+        return bagHit.Count == 0;
+    }
+
+    private static CollisionShape3D? FirstCollisionShape(StaticBody3D body)
+    {
+        for (var index = 0; index < body.GetChildCount(); index++)
+            if (body.GetChild(index) is CollisionShape3D shape) return shape;
+        return null;
+    }
+
+    private static bool ForestFieldPrintPointInCamera(Camera3D camera, Vector3 point)
+    {
+        var local = camera.ToLocal(point);
+        if (local.Z >= -0.05f) return false;
+        var viewport = camera.GetViewport().GetVisibleRect().Size;
+        var aspect = viewport.X / Math.Max(viewport.Y, 1f);
+        var tangent = Mathf.Tan(Mathf.DegToRad(camera.Fov) * 0.5f);
+        var halfWidth = camera.KeepAspect == Camera3D.KeepAspectEnum.Width ? tangent : tangent * aspect;
+        var halfHeight = camera.KeepAspect == Camera3D.KeepAspectEnum.Width ? tangent / aspect : tangent;
+        return Math.Abs(local.X / -local.Z) <= halfWidth
+            && Math.Abs(local.Y / -local.Z) <= halfHeight;
+    }
+
+    private bool BeginForestFieldPrintCapture()
+    {
+        if (_forestFieldPrintDispatching || !CanCaptureForestFieldPrint()
+            || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || bridge.SessionIdentity is not { } session
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
+            || player.GetNodeOrNull<Camera3D>("Head/Camera3D") is not { Current: true } camera)
+            return false;
+
+        _forestFieldPrintDispatching = true;
+        if (_forestFieldPrintTarget is { } target && GodotObject.IsInstanceValid(target))
+            target.SetPresentationEnabled(false);
+        _ = CaptureForestFieldPrintAsync(bridge, session, player, camera);
+        return false;
+    }
+
+    private async Task CaptureForestFieldPrintAsync(
+        RuntimeBridge bridge, object session, FirstPersonController player, Camera3D camera)
+    {
+        var saved = false;
+        try
+        {
+            saved = await bridge.KeepForestFieldPrintAsync(camera);
+        }
+        catch (Exception error)
+        {
+            GD.PushWarning($"Could not capture W01 reverse field print: {error.Message}");
+        }
+        finally
+        {
+            _forestFieldPrintDispatching = false;
+            RefreshForestFieldPrintTarget();
+        }
+
+        if (!IsCurrentForestFieldPrintCapture(bridge, session, player)) return;
+        if (saved && bridge.HasForestFieldPrint)
+            player.NotifyTraversal("Снимок вложен в книгу.");
+        else if (!bridge.HasForestFieldPrint)
+            player.NotifyTraversal("Кадр не сохранился. Наведите его на Шурале, сумку и корень.");
+    }
+
+    private bool IsCurrentForestFieldPrintCapture(RuntimeBridge bridge, object session,
+        FirstPersonController player) =>
+        GodotObject.IsInstanceValid(this) && IsInsideTree() && !IsQueuedForDeletion()
+        && IsValidCurrentBridge(bridge) && ReferenceEquals(session, bridge.SessionIdentity)
+        && bridge.ActiveSceneId == ForestSceneId
+        && GodotObject.IsInstanceValid(player)
+        && ReferenceEquals(GetTree().GetFirstNodeInGroup("player_controller"), player);
+
+    private void ExitForestFieldPrintPresentation()
+    {
+        if (_forestFieldPrintTarget is { } target && GodotObject.IsInstanceValid(target))
+        {
+            target.PresentationRepeatAvailable = null;
+            target.PresentationRepeat = null;
+            target.PresentationGate = null;
+            target.PresentationBeforeDispatch = null;
+        }
+        _forestFieldPrintTarget = null;
+        _forestFieldPrintDispatching = false;
+    }
 
     internal ForestPassageObservationSnapshot? CaptureForestPassageObservation(object session, string visitId)
     {

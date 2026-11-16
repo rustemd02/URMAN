@@ -82,7 +82,7 @@ public partial class Main : Node3D
     internal bool CanPreparePhotoVisit(FirstPersonController player, string worldId, string zoneId, string spawnId)
     {
         if (_fullGameRouteBridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
-            || !PhotoWorldState.TryGetVisitOrigin(bridge.SelectRuntimeState(), worldId,
+            || !bridge.TryGetPhotoVisitEntryOrigin(worldId,
                 out var originZone, out var originAnchor, out var fixedSafeNode)) return false;
         var safeNode = fixedSafeNode ?? spawnId;
         return zoneId == originZone && bridge.CurrentZoneId == originZone && bridge.ActiveSceneId == HomeSceneId

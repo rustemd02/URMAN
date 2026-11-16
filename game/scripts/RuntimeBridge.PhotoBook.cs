@@ -90,7 +90,8 @@ public partial class RuntimeBridge
         if (PhotoVisitWorldForInteraction(interactionId) is { } worldId
             && _content.PhotoWorldDefinitions is { } catalog
             && GetTree().GetFirstNodeInGroup("journal_ui") is JournalUi journal)
-            journal.OpenPhotoBook(this, catalog.RequireWorld(worldId).PhotoId, focusEntry: true);
+            journal.OpenPhotoBook(this, catalog.RequireWorld(worldId).PhotoId, focusEntry: true,
+                physicalOpen: interactionId == PhotoBookForestEntryInteractionId && CurrentZoneId == "house_old_pc");
         // The physical anchor opens the page. Only the book button dispatches this entry.
         return true;
     }
@@ -243,8 +244,8 @@ public partial class RuntimeBridge
                 ? "Примите семейную книгу у Гөлсинә."
                 : photoId == "P-FOREST" && !PhotoFlag(state, "P-FOREST", "mounted")
                     ? "Вклейте снимок «Люди у леса»."
-                    : photoId == "P-FOREST" && !PhotoFlag(state, "S-SCHOOL", "acquired")
-                        ? "Получите разрешённую копию школьного альбома в старой школе."
+                    : photoId == "P-FOREST" && !PhotoFlag(state, "P-FOREST", "backRead")
+                        ? "Переверните снимок и прочитайте подпись на обороте."
                         : PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: true, interactionId)
                             ?? "Сейчас вход в этот снимок недоступен.";
         }
@@ -255,10 +256,19 @@ public partial class RuntimeBridge
         return reason.Length == 0;
     }
 
+    internal bool TryGetPhotoVisitEntryOrigin(string worldId, out string zoneId, out string anchorId,
+        out string? fixedSafeNodeId)
+    {
+        zoneId = anchorId = string.Empty;
+        fixedSafeNodeId = null;
+        return _kernel is { } session && PhotoWorldState.TryGetVisitOrigin(session.SelectState(), worldId,
+            CurrentZoneId, out zoneId, out anchorId, out fixedSafeNodeId);
+    }
+
     private string? PhotoBookForestPhysicalBlockReason(bool requirePhysicalWorld, string interactionId = PhotoBookForestEntryInteractionId)
     {
-        if (_kernel is not { } session || PhotoVisitWorldForInteraction(interactionId) is not { } worldId
-            || !PhotoWorldState.TryGetVisitOrigin(session.SelectState(), worldId, out var originZone, out var originAnchor, out _))
+        if (_kernel is null || PhotoVisitWorldForInteraction(interactionId) is not { } worldId
+            || !TryGetPhotoVisitEntryOrigin(worldId, out var originZone, out var originAnchor, out _))
             return "Дождитесь завершения перехода.";
         var riverOrigin = originAnchor == "PW_RIVER_ENTRY";
         var commonOrigin = originAnchor == "PW_COMMON_ENTRY";

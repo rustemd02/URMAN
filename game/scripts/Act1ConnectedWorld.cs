@@ -77,6 +77,9 @@ public partial class Act1ConnectedWorld : Node3D
     ];
 
     private bool _studioPreview;
+    private global::Godot.Viewport? _occlusionViewportSnapshotOwner;
+    private bool _previousViewportOcclusionCulling;
+    private bool _hasViewportOcclusionCullingSnapshot;
 
     private sealed record Act1ExteriorParcelComponentPlacement(
         string ComponentName,
@@ -318,6 +321,7 @@ public partial class Act1ConnectedWorld : Node3D
             PainterlyMaterialLibrary.SetGraphicsPreset("low");
             GraphicsQuality.Apply(GetViewport(), "low");
         }
+        VisibilityChanged += OnConnectedWorldVisibilityChanged;
         if (!DeferBuildOnReady) Build();
     }
 
@@ -342,6 +346,8 @@ public partial class Act1ConnectedWorld : Node3D
 
     public override void _ExitTree()
     {
+        VisibilityChanged -= OnConnectedWorldVisibilityChanged;
+        RestoreConnectedWorldOcclusionCulling();
         if (_runtimeBridgeSubscribed && _runtimeBridge is not null && GodotObject.IsInstanceValid(_runtimeBridge))
         {
             _runtimeBridge.RuntimeStateChanged -= OnRuntimeStateChanged;
@@ -411,6 +417,9 @@ public partial class Act1ConnectedWorld : Node3D
         {
             throw new InvalidOperationException($"Connected Act I world has no layout placement for '{zoneId}'.");
         }
+
+        if (!_studioPreview)
+            EnableConnectedWorldOcclusionCulling();
 
         // Save the visible grade before changing the WorldEnvironment owner.
         var previousEnvironment = ActiveZoneId.Length == 0 ? null : GetViewport().World3D?.Environment;
@@ -574,6 +583,37 @@ public partial class Act1ConnectedWorld : Node3D
         UpdateSuspensionBridge();
         UpdateAct1Discoveries();
         ApplyInteractionRouting();
+    }
+
+    private void EnableConnectedWorldOcclusionCulling()
+    {
+        var viewport = GetTree().Root;
+        if (!_hasViewportOcclusionCullingSnapshot)
+        {
+            _occlusionViewportSnapshotOwner = viewport;
+            _previousViewportOcclusionCulling = viewport.UseOcclusionCulling;
+            _hasViewportOcclusionCullingSnapshot = true;
+        }
+
+        viewport.UseOcclusionCulling = true;
+    }
+
+    private void RestoreConnectedWorldOcclusionCulling()
+    {
+        if (!_hasViewportOcclusionCullingSnapshot)
+            return;
+
+        if (_occlusionViewportSnapshotOwner is { } viewport && GodotObject.IsInstanceValid(viewport))
+            viewport.UseOcclusionCulling = _previousViewportOcclusionCulling;
+
+        _occlusionViewportSnapshotOwner = null;
+        _hasViewportOcclusionCullingSnapshot = false;
+    }
+
+    private void OnConnectedWorldVisibilityChanged()
+    {
+        if (!Visible)
+            RestoreConnectedWorldOcclusionCulling();
     }
 
     private void AttachRuntimeBridge()

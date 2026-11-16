@@ -11,6 +11,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
     private RichTextLabel _line = null!;
     private VBoxContainer _choices = null!;
     private Button _continue = null!;
+    private TextureRect? _familyEvidence;
     private RuntimeBridge? _bridge;
     private CompiledDialogueContent? _dialogue;
     private CompiledDialogueNodeContent? _node;
@@ -101,6 +102,14 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         _panel.OffsetRight = width * .5f;
         _panel.OffsetTop = -height - 48f;
         _panel.OffsetBottom = -48f;
+        if (_familyEvidence is { Texture: not null } print)
+        {
+            var room = Mathf.Max(0f, viewport.Y - height - 84f);
+            var w = Mathf.Min(Mathf.Min(viewport.X * .29f, 425f), room * 16 / 9);
+            print.Visible = w >= 112f;
+            print.Size = new(w, w * 9 / 16);
+            print.Position = new(Mathf.Max(16f, (viewport.X - width) * .5f), viewport.Y - height - 62f - print.Size.Y);
+        }
     }
 
     private void BindRefitSignals()
@@ -164,6 +173,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         if (bridge.SessionIdentity is not { } session) return;
         var dialogue = bridge.RequireDialogue(dialogueId);
         var revision = ++_openingRevision;
+        ClearFamilyEvidence();
         _choicePending = false;
         _bridge = bridge;
         _dialogueSessionIdentity = session;
@@ -222,6 +232,19 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
             || !OwnsOpening(revision, bridge, session)) return false;
 
         _node = node;
+        if (dialogue.Id == "urman.fullgame:dialogue/pw-first-world-home" &&
+            node.Id.StartsWith("forest-return", StringComparison.Ordinal) && bridge.HasForestFieldPrint)
+        {
+            if (_familyEvidence is null)
+            {
+                _familyEvidence = new TextureRect { Name = "AidarsForestPrint", MouseFilter = Control.MouseFilterEnum.Ignore,
+                    ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize, StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered };
+                _screen.AddChild(_familyEvidence);
+            }
+            _familyEvidence.Texture ??= bridge.DevelopForestFieldPrint();
+            _familyEvidence.Visible = _familyEvidence.Texture is not null;
+        }
+        else ClearFamilyEvidence();
         _speaker.Text = SpeakerName(node.SpeakerRole);
         _line.Text = bridge.ResolveText(node.TextId);
         // Synthetic preview voice, when a clip exists for this text id (silent otherwise).
@@ -361,11 +384,19 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         PrologueVoice.Stop();
         UiFoley.Play(_foley, "ui_click");
         _screen.Visible = false;
+        ClearFamilyEvidence();
         _bridge = null;
         _dialogue = null;
         _node = null;
         _dialogueSessionIdentity = null;
         SetPlayerModal(false);
+    }
+
+    private void ClearFamilyEvidence()
+    {
+        if (_familyEvidence is not { } print) return;
+        print.Visible = false;
+        print.Texture = null;
     }
 
     private void SetPlayerModal(bool open)

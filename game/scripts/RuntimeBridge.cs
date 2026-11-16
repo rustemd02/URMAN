@@ -777,7 +777,7 @@ public partial class RuntimeBridge : Node
 
     private JsonElement CapturePhotoReturnTicket(RuntimeKernel session, FirstPersonController player, string worldId, Main main)
     {
-        if (!PhotoWorldState.TryGetVisitOrigin(session.SelectState(), worldId,
+        if (!TryGetPhotoVisitEntryOrigin(worldId,
                 out var originZone, out var originAnchor, out var fixedSafeNode)
             || CurrentZoneId != originZone)
             throw new InvalidOperationException("The photo visit's authored physical origin is not active.");

@@ -1,4 +1,5 @@
 using Godot;
+using Urman.Core.Narrative;
 
 namespace Urman.Godot;
 
@@ -178,6 +179,8 @@ public partial class JournalUi
                 var photos = bridge.PhotoBookPhotos();
                 if (photos.Any(photo => photo.PhotoId == "S-SCHOOL")
                     && photos.Any(photo => photo.PhotoId == "P-FOREST" && photo.Mounted && !photo.WorldCompleted)
+                    && PhotoWorldState.TryGetVisitOrigin(session.SelectState(), "W01", out _, out var forestOrigin, out _)
+                    && forestOrigin == "PW_FOREST_ENTRY"
                     && GetTree().GetFirstNodeInGroup("act1_connected_world") is Act1ConnectedWorld world
                     && world.TryGetForestPhotoEntryAnchor(out var forestEntry))
                     forestEntryMapPosition = new Vector2(forestEntry.GlobalPosition.X, forestEntry.GlobalPosition.Z);

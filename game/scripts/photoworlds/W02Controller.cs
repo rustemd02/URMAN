@@ -204,20 +204,25 @@ public partial class W02Controller : Node3D
         if (projection is not null && !ReferenceEquals(projection.SessionIdentity, sessionIdentity))
             projection = null;
         var visible = projection is not null && projection.ActiveSceneId == RiverSceneId;
+        if (!visible && _reflectionComparisonActive)
+            CancelReflectionComparison(restoreTarget: false);
         SetWorldPresentationVisible(visible);
         ApplyWaterSafetyProjection(projection, visible);
+        ApplyReflectionDiscoveryProjection(visible, bridge.PhotoWorldFactObserved(ReflectionFactId));
         if (projection is not null) EnsureTargets(bridge);
         foreach (var target in _targets)
         {
             if (!GodotObject.IsInstanceValid(target)) continue;
             var alreadyCommitted = target.InteractionId switch
             {
+                ReflectionInteractionId => bridge.PhotoWorldFactObserved(ReflectionFactId),
                 BypassInteractionId => bridge.PhotoWorldFactObserved("water_reed_opened"),
                 OldApproachInteractionId => bridge.PhotoWorldFactObserved("water_old_approach_seen"),
                 DampPrintInteractionId => bridge.PhotoWorldFactObserved("water_damp_print"),
                 _ => false
             };
-            target.SetPresentationEnabled(visible && !alreadyCommitted);
+            target.SetPresentationEnabled(visible && !alreadyCommitted
+                && (!ReferenceEquals(target, _reflectionTarget) || !_reflectionComparisonActive));
         }
         foreach (var ring in _encounterRings)
             if (GodotObject.IsInstanceValid(ring)) ring.Visible = visible && projection?.EncounterResolved != true;
@@ -689,7 +694,7 @@ public partial class W02Controller : Node3D
             var z = 33.2f + 0.78f * step;
             var top = WaterLevel - 0.08f - 0.04f * step;
             var length = 0.62f + 0.05f * step;
-            _world.AddChild(new MeshInstance3D
+            var hiddenPile = new MeshInstance3D
             {
                 Name = $"HiddenApproachPile{step + 1}",
                 Mesh = new CylinderMesh { TopRadius = 0.08f, BottomRadius = 0.10f, Height = length, RadialSegments = 6 },
@@ -697,7 +702,9 @@ public partial class W02Controller : Node3D
                 RotationDegrees = new Vector3(0f, step * 14f, -4f + step * 2f),
                 MaterialOverride = reflected,
                 CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
-            });
+            };
+            _world.AddChild(hiddenPile);
+            _reflectionClueMeshes.Add(hiddenPile);
         }
 
         var approachReflection = new MeshInstance3D
@@ -710,6 +717,7 @@ public partial class W02Controller : Node3D
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
         };
         _world.AddChild(approachReflection);
+        _reflectionClueMeshes.Add(approachReflection);
         _reflectionObservationPoints =
         [
             chippedReflection.GlobalPosition,
@@ -780,6 +788,9 @@ public partial class W02Controller : Node3D
         }
         AddPhotoReeds("ReflectionReedTall", new Vector3(6.9f, 0f, 34.1f), 1.15f, 6, 77);
         AddPhotoReeds("ReflectionReedShort", new Vector3(4.6f, 0f, 31.2f), 0.65f, 5, 78);
+        _reflectionClueMaterial = reflected;
+        _reflectionDiscoveredClueMaterial = Snowless("b9c7a7", "wood_cut");
+        BuildReflectionComparisonGuide();
     }
 
     private void BuildReedTurn()
@@ -1505,6 +1516,14 @@ public partial class W02Controller : Node3D
     {
         if (_targets.Count == 0)
         {
+            if (_reflectionObservationStand is { } reflectionStand
+                && GodotObject.IsInstanceValid(reflectionStand))
+            {
+                _reflectionTarget = EnsureTarget("WaterReflectionTarget", ReflectionInteractionId,
+                    bridge.ResolveText(ReflectionLabelTextId),
+                    ToLocal(reflectionStand.GlobalPosition + Vector3.Up * 0.45f), 0.72f);
+                _reflectionTarget.PresentationBeforeDispatch = BeginReflectionComparison;
+            }
             EnsureTarget("WaterBypassTarget", BypassInteractionId,
                 bridge.ResolveText(BypassLabelTextId), new Vector3(25f, 2.2f, 42f), 0.7f);
             EnsureTarget("WaterOldApproachTarget", OldApproachInteractionId,

@@ -704,14 +704,6 @@ public partial class JournalUi
         RuntimeBridge.PhotoBookPhoto? selected)
     {
         var text = mission?.Action;
-        if (selected is { WorldCompleted: false, PhotoId: "P-FOREST" or "P-CELLAR" }
-            && PhotoBookPreparationObjectiveText(bridge, selected.PhotoId) is { } selectedAction
-            && selectedAction != text)
-        {
-            text = text is null
-                ? selectedAction
-                : $"Основная задача · {text}\nДля этого снимка · {selectedAction}";
-        }
         _photoBookPreparation.Text = text ?? string.Empty;
         _photoBookPreparation.Visible = text is not null;
     }
@@ -794,6 +786,9 @@ public partial class JournalUi
         _photoBookFrontBrief.Text = string.IsNullOrWhiteSpace(photo.FrontBrief)
             ? "Описание снимка пока не добавлено."
             : photo.FrontBrief;
+        if (photo.PhotoId == "P-FOREST" && _bridge is { } witness
+            && YardMechanism.Flag(witness.SelectWorldProps(), Act1DemoRoot.MansurForestClue, "heard"))
+            _photoBookFrontBrief.Text += "\n\nБабай в машине сказал: с дороги у раздвоенной берёзы видно только конец жерди.";
         RefreshPhotoBookComparison(photo);
         _photoBookBackText.Text = !photo.BackRead
             ? "Оборот ещё не прочитан."
@@ -1091,15 +1086,6 @@ public partial class JournalUi
                         : reason
                 : reason;
             _photoBookEntryHint.Visible = _photoBookEntryHint.Text.Length > 0;
-        }
-        if (selected?.PhotoId == "P-FOREST" && _bridge is { } homeBridge && InitialHomePhotoTaskPending(homeBridge))
-        {
-            // A locked world's future prerequisite is not the task at this table.
-            _photoBookEnterButton.Visible = false;
-            _photoBookEntryHint.Text = selected.BackRead
-                ? "Покажите әби подпись на обороте снимка."
-                : "Переверните снимок и прочитайте подпись.";
-            _photoBookEntryHint.Visible = true;
         }
         RefreshFocusedPhotoInspection();
     }

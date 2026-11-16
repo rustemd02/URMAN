@@ -1,10 +1,12 @@
 using Godot;
+using System.Text.Json.Nodes;
 using Urman.Core.Persistence;
 
 namespace Urman.Godot;
 
 public partial class Act1DemoRoot
 {
+    internal const string MansurForestClue = "prologue/mansur-forest-print";
     private Node3D? _photoNivaLapBook;
     private bool _photoNivaPhotoInspected, _photoNivaPhotoShown, _photoNivaSignalAnswered, _photoNivaHutKnocked;
     private float _photoNivaBookInspection, _photoNivaBookShowing;
@@ -190,9 +192,13 @@ public partial class Act1DemoRoot
                     : _photoNivaSignalAnswered ? "Мансур бабай: «Не я. Я тебе не мигал»."
                         : "Мансур бабай: «Ты с этой книгой и задремал».", 2.9);
             if (before < 7.2f && _photoNivaEvidenceClock >= 7.2f)
-                ShowPrologueCaption("Айдар: «Эти деревья… Я их уже видел. Откуда у нас этот снимок?»", 3.0);
+                ShowPrologueCaption("Айдар: «А вот эта берёза, с двумя стволами. Её ты узнаёшь?»", 3.0);
             if (before < 10.6f && _photoNivaEvidenceClock >= 10.6f)
-                ShowPrologueCaption("Мансур бабай: «Не сгибай угол. Дома повернёшь, посмотришь, что сзади написано».", 3.0);
+            {
+                ShowPrologueCaption("Мансур бабай: «Под ней жердь лежала. С дороги только конец видно. А на снимке?»", 4.0);
+                if (_bridge is { } bridge && _photoNivaSession is { } session && IsCurrentPhotoNivaArrival(session))
+                    _ = RememberMansurForestClue(bridge);
+            }
             if (_photoNivaEvidenceClock >= 14f) _photoNivaEvidenceClock = -1f;
         }
         if (_photoNivaEvidenceCue is not { } cue || !IsInstanceValid(cue)) return;
@@ -204,6 +210,16 @@ public partial class Act1DemoRoot
         var stay = _photoNivaKeepRiding ? string.Empty : InputBindingService.ActionHint("move_forward", gamepad) + " — Остаться в поездке · ";
         cue.Text = (PhotoNivaWaitingAtVillage ? "Деревня ещё загружается.\n" : string.Empty)
             + main + stay + InputBindingService.ActionHint("skip_prologue", gamepad) + " — Доехать до дома";
+    }
+
+    private static async Task RememberMansurForestClue(RuntimeBridge bridge)
+    {
+        try
+        {
+            if (!YardMechanism.Flag(bridge.SelectWorldProps(), MansurForestClue, "heard"))
+                await bridge.DispatchWorldPropsAsync(new JsonArray(new JsonObject { ["propId"] = MansurForestClue, ["heard"] = true }));
+        }
+        catch (Exception e) { GD.PushWarning($"Could not keep Mansur's recollection: {e.Message}"); }
     }
 
     private void ReleasePhotoNivaLapBook()

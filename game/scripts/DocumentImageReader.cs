@@ -149,8 +149,14 @@ public partial class DocumentImageReader : VBoxContainer
             LayoutPicture();
             return;
         }
+        CompareWith(texture, reference.Description, currentCaption);
+    }
+
+    public void CompareWith(Texture2D texture, string referenceCaption, string currentCaption)
+    {
+        if (_images.Count != 1 || _picture.Texture is null) return;
         _referencePicture.Texture = texture;
-        _referenceCaption.Text = reference.Description;
+        _referenceCaption.Text = referenceCaption;
         _currentCaption.Text = currentCaption;
         _comparing = true;
         _referenceCanvas.Visible = _comparisonCaptions.Visible = true;

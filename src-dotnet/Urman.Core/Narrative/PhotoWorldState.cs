@@ -94,13 +94,7 @@ public static class PhotoWorldState
         anchorId = string.Empty;
         fixedSafeNodeId = null;
         if (!TryGetVisitRoute(worldId, out _, out _)) return false;
-        if (worldId == "W01" && !IsWorldCompleted(state, worldId))
-        {
-            zoneId = "village_day";
-            anchorId = "PW_FOREST_ENTRY";
-            fixedSafeNodeId = "pw-forest-approach";
-        }
-        else if (worldId == "W02" && !IsWorldCompleted(state, worldId))
+        if (worldId == "W02" && !IsWorldCompleted(state, worldId))
         {
             zoneId = "village_day";
             anchorId = "PW_RIVER_ENTRY";
@@ -130,6 +124,21 @@ public static class PhotoWorldState
             anchorId = "PW_HOME_TABLE";
         }
         return true;
+    }
+
+    /// <summary>The forest print can also be opened at its retained outdoor anchor.
+    /// This selects a new ticket only; active/history tickets are never rewritten.</summary>
+    public static bool TryGetVisitOrigin(JsonElement state, string worldId, string currentZoneId,
+        out string zoneId, out string anchorId, out string? fixedSafeNodeId)
+    {
+        if (worldId == "W01" && currentZoneId == "village_day")
+        {
+            zoneId = "village_day";
+            anchorId = "PW_FOREST_ENTRY";
+            fixedSafeNodeId = "pw-forest-approach";
+            return true;
+        }
+        return TryGetVisitOrigin(state, worldId, out zoneId, out anchorId, out fixedSafeNodeId);
     }
 
     /// <summary>Chooses an authored start ID; physical placement and its entry fallback still require validation.</summary>
@@ -202,7 +211,7 @@ public static class PhotoWorldState
         return worldId switch
         {
             "W01" => Book() && PhotoStateIs(world, "P-FOREST", "mounted")
-                && PhotoStateIs(world, "S-SCHOOL", "acquired") && Prologue(),
+                && PhotoStateIs(world, "P-FOREST", "back-read") && Prologue(),
             "W02" => Book() && PhotoStateIs(world, "P-WATER", "mounted")
                 && PhotoStateIs(world, "P-WATER", "back-read") && HasFact(world, "home_water_place_told") && Prologue(),
             "W03" => (Quest("pw-w01") || Quest("pw-w02")) && HasFact(world, "first_world_home_talk")
@@ -236,7 +245,8 @@ public static class PhotoWorldState
                 throw new InvalidOperationException("This visit preparation requires an authored photo route.");
             var ticket = RequiredProperty(payload, "returnTicket");
             ValidateReturnTicket(ticket, RequiredString(campaign, "id"), RequiredString(campaign, "exactVersion"));
-            if (!TryGetVisitOrigin(state, worldId, out var originZoneId, out var originAnchorId, out var fixedOriginSafeNodeId)
+            if (!TryGetVisitOrigin(state, worldId, RequiredString(ticket, "originWorldId"),
+                    out var originZoneId, out var originAnchorId, out var fixedOriginSafeNodeId)
                 || RequiredString(ticket, "movementMode") != "pedestrian"
                 || RequiredString(ticket, "originWorldId") != originZoneId
                 || RequiredString(ticket, "originAnchorId") != originAnchorId

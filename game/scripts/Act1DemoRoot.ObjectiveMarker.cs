@@ -887,6 +887,15 @@ public partial class Act1DemoRoot
 
     private Node3D? ResolveObjectiveMarkerTarget(PlayerMission mission, out bool usingAnchor)
     {
+        if (mission.InteractionId == RuntimeBridge.PhotoBookForestEntryInteractionId
+            && mission.TargetZoneId == "house_old_pc")
+        {
+            // The main forest visit starts at the family album. Never resolve
+            // an older outdoor target with the same interaction as a fallback.
+            usingAnchor = true;
+            return _main.TryGetPhotoVisitOriginAnchor("house_old_pc", "PW_HOME_TABLE", out var book)
+                && ObjectiveMarkerTargetAvailable(book, mission, endpoint: true) ? book : null;
+        }
         if (mission.InteractionId is HousePhotoEntryInteractionId or RuntimeBridge.PhotoBookCellarEntryInteractionId)
         {
             // The entry gates use stances computed from the live façades.

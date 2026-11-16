@@ -106,6 +106,7 @@ internal partial class ArrivalPersonalProps : Node3D
         ShaderMaterial paper = null!;
         ArrivalPersonalProps things = null!;
         Aabb support = default;
+        Aabb bookBounds = default;
         float clothTop = 0;
         yield return StyleBenchmarkZone.HouseBuildJob("family-book/physical-album", () =>
         {
@@ -137,7 +138,7 @@ internal partial class ArrivalPersonalProps : Node3D
             const float clothSurfaceOffset = .004f;
             const float clearance = .001f;
             clothTop = supportHeights.Max() + clothSurfaceOffset;
-            var bookBounds = new Aabb(
+            bookBounds = new Aabb(
                 new(FamilyBookTablePosition.X - FamilyBookDepth * .5f,
                     clothTop + clearance, FamilyBookTablePosition.Y - FamilyBookWidth * .5f),
                 new(FamilyBookDepth, FamilyBookThickness, FamilyBookWidth));
@@ -248,8 +249,8 @@ internal partial class ArrivalPersonalProps : Node3D
         WaterChainHomePresence waterChain = null!;
         yield return StyleBenchmarkZone.HouseBuildJob("family-book/water-envelope",
             () => waterChain = BuildWaterChain(house, things, paper));
-        foreach (var job in BuildHomePrinterJobs(house, things, paper)) yield return job;
-        foreach (var job in BuildHousePhotoChainJobs(house, things, paper, waterChain)) yield return job;
+        foreach (var job in BuildHomePrinterJobs(house, things, paper, bookBounds)) yield return job;
+        foreach (var job in BuildHousePhotoChainJobs(house, things, paper, waterChain, bookBounds)) yield return job;
         yield return StyleBenchmarkZone.HouseBuildJob("family-book/cellar-photo-box",
             () => BuildCellarPhotoChain(house, things, paper, waterChain));
     }
@@ -420,14 +421,14 @@ internal partial class ArrivalPersonalProps : Node3D
     // conversation, its already-produced back print appears in a family envelope.
     // The front is deliberately not fabricated while its passport remains pending.
     private static IEnumerable<Action> BuildHousePhotoChainJobs(StyleBenchmarkZone house, ArrivalPersonalProps things,
-        Material paper, WaterChainHomePresence presence)
+        Material paper, WaterChainHomePresence presence, Aabb bookBounds)
     {
         const float envelopeWidth = .165f;
         const float envelopeDepth = .115f;
         const string backPath = "res://assets/textures/photobook/backs-v1/p-house-back.svg";
         const float envelopeYawDegrees = FamilyBookPlacementYawDegrees + 104f;
         Vector3 envelopePosition = default;
-        foreach (var job in FindHousePhotoEnvelopePositionJobs(house, envelopeWidth, envelopeDepth,
+        foreach (var job in FindHousePhotoEnvelopePositionJobs(house, bookBounds, envelopeWidth, envelopeDepth,
                      envelopeYawDegrees, position => envelopePosition = position)) yield return job;
         yield return StyleBenchmarkZone.HouseBuildJob("family-book/house-envelope", () =>
         {
@@ -527,7 +528,7 @@ internal partial class ArrivalPersonalProps : Node3D
         });
     }
 
-    private static IEnumerable<Action> FindHousePhotoEnvelopePositionJobs(StyleBenchmarkZone house,
+    private static IEnumerable<Action> FindHousePhotoEnvelopePositionJobs(StyleBenchmarkZone house, Aabb bookBounds,
         float envelopeWidth, float envelopeDepth, float envelopeYawDegrees, Action<Vector3> placed)
     {
         var marginX = envelopeWidth * .5f + .01f;
@@ -542,7 +543,7 @@ internal partial class ArrivalPersonalProps : Node3D
             Vector2.Zero, -right * marginX - forward * marginZ, -right * marginX + forward * marginZ,
             right * marginX - forward * marginZ, right * marginX + forward * marginZ
         };
-        foreach (var job in FindFreeTablePatchJobs(house, "house-print", new(extentX, extentZ),
+        foreach (var job in FindFreeTablePatchJobs(house, bookBounds, "house-print", new(extentX, extentZ),
                      new(extentX, extentZ), footprint, .003f, .020f, FamilyBookTablePosition, placed)) yield return job;
     }
 
@@ -551,14 +552,16 @@ internal partial class ArrivalPersonalProps : Node3D
     // A later search takes a fresh snapshot, so the printer still blocks the
     // envelope exactly as before. Candidate order, full triangle support, margins,
     // strict overlap and nearest-preferred-patch tie breaking remain unchanged.
-    private static IEnumerable<Action> FindFreeTablePatchJobs(StyleBenchmarkZone house, string role,
+    private static IEnumerable<Action> FindFreeTablePatchJobs(StyleBenchmarkZone house, Aabb bookBounds, string role,
         Vector2 lowInset, Vector2 highInset, Vector2[] footprint, float bottomOffset,
         float height, Vector2 preferred, Action<Vector3> placed)
     {
         Aabb support = default;
         Vector3[] faces = [];
         MeshInstance3D[] meshes = [];
-        var occupied = new List<Aabb>();
+        // The book can still be carried/hidden while this frozen world builds.
+        // Its measured table footprint must remain reserved in every route/load.
+        var occupied = new List<Aabb> { bookBounds };
         yield return StyleBenchmarkZone.HouseBuildJob("family-book/" + role + "/support", () =>
         {
             var table = house.GetNode<Node3D>("GeneratedHouseInteriorAct1")
@@ -639,7 +642,7 @@ internal partial class ArrivalPersonalProps : Node3D
     // candidate must sit flat on the real TableTop faces and stay clear of
     // every already visible home prop, exactly like the book and envelope.
     private static IEnumerable<Action> BuildHomePrinterJobs(StyleBenchmarkZone house, ArrivalPersonalProps things,
-        Material paper)
+        Material paper, Aabb bookBounds)
     {
         const float bodyWidth = .36f;
         const float bodyDepth = .30f;
@@ -654,7 +657,7 @@ internal partial class ArrivalPersonalProps : Node3D
             new(footprintHalfWidth, footprintBack), new(footprintHalfWidth, footprintFront)
         };
         Vector3 chosen = default;
-        foreach (var job in FindFreeTablePatchJobs(house, "desk-printer", new(footprintHalfWidth, -footprintBack),
+        foreach (var job in FindFreeTablePatchJobs(house, bookBounds, "desk-printer", new(footprintHalfWidth, -footprintBack),
                      new(footprintHalfWidth, footprintFront), footprint, 0, bodyHeight + .01f,
                      new(-.55f, -2.08f), position => chosen = position)) yield return job;
         yield return StyleBenchmarkZone.HouseBuildJob("family-book/printer-geometry", () =>

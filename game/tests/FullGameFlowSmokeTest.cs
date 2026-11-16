@@ -62,13 +62,13 @@ public partial class FullGameFlowSmokeTest : Node
             AssertPhotoWorldSchemaMigration(initialState);
             await AssertPhotoWorldDiskRoundTripAsync(runtime, initialState, saveIsolation, ownedSaveFiles);
 
-            await RunRouteAsync(runtime, skipPrologue: false, riverFirst: false, captureCaptionUiFrame: true);
+            await RunRouteAsync(runtime, skipPrologue: false, riverBeforeHouse: false, captureCaptionUiFrame: true);
             Require(await runtime.StartNewGameAsync(), "The existing New Game path could not reset the semantic route.");
             await WaitFor(() => runtime.ActiveSceneId == Scene("pw-prologue"),
                 "New Game did not reapply the PhotoWorlds prologue entrypoint.");
-            await RunRouteAsync(runtime, skipPrologue: true, riverFirst: true, captureCaptionUiFrame: false);
+            await RunRouteAsync(runtime, skipPrologue: true, riverBeforeHouse: true, captureCaptionUiFrame: false);
 
-            GD.Print("fullgame-flow-smoke: SEMANTIC PASS — prologue/skip, B01 Niva stop and home tea, W01↔W02 order, W03, independent outside evidence, "
+            GD.Print("fullgame-flow-smoke: SEMANTIC PASS — prologue/skip, B01 Niva stop and home tea, W01 family return, both W02/W03 orders, optional school comparison, independent outside evidence, "
                 + "Old PC family folder contact sheet/copy/search and caption-before-print/print, W04, unresolved Marat question, epilogue and return/revisit, optional W05 cellar after the finale; "
                 + "PHYSICAL NOT_RUN — physical print consumers (PW-042/PW-075), PW-094 ordinary route, PW-098 handover/anchors/art.");
         }
@@ -93,7 +93,7 @@ public partial class FullGameFlowSmokeTest : Node
         GetTree().Quit(exitCode);
     }
 
-    private async Task RunRouteAsync(RuntimeBridge bridge, bool skipPrologue, bool riverFirst, bool captureCaptionUiFrame)
+    private async Task RunRouteAsync(RuntimeBridge bridge, bool skipPrologue, bool riverBeforeHouse, bool captureCaptionUiFrame)
     {
         Require(bridge.ActiveSceneId == Scene("pw-prologue"), "A route did not start at the prologue.");
         AssertActiveQuestSelection(bridge.SelectRuntimeState());
@@ -147,50 +147,61 @@ public partial class FullGameFlowSmokeTest : Node
         Require(FactObserved(bridge.SelectRuntimeState(), "prologue_branch_moved") == !skipPrologue,
             "The prologue skip was confused with the physical branch-moving action.");
 
-        await InteractAsync(bridge, "pw-school-copy-source");
-        await InteractAsync(bridge, "pw-school-copy-permission");
-        var schoolDialogueId = Prefix + "dialogue/pw-school-copy";
-        Require(await bridge.EnterDialogueNodeAsync(schoolDialogueId, "d04-01"),
-            $"The approved school dialogue could not start: {schoolDialogueId}/d04-01.");
-        var schoolState = bridge.SelectRuntimeState();
-        Require(!Photo(World(schoolState), "S-SCHOOL").GetProperty("acquired").GetBoolean()
-                && !Photo(World(schoolState), "S-SCHOOL").GetProperty("backRead").GetBoolean()
-                && !Photo(World(schoolState), "P-FOREST").GetProperty("contextKnown").GetBoolean()
-                && !Photo(World(schoolState), "P-FOREST").GetProperty("backRead").GetBoolean(),
-            "The school copy or forest context was granted before the staff's approved reply.");
-        Require(await bridge.ChooseDialogueAsync(schoolDialogueId, "d04-01", "d04-02"),
-            $"The approved school dialogue could not continue: {schoolDialogueId}/d04-01/d04-02.");
-        Require(await bridge.EnterDialogueNodeAsync(schoolDialogueId, "d04-03"),
-            $"The approved school context line could not be entered: {schoolDialogueId}/d04-03.");
-        schoolState = bridge.SelectRuntimeState();
-        Require(!Photo(World(schoolState), "S-SCHOOL").GetProperty("acquired").GetBoolean()
-                && !Photo(World(schoolState), "P-FOREST").GetProperty("contextKnown").GetBoolean(),
-            "The school request granted its copy or forest context before the player asked for the copy.");
-        Require(await bridge.ChooseDialogueAsync(schoolDialogueId, "d04-03", "d04-04"),
-            $"The approved school copy request could not be applied: {schoolDialogueId}/d04-03/d04-04.");
-        schoolState = bridge.SelectRuntimeState();
-        Require(Photo(World(schoolState), "S-SCHOOL").GetProperty("acquired").GetBoolean()
-                && !Photo(World(schoolState), "S-SCHOOL").GetProperty("backRead").GetBoolean()
-                && Photo(World(schoolState), "P-FOREST").GetProperty("contextKnown").GetBoolean()
-                && !Photo(World(schoolState), "P-FOREST").GetProperty("backRead").GetBoolean(),
-            "The approved school reply did not grant only the permitted school copy and forest context.");
+        await ExpectBlockedAsync(bridge, "pw-water-place-talk");
+        if (!skipPrologue)
+        {
+            await InteractAsync(bridge, "pw-school-copy-source");
+            await InteractAsync(bridge, "pw-school-copy-permission");
+            var schoolDialogueId = Prefix + "dialogue/pw-school-copy";
+            Require(await bridge.EnterDialogueNodeAsync(schoolDialogueId, "d04-01"),
+                $"The approved school dialogue could not start: {schoolDialogueId}/d04-01.");
+            var schoolState = bridge.SelectRuntimeState();
+            Require(!Photo(World(schoolState), "S-SCHOOL").GetProperty("acquired").GetBoolean()
+                    && !Photo(World(schoolState), "S-SCHOOL").GetProperty("backRead").GetBoolean()
+                    && !Photo(World(schoolState), "P-FOREST").GetProperty("contextKnown").GetBoolean()
+                    && !Photo(World(schoolState), "P-FOREST").GetProperty("backRead").GetBoolean(),
+                "The school copy or forest context was granted before the staff's approved reply.");
+            Require(await bridge.ChooseDialogueAsync(schoolDialogueId, "d04-01", "d04-02"),
+                $"The approved school dialogue could not continue: {schoolDialogueId}/d04-01/d04-02.");
+            Require(await bridge.EnterDialogueNodeAsync(schoolDialogueId, "d04-03"),
+                $"The approved school context line could not be entered: {schoolDialogueId}/d04-03.");
+            schoolState = bridge.SelectRuntimeState();
+            Require(!Photo(World(schoolState), "S-SCHOOL").GetProperty("acquired").GetBoolean()
+                    && !Photo(World(schoolState), "P-FOREST").GetProperty("contextKnown").GetBoolean(),
+                "The school request granted its copy or forest context before the player asked for the copy.");
+            Require(await bridge.ChooseDialogueAsync(schoolDialogueId, "d04-03", "d04-04"),
+                $"The approved school copy request could not be applied: {schoolDialogueId}/d04-03/d04-04.");
+            schoolState = bridge.SelectRuntimeState();
+            Require(Photo(World(schoolState), "S-SCHOOL").GetProperty("acquired").GetBoolean()
+                    && !Photo(World(schoolState), "S-SCHOOL").GetProperty("backRead").GetBoolean()
+                    && Photo(World(schoolState), "P-FOREST").GetProperty("contextKnown").GetBoolean()
+                    && !Photo(World(schoolState), "P-FOREST").GetProperty("backRead").GetBoolean(),
+                "The approved school reply did not grant only the permitted school copy and forest context.");
+        }
 
-        if (riverFirst)
+        await CompleteForestAsync(bridge);
+        if (skipPrologue)
+            Require(!Photo(World(bridge.SelectRuntimeState()), "S-SCHOOL").GetProperty("acquired").GetBoolean(),
+                "The direct family-print route fabricated the optional school copy.");
+        // A completed forest alone does not replace the human home return.
+        await ExpectBlockedAsync(bridge, "pw-water-place-talk");
+        await ExpectBlockedAsync(bridge, "pw-enter-river");
+        await ExpectBlockedAsync(bridge, "pw-enter-house");
+        await PrepareFirstWorldHomeAndHousePhotoAsync(bridge);
+        if (riverBeforeHouse)
         {
             await CompleteRiverAsync(bridge);
-            await ExpectBlockedAsync(bridge, "pw-enter-house");
-            await PrepareFirstWorldHomeAndHousePhotoAsync(bridge, riverFirst: true);
             await CompleteHouseWorldAsync(bridge);
-            await CompleteForestAsync(bridge);
         }
         else
         {
-            await CompleteForestAsync(bridge);
-            await PrepareRiverAsync(bridge);
-            await CompleteRiverWorldAsync(bridge);
-            await PrepareFirstWorldHomeAndHousePhotoAsync(bridge, riverFirst: false);
             await CompleteHouseWorldAsync(bridge);
+            await CompleteRiverAsync(bridge);
         }
+        // Retain the water-account branch using the water visit actually earned
+        // above, rather than permitting a new game to skip the forest return.
+        await DialogueAsync(bridge, "pw-first-world-home-talk", "pw-first-world-home",
+            "water-return", "describe-water-descent", ("water-return-account", "record-water-account"));
 
         Require(QuestStatus(bridge.SelectRuntimeState(), "pw-w01") == "completed"
                 && QuestStatus(bridge.SelectRuntimeState(), "pw-w02") == "completed"
@@ -316,6 +327,11 @@ public partial class FullGameFlowSmokeTest : Node
 
     private async Task CompleteForestAsync(RuntimeBridge bridge)
     {
+        // A school copy remains an optional comparison source. The player's
+        // own reading of the family print now owns the forest-entry gate.
+        Require(Photo(World(bridge.SelectRuntimeState()), "P-FOREST").GetProperty("backRead").GetBoolean()
+                || await bridge.ReadPhotoBookBackAsync("P-FOREST"),
+            "The player could not read the family print before entering W01.");
         await InteractAsync(bridge, "pw-enter-forest", Scene("pw-forest"));
         if (!FactObserved(bridge.SelectRuntimeState(), "prologue_branch_moved"))
             await InteractAsync(bridge, "pw-forest-branch-move", Scene("pw-forest"));
@@ -339,14 +355,10 @@ public partial class FullGameFlowSmokeTest : Node
         await InteractAsync(bridge, "pw-forest-return", Scene("pw-home"));
     }
 
-    private async Task PrepareFirstWorldHomeAndHousePhotoAsync(RuntimeBridge bridge, bool riverFirst)
+    private async Task PrepareFirstWorldHomeAndHousePhotoAsync(RuntimeBridge bridge)
     {
-        if (riverFirst)
-            await DialogueAsync(bridge, "pw-first-world-home-talk", "pw-first-world-home",
-                "water-return", "describe-water-descent", ("water-return-account", "record-water-account"));
-        else
-            await DialogueAsync(bridge, "pw-first-world-home-talk", "pw-first-world-home",
-                "forest-return-resolved", "record-forest-discovery", ("forest-return-caption", "record-forest-caption"));
+        await DialogueAsync(bridge, "pw-first-world-home-talk", "pw-first-world-home",
+            "forest-return-resolved", "record-forest-discovery", ("forest-return-caption", "record-forest-caption"));
         await InteractAsync(bridge, "pw-house-photo-source");
         await DialogueAsync(bridge, "pw-house-photo-permission", "pw-house-photo-permission", "offer", "ask-copy");
         await InteractAsync(bridge, "pw-mount-house-photo");

@@ -2047,6 +2047,14 @@
         "conditions": [
           {
             "op": "photoworlds.book.received"
+          },
+          {
+            "op": "any",
+            "conditions": [
+              { "op": "photoworlds.fact.observed", "factId": "first_world_home_talk" },
+              { "op": "photoworlds.fact.observed", "factId": "home_water_place_told" },
+              { "op": "photoworlds.photo.state", "photoId": "P-WATER", "state": "acquired" }
+            ]
           }
         ],
         "effects": [],
@@ -2441,8 +2449,8 @@
           },
           {
             "op": "photoworlds.photo.state",
-            "photoId": "S-SCHOOL",
-            "state": "acquired"
+            "photoId": "P-FOREST",
+            "state": "back-read"
           },
           {
             "op": "photoworlds.prologue.completed"
@@ -2985,8 +2993,8 @@
       },
       {
         "op": "photoworlds.photo.state",
-        "photoId": "S-SCHOOL",
-        "state": "acquired"
+        "photoId": "P-FOREST",
+        "state": "back-read"
       },
       {
         "op": "photoworlds.prologue.completed"
@@ -4432,9 +4440,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-first-world-home-forest-return",
     "value": {
-      "default": "Ну что, узнал место? Дай посмотреть. А снимок двора потом достанем из конверта.",
+      "default": "Ну как, тот школьный отпечаток не зря брали? Давай сюда, к свету.",
       "translations": {
-        "ru": "Ну что, узнал место? Дай посмотреть. А снимок двора потом достанем из конверта."
+        "ru": "Ну как, тот школьный отпечаток не зря брали? Давай сюда, к свету."
       }
     },
     "purpose": "dialogue"
@@ -4443,9 +4451,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-first-world-home-forest-resolved",
     "value": {
-      "default": "Нашёл место? Дай книгу, я посмотрю.",
+      "default": "Айдар, ты весь в снегу. Сядь. Что там было?",
       "translations": {
-        "ru": "Нашёл место? Дай книгу, я посмотрю."
+        "ru": "Айдар, ты весь в снегу. Сядь. Что там было?"
       }
     },
     "purpose": "dialogue"
@@ -4465,9 +4473,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-choice-first-world-home-forest-discovery",
     "value": {
-      "default": "Да, нашёл. За корнем встретил Шурале и отцепил ремень сумки.",
+      "default": "За корнем застряла сумка. Я освободил ремень, а с другой стороны за него держался Шурале.",
       "translations": {
-        "ru": "Да, нашёл. За корнем встретил Шурале и отцепил ремень сумки."
+        "ru": "За корнем застряла сумка. Я освободил ремень, а с другой стороны за него держался Шурале."
       }
     },
     "purpose": "dialogue"
@@ -4476,9 +4484,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-first-world-home-caption",
     "value": {
-      "default": "Шурале? Ты сейчас серьёзно? Сядь, Айдар. Этот корень я помню. Покажи, где ты его видел.",
+      "default": "Шурале?.. А я думала, там дорога. Подожди. Если сумка была за корнем, Марат стоял со стороны леса.",
       "translations": {
-        "ru": "Шурале? Ты сейчас серьёзно? Сядь, Айдар. Этот корень я помню. Покажи, где ты его видел."
+        "ru": "Шурале?.. А я думала, там дорога. Подожди. Если сумка была за корнем, Марат стоял со стороны леса."
       }
     },
     "purpose": "dialogue"
@@ -4487,9 +4495,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-choice-first-world-home-record-caption",
     "value": {
-      "default": "Вот здесь, за корнем. Давай запишем, пока помню.",
+      "default": "Вот этого на старом снимке и не видно. Давай подпишем.",
       "translations": {
-        "ru": "Вот здесь, за корнем. Давай запишем, пока помню."
+        "ru": "Вот этого на старом снимке и не видно. Давай подпишем."
       }
     },
     "purpose": "dialogue"
@@ -4543,6 +4551,53 @@
               "op": "knowledge.status",
               "knowledgeId": "urman.fullgame:knowledge/pw-forest-inside",
               "status": "confirmed"
+            }
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "S-SCHOOL",
+            "state": "acquired"
+          }
+        ],
+        "nodeId": "forest-return-school-copy"
+      },
+      {
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "forest_beyond_frame_seen"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "forest_encounter_resolved"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w01",
+            "status": "completed"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "quest.status",
+              "questId": "urman.fullgame:quest/pw-w04",
+              "status": "completed"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "knowledge.status",
+              "knowledgeId": "urman.fullgame:knowledge/pw-forest-inside",
+              "status": "confirmed"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "photoworlds.photo.state",
+              "photoId": "S-SCHOOL",
+              "state": "acquired"
             }
           }
         ],
@@ -4626,6 +4681,22 @@
               }
             ],
             "nextNodeId": null
+          }
+        ]
+      },
+      {
+        "id": "forest-return-school-copy",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-first-world-home-forest-return",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "record-school-forest-discovery",
+            "textId": "urman.fullgame:text/pw-choice-first-world-home-forest-discovery",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "forest-return-caption"
           }
         ]
       },
@@ -5176,9 +5247,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-label-water-reflection",
     "value": {
-      "default": "Рассмотреть опоры в отражении",
+      "default": "Сравнить опоры и край настила",
       "translations": {
-        "ru": "Рассмотреть опоры в отражении"
+        "ru": "Сравнить опоры и край настила"
       }
     },
     "purpose": "ui"
@@ -6221,8 +6292,8 @@
               },
               {
                 "op": "photoworlds.photo.state",
-                "photoId": "S-SCHOOL",
-                "state": "acquired"
+                "photoId": "P-FOREST",
+                "state": "back-read"
               },
               {
                 "op": "photoworlds.prologue.completed"
@@ -7561,9 +7632,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-river-reflection-question",
     "value": {
-      "default": "Как пройти к дальним мосткам?",
+      "default": "Что можно понять, сравнив снимок с отражением?",
       "translations": {
-        "ru": "Как пройти к дальним мосткам?"
+        "ru": "Что можно понять, сравнив снимок с отражением?"
       }
     },
     "purpose": "ui"
@@ -7572,9 +7643,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-river-reflection-area",
     "value": {
-      "default": "Посмотри на отражение опор и настила в воде у берега.",
+      "default": "С открытого берега сравни в воде опоры и край настила с отпечатком на снимке.",
       "translations": {
-        "ru": "Посмотри на отражение опор и настила в воде у берега."
+        "ru": "С открытого берега сравни в воде опоры и край настила с отпечатком на снимке."
       }
     },
     "purpose": "ui"
@@ -8247,9 +8318,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-home-forest-print-caption",
     "value": {
-      "default": "Дай посмотрю. «У леса. Перед отъездом»… Это Марат подписал. А где — не дописал.",
+      "default": "Его рука. «Перед отъездом». Я на кухне чай ставила, пока они снимались. Кто где стоял — не видела.",
       "translations": {
-        "ru": "Дай посмотрю. «У леса. Перед отъездом»… Это Марат подписал. А где — не дописал."
+        "ru": "Его рука. «Перед отъездом». Я на кухне чай ставила, пока они снимались. Кто где стоял — не видела."
       }
     },
     "purpose": "dialogue"
@@ -8258,9 +8329,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-choice-home-forest-print-memory",
     "value": {
-      "default": "Я видел эти деревья сегодня. Хочу понять, откуда я их знаю.",
+      "default": "Вот эта берёза. Я сегодня мимо неё шёл. Если снимали с дороги, почему жердь по другую сторону?",
       "translations": {
-        "ru": "Я видел эти деревья сегодня. Хочу понять, откуда я их знаю."
+        "ru": "Вот эта берёза. Я сегодня мимо неё шёл. Если снимали с дороги, почему жердь по другую сторону?"
       }
     },
     "purpose": "dialogue"
@@ -8269,9 +8340,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-home-forest-print-school",
     "value": {
-      "default": "Людей я помню. А место — нет. В школе есть второй снимок этой группы, в учительской, в старом альбоме. Может, там край лучше виден.",
+      "default": "В учительской был ещё один такой отпечаток. А на нашем, глянь, у самого края торчит конец жерди.",
       "translations": {
-        "ru": "Людей я помню. А место — нет. В школе есть второй снимок этой группы, в учительской, в старом альбоме. Может, там край лучше виден."
+        "ru": "В учительской был ещё один такой отпечаток. А на нашем, глянь, у самого края торчит конец жерди."
       }
     },
     "purpose": "dialogue"
@@ -8280,9 +8351,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-choice-home-forest-print-compare",
     "value": {
-      "default": "Схожу и сравню. Потом покажу тебе.",
+      "default": "Дай-ка поближе. Кажется, я знаю, откуда он снимал.",
       "translations": {
-        "ru": "Схожу и сравню. Потом покажу тебе."
+        "ru": "Дай-ка поближе. Кажется, я знаю, откуда он снимал."
       }
     },
     "purpose": "dialogue"
@@ -8291,9 +8362,9 @@
     "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-home-forest-print-return",
     "value": {
-      "default": "Покажешь. Может, по второму я и вспомню.",
+      "default": "Только за краешек бери. У меня другого дома нет.",
       "translations": {
-        "ru": "Покажешь. Может, по второму я и вспомню."
+        "ru": "Только за краешек бери. У меня другого дома нет."
       }
     },
     "purpose": "dialogue"

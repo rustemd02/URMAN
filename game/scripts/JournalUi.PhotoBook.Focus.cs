@@ -8,6 +8,7 @@ public partial class JournalUi
     private bool _focusedPhotoInspection, _focusedPhotoBack;
     private Button? _focusedPhotoFlip;
     private Button? _focusedPhotoAlbum;
+    private Button? _focusedPhotoEntry;
     private Label? _focusedPhotoFeedback;
     private readonly Dictionary<Control, bool> _focusedPhotoChrome = new();
 
@@ -60,8 +61,18 @@ public partial class JournalUi
                 _focusedPhotoBack = true;
                 RefreshFocusedPhotoInspection();
             }
-            _focusedPhotoFlip?.GrabFocus();
+            if (_focusedPhotoEntry is { Disabled: false, Visible: true } entry) entry.GrabFocus();
+            else _focusedPhotoFlip?.GrabFocus();
         };
+        _focusedPhotoEntry = new Button
+        {
+            Name = "EnterPhysicalPhoto", Text = "Войти в снимок", Visible = false,
+            FocusMode = Control.FocusModeEnum.All, CustomMinimumSize = new Vector2(0, 44)
+        };
+        actions.AddChild(_focusedPhotoEntry);
+        // The same guarded entry transaction owns loading, cancellation, the
+        // return ticket and checkpoint. This reader only exposes its action.
+        _focusedPhotoEntry.Pressed += () => _ = EnterSelectedPhotoBookAsync();
         _focusedPhotoAlbum = new Button
         {
             Name = "BrowseAlbum", Text = "К фотоальбому", Visible = false,
@@ -119,11 +130,18 @@ public partial class JournalUi
             flip.Disabled = _photoBookActionBusy || _notesLoadInProgress
                 || selected is null || (!_focusedPhotoBack && !selected.BackRead && !selected.CanReadBack);
         }
-        if (_focusedPhotoAlbum is { } album) album.Visible = true;
-        if (_photoBookActionBusy && _focusedPhotoFeedback is { } status)
+        if (_focusedPhotoEntry is { } entry)
         {
-            status.Text = _photoBookActionStatus.Text;
-            status.Visible = true;
+            entry.Visible = _photoBookEnterButton.Visible;
+            entry.Text = _photoBookEnterButton.Text;
+            entry.Disabled = _photoBookEnterButton.Disabled || _notesLoadInProgress;
+        }
+        if (_focusedPhotoAlbum is { } album) album.Visible = true;
+        if (_focusedPhotoFeedback is { } status)
+        {
+            status.Text = !_photoBookActionBusy && _focusedPhotoEntry is { Visible: true, Disabled: true }
+                ? _photoBookEntryHint.Text : _photoBookActionStatus.Text;
+            status.Visible = !string.IsNullOrWhiteSpace(status.Text);
         }
     }
 
@@ -137,6 +155,7 @@ public partial class JournalUi
         _focusedPhotoChrome.Clear();
         if (_focusedPhotoFlip is { } flip) flip.Visible = false;
         if (_focusedPhotoAlbum is { } album) album.Visible = false;
+        if (_focusedPhotoEntry is { } entry) entry.Visible = false;
         if (_focusedPhotoFeedback is { } status) { status.Visible = false; status.Text = string.Empty; }
         if (_photoBookImageReaderReturnButton is { } close) close.Text = "Вернуться к фотоальбому";
         RefitToViewport();

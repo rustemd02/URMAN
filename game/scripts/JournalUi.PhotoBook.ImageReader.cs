@@ -69,6 +69,8 @@ public partial class JournalUi
                 && PhotoBookFrontTexture(photo.PhotoId) is not null;
             frontButton.Visible = available;
             frontButton.Disabled = !available;
+            frontButton.Text = photo.PhotoId == "P-FOREST" && _bridge?.HasForestFieldPrint == true
+                ? "Сравнить со своим снимком" : "Рассмотреть снимок";
         }
 
         if (_photoBookInspectBackButton is { } backButton
@@ -128,6 +130,8 @@ public partial class JournalUi
         {
             new DocumentImageContent(photo.PhotoId, path, description)
         });
+        if (photo.PhotoId == "P-FOREST" && bridge.DevelopForestFieldPrint() is { } fieldPrint)
+            reader.CompareWith(fieldPrint, "Снимок Айдара · за корнями", "Семейная фотография");
         _photoBookImageReaderLaunchButton = _photoBookInspectFrontButton;
         _photoBookRightPane.Visible = false;
         if (_photoBookAlbumSplit is { } albumSplit && GodotObject.IsInstanceValid(albumSplit))

@@ -23,13 +23,15 @@
       "all": [
         "book_received",
         "P-FOREST.mounted",
-        "S-SCHOOL.acquired",
-        "PW_FOREST_ENTRY.in_range"
+        "P-FOREST.back_read",
+        "prologue_completed",
+        "PW_HOME_TABLE.in_range"
       ]
     },
     "W02": {
       "all": [
         "book_received",
+        "first_world_home_talk",
         "P-WATER.mounted",
         "water_back_read",
         "home_water_place_told",
@@ -108,18 +110,6 @@
     [
       "W01",
       "W02",
-      "W03",
-      "W04"
-    ],
-    [
-      "W02",
-      "W03",
-      "W01",
-      "W04"
-    ],
-    [
-      "W02",
-      "W01",
       "W03",
       "W04"
     ],

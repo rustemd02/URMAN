@@ -286,6 +286,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         BuildF14OldRootSupport();
         BuildBagPresentation();
         BuildShuralePresentation();
+        BuildForestFieldPrintTarget();
         ForestEpisodeReady = true;
         ApplyProjection();
     }
@@ -346,6 +347,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         if (_branchAnimation is { } animation && GodotObject.IsInstanceValid(animation))
             animation.AnimationFinished -= OnBranchAnimationFinished;
         ExitBagPresentation();
+        ExitForestFieldPrintPresentation();
         ExitShuralePresentation();
         _rootLinkExitSweep.Dispose();
         if (_prologueUiViewport is { } viewport && GodotObject.IsInstanceValid(viewport))
@@ -1596,6 +1598,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             ApplyRootPassageProjection(projection);
             ApplyBagProjection();
             ApplyShuraleProjection();
+            RefreshForestFieldPrintTarget();
         }
         if (projection is null || projection.ActiveSceneId != ForestSceneId
             || !ReferenceEquals(_forestObservationFailedSession, projection.SessionIdentity))

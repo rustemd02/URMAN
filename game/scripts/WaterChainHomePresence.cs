@@ -234,8 +234,8 @@ internal partial class WaterChainHomePresence : Node3D
         RiverEntryTarget.SetPresentationEnabled(riverLive);
         if (_forestPhotoEntryTarget is null || !GodotObject.IsInstanceValid(_forestPhotoEntryTarget))
             _forestPhotoEntryTarget = SourceTarget.GetParent()?.GetNodeOrNull<InteractionTarget>("PhotoWorldForestEntryTarget");
-        _forestPhotoEntryTarget?.SetPresentationEnabled(bridge.SessionIdentity is { } forestSession
-            && PhotoWorldState.IsWorldCompleted(forestSession.SelectState(), "W01"));
+        _forestPhotoEntryTarget?.SetPresentationEnabled(
+            bridge.IsInteractionAvailable(RuntimeBridge.PhotoBookForestEntryInteractionId));
         if (_housePhotoEntryTarget is null || !GodotObject.IsInstanceValid(_housePhotoEntryTarget))
             _housePhotoEntryTarget = SourceTarget.GetParent()?.GetNodeOrNull<InteractionTarget>("HousePhotoEntryTarget");
         _housePhotoEntryTarget?.SetPresentationEnabled(housePhoto is { Mounted: true, WorldCompleted: true });

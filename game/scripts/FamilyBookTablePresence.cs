@@ -76,7 +76,12 @@ internal partial class FamilyBookTablePresence : Node
         _carryVisible = !_placed && bridge.ActiveSceneId == "urman.fullgame:scene/pw-home"
             && _zone == "house_old_pc"
             && (bridge.CanShowFamilyBookOnTable || _handoffAwaitingPlacement);
-        book.Visible = _placing || _carryVisible;
+        // The received volume remains a real table object after its handoff,
+        // including Continue and a return from a photo. The reader owns only
+        // its modal presentation; it does not remove the physical entry anchor.
+        var onHomeTable = received && bridge.ActiveSceneId == "urman.fullgame:scene/pw-home"
+            && _zone == "house_old_pc" && !_carryVisible;
+        book.Visible = _placing || _carryVisible || onHomeTable;
         if (_carryVisible && _hands is null)
         {
             _hands = PhotoBookHands.Create();

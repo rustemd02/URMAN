@@ -65,6 +65,7 @@ public partial class W02Controller
     private Color[] _encounterCurrentSettleColors = [];
 
     public bool PhotoBookReturnActionInProgress => _reedCurtainOpening
+        || _reflectionComparisonActive
         || _reflectionObservationDispatching
         || (_encounterPresentationPhase is EncounterPresentationPhase.LiftingBoard
             or EncounterPresentationPhase.ReturningBoard
