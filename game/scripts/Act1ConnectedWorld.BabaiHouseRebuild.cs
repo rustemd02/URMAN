@@ -1,4 +1,6 @@
 using Godot;
+using System.Collections.Generic;
+using System.Linq;
 using Urman.Experiments.AgentBAct1;
 
 namespace Urman.Godot;
@@ -54,6 +56,8 @@ public partial class Act1ConnectedWorld
         TimberHomeStyle.DressParcel(facade, "babai-wide-house", allowAddedStorey: false);
         RestoreBabaiActiveWindowGlass();
         DressBabaiLandmarkHouse(shell);
+        AttachBabaiHouseOccluder(shell);
+        FadeBabaiIndoorShadowLights(room);
 
         var weather = GetNode<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld");
         // Fit nested shelter bands inside the roof's slopes. A single wide,
@@ -67,6 +71,75 @@ public partial class Act1ConnectedWorld
         weather.ReconcileBuildingFoliage(shell);
         ExcludeBabaiRebuiltTerrain();
         PublishBabaiHouseFootprint();
+    }
+
+    private static void AttachBabaiHouseOccluder(Node3D shell)
+    {
+        var liningMaterial = PainterlyMaterialLibrary.ForColor("d5c9ae", "plaster_domestic", sheltered: true);
+        var roofMaterial = PainterlyMaterialLibrary.ForColor("454e50", "roof_metal");
+        var liningNames = new HashSet<string>(StringComparer.Ordinal)
+        {
+            "BabaiInnerLiningFront", "BabaiInnerLiningBack", "BabaiInnerLiningWest", "BabaiInnerLiningEast"
+        };
+        var roofNames = new HashSet<string>(StringComparer.Ordinal) { "BabaiRoof-1", "BabaiRoof1" };
+        var sources = FindDescendants<MeshInstance3D>(shell)
+            .Where(mesh => mesh.Mesh is not null
+                && (liningNames.Contains(mesh.Name.ToString()) || roofNames.Contains(mesh.Name.ToString())))
+            .ToArray();
+
+        var points = new List<Vector3>();
+        var acceptedSurfaces = 0;
+        var shellFromWorld = shell.GlobalTransform.AffineInverse();
+        foreach (var source in sources)
+        {
+            var name = source.Name.ToString();
+            var expectedMaterial = liningNames.Contains(name) ? liningMaterial : roofMaterial;
+            if (!source.Visible || source.Mesh is null || source.Mesh.GetSurfaceCount() != 1
+                || !IsKnownOpaqueBabaiOccluderSurface(source.GetActiveMaterial(0), expectedMaterial))
+                continue;
+
+            var faces = source.Mesh.GetFaces();
+            if (faces.Length == 0 || faces.Length % 3 != 0) continue;
+            var sourceToShell = shellFromWorld * source.GlobalTransform;
+            foreach (var vertex in faces) points.Add(sourceToShell * vertex);
+            acceptedSurfaces++;
+        }
+
+        var triangleCount = points.Count / 3;
+        GD.Print($"act1-babai-occlusion|shell|surfaces={acceptedSurfaces}|triangles={triangleCount}");
+        if (points.Count == 0) return;
+        var occluder = new ArrayOccluder3D();
+        occluder.SetArrays(points.ToArray(), Enumerable.Range(0, points.Count).ToArray());
+        var instance = new OccluderInstance3D { Name = "BabaiContinuousShellOccluder", Occluder = occluder };
+        instance.SetMeta("sourceGeometry", "exact pierced interior lining planes and two solid roof sheets");
+        instance.SetMeta("openingPolicy", "source wall meshes retain their authored window and door cuts");
+        instance.SetMeta("sourceTriangleCount", triangleCount);
+        shell.AddChild(instance);
+    }
+
+    private static bool IsKnownOpaqueBabaiOccluderSurface(Material? active, Material expected)
+    {
+        if (!ReferenceEquals(active, expected)) return false;
+        if (expected is BaseMaterial3D { Transparency: BaseMaterial3D.TransparencyEnum.Disabled }) return true;
+        if (expected is not ShaderMaterial { Shader: { } shader }) return false;
+
+        var code = shader.Code;
+        return !code.Contains("render_mode blend", StringComparison.Ordinal)
+            && !code.Contains("ALPHA =", StringComparison.Ordinal)
+            && !code.Contains("ALPHA=", StringComparison.Ordinal)
+            && !code.Contains("ALPHA_SCISSOR_THRESHOLD", StringComparison.Ordinal);
+    }
+
+    private static void FadeBabaiIndoorShadowLights(Node3D room)
+    {
+        foreach (var light in FindDescendants<Light3D>(room))
+        {
+            if (!light.ShadowEnabled || light is not (OmniLight3D or SpotLight3D)) continue;
+            light.DistanceFadeEnabled = true;
+            light.DistanceFadeBegin = 26f;
+            light.DistanceFadeShadow = 12f;
+            light.DistanceFadeLength = 8f;
+        }
     }
 
     private static void BuildBabaiHouseFoundation(Node3D shell)

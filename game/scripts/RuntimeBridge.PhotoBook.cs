@@ -281,6 +281,8 @@ public partial class RuntimeBridge
                     : commonOrigin ? "Вернитесь к месту общего снимка у берега и найдите три ориентира."
                         : riverOrigin ? "Вернитесь к старому подходу к мосткам на берегу."
                             : "Вернитесь к домашнему столу с книгой.";
+        if (CurrentZoneId == "house_old_pc" && GetTree().GetFirstNodeInGroup("zone_manager") is Main { HomeRestoreBuildPending: true } buildingHome)
+            return buildingHome.HomeRestorePhotoWaitMessage;
         var world = GetTree().GetFirstNodeInGroup("act1_connected_world") as Act1ConnectedWorld;
         if (world is null)
             return requirePhysicalWorld ? returnToOrigin : null;

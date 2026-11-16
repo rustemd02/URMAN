@@ -11,6 +11,148 @@ public partial class Act1ConnectedWorld
 {
     public bool DeferBuildOnReady { get; set; }
 
+    private bool _homeFirstStarted;
+    private bool _homeFirstReady;
+    private readonly Dictionary<CollisionObject3D, (uint Layer, uint Mask)> _homeFirstCollisionSnapshot = new();
+    private readonly Dictionary<InteractionTarget, bool> _homeFirstInteractionPresentationSnapshot = new();
+    private readonly HashSet<Node> _homeFirstCollisionWatch = new();
+
+    internal bool HomeFirstReady => _homeFirstReady;
+
+    internal IEnumerable<Action> BuildHomeFirstJobs()
+    {
+        if (_homeFirstStarted) yield break;
+        _homeFirstStarted = true;
+        yield return () =>
+        {
+            WatchHomeFirstSubtree(this);
+            PersistentInstanceIdentity = GetInstanceId().ToString(CultureInfo.InvariantCulture);
+            SetMeta("worldOwner", nameof(Act1ConnectedWorld));
+            SetMeta("persistentInstanceIdentity", PersistentInstanceIdentity);
+            SetMeta("persistentPolicy", "built-once; Main.SwitchZone never frees this node");
+            SetMeta("visualOnlyPolicy", VisualOnlyPolicy);
+            SetMeta("worldSpacePlacementPolicy", "fixed deterministic child origins; connected root remains stable across logical transitions");
+        };
+        if (!Act1WorldLayout.TryGetPlacement("house_old_pc", out var home))
+            throw new InvalidOperationException("Connected Act I layout has no house_old_pc placement.");
+        foreach (var job in BuildLogicalPlacementJobs(home)) yield return job;
+        yield return () =>
+        {
+            var zone = _zoneInstances["house_old_pc"];
+            _interactionsByZone.Add("house_old_pc", FindDescendants<InteractionTarget>(zone)
+                .Where(target => !target.HasMeta("connectedWorldHidden"))
+                .Select(target => new InteractionBinding(target, target.ActiveCollisionLayer,
+                    _homeFirstCollisionSnapshot.TryGetValue(target, out var collision)
+                        ? collision.Mask : target.CollisionMask))
+                .ToArray());
+            _homeFirstReady = true;
+        };
+    }
+
+    internal void QuarantineHomeFirstBuild()
+    {
+        if (!_homeFirstStarted || _homeFirstReady
+            || !_environmentsByZone.TryGetValue("house_old_pc", out var environments)) return;
+        foreach (var binding in environments) binding.Node.Environment = null;
+    }
+
+    internal void PublishHomeFirstBuild()
+    {
+        if (!_homeFirstReady) throw new InvalidOperationException("Cannot publish a home that has not finished building.");
+        foreach (var binding in _environmentsByZone["house_old_pc"]) binding.Node.Environment = binding.Resource;
+        foreach (var (target, presentationEnabled) in _homeFirstInteractionPresentationSnapshot)
+            if (GodotObject.IsInstanceValid(target)) target.SetPresentationEnabled(presentationEnabled);
+        foreach (var (collision, layers) in _homeFirstCollisionSnapshot)
+        {
+            if (!GodotObject.IsInstanceValid(collision)) continue;
+            if (collision is not InteractionTarget) collision.CollisionLayer = layers.Layer;
+            collision.CollisionMask = layers.Mask;
+        }
+        _homeFirstCollisionSnapshot.Clear();
+        _homeFirstInteractionPresentationSnapshot.Clear();
+        foreach (var node in _homeFirstCollisionWatch)
+            if (GodotObject.IsInstanceValid(node)) node.ChildEnteredTree -= OnHomeFirstChildEnteredTree;
+        _homeFirstCollisionWatch.Clear();
+    }
+
+    internal void KeepHomeEnvironmentActiveDuringRestore()
+    {
+        if (!_homeFirstReady || !_environmentsByZone.TryGetValue("house_old_pc", out var homeBindings)) return;
+        foreach (var (zoneId, bindings) in _environmentsByZone)
+            foreach (var binding in bindings)
+                if (GodotObject.IsInstanceValid(binding.Node))
+                    binding.Node.Environment = zoneId == "house_old_pc" ? binding.Resource : null;
+        foreach (var binding in homeBindings) binding.Node.Environment = binding.Resource;
+        if (GetNodeOrNull<AgentBAct1ExteriorLayer>("Act1CoreWorldGreybox/AgentBExteriorWorld") is { ExteriorEnvironmentActive: true } exterior)
+            exterior.SetExteriorPresentationEnabled(false);
+    }
+
+    internal void SetHomeFirstEnvironmentEnabled(bool enabled)
+    {
+        if (!_environmentsByZone.TryGetValue("house_old_pc", out var homeBindings)) return;
+        foreach (var binding in homeBindings)
+            if (GodotObject.IsInstanceValid(binding.Node))
+                binding.Node.Environment = enabled ? binding.Resource : null;
+    }
+
+    private void WatchHomeFirstSubtree(Node node)
+    {
+        if (!_homeFirstCollisionWatch.Add(node)) return;
+        node.ChildEnteredTree += OnHomeFirstChildEnteredTree;
+        if (node is CollisionObject3D collision)
+        {
+            _homeFirstCollisionSnapshot.TryAdd(collision, (collision.CollisionLayer, collision.CollisionMask));
+            if (collision is InteractionTarget target)
+            {
+                _homeFirstInteractionPresentationSnapshot.TryAdd(target, target.PresentationEnabled);
+                target.SetPresentationEnabled(false);
+            }
+            collision.CollisionLayer = 0;
+            collision.CollisionMask = 0;
+        }
+        foreach (var child in node.GetChildren()) WatchHomeFirstSubtree(child);
+    }
+
+    private void OnHomeFirstChildEnteredTree(Node child) => WatchHomeFirstSubtree(child);
+
+    internal void SetActiveHomeFirstZone()
+    {
+        if (!_homeFirstReady || !_zoneInstances.TryGetValue("house_old_pc", out var home))
+            throw new InvalidOperationException("The staged home is not ready to become active.");
+        foreach (var (zoneId, bindings) in _environmentsByZone)
+            foreach (var binding in bindings)
+                binding.Node.Environment = zoneId == "house_old_pc" ? binding.Resource : null;
+        ActiveDirectionalLightCount = 0;
+        ActiveLightCount = 0;
+        foreach (var (zoneId, lights) in _lightsByZone)
+        foreach (var light in lights)
+        {
+            var enabled = zoneId == "house_old_pc";
+            light.Visible = enabled;
+            if (!enabled) continue;
+            ActiveLightCount++;
+            if (light is DirectionalLight3D) ActiveDirectionalLightCount++;
+        }
+        ActiveInteractionTargetCount = 0;
+        foreach (var (zoneId, bindings) in _interactionsByZone)
+        foreach (var binding in bindings)
+        {
+            var enabled = zoneId == "house_old_pc" && binding.Node.IsSemanticallyAvailable();
+            binding.Node.CollisionLayer = enabled ? binding.CollisionLayer : 0;
+            binding.Node.CollisionMask = enabled ? binding.CollisionMask : 0;
+            if (enabled) ActiveInteractionTargetCount++;
+        }
+        home.Visible = true;
+        ActiveZoneId = "house_old_pc";
+        SetMeta("activeZoneId", ActiveZoneId);
+        SetMeta("activeWorldEnvironmentCount", _environmentsByZone[ActiveZoneId].Count);
+        SetMeta("activeExteriorAtmosphere", false);
+        SetMeta("activeAtmosphereOwner", $"logical-zone/{ActiveZoneId}");
+        SetMeta("activeDirectionalLightCount", ActiveDirectionalLightCount);
+        SetMeta("activeLightCount", ActiveLightCount);
+        SetMeta("activeInteractionTargetCount", ActiveInteractionTargetCount);
+    }
+
     internal IEnumerable<Action> BuildJobs()
     {
         if (_buildStarted) yield break;
@@ -25,7 +167,10 @@ public partial class Act1ConnectedWorld
             SetMeta("worldSpacePlacementPolicy", "fixed deterministic child origins; connected root remains stable across logical transitions");
         };
         foreach (var placement in Act1WorldLayout.Placements)
+        {
+            if (_homeFirstReady && placement.ZoneId == "house_old_pc") continue;
             foreach (var job in BuildLogicalPlacementJobs(placement)) yield return job;
+        }
         yield return () => BuildConnectorPresentation();
         yield return () =>
         {
@@ -147,6 +292,7 @@ public partial class Act1ConnectedWorld
         {
             foreach (var placement in Act1WorldLayout.Placements)
             {
+                if (_interactionsByZone.ContainsKey(placement.ZoneId)) continue;
                 var zone = _zoneInstances[placement.ZoneId];
                 _interactionsByZone.Add(
                     placement.ZoneId,
@@ -191,7 +337,7 @@ public partial class Act1ConnectedWorld
         yield return () => SetMeta("activeDirectionalLightCount", 0);
         yield return () => SetMeta("activeLightCount", 0);
         yield return () => SetMeta("activeInteractionTargetCount", 0);
-        yield return () => SetActiveLogicalZone("village_day");
+        yield return () => SetActiveLogicalZone(ActiveZoneId.Length == 0 ? "village_day" : ActiveZoneId);
         yield return () =>
         {
             // Blockers and the hidden-presentation audit both run after mounting and
@@ -272,6 +418,10 @@ public partial class Act1ConnectedWorld
                     environment.Environment ?? throw new InvalidOperationException(
                         $"Act I zone has an empty WorldEnvironment: {placement.ZoneId}.")))
                 .ToArray();
+            if (_homeFirstStarted && placement.ZoneId == "house_old_pc")
+                foreach (var environment in environments) environment.Node.Environment = null;
+            if (_homeFirstReady && ActiveZoneId == "house_old_pc")
+                foreach (var environment in environments) environment.Node.Environment = null;
             _environmentsByZone.Add(placement.ZoneId, environments);
         });
         if (zone is StyleBenchmarkZone { ZoneKind: StyleBenchmarkZone.BenchmarkKind.HouseOldPc } stagedHouse)
