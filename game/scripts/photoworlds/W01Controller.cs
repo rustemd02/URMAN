@@ -23,9 +23,9 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         yield return GroundScenePath;
         yield return BranchScenePath;
         yield return PhotoTableauScenePath;
-        yield return FoliageKitScenePath;
         if (includeForestEpisode)
         {
+            yield return FoliageKitScenePath;
             yield return HeroRootTurnScenePath;
             yield return F14OldRootSupportScenePath;
             yield return BagScenePath;
@@ -261,8 +261,6 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         AddToGroup(AccessibilityPresentation.TargetGroup);
         BuildGround();
-        BuildForest();
-        BuildForestHorizon();
         BuildBranch();
         BuildPrologueTracks();
         BuildPhotoTableau();
@@ -281,12 +279,20 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     internal void PrepareForestEpisode()
     {
         if (ForestEpisodeReady) return;
+        EnsureForestBackground();
         BuildRootPassage();
         BuildF14OldRootSupport();
         BuildBagPresentation();
         BuildShuralePresentation();
         ForestEpisodeReady = true;
         ApplyProjection();
+    }
+
+    private void EnsureForestBackground()
+    {
+        if (_forestVisual is not null && GodotObject.IsInstanceValid(_forestVisual)) return;
+        BuildForest();
+        BuildForestHorizon();
     }
 
     public override void _Process(double delta)
@@ -1486,7 +1492,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var material = new StandardMaterial3D
         {
             AlbedoTexture = LoadTexture(ProloguePhotoTexturePath),
-            ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
+            Roughness = 1f,
             CullMode = BaseMaterial3D.CullModeEnum.Disabled
         };
         _prologuePhotoCard = new MeshInstance3D
@@ -1579,6 +1585,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         var projection = bridge.CurrentW01BranchProjection();
         ApplyPrologueMood(projection?.ActiveSceneId == PrologueSceneId);
+        ProjectPrologueMitten(bridge, projection?.ActiveSceneId == PrologueSceneId);
         if (ForestEpisodeReady)
         {
             ApplyRootPassageProjection(projection);
@@ -1891,6 +1898,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _branchMoveSceneId = projection.ActiveSceneId;
         _branchMoveSession = session;
         _branchTarget?.SetPresentationEnabled(false);
+        if (interactionId == PrologueBranchInteractionId)
+            UiFoley.PlayWorld(this, movingRoot.GlobalPosition, "forest/branch_crack", -2f, 30f, 6f);
         if (_accessibility.ReducedMotion)
         {
             SetBranchRestPose(true);
@@ -1973,7 +1982,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private void SetWorldPresentationVisible(bool visible)
     {
         if (_groundVisual is { } ground && GodotObject.IsInstanceValid(ground)) ground.Visible = visible;
-        if (_forestVisual is { } forest && GodotObject.IsInstanceValid(forest)) forest.Visible = visible;
+        if (_forestVisual is { } forest && GodotObject.IsInstanceValid(forest))
+            forest.Visible = visible && (!_nightmareMoodApplied || _prologueThicketFailed);
         if (_photoTableauVisual is { } tableau && GodotObject.IsInstanceValid(tableau)) tableau.Visible = visible;
         SetCollisionLayer(_photoTableauBody, visible ? 1u : 0u);
     }
@@ -2099,7 +2109,10 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         }
 
         _prologueSkipTarget?.SetPresentationEnabled(visible);
-        var hint = visible ? bridge.CurrentPhotoWorldHint() : null;
+        var hintPanelVisible = _prologueHintPanel is { } hintPanel
+            && GodotObject.IsInstanceValid(hintPanel)
+            && hintPanel.Visible;
+        var hint = visible && hintPanelVisible ? bridge.CurrentPhotoWorldHint() : null;
         _prologueHintQuestion = string.IsNullOrWhiteSpace(hint?.Question) ? null : hint.Question;
         _prologueHintApproach = string.IsNullOrWhiteSpace(hint?.Action) ? null : hint.Action;
         _prologueHintKey = hint?.Key;
@@ -2121,22 +2134,21 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private void RefreshPrologueSkipButtonState()
     {
         if (_prologueSkipButton is not { } button || !GodotObject.IsInstanceValid(button)) return;
-        button.Disabled = !button.Visible
-            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController { ModalOpen: false }
-            || _prologueSkipTarget?.IsAvailable() != true;
-        var gamepad = GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
-            && player.CurrentInputDevice == "gamepad";
+        if (!button.Visible)
+        {
+            button.Disabled = true;
+            return;
+        }
+
+        var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        button.Disabled = player is not { ModalOpen: false } || _prologueSkipTarget?.IsAvailable() != true;
+        var gamepad = player?.CurrentInputDevice == "gamepad";
         var caption = $"{InputBindingService.ActionHint(PrologueSkipAction, gamepad)} {_prologueSkipCaption}";
         if (!string.Equals(button.Text, caption, StringComparison.Ordinal)) button.Text = caption;
-        if (_prologueHintPanel is { } hintPanel && GodotObject.IsInstanceValid(hintPanel))
+        if (_prologueHintPanel is { } hintPanel && GodotObject.IsInstanceValid(hintPanel) && hintPanel.Visible)
         {
-            var missionRoot = (GetTree().GetFirstNodeInGroup("zone_manager") as Main)?.GetParent() as Act1DemoRoot;
-            // The forest prologue gives no instructions: the prints are the only guide.
-            hintPanel.Visible = false;
-            _ = missionRoot;
             var showBranchQuestion = _prologueHintKey != "prologue-branch"
-                || GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController hintPlayer
-                    && IsPrologueBranchFramedForQuestion(hintPlayer);
+                || player is not null && IsPrologueBranchFramedForQuestion(player);
             var question = (showBranchQuestion ? _prologueHintQuestion : _prologueHintApproach) ?? string.Empty;
             var access = _prologueHintAvailable
                 ? $"Подробнее — {InputBindingService.ActionHint("journal", gamepad)}"

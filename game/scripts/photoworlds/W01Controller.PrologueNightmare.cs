@@ -218,7 +218,8 @@ public partial class W01Controller
         if (GetNodeOrNull<OmniLight3D>("PrologueClearingMoonlight") is { } clearing && clearing.Visible)
             clearing.Visible = false;
         // The photograph's daytime trees are replaced by the night stand.
-        if (_forestVisual is { } forest && GodotObject.IsInstanceValid(forest) && forest.Visible) forest.Visible = false;
+        if (!_prologueThicketFailed && _forestVisual is { } forest && GodotObject.IsInstanceValid(forest) && forest.Visible)
+            forest.Visible = false;
 
         // The moon rides with the viewer, so it never gets nearer.
         if (GetViewport().GetCamera3D() is not { } camera) return;
@@ -345,7 +346,7 @@ public partial class W01Controller
         StopParallelSteps();
         StopNightmareSound(ref _nightmareAir, 0);
         ResetDread();
-        ResetPrologueStop(session is not null);
+        ResetPrologueStop();
     }
 
     private void ProcessPrologueNightmare(FirstPersonController player, Vector2 feet, bool branchMoved, double delta)
@@ -377,14 +378,9 @@ public partial class W01Controller
         if (Fire(9, t > .4)) StartNightmareSound(ref _nightmareAir, NightmareAirStream, -24f);
 
         ProcessDread(player, p, t, (float)delta);
-        // The existing authored branch interaction remains the one small
-        // physical action on the route. Nothing moves itself as he approaches.
-        // The branch across the trail is lifted away by nothing anyone can see:
-        // the walk never stops on a chore.
-        if (!branchMoved && !_branchMoveInProgress
-            && feet.DistanceTo(new Vector2(BranchF01.X, BranchF01.Z)) <= 6.5f
-            && BeginBranchMove(PrologueBranchInteractionId) && Fire(5, true))
-            UiFoley.PlayWorld(this, ToGlobal(BranchF01 + Vector3.Up * 1.2f), "forest/branch_crack", -2f, 30f, 6f);
+        if (!branchMoved && !_branchMoveInProgress && _prologueCaptionRemaining <= 0
+            && Fire(5, feet.DistanceTo(new Vector2(BranchF01.X, BranchF01.Z)) <= 6.5f))
+            ShowNightmareThought("Следы уходят под ветку. Если взяться посередине, её можно поднять.", 4);
 
         if (Fire(4, branchMoved))
         {

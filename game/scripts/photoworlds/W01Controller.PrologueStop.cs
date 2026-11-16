@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json.Nodes;
 using Godot;
 
 namespace Urman.Godot;
@@ -13,7 +14,7 @@ namespace Urman.Godot;
 /// two boys once used. The lamp does not go out until he breaks the
 /// rule. The prints he follows are a child's. They do not stay a child's.
 /// On a stick in the snow hangs a small blue mitten, dry, as if hung a minute
-/// ago; he pockets it without knowing why. Where the prints end, something
+/// ago; he can leave it there or take it. Where the prints end, something
 /// that has been walking in front of him all along turns round.
 ///
 /// He wakes in babai's car: the bus was late, he fell asleep on the way from
@@ -33,8 +34,7 @@ public partial class W01Controller
     private const float StopRoadWalk = 19f;       // how far along it he can go
     private const double StopLampPatience = 55;   // seconds before the lamp gives up by itself
 
-    /// <summary>Set when he pockets the mitten; the ride home asks about it at the gate.</summary>
-    internal static bool PrologueMittenTaken { get; private set; }
+    internal const string PrologueMittenKey = "prologue/blue-mitten";
 
     private Node3D? _stop;
     private SpotLight3D? _stopLamp;
@@ -44,6 +44,8 @@ public partial class W01Controller
     private MeshInstance3D? _stopSignal;
     private OmniLight3D? _stopSignalLight;
     private Node3D? _stopMitten;
+    private InteractionTarget? _stopMittenTarget;
+    private bool _takingMitten;
     private CanvasLayer? _stopCard;
     private Label? _stopCardLabel;
     private readonly bool[] _stopFired = new bool[12];
@@ -51,6 +53,22 @@ public partial class W01Controller
     private double _stopLeftAt;
     private double _stopSignalAt = -1;
     private Vector3 _stopPrintLocal;
+
+    // The journal is available on demand, including before the voice or the signal.
+    internal RuntimeBridge.PhotoWorldHintProjection StopJournalHint(bool branchMoved)
+    {
+        if (branchMoved)
+            return new("prologue-exit", "Где заканчиваются следы?", "За поворотом тропа выходит на поляну.",
+                "Идите по следам до поляны.");
+        if (_stopLeft)
+            return new("prologue-branch", "Кто здесь прошёл?", "За дальней обочиной в снегу видны следы.",
+                "Идите по следам до упавшей ветки. Возьмитесь за середину ветки и освободите проход.");
+        if (_stopSignalAt >= 0)
+            return new("prologue-branch", "Кто подал сигнал?", "Свет мигнул среди деревьев напротив остановки.",
+                "Перейдите дорогу к просвету между деревьями.");
+        return new("prologue-branch", "Остановка у поворота", "За спиной навес со скамейкой.",
+            "Осмотритесь на остановке. На скамейке лежит фотография.");
+    }
 
     private static (Vector2 Along, Vector2 Across) PrologueStopAxes()
     {
@@ -146,38 +164,36 @@ public partial class W01Controller
         var paint = PainterlyMaterialLibrary.ForColor("5f8088", "plaster");
         var wood = PainterlyMaterialLibrary.ForColor("6a5a48", "wood");
         var snowMaterial = PainterlyMaterialLibrary.ForColor("e8edf2", "snow_roof");
-        MeshInstance3D Piece(Node3D parent, string name, Vector3 size, Vector3 at, Material material)
+        var shelterBody = new StaticBody3D { Name = "ShelterBody", CollisionLayer = 1, CollisionMask = 0 };
+        shelter.AddChild(shelterBody);
+        MeshInstance3D Piece(Node3D parent, string name, Vector3 size, Vector3 at, Material material, bool solid = false)
         {
             var piece = new MeshInstance3D { Name = name, Mesh = new BoxMesh { Size = size }, Position = at, MaterialOverride = material };
             parent.AddChild(piece);
+            if (solid) shelterBody.AddChild(new CollisionShape3D
+            {
+                Name = name + "Contact", Position = at, Shape = new BoxShape3D { Size = size }
+            });
             return piece;
         }
-        Piece(shelter, "BackWall", new(3.5f, 2.35f, .14f), new(0f, 1.17f, -.95f), paint);
+        Piece(shelter, "BackWall", new(3.5f, 2.35f, .14f), new(0f, 1.17f, -.95f), paint, solid: true);
         Piece(shelter, "BackWallBand", new(3.52f, .5f, .15f), new(0f, .25f, -.95f), concrete);
         foreach (var x in new[] { -1.68f, 1.68f })
-            Piece(shelter, "Side" + x, new(.14f, 2.35f, 1.6f), new(x, 1.17f, -.2f), paint);
-        Piece(shelter, "Roof", new(4.0f, .12f, 2.3f), new(0f, 2.41f, -.05f), concrete);
+            Piece(shelter, "Side" + x, new(.14f, 2.35f, 1.6f), new(x, 1.17f, -.2f), paint, solid: true);
+        Piece(shelter, "Roof", new(4.0f, .12f, 2.3f), new(0f, 2.41f, -.05f), concrete, solid: true);
         Piece(shelter, "RoofSnow", new(3.9f, .17f, 2.2f), new(0f, 2.55f, -.05f), snowMaterial);
-        Piece(shelter, "BenchSeat", new(2.5f, .06f, .4f), new(0f, .46f, -.6f), wood);
+        Piece(shelter, "BenchSeat", new(2.5f, .06f, .4f), new(0f, .46f, -.6f), wood, solid: true);
         Piece(shelter, "BenchBack", new(2.5f, .28f, .05f), new(0f, .78f, -.82f), wood);
         foreach (var x in new[] { -1.05f, 1.05f })
             Piece(shelter, "BenchLeg" + x, new(.07f, .46f, .36f), new(x, .23f, -.6f), concrete);
         Piece(shelter, "BenchSnow", new(.9f, .05f, .34f), new(.75f, .515f, -.6f), snowMaterial);
         // The print somebody left on the bench: the forest he is about to walk into.
-        const string printPath = "res://assets/textures/photobook/p-forest-front-v2.png";
-        if (ResourceLoader.Exists(printPath))
-        {
-            var print = new MeshInstance3D
-            {
-                Name = "LeftPhotograph",
-                Mesh = new QuadMesh { Size = new Vector2(.15f, .1f), Orientation = PlaneMesh.OrientationEnum.Y },
-                Position = new Vector3(-.55f, .496f, -.56f), RotationDegrees = new Vector3(0f, 17f, 0f),
-                MaterialOverride = new StandardMaterial3D { AlbedoTexture = ResourceLoader.Load<Texture2D>(printPath), Roughness = 1f },
-                CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
-            };
-            shelter.AddChild(print);
-        }
-        _stopPrintLocal = StopPoint(-2.45f, -.55f, .5f);
+        // Move the existing readable photograph together with its interaction shape.
+        var print = GetNode<Marker3D>("Anchors/F00/ProloguePhotoSource");
+        print.GlobalTransform = shelter.GlobalTransform * new Transform3D(
+            Basis.FromEuler(new Vector3(-Mathf.Pi / 2f, Mathf.DegToRad(17f), 0f)),
+            new Vector3(-.55f, .496f, -.56f));
+        _stopPrintLocal = ToLocal(print.GlobalPosition);
         _stopShelterFill = new OmniLight3D
         {
             Name = "ShelterBounce", Position = new Vector3(0f, 1.5f, .35f), LightColor = new Color(1f, .72f, .42f),
@@ -310,6 +326,19 @@ public partial class W01Controller
         };
         stop.AddChild(stick);
         _stopMitten = PrologueDeepForest.AddMitten(stop, mittenAt + new Vector3(.1f, 1.36f, 0f), new Vector3(0f, 30f, 172f));
+        // The thicket switches all its tree bodies to the walking collision layer.
+        // Keep the mitten's ray target with the controller, outside that tree.
+        _stopMittenTarget = new InteractionTarget
+        {
+            Name = "PrologueMittenPickup", Position = ToLocal(_stopMitten.GlobalPosition),
+            CollisionLayer = 4, CollisionMask = 0,
+            InteractionId = "urman.fullgame:local/prologue/blue-mitten", Prompt = "Снять варежку с палки",
+            PresentationRepeatAvailable = () => _nightmareMoodApplied && !_nightmareClimax
+                && GodotObject.IsInstanceValid(_stopMitten) && _stopMitten.IsVisibleInTree(),
+            PresentationRepeat = () => _ = TakePrologueMittenAsync()
+        };
+        _stopMittenTarget.AddChild(new CollisionShape3D { Shape = new SphereShape3D { Radius = .32f } });
+        AddChild(_stopMittenTarget);
 
         // The place and the hour, written small in the corner.
         _stopCard = new CanvasLayer { Name = "PrologueStopCard", Layer = 97 };
@@ -329,13 +358,12 @@ public partial class W01Controller
         stop.AddChild(_stopCard);
     }
 
-    private void ResetPrologueStop(bool newWalk)
+    private void ResetPrologueStop()
     {
         Array.Clear(_stopFired);
         _stopLeft = false;
         _stopLeftAt = 0;
         _stopSignalAt = -1;
-        if (newWalk) PrologueMittenTaken = false;
         if (_stopLamp is { } lamp && GodotObject.IsInstanceValid(lamp)) lamp.LightEnergy = StopLampEnergy;
         if (_stopLampFill is { } fill && GodotObject.IsInstanceValid(fill)) fill.LightEnergy = .5f;
         if (_stopShelterFill is { } bounce && GodotObject.IsInstanceValid(bounce)) bounce.LightEnergy = .55f;
@@ -345,7 +373,6 @@ public partial class W01Controller
             bus.Visible = true;
             bus.Position = StopPoint(StopRoadNear + 1.6f, 7f, .95f);
         }
-        if (_stopMitten is { } mitten && GodotObject.IsInstanceValid(mitten)) mitten.Visible = true;
         if (_stopCardLabel is { } card && GodotObject.IsInstanceValid(card)) card.Modulate = new Color(1, 1, 1, 0);
     }
 
@@ -361,15 +388,10 @@ public partial class W01Controller
     private void ProcessPrologueStop(FirstPersonController player, Vector2 feet, float progress, double t, float delta)
     {
         if (_stop is null || !GodotObject.IsInstanceValid(_stop)) return;
-        var (along, across) = PrologueStopAxes();
+        var (along, _) = PrologueStopAxes();
         var u = (feet - new Vector2(PrologueTrailNodes[0].X, PrologueTrailNodes[0].Z)).Dot(along);
 
-        // He is put down facing the road and the forest beyond it.
-        if (StopOnce(0, true))
-        {
-            var ahead = ToGlobal(StopPoint(12f, 0f)) - ToGlobal(StopPoint(0f, 0f));
-            player.Rotation = new Vector3(0f, Mathf.Atan2(-ahead.X, -ahead.Z), 0f);
-        }
+        // F00 already faces the road; on Continue the saved camera belongs to the player.
         // The card in the corner.
         if (_stopCardLabel is { } card && GodotObject.IsInstanceValid(card))
             card.Modulate = new Color(1, 1, 1, Mathf.SmoothStep(1.2f, 2.8f, (float)t) * (1f - Mathf.SmoothStep(8f, 10f, (float)t)));
@@ -424,19 +446,60 @@ public partial class W01Controller
             var lit = since is >= 0 and < .28 or >= .62 and < .9;
             signal.Visible = signalLight.Visible = lit;
         }
-        // The mitten: seen, then taken.
+        // Walking past lets Aidar notice it. Only the focused object action takes it.
         if (_stopMitten is { Visible: true } mitten && GodotObject.IsInstanceValid(mitten))
         {
             var gap = mitten.GlobalPosition.DistanceTo(player.GlobalPosition + Vector3.Up * 1.2f);
             if (StopOnce(9, gap < 4.2f))
                 ShowNightmareThought("Синяя детская варежка на палке. Сухая, без снега — её повесили только что.", 4.5);
-            if (StopOnce(10, gap < 2.7f))
+        }
+    }
+
+    private void ProjectPrologueMitten(RuntimeBridge bridge, bool inPrologue)
+    {
+        if (_stopMittenTarget is not { } target || !GodotObject.IsInstanceValid(target)) return;
+        if (_stopMitten is not { } mitten || !GodotObject.IsInstanceValid(mitten))
+        {
+            target.SetPresentationEnabled(false);
+            return;
+        }
+        var available = inPrologue && !YardMechanism.Flag(bridge.SelectWorldProps(), PrologueMittenKey, "taken");
+        mitten.Visible = available;
+        target.SetPresentationEnabled(available && !_takingMitten);
+    }
+
+    private async Task TakePrologueMittenAsync()
+    {
+        if (_takingMitten || _nightmareClimax || _bridge is not { } bridge ||
+            bridge.ActiveSceneId != PrologueSceneId || bridge.SessionIdentity is not { } session ||
+            _stopMittenTarget is not { } target || !target.IsPresentationCurrent(bridge, session)) return;
+        _takingMitten = true;
+        target.SetPresentationEnabled(false);
+        try
+        {
+            var committed = await bridge.DispatchWorldPropsAsync(new JsonArray(new JsonObject
             {
-                mitten.Visible = false;
-                PrologueMittenTaken = true;
-                UiFoley.PlayWorld(this, mitten.GlobalPosition, "forest/brush_rustle", -14f, 8f, 2f);
-                ShowNightmareThought("Сунул в карман. Сам не знаю зачем.", 3.5);
+                ["propId"] = PrologueMittenKey, ["taken"] = true
+            }));
+            if (!GodotObject.IsInstanceValid(target) ||
+                !target.IsPresentationCurrent(bridge, session) || bridge.ActiveSceneId != PrologueSceneId) return;
+            if (!committed)
+            {
+                ShowNightmareThought("Варежка осталась на палке.", 2);
+                return;
             }
+            UiFoley.PlayWorld(this, target.GlobalPosition, "forest/brush_rustle", -14f, 8f, 2f);
+            ShowNightmareThought("Варежка совсем сухая. Спрошу у бабая, чья она.", 3.5);
+        }
+        catch (Exception error)
+        {
+            GD.PushWarning($"Could not take the prologue mitten: {error.Message}");
+        }
+        finally
+        {
+            _takingMitten = false;
+            if (GodotObject.IsInstanceValid(this) && IsInsideTree() && GodotObject.IsInstanceValid(bridge))
+                ProjectPrologueMitten(bridge, bridge.SessionIdentity is not null && bridge.ActiveSceneId == PrologueSceneId);
         }
     }
 

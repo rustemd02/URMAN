@@ -33,6 +33,10 @@ public partial class RuntimeBridge
                 || _loadingSlot || _loadPreparing || !ReferenceEquals(session, SessionIdentity))
                 return null;
 
+            if (GetTree().GetFirstNodeInGroup("zone_manager") is Main main
+                && main.GetNodeOrNull<W01Controller>("ZoneHost/W01") is { } forest)
+                return forest.StopJournalHint(branch.Moved);
+
             return new PhotoWorldHintProjection(
                 key,
                 ResolveText($"urman.fullgame:text/pw-hint-{key}-question"),

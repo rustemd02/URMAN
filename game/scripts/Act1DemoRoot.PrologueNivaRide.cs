@@ -100,7 +100,7 @@ public partial class Act1DemoRoot
     private void UpdatePhotoNivaArrival(double delta)
     {
         // Only a live passage through the prologue offers this conversation.
-        // Continue directly into arrival retains its existing D00 presentation.
+        // Continue directly into arrival reconstructs only an earned gate aftermath.
         if (UsesPhotoWorldsCampaign && !StudioPreviewMode && _playerSessionSelected
             && !MainMenuVisible && !_menuBusy && !_photoWorldReplay
             && _bridge is { IsDebugSession: false } openingBridge && IsInstanceValid(openingBridge)
@@ -153,6 +153,9 @@ public partial class Act1DemoRoot
                 _photoNivaPrologueSession = null;
                 _photoNivaLanguageActive = offerLanguage;
                 _photoNivaLanguageWrite = Task.FromResult(true);
+                var openingProps = bridge.SelectWorldProps();
+                _photoNivaMittenTaken = YardMechanism.Flag(openingProps, W01Controller.PrologueMittenKey, "taken");
+                _photoNivaGateDone = YardMechanism.Flag(openingProps, W01Controller.PrologueMittenKey, "gateSeen");
                 _photoNivaPlayer = player;
                 _photoNivaPhysicsEnabled = player.IsPhysicsProcessing();
                 _photoNivaInputEnabled = player.IsProcessingUnhandledInput();
@@ -185,6 +188,7 @@ public partial class Act1DemoRoot
                 _rideCamera.MakeCurrent();
                 DialogueUi.ChoiceAccepted += OnPhotoNivaArrivalChoice;
                 if (droveFromPrologue) BeginPhotoNivaDrive(visual);
+                else if (PhotoNivaGatePending) BeginPhotoNivaParkedGate(visual);
                 else
                 {
                     PrologueDreamCut.Release(fadeSeconds: .5);
@@ -237,7 +241,13 @@ public partial class Act1DemoRoot
             && inputEvent is not InputEventKey { Echo: true }
             && !inputEvent.IsActionPressed("pause") && inputEvent.IsActionPressed("skip_prologue"))
         {
-            FinishPhotoNivaDrive();
+            if (PhotoNivaGatePending)
+            {
+                if (_photoNivaGateClock < 0f && _photoNivaDriveVisual is { } visual)
+                    BeginPhotoNivaParkedGate(visual);
+                else CompletePhotoNivaGate();
+            }
+            else FinishPhotoNivaDrive();
             GetViewport().SetInputAsHandled();
             return true;
         }

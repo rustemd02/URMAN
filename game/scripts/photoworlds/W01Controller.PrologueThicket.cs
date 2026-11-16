@@ -16,6 +16,7 @@ public partial class W01Controller
     private const string DeadTreeScenePath = "res://assets/models/act1/urman_winter_dead_tree.glb";
     private const float ThicketCellSize = 32f;
     private Node3D? _prologueThicket;
+    private bool _prologueThicketFailed;
 
     private void SetPrologueThicketVisible(bool visible)
     {
@@ -26,8 +27,25 @@ public partial class W01Controller
             {
                 // The prologue stays playable on the authored forest alone.
                 GD.PushWarning($"W01 prologue thicket was not built: {error.Message}");
-                _prologueThicket = new Node3D { Name = "PrologueThicket" };
-                AddChild(_prologueThicket);
+                _prologueThicketFailed = true;
+                if (_prologueThicket is { } partial && GodotObject.IsInstanceValid(partial))
+                {
+                    // Keep existing stop/landmark owners and their live interaction references.
+                    foreach (var child in partial.GetChildren())
+                    {
+                        if (child.Name.ToString() is "PrologueBusStop" or "ForestBeyondTrail" or "ForestersWinterHut") continue;
+                        if (child is Node3D spatial) spatial.Visible = false;
+                        foreach (var contact in Descendants<StaticBody3D>(child)) contact.CollisionLayer = 0u;
+                        partial.RemoveChild(child);
+                        child.QueueFree();
+                    }
+                }
+                else
+                {
+                    _prologueThicket = new Node3D { Name = "PrologueThicket" };
+                    AddChild(_prologueThicket);
+                }
+                EnsureForestBackground();
             }
         }
         if (_prologueThicket is { } thicket && GodotObject.IsInstanceValid(thicket))
