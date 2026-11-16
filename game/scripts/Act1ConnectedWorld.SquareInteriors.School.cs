@@ -135,6 +135,7 @@ public partial class Act1ConnectedWorld
         BuildClassroom(school, body, -6.12f, -.58f, "1–4 класс", tukay: true, drawings: true);
         BuildClassroom(school, body, -.42f, 5.12f, "5–9 класс", tukay: false, drawings: false);
 
+        SLabel(school,"Учительская",new(-7.8f,2.45f,corridorZ+.12f),0,22,new(.2f,.18f,.15f));
         SLabel(school,"1–4 класс",new(-2.5f,2.45f,corridorZ+.12f),0,22,new(.2f,.18f,.15f));
         SLabel(school,"5–9 класс",new(2.5f,2.45f,corridorZ+.12f),0,22,new(.2f,.18f,.15f));
 

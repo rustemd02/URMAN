@@ -96,6 +96,10 @@ public partial class RuntimeBridge
     private const string FullGamePrologueSearchHintFingerprint =
         "9b78c2e791f4edf2a58d5dc0b60f031c470c8c9a593285ebd2d2868706d33747";
 
+    // Five school dialogue texts only; the saved catalog, graph and effects are unchanged.
+    private const string FullGameSchoolRouteTextFingerprint =
+        "49b7fba242436db99eb01ddc6a9c219458e07bb7cb7d535040558bb286734d08";
+
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
         // 80266983 -> 5b0a7ccf: 18 UI texts/provides IDs only; proof in PW-025.
@@ -445,6 +449,19 @@ public partial class RuntimeBridge
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
     {
         var isFullGame = StringComparer.Ordinal.Equals(_content.CampaignId, FullGameCampaignId);
+        if (isFullGame && StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameSchoolRouteTextFingerprint))
+        {
+            var compatible = FullGameTextRevisionCompatibility
+                .Where(pair => pair.ExpectedFingerprint == FullGameGulsinaAuthorshipReplyFingerprint)
+                .Select(pair => pair with { ExpectedFingerprint = FullGameSchoolRouteTextFingerprint })
+                .Append(new(FullGameGulsinaAuthorshipReplyFingerprint, FullGameSchoolRouteTextFingerprint))
+                .Append(new(FullGameSchoolPhotoCueFingerprint, FullGameSchoolRouteTextFingerprint))
+                .Append(new(FullGamePrologueNightmareHintFingerprint, FullGameSchoolRouteTextFingerprint))
+                .Append(new(FullGamePrologueSearchHintFingerprint, FullGameSchoolRouteTextFingerprint))
+                .ToArray();
+            return new AtomicSaveGameStore(directory, fingerprintCompatibility: compatible);
+        }
+
         if (isFullGame && StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGamePrologueSearchHintFingerprint))
         {
             var compatible = FullGameTextRevisionCompatibility
