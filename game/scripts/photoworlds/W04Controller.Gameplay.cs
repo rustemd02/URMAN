@@ -100,7 +100,7 @@ public partial class W04Controller
             if (player.IsOnFloor() && distance <= 2.4f && target is { PresentationEnabled: true }
                 && GodotObject.IsInstanceValid(target) && target.IsVisibleInTree())
             {
-                point = target.GlobalPosition;
+                point = stance.GlobalPosition;
                 var hint = InputBindingService.ActionHint("interact", player.CurrentInputDevice == "gamepad");
                 label = $"Начните осмотр {hint}";
                 inspectionPoint = true;
@@ -353,8 +353,9 @@ public partial class W04Controller
 
     private bool BeginCommonObservation(string interactionId, Node3D? stance, InteractionTarget? target)
     {
-        if (interactionId == RelationsInteractionId) _relationsArmed = false;
-        else _horizonArmed = false;
+        // Context input and the retained ray affordance share one local start.
+        // A second press must not reset an observation already in progress.
+        if (interactionId == RelationsInteractionId ? _relationsArmed : _horizonArmed) return false;
         if (target is null || !GodotObject.IsInstanceValid(target)
             || !CanBeginCommonAction(interactionId, out var bridge, out var session)
             || stance is not { } anchor || !GodotObject.IsInstanceValid(anchor)

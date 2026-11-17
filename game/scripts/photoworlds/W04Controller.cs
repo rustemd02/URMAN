@@ -32,6 +32,7 @@ public partial class W04Controller : Node3D
         TryBindRuntimeBridge();
         ProcessCommonWorldGuard();
         ProcessCommonGameplay(delta);
+        ProcessCommonObservationInput();
     }
 
     public override void _ExitTree()
