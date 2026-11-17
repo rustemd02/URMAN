@@ -288,11 +288,13 @@ public partial class AgentBAct1ExteriorLayer
 
     /// <summary>
     /// VIS-027 audit of every authored LOD tier family plus VIS-030 verification of
-    /// every ground-cover cell. Runs once at build time, writes metas for readback
-    /// and one machine-readable line to the engine log, which the station already
-    /// archives as <c>game.log</c>.
+    /// every authored ground-cover cell, resident or deferred. Runs once at build
+    /// time, writes metas for readback and one machine-readable line to the engine
+    /// log, which the station already archives as <c>game.log</c>.
     /// </summary>
-    private void AuditFoliageLodAndCullingBounds(Node3D plants)
+    private void AuditFoliageLodAndCullingBounds(
+        Node3D plants,
+        IReadOnlyCollection<GroundCoverStreamCell> groundCoverCells)
     {
         // --- VIS-027: tier families, measured from the meshes the world instantiates.
         var families = new Dictionary<string, (string Region, ArrayMesh? Near, ArrayMesh? Light, ArrayMesh? Far)>(StringComparer.Ordinal);
@@ -390,12 +392,17 @@ public partial class AgentBAct1ExteriorLayer
                 Mathf.Abs(basis.X.Y) * localX + Mathf.Abs(basis.Z.Y) * localZ,
                 Mathf.Abs(basis.X.Z) * localX + Mathf.Abs(basis.Z.Z) * localZ);
         }
-        foreach (var cell in EnumerateDescendants<MultiMeshInstance3D>(plants))
+        void AuditCell(
+            ArrayMesh source,
+            int instanceCount,
+            MultiMesh? multimesh,
+            Transform3D[]? plannedTransforms,
+            Vector3 plannedOrigin,
+            float cellSize,
+            MultiMeshInstance3D? instance,
+            GroundCoverStreamCell? streamCell)
         {
-            var multimesh = cell.Multimesh;
-            if (multimesh is null) continue;
-            if (multimesh.Mesh is not ArrayMesh source) continue;
-            if (multimesh.InstanceCount == 0) continue;
+            if (instanceCount == 0) return;
             cells++;
             var sourceBounds = source.GetAabb();
             var sample = SampleOf(source);
@@ -404,9 +411,12 @@ public partial class AgentBAct1ExteriorLayer
             var plainPosition = mergedPosition;
             var plainEnd = mergedEnd;
             var cellSway = 0f;
-            for (var index = 0; index < multimesh.InstanceCount; index++)
+            for (var index = 0; index < instanceCount; index++)
             {
-                var transform = multimesh.GetInstanceTransform(index);
+                var transform = multimesh is not null
+                    ? multimesh.GetInstanceTransform(index)
+                    : plannedTransforms![index];
+                if (multimesh is null) transform.Origin -= plannedOrigin;
                 var instanceBounds = transform * sourceBounds;
                 var reserve = TransformedSwayExtent(transform.Basis, sample);
                 cellSway = Mathf.Max(cellSway, Mathf.Max(reserve.X, Mathf.Max(reserve.Y, reserve.Z)));
@@ -422,30 +432,57 @@ public partial class AgentBAct1ExteriorLayer
             var merged = new Aabb(mergedPosition, mergedEnd - mergedPosition);
             var plain = new Aabb(plainPosition, plainEnd - plainPosition);
             var cellVolume = merged.Size.X * merged.Size.Y * merged.Size.Z;
+            var diagonal = merged.Size.Length();
             maxCellVolume = Mathf.Max(maxCellVolume, cellVolume);
-            maxCellDiagonal = Mathf.Max(maxCellDiagonal, merged.Size.Length());
+            maxCellDiagonal = Mathf.Max(maxCellDiagonal, diagonal);
             // Built this way the padded box always contains the plain one; the guard
             // stays so a future change of the merge rule cannot silently drop an
             // instance out of the volume it is supposed to describe.
-            if (merged.Size.Length() < plain.Size.Length() - .001f) uncoveredInstances++;
-            var footprintSide = (cell.HasMeta("spatialCellSize")
-                ? cell.GetMeta("spatialCellSize").AsSingle()
-                : GroundCoverCellSize) * 1.75f;
+            if (diagonal < plain.Size.Length() - .001f) uncoveredInstances++;
+            var footprintSide = cellSize * 1.75f;
             if (cellVolume > footprintSide * footprintSide * footprintSide * CellVolumeFootprintFactor) cellsOverFootprint++;
             maxSwayReserve = Mathf.Max(maxSwayReserve, cellSway);
-            if (FoliageBoundsMeasured && cellSway > 0f)
+            if (instance is not null && FoliageBoundsMeasured && cellSway > 0f)
             {
-                // Documented engine mechanism for exactly this case: the vertex stage
-                // moves foliage outside the CPU bounding box. The reserve is this
-                // cell's measured envelope, not a constant, and the automatic merged
-                // MultiMesh AABB stays authoritative for the instances themselves.
-                cell.ExtraCullMargin = cellSway;
+                // This is the same measured wind reserve as the eager MultiMesh path.
+                // The instances remain the sole authority for the merged engine AABB.
+                instance.ExtraCullMargin = cellSway;
+                instance.SetMeta("windCullMargin", cellSway);
             }
 
-            cell.SetMeta("cullingCellInstances", multimesh.InstanceCount);
-            cell.SetMeta("cullingCellAabbDiagonal", merged.Size.Length());
-            cell.SetMeta("cullingCellAabbVolume", cellVolume);
-            cell.SetMeta("cullingCellSwayReserve", cellSway);
+            if (instance is not null)
+            {
+                instance.SetMeta("cullingCellInstances", instanceCount);
+                instance.SetMeta("cullingCellAabbDiagonal", diagonal);
+                instance.SetMeta("cullingCellAabbVolume", cellVolume);
+                instance.SetMeta("cullingCellSwayReserve", cellSway);
+            }
+            if (streamCell is not null)
+            {
+                streamCell.CullingAabbDiagonal = diagonal;
+                streamCell.CullingAabbVolume = cellVolume;
+                streamCell.CullingSwayReserve = cellSway;
+                streamCell.CullingBoundsMeasured = true;
+            }
+        }
+
+        foreach (var cell in EnumerateDescendants<MultiMeshInstance3D>(plants))
+        {
+            if (cell.HasMeta("streamManagedGroundCover")) continue;
+            if (cell.Multimesh is not { } multimesh || multimesh.Mesh is not ArrayMesh source) continue;
+            var cellSize = cell.HasMeta("spatialCellSize")
+                ? cell.GetMeta("spatialCellSize").AsSingle()
+                : GroundCoverCellSize;
+            AuditCell(source, multimesh.InstanceCount, multimesh, null, Vector3.Zero,
+                cellSize, cell, null);
+        }
+
+        foreach (var cell in groundCoverCells)
+        {
+            if (!_foliageMeshes.TryGetValue((cell.Key.Variant, cell.Key.Region), out var source))
+                throw new InvalidOperationException($"Missing cached audit mesh {cell.Key.Variant}/{cell.Key.Region}.");
+            AuditCell(source, cell.Transforms.Length, null, cell.Transforms, cell.Origin,
+                GroundCoverCellSize, cell.Instance, cell);
         }
 
         // --- VIS-030 for the individually culled tree tiers: the same wind reserve,
@@ -522,8 +559,19 @@ public partial class AgentBAct1ExteriorLayer
         // diagnostics probe; see the HANDOFF section of ledger_EXTERIOR.md.
         var shadowCasterTrees = EnumerateDescendants<MeshInstance3D>(plants)
             .Count(instance => instance.CastShadow != GeometryInstance3D.ShadowCastingSetting.Off);
-        var shadowCasterCells = EnumerateDescendants<MultiMeshInstance3D>(plants)
+        var nonStreamShadowCasterCells = EnumerateDescendants<MultiMeshInstance3D>(plants)
+            .Where(instance => !instance.HasMeta("streamManagedGroundCover"))
             .Count(instance => instance.CastShadow != GeometryInstance3D.ShadowCastingSetting.Off);
+        var groundCoverPlannedShadowCells = groundCoverCells.Count(GroundCoverCellCastsShadow);
+        var groundCoverResidentShadowCells = groundCoverCells.Count(cell =>
+            cell.Instance is not null && GroundCoverCellCastsShadow(cell));
+        var shadowCasterCells = nonStreamShadowCasterCells + groundCoverPlannedShadowCells;
+        var residentShadowCasters = shadowCasterTrees + nonStreamShadowCasterCells + groundCoverResidentShadowCells;
+        var groundCoverResidentCells = groundCoverCells.Count(cell => cell.Instance is not null);
+        var groundCoverResidentInstances = groundCoverCells
+            .Where(cell => cell.Instance is not null)
+            .Sum(cell => cell.Transforms.Length);
+        var groundCoverPlannedInstances = groundCoverCells.Sum(cell => cell.Transforms.Length);
         var meshes = new HashSet<ulong>();
         var materials = new HashSet<ulong>();
         var alphaSurfaces = 0;
@@ -557,22 +605,38 @@ public partial class AgentBAct1ExteriorLayer
         plants.SetMeta("cullingCellMaxVolumeCubicMeters", maxCellVolume);
         plants.SetMeta("cullingCellsOverFootprintLimit", cellsOverFootprint);
         plants.SetMeta("cullingCellFootprintMeters", GroundCoverCellSize);
+        plants.SetMeta("cullingCellAuditScope", "full authored plan; resident MultiMesh and deferred exact transforms");
         plants.SetMeta("cullingSwayReserveMaxMeters", maxSwayReserve);
         plants.SetMeta("cullingTreeSwayReserveMaxMeters", maxTreeSway);
         plants.SetMeta("cullingInstancesUncovered", uncoveredInstances);
         plants.SetMeta("cullingBoundsMode", FoliageBoundsMode);
         plants.SetMeta("cullingBoundsPolicy", FoliageBoundsMeasured
-            ? "per cell: merged transformed source bounds of every instance + measured wind reserve through extra_cull_margin; MultiMesh still culls as one group"
+            ? "per planned cell: merged transformed source bounds of every instance + measured wind reserve; resident MultiMesh culls as one group"
             : "engine AABB only; the measurement is reported, not applied");
         plants.SetMeta("foliageBudgetMode", FoliageBudgetMode);
         plants.SetMeta("foliageLodTierTreeCounts", tierCounts);
         plants.SetMeta("foliageTreeInstanceCount", treeInstances);
         plants.SetMeta("foliageSceneNodeCount", plants.GetChildCount());
+        plants.SetMeta("foliagePlannedSceneNodeCount", plants.GetChildCount()
+            + groundCoverCells.Count(cell => cell.Instance is null));
         plants.SetMeta("foliageDistinctMeshCount", meshes.Count);
         plants.SetMeta("foliageDistinctMaterialCount", materials.Count);
         plants.SetMeta("foliageSurfaceCount", surfaceTotal);
         plants.SetMeta("foliageAlphaSurfaceCount", alphaSurfaces);
         plants.SetMeta("foliageShadowCasterCount", shadowCasterTrees + shadowCasterCells);
+        plants.SetMeta("foliageResidentShadowCasterBaseCount", shadowCasterTrees + nonStreamShadowCasterCells);
+        plants.SetMeta("foliageResidentShadowCasterCount", residentShadowCasters);
+        plants.SetMeta("groundCoverPlannedCells", groundCoverCells.Count);
+        plants.SetMeta("groundCoverPlannedInstances", groundCoverPlannedInstances);
+        plants.SetMeta("groundCoverResidentCells", groundCoverResidentCells);
+        plants.SetMeta("groundCoverResidentInstances", groundCoverResidentInstances);
+        plants.SetMeta("groundCoverShadowCasterCellsPlanned", groundCoverPlannedShadowCells);
+        plants.SetMeta("groundCoverResidentShadowCasterCells", groundCoverResidentShadowCells);
+        plants.SetMeta("groundCoverStreamingEnabled", _groundCoverStreamingEnabled);
+        plants.SetMeta("groundCoverStreamLoadRadiusMeters", GroundCoverLoadRadius);
+        plants.SetMeta("groundCoverStreamReleaseRadiusMeters", GroundCoverReleaseRadius);
+        plants.SetMeta("groundCoverStreamBatchCells", GroundCoverLoadsPerTick);
+        plants.SetMeta("groundCoverStreamReleaseBatchCells", GroundCoverReleasesPerTick);
         plants.SetMeta("foliageOuterRowUnderstorySkipped", _outerRowUnderstorySkipped);
         plants.SetMeta("occlusionCullingActive", GetViewport().UseOcclusionCulling);
         // VIS-030 asks for the occluder source to be checked separately when one is
@@ -587,7 +651,7 @@ public partial class AgentBAct1ExteriorLayer
         // interpolated strings yields a plain string, which does not bind to
         // FormattableString.Invariant (CS1503) and would print the metrics in the
         // current culture; each metric group is therefore formatted invariantly on
-        // its own before concatenation. The text of the line is unchanged.
+        // its own before concatenation, including the residency fields below.
         GD.Print(string.Concat(
             FormattableString.Invariant($"act1-foliage-lod: families={audited} tolerance={LodSilhouetteTolerancePercent:F1}%"),
             FormattableString.Invariant($" worstCrown={worstCrown:F2}% worstHeight={worstHeight:F2}% worstBase={worstBase:F2}%"),
@@ -600,7 +664,10 @@ public partial class AgentBAct1ExteriorLayer
             FormattableString.Invariant($" doubleFullBands={doubleFullBandTrees}"),
             FormattableString.Invariant($" tiers=[{tierCounts[0]},{tierCounts[1]},{tierCounts[2]}] meshes={meshes.Count} materials={materials.Count}"),
             FormattableString.Invariant($" surfaces={surfaceTotal} alphaSurfaces={alphaSurfaces}"),
-            FormattableString.Invariant($" shadowCasters={shadowCasterTrees + shadowCasterCells} skippedOuterUnderstory={_outerRowUnderstorySkipped}"),
+            FormattableString.Invariant($" shadowCasters={shadowCasterTrees + shadowCasterCells} residentShadowCasters={residentShadowCasters} skippedOuterUnderstory={_outerRowUnderstorySkipped}"),
+            FormattableString.Invariant($" groundCoverCells={groundCoverCells.Count}/{groundCoverResidentCells} groundCoverInstances={groundCoverPlannedInstances}/{groundCoverResidentInstances}"),
+            FormattableString.Invariant($" groundCoverStream={_groundCoverStreamingEnabled.ToString().ToLowerInvariant()} load={GroundCoverLoadRadius:F1}m release={GroundCoverReleaseRadius:F1}m tick={GroundCoverStreamIntervalSeconds * 1000d:F0}ms batch={GroundCoverLoadsPerTick}/{GroundCoverReleasesPerTick}"),
+            FormattableString.Invariant($" groundCoverQueue={plants.GetMeta("groundCoverQueuedLoads", 0).AsInt32()}/{plants.GetMeta("groundCoverQueuedReleases", 0).AsInt32()}"),
             FormattableString.Invariant($" occlusion={GetViewport().UseOcclusionCulling} graphics={GraphicsQuality.BudgetSnapshot()}")));
 
         // VIS-085: the ring's own rhythm and layering, measured from the placements
@@ -640,7 +707,7 @@ public partial class AgentBAct1ExteriorLayer
         float Number(string key) => plants?.GetMeta(key, 0f).AsSingle() ?? 0f;
         // Same invariant-fragment assembly as the audit line above: concatenating
         // interpolated strings is a plain string and does not bind to
-        // FormattableString.Invariant (CS1503). Output text is unchanged.
+        // FormattableString.Invariant (CS1503).
         return string.Concat(
             FormattableString.Invariant($"budget={FoliageBudgetMode} bounds={FoliageBoundsMode}"),
             FormattableString.Invariant($" families={(plants?.GetMeta("lodTierFamiliesAudited", 0).AsInt32() ?? 0)}"),
@@ -651,9 +718,12 @@ public partial class AgentBAct1ExteriorLayer
             FormattableString.Invariant($" maxCellDiagonal={Number("cullingCellMaxDiagonalMeters"):F1}m"),
             FormattableString.Invariant($" overFootprint={(int)Number("cullingCellsOverFootprintLimit")}"),
             FormattableString.Invariant($" swayReserve={Number("cullingSwayReserveMaxMeters"):F3}m"),
+            FormattableString.Invariant($" groundCoverCells={(int)Number("groundCoverPlannedCells")}/{(int)Number("groundCoverResidentCells")} instances={(int)Number("groundCoverPlannedInstances")}/{(int)Number("groundCoverResidentInstances")}"),
+            FormattableString.Invariant($" stream={plants?.GetMeta("groundCoverStreamingEnabled", false).AsBool() == true} load={Number("groundCoverStreamLoadRadiusMeters"):F1}m release={Number("groundCoverStreamReleaseRadiusMeters"):F1}m"),
+            FormattableString.Invariant($" queue={(plants?.GetMeta("groundCoverQueuedLoads", 0).AsInt32() ?? 0)}/{(plants?.GetMeta("groundCoverQueuedReleases", 0).AsInt32() ?? 0)}"),
             FormattableString.Invariant($" meshes={(int)Number("foliageDistinctMeshCount")} materials={(int)Number("foliageDistinctMaterialCount")}"),
             FormattableString.Invariant($" surfaces={(int)Number("foliageSurfaceCount")} alphaSurfaces={(int)Number("foliageAlphaSurfaceCount")}"),
-            FormattableString.Invariant($" shadowCasters={(int)Number("foliageShadowCasterCount")} skippedOuterUnderstory={_outerRowUnderstorySkipped}"),
+            FormattableString.Invariant($" shadowCasters={(int)Number("foliageShadowCasterCount")} residentShadowCasters={(int)Number("foliageResidentShadowCasterCount")} skippedOuterUnderstory={_outerRowUnderstorySkipped}"),
             FormattableString.Invariant($" graphics={GraphicsQuality.BudgetSnapshot()}"));
     }
 }

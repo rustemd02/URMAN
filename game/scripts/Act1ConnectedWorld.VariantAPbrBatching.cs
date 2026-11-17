@@ -19,20 +19,27 @@ public partial class Act1ConnectedWorld
         // the same generated geometry without a process-wide resource cache.
         var channels = new Dictionary<(ulong Rid, bool Shadow), WindowBatchChannels>();
         var sharedGeometry = new Dictionary<string, VariantAPbrBatchGeometry>(StringComparer.Ordinal);
+        var sourceCount = 0;
+        var batchCount = 0;
         foreach (var houseId in houseIds)
         {
             var house = world.ObjectRoot(houseId);
             var candidate = house?.GetNodeOrNull<Node3D>(VariantAPbrDwellingPath + "/" + VariantAPbrMountedRootName);
             if (candidate is null || !candidate.IsVisibleInTree()) continue;
-            BatchVariantAHouseMeshes(candidate, channels, sharedGeometry);
+            var published = BatchVariantAHouseMeshes(candidate, channels, sharedGeometry);
+            sourceCount += published.Sources;
+            batchCount += published.Batches;
         }
+        GD.Print($"world-build-profile|private-house-render|sources={sourceCount} batches={batchCount} shared_meshes={sharedGeometry.Count}");
     }
 
-    private static void BatchVariantAHouseMeshes(Node3D candidate,
+    private static (int Sources, int Batches) BatchVariantAHouseMeshes(Node3D candidate,
         Dictionary<(ulong Rid, bool Shadow), WindowBatchChannels> channels,
         Dictionary<string, VariantAPbrBatchGeometry> sharedGeometry)
     {
-        if (candidate.HasMeta("variantAPbrStaticBatchingComplete")) return;
+        if (candidate.HasMeta("variantAPbrStaticBatchingComplete")) return (0, 0);
+        var sourceCount = 0;
+        var batchCount = 0;
         var members = new List<VariantAPbrBatchSource>();
         foreach (var source in candidate.GetChildren().OfType<MeshInstance3D>()
                      .Where(mesh => mesh.Name.ToString().StartsWith(VariantAPbrMeshPrefix, StringComparison.Ordinal))
@@ -51,11 +58,16 @@ public partial class Act1ConnectedWorld
             foreach (var chunk in SplitVariantAPbrBatch(ordered))
             {
                 if (chunk.Length < 2) continue;
-                TryPublishVariantAPbrBatch(candidate, materialGroup.Key.MaterialSlot,
-                    materialGroup.First().Material, chunk, sharedGeometry);
+                if (TryPublishVariantAPbrBatch(candidate, materialGroup.Key.MaterialSlot,
+                    materialGroup.First().Material, chunk, sharedGeometry))
+                {
+                    sourceCount += chunk.Length;
+                    batchCount++;
+                }
             }
         }
         candidate.SetMeta("variantAPbrStaticBatchingComplete", true);
+        return (sourceCount, batchCount);
     }
 
     private static bool TryReadVariantAPbrBatchSource(MeshInstance3D source,
@@ -211,7 +223,7 @@ public partial class Act1ConnectedWorld
         if (chunk.Count > 0) yield return chunk.ToArray();
     }
 
-    private static void TryPublishVariantAPbrBatch(Node3D candidate, string materialSlot,
+    private static bool TryPublishVariantAPbrBatch(Node3D candidate, string materialSlot,
         Material material, VariantAPbrBatchSource[] members,
         Dictionary<string, VariantAPbrBatchGeometry> sharedGeometry)
     {
@@ -306,6 +318,7 @@ public partial class Act1ConnectedWorld
                 member.Instance.Visible = false;
             }
             batch = null;
+            return true;
         }
         catch (WindowBatchRefusal)
         {
@@ -325,6 +338,7 @@ public partial class Act1ConnectedWorld
                 batch.Free();
             }
         }
+        return false;
     }
 
     private static void RestoreVariantAPbrBatchSources(IEnumerable<(MeshInstance3D Instance, bool WasVisible)> sources)

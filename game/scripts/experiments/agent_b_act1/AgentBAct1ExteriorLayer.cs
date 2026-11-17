@@ -273,6 +273,56 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             FitAxis(source.Position.Y, source.End.Y, envelope.Position.Y, envelope.End.Y),
             FitAxis(source.Position.Z, source.End.Z, envelope.Position.Z, envelope.End.Z));
     }
+
+    private readonly record struct GroundCoverBatchKey(Vector2I Cell, string Variant, string Region, int Lod);
+
+    private sealed class GroundCoverStreamCell(
+        GroundCoverBatchKey key,
+        Transform3D[] transforms,
+        Vector3 origin)
+    {
+        public GroundCoverBatchKey Key { get; } = key;
+        public Transform3D[] Transforms { get; } = transforms;
+        public Vector3 Origin { get; } = origin;
+        public MultiMeshInstance3D? Instance { get; set; }
+        public float CullingSwayReserve { get; set; }
+        public float CullingAabbDiagonal { get; set; }
+        public float CullingAabbVolume { get; set; }
+        public bool CullingBoundsMeasured { get; set; }
+    }
+
+    // The latest ground-cover tier ends at 85 m; a 12 m cell's corners are 8.5 m
+    // from its center. The additional 18 m is a quiet prefetch margin before a
+    // cell can enter that authored range.
+    private const float GroundCoverVisibleRangeEnd = 85f;
+    private const float GroundCoverCellCenterReserve = GroundCoverCellSize * .70710678f;
+    private const float GroundCoverPrefetchReserve = 18f;
+    private const float GroundCoverLoadRadius = GroundCoverVisibleRangeEnd
+        + GroundCoverCellCenterReserve + GroundCoverPrefetchReserve;
+    private const float GroundCoverReleaseRadius = GroundCoverLoadRadius + 30f;
+    private const double GroundCoverStreamIntervalSeconds = .1d;
+    private const int GroundCoverLoadsPerTick = 48;
+    private const int GroundCoverReleasesPerTick = 96;
+
+    private readonly List<GroundCoverStreamCell> _groundCoverStreamCells = new();
+    private readonly List<GroundCoverStreamCell> _groundCoverInitialCells = new();
+    private readonly List<(GroundCoverStreamCell Cell, float DistanceSquared)> _groundCoverLoadQueue = new();
+    private readonly List<(GroundCoverStreamCell Cell, float DistanceSquared)> _groundCoverReleaseQueue = new();
+    private Node3D? _groundCoverContainer;
+    private double _groundCoverStreamElapsed;
+    private bool _groundCoverStreamingEnabled;
+    private bool _groundCoverHasProcessedFocus;
+    private bool _groundCoverFullLoadQueuePrepared;
+    private Vector3 _groundCoverLastProcessedFocus;
+    private string _groundCoverLastProcessedZoneId = string.Empty;
+    private int _groundCoverLoadQueueIndex;
+    private int _groundCoverReleaseQueueIndex;
+    private int _groundCoverPlannedInstanceCount;
+    private int _groundCoverPlannedShadowCellCount;
+    private int _groundCoverResidentCellCount;
+    private int _groundCoverResidentInstanceCount;
+    private int _groundCoverResidentShadowCellCount;
+
     private bool _built;
     private bool _exteriorPresentationEnabled;
 
@@ -1564,6 +1614,399 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
     private readonly record struct FoliagePlanEntry(Vector2 Position, string Variant, (double Distance, double HalfWidth) Road);
 
+    private void RegisterGroundCoverStreamCells(
+        Node3D plants,
+        Dictionary<GroundCoverBatchKey, List<Transform3D>> batches)
+    {
+        _groundCoverContainer = plants;
+        _groundCoverStreamCells.Clear();
+        _groundCoverLoadQueue.Clear();
+        _groundCoverReleaseQueue.Clear();
+        _groundCoverLoadQueueIndex = 0;
+        _groundCoverReleaseQueueIndex = 0;
+        _groundCoverHasProcessedFocus = false;
+        _groundCoverFullLoadQueuePrepared = false;
+        _groundCoverLastProcessedZoneId = string.Empty;
+        _groundCoverPlannedInstanceCount = 0;
+        _groundCoverPlannedShadowCellCount = 0;
+        _groundCoverResidentCellCount = 0;
+        _groundCoverResidentInstanceCount = 0;
+        _groundCoverResidentShadowCellCount = 0;
+        _groundCoverStreamElapsed = 0d;
+        var layerToWorld = GlobalTransform;
+
+        var focus = GlobalPosition;
+        var canFollowView = !Act1ConnectedWorld.StudioPreviewMode
+            && TryGetGroundCoverFocus(out focus);
+        _groundCoverStreamingEnabled = canFollowView;
+        _groundCoverLastProcessedFocus = focus;
+        _groundCoverLastProcessedZoneId = CurrentGroundCoverZoneId();
+        _groundCoverHasProcessedFocus = canFollowView;
+
+        foreach (var (key, transforms) in batches)
+        {
+            var origin = new Vector3(
+                key.Cell.X * GroundCoverCellSize + GroundCoverCellSize * .5f,
+                0f,
+                key.Cell.Y * GroundCoverCellSize + GroundCoverCellSize * .5f);
+            if (!_foliageMeshes.ContainsKey((key.Variant, key.Region)))
+                throw new InvalidOperationException($"Missing cached ground-cover mesh {key.Variant}/{key.Region}.");
+            var cell = new GroundCoverStreamCell(key, transforms.ToArray(), origin);
+            _groundCoverStreamCells.Add(cell);
+            _groundCoverPlannedInstanceCount += cell.Transforms.Length;
+            if (GroundCoverCellCastsShadow(cell)) _groundCoverPlannedShadowCellCount++;
+        }
+
+        var loadRadiusSquared = GroundCoverLoadRadius * GroundCoverLoadRadius;
+        _groundCoverInitialCells.Clear();
+        IEnumerable<GroundCoverStreamCell> initialCells = canFollowView
+            ? _groundCoverStreamCells
+                .Where(cell => GroundCoverDistanceSquared(layerToWorld * cell.Origin, focus) <= loadRadiusSquared)
+                .OrderBy(cell => GroundCoverDistanceSquared(layerToWorld * cell.Origin, focus))
+                .ThenBy(cell => cell.Key.Cell.X)
+                .ThenBy(cell => cell.Key.Cell.Y)
+                .ThenBy(cell => cell.Key.Variant, StringComparer.Ordinal)
+            : _groundCoverStreamCells;
+        _groundCoverInitialCells.AddRange(initialCells);
+    }
+
+    private bool TryGetGroundCoverFocus(out Vector3 focus)
+    {
+        if (GetViewport()?.GetCamera3D() is { } camera
+            && GodotObject.IsInstanceValid(camera) && camera.IsInsideTree())
+        {
+            focus = camera.GlobalPosition;
+            return true;
+        }
+
+        if (GetTree().GetFirstNodeInGroup("player_controller") is Node3D player
+            && GodotObject.IsInstanceValid(player) && player.IsInsideTree())
+        {
+            focus = player.GlobalPosition;
+            return true;
+        }
+
+        var connectedWorld = GetParent()?.GetParent() as Act1ConnectedWorld;
+        Act1WorldLayout.SpawnTransform spawn;
+        if (GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge bridge)
+        {
+            if (connectedWorld is not null
+                && connectedWorld.TryGetWorldSpawn(bridge.CurrentZoneId, bridge.CurrentSpawnPointId, out spawn))
+            {
+                focus = spawn.Position;
+                return true;
+            }
+
+            if (Act1WorldLayout.TryGetWorldSpawn(bridge.CurrentZoneId, bridge.CurrentSpawnPointId, out spawn))
+            {
+                focus = spawn.Position;
+                return true;
+            }
+
+            if (connectedWorld is not null
+                && connectedWorld.TryGetWorldSpawn(bridge.CurrentZoneId, "default", out spawn))
+            {
+                focus = spawn.Position;
+                return true;
+            }
+
+            if (Act1WorldLayout.TryGetWorldSpawn(bridge.CurrentZoneId, "default", out spawn))
+            {
+                focus = spawn.Position;
+                return true;
+            }
+        }
+
+        if (connectedWorld is not null && !string.IsNullOrWhiteSpace(connectedWorld.ActiveZoneId)
+            && connectedWorld.TryGetWorldSpawn(connectedWorld.ActiveZoneId, "default", out var defaultSpawn))
+        {
+            focus = defaultSpawn.Position;
+            return true;
+        }
+
+        focus = GlobalPosition;
+        return false;
+    }
+
+    private static float GroundCoverDistanceSquared(Vector3 left, Vector3 right)
+    {
+        var dx = left.X - right.X;
+        var dz = left.Z - right.Z;
+        return dx * dx + dz * dz;
+    }
+
+    private string CurrentGroundCoverZoneId()
+    {
+        if (GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge bridge)
+            return bridge.CurrentZoneId;
+        return (GetParent()?.GetParent() as Act1ConnectedWorld)?.ActiveZoneId ?? string.Empty;
+    }
+
+    private static bool GroundCoverCellCastsShadow(GroundCoverStreamCell cell)
+    {
+        var lowCover = cell.Key.Variant.Contains("Grass", StringComparison.Ordinal)
+            || cell.Key.Variant.Contains("Fern", StringComparison.Ordinal)
+            || cell.Key.Variant.Contains("Sedge", StringComparison.Ordinal);
+        return !lowCover && cell.Key.Lod < 1;
+    }
+
+    private void LoadGroundCoverCell(GroundCoverStreamCell cell)
+    {
+        if (cell.Instance is not null || _groundCoverContainer is not { } plants
+            || !GodotObject.IsInstanceValid(plants) || plants.IsQueuedForDeletion()) return;
+        if (!_foliageMeshes.TryGetValue((cell.Key.Variant, cell.Key.Region), out var mesh))
+            throw new InvalidOperationException($"Missing cached ground-cover mesh {cell.Key.Variant}/{cell.Key.Region}.");
+
+        var multi = new MultiMesh
+        {
+            TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
+            Mesh = mesh,
+            InstanceCount = cell.Transforms.Length
+        };
+        for (var index = 0; index < cell.Transforms.Length; index++)
+        {
+            var transform = cell.Transforms[index];
+            transform.Origin -= cell.Origin;
+            multi.SetInstanceTransform(index, transform);
+        }
+
+        var group = new MultiMeshInstance3D
+        {
+            Name = $"{cell.Key.Variant}_{cell.Key.Region}_Cell{cell.Key.Cell.X}_{cell.Key.Cell.Y}_H0",
+            Position = cell.Origin,
+            Multimesh = multi
+        };
+        var meshTop = Mathf.Max(0f, multi.Mesh.GetAabb().End.Y);
+        var sway = 0f;
+        for (var surfaceIndex = 0; surfaceIndex < multi.Mesh.GetSurfaceCount(); surfaceIndex++)
+            if (multi.Mesh.SurfaceGetMaterial(surfaceIndex) is ShaderMaterial material)
+                sway = Mathf.Max(sway, material.GetShaderParameter("wind_sway").AsSingle());
+        var displacement = new Vector3(meshTop * sway, 0f, meshTop * sway * .6f);
+        group.ExtraCullMargin = cell.Transforms.Max(transform => (transform.Basis * displacement).Length());
+        group.SetMeta("windCullMargin", group.ExtraCullMargin);
+
+        var lowCover = cell.Key.Variant.Contains("Grass", StringComparison.Ordinal)
+            || cell.Key.Variant.Contains("Fern", StringComparison.Ordinal)
+            || cell.Key.Variant.Contains("Sedge", StringComparison.Ordinal);
+        if (lowCover || cell.Key.Lod >= 1)
+            group.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
+        plants.AddChild(group);
+        group.SetMeta("presentationOnly", true);
+        group.SetMeta("plantVariant", cell.Key.Variant);
+        group.SetMeta("spatialCellSize", GroundCoverCellSize);
+        group.SetMeta("streamManagedGroundCover", true);
+        ConfigureFoliageRange(group, cell.Key.Lod, groundCover: true, treeHeight: 0f);
+
+        if (cell.CullingBoundsMeasured)
+        {
+            group.SetMeta("cullingCellInstances", cell.Transforms.Length);
+            group.SetMeta("cullingCellAabbDiagonal", cell.CullingAabbDiagonal);
+            group.SetMeta("cullingCellAabbVolume", cell.CullingAabbVolume);
+            group.SetMeta("cullingCellSwayReserve", cell.CullingSwayReserve);
+            if (FoliageBoundsMeasured && cell.CullingSwayReserve > 0f)
+            {
+                group.ExtraCullMargin = cell.CullingSwayReserve;
+                group.SetMeta("windCullMargin", group.ExtraCullMargin);
+            }
+        }
+
+        cell.Instance = group;
+        _groundCoverResidentCellCount++;
+        _groundCoverResidentInstanceCount += cell.Transforms.Length;
+        if (GroundCoverCellCastsShadow(cell)) _groundCoverResidentShadowCellCount++;
+    }
+
+    private void ReleaseGroundCoverCell(GroundCoverStreamCell cell)
+    {
+        if (cell.Instance is not { } instance) return;
+        if (GodotObject.IsInstanceValid(instance))
+        {
+            instance.Visible = false;
+            instance.GetParent()?.RemoveChild(instance);
+            instance.QueueFree();
+        }
+        cell.Instance = null;
+        _groundCoverResidentCellCount--;
+        _groundCoverResidentInstanceCount -= cell.Transforms.Length;
+        if (GroundCoverCellCastsShadow(cell)) _groundCoverResidentShadowCellCount--;
+    }
+
+    private void SetGroundCoverStreamingReadback(Node3D plants)
+    {
+        plants.SetMeta("groundCoverPlannedCells", _groundCoverStreamCells.Count);
+        plants.SetMeta("groundCoverPlannedInstances", _groundCoverPlannedInstanceCount);
+        plants.SetMeta("groundCoverResidentCells", _groundCoverResidentCellCount);
+        plants.SetMeta("groundCoverResidentInstances", _groundCoverResidentInstanceCount);
+        plants.SetMeta("groundCoverQueuedLoads", Math.Max(0, _groundCoverLoadQueue.Count - _groundCoverLoadQueueIndex));
+        plants.SetMeta("groundCoverQueuedReleases", Math.Max(0, _groundCoverReleaseQueue.Count - _groundCoverReleaseQueueIndex));
+        plants.SetMeta("groundCoverStreamLoadRadiusMeters", GroundCoverLoadRadius);
+        plants.SetMeta("groundCoverStreamReleaseRadiusMeters", GroundCoverReleaseRadius);
+        plants.SetMeta("groundCoverStreamBatchCells", GroundCoverLoadsPerTick);
+        plants.SetMeta("groundCoverStreamReleaseBatchCells", GroundCoverReleasesPerTick);
+        plants.SetMeta("groundCoverStreamIntervalMilliseconds", GroundCoverStreamIntervalSeconds * 1000d);
+        plants.SetMeta("groundCoverStreamingEnabled", _groundCoverStreamingEnabled);
+        var plannedNodeCount = plants.GetChildCount()
+            + _groundCoverStreamCells.Count - _groundCoverResidentCellCount;
+        plants.SetMeta("foliageSceneNodeCount", plants.GetChildCount());
+        plants.SetMeta("foliagePlannedSceneNodeCount", plannedNodeCount);
+        SetMeta("plantedFoliageNodeCount", plants.GetChildCount());
+        SetMeta("plannedFoliageNodeCount", plannedNodeCount);
+        if (plants.HasMeta("foliageResidentShadowCasterBaseCount"))
+        {
+            var baseShadowCasters = plants.GetMeta("foliageResidentShadowCasterBaseCount").AsInt32();
+            plants.SetMeta("groundCoverResidentShadowCasterCells", _groundCoverResidentShadowCellCount);
+            plants.SetMeta("foliageResidentShadowCasterCount", baseShadowCasters + _groundCoverResidentShadowCellCount);
+        }
+    }
+
+    private void UpdateGroundCoverStreaming(double delta)
+    {
+        if (_groundCoverStreamCells.Count == 0 || _groundCoverContainer is not { } plants
+            || !GodotObject.IsInstanceValid(plants) || plants.IsQueuedForDeletion()) return;
+
+        _groundCoverStreamElapsed += delta;
+        if (_groundCoverStreamElapsed < GroundCoverStreamIntervalSeconds) return;
+        _groundCoverStreamElapsed %= GroundCoverStreamIntervalSeconds;
+
+        if (Act1ConnectedWorld.StudioPreviewMode)
+        {
+            // Isolated Studio framing may be moved without a live game camera. Keep
+            // the complete authored ground-cover layer in that presentation mode.
+            var wasEnabled = _groundCoverStreamingEnabled;
+            _groundCoverStreamingEnabled = false;
+            if (wasEnabled || !_groundCoverFullLoadQueuePrepared)
+            {
+                _groundCoverLoadQueue.Clear();
+                _groundCoverReleaseQueue.Clear();
+                _groundCoverLoadQueueIndex = 0;
+                _groundCoverReleaseQueueIndex = 0;
+                _groundCoverHasProcessedFocus = false;
+                _groundCoverFullLoadQueuePrepared = true;
+                foreach (var cell in _groundCoverStreamCells.Where(cell => cell.Instance is null))
+                    _groundCoverLoadQueue.Add((cell, 0f));
+            }
+            ProcessGroundCoverStreamingQueues(plants, GlobalTransform, GlobalPosition,
+                forceReadback: wasEnabled, loadEverything: true);
+            return;
+        }
+
+        if (!TryGetGroundCoverFocus(out var focus))
+        {
+            ProcessGroundCoverStreamingQueues(plants, GlobalTransform, _groundCoverLastProcessedFocus,
+                loadEverything: _groundCoverFullLoadQueuePrepared);
+            return;
+        }
+
+        var wasStreamingEnabled = _groundCoverStreamingEnabled;
+        _groundCoverStreamingEnabled = true;
+        var zoneId = CurrentGroundCoverZoneId();
+        if (!_groundCoverHasProcessedFocus
+            || GroundCoverDistanceSquared(focus, _groundCoverLastProcessedFocus) >= 1.5f * 1.5f
+            || !StringComparer.Ordinal.Equals(zoneId, _groundCoverLastProcessedZoneId)
+            || _groundCoverFullLoadQueuePrepared)
+        {
+            RebuildGroundCoverStreamingQueues(focus, zoneId);
+            _groundCoverFullLoadQueuePrepared = false;
+        }
+
+        ProcessGroundCoverStreamingQueues(plants, GlobalTransform, focus,
+            forceReadback: wasStreamingEnabled != _groundCoverStreamingEnabled);
+    }
+
+    private void RebuildGroundCoverStreamingQueues(Vector3 focus, string zoneId)
+    {
+        _groundCoverLoadQueue.Clear();
+        _groundCoverReleaseQueue.Clear();
+        _groundCoverLoadQueueIndex = 0;
+        _groundCoverReleaseQueueIndex = 0;
+        var layerToWorld = GlobalTransform;
+        var loadRadiusSquared = GroundCoverLoadRadius * GroundCoverLoadRadius;
+        var releaseRadiusSquared = GroundCoverReleaseRadius * GroundCoverReleaseRadius;
+        foreach (var cell in _groundCoverStreamCells)
+        {
+            var distanceSquared = GroundCoverDistanceSquared(layerToWorld * cell.Origin, focus);
+            if (cell.Instance is null && distanceSquared <= loadRadiusSquared)
+                _groundCoverLoadQueue.Add((cell, distanceSquared));
+            else if (cell.Instance is not null && distanceSquared > releaseRadiusSquared)
+                _groundCoverReleaseQueue.Add((cell, distanceSquared));
+        }
+
+        _groundCoverLoadQueue.Sort((left, right) =>
+        {
+            var distance = left.DistanceSquared.CompareTo(right.DistanceSquared);
+            if (distance != 0) return distance;
+            var cellX = left.Cell.Key.Cell.X.CompareTo(right.Cell.Key.Cell.X);
+            if (cellX != 0) return cellX;
+            var cellZ = left.Cell.Key.Cell.Y.CompareTo(right.Cell.Key.Cell.Y);
+            if (cellZ != 0) return cellZ;
+            return StringComparer.Ordinal.Compare(left.Cell.Key.Variant, right.Cell.Key.Variant);
+        });
+        _groundCoverReleaseQueue.Sort((left, right) =>
+        {
+            var distance = right.DistanceSquared.CompareTo(left.DistanceSquared);
+            if (distance != 0) return distance;
+            var cellX = left.Cell.Key.Cell.X.CompareTo(right.Cell.Key.Cell.X);
+            if (cellX != 0) return cellX;
+            var cellZ = left.Cell.Key.Cell.Y.CompareTo(right.Cell.Key.Cell.Y);
+            if (cellZ != 0) return cellZ;
+            return StringComparer.Ordinal.Compare(left.Cell.Key.Variant, right.Cell.Key.Variant);
+        });
+        _groundCoverLastProcessedFocus = focus;
+        _groundCoverLastProcessedZoneId = zoneId;
+        _groundCoverHasProcessedFocus = true;
+    }
+
+    private void ProcessGroundCoverStreamingQueues(
+        Node3D plants,
+        Transform3D layerToWorld,
+        Vector3 focus,
+        bool forceReadback = false,
+        bool loadEverything = false)
+    {
+        var pendingBefore = _groundCoverLoadQueue.Count - _groundCoverLoadQueueIndex
+            + _groundCoverReleaseQueue.Count - _groundCoverReleaseQueueIndex;
+        var loaded = 0;
+        var loadRadiusSquared = GroundCoverLoadRadius * GroundCoverLoadRadius;
+        while (_groundCoverLoadQueueIndex < _groundCoverLoadQueue.Count
+            && loaded < GroundCoverLoadsPerTick)
+        {
+            var candidate = _groundCoverLoadQueue[_groundCoverLoadQueueIndex++];
+            var stillNear = loadEverything
+                || GroundCoverDistanceSquared(layerToWorld * candidate.Cell.Origin, focus) <= loadRadiusSquared;
+            if (!stillNear || candidate.Cell.Instance is not null) continue;
+            LoadGroundCoverCell(candidate.Cell);
+            if (candidate.Cell.Instance is not null) loaded++;
+        }
+        if (_groundCoverLoadQueueIndex >= _groundCoverLoadQueue.Count)
+        {
+            _groundCoverLoadQueue.Clear();
+            _groundCoverLoadQueueIndex = 0;
+        }
+
+        var released = 0;
+        var releaseRadiusSquared = GroundCoverReleaseRadius * GroundCoverReleaseRadius;
+        while (_groundCoverReleaseQueueIndex < _groundCoverReleaseQueue.Count
+            && released < GroundCoverReleasesPerTick)
+        {
+            var candidate = _groundCoverReleaseQueue[_groundCoverReleaseQueueIndex++];
+            var stillFar = GroundCoverDistanceSquared(layerToWorld * candidate.Cell.Origin, focus)
+                > releaseRadiusSquared;
+            if (!stillFar || candidate.Cell.Instance is null) continue;
+            ReleaseGroundCoverCell(candidate.Cell);
+            released++;
+        }
+        if (_groundCoverReleaseQueueIndex >= _groundCoverReleaseQueue.Count)
+        {
+            _groundCoverReleaseQueue.Clear();
+            _groundCoverReleaseQueueIndex = 0;
+        }
+
+        var pendingAfter = _groundCoverLoadQueue.Count - _groundCoverLoadQueueIndex
+            + _groundCoverReleaseQueue.Count - _groundCoverReleaseQueueIndex;
+        if (forceReadback || loaded > 0 || released > 0 || pendingBefore != pendingAfter)
+            SetGroundCoverStreamingReadback(plants);
+    }
+
     private IEnumerable<Action> PlantFoliageJobs()
     {
         Node3D kit = null!;
@@ -1699,7 +2142,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             kit.SetMeta("templateSourceHidden", true);
             kit.SetMeta("templateSourcePolicy", "hidden source library; shared geometry is rebased once per variant");
         };
-        var batches = new Dictionary<(Vector2I Cell, string Variant, string Region, int Lod), List<Transform3D>>();
+        var batches = new Dictionary<GroundCoverBatchKey, List<Transform3D>>();
         Aabb[] roofs = [];
         yield return () => roofs = BuildingRoofBounds(GetParent());
         const float roofIndexCellSize = 16f;
@@ -1919,7 +2362,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 {
                     var cell = new Vector2I(Mathf.FloorToInt(position.X / GroundCoverCellSize),
                         Mathf.FloorToInt(position.Y / GroundCoverCellSize));
-                    var key = (cell, tiers[lod], region, hasLods ? lod : -1);
+                    var key = new GroundCoverBatchKey(cell, tiers[lod], region, hasLods ? lod : -1);
                     if (!batches.TryGetValue(key, out var instances)) batches[key] = instances = new();
                     instances.Add(new Transform3D(basis, target));
                 }
@@ -1988,56 +2431,6 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         }
         foreach (var entry in plan)
             yield return () => PlantEntry(entry);
-        void PublishBatch((Vector2I Cell, string Variant, string Region, int Lod) key, List<Transform3D> instances)
-        {
-            const float cellSize = GroundCoverCellSize;
-            var origin = new Vector3(key.Cell.X * cellSize + cellSize * .5f, 0f,
-                key.Cell.Y * cellSize + cellSize * .5f);
-            var multi = new MultiMesh { TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
-                Mesh = RegionalMesh(key.Variant, key.Region), InstanceCount = instances.Count };
-            for (var index = 0; index < instances.Count; index++)
-            {
-                var transform = instances[index];
-                transform.Origin -= origin;
-                multi.SetInstanceTransform(index, transform);
-            }
-            var group = new MultiMeshInstance3D
-            {
-                Name = $"{key.Variant}_{key.Region}_Cell{key.Cell.X}_{key.Cell.Y}_H0",
-                Position = origin,
-                Multimesh = multi
-            };
-            // VIS-030: the cell is culled as one AABB built from the instances, but the
-            // wind shader moves vertices by up to |gust| (<=1) x wind_sway x height,
-            // 1.17x that with the z component. Cover that real reach, measured from the
-            // tallest instance in this cell, instead of an arbitrary large box.
-            var meshTop = Mathf.Max(0f, multi.Mesh.GetAabb().End.Y);
-            var sway = 0f;
-            for (var surfaceIndex = 0; surfaceIndex < multi.Mesh.GetSurfaceCount(); surfaceIndex++)
-                if (multi.Mesh.SurfaceGetMaterial(surfaceIndex) is ShaderMaterial material)
-                    sway = Mathf.Max(sway, material.GetShaderParameter("wind_sway").AsSingle());
-            // The shader displaces local X/Z, then the instance basis scales and
-            // rotates that vector. Y scale is unrelated to that reach on tilted,
-            // non-uniformly scaled plants. Read the material rather than guess by name.
-            var displacement = new Vector3(meshTop * sway, 0f, meshTop * sway * .6f);
-            group.ExtraCullMargin = instances.Max(transform => (transform.Basis * displacement).Length());
-            group.SetMeta("windCullMargin", group.ExtraCullMargin);
-            // VIS-029: knee-high grass, fern and sedge add shadow-pass work without a
-            // readable shadow, and so does every ground-cover cell past its first LOD
-            // (> 24 m). Near shrubs keep their contact shadow.
-            var lowCover = key.Variant.Contains("Grass", StringComparison.Ordinal)
-                || key.Variant.Contains("Fern", StringComparison.Ordinal)
-                || key.Variant.Contains("Sedge", StringComparison.Ordinal);
-            if (lowCover || key.Lod >= 1)
-                group.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
-            plants.AddChild(group);
-            group.SetMeta("presentationOnly", true);
-            group.SetMeta("plantVariant", key.Variant);
-            group.SetMeta("spatialCellSize", cellSize);
-            ConfigureFoliageRange(group, key.Lod, groundCover: true, treeHeight: 0f);
-        }
-        foreach (var (key, transforms) in batches)
-            yield return () => PublishBatch(key, transforms);
         foreach (var region in new[] { "village", "zirat", "kara" })
         foreach (var variant in new[] { "WinterBirch_1", "WinterBirch_2", "WinterLinden_1", "WinterBirdCherry_1",
                      "WinterLightBirch_1", "WinterLightBirch_2", "WinterLightLinden_1", "WinterLightBirdCherry_1",
@@ -2045,18 +2438,28 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                      "WinterSpruce_1", "WinterLightSpruce_1", "WinterFarSpruce_1",
                      "WinterSpruce_2", "WinterLightSpruce_2", "WinterFarSpruce_2" })
             yield return () => RegionalMesh(variant, region);
-        // VIS-027/029/030: silhouette parity across every authored tier switch, the
-        // measured culling volume of every plant cell and the structural census of
-        // this layer. Runs after every mesh and instance exists, so it reads what the
-        // frame will actually contain.
+        yield return () => RegisterGroundCoverStreamCells(plants, batches);
+        foreach (var cell in _groundCoverInitialCells)
+            yield return () => LoadGroundCoverCell(cell);
         yield return () =>
         {
-            AuditFoliageLodAndCullingBounds(plants);
+            SetGroundCoverStreamingReadback(plants);
+            _groundCoverInitialCells.Clear();
+        };
+        // VIS-027/029/030: silhouette parity across every authored tier switch, the
+        // measured culling volume of every plant cell and the structural census of
+        // this layer. Deferred ground-cover cells contribute their exact authored
+        // transforms to the same audit without pretending they are resident nodes.
+        yield return () =>
+        {
+            AuditFoliageLodAndCullingBounds(plants, _groundCoverStreamCells);
             SetMeta("roadEnvelopeSuppressedFoliageEntryCount", suppressed);
             SetMeta("plantedVariantCount", parts.Count);
             SetMeta("plannedFoliageEntryCount", plan.Count);
             SetMeta("plantedFoliageEntryCount", plan.Count);
             SetMeta("plantedFoliageNodeCount", plants.GetChildCount());
+            SetMeta("plannedFoliageNodeCount", plants.GetChildCount()
+                + _groundCoverStreamCells.Count(cell => cell.Instance is null));
             SetMeta("suppressedKaraFoliageEntryCount", suppressedKara);
             SetMeta("minimumFoliageRoadClearance", minimumClearance);
             SetMeta("foliagePlacementPolicy", "roots and full lower silhouette clear road; suppressed entries remain counted separately");
@@ -2209,7 +2612,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         instance.VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self;
         instance.VisibilityRangeBegin = rangeScale * (lod switch { 1 => 24, 2 => 60, _ => 0 });
         instance.VisibilityRangeBeginMargin = rangeScale * (lod switch { 1 => 2, 2 => 4, _ => 0 });
-        instance.VisibilityRangeEnd = rangeScale * (lod switch { 0 => 26, 1 => 64, _ => groundCover ? 85 : 0 });
+        instance.VisibilityRangeEnd = rangeScale * (lod switch
+            { 0 => 26, 1 => 64, _ => groundCover ? GroundCoverVisibleRangeEnd : 0 });
         instance.VisibilityRangeEndMargin = rangeScale * (lod switch { 0 => 2, 1 => 4, _ => groundCover ? 5 : 0 });
         instance.SetMeta("visibilityRangeTier", lod);
         instance.SetMeta("visibilityRangeScale", rangeScale);
@@ -3493,6 +3897,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
         var camera = GetViewport()?.GetCamera3D();
         var focus = camera?.GlobalPosition ?? GlobalPosition;
+        if (_groundCoverStreamCells.Count > 0)
+            UpdateGroundCoverStreaming(delta);
         if (_rain is not null)
         {
             UpdateSnowPresentation(focus);
