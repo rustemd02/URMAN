@@ -161,9 +161,65 @@ public partial class Act1ConnectedWorld
                 });
             }
         }
+        BatchGorgeFencePosts(gorge);
         BuildSuspensionBridge(gorge);
         GD.Print($"act1-gorge: halfWidth={AgentBAct1HeightField.GorgeHalfWidth} depth={AgentBAct1HeightField.GorgeDepth} bridge=suspension@({SuspensionBridgeX},{GorgeCentreZ(SuspensionBridgeX):0.0})");
         GD.Print($"act1-gorge-bridge: planks={_suspensionDeckPlanks} patchBoards={_suspensionPatchBoards} apronBoards=10 sections={SuspensionDeckSections} deckHoles=0");
+    }
+
+    private static void BatchGorgeFencePosts(Node3D gorge)
+    {
+        // Match the four-metre authored runs while keeping frustum/shadow bounds local.
+        const float cellSize = 4f;
+        var posts = gorge.GetChildren().OfType<MeshInstance3D>()
+            .Where(node => node.Name.ToString().StartsWith("GorgeRimFence", StringComparison.Ordinal)
+                && node.Name.ToString().Contains("Post", StringComparison.Ordinal))
+            .ToArray();
+        if (posts.Length < 2) return;
+
+        var mesh = posts[0].Mesh ?? throw new InvalidOperationException("Gorge fence post has no visual mesh.");
+        var material = posts[0].MaterialOverride
+            ?? throw new InvalidOperationException("Gorge fence post has no material override.");
+        foreach (var cell in posts.GroupBy(post => new Vector2I(
+                     Mathf.FloorToInt(post.Position.X / cellSize),
+                     Mathf.FloorToInt(post.Position.Z / cellSize))))
+        {
+            var members = cell.ToArray();
+            if (members.Length < 2) continue;
+
+            var origin = new Vector3((cell.Key.X + .5f) * cellSize, 0f,
+                (cell.Key.Y + .5f) * cellSize);
+            var multimesh = new MultiMesh
+            {
+                TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
+                Mesh = mesh,
+                InstanceCount = members.Length
+            };
+            for (var index = 0; index < members.Length; index++)
+            {
+                var transform = members[index].Transform;
+                transform.Origin -= origin;
+                multimesh.SetInstanceTransform(index, transform);
+            }
+
+            var batch = new MultiMeshInstance3D
+            {
+                Name = $"GorgeRimFencePosts_Cell{cell.Key.X}_{cell.Key.Y}",
+                Position = origin,
+                Multimesh = multimesh,
+                MaterialOverride = material,
+                CastShadow = posts[0].CastShadow,
+                Layers = posts[0].Layers
+            };
+            batch.SetMeta("visualOnly", true);
+            batch.SetMeta("spatialCellSize", cellSize);
+            gorge.AddChild(batch);
+            foreach (var post in members)
+            {
+                gorge.RemoveChild(post);
+                post.Free();
+            }
+        }
     }
 
     /// <summary>
