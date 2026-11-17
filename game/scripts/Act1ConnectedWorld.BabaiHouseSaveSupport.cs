@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using Godot;
 using Urman.Core.Persistence;
+using Urman.Experiments.AgentBAct1;
 
 namespace Urman.Godot;
 
@@ -10,19 +11,84 @@ public partial class Act1ConnectedWorld
 {
     internal static bool NeedsLegacyBabaiHouseWorld(SaveGameV3 save)
     {
-        if (save.CurrentZone.Value == "house_old_pc") return true;
-        if (!save.Runtime.State.TryGetProperty("world.props", out var props) || props.ValueKind != JsonValueKind.Object)
-            return false;
+        Transform3D roomTransform = default;
+        Transform3D roomInverse = default;
+        var hasRoomTransform = false;
+        if (save.CurrentZone.Value == "house_old_pc")
+        {
+            if (!TryGetPreflightBabaiHouseRoomTransform(out roomTransform)) return true;
+            roomInverse = roomTransform.AffineInverse();
+            hasRoomTransform = true;
+            var position = save.PlayerTransform.Position;
+            var worldFeet = new Vector3((float)position.X, (float)position.Y, (float)position.Z);
+            if (IsLegacyBabaiHouseLocal(roomInverse * worldFeet)) return true;
+        }
+
+        if (!save.Runtime.State.TryGetProperty("world.props", out var props)
+            || props.ValueKind != JsonValueKind.Object) return false;
         foreach (var property in props.EnumerateObject())
         {
             var record = property.Value;
-            if (record.ValueKind == JsonValueKind.Object
-                && record.TryGetProperty("zone", out var zone) && zone.ValueKind == JsonValueKind.String && zone.GetString() == "house_old_pc"
-                && record.TryGetProperty("state", out var state) && state.ValueKind == JsonValueKind.String
-                && state.GetString() is ("placed" or "combined")) return true;
+            // Match the adapter's candidate filter exactly. world.props also
+            // contains non-carryable checkpoints (for example Alsu's pose); they
+            // have no zone/state and are never consumed by AdaptLegacyBabaiHouseSave.
+            if (record.ValueKind != JsonValueKind.Object
+                || !record.TryGetProperty("zone", out var zone) || zone.ValueKind != JsonValueKind.String
+                || zone.GetString() != "house_old_pc"
+                || !record.TryGetProperty("state", out var state) || state.ValueKind != JsonValueKind.String)
+                continue;
+            var itemState = state.GetString();
+            if (itemState is not ("placed" or "combined")) continue;
+            if (!record.TryGetProperty("x", out var x) || x.ValueKind != JsonValueKind.Number || !x.TryGetSingle(out var px)
+                || !record.TryGetProperty("y", out var y) || y.ValueKind != JsonValueKind.Number || !y.TryGetSingle(out var py)
+                || !record.TryGetProperty("z", out var z) || z.ValueKind != JsonValueKind.Number || !z.TryGetSingle(out var pz))
+                continue;
+
+            if (!hasRoomTransform)
+            {
+                if (!TryGetPreflightBabaiHouseRoomTransform(out roomTransform)) return true;
+                roomInverse = roomTransform.AffineInverse();
+                hasRoomTransform = true;
+            }
+            var local = roomInverse * new Vector3(px, py, pz);
+            if (IsLegacyBabaiHouseLocal(local)) return true;
+            if (itemState == "placed" && TryMoveCompactBabaiSupport(local, out _)) return true;
         }
         return false;
     }
+
+    private static bool TryGetPreflightBabaiHouseRoomTransform(out Transform3D roomTransform)
+    {
+        roomTransform = default;
+        if (!Act1WorldLayout.TryGetPlacement("house_old_pc", out var placement)) return false;
+        var connectorFound = false;
+        var connector = default(Act1WorldLayout.ConnectorPlacement);
+        foreach (var candidate in Act1WorldLayout.Connectors)
+        {
+            if (!string.Equals(candidate.ConnectorId, "arrival-to-house-yard", StringComparison.Ordinal)) continue;
+            connector = candidate;
+            connectorFound = true;
+            break;
+        }
+        if (!connectorFound) return false;
+
+        var approach = HorizontalDirection(connector.End - placement.Origin);
+        var yaw = DirectionYaw(approach);
+        var facade = new Transform3D(
+            new Basis(Vector3.Up, Mathf.DegToRad(yaw)),
+            placement.Origin + new Vector3(0f, 0f, -3.4f));
+        // Mirrors BuildAct1AuthoredExteriorKit's facade placement, the room's
+        // TransformFromFacade offset, and the later rigid Babai relocation.
+        roomTransform = BabaiRelocation.Transform
+            * facade
+            * new Transform3D(Basis.Identity, StyleBenchmarkInteriorFactory.RoomOffset);
+        return roomTransform.Origin.IsFinite() && roomTransform.Basis.X.IsFinite()
+            && roomTransform.Basis.Y.IsFinite() && roomTransform.Basis.Z.IsFinite();
+    }
+
+    private static bool IsLegacyBabaiHouseLocal(Vector3 position) => position.IsFinite()
+        && Math.Abs(position.X) < 5.6f && Math.Abs(position.Z) < 4.2f
+        && position.Y > -31.5f && position.Y < -22.5f;
 
     // Content placement compatibility only: adapt the in-memory load candidate,
     // never the stored slot, history, custody, or story facts.
@@ -31,8 +97,6 @@ public partial class Act1ConnectedWorld
         if (!_zoneInstances.TryGetValue("house_old_pc", out var room)
             || !room.HasNode("NewBabaiHouseInterior")) return save;
 
-        static bool Legacy(Vector3 p) => p.IsFinite() && Math.Abs(p.X) < 5.6f
-            && Math.Abs(p.Z) < 4.2f && p.Y > -31.5f && p.Y < -22.5f;
         static (Vector3 Safe, Vector3 Origin, float Yaw) Destination(Vector3 p)
         {
             if (p.Y >= -27.3f) return (new(5.85f, 5.65f, -2.60f), new(0, 2.8f, -2), 0);
@@ -44,7 +108,7 @@ public partial class Act1ConnectedWorld
 
         var original = save.PlayerTransform;
         var feet = room.ToLocal(new((float)original.Position.X, (float)original.Position.Y, (float)original.Position.Z));
-        var movedPlayer = save.CurrentZone.Value == "house_old_pc" && Legacy(feet);
+        var movedPlayer = save.CurrentZone.Value == "house_old_pc" && IsLegacyBabaiHouseLocal(feet);
         if (movedPlayer)
         {
             var target = room.ToGlobal(Destination(feet).Safe);
@@ -64,7 +128,7 @@ public partial class Act1ConnectedWorld
                 || !record.TryGetProperty("y", out var y) || y.ValueKind != JsonValueKind.Number || !y.TryGetSingle(out var py)
                 || !record.TryGetProperty("z", out var z) || z.ValueKind != JsonValueKind.Number || !z.TryGetSingle(out var pz)) continue;
             var oldLocal = room.ToLocal(new(px, py, pz));
-            if (!Legacy(oldLocal))
+            if (!IsLegacyBabaiHouseLocal(oldLocal))
             {
                 if (status.GetString() != "placed" || !TryMoveCompactBabaiSupport(oldLocal, out var compact)) continue;
                 var compactWorld = room.ToGlobal(compact);

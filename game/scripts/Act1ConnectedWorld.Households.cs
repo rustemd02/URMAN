@@ -10,31 +10,12 @@ public partial class Act1ConnectedWorld
     private VillageHouseholdDirector? _households;
     private WeakReference<object>? _lastRestoredHouseholdAudioSession;
     private string? _lastRestoredHouseholdAudioTicketId;
-    private JsonElement? _pendingHouseholdAudioSchedule;
-    private WeakReference<object>? _pendingHouseholdAudioSession;
-    private string? _pendingHouseholdAudioTicketId;
-    private string? _pendingHouseholdAudioFailure;
-    private ulong _nextPendingHouseholdAudioRetryUsec;
-
-    private RuntimeBridge? HouseholdRuntimeBridge => _runtimeBridge is { } current && GodotObject.IsInstanceValid(current)
-        ? current
-        : GetTree()?.GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
 
     internal bool TryCaptureHouseholdAudioSchedule(out JsonElement snapshot)
     {
         snapshot = default;
-        if (!IsInsideTree() || IsQueuedForDeletion()) return false;
-        if (_pendingHouseholdAudioSchedule is { } pending)
-        {
-            if (_pendingHouseholdAudioSession is { } pendingSession && pendingSession.TryGetTarget(out var owner)
-                && ReferenceEquals(HouseholdRuntimeBridge?.SessionIdentity, owner))
-            {
-                snapshot = pending.Clone();
-                return true;
-            }
-            ClearPendingHouseholdAudioSchedule();
-        }
-        if (_households is not { } households || !GodotObject.IsInstanceValid(households)
+        if (!IsInsideTree() || IsQueuedForDeletion()
+            || _households is not { } households || !GodotObject.IsInstanceValid(households)
             || !households.IsInsideTree() || households.IsQueuedForDeletion()
             || !households.IsScheduleInitialized) return false;
         snapshot = households.CaptureScheduleSnapshot();
@@ -43,87 +24,20 @@ public partial class Act1ConnectedWorld
 
     internal bool TryRestoreHouseholdAudioSchedule(object session, string ticketId, JsonElement snapshot)
     {
-        var bridge = HouseholdRuntimeBridge;
-        if (session is null || !ReferenceEquals(bridge?.SessionIdentity, session)
+        if (session is null || !ReferenceEquals(_runtimeBridge?.SessionIdentity, session)
             || string.IsNullOrWhiteSpace(ticketId) || !IsInsideTree() || IsQueuedForDeletion()) return false;
+        if (_households is not { } households || !GodotObject.IsInstanceValid(households)
+            || !households.IsInsideTree() || households.IsQueuedForDeletion()
+            || !households.IsScheduleInitialized) return false;
         PhotoWorldState.ValidateHouseholdAudioSnapshot(snapshot);
         if (_lastRestoredHouseholdAudioSession is { } restoredSessionReference
             && restoredSessionReference.TryGetTarget(out var restoredSession)
             && ReferenceEquals(restoredSession, session)
             && _lastRestoredHouseholdAudioTicketId == ticketId) return true;
-        if (_pendingHouseholdAudioFailure is not null
-            && _pendingHouseholdAudioSession is { } failedSession
-            && failedSession.TryGetTarget(out var failedOwner) && ReferenceEquals(failedOwner, session)
-            && _pendingHouseholdAudioTicketId == ticketId
-            && Time.GetTicksUsec() < _nextPendingHouseholdAudioRetryUsec) return false;
-        if (_households is { } households && GodotObject.IsInstanceValid(households)
-            && households.IsInsideTree() && !households.IsQueuedForDeletion() && households.IsScheduleInitialized)
-            return ApplyHouseholdAudioSchedule(session, ticketId, snapshot, households);
-
-        _pendingHouseholdAudioSchedule = snapshot.Clone();
-        _pendingHouseholdAudioSession = new WeakReference<object>(session);
-        _pendingHouseholdAudioTicketId = ticketId;
-        _pendingHouseholdAudioFailure = null;
+        households.RestoreScheduleSnapshot(snapshot);
+        _lastRestoredHouseholdAudioSession = new WeakReference<object>(session);
+        _lastRestoredHouseholdAudioTicketId = ticketId;
         return true;
-    }
-
-    private bool ApplyHouseholdAudioSchedule(
-        object session, string ticketId, JsonElement snapshot, VillageHouseholdDirector households)
-    {
-        try
-        {
-            households.RestoreScheduleSnapshot(snapshot);
-            _lastRestoredHouseholdAudioSession = new WeakReference<object>(session);
-            _lastRestoredHouseholdAudioTicketId = ticketId;
-            if (_pendingHouseholdAudioSession is { } pendingSession && pendingSession.TryGetTarget(out var pendingOwner)
-                && ReferenceEquals(pendingOwner, session))
-                ClearPendingHouseholdAudioSchedule();
-            _pendingHouseholdAudioFailure = null;
-            return true;
-        }
-        catch (Exception error)
-        {
-            _pendingHouseholdAudioSchedule = snapshot.Clone();
-            _pendingHouseholdAudioSession = new WeakReference<object>(session);
-            _pendingHouseholdAudioTicketId = ticketId;
-            if (_pendingHouseholdAudioFailure != error.Message)
-                GD.PushError($"Household audio schedule restore remains pending: {error.Message}");
-            _pendingHouseholdAudioFailure = error.Message;
-            _nextPendingHouseholdAudioRetryUsec = Time.GetTicksUsec() + 1_000_000;
-            return false;
-        }
-    }
-
-    private void ApplyPendingHouseholdAudioSchedule()
-    {
-        if (_pendingHouseholdAudioSchedule is not { } snapshot
-            || _pendingHouseholdAudioSession is not { } pendingSession
-            || !pendingSession.TryGetTarget(out var session)
-            || !ReferenceEquals(HouseholdRuntimeBridge?.SessionIdentity, session)
-            || _households is not { } households || !households.IsScheduleInitialized) return;
-        ApplyHouseholdAudioSchedule(session, _pendingHouseholdAudioTicketId ?? string.Empty, snapshot, households);
-    }
-
-    private void RetryPendingHouseholdAudioSchedule()
-    {
-        if (_pendingHouseholdAudioSchedule is null || Time.GetTicksUsec() < _nextPendingHouseholdAudioRetryUsec) return;
-        _nextPendingHouseholdAudioRetryUsec = Time.GetTicksUsec() + 1_000_000;
-        ApplyPendingHouseholdAudioSchedule();
-    }
-
-    private void ClearPendingHouseholdAudioSchedule()
-    {
-        _pendingHouseholdAudioSchedule = null;
-        _pendingHouseholdAudioSession = null;
-        _pendingHouseholdAudioTicketId = null;
-        _pendingHouseholdAudioFailure = null;
-    }
-
-    internal bool TryTransferHouseholdAudioScheduleTo(Act1ConnectedWorld target, object session)
-    {
-        if (!TryCaptureHouseholdAudioSchedule(out var snapshot)) return true;
-        return target.TryRestoreHouseholdAudioSchedule(session,
-            $"home-retry:{_pendingHouseholdAudioTicketId ?? _lastRestoredHouseholdAudioTicketId ?? "snapshot"}", snapshot);
     }
 
     private VillageSoundMoodDirector? _soundMood;
@@ -137,7 +51,6 @@ public partial class Act1ConnectedWorld
     {
         _households=new VillageHouseholdDirector {Name="InhabitedVillage"};
         AddChild(_households);_households.Initialize(this);
-        ApplyPendingHouseholdAudioSchedule();
         _soundMood=new VillageSoundMoodDirector {Name="VillageSoundMood"};
         AddChild(_soundMood);
         _soundMood.Initialize(_households,GetTree()?.GetFirstNodeInGroup("ambient_audio") as AmbientAudioDirector);
@@ -161,7 +74,6 @@ public partial class Act1ConnectedWorld
     }
     private void UpdateVillageHouseholds(double delta)
     {
-        RetryPendingHouseholdAudioSchedule();
         if(_households is null || LifePlayer() is not { } player)return;
         var camera=GetViewport().GetCamera3D();
         var contextAudible=_physicalInterior.Length==0 && !player.ModalOpen && !player.SessionTransitionActive
