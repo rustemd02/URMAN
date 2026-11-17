@@ -86,14 +86,18 @@ public partial class Act1ConnectedWorld
             });
             foreach (var z in new[] { -1.55f, 1.55f })
             {
-                AddRavineLog(_intactOpeningBridge, $"Rail{start}_{z}", a + new Vector3(0, .95f, z), b + new Vector3(0, .95f, z), .055f, "6b5a45");
                 AddRavineLog(_intactOpeningBridge, $"Support{start}_{z}", a + new Vector3(0, -.22f, z * .7f), b + new Vector3(0, -.22f, z * .7f), .16f, "4f4032");
+                if (z < 0f && end <= PhotoBankSouthRailStart) continue;
+                var railA = z < 0f && start < PhotoBankSouthRailStart
+                    ? new Vector3(cx + PhotoBankSouthRailStart, OpeningBridgeRoadHeight(cx + PhotoBankSouthRailStart), RavineBridgeZ)
+                    : a;
+                AddRavineLog(_intactOpeningBridge, $"Rail{start}_{z}", railA + new Vector3(0, .95f, z), b + new Vector3(0, .95f, z), .055f, "6b5a45");
                 _intactOpeningBridge.AddChild(new CollisionShape3D
                 {
                     Name = $"RailContact{start}_{z}",
-                    Position = (a + b) * .5f + new Vector3(0, .53f, z),
+                    Position = (railA + b) * .5f + new Vector3(0, .53f, z),
                     Rotation = new(0, 0, Mathf.Atan2(b.Y - a.Y, b.X - a.X)),
-                    Shape = new BoxShape3D { Size = new(a.DistanceTo(b), 1.05f, .12f) }
+                    Shape = new BoxShape3D { Size = new(railA.DistanceTo(b), 1.05f, .12f) }
                 });
             }
         }
@@ -101,6 +105,8 @@ public partial class Act1ConnectedWorld
         foreach (var z in new[] { -1.55f, 1.55f })
         {
             var x = cx - 8f + i * 1.6f;
+            if (z < 0f && i == 0) x = cx + PhotoBankSouthRailStart;
+            else if (z < 0f && x < cx + PhotoBankSouthRailStart + .6f) continue;
             AddVisualBox(_intactOpeningBridge, $"RailPost{i}_{z}", new(.12f, 1.04f, .12f),
                 new(x, OpeningBridgeRoadHeight(x) + .48f, RavineBridgeZ + z), "5b4a3a", "wood");
         }
@@ -141,12 +147,15 @@ public partial class Act1ConnectedWorld
             // The broken model keeps its handrail on both sides; same boxes as the
             // intact rails, laid on the flat deck line.
             foreach (var z in new[] { -1.55f, 1.55f })
+            {
+                var railA = end == "West" && z < 0f ? new Vector3(cx + PhotoBankSouthRailStart, a.Y, a.Z) : a;
                 _collapsedOpeningApproach.AddChild(new CollisionShape3D
                 {
                     Name = $"CollapsedRailContact{end}_{z}",
-                    Position = (a + b) * .5f + new Vector3(0, .53f, z),
-                    Shape = new BoxShape3D { Size = new(a.DistanceTo(b), 1.05f, .12f) }
+                    Position = (railA + b) * .5f + new Vector3(0, .53f, z),
+                    Shape = new BoxShape3D { Size = new(railA.DistanceTo(b), 1.05f, .12f) }
                 });
+            }
         }
     }
 

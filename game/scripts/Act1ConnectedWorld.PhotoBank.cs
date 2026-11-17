@@ -13,6 +13,9 @@ public partial class Act1ConnectedWorld
     private const float PhotoBankTrailStartZ = -25.5f;
     private const float PhotoBankApproachEntryZ = -52.5f;
     private const float PhotoBankApproachBankOffset = 7.4f;
+    private const float PhotoBankTrailLandingX = 43.2f;
+    // Only the south handrail over the solid west bank opens for this path.
+    private const float PhotoBankSouthRailStart = -5.1f;
     internal const float PhotoBankApproachEntryYawDegrees = -90f;
 
     internal static Vector3 PhotoBankApproachEntryPosition
@@ -27,33 +30,101 @@ public partial class Act1ConnectedWorld
         }
     }
 
-    private static float PhotoBankTrailX(float z) =>
-        (float)AgentBAct1HeightField.RavineCentre(z) - PhotoBankApproachBankOffset;
+    private static float PhotoBankTrailX(float z)
+    {
+        var bank = (float)AgentBAct1HeightField.RavineCentre(z) - PhotoBankApproachBankOffset;
+        var blend = Mathf.SmoothStep(0f, 1f, Mathf.Clamp((-z - 29.2f) / 5.8f, 0f, 1f));
+        return Mathf.Lerp(PhotoBankTrailLandingX, bank, blend);
+    }
 
-    internal static bool TryGetPhotoBankTrailWaypoint(Vector3 playerPosition, Vector3 destination, out Vector3 waypoint)
+    private static readonly Vector2[] PhotoBankCrossStreet = AgentBAct1Layout.FapBranchAxis
+        .Concat(AgentBAct1Layout.BridgeApproachAxis.Skip(1).TakeWhile(point => point.X < PhotoBankTrailLandingX))
+        .Append(new Vector2(PhotoBankTrailLandingX, PhotoBankTrailStartZ)).ToArray();
+
+    internal static bool TryGetPhotoBankTrailWaypoint(Vector3 playerPosition, Vector3 destination,
+        out Vector3 waypoint, out string label)
     {
         waypoint = default;
+        label = "Тропа к старым мосткам";
         var z = playerPosition.Z;
-        var trailStartX = PhotoBankTrailX(PhotoBankTrailStartZ);
-        float nextZ;
-        if (z >= -26.4f && z <= -22f && playerPosition.X >= 0f && playerPosition.X < trailStartX - .5f)
+        var position = new Vector2(playerPosition.X, z);
+        var trailX = PhotoBankTrailX(z);
+        var westAllowance = z <= -28.1f ? 2.2f : 1f;
+        Vector2 next;
+        // Enter from the east side of the clinic crate. The service loop may
+        // join below it; neither approach is sent back to the street junction.
+        if (z >= destination.Z + 4f && z <= PhotoBankTrailStartZ + 2f
+            && playerPosition.X >= trailX - westAllowance && playerPosition.X <= trailX + 1.4f)
         {
-            // Take the street past the clinic fence before turning down the bank.
-            nextZ = PhotoBankTrailStartZ;
+            var nextZ = Mathf.Max(destination.Z, z - 5f);
+            next = new(PhotoBankTrailX(nextZ), nextZ);
         }
-        else if (z >= destination.Z + 4f && z <= PhotoBankTrailStartZ + 2f
-                 && Mathf.Abs(playerPosition.X - PhotoBankTrailX(z)) <= 1.4f)
+        else if (z < destination.Z + 4f && playerPosition.X >= trailX - 2f)
+            return false; // The actual interaction now owns the last metres.
+        else if (z >= -26.85f && z <= -23.5f && playerPosition.X >= 40.6f && playerPosition.X < trailX - 1f)
         {
-            nextZ = Mathf.Max(destination.Z, z - 5f);
+            // Recover an arrival at the old trail/rail corner north of EX02.
+            // Go east before heading south, rather than steering into the crate.
+            next = new(PhotoBankTrailLandingX, PhotoBankTrailStartZ);
+            label = "Вход на береговую тропу";
+        }
+        else if (z >= -26.4f && z <= -22f && playerPosition.X >= -2f && playerPosition.X <= PhotoBankTrailLandingX + 1f)
+        {
+            var closest = float.PositiveInfinity;
+            var segment = 0;
+            var projected = PhotoBankCrossStreet[0];
+            for (var index = 0; index < PhotoBankCrossStreet.Length - 1; index++)
+            {
+                var a = PhotoBankCrossStreet[index];
+                var run = PhotoBankCrossStreet[index + 1] - a;
+                var fraction = Mathf.Clamp((position - a).Dot(run) / run.LengthSquared(), 0f, 1f);
+                var point = a + run * fraction;
+                var distance = point.DistanceSquaredTo(position);
+                if (distance > closest) continue;
+                closest = distance; segment = index; projected = point;
+            }
+            var end = segment + 1;
+            if (end < PhotoBankCrossStreet.Length - 1 && position.DistanceSquaredTo(PhotoBankCrossStreet[end]) < .8f * .8f)
+                end++;
+            next = closest > 1.2f * 1.2f ? projected : PhotoBankCrossStreet[end];
+            label = end == PhotoBankCrossStreet.Length - 1 ? "Поворот на тропу к мосткам" : "Поперечная дорога к берегу";
         }
         else
         {
-            return false;
+            var streetJoin = AgentBAct1Layout.HousePathAxis[0];
+            if (Mathf.Abs(z - streetJoin.Y) <= 1.4f
+                && playerPosition.X < streetJoin.X - .7f && playerPosition.X > streetJoin.X - 5f)
+            {
+                next = streetJoin;
+                label = "Выход на главную улицу";
+            }
+            else if (TryPhotoBankMainStreetX(z, out var streetX) && Mathf.Abs(playerPosition.X - streetX) <= 3.5f)
+            {
+                var junction = AgentBAct1Layout.FapBranchAxis[0];
+                var nextZ = z > junction.Y ? Mathf.Max(junction.Y, z - 6f) : Mathf.Min(junction.Y, z + 6f);
+                if (!TryPhotoBankMainStreetX(nextZ, out var nextX)) return false;
+                next = Mathf.Abs(nextZ - junction.Y) < .01f ? junction : new(nextX, nextZ);
+                label = Mathf.Abs(nextZ - junction.Y) < .01f ? "Поворот к ФАПу" : "По главной улице к повороту";
+            }
+            else return false;
         }
 
-        var x = PhotoBankTrailX(nextZ);
-        waypoint = new Vector3(x, AgentBAct1HeightField.CollisionGround(x, nextZ) + .05f, nextZ);
+        waypoint = new Vector3(next.X, AgentBAct1HeightField.CollisionGround(next.X, next.Y) + .05f, next.Y);
         return true;
+    }
+
+    private static bool TryPhotoBankMainStreetX(float z, out float x)
+    {
+        var road = AgentBAct1Layout.MainRoadAxis;
+        for (var index = 0; index < road.Length - 1; index++)
+        {
+            var a = road[index]; var b = road[index + 1];
+            if (z > a.Y || z < b.Y) continue;
+            x = Mathf.Lerp(a.X, b.X, (z - a.Y) / (b.Y - a.Y));
+            return true;
+        }
+        x = 0f;
+        return false;
     }
 
     private void AddPhotoBankApproach(Node3D core)

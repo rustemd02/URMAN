@@ -345,7 +345,7 @@ public partial class Act1DemoRoot
         return _bridge?.CurrentZoneId == "village_day" && mission.TargetZoneId == "village_day"
             && mission.InteractionId is (PhotoBankApproachPresence.RiverPhotoEntryInteractionId
                 or PhotoBankApproachPresence.CommonPhotoEntryInteractionId or PhotoBankApproachPresence.EnterBankInteractionId)
-            && Act1ConnectedWorld.TryGetPhotoBankTrailWaypoint(playerPosition, destination, out waypoint);
+            && Act1ConnectedWorld.TryGetPhotoBankTrailWaypoint(playerPosition, destination, out waypoint, out label);
     }
 
     private bool TryGetHomeYardExitObjectiveWaypoint(PlayerMission mission, Vector3 playerPosition,

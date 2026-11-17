@@ -237,8 +237,9 @@ public partial class Act1ConnectedWorld
             // Railing on both sides; the last post by the break leans out.
             foreach (var railZ in new[] { -1.55f, 1.55f })
             {
+                var railLandX = side < 0f && railZ < 0f ? PhotoBankSouthRailStart : landX;
                 var postIndex = 0;
-                for (var x = landX; side < 0 ? x <= openX + .05f : x >= openX - .05f; x -= side * 1.45f, postIndex++)
+                for (var x = railLandX; side < 0 ? x <= openX + .05f : x >= openX - .05f; x -= side * 1.45f, postIndex++)
                 {
                     var last = Math.Abs(x - openX) < 1.45f;
                     AddVisualBox(bridge, $"Bridge{label}RailPost_{railZ:0.0}_{postIndex}", new Vector3(.12f, 1.05f, .12f),
@@ -246,7 +247,7 @@ public partial class Act1ConnectedWorld
                 }
                 var railEnd = openX + side * .9f;
                 AddRavineLog(bridge, $"Bridge{label}Handrail_{railZ:0.0}",
-                    new Vector3(landX, landDeck + .98f, railZ), new Vector3(cribX, deck + .96f, railZ), .05f, "6b5a45");
+                    new Vector3(railLandX, DeckAt(railLandX) + .98f, railZ), new Vector3(cribX, deck + .96f, railZ), .05f, "6b5a45");
                 AddRavineLog(bridge, $"Bridge{label}HandrailSpan_{railZ:0.0}",
                     new Vector3(cribX, deck + .96f, railZ), new Vector3(railEnd, deck + .9f, railZ * 1.04f), .05f, "6b5a45");
             }
