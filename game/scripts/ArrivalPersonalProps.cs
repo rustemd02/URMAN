@@ -257,6 +257,7 @@ internal partial class ArrivalPersonalProps : Node3D
         foreach (var job in BuildHousePhotoChainJobs(house, things, paper, waterChain, bookBounds)) yield return job;
         yield return StyleBenchmarkZone.HouseBuildJob("family-book/cellar-photo-box",
             () => BuildCellarPhotoChain(house, things, paper, waterChain));
+        yield return StyleBenchmarkZone.HouseBuildJob("home-blue-mitten", () => HomeMittenPresence.Attach(house));
     }
 
     // The family envelope with the second print of the old footbridges lies one
