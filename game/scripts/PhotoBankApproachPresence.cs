@@ -141,6 +141,23 @@ public partial class PhotoBankApproachPresence : Node3D
             && _bankReturnTarget is not null && _bankToEpilogueTarget is not null;
     }
 
+    // The entry marker reserves the supported standing area; the first surviving
+    // pile is the visible subject of the river photograph, not a point at our feet.
+    internal bool TryGetRiverPhotoEntryFrame(out Node3D stance, out Node3D witness)
+    {
+        stance = witness = null!;
+        if (!IsInsideTree() || IsQueuedForDeletion()
+            || _bankEntryWitness is not { } entry || !GodotObject.IsInstanceValid(entry)
+            || !entry.IsInsideTree() || entry.IsQueuedForDeletion() || !entry.IsVisibleInTree()
+            || _oldPilesWitness is not { } piles || !GodotObject.IsInstanceValid(piles)
+            || !piles.IsInsideTree() || piles.IsQueuedForDeletion() || !piles.IsVisibleInTree()
+            || entry.GetParent() != _bankApproach || piles.GetParent() != _bankApproach)
+            return false;
+        stance = entry;
+        witness = piles;
+        return true;
+    }
+
     private void EnsureAlsuTarget()
     {
         var walk = AlsuStreetWalkPresentation.SessionOwner(GetTree());

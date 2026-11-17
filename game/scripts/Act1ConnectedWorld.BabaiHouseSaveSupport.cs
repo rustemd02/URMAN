@@ -220,6 +220,30 @@ public partial class Act1ConnectedWorld
         return true;
     }
 
+    private static bool IsUnsupportedWestWallExteriorPose(Vector3 houseLocal, FirstPersonController player)
+    {
+        // West-wall windows are clustered near z=-5.5..-5.75 and z=.5; the
+        // front door and landing are on the opposite wall at z=3.6. This
+        // floor-level strip stays outside the west footing, windows, and front
+        // corner, and ends before the west firewood shelter. The east kitchen
+        // wing is elsewhere in the room plan.
+        const float westWindowFrontCenterZ = .5f;
+        const float westWindowWidth = 1.06f;
+        const float wallClearance = .50f;
+        const float wallStripDepth = 3.0f;
+        const float cornerClearance = .15f;
+        const float groundBandMin = -1.0f;
+        const float groundBandMax = 1.25f;
+        var westWall = BabaiHousePlan.WallWest;
+        var outsideWindows = houseLocal.Z > westWindowFrontCenterZ + westWindowWidth * .5f
+                + player.BodyRadius + cornerClearance
+            && houseLocal.Z < BabaiHousePlan.WallFront - player.BodyRadius - cornerClearance;
+        var outsideWallAndFooting = houseLocal.X < westWall - player.BodyRadius - wallClearance
+            && houseLocal.X > westWall - wallStripDepth;
+        return outsideWallAndFooting && outsideWindows
+            && houseLocal.Y >= groundBandMin && houseLocal.Y <= groundBandMax;
+    }
+
     internal bool TryResolveCompactBabaiHouseFeet(FirstPersonController player, out Vector3 destination)
     {
         destination = player.GlobalPosition;
@@ -227,8 +251,11 @@ public partial class Act1ConnectedWorld
             || !_zoneInstances.TryGetValue("house_old_pc", out var room)
             || room.GetNodeOrNull<Node3D>("NewBabaiHouseInterior") is not { } interior) return false;
         var p = room.ToLocal(destination);
-        if (!p.IsFinite() || p.X < -6.55f || p.X > 6.5f || p.Z < -7.5f || p.Z > 3.5f
-            || p.Y < -.10f || p.Y > 7.1f) return false;
+        if (!p.IsFinite()) return false;
+        var inCompactHouseBounds = p.X >= -6.55f && p.X <= 6.5f
+            && p.Z >= -7.5f && p.Z <= 3.5f && p.Y >= -.10f && p.Y <= 7.1f;
+        var unsupportedWestWallExterior = IsUnsupportedWestWallExteriorPose(p, player);
+        if (!inCompactHouseBounds && !unsupportedWestWallExterior) return false;
         var space = player.GetWorld3D().DirectSpaceState;
         var exclude = new global::Godot.Collections.Array<Rid> { player.GetRid() };
         using var excludeOwner = (global::Godot.Collections.Array)exclude;
@@ -243,6 +270,7 @@ public partial class Act1ConnectedWorld
                 && Math.Abs(hit["position"].AsVector3().Y-feet.Y) < .12f;
         }
         var removedFloor = p.X < BabaiHousePlan.West && !HouseFloorSupports(destination);
+        if (unsupportedWestWallExterior && !removedFloor) return false;
         var changedObstacle = false;
         if (!player.CanCrouchAt(destination)
             && player.GetNodeOrNull<CollisionShape3D>("CollisionShape3D") is { Shape: { } shape } capsule)

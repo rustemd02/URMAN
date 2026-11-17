@@ -183,6 +183,39 @@ public partial class Act1DemoRoot
         label = string.Empty;
         inspectionTarget = false;
         var playerPosition = player.GlobalPosition;
+        if (mission.InteractionId == PhotoBankApproachPresence.RiverPhotoEntryInteractionId
+            && bridge.CurrentZoneId == "village_day")
+        {
+            var winterBank = target.GetParent() as PhotoBankApproachPresence
+                ?? target.GetParent()?.GetNodeOrNull<PhotoBankApproachPresence>("PhotoBankApproachPresence");
+            if (winterBank is not null && winterBank.TryGetRiverPhotoEntryFrame(out var stance, out var piles)
+                && playerPosition.DistanceSquaredTo(stance.GlobalPosition) <= 36f)
+            {
+                if (!player.IsOnFloor())
+                {
+                    waypoint = stance.GlobalPosition;
+                    label = "Встаньте у старого подхода к мосткам";
+                    return true;
+                }
+                waypoint = piles.GlobalPosition;
+                inspectionTarget = true;
+                // The shared physical guard performs the support query only once,
+                // only near this active entry and after the player faces its subject.
+                // The actual transition still owns CanPreparePhotoVisit validation.
+                if (!RuntimeBridge.IsFacingPhotoBookEntry(player, waypoint))
+                    label = "Повернитесь к старой свае";
+                else if (bridge.CanEnterPhotoBookPhoto("P-WATER", out var reason))
+                    label = "Откройте книгу";
+                else
+                {
+                    waypoint = stance.GlobalPosition;
+                    label = reason;
+                    inspectionTarget = false;
+                }
+                return true;
+            }
+        }
+
         if (mission.InteractionId is ("urman.fullgame:interaction/pw-winter-piles-inspected"
                 or "urman.fullgame:interaction/pw-verify-bank-evidence")
             && target.GetParent() is PhotoBankApproachPresence bank

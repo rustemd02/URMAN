@@ -305,7 +305,15 @@ public partial class RuntimeBridge
                 || !target.IsVisibleInTree() || target.InteractionId != interactionId)
                 return returnToOrigin;
             anchor = outdoorAnchor;
-            if (markerChildTarget is not null) facingPoint = target.GlobalPosition;
+            if (riverOrigin)
+            {
+                if (target.GetParent() is not PhotoBankApproachPresence river
+                    || !river.TryGetRiverPhotoEntryFrame(out var riverStance, out var piles)
+                    || !ReferenceEquals(riverStance, outdoorAnchor))
+                    return returnToOrigin;
+                facingPoint = piles.GlobalPosition;
+            }
+            else if (markerChildTarget is not null) facingPoint = target.GlobalPosition;
         }
         else
         {
@@ -335,7 +343,7 @@ public partial class RuntimeBridge
         var carry = GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
         if (carry is { ActionInProgress: true }) return "Дождитесь завершения действия с предметом.";
         if (carry is { HeldItem: not null }) return "Сначала поставьте предмет из рук.";
-        if (originAnchor == "PW_HOME_TABLE"
+        if (originAnchor == "PW_HOME_TABLE" || riverOrigin
             ? !Main.TryGetPhotoReturnStance(player, originAnchor, anchor, out _)
             : !player.IsOnFloor() || !player.CanStandAt(player.GlobalPosition))
             return forestOrigin ? "Встаньте на свободное место у трёх стволов на опушке."
@@ -357,7 +365,7 @@ public partial class RuntimeBridge
                 : cellarOrigin ? "Закройте альбом и повернитесь к двери сухих сеней."
                     : houseOrigin ? "Закройте альбом и повернитесь к наружному окну семейного дома."
                         : commonOrigin ? "Закройте альбом и повернитесь к месту общего снимка у берега."
-                            : riverOrigin ? "Закройте альбом и повернитесь к старому подходу к мосткам."
+                            : riverOrigin ? "Закройте альбом и повернитесь к старой свае у мостков."
                                 : "Закройте альбом и повернитесь к домашнему столу с книгой.";
         return null;
     }
