@@ -1595,10 +1595,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 {
                     if (failure is not null) menu.ShowStatus(failure);
                     if (GetTree().GetFirstNodeInGroup("settings_ui") is not SettingsUi { IsOpen: true })
-                    {
-                        if (menu.ResumeButton is { Visible: true, Disabled: false } resume) resume.GrabFocus();
-                        else menu.NewGameButton?.GrabFocus();
-                    }
+                        menu.FocusDefaultActionAfterSaveLookup();
                 }
             }
         }

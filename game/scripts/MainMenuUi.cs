@@ -40,6 +40,8 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     private bool _continueAvailable;
     private bool _resumeAvailable;
     private bool _saveLookupPending;
+    private bool _saveLookupCompleted;
+    private bool _userInteractedWhileSaveLookupPending;
     private bool _sessionBusy;
     private bool _existingSavePresent;
     private bool _incompatiblePhotoWorldSavePresent;
@@ -135,6 +137,23 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public override void _ExitTree() => GetViewport().SizeChanged -= FitToViewport;
 
+    public override void _Input(InputEvent inputEvent)
+    {
+        if (_saveLookupPending && IsUserInteractionInput(inputEvent))
+            _userInteractedWhileSaveLookupPending = true;
+    }
+
+    private static bool IsUserInteractionInput(InputEvent inputEvent) => inputEvent switch
+    {
+        InputEventKey { Pressed: true, Echo: false } => true,
+        InputEventMouseButton { Pressed: true } => true,
+        InputEventJoypadButton { Pressed: true } => true,
+        InputEventJoypadMotion motion => Math.Abs(motion.AxisValue) > .25f,
+        InputEventScreenTouch { Pressed: true } => true,
+        InputEventScreenDrag => true,
+        _ => false
+    };
+
     private void FitToViewport()
     {
         var size = GetViewport().GetVisibleRect().Size;
@@ -183,8 +202,23 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public void SetSaveLookupPending(bool pending)
     {
+        var lookupStarted = pending && !_saveLookupPending;
+        var lookupFinished = !pending && _saveLookupPending;
+        if (lookupStarted) _userInteractedWhileSaveLookupPending = false;
         _saveLookupPending = pending;
+        if (lookupFinished) _saveLookupCompleted = true;
         SetContinueAvailable(_continueAvailable, _continueDescription, _existingSavePresent, _incompatiblePhotoWorldSavePresent);
+    }
+
+    internal void FocusDefaultActionAfterSaveLookup()
+    {
+        if (!_saveLookupCompleted) return;
+        _saveLookupCompleted = false;
+        if (_userInteractedWhileSaveLookupPending) return;
+
+        if (_resumeAvailable) _resumeButton?.GrabFocus();
+        else if (_continueAvailable) _continueButton?.GrabFocus();
+        else _newGameButton?.GrabFocus();
     }
 
     public void SetSessionBusy(bool busy, string? status = null)
