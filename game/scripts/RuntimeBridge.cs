@@ -126,7 +126,7 @@ public partial class RuntimeBridge : Node
     internal PlayTimeBlock CapturePlayTimeBlocks()
     {
         var blocks = PlayTimeBlock.None;
-        if (_kernel is null || FindPlayer() is null || NeedsPhysicalRecovery) blocks |= PlayTimeBlock.NotReady;
+        if (_kernel is null || FindPlayer() is null || NeedsPhysicalRecovery || InitialMenuAwaitingWorld) blocks |= PlayTimeBlock.NotReady;
         if (_loadingSlot || _loadPreparing || _photoVisitCompletion is not null || _prologueArrivalLoading) blocks |= PlayTimeBlock.Loading;
         var demo = GetParent()?.GetParent() as Act1DemoRoot;
         if (demo?.MainMenuVisible == true || (demo is null && HasActiveMainMenu()))
@@ -192,7 +192,8 @@ public partial class RuntimeBridge : Node
         // Capture the store with this session before awaiting disk I/O. A menu
         // transition must never redirect an in-flight debug save into player slots.
         var store = SessionSaveStore;
-        if (_loadingSlot || _loadPreparing || NeedsPhysicalRecovery || _kernel is null || _capabilities is null || store is null || FindPlayer() is not { } player)
+        if (_loadingSlot || _loadPreparing || InitialMenuAwaitingWorld || NeedsPhysicalRecovery
+            || _kernel is null || _capabilities is null || store is null || FindPlayer() is not { } player)
         {
             GD.PushWarning("Quick save is unavailable before the runtime and player are ready.");
             return false;
@@ -252,7 +253,7 @@ public partial class RuntimeBridge : Node
 
     private SaveGameV3 CaptureSessionSave(FirstPersonController player)
     {
-        if (_kernel is null || _capabilities is null)
+        if (InitialMenuAwaitingWorld || _kernel is null || _capabilities is null)
             throw new InvalidOperationException("The runtime session is not ready for a snapshot.");
         var runtime = _kernel.CaptureSnapshot();
         if (_content.HasPhotoWorlds)
@@ -412,6 +413,7 @@ public partial class RuntimeBridge : Node
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             sessionStarted = await CreateFreshSessionAsync(debugSession, player);
+            if (sessionStarted) CompleteInitialMenuWorld();
             return sessionStarted;
         }
         catch (Exception error)
@@ -425,7 +427,7 @@ public partial class RuntimeBridge : Node
             loadingScreen.Hide();
             SampleLoadingTime();
             _loadPreparing = false;
-            player.SetSessionTransition(NeedsPhysicalRecovery);
+            player.SetSessionTransition(NeedsPhysicalRecovery || InitialMenuAwaitingWorld);
             PlayTimeBoundary?.Invoke(sessionStarted ? "load-restored" : "load-failed");
             if (NeedsPhysicalRecovery) ShowPhysicalRecoveryMenu();
         }
@@ -487,6 +489,7 @@ public partial class RuntimeBridge : Node
 
         await CancelPhotoVisitTransitionAsync();
         var sessionBeforeLoad = _kernel;
+        var startedWithoutPhysicalWorld = InitialMenuAwaitingWorld;
         var forestObservationBeforeLoad = CaptureForestPassageObservation();
         var loadSucceeded = false;
         var recoveredFromBackup = false;
@@ -522,7 +525,7 @@ public partial class RuntimeBridge : Node
             var saveToRestore = result.Save;
             // Preserve the live physical owners through the same snapshot used
             // by SaveSlotAsync. This rollback is in memory and never writes a slot.
-            if (!NeedsPhysicalRecovery)
+            if (!NeedsPhysicalRecovery && !startedWithoutPhysicalWorld)
             {
                 if (GetTree().GetFirstNodeInGroup("vehicle_fleet") is VehicleFleet fleet
                     && !await fleet.FlushForSaveAsync())
@@ -536,16 +539,22 @@ public partial class RuntimeBridge : Node
             }
             if (!ReferenceEquals(sessionBeforeLoad, _kernel))
                 throw new InvalidOperationException("The runtime session changed while reading the save.");
-            previousSave ??= CaptureSessionSave(player) with { ForestPassageObservation = forestObservationBeforeLoad };
+            if (!startedWithoutPhysicalWorld)
+                previousSave ??= CaptureSessionSave(player) with { ForestPassageObservation = forestObservationBeforeLoad };
             _loadingSlot = true;
             _loadPreparing = false;
             projectionApplied = true;
             await RestoreLoadedWorldAsync(saveToRestore, debugSession, player);
             NeedsPhysicalRecovery = false;
+            // The selected world now has its real supported pose. Transfer the
+            // reservation to the existing visit-recovery owner, which can write
+            // its normal checkpoint; bootstrap completion still waits below.
+            if (startedWithoutPhysicalWorld) InitialMenuAwaitingWorld = false;
             await SettleLoadedPhotoVisitAsync(saveRecoveredCheckpoint: true);
             restoredSave = saveToRestore;
             _physicalRecoverySave = null;
             // Current profile settings remain authoritative across story loads.
+            CompleteInitialMenuWorld();
             loadSucceeded = true;
         }
         catch (Exception exception)
@@ -554,7 +563,15 @@ public partial class RuntimeBridge : Node
             // continue); an existing but unreadable slot is a real fault.
             if (StoreHasSlot(store, slot)) GD.PushError($"SaveGameV3 load failed: {exception.Message}");
             else GD.PushWarning($"SaveGameV3 load skipped: slot '{slot}' does not exist ({exception.Message})");
-            if (projectionApplied && previousSave is not null)
+            if (projectionApplied && startedWithoutPhysicalWorld)
+            {
+                // There was no live game behind this title menu to roll back.
+                // Keep the rejected slot untouched and offer the normal retry
+                // or recovery New Game without inventing a placeholder save.
+                NeedsPhysicalRecovery = true;
+                _physicalRecoverySave = null;
+            }
+            else if (projectionApplied && previousSave is not null)
             {
                 try
                 {
@@ -583,6 +600,7 @@ public partial class RuntimeBridge : Node
             SampleLoadingTime();
             _loadingSlot = false;
             _loadPreparing = false;
+            if (startedWithoutPhysicalWorld && !loadSucceeded) InitialMenuAwaitingWorld = true;
             if (restoredSave is not null)
                 RestoreForestPassageObservation(restoredSave.ForestPassageObservation, player, restoredSave.PlayerTransform);
             else if (!projectionApplied && ReferenceEquals(sessionBeforeLoad, _kernel))
@@ -590,7 +608,7 @@ public partial class RuntimeBridge : Node
             // Pending photo visits may still recover their recorded exterior
             // origin. Keep that physical handoff covered until it is settled.
             loadingScreen.Hide();
-            player.SetSessionTransition(NeedsPhysicalRecovery);
+            player.SetSessionTransition(NeedsPhysicalRecovery || InitialMenuAwaitingWorld);
             QueueRuntimeStateChanged();
             PlayTimeBoundary?.Invoke(loadSucceeded ? "load-restored" : "load-failed");
             if (audio is not null && IsInstanceValid(audio)) audio.SetPaused(wasPaused || NeedsPhysicalRecovery);
@@ -1073,7 +1091,7 @@ public partial class RuntimeBridge : Node
     // state. Technical runtimes without a connected world retain their contract.
     internal bool CanPhysicallyUseInteraction(string interactionId)
     {
-        if (_loadingSlot || _loadPreparing || NeedsPhysicalRecovery) return false;
+        if (_loadingSlot || _loadPreparing || InitialMenuAwaitingWorld || NeedsPhysicalRecovery) return false;
         if (!HasRequiredWorldState(interactionId)) return false;
         if (PhotoVisitWorldForInteraction(interactionId) is not null)
         {
@@ -1159,7 +1177,7 @@ public partial class RuntimeBridge : Node
 
     internal async Task<bool> SaveCheckpointAsync(bool force = false, CancellationToken cancellationToken = default)
     {
-        if (_loadingSlot || _loadPreparing || _content is null || ActiveSceneId is not { } scene
+        if (_loadingSlot || _loadPreparing || InitialMenuAwaitingWorld || _content is null || ActiveSceneId is not { } scene
             || _kernel is not { } session)
         {
             return false;

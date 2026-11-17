@@ -8,14 +8,43 @@ public partial class RuntimeBridge
 {
     private TaskCompletionSource<bool>? _photoWorldBootstrapCompletion;
     private bool _photoWorldBootstrapStarted;
+    internal bool InitialMenuAwaitingWorld { get; private set; }
 
     internal Task<bool> PhotoWorldBootstrapCompletion => _photoWorldBootstrapCompletion?.Task ?? Task.FromResult(true);
+
+    internal bool TryPrepareInitialPhotoWorldMenu(Main main)
+    {
+        if (_photoWorldBootstrapStarted || _photoWorldBootstrapCompletion is null || _kernel is null
+            || !ReferenceEquals(GetParent(), main) || main.GetParent() is not Act1DemoRoot
+            || FindPlayer() is not { } player) return false;
+        // Services and save lookup are ready; no entrypoint or physical scene
+        // has been selected. The physical completion remains pending.
+        InitialMenuAwaitingWorld = true;
+        SampleLoadingTime();
+        _loadPreparing = false;
+        player.SetModalOpen(true);
+        player.SetSessionTransition(true);
+        GD.Print("urman-photoworld-menu-ready: physical=unselected");
+        return true;
+    }
+
+    private void CompleteInitialMenuWorld()
+    {
+        if (_photoWorldBootstrapStarted || _photoWorldBootstrapCompletion is null) return;
+        // Called only after the ordinary fresh/load physical projection and
+        // support checks. This never treats the empty menu as a ready world.
+        InitialMenuAwaitingWorld = false;
+        _photoWorldBootstrapStarted = true;
+        _photoWorldBootstrapCompletion.TrySetResult(true);
+        GD.Print($"urman-photoworld-bootstrap-ready: scene={ActiveSceneId} supported=true");
+    }
 
     // Main calls this after its children (including the player) are ready.
     // The bridge reserves loading in its own Ready, before Main can mount.
     internal void BeginPhotoWorldBootstrap(Main main)
     {
-        if (_photoWorldBootstrapStarted || _photoWorldBootstrapCompletion is null || _kernel is not { } session) return;
+        if (_photoWorldBootstrapStarted || InitialMenuAwaitingWorld
+            || _photoWorldBootstrapCompletion is null || _kernel is not { } session) return;
         _photoWorldBootstrapStarted = true;
         _ = BootstrapPhotoWorldAsync(main, session);
     }

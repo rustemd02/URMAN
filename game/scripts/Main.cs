@@ -250,6 +250,10 @@ public partial class Main : Node3D
     [Export]
     public bool EnableFullGamePhotoWorldRouting { get; set; }
 
+    // Only the title-menu host opts in before AddChild. Standalone scenes and
+    // capture/smoke callers still bootstrap and validate their real world.
+    internal bool DeferInitialPhotoWorldForMenu { get; set; }
+
     public override void _Ready()
     {
         ConfigureInteractiveFrameCapture();
@@ -267,7 +271,8 @@ public partial class Main : Node3D
             {
                 if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
                     player.SetSessionTransition(true);
-                bridge.BeginPhotoWorldBootstrap(this);
+                if (!DeferInitialPhotoWorldForMenu || !bridge.TryPrepareInitialPhotoWorldMenu(this))
+                    bridge.BeginPhotoWorldBootstrap(this);
             }
             else
                 ReconcileFullGameScenePresentation();
@@ -278,9 +283,11 @@ public partial class Main : Node3D
                 EnsureConnectedWorld();
             SwitchZone(InitialZoneId, InitialSpawnPointId);
         }
-        GD.Print(EnableFullGamePhotoWorldRouting && _fullGameRouteBridge is { IsPhotoWorldsCampaign: true }
-            ? "УРМАН PhotoWorld bootstrap started; waiting for physical presentation."
-            : "УРМАН Godot vertical slice ready: Painterly Low-Poly / first person");
+        GD.Print(_fullGameRouteBridge is { InitialMenuAwaitingWorld: true }
+            ? "УРМАН title menu prepared; physical world awaits the player's selection."
+            : EnableFullGamePhotoWorldRouting && _fullGameRouteBridge is { IsPhotoWorldsCampaign: true }
+                ? "УРМАН PhotoWorld bootstrap started; waiting for physical presentation."
+                : "УРМАН Godot vertical slice ready: Painterly Low-Poly / first person");
     }
 
     public override void _ExitTree()

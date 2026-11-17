@@ -352,6 +352,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             ?? throw new InvalidOperationException($"Configured campaign main scene could not load: {MainScenePath}.");
         _main = packed.Instantiate<Main>()
             ?? throw new InvalidOperationException("Configured campaign scene did not instantiate Main.");
+        _main.DeferInitialPhotoWorldForMenu = UsesPhotoWorldsCampaign && !StudioPreviewMode
+            && DisplayServer.GetName() != "headless";
         if (!UsesPhotoWorldsCampaign)
         {
             _main.InitialZoneId = _performanceSample.ZoneId;
@@ -366,7 +368,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         // through AddChild. The current campaign projects PhotoWorld routes;
         // ActiveZoneScenePath is assigned only after Main mounts that world.
         var bridge = _main.GetNodeOrNull<RuntimeBridge>("RuntimeBridge");
-        if (UsesPhotoWorldsCampaign && bridge is not null)
+        if (UsesPhotoWorldsCampaign && bridge is not null && !bridge.InitialMenuAwaitingWorld)
         {
             var bootstrapReady = await bridge.PhotoWorldBootstrapCompletion;
             if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()
@@ -376,12 +378,15 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             if (!bootstrapReady)
                 throw new InvalidOperationException("Campaign photo world did not finish loading.");
         }
-        var presentationReady = UsesPhotoWorldsCampaign
-            ? !string.IsNullOrWhiteSpace(_main.ActiveZoneScenePath)
-            : _main.ConnectedWorld?.IsBuilt == true;
-        if (!presentationReady || bridge?.SessionIdentity is null)
+        if (bridge?.SessionIdentity is null)
+            throw new InvalidOperationException("Campaign runtime did not finish loading.");
+        if (!bridge.InitialMenuAwaitingWorld)
         {
-            throw new InvalidOperationException("Campaign world or runtime did not finish loading.");
+            var presentationReady = UsesPhotoWorldsCampaign
+                ? !string.IsNullOrWhiteSpace(_main.ActiveZoneScenePath)
+                : _main.ConnectedWorld?.IsBuilt == true;
+            if (!presentationReady)
+                throw new InvalidOperationException("Campaign world did not finish loading.");
         }
 
         if (StudioPreviewMode)

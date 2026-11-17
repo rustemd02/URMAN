@@ -141,7 +141,7 @@ public partial class RuntimeBridge
         && visit.GetProperty("safeNodeId").GetString() == safeNodeId;
 
     internal bool IsPhotoWorldPresentationDeferred =>
-        _loadingSlot || _loadPreparing || NeedsPhysicalRecovery;
+        _loadingSlot || _loadPreparing || NeedsPhysicalRecovery || InitialMenuAwaitingWorld;
 
     /// <summary>
     /// Session identity for read-only physical projections. During a load this

@@ -65,6 +65,7 @@ public partial class RuntimeBridge
                 throw new InvalidDataException("The new session's standing position is blocked.");
             _physicalRecoverySave = null;
             success = true;
+            CompleteInitialMenuWorld();
             return true;
         }
         catch (Exception error)
