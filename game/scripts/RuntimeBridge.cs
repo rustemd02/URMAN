@@ -264,11 +264,6 @@ public partial class RuntimeBridge : Node
             && SessionIdentity is { } session
             && main.TryGetStagedArrivalSaveTransform(session, out var stagedArrivalTransform))
             playerTransform = stagedArrivalTransform;
-        else if (_content.HasPhotoWorlds
-            && GetTree().GetFirstNodeInGroup("zone_manager") is Main { EnableFullGamePhotoWorldRouting: true } homeMain
-            && SessionIdentity is { } homeSession
-            && homeMain.TryGetStagedHomeRestoreSaveTransform(homeSession, player, out var stagedHomeTransform))
-            playerTransform = stagedHomeTransform;
         return new SaveGameV3(
             SaveGameV3.CurrentSchemaVersion, _content.CampaignFingerprint,
             runtime.EventSequence, runtime, _clock.CaptureSnapshot(),

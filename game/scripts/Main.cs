@@ -81,7 +81,7 @@ public partial class Main : Node3D
 
     internal bool CanPreparePhotoVisit(FirstPersonController player, string worldId, string zoneId, string spawnId)
     {
-        if (HomeRestoreBuildPending || _fullGameRouteBridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+        if (_fullGameRouteBridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
             || !bridge.TryGetPhotoVisitEntryOrigin(worldId,
                 out var originZone, out var originAnchor, out var fixedSafeNode)) return false;
         var safeNode = fixedSafeNode ?? spawnId;
@@ -170,8 +170,6 @@ public partial class Main : Node3D
             if (!IsMountedZone(originZone) || bridge.CurrentZoneId != originZone
                 || bridge.CurrentSpawnPointId != originSpawn)
                 SwitchZone(originZone, originSpawn);
-            if (ReferenceEquals(_homeRestoreSession, session)
-                && !await WaitForStagedHomeRestoreAsync(session)) return false;
         }
         else ReconcileFullGameScenePresentation();
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
@@ -210,21 +208,13 @@ public partial class Main : Node3D
             || !placement.SpawnPoints.ContainsKey(safeNode) || !world.TryGetWorldSpawn(zone, safeNode, out var fallback)) return false;
         var position = ticket.GetProperty("position");
         var original = new Vector3(position.GetProperty("x").GetSingle(), position.GetProperty("y").GetSingle(), position.GetProperty("z").GetSingle());
-        var stagedHomeBeforeRelocation = HomeRestoreBuildPending
-            && ReferenceEquals(_homeRestoreWorld, world)
-            && world.GetZoneInstance("house_old_pc")?.HasMeta("babaiRelocated") != true;
-        var originalInCurrentShell = stagedHomeBeforeRelocation
-            ? BabaiRelocation.Transform.AffineInverse() * original
-            : original;
-        var originalYawInCurrentShell = ticket.GetProperty("rotationY").GetSingle()
-            - (stagedHomeBeforeRelocation ? BabaiRelocation.YawDegrees : 0f);
         var originalSafe = TryGetPhotoVisitOriginAnchor(zone, anchorId, out var anchor)
-            && anchor.GlobalPosition.DistanceSquaredTo(originalInCurrentShell) <= 36f
-            && PhotoVisitPoseHasSupport(player, originalInCurrentShell);
+            && anchor.GlobalPosition.DistanceSquaredTo(original) <= 36f
+            && PhotoVisitPoseHasSupport(player, original);
         if (!originalSafe && !PhotoVisitPoseHasSupport(player, fallback.Position)) return false;
-        var chosen = originalSafe ? originalInCurrentShell : fallback.Position;
+        var chosen = originalSafe ? original : fallback.Position;
         player.ApplyPortableTransform(new PlayerTransform(new(chosen.X, chosen.Y, chosen.Z),
-            new(ticket.GetProperty("pitch").GetDouble(), originalSafe ? originalYawInCurrentShell : fallback.YawDegrees, 0)));
+            new(ticket.GetProperty("pitch").GetDouble(), originalSafe ? ticket.GetProperty("rotationY").GetSingle() : fallback.YawDegrees, 0)));
         if (!originalSafe) player.NotifyTraversal("Вернулся к безопасному месту рядом.");
         if (AtmosphereProfiles.AppliedProfileId != ticket.GetProperty("originProfileId").GetString()) return false;
         if (GetTree().GetFirstNodeInGroup("ambient_audio") is not AmbientAudioDirector audio) return false;
@@ -296,7 +286,6 @@ public partial class Main : Node3D
     public override void _ExitTree()
     {
         CancelStagedArrival();
-        CancelHomeStagedRestore(retirePartialWorld: false);
         RestoreW04CameraFar();
         InvalidatePhotoScenePreload();
         if (_fullGameRouteBridge is { } bridge && GodotObject.IsInstanceValid(bridge))
@@ -320,18 +309,6 @@ public partial class Main : Node3D
     public async Task<bool> SwitchZoneAsync(string zoneId, string spawnPointId)
     {
         if (_zoneSwitchBusy || !ZoneScenes.ContainsKey(zoneId)) return false;
-        if (_homeRestoreSession is { } stagedSession && _homeRestoreWorld is { } stagedWorld
-            && !IsCurrentHomeStagedRestore(stagedSession, stagedWorld, _homeRestoreGeneration))
-            CancelHomeStagedRestore(retirePartialWorld: true);
-        var retryFailedHomeBuild = HomeRestoreBuildPending && _homeRestoreFailure is not null
-            && Act1WorldLayout.ContainsZone(zoneId) && zoneId != "house_old_pc";
-        if (HomeRestoreBuildPending && !retryFailedHomeBuild
-            && Act1WorldLayout.ContainsZone(zoneId) && zoneId != "house_old_pc")
-        {
-            (GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController)
-                ?.NotifyTraversal("Двор ещё строится. Подождите у двери.");
-            return false;
-        }
         var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
         var session = bridge?.SessionIdentity;
         if (bridge is null || session is null) return false;
@@ -345,11 +322,6 @@ public partial class Main : Node3D
             {
                 loading = LoadingScreenUi.Show(this, "Смена локации", "Готовим новое место в деревне");
                 await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
-            }
-            if (retryFailedHomeBuild && !await RetryHomeStagedBuildAtDoorAsync(session))
-            {
-                player?.NotifyTraversal("Деревню не удалось достроить. У двери можно попробовать ещё раз.");
-                return false;
             }
             var retiringWorld = _connectedWorld is { } currentWorld && !Act1WorldLayout.ContainsZone(zoneId)
                 ? currentWorld
@@ -397,23 +369,6 @@ public partial class Main : Node3D
             return;
         }
 
-        if (_homeRestoreSession is { } homeSession && _homeRestoreWorld is { } homeWorld
-            && !IsCurrentHomeStagedRestore(homeSession, homeWorld, _homeRestoreGeneration))
-            CancelHomeStagedRestore(retirePartialWorld: true);
-        if (HomeRestoreBuildPending && Act1WorldLayout.ContainsZone(zoneId) && zoneId != "house_old_pc")
-        {
-            (GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController)
-                ?.NotifyTraversal("Двор ещё строится. Подождите у двери.");
-            return;
-        }
-        if (_homeRestoreSession is not null && !_homeRestoreShellReady && zoneId == "house_old_pc") return;
-        if (EnableAct1ConnectedWorld && zoneId == "house_old_pc" && _connectedWorld is null
-            && IsMountedW01() && _fullGameRouteBridge is { } homeBridge
-            && homeBridge.SessionIdentity is { } photoReturnSession && homeBridge.ActiveSceneId == HomeSceneId)
-        {
-            if (BeginHomeStagedRestore(photoReturnSession, zoneId, spawnPointId)) return;
-        }
-
         if (EnableAct1ConnectedWorld && Act1WorldLayout.ContainsZone(zoneId))
             EnsureConnectedWorld();
         else
@@ -427,10 +382,7 @@ public partial class Main : Node3D
                 return;
             }
 
-            if (HomeRestoreBuildPending && _connectedWorld.HomeFirstReady && zoneId == "house_old_pc")
-                _connectedWorld.SetActiveHomeFirstZone();
-            else
-                _connectedWorld.SetActiveLogicalZone(zoneId);
+            _connectedWorld.SetActiveLogicalZone(zoneId);
             ActiveZoneScenePath = scenePath;
             if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController connectedPlayer)
             {
@@ -550,7 +502,6 @@ public partial class Main : Node3D
 
     private void RetireConnectedWorld()
     {
-        CancelHomeStagedRestore(retirePartialWorld: false);
         if (_connectedWorld is not { } retiringWorld) return;
         var alsu = AlsuStreetWalkPresentation.SessionOwner(GetTree());
         // The owner can outlive this world for the deferred-free frame. Mark its
