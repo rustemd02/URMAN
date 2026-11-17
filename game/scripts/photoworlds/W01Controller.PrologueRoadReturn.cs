@@ -51,8 +51,10 @@ public partial class W01Controller
             target.AddChild(new CollisionShape3D { Shape = new BoxShape3D { Size = new(8f, 2.5f, .20f) } });
             target.PresentationRepeatAvailable = () => RoadReturnContext(out _, out _);
             target.PresentationRepeat = () => BeginPrologueRoadReturn();
-            target.SetPresentationEnabled(false);
             // Outside the thicket's bodies, whose visibility switch owns layer 1.
+            // _Ready records the authored ray layer; hiding it beforehand would
+            // permanently record zero and make the return prompt impossible.
+            target.Ready += () => target.SetPresentationEnabled(false);
             AddChild(target);
             _roadReturnTargets.Add(target);
         }
