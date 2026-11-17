@@ -597,7 +597,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 var name = mesh.Name.ToString();
                 // Legacy yard and field-horizon sheets overlap the walkable Terrain_Main.
                 // The current western horizon already belongs to the native forest.
-                if (name is "Apron_BabaiYard" or "Grade_Babai_West" or "Ditch_FieldBank_WestStreet")
+                if (name is "Apron_BabaiYard" or "Apron_FapYard" or "Grade_Babai_West" or "Ditch_FieldBank_WestStreet")
                 {
                     mesh.Visible = false;
                     mesh.SetMeta("agentBPresentationSuppressed", "canonical-terrain-replaces-preview-snow-sheets");
