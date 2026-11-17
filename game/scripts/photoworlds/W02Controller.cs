@@ -1491,13 +1491,15 @@ public partial class W02Controller : Node3D
     // Interaction targets
     // ------------------------------------------------------------------
 
-    private InteractionTarget EnsureTarget(string name, string interactionId, string prompt, Vector3 at, float radius)
+    private InteractionTarget EnsureTarget(string name, string interactionId, string prompt, Vector3 at, float radius,
+        Node3D? parent = null)
     {
         var target = new InteractionTarget
         {
             Name = name,
             InteractionId = interactionId,
             Prompt = prompt,
+            Position = at,
             CollisionLayer = 4u,
             CollisionMask = 0u
         };
@@ -1507,8 +1509,7 @@ public partial class W02Controller : Node3D
             Name = name + "Ray",
             Shape = new SphereShape3D { Radius = radius }
         });
-        AddChild(target);
-        target.Position = at;
+        (parent ?? this).AddChild(target);
         _targets.Add(target);
         return target;
     }
@@ -1531,10 +1532,10 @@ public partial class W02Controller : Node3D
                 bridge.ResolveText(OldApproachLabelTextId), _oldApproachWitness, .90f);
             if (_looseBoard is { } board && GodotObject.IsInstanceValid(board))
             {
+                // Attach once at its final owner: reparenting an already-ready
+                // target drops its bridge subscription without running _Ready again.
                 _encounterTarget = EnsureTarget("WaterEncounterTarget", EncounterInteractionId,
-                    "Осмотреть край дощечки", ToLocal(board.GlobalPosition), 0.55f);
-                _encounterTarget.Reparent(board, keepGlobalTransform: true);
-                _encounterTarget.Position = new Vector3(0f, 0.2f, 0f);
+                    "Осмотреть край дощечки", new Vector3(0f, 0.2f, 0f), 0.55f, parent: board);
             }
             EnsureTarget("WaterDampPrintTarget", DampPrintInteractionId,
                 bridge.ResolveText(DampPrintLabelTextId),
