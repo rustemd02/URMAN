@@ -6,7 +6,6 @@ public partial class Act1DemoRoot
 {
     private bool _photoNivaKeepRiding;
     private bool _photoNivaArrivalRequested;
-    private float _photoNivaArrivalNotBefore;
     private float _photoNivaJourneyCut = -1f;
     private float _photoNivaJourneyCutDuration;
     private bool _photoNivaJourneyCutPlaced;
@@ -16,7 +15,7 @@ public partial class Act1DemoRoot
     {
         _photoNivaKeepRiding = false;
         _photoNivaArrivalRequested = false;
-        _photoNivaArrivalNotBefore = 0f;
+        _photoNivaBookRechecked = _photoNivaBookClosedForHome = false;
         _photoNivaJourneyCut = -1f;
         _photoNivaJourneyCutPlaced = false;
     }
@@ -24,7 +23,7 @@ public partial class Act1DemoRoot
     private void BeginPhotoNivaJourneyCut()
     {
         if (!_photoNivaDriving || _photoNivaJourneyCut >= 0f || _photoNivaGateClock >= 0f
-            || _photoNivaLanguageActive || !_photoNivaLanguageWrite.IsCompleted) return;
+            || _photoNivaLanguageActive || !_photoNivaLanguageWrite.IsCompleted || PhotoNivaBookIsClosing) return;
         _photoNivaArrivalRequested = true;
         _photoNivaKeepRiding = false;
         if (!TryPreparePhotoNivaArrival()) return;
@@ -45,7 +44,7 @@ public partial class Act1DemoRoot
             && _photoNivaGateClock < 0f && !PhotoNivaDialogueOpen && !_photoNivaLanguageActive
             && _photoNivaEvidenceClock < 0f && _photoNivaDriveElapsed >= _photoNivaNextBarkReady
             && (_photoNivaArrivalRequested
-                || _photoNivaDriveElapsed >= Mathf.Max(_photoNivaWokeAt + 16f, _photoNivaArrivalNotBefore)))
+                || !PhotoNivaBookInUse && _photoNivaDriveElapsed >= _photoNivaWokeAt + 16f))
             BeginPhotoNivaJourneyCut();
         if (_photoNivaJourneyCut < 0f) return false;
         _photoNivaJourneyCut += delta;
@@ -83,7 +82,9 @@ public partial class Act1DemoRoot
         BuildPrologueOverlay("выйти из Нивы", "interact");
         BuildPhotoNivaLapBook();
         if (speak)
-            ShowPrologueCaption("Мансур бабай: «Дома. Книгу не забудь, а то под сиденье съедет».", 4.0);
+            ShowPrologueCaption(_photoNivaPhotoShown
+                ? "Мансур бабай: «Приехали. Про снимок у Гөлсинә сам спроси. Она дома»."
+                : "Мансур бабай: «Приехали. Гөлсинә дома. Книгу ей занеси сам».", 4.0);
         UpdateParkedPhotoNivaCue(0f);
         UpdateRouteCue();
     }

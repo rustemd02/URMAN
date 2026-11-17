@@ -8,6 +8,9 @@ public partial class Act1DemoRoot
 {
     internal const string MansurForestClue = "prologue/mansur-forest-print";
     private Node3D? _photoNivaLapBook;
+    private AnimationPlayer? _photoNivaBookClosePose, _photoNivaHandsClosedPose;
+    private AnimationPlayer? _photoNivaClosingBook;
+    private bool _photoNivaBookRechecked, _photoNivaBookClosedForHome;
     private bool _photoNivaPhotoInspected, _photoNivaPhotoShown, _photoNivaSignalAnswered, _photoNivaHutKnocked;
     private float _photoNivaBookInspection, _photoNivaBookShowing;
     private float _photoNivaEvidenceClock = -1f;
@@ -45,7 +48,8 @@ public partial class Act1DemoRoot
         lap.AddChild(book);
         _rideNiva.AddChild(lap);
         _photoNivaLapBook = lap;
-        SetPhotoNivaBookPose(book, "open");
+        _photoNivaBookClosePose = animations.FirstOrDefault(player => player.HasAnimation("close"));
+        SetPhotoNivaBookPose(book, _photoNivaBookClosedForHome ? "close" : "open");
 
         // Match the existing 150 x 100 mm AlbumInsert. Its top is local
         // Y=0.000325; the print stays below the four physical corner pockets.
@@ -66,7 +70,9 @@ public partial class Act1DemoRoot
 
         var hands = PhotoBookHands.Create();
         lap.AddChild(hands);
-        SetPhotoNivaBookPose(hands, "hold_open");
+        _photoNivaHandsClosedPose = hands.FindChildren("*", nameof(AnimationPlayer), true, false)
+            .OfType<AnimationPlayer>().FirstOrDefault(player => player.HasAnimation("hold_closed"));
+        SetPhotoNivaBookPose(hands, _photoNivaBookClosedForHome ? "hold_closed" : "hold_open");
         foreach (var mesh in lap.FindChildren("*", nameof(GeometryInstance3D), true, false)
                      .OfType<GeometryInstance3D>())
             mesh.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
@@ -109,7 +115,7 @@ public partial class Act1DemoRoot
             && GetTree().GetFirstNodeInGroup("settings_ui") is not SettingsUi { IsOpen: true };
         if (!book.Visible || PhotoNivaDrivePaused) return;
         var showing = _photoNivaEvidenceClock >= 0f;
-        var reading = !showing && _photoNivaPhotoInspected && !_photoNivaPhotoShown && _rideLook.Y < -20f;
+        var reading = !showing && !_photoNivaBookClosedForHome && _photoNivaPhotoInspected && _rideLook.Y < -20f;
         var step = delta * (_photoNivaPlayer?.ReducedMotion == true ? 8f : 2.8f);
         _photoNivaBookInspection = Mathf.MoveToward(_photoNivaBookInspection, reading ? 1f : 0f, step);
         _photoNivaBookShowing = Mathf.MoveToward(_photoNivaBookShowing, showing ? 1f : 0f, step);
@@ -131,9 +137,13 @@ public partial class Act1DemoRoot
                 || !IsInstanceValid(book) || !book.Visible) return null;
             var canSpeak = _photoNivaDriveElapsed >= _photoNivaNextBarkReady;
             // The photograph remains an action after the automatic waking glance ends.
+            if (_photoNivaBookClosedForHome) return null;
             if (!_photoNivaPhotoInspected) return "Рассмотреть снимок";
             if (!_photoNivaPhotoShown) return canSpeak ? "Спросить бабая о снимке" : null;
-            return canSpeak && CanOfferPhotoNivaLanguage ? "Выбрать язык разговора с бабаем" : null;
+            if (!canSpeak) return null;
+            if (!_photoNivaBookRechecked) return "Снова рассмотреть край снимка";
+            if (CanOfferPhotoNivaLanguage) return "Выбрать язык разговора с бабаем";
+            return CanClosePhotoNivaBook ? "Закрыть книгу и спросить әби дома" : null;
         }
     }
 
@@ -146,7 +156,6 @@ public partial class Act1DemoRoot
             || PhotoNivaDrivePaused || inputEvent is InputEventKey { Echo: true }
             || !inputEvent.IsActionPressed("interact") || PhotoNivaEvidenceAction is null) return false;
         _photoNivaGazeTaken = true;
-        _photoNivaArrivalNotBefore = Mathf.Max(_photoNivaArrivalNotBefore, _photoNivaDriveElapsed + 15.2f);
         if (!_photoNivaPhotoInspected)
         {
             _photoNivaPhotoInspected = true;
@@ -168,14 +177,52 @@ public partial class Act1DemoRoot
                 : "Айдар: «Я этот лес видел, пока спал. Посмотри на снимок».", 3.8);
             _photoNivaNextBarkReady = _photoNivaDriveElapsed + 14.2f;
         }
+        else if (!_photoNivaBookRechecked)
+        {
+            // Babai's question leaves the actual print in Aidar's hands. No
+            // answer or knowledge is granted for simply pressing this button.
+            _photoNivaBookRechecked = true;
+            _rideLook = PhotoNivaLapGaze;
+            ApplyPrologueRideLook();
+            _photoNivaNextBarkReady = _photoNivaDriveElapsed + .6f;
+        }
         else if (CanOfferPhotoNivaLanguage)
         {
             _photoNivaLanguageActive = true;
             _photoNivaLanguageOpenedAt = _photoNivaDriveElapsed;
             _bridge!.OpenDialogueUi(PrologueRideDialogue);
         }
+        else ClosePhotoNivaBookForHome();
         GetViewport().SetInputAsHandled();
         return true;
+    }
+
+    private bool CanClosePhotoNivaBook => _photoNivaBookClosePose is { } book && IsInstanceValid(book)
+        && _photoNivaHandsClosedPose is { } hands && IsInstanceValid(hands);
+
+    private bool PhotoNivaBookInUse => !_photoNivaBookClosedForHome && _photoNivaPhotoInspected
+        && (_photoNivaPhotoShown && !_photoNivaBookRechecked || _rideLook.Y < -20f);
+
+    private bool PhotoNivaBookIsClosing => _photoNivaClosingBook is { } animation
+        && IsInstanceValid(animation) && animation.IsPlaying();
+
+    private void ClosePhotoNivaBookForHome()
+    {
+        if (!CanClosePhotoNivaBook) return;
+        var close = _photoNivaBookClosePose!;
+        var hands = _photoNivaHandsClosedPose!;
+        close.Stop(); close.Play("close");
+        hands.Stop(); hands.Play("hold_closed");
+        hands.Seek(hands.GetAnimation("hold_closed").Length, update: true); hands.Pause();
+        if (_photoNivaPlayer?.ReducedMotion == true)
+        {
+            close.Seek(close.GetAnimation("close").Length, update: true);
+            close.Pause();
+        }
+        _photoNivaClosingBook = close;
+        _photoNivaBookClosedForHome = true;
+        _photoNivaKeepRiding = false;
+        _photoNivaArrivalRequested = true;
     }
 
     private void UpdatePhotoNivaEvidence(float delta)
@@ -231,5 +278,7 @@ public partial class Act1DemoRoot
             book.QueueFree();
         }
         _photoNivaLapBook = null;
+        _photoNivaBookClosePose = _photoNivaHandsClosedPose = null;
+        _photoNivaClosingBook = null;
     }
 }

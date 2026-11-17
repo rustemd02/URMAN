@@ -163,6 +163,7 @@ public partial class Act1DemoRoot
                 _photoNivaLanguageActive = false;
                 _photoNivaLanguageWrite = Task.FromResult(true);
                 _photoNivaPhotoInspected = _photoNivaPhotoShown = false;
+                _photoNivaBookRechecked = _photoNivaBookClosedForHome = false;
                 _photoNivaBookInspection = _photoNivaBookShowing = 0f;
                 _photoNivaEvidenceClock = -1f;
                 var openingProps = bridge.SelectWorldProps();
