@@ -302,6 +302,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         TryBindRuntimeBridge();
         ProcessForestWorldGuard();
+        ProcessPrologueRoadReturn(delta);
         ProcessPrologueExit();
         RefreshPrologueSkipButtonState();
         if (!ForestEpisodeReady) return;
@@ -341,6 +342,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         SetProcess(false);
         SetPhysicsProcess(false);
+        ResetPrologueRoadReturn();
         ReleaseForestWorldGuard();
         if (_bridge is { } bridge && GodotObject.IsInstanceValid(bridge))
             bridge.RuntimeStateChanged -= ApplyProjection;

@@ -19,7 +19,6 @@ public partial class W01Controller
     private const float StopLampFillEnergy = .16f;
     private const float StopShelterFillEnergy = .28f;
     private const float StopRoadReach = 62f;      // how far the road is drawn each way
-    private const float StopRoadWalk = 19f;       // how far along it he can go
 
     internal const string PrologueMittenKey = "prologue/blue-mitten";
     internal const string PrologueSignalKey = "prologue/forest-signal";
@@ -147,23 +146,13 @@ public partial class W01Controller
             Strip(StopRoadNear + 1.42f, StopRoadNear + 1.78f, .092f, true);
             Strip(StopRoadFar - 1.78f, StopRoadFar - 1.42f, .092f, true);
             surface.Commit(roadMesh);
-            // He cannot walk the road home: nine kilometres of dark either way.
-            var bounds = new StaticBody3D { Name = "RoadEnds", CollisionLayer = 1, CollisionMask = 0 };
-            stop.AddChild(bounds);
-            void Wall(Vector3 at, Vector3 size, float yaw)
-            {
-                bounds.AddChild(new CollisionShape3D { Shape = new BoxShape3D { Size = size }, Position = at + Vector3.Up * 2f, Rotation = new Vector3(0f, yaw, 0f) });
-            }
-            var facing = Mathf.Atan2(along.X, along.Y);
-            Wall(StopPoint(1f, StopRoadWalk), new Vector3(.4f, 6f, 22f), facing);
-            Wall(StopPoint(1f, -StopRoadWalk), new Vector3(.4f, 6f, 22f), facing);
-            Wall(StopPoint(-8.2f, 0f), new Vector3(2f * StopRoadWalk, 6f, .4f), facing);
             stop.AddChild(new MeshInstance3D
             {
                 Name = "Road", Mesh = roadMesh,
                 CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
             });
         }
+        BuildPrologueRoadReturn(stop);
 
         // The shelter sits beside the road, leaving the first view open to the far side.
         var shelter = new Node3D { Name = "Shelter", Position = StopPoint(-1.9f, -3.5f) };
@@ -379,6 +368,7 @@ public partial class W01Controller
 
     private void ResetPrologueStop()
     {
+        ResetPrologueRoadReturn();
         Array.Clear(_stopFired);
         _stopLeft = false;
         _stopSignalAt = -1;
@@ -410,8 +400,12 @@ public partial class W01Controller
     private void ProcessPrologueStop(FirstPersonController player, Vector2 feet, float progress, double t)
     {
         if (_stop is null || !GodotObject.IsInstanceValid(_stop)) return;
-        var (along, _) = PrologueStopAxes();
-        var u = (feet - new Vector2(PrologueTrailNodes[0].X, PrologueTrailNodes[0].Z)).Dot(along);
+        ProcessPrologueRoadChoice(player, feet);
+        if (_roadReturning) return;
+        var (along, across) = PrologueStopAxes();
+        var fromStop = feet - new Vector2(PrologueTrailNodes[0].X, PrologueTrailNodes[0].Z);
+        var u = fromStop.Dot(along);
+        var v = fromStop.Dot(across);
 
         // F00 already faces the road; on Continue the saved camera belongs to the player.
         // The card in the corner.
@@ -442,7 +436,7 @@ public partial class W01Controller
             if (StopOnce(3, _nightmareRecognitionAt > 0 && t >= _nightmareRecognitionAt + 4.5)) _stopSignalAt = t;
             if (StopOnce(4, _stopSignalAt >= 0 && t >= _stopSignalAt + 1.2))
                 ShowNightmareThought("Два коротких. Мы так друг друга искали.", 3);
-            if (u > StopLeaveAt) LeavePrologueStop(player);
+            if (u > StopLeaveAt + PrologueRoadBend(v)) LeavePrologueStop(player);
         }
         else
         {
