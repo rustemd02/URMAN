@@ -479,8 +479,9 @@ public partial class AgentBAct1ExteriorLayer
 
         foreach (var cell in groundCoverCells)
         {
-            if (!_foliageMeshes.TryGetValue((cell.Key.Variant, cell.Key.Region), out var source))
-                throw new InvalidOperationException($"Missing cached audit mesh {cell.Key.Variant}/{cell.Key.Region}.");
+            if (cell.Key is not { } key) continue;
+            if (!_foliageMeshes.TryGetValue((key.Variant, key.Region), out var source))
+                throw new InvalidOperationException($"Missing cached audit mesh {key.Variant}/{key.Region}.");
             AuditCell(source, cell.Transforms.Length, null, cell.Transforms, cell.Origin,
                 GroundCoverCellSize, cell.Instance, cell);
         }
@@ -494,12 +495,52 @@ public partial class AgentBAct1ExteriorLayer
         var rangeGapTrees = 0;
         var doubleFullBandTrees = 0;
         var sharedRootTrees = 0;
+        var plannedNearTiersByTree = groundCoverCells
+            .Where(cell => cell.NearTreeTiers.Length > 0)
+            .SelectMany(cell => cell.NearTreeTiers)
+            .GroupBy(tier => tier.Owner)
+            .ToDictionary(group => group.Key, group => group.ToArray());
         foreach (var tree in plants.GetChildren().OfType<Node3D>()
                      .Where(node => node is not VisualInstance3D && node.HasMeta("plantPosition")))
         {
             var bands = new float[4, 3];
             var present = new bool[3];
-            foreach (var instance in EnumerateSelfAndDescendants<MeshInstance3D>(tree))
+            if (plannedNearTiersByTree.TryGetValue(tree, out var plannedNearTiers))
+            {
+                foreach (var planned in plannedNearTiers)
+                {
+                    treeInstances++;
+                    // The deferred tiers are recreated with the default identity
+                    // child transform, so they share the root exactly like the old
+                    // eagerly attached MeshInstance3D did.
+                    sharedRootTrees++;
+                    var tier = planned.Lod;
+                    if (!present[tier])
+                    {
+                        present[tier] = true;
+                        tierCounts[tier]++;
+                    }
+
+                    var rangeScale = FoliageRangeScale(groundCover: false, treeHeight: planned.TreeHeight);
+                    bands[0, tier] = rangeScale * (tier switch { 1 => 24f, 2 => 60f, _ => 0f });
+                    bands[1, tier] = rangeScale * (tier switch { 1 => 2f, 2 => 4f, _ => 0f });
+                    bands[2, tier] = rangeScale * (tier switch { 0 => 26f, 1 => 64f, _ => 0f });
+                    bands[3, tier] = rangeScale * (tier switch { 0 => 2f, 1 => 4f, _ => 0f });
+
+                    var sample = SampleOf(planned.Mesh);
+                    var reserve = Mathf.Max(sample.SwayMarginX, sample.SwayMarginZ);
+                    maxTreeSway = Mathf.Max(maxTreeSway, reserve);
+                    if (FoliageBoundsMeasured && reserve > 0f)
+                    {
+                        planned.ExtraCullMargin = reserve;
+                        if (planned.RuntimeInstance is { } resident && GodotObject.IsInstanceValid(resident))
+                            resident.ExtraCullMargin = reserve;
+                    }
+                }
+            }
+
+            foreach (var instance in EnumerateSelfAndDescendants<MeshInstance3D>(tree)
+                         .Where(instance => !instance.HasMeta("streamManagedTreeNear")))
             {
                 treeInstances++;
                 // VIS-027 "обе стороны границы имеют одинаковый корень": every tier is
@@ -563,15 +604,19 @@ public partial class AgentBAct1ExteriorLayer
             .Where(instance => !instance.HasMeta("streamManagedGroundCover"))
             .Count(instance => instance.CastShadow != GeometryInstance3D.ShadowCastingSetting.Off);
         var groundCoverPlannedShadowCells = groundCoverCells.Count(GroundCoverCellCastsShadow);
-        var groundCoverResidentShadowCells = groundCoverCells.Count(cell =>
-            cell.Instance is not null && GroundCoverCellCastsShadow(cell));
+        var groundCoverResidentShadowCells = groundCoverCells.Count(cell => cell.Key is not null
+            && cell.Instance is not null && GroundCoverCellCastsShadow(cell));
         var shadowCasterCells = nonStreamShadowCasterCells + groundCoverPlannedShadowCells;
         var residentShadowCasters = shadowCasterTrees + nonStreamShadowCasterCells + groundCoverResidentShadowCells;
-        var groundCoverResidentCells = groundCoverCells.Count(cell => cell.Instance is not null);
+        var nonStreamedTreeShadowCasters = shadowCasterTrees - _treeNearResidentShadowCasterCount;
+        var plannedTreeShadowCasters = nonStreamedTreeShadowCasters + _treeNearPlannedShadowCasterCount;
+        var groundCoverResidentCells = groundCoverCells.Count(cell => cell.Key is not null && cell.Instance is not null);
         var groundCoverResidentInstances = groundCoverCells
-            .Where(cell => cell.Instance is not null)
+            .Where(cell => cell.Key is not null && cell.Instance is not null)
             .Sum(cell => cell.Transforms.Length);
-        var groundCoverPlannedInstances = groundCoverCells.Sum(cell => cell.Transforms.Length);
+        var groundCoverPlannedInstances = groundCoverCells
+            .Where(cell => cell.Key is not null)
+            .Sum(cell => cell.Transforms.Length);
         var meshes = new HashSet<ulong>();
         var materials = new HashSet<ulong>();
         var alphaSurfaces = 0;
@@ -618,15 +663,16 @@ public partial class AgentBAct1ExteriorLayer
         plants.SetMeta("foliageTreeInstanceCount", treeInstances);
         plants.SetMeta("foliageSceneNodeCount", plants.GetChildCount());
         plants.SetMeta("foliagePlannedSceneNodeCount", plants.GetChildCount()
-            + groundCoverCells.Count(cell => cell.Instance is null));
+            + groundCoverCells.Count(cell => cell.Key is not null && cell.Instance is null)
+            + _treeNearPlannedInstanceCount - _treeNearResidentInstanceCount);
         plants.SetMeta("foliageDistinctMeshCount", meshes.Count);
         plants.SetMeta("foliageDistinctMaterialCount", materials.Count);
         plants.SetMeta("foliageSurfaceCount", surfaceTotal);
         plants.SetMeta("foliageAlphaSurfaceCount", alphaSurfaces);
-        plants.SetMeta("foliageShadowCasterCount", shadowCasterTrees + shadowCasterCells);
-        plants.SetMeta("foliageResidentShadowCasterBaseCount", shadowCasterTrees + nonStreamShadowCasterCells);
+        plants.SetMeta("foliageShadowCasterCount", plannedTreeShadowCasters + shadowCasterCells);
+        plants.SetMeta("foliageResidentShadowCasterBaseCount", nonStreamedTreeShadowCasters + nonStreamShadowCasterCells);
         plants.SetMeta("foliageResidentShadowCasterCount", residentShadowCasters);
-        plants.SetMeta("groundCoverPlannedCells", groundCoverCells.Count);
+        plants.SetMeta("groundCoverPlannedCells", groundCoverCells.Count(cell => cell.Key is not null));
         plants.SetMeta("groundCoverPlannedInstances", groundCoverPlannedInstances);
         plants.SetMeta("groundCoverResidentCells", groundCoverResidentCells);
         plants.SetMeta("groundCoverResidentInstances", groundCoverResidentInstances);
@@ -637,6 +683,23 @@ public partial class AgentBAct1ExteriorLayer
         plants.SetMeta("groundCoverStreamReleaseRadiusMeters", GroundCoverReleaseRadius);
         plants.SetMeta("groundCoverStreamBatchCells", GroundCoverLoadsPerTick);
         plants.SetMeta("groundCoverStreamReleaseBatchCells", GroundCoverReleasesPerTick);
+        plants.SetMeta("treeNearPlannedCells", _treeNearPlannedCellCount);
+        plants.SetMeta("treeNearPlannedInstances", _treeNearPlannedInstanceCount);
+        plants.SetMeta("treeNearPlannedShadowCasters", _treeNearPlannedShadowCasterCount);
+        plants.SetMeta("treeNearResidentCells", _treeNearResidentCellCount);
+        plants.SetMeta("treeNearResidentInstances", _treeNearResidentInstanceCount);
+        plants.SetMeta("treeNearResidentShadowCasters", _treeNearResidentShadowCasterCount);
+        for (var lod = 0; lod < 2; lod++)
+        {
+            plants.SetMeta($"treeNearLod{lod}PlannedCells", _treeNearPlannedCellsByLod[lod]);
+            plants.SetMeta($"treeNearLod{lod}PlannedInstances", _treeNearPlannedInstancesByLod[lod]);
+            plants.SetMeta($"treeNearLod{lod}PlannedShadowCasters", _treeNearPlannedShadowCastersByLod[lod]);
+            plants.SetMeta($"treeNearLod{lod}ResidentCells", _treeNearResidentCellsByLod[lod]);
+            plants.SetMeta($"treeNearLod{lod}ResidentInstances", _treeNearResidentInstancesByLod[lod]);
+            plants.SetMeta($"treeNearLod{lod}ResidentShadowCasters", _treeNearResidentShadowCastersByLod[lod]);
+            plants.SetMeta($"treeNearLod{lod}StreamLoadRadiusMeters", TreeNearTierLoadRadius(lod));
+            plants.SetMeta($"treeNearLod{lod}StreamReleaseRadiusMeters", TreeNearTierReleaseRadius(lod));
+        }
         plants.SetMeta("foliageOuterRowUnderstorySkipped", _outerRowUnderstorySkipped);
         plants.SetMeta("occlusionCullingActive", GetViewport().UseOcclusionCulling);
         // VIS-030 asks for the occluder source to be checked separately when one is
@@ -664,10 +727,12 @@ public partial class AgentBAct1ExteriorLayer
             FormattableString.Invariant($" doubleFullBands={doubleFullBandTrees}"),
             FormattableString.Invariant($" tiers=[{tierCounts[0]},{tierCounts[1]},{tierCounts[2]}] meshes={meshes.Count} materials={materials.Count}"),
             FormattableString.Invariant($" surfaces={surfaceTotal} alphaSurfaces={alphaSurfaces}"),
-            FormattableString.Invariant($" shadowCasters={shadowCasterTrees + shadowCasterCells} residentShadowCasters={residentShadowCasters} skippedOuterUnderstory={_outerRowUnderstorySkipped}"),
-            FormattableString.Invariant($" groundCoverCells={groundCoverCells.Count}/{groundCoverResidentCells} groundCoverInstances={groundCoverPlannedInstances}/{groundCoverResidentInstances}"),
+            FormattableString.Invariant($" shadowCasters={plannedTreeShadowCasters + shadowCasterCells} residentShadowCasters={residentShadowCasters} skippedOuterUnderstory={_outerRowUnderstorySkipped}"),
+            FormattableString.Invariant($" groundCoverCells={groundCoverCells.Count(cell => cell.Key is not null)}/{groundCoverResidentCells} groundCoverInstances={groundCoverPlannedInstances}/{groundCoverResidentInstances}"),
             FormattableString.Invariant($" groundCoverStream={_groundCoverStreamingEnabled.ToString().ToLowerInvariant()} load={GroundCoverLoadRadius:F1}m release={GroundCoverReleaseRadius:F1}m tick={GroundCoverStreamIntervalSeconds * 1000d:F0}ms batch={GroundCoverLoadsPerTick}/{GroundCoverReleasesPerTick}"),
             FormattableString.Invariant($" groundCoverQueue={plants.GetMeta("groundCoverQueuedLoads", 0).AsInt32()}/{plants.GetMeta("groundCoverQueuedReleases", 0).AsInt32()}"),
+            FormattableString.Invariant($" treeNearLod0={_treeNearResidentInstancesByLod[0]}/{_treeNearPlannedInstancesByLod[0]} shadows={_treeNearResidentShadowCastersByLod[0]}/{_treeNearPlannedShadowCastersByLod[0]} range={TreeNearTierLoadRadius(0):F1}/{TreeNearTierReleaseRadius(0):F1}m"),
+            FormattableString.Invariant($" treeNearLod1={_treeNearResidentInstancesByLod[1]}/{_treeNearPlannedInstancesByLod[1]} shadows={_treeNearResidentShadowCastersByLod[1]}/{_treeNearPlannedShadowCastersByLod[1]} range={TreeNearTierLoadRadius(1):F1}/{TreeNearTierReleaseRadius(1):F1}m"),
             FormattableString.Invariant($" occlusion={GetViewport().UseOcclusionCulling} graphics={GraphicsQuality.BudgetSnapshot()}")));
 
         // VIS-085: the ring's own rhythm and layering, measured from the placements
@@ -719,8 +784,11 @@ public partial class AgentBAct1ExteriorLayer
             FormattableString.Invariant($" overFootprint={(int)Number("cullingCellsOverFootprintLimit")}"),
             FormattableString.Invariant($" swayReserve={Number("cullingSwayReserveMaxMeters"):F3}m"),
             FormattableString.Invariant($" groundCoverCells={(int)Number("groundCoverPlannedCells")}/{(int)Number("groundCoverResidentCells")} instances={(int)Number("groundCoverPlannedInstances")}/{(int)Number("groundCoverResidentInstances")}"),
+            FormattableString.Invariant($" treeNearLod0={(int)Number("treeNearLod0ResidentInstances")}/{(int)Number("treeNearLod0PlannedInstances")} shadows={(int)Number("treeNearLod0ResidentShadowCasters")}/{(int)Number("treeNearLod0PlannedShadowCasters")} load={Number("treeNearLod0StreamLoadRadiusMeters"):F1}m release={Number("treeNearLod0StreamReleaseRadiusMeters"):F1}m"),
+            FormattableString.Invariant($" treeNearLod1={(int)Number("treeNearLod1ResidentInstances")}/{(int)Number("treeNearLod1PlannedInstances")} shadows={(int)Number("treeNearLod1ResidentShadowCasters")}/{(int)Number("treeNearLod1PlannedShadowCasters")} load={Number("treeNearLod1StreamLoadRadiusMeters"):F1}m release={Number("treeNearLod1StreamReleaseRadiusMeters"):F1}m"),
             FormattableString.Invariant($" stream={plants?.GetMeta("groundCoverStreamingEnabled", false).AsBool() == true} load={Number("groundCoverStreamLoadRadiusMeters"):F1}m release={Number("groundCoverStreamReleaseRadiusMeters"):F1}m"),
             FormattableString.Invariant($" queue={(plants?.GetMeta("groundCoverQueuedLoads", 0).AsInt32() ?? 0)}/{(plants?.GetMeta("groundCoverQueuedReleases", 0).AsInt32() ?? 0)}"),
+            FormattableString.Invariant($" treeNearQueue={(plants?.GetMeta("treeNearQueuedLoads", 0).AsInt32() ?? 0)}/{(plants?.GetMeta("treeNearQueuedReleases", 0).AsInt32() ?? 0)}"),
             FormattableString.Invariant($" meshes={(int)Number("foliageDistinctMeshCount")} materials={(int)Number("foliageDistinctMaterialCount")}"),
             FormattableString.Invariant($" surfaces={(int)Number("foliageSurfaceCount")} alphaSurfaces={(int)Number("foliageAlphaSurfaceCount")}"),
             FormattableString.Invariant($" shadowCasters={(int)Number("foliageShadowCasterCount")} residentShadowCasters={(int)Number("foliageResidentShadowCasterCount")} skippedOuterUnderstory={_outerRowUnderstorySkipped}"),

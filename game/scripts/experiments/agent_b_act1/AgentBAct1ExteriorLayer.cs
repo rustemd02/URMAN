@@ -276,19 +276,60 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
     private readonly record struct GroundCoverBatchKey(Vector2I Cell, string Variant, string Region, int Lod);
 
-    private sealed class GroundCoverStreamCell(
-        GroundCoverBatchKey key,
-        Transform3D[] transforms,
-        Vector3 origin)
+    private sealed class StreamedTreeNearTier(
+        Node3D owner,
+        string name,
+        ArrayMesh mesh,
+        string visualMeshVariant,
+        int lod,
+        float treeHeight,
+        GeometryInstance3D.ShadowCastingSetting shadowCasting)
     {
-        public GroundCoverBatchKey Key { get; } = key;
-        public Transform3D[] Transforms { get; } = transforms;
-        public Vector3 Origin { get; } = origin;
+        public Node3D Owner { get; } = owner;
+        public string Name { get; } = name;
+        public ArrayMesh Mesh { get; } = mesh;
+        public string VisualMeshVariant { get; } = visualMeshVariant;
+        public int Lod { get; } = lod;
+        public float TreeHeight { get; } = treeHeight;
+        public GeometryInstance3D.ShadowCastingSetting ShadowCasting { get; } = shadowCasting;
+        public float ExtraCullMargin { get; set; }
+        public MeshInstance3D? RuntimeInstance { get; set; }
+    }
+
+    private sealed class GroundCoverStreamCell
+    {
+        public GroundCoverBatchKey? Key { get; }
+        public Vector2I Cell { get; }
+        public int NearTreeLod { get; }
+        public Transform3D[] Transforms { get; }
+        public StreamedTreeNearTier[] NearTreeTiers { get; }
+        public Vector3 Origin { get; }
         public MultiMeshInstance3D? Instance { get; set; }
+        public bool IsResident { get; set; }
         public float CullingSwayReserve { get; set; }
         public float CullingAabbDiagonal { get; set; }
         public float CullingAabbVolume { get; set; }
         public bool CullingBoundsMeasured { get; set; }
+
+        public GroundCoverStreamCell(GroundCoverBatchKey key, Transform3D[] transforms, Vector3 origin)
+        {
+            Key = key;
+            Cell = key.Cell;
+            NearTreeLod = -1;
+            Transforms = transforms;
+            NearTreeTiers = [];
+            Origin = origin;
+        }
+
+        public GroundCoverStreamCell(Vector2I cell, int nearTreeLod, StreamedTreeNearTier[] nearTreeTiers, Vector3 origin)
+        {
+            Key = null;
+            Cell = cell;
+            NearTreeLod = nearTreeLod;
+            Transforms = [];
+            NearTreeTiers = nearTreeTiers;
+            Origin = origin;
+        }
     }
 
     // The latest ground-cover tier ends at 85 m; a 12 m cell's corners are 8.5 m
@@ -300,6 +341,12 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private const float GroundCoverLoadRadius = GroundCoverVisibleRangeEnd
         + GroundCoverCellCenterReserve + GroundCoverPrefetchReserve;
     private const float GroundCoverReleaseRadius = GroundCoverLoadRadius + 30f;
+    // Each tier leaves when its own far fade has completed. The cell-center reserve
+    // plus the existing prefetch margin keeps it resident before any tree in that
+    // cell can enter the tier's authored visibility band. LOD2 is never streamed.
+    private static float TreeNearTierLoadRadius(int lod) => (lod == 0 ? 28f : 68f) * LodRangeScaleCeiling
+        + GroundCoverCellCenterReserve + GroundCoverPrefetchReserve;
+    private static float TreeNearTierReleaseRadius(int lod) => TreeNearTierLoadRadius(lod) + 30f;
     private const double GroundCoverStreamIntervalSeconds = .1d;
     private const int GroundCoverLoadsPerTick = 48;
     private const int GroundCoverReleasesPerTick = 96;
@@ -318,10 +365,23 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     private int _groundCoverLoadQueueIndex;
     private int _groundCoverReleaseQueueIndex;
     private int _groundCoverPlannedInstanceCount;
+    private int _groundCoverPlannedCellCount;
     private int _groundCoverPlannedShadowCellCount;
     private int _groundCoverResidentCellCount;
     private int _groundCoverResidentInstanceCount;
     private int _groundCoverResidentShadowCellCount;
+    private int _treeNearPlannedCellCount;
+    private int _treeNearPlannedInstanceCount;
+    private int _treeNearPlannedShadowCasterCount;
+    private int _treeNearResidentCellCount;
+    private int _treeNearResidentInstanceCount;
+    private int _treeNearResidentShadowCasterCount;
+    private readonly int[] _treeNearPlannedCellsByLod = new int[2];
+    private readonly int[] _treeNearPlannedInstancesByLod = new int[2];
+    private readonly int[] _treeNearPlannedShadowCastersByLod = new int[2];
+    private readonly int[] _treeNearResidentCellsByLod = new int[2];
+    private readonly int[] _treeNearResidentInstancesByLod = new int[2];
+    private readonly int[] _treeNearResidentShadowCastersByLod = new int[2];
 
     private bool _built;
     private bool _exteriorPresentationEnabled;
@@ -1616,7 +1676,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
     private void RegisterGroundCoverStreamCells(
         Node3D plants,
-        Dictionary<GroundCoverBatchKey, List<Transform3D>> batches)
+        Dictionary<GroundCoverBatchKey, List<Transform3D>> batches,
+        Dictionary<(Vector2I Cell, int Lod), List<StreamedTreeNearTier>> treeNearTiers)
     {
         _groundCoverContainer = plants;
         _groundCoverStreamCells.Clear();
@@ -1628,10 +1689,23 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         _groundCoverFullLoadQueuePrepared = false;
         _groundCoverLastProcessedZoneId = string.Empty;
         _groundCoverPlannedInstanceCount = 0;
+        _groundCoverPlannedCellCount = 0;
         _groundCoverPlannedShadowCellCount = 0;
         _groundCoverResidentCellCount = 0;
         _groundCoverResidentInstanceCount = 0;
         _groundCoverResidentShadowCellCount = 0;
+        _treeNearPlannedCellCount = 0;
+        _treeNearPlannedInstanceCount = 0;
+        _treeNearPlannedShadowCasterCount = 0;
+        _treeNearResidentCellCount = 0;
+        _treeNearResidentInstanceCount = 0;
+        _treeNearResidentShadowCasterCount = 0;
+        Array.Clear(_treeNearPlannedCellsByLod, 0, _treeNearPlannedCellsByLod.Length);
+        Array.Clear(_treeNearPlannedInstancesByLod, 0, _treeNearPlannedInstancesByLod.Length);
+        Array.Clear(_treeNearPlannedShadowCastersByLod, 0, _treeNearPlannedShadowCastersByLod.Length);
+        Array.Clear(_treeNearResidentCellsByLod, 0, _treeNearResidentCellsByLod.Length);
+        Array.Clear(_treeNearResidentInstancesByLod, 0, _treeNearResidentInstancesByLod.Length);
+        Array.Clear(_treeNearResidentShadowCastersByLod, 0, _treeNearResidentShadowCastersByLod.Length);
         _groundCoverStreamElapsed = 0d;
         var layerToWorld = GlobalTransform;
 
@@ -1653,19 +1727,40 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 throw new InvalidOperationException($"Missing cached ground-cover mesh {key.Variant}/{key.Region}.");
             var cell = new GroundCoverStreamCell(key, transforms.ToArray(), origin);
             _groundCoverStreamCells.Add(cell);
+            _groundCoverPlannedCellCount++;
             _groundCoverPlannedInstanceCount += cell.Transforms.Length;
             if (GroundCoverCellCastsShadow(cell)) _groundCoverPlannedShadowCellCount++;
         }
 
-        var loadRadiusSquared = GroundCoverLoadRadius * GroundCoverLoadRadius;
+        foreach (var (key, tiers) in treeNearTiers)
+        {
+            var (coordinate, lod) = key;
+            var origin = new Vector3(
+                coordinate.X * GroundCoverCellSize + GroundCoverCellSize * .5f,
+                0f,
+                coordinate.Y * GroundCoverCellSize + GroundCoverCellSize * .5f);
+            var cell = new GroundCoverStreamCell(coordinate, lod, tiers.ToArray(), origin);
+            _groundCoverStreamCells.Add(cell);
+            _treeNearPlannedCellCount++;
+            _treeNearPlannedInstanceCount += cell.NearTreeTiers.Length;
+            _treeNearPlannedShadowCasterCount += cell.NearTreeTiers.Count(tier =>
+                tier.ShadowCasting != GeometryInstance3D.ShadowCastingSetting.Off);
+            _treeNearPlannedCellsByLod[lod]++;
+            _treeNearPlannedInstancesByLod[lod] += cell.NearTreeTiers.Length;
+            _treeNearPlannedShadowCastersByLod[lod] += cell.NearTreeTiers.Count(tier =>
+                tier.ShadowCasting != GeometryInstance3D.ShadowCastingSetting.Off);
+        }
+
         _groundCoverInitialCells.Clear();
         IEnumerable<GroundCoverStreamCell> initialCells = canFollowView
             ? _groundCoverStreamCells
-                .Where(cell => GroundCoverDistanceSquared(layerToWorld * cell.Origin, focus) <= loadRadiusSquared)
+                .Where(cell => GroundCoverDistanceSquared(layerToWorld * cell.Origin, focus)
+                    <= StreamCellLoadRadius(cell) * StreamCellLoadRadius(cell))
                 .OrderBy(cell => GroundCoverDistanceSquared(layerToWorld * cell.Origin, focus))
-                .ThenBy(cell => cell.Key.Cell.X)
-                .ThenBy(cell => cell.Key.Cell.Y)
-                .ThenBy(cell => cell.Key.Variant, StringComparer.Ordinal)
+                .ThenBy(cell => cell.Cell.X)
+                .ThenBy(cell => cell.Cell.Y)
+                .ThenBy(cell => cell.Key?.Variant ?? "tree-near", StringComparer.Ordinal)
+                .ThenBy(cell => cell.NearTreeLod)
             : _groundCoverStreamCells;
         _groundCoverInitialCells.AddRange(initialCells);
     }
@@ -1735,6 +1830,12 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         return dx * dx + dz * dz;
     }
 
+    private static float StreamCellLoadRadius(GroundCoverStreamCell cell) =>
+        cell.NearTreeTiers.Length > 0 ? TreeNearTierLoadRadius(cell.NearTreeLod) : GroundCoverLoadRadius;
+
+    private static float StreamCellReleaseRadius(GroundCoverStreamCell cell) =>
+        cell.NearTreeTiers.Length > 0 ? TreeNearTierReleaseRadius(cell.NearTreeLod) : GroundCoverReleaseRadius;
+
     private string CurrentGroundCoverZoneId()
     {
         if (GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge bridge)
@@ -1744,18 +1845,61 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
     private static bool GroundCoverCellCastsShadow(GroundCoverStreamCell cell)
     {
-        var lowCover = cell.Key.Variant.Contains("Grass", StringComparison.Ordinal)
-            || cell.Key.Variant.Contains("Fern", StringComparison.Ordinal)
-            || cell.Key.Variant.Contains("Sedge", StringComparison.Ordinal);
-        return !lowCover && cell.Key.Lod < 1;
+        if (cell.Key is not { } key) return false;
+        var lowCover = key.Variant.Contains("Grass", StringComparison.Ordinal)
+            || key.Variant.Contains("Fern", StringComparison.Ordinal)
+            || key.Variant.Contains("Sedge", StringComparison.Ordinal);
+        return !lowCover && key.Lod < 1;
     }
 
     private void LoadGroundCoverCell(GroundCoverStreamCell cell)
     {
-        if (cell.Instance is not null || _groundCoverContainer is not { } plants
+        if (cell.IsResident || _groundCoverContainer is not { } plants
             || !GodotObject.IsInstanceValid(plants) || plants.IsQueuedForDeletion()) return;
-        if (!_foliageMeshes.TryGetValue((cell.Key.Variant, cell.Key.Region), out var mesh))
-            throw new InvalidOperationException($"Missing cached ground-cover mesh {cell.Key.Variant}/{cell.Key.Region}.");
+
+        if (cell.NearTreeTiers.Length > 0)
+        {
+            foreach (var tier in cell.NearTreeTiers)
+            {
+                if (!GodotObject.IsInstanceValid(tier.Owner) || tier.Owner.IsQueuedForDeletion()) continue;
+                var instance = new MeshInstance3D
+                {
+                    Name = tier.Name,
+                    Mesh = tier.Mesh,
+                    CastShadow = tier.ShadowCasting
+                };
+                instance.SetMeta("visualMeshVariant", tier.VisualMeshVariant);
+                instance.SetMeta("streamManagedTreeNear", true);
+                ConfigureFoliageRange(instance, tier.Lod, groundCover: false, treeHeight: tier.TreeHeight);
+                if (FoliageBoundsMeasured && tier.ExtraCullMargin > 0f)
+                    instance.ExtraCullMargin = tier.ExtraCullMargin;
+                var insertIndex = 0;
+                while (insertIndex < tier.Owner.GetChildCount())
+                {
+                    var existingTier = tier.Owner.GetChild(insertIndex) as MeshInstance3D;
+                    if (existingTier is null
+                        || existingTier.GetMeta("visibilityRangeTier", -1).AsInt32() > tier.Lod) break;
+                    insertIndex++;
+                }
+                tier.Owner.AddChild(instance);
+                tier.Owner.MoveChild(instance, insertIndex);
+                tier.RuntimeInstance = instance;
+            }
+            cell.IsResident = true;
+            _treeNearResidentCellCount++;
+            _treeNearResidentInstanceCount += cell.NearTreeTiers.Length;
+            _treeNearResidentShadowCasterCount += cell.NearTreeTiers.Count(tier =>
+                tier.ShadowCasting != GeometryInstance3D.ShadowCastingSetting.Off);
+            _treeNearResidentCellsByLod[cell.NearTreeLod]++;
+            _treeNearResidentInstancesByLod[cell.NearTreeLod] += cell.NearTreeTiers.Length;
+            _treeNearResidentShadowCastersByLod[cell.NearTreeLod] += cell.NearTreeTiers.Count(tier =>
+                tier.ShadowCasting != GeometryInstance3D.ShadowCastingSetting.Off);
+            return;
+        }
+
+        var key = cell.Key ?? throw new InvalidOperationException("Ground-cover stream cell is missing its batch key.");
+        if (!_foliageMeshes.TryGetValue((key.Variant, key.Region), out var mesh))
+            throw new InvalidOperationException($"Missing cached ground-cover mesh {key.Variant}/{key.Region}.");
 
         var multi = new MultiMesh
         {
@@ -1772,7 +1916,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
         var group = new MultiMeshInstance3D
         {
-            Name = $"{cell.Key.Variant}_{cell.Key.Region}_Cell{cell.Key.Cell.X}_{cell.Key.Cell.Y}_H0",
+            Name = $"{key.Variant}_{key.Region}_Cell{key.Cell.X}_{key.Cell.Y}_H0",
             Position = cell.Origin,
             Multimesh = multi
         };
@@ -1785,17 +1929,17 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         group.ExtraCullMargin = cell.Transforms.Max(transform => (transform.Basis * displacement).Length());
         group.SetMeta("windCullMargin", group.ExtraCullMargin);
 
-        var lowCover = cell.Key.Variant.Contains("Grass", StringComparison.Ordinal)
-            || cell.Key.Variant.Contains("Fern", StringComparison.Ordinal)
-            || cell.Key.Variant.Contains("Sedge", StringComparison.Ordinal);
-        if (lowCover || cell.Key.Lod >= 1)
+        var lowCover = key.Variant.Contains("Grass", StringComparison.Ordinal)
+            || key.Variant.Contains("Fern", StringComparison.Ordinal)
+            || key.Variant.Contains("Sedge", StringComparison.Ordinal);
+        if (lowCover || key.Lod >= 1)
             group.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
         plants.AddChild(group);
         group.SetMeta("presentationOnly", true);
-        group.SetMeta("plantVariant", cell.Key.Variant);
+        group.SetMeta("plantVariant", key.Variant);
         group.SetMeta("spatialCellSize", GroundCoverCellSize);
         group.SetMeta("streamManagedGroundCover", true);
-        ConfigureFoliageRange(group, cell.Key.Lod, groundCover: true, treeHeight: 0f);
+        ConfigureFoliageRange(group, key.Lod, groundCover: true, treeHeight: 0f);
 
         if (cell.CullingBoundsMeasured)
         {
@@ -1811,6 +1955,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         }
 
         cell.Instance = group;
+        cell.IsResident = true;
         _groundCoverResidentCellCount++;
         _groundCoverResidentInstanceCount += cell.Transforms.Length;
         if (GroundCoverCellCastsShadow(cell)) _groundCoverResidentShadowCellCount++;
@@ -1818,6 +1963,31 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
     private void ReleaseGroundCoverCell(GroundCoverStreamCell cell)
     {
+        if (!cell.IsResident) return;
+        if (cell.NearTreeTiers.Length > 0)
+        {
+            foreach (var tier in cell.NearTreeTiers)
+            {
+                if (tier.RuntimeInstance is not { } nearTierInstance) continue;
+                if (GodotObject.IsInstanceValid(nearTierInstance) && !nearTierInstance.IsQueuedForDeletion())
+                {
+                    tier.Owner.RemoveChild(nearTierInstance);
+                    nearTierInstance.QueueFree();
+                }
+                tier.RuntimeInstance = null;
+            }
+            cell.IsResident = false;
+            _treeNearResidentCellCount--;
+            _treeNearResidentInstanceCount -= cell.NearTreeTiers.Length;
+            _treeNearResidentShadowCasterCount -= cell.NearTreeTiers.Count(tier =>
+                tier.ShadowCasting != GeometryInstance3D.ShadowCastingSetting.Off);
+            _treeNearResidentCellsByLod[cell.NearTreeLod]--;
+            _treeNearResidentInstancesByLod[cell.NearTreeLod] -= cell.NearTreeTiers.Length;
+            _treeNearResidentShadowCastersByLod[cell.NearTreeLod] -= cell.NearTreeTiers.Count(tier =>
+                tier.ShadowCasting != GeometryInstance3D.ShadowCastingSetting.Off);
+            return;
+        }
+
         if (cell.Instance is not { } instance) return;
         if (GodotObject.IsInstanceValid(instance))
         {
@@ -1826,6 +1996,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             instance.QueueFree();
         }
         cell.Instance = null;
+        cell.IsResident = false;
         _groundCoverResidentCellCount--;
         _groundCoverResidentInstanceCount -= cell.Transforms.Length;
         if (GroundCoverCellCastsShadow(cell)) _groundCoverResidentShadowCellCount--;
@@ -1833,20 +2004,46 @@ public partial class AgentBAct1ExteriorLayer : Node3D
 
     private void SetGroundCoverStreamingReadback(Node3D plants)
     {
-        plants.SetMeta("groundCoverPlannedCells", _groundCoverStreamCells.Count);
+        plants.SetMeta("groundCoverPlannedCells", _groundCoverPlannedCellCount);
         plants.SetMeta("groundCoverPlannedInstances", _groundCoverPlannedInstanceCount);
         plants.SetMeta("groundCoverResidentCells", _groundCoverResidentCellCount);
         plants.SetMeta("groundCoverResidentInstances", _groundCoverResidentInstanceCount);
-        plants.SetMeta("groundCoverQueuedLoads", Math.Max(0, _groundCoverLoadQueue.Count - _groundCoverLoadQueueIndex));
-        plants.SetMeta("groundCoverQueuedReleases", Math.Max(0, _groundCoverReleaseQueue.Count - _groundCoverReleaseQueueIndex));
+        plants.SetMeta("groundCoverQueuedLoads", _groundCoverLoadQueue
+            .Skip(_groundCoverLoadQueueIndex).Count(candidate => candidate.Cell.Key is not null));
+        plants.SetMeta("groundCoverQueuedReleases", _groundCoverReleaseQueue
+            .Skip(_groundCoverReleaseQueueIndex).Count(candidate => candidate.Cell.Key is not null));
         plants.SetMeta("groundCoverStreamLoadRadiusMeters", GroundCoverLoadRadius);
         plants.SetMeta("groundCoverStreamReleaseRadiusMeters", GroundCoverReleaseRadius);
         plants.SetMeta("groundCoverStreamBatchCells", GroundCoverLoadsPerTick);
         plants.SetMeta("groundCoverStreamReleaseBatchCells", GroundCoverReleasesPerTick);
+        plants.SetMeta("treeNearPlannedCells", _treeNearPlannedCellCount);
+        plants.SetMeta("treeNearPlannedInstances", _treeNearPlannedInstanceCount);
+        plants.SetMeta("treeNearPlannedShadowCasters", _treeNearPlannedShadowCasterCount);
+        plants.SetMeta("treeNearResidentCells", _treeNearResidentCellCount);
+        plants.SetMeta("treeNearResidentInstances", _treeNearResidentInstanceCount);
+        plants.SetMeta("treeNearResidentShadowCasters", _treeNearResidentShadowCasterCount);
+        plants.SetMeta("treeNearQueuedLoads", _groundCoverLoadQueue
+            .Skip(_groundCoverLoadQueueIndex).Count(candidate => candidate.Cell.Key is null));
+        plants.SetMeta("treeNearQueuedReleases", _groundCoverReleaseQueue
+            .Skip(_groundCoverReleaseQueueIndex).Count(candidate => candidate.Cell.Key is null));
+        plants.SetMeta("treeNearLod0StreamLoadRadiusMeters", TreeNearTierLoadRadius(0));
+        plants.SetMeta("treeNearLod0StreamReleaseRadiusMeters", TreeNearTierReleaseRadius(0));
+        plants.SetMeta("treeNearLod1StreamLoadRadiusMeters", TreeNearTierLoadRadius(1));
+        plants.SetMeta("treeNearLod1StreamReleaseRadiusMeters", TreeNearTierReleaseRadius(1));
+        for (var lod = 0; lod < 2; lod++)
+        {
+            plants.SetMeta($"treeNearLod{lod}PlannedCells", _treeNearPlannedCellsByLod[lod]);
+            plants.SetMeta($"treeNearLod{lod}PlannedInstances", _treeNearPlannedInstancesByLod[lod]);
+            plants.SetMeta($"treeNearLod{lod}PlannedShadowCasters", _treeNearPlannedShadowCastersByLod[lod]);
+            plants.SetMeta($"treeNearLod{lod}ResidentCells", _treeNearResidentCellsByLod[lod]);
+            plants.SetMeta($"treeNearLod{lod}ResidentInstances", _treeNearResidentInstancesByLod[lod]);
+            plants.SetMeta($"treeNearLod{lod}ResidentShadowCasters", _treeNearResidentShadowCastersByLod[lod]);
+        }
         plants.SetMeta("groundCoverStreamIntervalMilliseconds", GroundCoverStreamIntervalSeconds * 1000d);
         plants.SetMeta("groundCoverStreamingEnabled", _groundCoverStreamingEnabled);
         var plannedNodeCount = plants.GetChildCount()
-            + _groundCoverStreamCells.Count - _groundCoverResidentCellCount;
+            + _groundCoverPlannedCellCount - _groundCoverResidentCellCount
+            + _treeNearPlannedInstanceCount - _treeNearResidentInstanceCount;
         plants.SetMeta("foliageSceneNodeCount", plants.GetChildCount());
         plants.SetMeta("foliagePlannedSceneNodeCount", plannedNodeCount);
         SetMeta("plantedFoliageNodeCount", plants.GetChildCount());
@@ -1855,7 +2052,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         {
             var baseShadowCasters = plants.GetMeta("foliageResidentShadowCasterBaseCount").AsInt32();
             plants.SetMeta("groundCoverResidentShadowCasterCells", _groundCoverResidentShadowCellCount);
-            plants.SetMeta("foliageResidentShadowCasterCount", baseShadowCasters + _groundCoverResidentShadowCellCount);
+            plants.SetMeta("foliageResidentShadowCasterCount", baseShadowCasters
+                + _treeNearResidentShadowCasterCount + _groundCoverResidentShadowCellCount);
         }
     }
 
@@ -1882,7 +2080,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 _groundCoverReleaseQueueIndex = 0;
                 _groundCoverHasProcessedFocus = false;
                 _groundCoverFullLoadQueuePrepared = true;
-                foreach (var cell in _groundCoverStreamCells.Where(cell => cell.Instance is null))
+                foreach (var cell in _groundCoverStreamCells.Where(cell => !cell.IsResident))
                     _groundCoverLoadQueue.Add((cell, 0f));
             }
             ProcessGroundCoverStreamingQueues(plants, GlobalTransform, GlobalPosition,
@@ -1920,14 +2118,14 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         _groundCoverLoadQueueIndex = 0;
         _groundCoverReleaseQueueIndex = 0;
         var layerToWorld = GlobalTransform;
-        var loadRadiusSquared = GroundCoverLoadRadius * GroundCoverLoadRadius;
-        var releaseRadiusSquared = GroundCoverReleaseRadius * GroundCoverReleaseRadius;
         foreach (var cell in _groundCoverStreamCells)
         {
             var distanceSquared = GroundCoverDistanceSquared(layerToWorld * cell.Origin, focus);
-            if (cell.Instance is null && distanceSquared <= loadRadiusSquared)
+            var loadRadius = StreamCellLoadRadius(cell);
+            var releaseRadius = StreamCellReleaseRadius(cell);
+            if (!cell.IsResident && distanceSquared <= loadRadius * loadRadius)
                 _groundCoverLoadQueue.Add((cell, distanceSquared));
-            else if (cell.Instance is not null && distanceSquared > releaseRadiusSquared)
+            else if (cell.IsResident && distanceSquared > releaseRadius * releaseRadius)
                 _groundCoverReleaseQueue.Add((cell, distanceSquared));
         }
 
@@ -1935,21 +2133,23 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         {
             var distance = left.DistanceSquared.CompareTo(right.DistanceSquared);
             if (distance != 0) return distance;
-            var cellX = left.Cell.Key.Cell.X.CompareTo(right.Cell.Key.Cell.X);
+            var cellX = left.Cell.Cell.X.CompareTo(right.Cell.Cell.X);
             if (cellX != 0) return cellX;
-            var cellZ = left.Cell.Key.Cell.Y.CompareTo(right.Cell.Key.Cell.Y);
+            var cellZ = left.Cell.Cell.Y.CompareTo(right.Cell.Cell.Y);
             if (cellZ != 0) return cellZ;
-            return StringComparer.Ordinal.Compare(left.Cell.Key.Variant, right.Cell.Key.Variant);
+            var variant = StringComparer.Ordinal.Compare(left.Cell.Key?.Variant ?? "tree-near", right.Cell.Key?.Variant ?? "tree-near");
+            return variant != 0 ? variant : left.Cell.NearTreeLod.CompareTo(right.Cell.NearTreeLod);
         });
         _groundCoverReleaseQueue.Sort((left, right) =>
         {
             var distance = right.DistanceSquared.CompareTo(left.DistanceSquared);
             if (distance != 0) return distance;
-            var cellX = left.Cell.Key.Cell.X.CompareTo(right.Cell.Key.Cell.X);
+            var cellX = left.Cell.Cell.X.CompareTo(right.Cell.Cell.X);
             if (cellX != 0) return cellX;
-            var cellZ = left.Cell.Key.Cell.Y.CompareTo(right.Cell.Key.Cell.Y);
+            var cellZ = left.Cell.Cell.Y.CompareTo(right.Cell.Cell.Y);
             if (cellZ != 0) return cellZ;
-            return StringComparer.Ordinal.Compare(left.Cell.Key.Variant, right.Cell.Key.Variant);
+            var variant = StringComparer.Ordinal.Compare(left.Cell.Key?.Variant ?? "tree-near", right.Cell.Key?.Variant ?? "tree-near");
+            return variant != 0 ? variant : left.Cell.NearTreeLod.CompareTo(right.Cell.NearTreeLod);
         });
         _groundCoverLastProcessedFocus = focus;
         _groundCoverLastProcessedZoneId = zoneId;
@@ -1966,16 +2166,16 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var pendingBefore = _groundCoverLoadQueue.Count - _groundCoverLoadQueueIndex
             + _groundCoverReleaseQueue.Count - _groundCoverReleaseQueueIndex;
         var loaded = 0;
-        var loadRadiusSquared = GroundCoverLoadRadius * GroundCoverLoadRadius;
         while (_groundCoverLoadQueueIndex < _groundCoverLoadQueue.Count
             && loaded < GroundCoverLoadsPerTick)
         {
             var candidate = _groundCoverLoadQueue[_groundCoverLoadQueueIndex++];
             var stillNear = loadEverything
-                || GroundCoverDistanceSquared(layerToWorld * candidate.Cell.Origin, focus) <= loadRadiusSquared;
-            if (!stillNear || candidate.Cell.Instance is not null) continue;
+                || GroundCoverDistanceSquared(layerToWorld * candidate.Cell.Origin, focus)
+                    <= StreamCellLoadRadius(candidate.Cell) * StreamCellLoadRadius(candidate.Cell);
+            if (!stillNear || candidate.Cell.IsResident) continue;
             LoadGroundCoverCell(candidate.Cell);
-            if (candidate.Cell.Instance is not null) loaded++;
+            if (candidate.Cell.IsResident) loaded++;
         }
         if (_groundCoverLoadQueueIndex >= _groundCoverLoadQueue.Count)
         {
@@ -1984,14 +2184,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         }
 
         var released = 0;
-        var releaseRadiusSquared = GroundCoverReleaseRadius * GroundCoverReleaseRadius;
         while (_groundCoverReleaseQueueIndex < _groundCoverReleaseQueue.Count
             && released < GroundCoverReleasesPerTick)
         {
             var candidate = _groundCoverReleaseQueue[_groundCoverReleaseQueueIndex++];
             var stillFar = GroundCoverDistanceSquared(layerToWorld * candidate.Cell.Origin, focus)
-                > releaseRadiusSquared;
-            if (!stillFar || candidate.Cell.Instance is null) continue;
+                > StreamCellReleaseRadius(candidate.Cell) * StreamCellReleaseRadius(candidate.Cell);
+            if (!stillFar || !candidate.Cell.IsResident) continue;
             ReleaseGroundCoverCell(candidate.Cell);
             released++;
         }
@@ -2137,12 +2336,13 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             AddChild(plants);
             plants.SetMeta("presentationOnly", true);
             plants.SetMeta("visualOnly", true);
-            plants.SetMeta("variationPolicy", "shared rooted meshes; native distance LOD; 12m ground-cover cells");
+            plants.SetMeta("variationPolicy", "shared rooted meshes; streamed near LOD0/1 + native ranges; 12m spatial cells");
             kit.Visible = false;
             kit.SetMeta("templateSourceHidden", true);
             kit.SetMeta("templateSourcePolicy", "hidden source library; shared geometry is rebased once per variant");
         };
         var batches = new Dictionary<GroundCoverBatchKey, List<Transform3D>>();
+        var treeNearTiers = new Dictionary<(Vector2I Cell, int Lod), List<StreamedTreeNearTier>>();
         Aabb[] roofs = [];
         yield return () => roofs = BuildingRoofBounds(GetParent());
         const float roofIndexCellSize = 16f;
@@ -2368,9 +2568,24 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 }
                 else
                 {
+                    var visualMeshVariant = generatedBirchVisual ? BirchVisualTier(tiers[lod])
+                        : generatedConiferVisual ? PineVisualTier(tiers[lod]) : tiers[lod];
+                    if (hasLods && lod < 2)
+                    {
+                        var cell = new Vector2I(Mathf.FloorToInt(target.X / GroundCoverCellSize),
+                            Mathf.FloorToInt(target.Z / GroundCoverCellSize));
+                        var streamCell = (cell, lod);
+                        if (!treeNearTiers.TryGetValue(streamCell, out var nearCellTiers))
+                            treeNearTiers[streamCell] = nearCellTiers = new();
+                        nearCellTiers.Add(new StreamedTreeNearTier(
+                            tree ?? throw new InvalidOperationException("Tree LOD has no rooted owner."),
+                            $"{variant}_LOD{lod}", mesh, visualMeshVariant, lod, treeHeight,
+                            GeometryInstance3D.ShadowCastingSetting.On));
+                        continue;
+                    }
+
                     var instance = new MeshInstance3D { Name = $"{variant}_LOD{lod}", Mesh = mesh };
-                    instance.SetMeta("visualMeshVariant", generatedBirchVisual ? BirchVisualTier(tiers[lod])
-                        : generatedConiferVisual ? PineVisualTier(tiers[lod]) : tiers[lod]);
+                    instance.SetMeta("visualMeshVariant", visualMeshVariant);
                     // VIS-029: the far tier only ever exists beyond its own begin
                     // distance, and on every authored profile that is inside fog the
                     // shadow of that trunk cannot be read. The near silhouette the
@@ -2438,7 +2653,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                      "WinterSpruce_1", "WinterLightSpruce_1", "WinterFarSpruce_1",
                      "WinterSpruce_2", "WinterLightSpruce_2", "WinterFarSpruce_2" })
             yield return () => RegionalMesh(variant, region);
-        yield return () => RegisterGroundCoverStreamCells(plants, batches);
+        yield return () => RegisterGroundCoverStreamCells(plants, batches, treeNearTiers);
         foreach (var cell in _groundCoverInitialCells)
             yield return () => LoadGroundCoverCell(cell);
         yield return () =>
@@ -2448,8 +2663,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         };
         // VIS-027/029/030: silhouette parity across every authored tier switch, the
         // measured culling volume of every plant cell and the structural census of
-        // this layer. Deferred ground-cover cells contribute their exact authored
-        // transforms to the same audit without pretending they are resident nodes.
+        // this layer. Deferred ground-cover transforms and tree-tier descriptors
+        // contribute their exact planned data without creating resident render nodes.
         yield return () =>
         {
             AuditFoliageLodAndCullingBounds(plants, _groundCoverStreamCells);
@@ -2459,7 +2674,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             SetMeta("plantedFoliageEntryCount", plan.Count);
             SetMeta("plantedFoliageNodeCount", plants.GetChildCount());
             SetMeta("plannedFoliageNodeCount", plants.GetChildCount()
-                + _groundCoverStreamCells.Count(cell => cell.Instance is null));
+                + _groundCoverStreamCells.Count(cell => cell.Key is not null && cell.Instance is null));
             SetMeta("suppressedKaraFoliageEntryCount", suppressedKara);
             SetMeta("minimumFoliageRoadClearance", minimumClearance);
             SetMeta("foliagePlacementPolicy", "roots and full lower silhouette clear road; suppressed entries remain counted separately");
@@ -2607,7 +2822,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         // same factor for all three tiers, which is what keeps the parity gate
         // meaningful: a tier swap cannot be hidden by moving only one band. The
         // crossover itself is verified per plant in AuditFoliageLodAndCullingBounds,
-        // where all three instances of one tree are visible at once.
+        // using deferred near-tier descriptors and the resident far-tier instance.
         var rangeScale = FoliageRangeScale(groundCover, treeHeight);
         instance.VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self;
         instance.VisibilityRangeBegin = rangeScale * (lod switch { 1 => 24, 2 => 60, _ => 0 });
