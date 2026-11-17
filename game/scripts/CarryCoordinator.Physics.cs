@@ -35,6 +35,90 @@ public partial class CarryCoordinator
         return fractions.Length >= 2 && fractions[0] >= .999f;
     }
 
+    // Recovery uses a short list of landing points around the last accepted
+    // held pose. It never detaches at the hand point or skips the ordinary
+    // support, endpoint, visibility, and full-volume path checks.
+    private bool TrySafeSetDown(CarryableProp prop, out Vector3 point, out string reason)
+    {
+        point = Vector3.Zero;
+        reason = "Рядом нет ровной свободной опоры.";
+        if (_camera is null || _player is null || _held != prop || !HasValidHeldPose)
+        { reason = "Сначала удержите предмет перед собой."; return false; }
+
+        var start = prop.GlobalPosition;
+        var offsetFromPlayer = start - _player.GlobalPosition;
+        if (new Vector2(offsetFromPlayer.X, offsetFromPlayer.Z).Length() > prop.HoldDistance + .25f
+            || Mathf.Abs(start.Y - DesiredHoldPoint(prop, Vector3.Zero).Y) > .25f)
+        { reason = "Подойдите ближе к предмету, чтобы безопасно его опустить."; return false; }
+
+        var origin = _camera.GlobalPosition;
+        var forward = (-_camera.GlobalBasis.Z) with { Y = 0f };
+        if (forward.LengthSquared() < .000001f) forward = (-_player.GlobalBasis.Z) with { Y = 0f };
+        forward = forward.Normalized();
+        var right = new Vector3(-forward.Z, 0f, forward.X);
+        var offsets = new[]
+        {
+            Vector3.Zero, forward * .18f, forward * .36f, forward * .54f,
+            right * .18f, -right * .18f
+        };
+        var basis = Basis.FromEuler(new(0f, Mathf.DegToRad(prop.YawDegrees), 0f));
+        var supportPoints = new List<Vector3>();
+        if (prop.Kind != CarryableProp.ItemKind.Board) supportPoints.Add(Vector3.Zero);
+        foreach (var x in new[] { -.43f, .43f })
+        foreach (var z in new[] { -.44f, .44f })
+            supportPoints.Add(new(prop.Size.X * x, 0f, prop.Size.Z * z));
+
+        foreach (var offset in offsets)
+        {
+            var candidate = start + offset;
+            var minY = float.PositiveInfinity;
+            var maxY = float.NegativeInfinity;
+            var hasSupport = true;
+            foreach (var supportOffset in supportPoints)
+            {
+                var foot = candidate + basis * supportOffset;
+                using var support = Trace(new(foot.X, origin.Y + .3f, foot.Z),
+                    new(foot.X, origin.Y - 3f, foot.Z));
+                if (support.Count == 0 || support["normal"].AsVector3().Y < SlopeLimit)
+                { hasSupport = false; break; }
+                var y = support["position"].AsVector3().Y;
+                minY = Math.Min(minY, y);
+                maxY = Math.Max(maxY, y);
+            }
+            if (!hasSupport) continue;
+            if (maxY - minY > .055f)
+            { reason = "Под предметом неровная опора."; continue; }
+
+            candidate.Y = maxY + .006f;
+            if (origin.DistanceTo(candidate) > Reach + .15f) continue;
+            using var visibility = Trace(origin, candidate + Vector3.Up * .035f);
+            if (visibility.Count > 0 && visibility["position"].AsVector3().DistanceTo(candidate) > .10f)
+            { reason = "До опоры мешает преграда."; continue; }
+
+            using var landingShape = new BoxShape3D { Size = prop.Size - new Vector3(.012f, .012f, .012f) };
+            using var query = new PhysicsShapeQueryParameters3D
+            {
+                Shape = landingShape,
+                Transform = new(basis, candidate + Vector3.Up * prop.Height * .5f),
+                CollisionMask = 3u,
+                Exclude = new global::Godot.Collections.Array<Rid> { prop.GetRid() },
+                Margin = .002f
+            };
+            var overlap = _camera.GetWorld3D().DirectSpaceState.IntersectShape(query, 1);
+            using var overlapOwner = (global::Godot.Collections.Array)overlap;
+            if (overlap.Count != 0)
+            { reason = "Рядом с опорой предмету не хватает места."; continue; }
+
+            if (!ClearVolume(prop, start, prop.YawDegrees, motion: candidate - start, margin: .001f))
+            { reason = "Предмет не проходит к ближайшей опоре."; continue; }
+
+            point = candidate;
+            reason = string.Empty;
+            return true;
+        }
+        return false;
+    }
+
     private Vector3 DesiredHoldPoint(CarryableProp prop, Vector3 displacement)
     {
         var forward = -_camera!.GlobalBasis.Z;

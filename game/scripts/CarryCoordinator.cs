@@ -138,11 +138,19 @@ public partial class CarryCoordinator : Node
             PendingAction = LightAsync(lamp, !lamp.LightOn);
             return true;
         }
+        if (_held is { Kind: not CarryableProp.ItemKind.Lantern }
+            && Input.IsActionJustPressed("carry_use"))
+        {
+            prompt = $"{Hint("carry_use")} безопасно опустить рядом";
+            PendingAction = RecoverPlacementAsync();
+            return true;
+        }
         if (!Input.IsActionJustPressed("carry_place") && !Input.IsActionJustPressed("carry_rotate")
             && HandleMechanism(target, interact, out prompt))
         {
             if (_held is { Kind: CarryableProp.ItemKind.Lantern }) prompt += $" · {Hint("carry_use")} фонарь";
             if (_held is not null) prompt += "\n" + PlacementHint();
+            if (_held is { Kind: not CarryableProp.ItemKind.Lantern }) prompt += RecoveryPlacementHint();
             return true;
         }
         if (_held is not null)
@@ -172,7 +180,7 @@ public partial class CarryCoordinator : Node
                     if (correct) PendingAction = UseAsync(use);
                     else Feedback($"{_held.PromptName}: здесь не поможет. Нужна {use.Tool.ToolName.ToLowerInvariant()}.");
                 }
-                prompt += " · " + PlacementHint();
+                prompt += " · " + PlacementHint() + RecoveryPlacementHint();
             }
             else if (target is InteractionTarget && _held.Class != CarryableProp.ItemClass.Bulky)
             {
@@ -181,7 +189,7 @@ public partial class CarryCoordinator : Node
             }
             else
             {
-                prompt = $"{PlacementHint()} · {Hint("carry_rotate")} повернуть";
+                prompt = $"{PlacementHint()} · {Hint("carry_rotate")} повернуть" + RecoveryPlacementHint();
                 if (_held.Kind == CarryableProp.ItemKind.Lantern)
                 {
                     prompt = $"{Hint("carry_use")} {(_held.LightOn ? "выключить" : "включить")} фонарь · " + prompt;
@@ -247,6 +255,10 @@ public partial class CarryCoordinator : Node
             ? $"{Hint("carry_place")} поставить здесь"
             : $"{Hint("carry_place")} нельзя поставить: {_placementPreviewReason}";
     }
+
+    private string RecoveryPlacementHint() => _held is { Kind: not CarryableProp.ItemKind.Lantern }
+        && !_placementPreviewValid
+        ? $" · {Hint("carry_use")} безопасно опустить рядом" : string.Empty;
 
     private global::Godot.Collections.Dictionary Trace(Vector3 from, Vector3 to, uint mask = 3u)
     {
@@ -415,6 +427,23 @@ public partial class CarryCoordinator : Node
     {
         if (_held is null) return false;
         if (!TryPlacement(_held, out var point, out var reason))
+        {
+            Feedback(reason);
+            return false;
+        }
+        var record = Placement(_held, "placed", point, _held.YawDegrees);
+        record["zone"] = _exterior ? string.Empty : _zoneId;
+        return await _bridge!.DispatchWorldCustodyAsync(Transfer(_held, "player", "world"), new JsonArray { record });
+    }, clearFeedbackOnSuccess: true);
+
+    private Task<bool> RecoverPlacementAsync() => CommitAsync(async () =>
+    {
+        if (_held is null)
+        {
+            Feedback("Сначала возьмите предмет.");
+            return false;
+        }
+        if (!TrySafeSetDown(_held, out var point, out var reason))
         {
             Feedback(reason);
             return false;
