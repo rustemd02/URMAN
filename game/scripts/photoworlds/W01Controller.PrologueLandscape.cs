@@ -33,37 +33,25 @@ public partial class W01Controller
         var bounds = _prologueLandscapeBounds;
         var inset = Mathf.Min(Mathf.Min(x - bounds.Position.X, bounds.End.X - x),
             Mathf.Min(z - bounds.Position.Z, bounds.End.Z - z));
-        // Offset both the foot and crest: the visible boundary is a wooded slope,
-        // never the imported ground's straight rectangular outline.
         inset += 3f * Mathf.Sin(x * .047f + z * .031f)
             + 2f * Mathf.Sin(z * .079f - x * .021f);
-        var variation = 2f * Mathf.Sin(x * .033f - z * .024f)
-            + 1f * Mathf.Cos(z * .052f + x * .019f);
-        float rise;
-        if (inset >= 20f)
-            rise = .35f * (1f - TerrainSmoothStep(20f, 40f, inset));
-        else if (inset >= 10f)
-            rise = Mathf.Lerp(.35f, 13f + variation, 1f - TerrainSmoothStep(10f, 20f, inset));
-        else
-            rise = 13f + variation + 3f * (1f - TerrainSmoothStep(-30f, 10f, inset));
-
+        // Broad wooded rolls, not the old 13 m rectangular embankment. The
+        // interior stays under the imported ground; the slope grows over 40 m.
+        var envelope = 1f - TerrainSmoothStep(0f, 40f, inset);
+        var rolling = 3.2f + 1.1f * Mathf.Sin(x * .029f + z * .017f)
+            + .7f * Mathf.Cos(z * .043f - x * .013f)
+            + .4f * Mathf.Sin(x * .061f + z * .037f);
+        var rise = envelope * rolling;
         var (along, across) = PrologueStopAxes();
         var offset = new Vector2(x - PrologueTrailNodes[0].X, z - PrologueTrailNodes[0].Z);
         var v = offset.Dot(across);
         var roadDistance = Mathf.Abs(offset.Dot(along)
             - (StopRoadNear + StopRoadFar) * .5f - PrologueRoadBend(v));
-        // Let the road bend through a shallow cutting instead of running into
-        // the enclosing snow bank. Its shoulders still conceal the far bend.
+        // Leave the same low road and real return walk; blend the wooded
+        // shoulders over 24 m instead of slicing a sheer-sided snow corridor.
         var cutting = TerrainSmoothStep(24f, 36f, Mathf.Abs(v))
-            * (1f - TerrainSmoothStep(8f, 16f, roadDistance));
-        rise *= 1f - cutting;
-        if (inset < -70f)
-        {
-            var rolling = 9f + 6f * Mathf.Sin(x * .012f + z * .009f)
-                + 4f * Mathf.Cos(z * .017f - x * .006f);
-            rise = Mathf.Lerp(rise, rolling, TerrainSmoothStep(70f, 180f, -inset));
-        }
-        return ForestGroundHeight(x, z) + rise - .025f;
+            * (1f - TerrainSmoothStep(8f, 32f, roadDistance));
+        return ForestGroundHeight(x, z) + rise * (1f - cutting) - .025f;
     }
 
     private void BuildPrologueLandscape(Node3D thicket, Aabb bounds)
@@ -73,48 +61,70 @@ public partial class W01Controller
         thicket.AddChild(landscape);
         var source = Descendants<MeshInstance3D>(_groundVisual!).First(node => node.Mesh is not null);
         var centre = new Vector2(bounds.GetCenter().X, bounds.GetCenter().Z);
-        var half = new Vector2(bounds.Size.X, bounds.Size.Z) * .5f;
-        // The inner ring overlaps below the existing ground. Its rising part has
-        // real contact before the guard boundary; the outer edge is beyond Far=160.
-        var offsets = new[] { -44f, -30f, -21f, -15f, -9f, 0f, 28f, 80f, 190f, 640f };
-        const int segments = 192;
-        var points = new Vector3[offsets.Length, segments];
-        for (var index = 0; index < segments; index++)
-        {
-            var angle = index * Mathf.Tau / segments;
-            var direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-            var edge = Mathf.Min(half.X / Mathf.Max(Mathf.Abs(direction.X), .0001f),
-                half.Y / Mathf.Max(Mathf.Abs(direction.Y), .0001f));
-            for (var ring = 0; ring < offsets.Length; ring++)
-            {
-                var point = centre + direction * (edge + offsets[ring]);
-                points[ring, index] = new Vector3(point.X, PrologueLandscapeHeight(point.X, point.Y), point.Y);
-            }
-        }
+        const float step = 4f;
+        var outer = bounds.Grow(96f);
+        var inner = new Rect2(new Vector2(bounds.Position.X + 44f, bounds.Position.Z + 44f),
+            new Vector2(bounds.Size.X - 88f, bounds.Size.Z - 88f));
         using var surface = new SurfaceTool();
         using var contact = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
         surface.SetSmoothGroup(0);
         contact.Begin(Mesh.PrimitiveType.Triangles);
-        void Vertex(Vector3 point, bool collidable)
+        var triangles = 0;
+        var contactTriangles = 0;
+        Vector3 Point(float x, float z) => new(x, PrologueLandscapeHeight(x, z), z);
+        void Triangle(Vector3 a, Vector3 b, Vector3 c, bool collidable)
         {
-            // MetricUV is the existing imported ground's 8 m repeat contract.
-            surface.SetUV2(new Vector2(point.X, point.Z) / 8f);
-            surface.SetColor(new Color(0f, 0f, 0f, 0f));
-            surface.AddVertex(point);
-            if (collidable) contact.AddVertex(point);
+            foreach (var point in new[] { a, b, c })
+            {
+                surface.SetUV2(new Vector2(point.X, point.Z) / 8f);
+                surface.SetColor(new Color(0f, 0f, 0f, 0f));
+                surface.AddVertex(point);
+                if (collidable) contact.AddVertex(point);
+            }
+            triangles++;
+            if (collidable) contactTriangles++;
         }
-        for (var ring = 0; ring < offsets.Length - 1; ring++)
-        for (var index = 0; index < segments; index++)
+        // Four-metre cells resolve the roadside rolls in every direction.
+        // Sparse radial rings previously interpolated a 52/110 m-wide triangle
+        // across the road cutting and exposed the two giant planar trapezoids.
+        for (var z = outer.Position.Z; z < outer.End.Z - .01f; z += step)
+        for (var x = outer.Position.X; x < outer.End.X - .01f; x += step)
         {
-            var next = (index + 1) % segments;
-            var collidable = ring < 5;
-            foreach (var point in new[] { points[ring, index], points[ring + 1, index], points[ring, next],
-                         points[ring + 1, index], points[ring + 1, next], points[ring, next] })
-                Vertex(point, collidable);
+            var endX = Mathf.Min(x + step, outer.End.X);
+            var endZ = Mathf.Min(z + step, outer.End.Z);
+            if (inner.HasPoint(new Vector2(x + .01f, z + .01f))
+                && inner.HasPoint(new Vector2(endX - .01f, endZ - .01f))) continue;
+            var a = Point(x, z); var b = Point(endX, z);
+            var c = Point(endX, endZ); var d = Point(x, endZ);
+            var collidable = x < bounds.End.X + 8f && endX > bounds.Position.X - 8f
+                && z < bounds.End.Z + 8f && endZ > bounds.Position.Z - 8f;
+            Triangle(a, b, c, collidable); Triangle(a, c, d, collidable);
         }
-        surface.Index();
-        surface.GenerateNormals();
+        // Continue the same ground past the far frustum. Only these unseen
+        // outer rings are coarse; they share every vertex of the near rim.
+        var rim = new List<Vector2>();
+        for (var x = outer.Position.X; x < outer.End.X; x += step) rim.Add(new(x, outer.Position.Z));
+        for (var z = outer.Position.Z; z < outer.End.Z; z += step) rim.Add(new(outer.End.X, z));
+        for (var x = outer.End.X; x > outer.Position.X; x -= step) rim.Add(new(x, outer.End.Z));
+        for (var z = outer.End.Z; z > outer.Position.Z; z -= step) rim.Add(new(outer.Position.X, z));
+        var half = new Vector2(outer.Size.X, outer.Size.Z) * .5f;
+        Vector3 FarPoint(Vector2 point, float distance)
+        {
+            var offset = point - centre;
+            return Point(point.X + offset.X / half.X * distance, point.Y + offset.Y / half.Y * distance);
+        }
+        var rings = new[] { 0f, 64f, 224f, 544f };
+        for (var ring = 0; ring < rings.Length - 1; ring++)
+        for (var index = 0; index < rim.Count; index++)
+        {
+            var next = (index + 1) % rim.Count;
+            var a = FarPoint(rim[index], rings[ring]); var b = FarPoint(rim[index], rings[ring + 1]);
+            var c = FarPoint(rim[next], rings[ring + 1]); var d = FarPoint(rim[next], rings[ring]);
+            // The rectangular rim runs clockwise in Godot's X/Z plane.
+            Triangle(a, b, d, false); Triangle(b, c, d, false);
+        }
+        surface.Index(); surface.GenerateNormals();
         landscape.AddChild(new MeshInstance3D
         {
             Name = "NightSnowSlopesAndHorizon", Mesh = surface.Commit(),
@@ -125,62 +135,62 @@ public partial class W01Controller
         bank.SetMeta("footstepSurface", "snow_soft");
         bank.AddChild(new CollisionShape3D { Shape = contact.Commit().CreateTrimeshShape() });
         landscape.AddChild(bank);
-        BuildPrologueDistantTreeLine(landscape, centre, half);
+        BuildPrologueDistantTreeLine(landscape, centre, new Vector2(bounds.Size.X, bounds.Size.Z) * .5f);
         ContinuePrologueRoad(landscape);
-        GD.Print($"w01-night-landscape: terrain_triangles={(offsets.Length - 1) * segments * 2} "
-            + $"contact_triangles={5 * segments * 2} distant_trees=160 road_continuation=190m");
+        GD.Print($"w01-night-landscape: terrain_triangles={triangles} contact_triangles={contactTriangles} "
+            + "ground_step=4m wooded_rolls=1..5.4m road_continuation=190m");
     }
 
     private void BuildPrologueDistantTreeLine(Node3D owner, Vector2 centre, Vector2 half)
     {
-        // Small solid silhouettes, no alpha cards, textures, imported daytime
-        // forest, wind shader, per-tree contacts or shadow-map draws.
-        using var surface = new SurfaceTool();
-        surface.Begin(Mesh.PrimitiveType.Triangles);
-        const int sides = 7;
-        foreach (var tier in new[] { (Y: .22f, Radius: .21f, Top: .69f),
-                     (Y: .42f, Radius: .17f, Top: .86f), (Y: .62f, Radius: .12f, Top: 1f) })
-        for (var side = 0; side < sides; side++)
-        {
-            var a = side * Mathf.Tau / sides;
-            var b = (side + 1) * Mathf.Tau / sides;
-            surface.AddVertex(new Vector3(Mathf.Cos(a) * tier.Radius, tier.Y, Mathf.Sin(a) * tier.Radius));
-            surface.AddVertex(new Vector3(0f, tier.Top, 0f));
-            surface.AddVertex(new Vector3(Mathf.Cos(b) * tier.Radius, tier.Y, Mathf.Sin(b) * tier.Radius));
-        }
-        using var trunk = new CylinderMesh { TopRadius = .012f, BottomRadius = .022f,
-            Height = .55f, RadialSegments = 4, Rings = 1 };
-        surface.AppendFrom(trunk, 0, new Transform3D(Basis.Identity, new Vector3(0f, .275f, 0f)));
-        surface.GenerateNormals();
-        var mesh = surface.Commit();
-        mesh.SurfaceSetMaterial(0, new StandardMaterial3D
-        {
-            AlbedoColor = new Color(.075f, .085f, .09f), Roughness = 1f, MetallicSpecular = 0f,
-            CullMode = BaseMaterial3D.CullModeEnum.Disabled
-        });
-        const int count = 160;
+        // Reuse the actual winter pine and the thicket's resident-cell/LOD
+        // lifecycle. Neither the existing stand seed nor its placements change.
+        foreach (var key in new[] { "PineLod0", "PineLod1", "PineLod2" }) EnsureThicketMesh(key);
         var poses = new List<Transform3D>();
         var rng = new RandomNumberGenerator { Seed = 0x4e49474854 };
-        for (var index = 0; index < count; index++)
+        var trunks = new StaticBody3D { Name = "RoadsidePineTrunkContacts", CollisionLayer = 1u, CollisionMask = 0u };
+        owner.AddChild(trunks);
+        void Plant(Vector2 point, float height, bool reachable = false)
         {
-            var angle = (index + rng.RandfRange(-.35f, .35f)) * Mathf.Tau / count;
+            var girth = height * rng.RandfRange(.70f, .90f);
+            var basis = new Basis(Vector3.Up, rng.RandfRange(0f, Mathf.Tau))
+                * Basis.FromScale(new Vector3(girth, height, girth));
+            var y = Mathf.Max(ForestGroundHeight(point.X, point.Y), PrologueLandscapeHeight(point.X, point.Y));
+            var pose = new Transform3D(basis, new Vector3(point.X, y - height * PrologueTreeSink, point.Y));
+            poses.Add(pose);
+            if (reachable) trunks.AddChild(new CollisionShape3D
+            {
+                Position = pose.Origin + Vector3.Up * 1.80f,
+                Shape = new CylinderShape3D { Radius = .022f * girth, Height = 3f }
+            });
+        }
+        for (var index = 0; index < 160; index++)
+        {
+            var angle = (index + rng.RandfRange(-.35f, .35f)) * Mathf.Tau / 160f;
             var direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
             var edge = Mathf.Min(half.X / Mathf.Max(Mathf.Abs(direction.X), .0001f),
                 half.Y / Mathf.Max(Mathf.Abs(direction.Y), .0001f));
             var point = centre + direction * (edge + rng.RandfRange(10f, 42f));
-            // Keep the road's cutting open to its next bend.
             if (InsidePrologueRoadContinuation(point)) continue;
-            var height = rng.RandfRange(10f, 19f);
-            var scale = new Vector3(height * rng.RandfRange(.8f, 1.2f), height, height);
-            var basis = new Basis(Vector3.Up, rng.RandfRange(0f, Mathf.Tau)).Scaled(scale);
-            poses.Add(new Transform3D(basis,
-                new Vector3(point.X, PrologueLandscapeHeight(point.X, point.Y) - .08f, point.Y)));
+            Plant(point, rng.RandfRange(12f, 21f));
         }
-        var multi = new MultiMesh { TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
-            Mesh = mesh, InstanceCount = poses.Count };
-        for (var index = 0; index < poses.Count; index++) multi.SetInstanceTransform(index, poses[index]);
-        owner.AddChild(new MultiMeshInstance3D { Name = "DistantNightTreeLine", Multimesh = multi,
-            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off });
+        // Two irregular rows follow each bend, leaving the full carriageway
+        // and return reflectors open. Crowns, rather than a transverse wall,
+        // overlap in perspective where the road curves out of sight.
+        rng.Seed = 0x524f414453;
+        var (along, across) = PrologueStopAxes();
+        var origin = new Vector2(PrologueTrailNodes[0].X, PrologueTrailNodes[0].Z);
+        foreach (var end in new[] { -1f, 1f })
+        foreach (var side in new[] { -1f, 1f })
+        for (var distance = 28f; distance < 146f; distance += rng.RandfRange(5f, 8f))
+        for (var row = 0; row < 2; row++)
+        {
+            var v = end * (distance + rng.RandfRange(-1.2f, 1.2f));
+            var lateral = side * (row == 0 ? rng.RandfRange(9f, 13f) : rng.RandfRange(20f, 29f));
+            var u = (StopRoadNear + StopRoadFar) * .5f + PrologueRoadBend(v) + lateral;
+            Plant(origin + along * u + across * v, rng.RandfRange(15f, 24f), row == 0 && distance < 60f);
+        }
+        AddThicketLodBatches(owner, "HorizonRoadPines", "PineLod0", "PineLod1", "PineLod2", poses);
     }
 
     private Vector3 PrologueContinuingRoadPoint(float u, float v, float lift, bool wheelTrack)
