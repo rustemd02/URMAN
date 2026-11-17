@@ -7,7 +7,7 @@
   "native_or_godot_import_verified": false,
   "collision_surface_generated_or_verified": false,
   "source_script": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/hero_root_turn_v1.py",
-  "source_script_sha256": "8535a52759676ae4b0ceeb806000208d42231c7160623a9a88a1f7351b3fb42c",
+  "source_script_sha256": "87098971830259ae9a166ea10beaa8e70a503059a48327e3f605662953244a15",
   "input_specs": {
     "asset_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json",
     "asset_spec_sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
@@ -30,7 +30,13 @@
     },
     "ground_manifest": "assets/source/blender/photoworlds/W01/prologue-ground-f00-f14-v1.manifest.json",
     "ground_manifest_sha256": "cff977f0b3c73f0b9063508178ab5118aefe47b4009122de377b77f17907ed4e",
-    "ground_source_sha256": "ba60f5a792b92fbf7a8ad54ee5b91f8657b74814961958e006e7a3d65520467b"
+    "ground_source_sha256": "ba60f5a792b92fbf7a8ad54ee5b91f8657b74814961958e006e7a3d65520467b",
+    "wood_grain_texture": "game/assets/textures/painterly/wood_split_firewood_v1_albedo.png",
+    "wood_grain_texture_sha256": "320dcd9f93ce7d3edaf567ae9c74b781bbdb0dff562e2982b2e192c1f892d118",
+    "fresh_snow_texture": "game/assets/textures/painterly/snow_fresh_v1_albedo.png",
+    "fresh_snow_texture_sha256": "ca32fc5b81227eb45a4c42074242ebeaed691a58c6b8d4d8d27fbddeff0cca1a",
+    "trampled_snow_texture": "game/assets/textures/painterly/snow_trampled_v2_albedo.png",
+    "trampled_snow_texture_sha256": "2a53d2b727ab0264138a75fedbafa77cee1ec24994b3e70734a28052ece540c4"
   },
   "coordinate_contract": {
     "source_local": "Godot X/Y/Z in metres; Blender source maps (X,-Z,Y)",
@@ -45,72 +51,104 @@
     "file_blend": "hero-root-turn-v1.blend",
     "file_glb": "hero-root-turn-v1.glb",
     "root_node": "A_HERO_ROOT_Turn",
-    "vertex_count": 14204,
-    "triangle_count": 27428,
+    "vertex_count": 16742,
+    "triangle_count": 32036,
     "mesh_objects": {
       "HeroRoot_Buttress_Root_East": {
-        "vertices": 702,
-        "triangles": 1320
+        "vertices": 488,
+        "triangles": 900
       },
-      "HeroRoot_Buttress_Root_Northeast": {
-        "vertices": 702,
-        "triangles": 1320
+      "HeroRoot_Buttress_Root_North": {
+        "vertices": 488,
+        "triangles": 900
       },
-      "HeroRoot_Buttress_Root_Southeast": {
-        "vertices": 702,
-        "triangles": 1320
-      },
-      "HeroRoot_Central_Root_Rib": {
-        "vertices": 380,
-        "triangles": 700
+      "HeroRoot_Buttress_Root_South": {
+        "vertices": 488,
+        "triangles": 900
       },
       "HeroRoot_CentralButtress_LOD0": {
         "vertices": 1624,
         "triangles": 3136
       },
-      "HeroRoot_Entry_Root_Spur": {
-        "vertices": 434,
-        "triangles": 800
+      "HeroRoot_CentralRootPlate_LOD0": {
+        "vertices": 1100,
+        "triangles": 2112
       },
-      "HeroRoot_Entry_Support_Root": {
-        "vertices": 380,
-        "triangles": 700
+      "HeroRoot_Entry_Root_Spur": {
+        "vertices": 344,
+        "triangles": 612
       },
       "HeroRoot_EntryButtress_LOD0": {
         "vertices": 840,
         "triangles": 1600
       },
       "HeroRoot_Exit_Root_Spur": {
-        "vertices": 434,
-        "triangles": 800
-      },
-      "HeroRoot_Exit_Support_Root": {
-        "vertices": 380,
-        "triangles": 700
+        "vertices": 344,
+        "triangles": 612
       },
       "HeroRoot_ExitButtress_LOD0": {
         "vertices": 840,
         "triangles": 1600
       },
-      "HeroRoot_Side_Root_Left": {
-        "vertices": 380,
-        "triangles": 700
+      "HeroRoot_SnowCap_TrunkCenter_A_LOD0": {
+        "vertices": 480,
+        "triangles": 896
       },
-      "HeroRoot_Side_Root_Right": {
-        "vertices": 380,
-        "triangles": 700
+      "HeroRoot_SnowCap_TrunkCenter_B_LOD0": {
+        "vertices": 480,
+        "triangles": 896
+      },
+      "HeroRoot_SnowMound_CentralEast_LOD0": {
+        "vertices": 684,
+        "triangles": 1296
+      },
+      "HeroRoot_SnowMound_CentralNorth_LOD0": {
+        "vertices": 684,
+        "triangles": 1296
+      },
+      "HeroRoot_SnowMound_Entry_LOD0": {
+        "vertices": 544,
+        "triangles": 1024
+      },
+      "HeroRoot_SnowMound_Exit_LOD0": {
+        "vertices": 544,
+        "triangles": 1024
       },
       "HeroRoot_Trunk_Center_LOD0": {
-        "vertices": 1322,
-        "triangles": 2640
+        "vertices": 1969,
+        "triangles": 3888
+      },
+      "HeroRoot_Trunk_Center_SplitEndGrain_LOD0": {
+        "vertices": 241,
+        "triangles": 432
+      },
+      "HeroRoot_Trunk_Center_SplitFibers_LOD0": {
+        "vertices": 24,
+        "triangles": 32
       },
       "HeroRoot_Trunk_Left_LOD0": {
-        "vertices": 1046,
-        "triangles": 2088
+        "vertices": 757,
+        "triangles": 1476
+      },
+      "HeroRoot_Trunk_Left_SplitEndGrain_LOD0": {
+        "vertices": 181,
+        "triangles": 324
+      },
+      "HeroRoot_Trunk_Left_SplitFibers_LOD0": {
+        "vertices": 24,
+        "triangles": 32
       },
       "HeroRoot_Trunk_Right_LOD0": {
-        "vertices": 1046,
-        "triangles": 2088
+        "vertices": 757,
+        "triangles": 1476
+      },
+      "HeroRoot_Trunk_Right_SplitEndGrain_LOD0": {
+        "vertices": 181,
+        "triangles": 324
+      },
+      "HeroRoot_Trunk_Right_SplitFibers_LOD0": {
+        "vertices": 24,
+        "triangles": 32
       },
       "HeroRoot_WalkRibbon_LOD0": {
         "vertices": 1448,
@@ -123,16 +161,16 @@
     },
     "godot_bounds_m": {
       "x": [
-        -8.535110473632812,
-        7.138066291809082
+        -7.936341285705566,
+        6.398746967315674
       ],
       "y": [
-        -0.893123209476471,
-        8.430000305175781
+        -0.9093927145004272,
+        2.475245952606201
       ],
       "z": [
-        -10.503305435180664,
-        10.642671585083008
+        -9.7512845993042,
+        9.776501655578613
       ]
     },
     "unique_mask": {
@@ -166,10 +204,10 @@
       "source": "game/assets/textures/painterly/procedural_bake_receipt_v1.json#textures.F03",
       "provenance": "project-original procedural (no third-party source)"
     },
-    "file_blend_sha256": "ffb339b266c3bab0db7de75d661d9fe14a98f414de4c9d66455bd9d2cafa8abb",
-    "file_glb_sha256": "df7a4ba6d055301a7092eba24c73fc5df3ed3dadf9cf7f148b191161a5ec3304",
-    "file_blend_bytes": 3996055,
-    "file_glb_bytes": 3006396
+    "file_blend_sha256": "5f94d88218e422f3a7470a3c2ae41fd3f1c06b441d56788079c617ec7f69b463",
+    "file_glb_sha256": "980d244cf7c2a2c5b260e2011eed98aa64edc06b92907dc6f323059caa55ba95",
+    "file_blend_bytes": 7138685,
+    "file_glb_bytes": 5934784
   },
   "spatial_link": {
     "frame_node": "SpatialLinkFrame",
@@ -243,7 +281,7 @@
     "eye_height_m": 1.62,
     "minimum_route_turn_radius_m": 2.5938223012438475,
     "clear_walkway_width_m": 2.2,
-    "minimum_sampled_side_clearance_m": 1.3529775411415164,
+    "minimum_sampled_side_clearance_m": 2.7563454100039633,
     "minimum_sampled_headroom_m": 4.16,
     "headroom_requirement_m": 2.15,
     "headroom_sample_method": "raycast up from five lateral stations at 0.16 m above ribbon, 321 longitudinal stations; recorded ground-to-first-obstruction height (4.16 m lower bound when no hit within 4 m)",
@@ -251,27 +289,32 @@
   },
   "coverage_scope": "one opaque, physically walkable curved root passage module; not a complete W01 forest or encounter",
   "offline_previews": [
-    "hero-root-turn-v1-entry.png",
-    "hero-root-turn-v1-overview.png"
+    "hero-root-turn-v1-f11-approach.png",
+    "hero-root-turn-v1-entry-ground.png",
+    "hero-root-turn-v1-f13-exit-ground.png"
   ],
   "verification_scope": {
     "source_generated": true,
     "node_names_checked_in_blender_scene": true,
     "mesh_metrics_checked": true,
     "sightline_and_clearance_sampled": true,
-    "blender_rendered_entry_and_overview": true,
+    "blender_rendered_f11_entry_and_f13_views_with_generated_terrain_and_runtime_pines": true,
     "godot_import": "not run",
     "in_game_frame_mapping_and_physics": "not run",
     "art_author_review": "pending"
   },
   "offline_preview_receipts": {
-    "hero-root-turn-v1-entry.png": {
-      "sha256": "7a8acc0cc151cef4b5475de58e92c8d3c07c1e7d87fab31acffc6544a962e470",
-      "bytes": 1895123
+    "hero-root-turn-v1-f11-approach.png": {
+      "sha256": "826b37ea0729128ad4c1dfa6169d4fce4340669b410a3217430122b542ba82ee",
+      "bytes": 1693193
     },
-    "hero-root-turn-v1-overview.png": {
-      "sha256": "255cf72087ef5f3479a99e8e6331bb37d9db4d5da686c0946b4a170997b731cd",
-      "bytes": 1844156
+    "hero-root-turn-v1-entry-ground.png": {
+      "sha256": "ae3b1c865b7641f513b7d264e076ca1046dd27275a52d9b28c8251882daf7d2b",
+      "bytes": 1576755
+    },
+    "hero-root-turn-v1-f13-exit-ground.png": {
+      "sha256": "bc49a906b67c2cc1232782db17ba2ec2fbaff1eee3ba19811a44b8d5ea1817a6",
+      "bytes": 1682678
     }
   }
 }
