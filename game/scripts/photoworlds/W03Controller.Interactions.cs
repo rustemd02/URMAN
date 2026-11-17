@@ -123,6 +123,7 @@ public partial class W03Controller
         EnsureHouseTarget("HouseReturnTarget", ReturnInteractionId,
             "urman.fullgame:text/pw-label-house-return", _houseExitAnchor, 0.55f, 1.1f, bridge);
         BuildHouseSpatialLinks();
+        BuildHousePhotographerComparison();
     }
 
     private Node3D? RequireHouseMarker(string path)
@@ -165,6 +166,7 @@ public partial class W03Controller
 
     private void ProcessHouseGameplay(double delta)
     {
+        ProcessHousePhotographerComparison();
         ProcessHouseFrameReader();
         ProcessHousePhysicalAction(delta);
         ProcessHousePhotographerObservation();
@@ -176,6 +178,7 @@ public partial class W03Controller
         ProjectHouseFrameInscription(visible);
         if (!visible || route is null || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge))
         {
+            LowerHousePhotographerPhoto();
             CancelHousePhysicalAction(restoreCommittedPose: true);
             ResetHouseDoorObservationSession(null);
             ResetHousePhotographerObservationSession(null);
@@ -237,6 +240,7 @@ public partial class W03Controller
 
     private void ExitHouseGameplay()
     {
+        LowerHousePhotographerPhoto();
         ExitHouseFrameReader();
         CancelHousePhysicalAction(restoreCommittedPose: false);
         ResetHouseDoorObservationSession(null);
@@ -525,7 +529,8 @@ public partial class W03Controller
             return false;
 
         point = witness.GlobalPosition;
-        label = sawStrap ? "Окно дома" : "Ремешок фотоаппарата";
+        label = _housePhotoComparisonSession is null ? "Сверить двор с семейным снимком"
+            : sawStrap ? "Окно дома" : "Ремешок фотоаппарата";
         return true;
     }
 
@@ -533,14 +538,20 @@ public partial class W03Controller
     {
         if (_bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
             || bridge.CurrentFullGamePhotoWorldRouteProjection() is not { ActiveSceneId: HouseSceneId } route
-            || !ReferenceEquals(route.SessionIdentity, bridge.SessionIdentity)
-            || bridge.PhotoWorldFactObserved(CameraPositionFactId))
+            || !ReferenceEquals(route.SessionIdentity, bridge.SessionIdentity))
         {
             ResetHousePhotographerObservationSession(null);
             return;
         }
 
         ResetHousePhotographerObservationSession(route.SessionIdentity);
+        if (bridge.PhotoWorldFactObserved(CameraPositionFactId))
+        {
+            // Only the live comparison is lowered on success. An already
+            // recorded finding never forces a replay and may be inspected again.
+            if (_housePhotographerDispatching) LowerHousePhotographerPhoto();
+            return;
+        }
         if (!bridge.IsInteractionAvailable(CameraPositionInteractionId))
         {
             ClearHousePhotographerSightings();
@@ -555,7 +566,10 @@ public partial class W03Controller
             || HouseActionModalOpen()
             || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
             || !GodotObject.IsInstanceValid(player)
-            || player.VehicleControlled || player.IsClimbingLadder || !player.IsOnFloor())
+            || player.VehicleControlled || player.IsClimbingLadder || !player.IsOnFloor()
+            || !ReferenceEquals(_housePhotoComparisonSession, route.SessionIdentity)
+            || _housePhotoReference is not { } reference || !GodotObject.IsInstanceValid(reference)
+            || !reference.IsRaisedFor(player, bridge, route.SessionIdentity, "P-HOUSE"))
         {
             ClearHousePhotographerSightings();
             return;
@@ -601,6 +615,7 @@ public partial class W03Controller
     private void ResetHousePhotographerObservationSession(object? session)
     {
         if (ReferenceEquals(_housePhotographerObservationSession, session)) return;
+        LowerHousePhotographerPhoto();
         _housePhotographerGeneration++;
         _housePhotographerDispatching = false;
         _housePhotographerObservationSession = session;
@@ -645,7 +660,10 @@ public partial class W03Controller
             && ReferenceEquals(route.SessionIdentity, session)
             && bridge.PhotoWorldFactObserved(CameraPositionFactId))
         {
-            ClearHousePhotographerSightings();
+            LowerHousePhotographerPhoto();
+            if (!HouseActionModalOpen() && !bridge.IsPhotoWorldPresentationDeferred
+                && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+                player.ShowRemark("Айдар", "Снимок сохранил двор. Тот, кто снимал, остался за краем. Спрошу дома, кто держал фотоаппарат.");
             return;
         }
 

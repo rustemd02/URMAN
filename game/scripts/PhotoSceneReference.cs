@@ -9,6 +9,7 @@ public partial class PhotoSceneReference : CanvasLayer
 {
     private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
     private const string RiverSceneId = "urman.fullgame:scene/pw-river";
+    private const string HouseSceneId = "urman.fullgame:scene/pw-house";
     private FirstPersonController _player = null!;
     private RuntimeBridge _bridge = null!;
     private object _session = null!;
@@ -44,6 +45,8 @@ public partial class PhotoSceneReference : CanvasLayer
                 && main.ActiveZoneScenePath == "res://scenes/photoworlds/W01/W01.tscn",
             "P-WATER" => bridge.ActiveSceneId == RiverSceneId
                 && main.ActiveZoneScenePath == "res://scenes/photoworlds/W02/W02.tscn",
+            "P-HOUSE" => bridge.ActiveSceneId == HouseSceneId && main.IsMountedW03()
+                && main.ActiveZoneScenePath == "res://scenes/photoworlds/W03/W03.tscn",
             _ => false
         });
 
@@ -106,7 +109,7 @@ public partial class PhotoSceneReference : CanvasLayer
             return;
         }
         var carry = GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
-        if (_photoId == "P-WATER" && (_player.ModalOpen || _player.VehicleControlled || _player.IsClimbingLadder
+        if ((_photoId is "P-WATER" or "P-HOUSE") && (_player.ModalOpen || _player.VehicleControlled || _player.IsClimbingLadder
             || carry is { HeldItem: not null } or { ActionInProgress: true }
             || MainMenuUi.AnyUndismissed(GetTree())
             || GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true }
@@ -151,6 +154,7 @@ public partial class PhotoSceneReference : CanvasLayer
         {
             "P-FOREST" => $"Совместите раздвоенную берёзу, низкую перекладину и дугу корня. Сверяйте их форму и соседство. {close} — опустить снимок",
             "P-WATER" => $"Сверьте три опоры и диагональный край настила на снимке с отражением. {close} — опустить снимок",
+            "P-HOUSE" => $"Посмотрите на ремешок фотоаппарата, затем на окно дома. Что осталось за краем семейного снимка? {close} — опустить снимок",
             _ => $"Можно идти и осматриваться. {close} — убрать снимок"
         };
     }
