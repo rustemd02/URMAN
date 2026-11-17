@@ -1565,8 +1565,12 @@ public partial class W02Controller : Node3D
                 new Vector3(x, ground, z)));
         }
 
-        var eastEdgeStands = new[] { new Vector2(120f, 136f), new Vector2(150f, 139f) };
-        for (var tree = 0; tree < 12; tree++)
+        var eastEdgeStands = new[]
+        {
+            new Vector2(120f, 136f), new Vector2(150f, 139f),
+            new Vector2(208f, 230f), new Vector2(252f, 270f)
+        };
+        for (var tree = 0; tree < 24; tree++)
         {
             var center = eastEdgeStands[tree / 6];
             var angle = (float)farRandom.NextDouble() * Mathf.Tau;
@@ -1598,7 +1602,7 @@ public partial class W02Controller : Node3D
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
         });
         GD.Print($"w02-horizon-willows: instances={willowPlacements.Count} triangles={willowPlacements.Count * 4} "
-            + "maxInstances=108 maxTriangles=432 batches=1 surfaces=1 shadows=off");
+            + "maxInstances=120 maxTriangles=480 batches=1 surfaces=1 shadows=off");
         BuildFarBankBackdrop();
         BuildEastEdgeContinuation();
     }
@@ -1688,7 +1692,8 @@ public partial class W02Controller : Node3D
             xs.Add(x);
         xs.Add(TerrainMaxX + 204f);
 
-        var rows = Mathf.CeilToInt((TerrainMaxZ - TerrainMinZ) / RenderStep) + 1;
+        const float endZ = 300.5f;
+        var rows = Mathf.CeilToInt((endZ - TerrainMinZ) / RenderStep) + 1;
         Vector3 Point(float x, int row)
         {
             var z = TerrainMinZ + row * RenderStep;
