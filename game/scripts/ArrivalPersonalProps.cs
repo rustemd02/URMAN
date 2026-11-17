@@ -247,8 +247,12 @@ internal partial class ArrivalPersonalProps : Node3D
 
         });
         WaterChainHomePresence waterChain = null!;
+        Vector3 waterEnvelopePosition = default;
+        foreach (var job in FindPhotoEnvelopePositionJobs(house, bookBounds, .165f, .115f,
+                     FamilyBookPlacementYawDegrees + 104f, position => waterEnvelopePosition = position,
+                     role: "water-print", preferred: new Vector2(.28f, -2.06f), clothLift: .004f)) yield return job;
         yield return StyleBenchmarkZone.HouseBuildJob("family-book/water-envelope",
-            () => waterChain = BuildWaterChain(house, things, paper));
+            () => waterChain = BuildWaterChain(house, things, paper, waterEnvelopePosition));
         foreach (var job in BuildHomePrinterJobs(house, things, paper, bookBounds)) yield return job;
         foreach (var job in BuildHousePhotoChainJobs(house, things, paper, waterChain, bookBounds)) yield return job;
         yield return StyleBenchmarkZone.HouseBuildJob("family-book/cellar-photo-box",
@@ -261,19 +265,17 @@ internal partial class ArrivalPersonalProps : Node3D
     // print leads into W02. Windows between those affordances are presentation
     // only; the compiled reactions stay owned by content.
     private static WaterChainHomePresence BuildWaterChain(StyleBenchmarkZone house, ArrivalPersonalProps things,
-        Material paper)
+        Material paper, Vector3 envelopePosition)
     {
         const float envelopeWidth = .165f;
         const float envelopeDepth = .115f;
-        // The raised table tier carries the kettle and the bowl on its east
-        // stretch; its west stretch is open, so the envelope lies there turned
-        // just behind the book patch, clear of every cloth prop and in view.
+        // The current family print belongs on the reachable front worktop,
+        // beside the book, rather than on the dark tray behind the system unit.
         const float envelopeYawDegrees = FamilyBookPlacementYawDegrees + 104f;
-        var tray = house.GetNode<Node3D>("GeneratedHouseInteriorAct1")
+        var support = house.GetNode<Node3D>("GeneratedHouseInteriorAct1")
             .FindChildren("*", nameof(MeshInstance3D), true, false)
-            .OfType<MeshInstance3D>().Single(mesh => mesh.Name == "HouseInterior_TableTray_LOD0");
-        var trayTop = PublicBuildingShell.Bounds(house, tray).End.Y;
-        var envelopePosition = new Vector3(.740f, trayTop + .0035f, -2.620f);
+            .OfType<MeshInstance3D>().Single(mesh => mesh.Name == "HouseInterior_TableTop_LOD0");
+        var supportTop = PublicBuildingShell.Bounds(house, support).End.Y;
 
         var yaw = Mathf.DegToRad(envelopeYawDegrees);
         var right = new Vector2(Mathf.Cos(yaw), -Mathf.Sin(yaw));
@@ -286,12 +288,12 @@ internal partial class ArrivalPersonalProps : Node3D
             footprint.Add(new Vector2(envelopePosition.X, envelopePosition.Z)
                 + right * (signX * halfWidth) + forward * (signZ * halfDepth));
 
-        var trayFaceTransform = house.GlobalTransform.AffineInverse() * tray.GlobalTransform;
-        var trayFaces = tray.Mesh!.GetFaces().Select(face => trayFaceTransform * face).ToArray();
+        var faceTransform = house.GlobalTransform.AffineInverse() * support.GlobalTransform;
+        var faces = support.Mesh!.GetFaces().Select(face => faceTransform * face).ToArray();
         var heights = footprint.Select(point => TableTopHeightAt(
-            point, trayFaces, trayTop - .01f, trayTop + .01f)).ToArray();
+            point, faces, supportTop - .01f, supportTop + .01f)).ToArray();
         if (heights.Any(float.IsNaN) || heights.Max() - heights.Min() > .002f)
-            throw new InvalidOperationException("The family envelope footprint is not fully supported by the measured tray surface.");
+            throw new InvalidOperationException("The family envelope footprint is not fully supported by the measured tabletop.");
 
         var envelopeBounds = new Aabb(
             new(footprint.Min(point => point.X), envelopePosition.Y - .004f, footprint.Min(point => point.Y)),
@@ -341,6 +343,13 @@ internal partial class ArrivalPersonalProps : Node3D
         };
         flap.SetMeta("visualOnly", true);
         envelope.AddChild(flap);
+        flap.AddChild(new Label3D
+        {
+            Name = "FamilyEnvelopeLabel", Text = "Семейные\nснимки", Font = UrmanUiTheme.HandFont,
+            Position = new(0f, .0016f, 0f), RotationDegrees = new(-90f, 0f, 180f),
+            FontSize = 42, PixelSize = .00032f, Width = 400, OutlineSize = 0,
+            Shaded = true, DoubleSided = false, Modulate = Color.FromHtml("4f4032")
+        });
 
         var print = new Node3D { Name = "FamilyWaterPrint", Position = new(0f, .0046f, .024f) };
         print.SetMeta("visualOnly", true);
@@ -428,7 +437,7 @@ internal partial class ArrivalPersonalProps : Node3D
         const string backPath = "res://assets/textures/photobook/backs-v1/p-house-back.svg";
         const float envelopeYawDegrees = FamilyBookPlacementYawDegrees + 104f;
         Vector3 envelopePosition = default;
-        foreach (var job in FindHousePhotoEnvelopePositionJobs(house, bookBounds, envelopeWidth, envelopeDepth,
+        foreach (var job in FindPhotoEnvelopePositionJobs(house, bookBounds, envelopeWidth, envelopeDepth,
                      envelopeYawDegrees, position => envelopePosition = position)) yield return job;
         yield return StyleBenchmarkZone.HouseBuildJob("family-book/house-envelope", () =>
         {
@@ -528,8 +537,9 @@ internal partial class ArrivalPersonalProps : Node3D
         });
     }
 
-    private static IEnumerable<Action> FindHousePhotoEnvelopePositionJobs(StyleBenchmarkZone house, Aabb bookBounds,
-        float envelopeWidth, float envelopeDepth, float envelopeYawDegrees, Action<Vector3> placed)
+    private static IEnumerable<Action> FindPhotoEnvelopePositionJobs(StyleBenchmarkZone house, Aabb bookBounds,
+        float envelopeWidth, float envelopeDepth, float envelopeYawDegrees, Action<Vector3> placed,
+        string role = "house-print", Vector2? preferred = null, float clothLift = 0f)
     {
         var marginX = envelopeWidth * .5f + .01f;
         var marginZ = envelopeDepth * .5f + .01f;
@@ -543,8 +553,9 @@ internal partial class ArrivalPersonalProps : Node3D
             Vector2.Zero, -right * marginX - forward * marginZ, -right * marginX + forward * marginZ,
             right * marginX - forward * marginZ, right * marginX + forward * marginZ
         };
-        foreach (var job in FindFreeTablePatchJobs(house, bookBounds, "house-print", new(extentX, extentZ),
-                     new(extentX, extentZ), footprint, .003f, .020f, FamilyBookTablePosition, placed)) yield return job;
+        foreach (var job in FindFreeTablePatchJobs(house, bookBounds, role, new(extentX, extentZ),
+                     new(extentX, extentZ), footprint, .003f + clothLift, .020f,
+                     preferred ?? FamilyBookTablePosition, position => placed(position + Vector3.Up * clothLift))) yield return job;
     }
 
     // The house does not move while these construction jobs run. Snapshot its
