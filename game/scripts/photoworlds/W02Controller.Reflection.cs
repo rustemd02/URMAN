@@ -27,6 +27,7 @@ public partial class W02Controller
     private Label3D? _reflectionComparisonGuide;
     private object? _reflectionObservationSessionIdentity;
     private bool _reflectionComparisonActive;
+    private bool _reflectionContextNeedsRelease = true;
     private bool _reflectionFrameReady;
     private double _reflectionComparisonElapsed;
     private object? _reflectionComparisonSession;
@@ -80,12 +81,9 @@ public partial class W02Controller
             return true;
         }
 
-        var target = _reflectionTarget;
-        if (target is { PresentationEnabled: true }
-            && GodotObject.IsInstanceValid(target) && target.IsVisibleInTree()
-            && player.GlobalPosition.DistanceTo(target.GlobalPosition) <= 2.4f)
+        if (IsInsideReflectionStand(stand, player.GlobalPosition))
         {
-            point = target.GlobalPosition;
+            point = ReflectionComparisonCenter();
             label = "Сверить отражение с отпечатком";
             inspectionPoint = true;
             return true;
@@ -171,6 +169,7 @@ public partial class W02Controller
     private void ResetReflectionObservation(object? sessionIdentity)
     {
         LowerReflectionPhoto();
+        _reflectionContextNeedsRelease = true;
         _reflectionObservationGeneration++;
         _reflectionObservationSessionIdentity = sessionIdentity;
         _reflectionComparisonActive = false;
@@ -187,25 +186,79 @@ public partial class W02Controller
         SetReflectionComparisonGuide(string.Empty, visible: false);
     }
 
-    private bool BeginReflectionComparison()
+    private bool CanOfferReflectionComparison(out FirstPersonController player)
     {
-        if (_reflectionComparisonActive
-            || _reflectionObservationDispatching
-            || _bridge is not { } bridge
-            || !GodotObject.IsInstanceValid(bridge)
+        player = null!;
+        if (_reflectionContextNeedsRelease || _reflectionComparisonActive || _reflectionObservationDispatching
+            || _world is not { } world || !GodotObject.IsInstanceValid(world) || !world.IsVisibleInTree()
+            || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
             || bridge.SessionIdentity is not { } session
-            || !ReferenceEquals(GetTree().GetFirstNodeInGroup("runtime_bridge"), bridge)
             || bridge.CurrentW02WaterProjection() is not { ActiveSceneId: RiverSceneId } projection
             || !ReferenceEquals(projection.SessionIdentity, session)
             || bridge.PhotoWorldFactObserved(ReflectionFactId)
             || !bridge.IsInteractionAvailable(ReflectionInteractionId)
-            || MainMenuUi.AnyUndismissed(GetTree())
+            || MainMenuUi.AnyUndismissed(GetTree()) || GetTree().Paused
             || GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true }
-            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
-            || player.ModalOpen || player.VehicleControlled || player.IsClimbingLadder || !player.IsOnFloor()
-            || _reflectionObservationStand is not { } stand
-            || !GodotObject.IsInstanceValid(stand)
-            || !IsInsideReflectionStand(stand, player.GlobalPosition))
+            || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true }
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController current
+            || current.ModalOpen || current.SessionTransitionActive || current.InIntro
+            || current.VehicleControlled || current.IsClimbingLadder || !current.IsOnFloor()
+            || _reflectionObservationStand is not { } stand || !GodotObject.IsInstanceValid(stand)
+            || !IsInsideReflectionStand(stand, current.GlobalPosition)
+            || GetTree().GetFirstNodeInGroup("carry_coordinator") is CarryCoordinator
+                { HeldItem: not null } or CarryCoordinator { ActionInProgress: true }
+            || current.GetNodeOrNull<Camera3D>("Head/Camera3D") is not { Current: true } camera
+            || (-camera.GlobalBasis.Z).Y > .3f
+            || !RuntimeBridge.IsFacingPhotoBookEntry(current, ReflectionComparisonCenter()))
+            return false;
+        player = current;
+        return true;
+    }
+
+    private void ProcessReflectionContextCue()
+    {
+        // Like the player interaction owner, require a neutral edge after a
+        // modal, cancelled comparison or zone handoff; held GUI accept cannot leak.
+        if (!Input.IsActionPressed("interact") && !Input.IsActionJustPressed("interact"))
+            _reflectionContextNeedsRelease = false;
+        if (_reflectionComparisonActive) return;
+        if (!CanOfferReflectionComparison(out var player))
+        {
+            _reflectionContextNeedsRelease = true;
+            SetReflectionComparisonGuide(string.Empty, visible: false);
+            return;
+        }
+        var hint = InputBindingService.ActionHint("interact", player.CurrentInputDevice == "gamepad");
+        SetReflectionComparisonGuide($"{hint} Сверить отражение с отпечатком");
+        PositionReflectionComparisonGuide(player);
+    }
+
+    private void PositionReflectionComparisonGuide(FirstPersonController player)
+    {
+        if (_reflectionComparisonGuide is not { } guide || !GodotObject.IsInstanceValid(guide)) return;
+        var towardWater = ReflectionComparisonCenter() - player.GlobalPosition;
+        towardWater.Y = 0f;
+        if (towardWater.LengthSquared() < .001f) return;
+        // Keep the existing guide on the water side of the pad, in the incoming
+        // view, rather than behind the player beside the former foot-level ray.
+        guide.GlobalPosition = player.GlobalPosition + towardWater.Normalized() * 1.1f + Vector3.Up * 1.15f;
+    }
+
+    public override void _UnhandledInput(InputEvent inputEvent)
+    {
+        // GUI gets first refusal. In particular, accepting/closing an album or
+        // dialogue with the same binding cannot start a world comparison.
+        if (inputEvent is InputEventKey { Echo: true } || !inputEvent.IsActionPressed("interact")
+            || !CanOfferReflectionComparison(out _)) return;
+        BeginReflectionComparison();
+        if (_reflectionComparisonActive) GetViewport().SetInputAsHandled();
+    }
+
+    private bool BeginReflectionComparison()
+    {
+        if (!CanOfferReflectionComparison(out var player) || _bridge is not { } bridge
+            || bridge.SessionIdentity is not { } session
+            || bridge.CurrentW02WaterProjection() is not { ActiveSceneId: RiverSceneId } projection)
             return false;
 
         // The acquired print is a local reference, never another observation
@@ -216,6 +269,7 @@ public partial class W02Controller
                 .FirstOrDefault(reference => reference.IsRaisedFor(player, bridge, session, "P-WATER"));
 
         _reflectionComparisonActive = true;
+        _reflectionContextNeedsRelease = true;
         _reflectionFrameReady = false;
         _reflectionComparisonSession = session;
         _reflectionComparisonSceneId = projection.ActiveSceneId;
@@ -224,6 +278,7 @@ public partial class W02Controller
         var cancelHint = InputBindingService.ActionHint("ui_cancel", player.CurrentInputDevice == "gamepad");
         SetReflectionComparisonGuide(
             $"Сравните три отражённые опоры и край настила с отпечатком.\nПоверните взгляд, чтобы увидеть все четыре; {cancelHint} — выйти, можно отойти от площадки.");
+        PositionReflectionComparisonGuide(player);
         _reflectionTarget?.SetPresentationEnabled(false);
         return false;
     }
@@ -240,6 +295,7 @@ public partial class W02Controller
 
     private void CancelReflectionComparison(bool restoreTarget)
     {
+        _reflectionContextNeedsRelease = true;
         LowerReflectionPhoto();
         if (!_reflectionComparisonActive) return;
         _reflectionObservationGeneration++;
@@ -316,7 +372,10 @@ public partial class W02Controller
             || MainMenuUi.AnyUndismissed(GetTree())
             || GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true }
             || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
-            || player.ModalOpen || player.VehicleControlled || player.IsClimbingLadder || !player.IsOnFloor()
+            || player.ModalOpen || player.SessionTransitionActive || player.VehicleControlled
+            || player.IsClimbingLadder || !player.IsOnFloor()
+            || GetTree().GetFirstNodeInGroup("carry_coordinator") is CarryCoordinator
+                { HeldItem: not null } or CarryCoordinator { ActionInProgress: true }
             || _reflectionPhotoReference is { } reference
                 && (!GodotObject.IsInstanceValid(reference) || !reference.IsRaisedFor(player, bridge, session, "P-WATER"))
             || _reflectionObservationStand is not { } stand

@@ -155,6 +155,7 @@ public partial class W02Controller : Node3D
     {
         ProcessWaterSafety();
         ProcessReflectionObservation(delta);
+        ProcessReflectionContextCue();
     }
 
     public override void _ExitTree()
