@@ -407,6 +407,19 @@ public partial class W02Controller : Node3D
         return height;
     }
 
+    private static float EastEdgeLift(float x, float z)
+    {
+        var depth = Mathf.Max(0f, x - TerrainMaxX);
+        var envelope = Smooth(depth / 18f) * (1f - Smooth((depth - 74f) / 80f));
+        var warpedZ = z + depth * (0.10f + 0.05f * MathF.Sin(z * 0.027f));
+        var roll = 1.4f
+            + 0.9f * MathF.Sin(warpedZ * 0.045f + 0.4f)
+            + 0.5f * MathF.Sin(warpedZ * 0.096f - 1.2f);
+        return envelope * MathF.Max(0.18f, roll);
+    }
+
+    private static float EastEdgeHeight(float x, float z) => TerrainHeight(x, z) + EastEdgeLift(x, z);
+
     private static Vector3 AnalyticNormal(float x, float z)
     {
         const float e = 1.2f;
@@ -521,20 +534,6 @@ public partial class W02Controller : Node3D
 
         varying vec3 world_position;
 
-        float water_hash(vec2 p) {
-            return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
-        }
-
-        float water_noise(vec2 p) {
-            vec2 cell = floor(p);
-            vec2 local = fract(p);
-            local = local * local * (3.0 - 2.0 * local);
-            return mix(
-                mix(water_hash(cell), water_hash(cell + vec2(1.0, 0.0)), local.x),
-                mix(water_hash(cell + vec2(0.0, 1.0)), water_hash(cell + vec2(1.0, 1.0)), local.x),
-                local.y);
-        }
-
         void vertex() {
             world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
         }
@@ -542,22 +541,36 @@ public partial class W02Controller : Node3D
         void fragment() {
             vec2 p = world_position.xz;
             float t = TIME * flow_speed;
-            float near_ripple = water_noise(p * 0.55 + vec2(t * 0.9, t * 0.35));
-            float far_ripple = water_noise(p * 0.17 - vec2(t * 0.5, t * 0.22));
-            float fine = water_noise(p * 1.7 + vec2(t * 1.6, -t * 0.8));
+            // Overlapping sinusoidal swells keep the whole river on one
+            // continuous surface; cell-based value noise made large square
+            // colour and highlight patches visible from the R03/R04 banks.
+            float phase_a = dot(p, vec2(0.14, 0.075)) + t * 1.2;
+            float phase_b = dot(p, vec2(-0.065, 0.17)) - t * 0.76;
+            float phase_c = dot(p, vec2(0.23, -0.12)) + t * 0.48;
+            float phase_d = dot(p, vec2(-0.19, -0.085)) - t * 0.31;
+            float broad_ripple = 0.5
+                + 0.23 * sin(phase_a)
+                + 0.17 * sin(phase_b)
+                + 0.10 * sin(phase_c)
+                + 0.06 * sin(phase_d);
+            vec2 ripple_slope = vec2(
+                0.23 * cos(phase_a) * 0.14 - 0.17 * cos(phase_b) * 0.065
+                    + 0.10 * cos(phase_c) * 0.23 - 0.06 * cos(phase_d) * 0.19,
+                0.23 * cos(phase_a) * 0.075 + 0.17 * cos(phase_b) * 0.17
+                    - 0.10 * cos(phase_c) * 0.12 - 0.06 * cos(phase_d) * 0.085);
             vec3 ripple_normal = normalize(vec3(
-                (near_ripple - 0.5) * 0.22 + (fine - 0.5) * 0.10,
+                -ripple_slope.x * 2.2,
                 1.0,
-                (far_ripple - 0.5) * 0.26 + (fine - 0.5) * 0.10));
-            NORMAL = normalize(mix(NORMAL, ripple_normal, 0.72));
+                -ripple_slope.y * 2.2));
+            NORMAL = normalize(mix(NORMAL, ripple_normal, 0.34));
 
             float fresnel = pow(1.0 - clamp(dot(NORMAL, normalize(VIEW)), 0.0, 1.0), 3.0);
-            vec3 color = mix(deep_color, shelf_color, 0.35 + 0.25 * far_ripple);
+            vec3 color = mix(deep_color, shelf_color, 0.40 + 0.16 * broad_ripple);
             color = mix(color, sky_color, fresnel * 0.55);
             ALBEDO = color;
             ALPHA = clamp(alpha_base + fresnel * alpha_fresnel, 0.0, 0.94);
-            ROUGHNESS = 0.16;
-            SPECULAR = 0.5;
+            ROUGHNESS = 0.24;
+            SPECULAR = 0.42;
         }
         """;
 
@@ -805,24 +818,53 @@ public partial class W02Controller : Node3D
         curtainRoot.AddChild(_reedCurtainLeft);
         curtainRoot.AddChild(_reedCurtainRight);
         var bladeMesh = new CylinderMesh { TopRadius = 0.016f, BottomRadius = 0.045f, Height = 1f, RadialSegments = 5 };
+        var leafMesh = CreateMarshLeafMesh();
         var reedMaterial = Snowless("6f8f4f", "grass_tuft");
+        var reedLeafMaterial = Snowless("7b8c50", "grass_tuft");
         var strawMaterial = Snowless("93894f", "grass_tuft");
         var random = new Random(20261016);
         for (var blade = 0; blade < 16; blade++)
         {
             var side = blade < 8 ? _reedCurtainLeft : _reedCurtainRight;
-            var height = 1.9f + (float)random.NextDouble() * 0.55f;
-            side.AddChild(new MeshInstance3D
+            var sideCenter = blade < 8 ? -0.88f : 0.88f;
+            var localIndex = blade % 8;
+            var height = 1.65f + (float)random.NextDouble() * 0.72f;
+            var stalk = new Node3D
             {
-                Name = $"CurtainBlade{blade + 1:00}",
-                Mesh = bladeMesh,
-                Position = new Vector3(-1.7f + blade * 0.22f, height * 0.5f,
-                    (float)random.NextDouble() * 0.34f - 0.17f),
+                Name = $"CurtainStalk{blade + 1:00}",
+                Position = new Vector3(sideCenter + (float)random.NextDouble() * 0.74f - 0.37f, 0f,
+                    (float)random.NextDouble() * 0.66f - 0.33f),
                 RotationDegrees = new Vector3((float)random.NextDouble() * 6f - 3f,
-                    (float)random.NextDouble() * 360f, (float)random.NextDouble() * 7f - 3.5f),
+                    (float)random.NextDouble() * 360f,
+                    (float)random.NextDouble() * 8f - 4f)
+            };
+            side.AddChild(stalk);
+            stalk.AddChild(new MeshInstance3D
+            {
+                Name = "TaperedReedStalk",
+                Mesh = bladeMesh,
+                Position = Vector3.Up * (height * 0.5f),
                 Scale = new Vector3(0.9f, height, 0.9f),
-                MaterialOverride = blade % 3 == 0 ? strawMaterial : reedMaterial
+                MaterialOverride = blade % 5 == 0 ? strawMaterial : reedMaterial
             });
+
+            var leafCount = 2 + random.Next(3);
+            for (var leaf = 0; leaf < leafCount; leaf++)
+            {
+                var leafLength = 0.38f + (float)random.NextDouble() * 0.40f;
+                var baseHeight = height * (0.18f + leaf * 0.16f);
+                var lean = 28f + (float)random.NextDouble() * 28f;
+                stalk.AddChild(new MeshInstance3D
+                {
+                    Name = $"ReedLeaf{localIndex + 1}_{leaf + 1}",
+                    Mesh = leafMesh,
+                    Position = Vector3.Up * baseHeight,
+                    RotationDegrees = new Vector3(lean, (float)random.NextDouble() * 360f,
+                        (float)random.NextDouble() * 24f - 12f),
+                    Scale = new Vector3(0.85f + (float)random.NextDouble() * 0.3f, leafLength, 1f),
+                    MaterialOverride = leaf == 0 && blade % 4 == 0 ? strawMaterial : reedLeafMaterial
+                });
+            }
         }
 
         _reedCurtainBody = TrackBody(new StaticBody3D
@@ -1132,6 +1174,40 @@ public partial class W02Controller : Node3D
         }
     }
 
+    private static ArrayMesh CreateMarshLeafMesh()
+    {
+        using var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        var sectionY = new[] { 0f, 0.24f, 0.52f, 0.79f, 1f };
+        var halfWidths = new[] { 0.018f, 0.082f, 0.068f, 0.035f, 0.004f };
+        var centerZ = new[] { 0f, 0.035f, 0.11f, 0.17f, 0.20f };
+        var left = new Vector3[sectionY.Length];
+        var right = new Vector3[sectionY.Length];
+        for (var section = 0; section < sectionY.Length; section++)
+        {
+            left[section] = new Vector3(-halfWidths[section], sectionY[section], centerZ[section]);
+            right[section] = new Vector3(halfWidths[section], sectionY[section], centerZ[section]);
+        }
+
+        void Face(Vector3 a, Vector3 b, Vector3 c)
+        {
+            surface.AddVertex(a);
+            surface.AddVertex(b);
+            surface.AddVertex(c);
+            surface.AddVertex(c);
+            surface.AddVertex(b);
+            surface.AddVertex(a);
+        }
+
+        for (var section = 0; section + 1 < sectionY.Length; section++)
+        {
+            Face(left[section], left[section + 1], right[section + 1]);
+            Face(left[section], right[section + 1], right[section]);
+        }
+        surface.GenerateNormals();
+        return surface.Commit();
+    }
+
     // ------------------------------------------------------------------
     // Ground cover
     // ------------------------------------------------------------------
@@ -1250,6 +1326,84 @@ public partial class W02Controller : Node3D
                 MaterialOverride = group.Key == 0 ? fresh : group.Key == 1 ? deep : straw
             });
         }
+
+        BuildLandMeadowFringe();
+    }
+
+    private void BuildLandMeadowFringe()
+    {
+        // A few low, broad-leaved clumps break up the bare uphill side while
+        // leaving the walking line and every authored crossing untouched.
+        var random = new Random(20261117);
+        var leafMesh = CreateMarshLeafMesh();
+        var placements = new List<(Transform3D Transform, int Variant)>();
+        for (var leg = 2; leg <= 4; leg++)
+        {
+            var a = RouteNodes[MainRoute[leg]];
+            var b = RouteNodes[MainRoute[leg + 1]];
+            var dx = b.X - a.X;
+            var dz = b.Z - a.Z;
+            var length = new Vector2(dx, dz).Length();
+            var direction = new Vector2(dx, dz) / length;
+            var landSide = new Vector2(direction.Y, -direction.X);
+            for (var along = 4.2f; along < length - 2.5f; along += 4.2f)
+            {
+                if (random.Next(5) == 0) continue;
+                var t = along / length;
+                var baseX = Mathf.Lerp(a.X, b.X, t);
+                var baseZ = Mathf.Lerp(a.Z, b.Z, t);
+                var clumpCount = random.Next(4) == 0 ? 2 : 1;
+                for (var clump = 0; clump < clumpCount; clump++)
+                {
+                    var reach = 4.2f + (float)random.NextDouble() * 3.6f + clump * 1.3f;
+                    var drift = (float)random.NextDouble() * 1.5f - 0.75f;
+                    var centerX = baseX + landSide.X * reach + direction.X * drift;
+                    var centerZ = baseZ + landSide.Y * reach + direction.Y * drift;
+                    if (ReedBlocked(centerX, centerZ) || SampleRoute(centerX, centerZ).Side >= 0f) continue;
+
+                    var blades = 3 + random.Next(2);
+                    for (var blade = 0; blade < blades; blade++)
+                    {
+                        var spread = 0.08f + (float)random.NextDouble() * 0.24f;
+                        var angle = (float)random.NextDouble() * Mathf.Tau;
+                        var x = centerX + MathF.Cos(angle) * spread;
+                        var z = centerZ + MathF.Sin(angle) * spread;
+                        var ground = TerrainHeight(x, z);
+                        if (ground < WaterLevel + 0.35f) continue;
+                        var height = 0.42f + (float)random.NextDouble() * 0.38f;
+                        var basis = Basis.Identity
+                            .Rotated(Vector3.Up, angle)
+                            .Rotated(new Vector3(-MathF.Sin(angle), 0f, MathF.Cos(angle)),
+                                ((float)random.NextDouble() * 34f + 8f) * Mathf.Pi / 180f)
+                            .Scaled(new Vector3(0.9f + (float)random.NextDouble() * 0.35f, height, 1f));
+                        placements.Add((new Transform3D(basis, new Vector3(x, ground, z)), blade % 3));
+                    }
+                }
+            }
+        }
+
+        var fresh = Snowless("6f8f4f", "grass_tuft");
+        var deep = Snowless("55743f", "grass_tuft");
+        var straw = Snowless("93894f", "grass_tuft");
+        foreach (var group in placements.GroupBy(entry => entry.Variant))
+        {
+            var multimesh = new MultiMesh
+            {
+                TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
+                Mesh = leafMesh,
+                InstanceCount = group.Count()
+            };
+            var index = 0;
+            foreach (var entry in group) multimesh.SetInstanceTransform(index++, entry.Transform);
+            _world!.AddChild(new MultiMeshInstance3D
+            {
+                Name = $"LandMeadowLeaves{group.Key}",
+                Multimesh = multimesh,
+                MaterialOverride = group.Key == 0 ? fresh : group.Key == 1 ? deep : straw,
+                CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+            });
+        }
+        GD.Print($"w02-land-meadow: leaves={placements.Count} triangles={placements.Count * 16} batches={placements.Select(entry => entry.Variant).Distinct().Count()} collisions=0");
     }
 
     private void AddReedClump(string name, Vector3 baseAt, float height, int blades, int seed)
@@ -1362,29 +1516,68 @@ public partial class W02Controller : Node3D
         // The atlas has 1% transparent headroom above the source's visible top.
         var visibleSourceHeight = farBounds.Size.Y / 1.01f;
         var willowPlacements = new List<Transform3D>();
+        var farRandom = new Random(20261118);
+        var farShoreStands = new[]
+        {
+            new Vector2(-53f, -8f), new Vector2(-58f, 18f), new Vector2(-50f, 43f),
+            new Vector2(-60f, 68f), new Vector2(-52f, 94f), new Vector2(-59f, 119f),
+            new Vector2(-50f, 143f)
+        };
         for (var tree = 0; tree < 70; tree++)
         {
-            var x = -34f - (float)random.NextDouble() * 26f;
-            var z = -10f + (float)random.NextDouble() * 150f;
+            var center = farShoreStands[tree / 10];
+            var angle = (float)farRandom.NextDouble() * Mathf.Tau;
+            var radius = 0.8f + (float)farRandom.NextDouble() * 4.2f;
+            var x = center.X + MathF.Cos(angle) * radius;
+            var z = center.Y + MathF.Sin(angle) * radius * 1.55f;
             var ground = TerrainHeight(x, z);
             if (ground < WaterLevel + 0.4f) continue;
-            var height = 4.5f + (float)random.NextDouble() * 5f;
-            var yaw = tree * 2.39996323f;
+            var height = 3.8f + (float)farRandom.NextDouble() * 5.4f;
+            var yaw = (float)farRandom.NextDouble() * Mathf.Tau;
             // Fit the rotated cross to the former 3 m spherical crown width.
-            var horizontal = 3f / (farBounds.Size.X * Mathf.Max(Mathf.Abs(Mathf.Cos(yaw)), Mathf.Abs(Mathf.Sin(yaw))));
+            var width = 2.1f + (float)farRandom.NextDouble() * 1.6f;
+            var horizontal = width / (farBounds.Size.X * Mathf.Max(Mathf.Abs(Mathf.Cos(yaw)), Mathf.Abs(Mathf.Sin(yaw))));
             willowPlacements.Add(new Transform3D(
                 Basis.Identity.Rotated(Vector3.Up, yaw).Scaled(new Vector3(horizontal, height * 1.06f / visibleSourceHeight, horizontal)),
                 new Vector3(x, ground, z)));
         }
 
+        var landStands = new[]
+        {
+            new Vector2(49f, -12f), new Vector2(78f, 0f),
+            new Vector2(53f, 24f), new Vector2(81f, 39f)
+        };
         for (var tree = 0; tree < 26; tree++)
         {
-            var x = 40f + (float)random.NextDouble() * 50f;
-            var z = -18f + (float)random.NextDouble() * 60f;
+            var standIndex = tree < 7 ? 0 : tree < 14 ? 1 : tree < 20 ? 2 : 3;
+            var center = landStands[standIndex];
+            var angle = (float)farRandom.NextDouble() * Mathf.Tau;
+            var radius = 1f + (float)farRandom.NextDouble() * 5f;
+            var x = center.X + MathF.Cos(angle) * radius;
+            var z = center.Y + MathF.Sin(angle) * radius * 1.25f;
             var ground = TerrainHeight(x, z);
-            var height = 3.4f + (float)random.NextDouble() * 3.4f;
-            var yaw = (tree + 70) * 2.39996323f;
-            var horizontal = 2.4f / (farBounds.Size.X * Mathf.Max(Mathf.Abs(Mathf.Cos(yaw)), Mathf.Abs(Mathf.Sin(yaw))));
+            var height = 3.2f + (float)farRandom.NextDouble() * 3.8f;
+            var yaw = (float)farRandom.NextDouble() * Mathf.Tau;
+            var width = 1.8f + (float)farRandom.NextDouble() * 1.1f;
+            var horizontal = width / (farBounds.Size.X * Mathf.Max(Mathf.Abs(Mathf.Cos(yaw)), Mathf.Abs(Mathf.Sin(yaw))));
+            willowPlacements.Add(new Transform3D(
+                Basis.Identity.Rotated(Vector3.Up, yaw).Scaled(new Vector3(horizontal, height * 1.06f / visibleSourceHeight, horizontal)),
+                new Vector3(x, ground, z)));
+        }
+
+        var eastEdgeStands = new[] { new Vector2(120f, 136f), new Vector2(150f, 139f) };
+        for (var tree = 0; tree < 12; tree++)
+        {
+            var center = eastEdgeStands[tree / 6];
+            var angle = (float)farRandom.NextDouble() * Mathf.Tau;
+            var radius = 1.2f + (float)farRandom.NextDouble() * 5.2f;
+            var x = center.X + MathF.Cos(angle) * radius;
+            var z = center.Y + MathF.Sin(angle) * radius * 1.55f;
+            var ground = EastEdgeHeight(x, z);
+            var height = 3.8f + (float)farRandom.NextDouble() * 4.8f;
+            var yaw = (float)farRandom.NextDouble() * Mathf.Tau;
+            var width = 2f + (float)farRandom.NextDouble() * 1.3f;
+            var horizontal = width / (farBounds.Size.X * Mathf.Max(Mathf.Abs(Mathf.Cos(yaw)), Mathf.Abs(Mathf.Sin(yaw))));
             willowPlacements.Add(new Transform3D(
                 Basis.Identity.Rotated(Vector3.Up, yaw).Scaled(new Vector3(horizontal, height * 1.06f / visibleSourceHeight, horizontal)),
                 new Vector3(x, ground, z)));
@@ -1405,7 +1598,197 @@ public partial class W02Controller : Node3D
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
         });
         GD.Print($"w02-horizon-willows: instances={willowPlacements.Count} triangles={willowPlacements.Count * 4} "
-            + "maxInstances=96 maxTriangles=384 batches=1 surfaces=1 shadows=off");
+            + "maxInstances=108 maxTriangles=432 batches=1 surfaces=1 shadows=off");
+        BuildFarBankBackdrop();
+        BuildEastEdgeContinuation();
+    }
+
+    private void BuildFarBankBackdrop()
+    {
+        // This is a presentation-only roll behind the authored terrain edge;
+        // the route and its matching terrain collider remain unchanged.
+        float Lift(float x, float z)
+        {
+            var depth = Mathf.Max(0f, -x - 72f);
+            var envelope = Smooth(depth / 15f) * (1f - Smooth((depth - 46f) / 30f));
+            var warpedZ = z + depth * (0.16f + 0.06f * MathF.Sin(z * 0.03f));
+            var ridge = 4.1f
+                + 2.4f * MathF.Sin(warpedZ * 0.045f + 0.6f)
+                + 1.1f * MathF.Sin(warpedZ * 0.117f - 0.9f)
+                + 0.5f * MathF.Sin(warpedZ * 0.19f + 0.2f);
+            return envelope * ridge;
+        }
+
+        Vector3 Point(float x, float z) => new(x, TerrainHeight(x, z) + Lift(x, z), z);
+
+        Vector3 Normal(float x, float z)
+        {
+            const float e = 0.8f;
+            var dx = (Point(x + e, z).Y - Point(x - e, z).Y) / (2f * e);
+            var dz = (Point(x, z + e).Y - Point(x, z - e).Y) / (2f * e);
+            return new Vector3(-dx, 1f, -dz).Normalized();
+        }
+
+        using var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        var xs = new[] { -72f, -78f, -84f, -90f, -96f, -104f, -114f, -128f, -148f };
+        const float startZ = -48f;
+        const float endZ = 168f;
+        const float stepZ = 3.6f;
+        var rows = Mathf.CeilToInt((endZ - startZ) / stepZ) + 1;
+
+        void AddVertex(Vector3 point, Vector3 normal)
+        {
+            surface.SetNormal(normal);
+            surface.SetUV(new Vector2(point.X, point.Z) * 0.06f);
+            surface.AddVertex(point);
+        }
+
+        void Emit(Vector3 a, Vector3 b, Vector3 c)
+        {
+            var normal = Normal((a.X + b.X + c.X) / 3f, (a.Z + b.Z + c.Z) / 3f);
+            AddVertex(a, normal);
+            AddVertex(b, normal);
+            AddVertex(c, normal);
+        }
+
+        for (var row = 0; row + 1 < rows; row++)
+        for (var column = 0; column + 1 < xs.Length; column++)
+        {
+            var z0 = startZ + row * stepZ;
+            var z1 = Mathf.Min(endZ, z0 + stepZ);
+            var a = Point(xs[column], z0);
+            var b = Point(xs[column], z1);
+            var c = Point(xs[column + 1], z0);
+            var d = Point(xs[column + 1], z1);
+            Emit(a, d, b);
+            Emit(a, c, d);
+        }
+
+        _world!.AddChild(new MeshInstance3D
+        {
+            Name = "SummerFloodplainFarRoll",
+            Mesh = surface.Commit(),
+            MaterialOverride = Snowless("6f7f52", "grass"),
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+        });
+        GD.Print($"w02-far-bank-roll: columns={xs.Length} rows={rows} triangles={(xs.Length - 1) * (rows - 1) * 2} collisions=0");
+    }
+
+    private void BuildEastEdgeContinuation()
+    {
+        // Join the existing terrain at its exact east-edge samples. The soft
+        // rise continues the land visually; collision remains the authored mesh.
+        var xs = new List<float>(28) { TerrainMaxX };
+        for (var x = TerrainMaxX + RenderStep; x <= TerrainMaxX + 12f; x += RenderStep)
+            xs.Add(x);
+        for (var x = TerrainMaxX + 18f; x <= TerrainMaxX + 42f; x += 6f)
+            xs.Add(x);
+        for (var x = TerrainMaxX + 54f; x < TerrainMaxX + 204f; x += 12f)
+            xs.Add(x);
+        xs.Add(TerrainMaxX + 204f);
+
+        var rows = Mathf.CeilToInt((TerrainMaxZ - TerrainMinZ) / RenderStep) + 1;
+        Vector3 Point(float x, int row)
+        {
+            var z = TerrainMinZ + row * RenderStep;
+            return new Vector3(x, EastEdgeHeight(x, z), z);
+        }
+
+        Vector3 Normal(float x, float z)
+        {
+            const float e = 0.8f;
+            var dx = (EastEdgeHeight(x + e, z) - EastEdgeHeight(x - e, z)) / (2f * e);
+            var dz = (EastEdgeHeight(x, z + e) - EastEdgeHeight(x, z - e)) / (2f * e);
+            return new Vector3(-dx, 1f, -dz).Normalized();
+        }
+
+        using var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        void AddVertex(Vector3 point, Vector3 normal)
+        {
+            surface.SetNormal(normal);
+            surface.SetUV(new Vector2(point.X, point.Z) * 0.06f);
+            surface.AddVertex(point);
+        }
+
+        void Emit(Vector3 a, Vector3 b, Vector3 c)
+        {
+            var normal = Normal((a.X + b.X + c.X) / 3f, (a.Z + b.Z + c.Z) / 3f);
+            AddVertex(a, normal);
+            AddVertex(b, normal);
+            AddVertex(c, normal);
+        }
+
+        for (var column = 0; column + 1 < xs.Count; column++)
+        for (var row = 0; row + 1 < rows; row++)
+        {
+            var a = Point(xs[column], row);
+            var b = Point(xs[column], row + 1);
+            var c = Point(xs[column + 1], row);
+            var d = Point(xs[column + 1], row + 1);
+            Emit(a, d, b);
+            Emit(a, c, d);
+        }
+
+        _world!.AddChild(new MeshInstance3D
+        {
+            Name = "SummerEastLandContinuation",
+            Mesh = surface.Commit(),
+            MaterialOverride = Snowless("6f7f52", "grass"),
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+        });
+
+        var random = new Random(20261119);
+        var leaves = CreateMarshLeafMesh();
+        var cover = new List<(Transform3D Transform, int Variant)>();
+        for (var patch = 0; patch < 18; patch++)
+        {
+            var centerX = 104f + (float)random.NextDouble() * 42f;
+            var centerZ = 94f + (float)random.NextDouble() * 48f;
+            if (ReedBlocked(centerX, centerZ) || SampleRoute(centerX, centerZ).Side >= 0f) continue;
+            var leafCount = 3 + random.Next(3);
+            for (var leaf = 0; leaf < leafCount; leaf++)
+            {
+                var spread = 0.12f + (float)random.NextDouble() * 0.42f;
+                var angle = (float)random.NextDouble() * Mathf.Tau;
+                var x = centerX + MathF.Cos(angle) * spread;
+                var z = centerZ + MathF.Sin(angle) * spread;
+                var ground = EastEdgeHeight(x, z);
+                if (ground < WaterLevel + 0.35f) continue;
+                var height = 0.55f + (float)random.NextDouble() * 0.42f;
+                var basis = Basis.Identity
+                    .Rotated(Vector3.Up, angle)
+                    .Rotated(new Vector3(-MathF.Sin(angle), 0f, MathF.Cos(angle)),
+                        ((float)random.NextDouble() * 34f + 8f) * Mathf.Pi / 180f)
+                    .Scaled(new Vector3(0.9f + (float)random.NextDouble() * 0.35f, height, 1f));
+                cover.Add((new Transform3D(basis, new Vector3(x, ground, z)), leaf % 3));
+            }
+        }
+
+        var fresh = Snowless("6f8f4f", "grass_tuft");
+        var deep = Snowless("55743f", "grass_tuft");
+        var straw = Snowless("93894f", "grass_tuft");
+        foreach (var group in cover.GroupBy(entry => entry.Variant))
+        {
+            var multimesh = new MultiMesh
+            {
+                TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
+                Mesh = leaves,
+                InstanceCount = group.Count()
+            };
+            var index = 0;
+            foreach (var entry in group) multimesh.SetInstanceTransform(index++, entry.Transform);
+            _world.AddChild(new MultiMeshInstance3D
+            {
+                Name = $"EastLandLeaves{group.Key}",
+                Multimesh = multimesh,
+                MaterialOverride = group.Key == 0 ? fresh : group.Key == 1 ? deep : straw,
+                CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+            });
+        }
+        GD.Print($"w02-east-land-continuation: columns={xs.Count} rows={rows} triangles={(xs.Count - 1) * (rows - 1) * 2} "
+            + $"leafInstances={cover.Count} leafTriangles={cover.Count * 16} collisions=0");
     }
 
     // ------------------------------------------------------------------
