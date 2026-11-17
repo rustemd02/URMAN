@@ -95,6 +95,7 @@ public partial class Act1ConnectedWorld
         }
         school.SetMeta("distanceRangedInteriorVisualCount", rangedInteriorVisuals);
         school.SetMeta("interior", "single-storey school; combined classes, staff tea corner and ground-floor museum");
+        AttachSquareShellOccluder(school);
     }
 
     private void BuildSchoolGround(Node3D school, StaticBody3D body, Material cream, Material trim, float corridorZ)

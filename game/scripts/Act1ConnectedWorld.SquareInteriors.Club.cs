@@ -95,6 +95,7 @@ public partial class Act1ConnectedWorld
         BuildClubHall(club, body, trim, h, deck, stageZ, lamps);
         BuildClubWings(club, body, trim);
         BuildClubDoorSet(club, frontWall, foyerWall, lamps);
+        AttachSquareShellOccluder(club);
         club.SetMeta("interiorHalfSize",new Vector2(ix,iz));
         club.SetMeta("interiorCeiling",h);
         club.SetMeta("storeys",1);

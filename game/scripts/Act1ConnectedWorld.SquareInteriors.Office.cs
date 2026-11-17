@@ -196,6 +196,7 @@ public partial class Act1ConnectedWorld
             light.DistanceFadeBegin = 36f;
             light.DistanceFadeLength = 8f;
         }
+        AttachSquareShellOccluder(office);
     }
 
     private delegate MeshInstance3D OfficeBox(string name, Vector3 size, Vector3 at, Material material, Vector3? rotation = null);

@@ -36,6 +36,86 @@ public partial class Act1ConnectedWorld
         return mesh;
     }
 
+    private static readonly string[] SquareShellWallNames = ["FrontWall", "BackWall", "EastWall", "WestWall"];
+    private static readonly string[] SquareShellRoofNames = ["RoofFront", "RoofBack", "GableLeft", "GableRight"];
+
+    /// <summary>
+    /// Builds camera occlusion from the three enterable square shells' actual
+    /// wall segments and pitched roof pieces. SWall already leaves real holes
+    /// for doors and windows; transparent glazing and moving door hinges are
+    /// deliberately not turned into occluders.
+    /// </summary>
+    private static void AttachSquareShellOccluder(Node3D building)
+    {
+        if (building.GetNodeOrNull<OccluderInstance3D>("SquareShellOccluder") is not null) return;
+
+        var points = new List<Vector3>();
+        var includedWalls = 0;
+        var includedRoofPieces = 0;
+        foreach (var name in SquareShellWallNames.Concat(SquareShellRoofNames))
+        {
+            var root = building.GetNodeOrNull<Node3D>(name);
+            if (root is null) continue;
+            var isRoof = SquareShellRoofNames.Contains(name, StringComparer.Ordinal);
+            var meshes = root.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>().ToList();
+            if (root is MeshInstance3D rootMesh && !meshes.Contains(rootMesh)) meshes.Insert(0, rootMesh);
+            foreach (var mesh in meshes)
+            {
+                var meshName = mesh.Name.ToString();
+                if (!isRoof && !meshName.EndsWith("Core", StringComparison.Ordinal)
+                    && !meshName.EndsWith("Skin", StringComparison.Ordinal)) continue;
+                if (mesh.Mesh is not { } source || source.GetSurfaceCount() != 1
+                    || HasDoorHingeAncestor(mesh, root) || !IsOpaqueSquareShellSurface(mesh)
+                    || !TryGetRelativeTransform(mesh, building, out var meshToBuilding)) continue;
+
+                var faces = source.GetFaces();
+                if (faces.Length == 0 || faces.Length % 3 != 0) continue;
+                foreach (var vertex in faces) points.Add(meshToBuilding * vertex);
+                if (isRoof) includedRoofPieces++;
+                else includedWalls++;
+            }
+        }
+
+        var triangleCount = points.Count / 3;
+        if (triangleCount == 0) return;
+        var occluder = new ArrayOccluder3D();
+        occluder.SetArrays(points.ToArray(), Enumerable.Range(0, points.Count).ToArray());
+        var instance = new OccluderInstance3D { Name = "SquareShellOccluder", Occluder = occluder };
+        instance.SetMeta("sourceGeometry", "actual outer wall segments with window/door openings plus pitched roof and gables");
+        instance.SetMeta("dynamicDoorsExcluded", true);
+        instance.SetMeta("transparentGlazingExcluded", true);
+        instance.SetMeta("sourceTriangleCount", triangleCount);
+        building.AddChild(instance);
+        building.SetMeta("squareShellOccluderWalls", includedWalls);
+        building.SetMeta("squareShellOccluderRoofPieces", includedRoofPieces);
+        GD.Print($"act1-square-occlusion|{building.Name}|walls={includedWalls}|roof={includedRoofPieces}|triangles={triangleCount}");
+    }
+
+    private static bool HasDoorHingeAncestor(Node node, Node stopAt)
+    {
+        for (var parent = node.GetParent(); parent is not null && parent != stopAt; parent = parent.GetParent())
+            if (parent.Name.ToString().EndsWith("Hinge", StringComparison.Ordinal)) return true;
+        return false;
+    }
+
+    private static bool IsOpaqueSquareShellSurface(MeshInstance3D mesh)
+    {
+        if (mesh.MaterialOverlay is not null || mesh.Transparency > 0f) return false;
+        var material = mesh.GetActiveMaterial(0);
+        if (material is BaseMaterial3D
+            {
+                Transparency: BaseMaterial3D.TransparencyEnum.Disabled,
+                HeightmapEnabled: false,
+                NextPass: null
+            }) return true;
+        if (material is not ShaderMaterial { Shader: { } shader }) return false;
+
+        var code = shader.Code;
+        return !code.Contains("render_mode blend", StringComparison.Ordinal)
+            && !code.Contains("ALPHA", StringComparison.Ordinal)
+            && !code.Contains("discard", StringComparison.Ordinal);
+    }
+
     private static StaticBody3D SBody(Node3D parent, string name)
     {
         var body = new StaticBody3D { Name = name, CollisionLayer = 2, CollisionMask = 0 };
